@@ -202,50 +202,48 @@ are unrelated"**.
 
 ## Experiments
 
-`experiments/` runs a plain multi-agent debate baseline (3 agents, fully connected,
-3 rounds) over HotpotQA and traces the facts through it:
+`experiments/` runs multi-agent frameworks over a QA benchmark and traces the facts
+through them.
 
 ```bash
-python experiments/run_hotpot.py -n 3      # debate -> extract -> match
-python experiments/selectivity.py          # gold vs distractor retention
-python experiments/analyze.py              # degradation, cluster health
+python experiments/run_qa.py --dataset medqa    -n 40          # topology x role sweep
+python experiments/run_qa.py --dataset mmlu-pro --screen 160 -n 40   # hard subset
+python experiments/run_hotpot.py -n 6                          # HotpotQA + fact tracing
+python experiments/selectivity.py                              # gold vs distractor retention
+python experiments/bench_models.py --provider opencode         # score a model set
 ```
 
-Source paragraphs are extracted one record per paragraph so each source fact carries
-its title, which is what lets retention be split by HotpotQA's gold labels. Without
-that split the numbers are uninterpretable: 8 of the 10 paragraphs are distractors,
-so most "lost" source facts were correctly ignored, and raw retention cannot tell
-correct filtering apart from attrition.
+`frameworks.py` implements three topologies — `full` (everyone reads everyone, the
+Du et al. debate default), `chain` (A→B→C, each reads only its predecessor), and `star`
+(spokes read the hub, the hub reads all) — crossed with role assignment (generalists, or
+named specialists in the MedAgents style).
 
-## Inspecting a run
+### Benchmarks saturate, which is the main experimental finding
 
-`factflow view` builds a self-contained interactive HTML explorer from a directory of
-matched runs — no server, no external assets:
+| dataset | single agent | full debate | verdict |
+|---|---|---|---|
+| HotpotQA (distractor) | — | 100%, unanimous | retrieval, not collaboration |
+| MedQA-USMLE 4-opt | **92%** (37/40) | 92% full · 95% chain · 92% star · 92% specialists | saturated |
+| MMLU-Pro (phys/chem/eng) | **87%** (26/30) | 90%, 29/30 unanimous | saturated |
 
-```bash
-factflow view experiments/out -o explorer.html
-```
+A committee cannot add much to a single agent already at 87–92%, and the agents mostly
+just agree — unanimity runs 29/30 to 39/40. Topology and role assignment change nothing
+measurable at that ceiling.
 
-Three views over the same trace:
+**Ten questions is not a sample.** MedQA at n=10 showed 80%→90% and looked like clear
+evidence that collaboration helps. At n=40 it was 92%→92%. The entire apparent effect was
+one question of noise, and it would have been reported as a finding.
 
-- **Flow** — canonical facts as rows, `(agent, round)` slots as columns. Reading across
-  a row is one fact's life; reading down a column is what an agent said at that point.
-  Colour encodes origin: gold paragraph, distractor paragraph, or agent-introduced.
-- **Rounds** — per turn, the context the agent was given, what it said, and the atomic
-  facts extracted from it, side by side. This is the view that makes extraction errors
-  findable, because the source text sits next to its output.
-- **Audit** — heuristic quality flags, worst first.
+### Screening for a hard subset
 
-`factflow.audit` runs the flags standalone too. They deliberately over-report and are a
-reading aid, not a validator — but a naive version is useless: the first pass raised 279
-flags across four runs, of which ~85% were long proper names containing "and"
-(`"Science Fiction and Fantasy"` read as a coordinated predicate; two facts about one
-long-named entity read as near-duplicates). Masking shared proper-name spans and
-requiring that a flagged near-duplicate pair differ only in *function* words took it to
-38 flags, most of which are real.
+`--screen N` runs the single agent over N questions first, keeps the ones it fails, and
+adds a matched control sample of ones it passes. This isolates the questions where
+collaboration could matter at all, and the control catches collaboration *breaking*
+answers a single agent already had right — which a hard-cases-only sample would hide.
 
-Every defect found in this project so far was found by reading output, not by a test.
-That is what this view is for.
+On MMLU-Pro the single agent failed 27 of 160. Accuracy on that subset is low by
+construction; what matters is how many failures get recovered and how many controls get
+broken.
 
 ## Known limits
 
