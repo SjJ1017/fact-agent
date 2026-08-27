@@ -7,6 +7,8 @@ import json
 import sys
 from pathlib import Path
 
+from concurrent.futures import ThreadPoolExecutor
+
 from factflow import LLM
 from factflow.bench import run_bench
 
@@ -22,6 +24,8 @@ PRICES = {
     "gpt-4.1-nano":  (0.10,  0.40),
     "deepseek-chat": (0.27,  1.10),
 }
+# OpenCode Go is a flat subscription, so per-token price is not the right unit
+# for those models. Token counts are still measured and reported.
 
 DEFAULT = ["gpt-5.4-nano", "gpt-4.1-mini", "gpt-5.4-mini", "gpt-5.4", "gpt-5.5"]
 
@@ -34,20 +38,37 @@ def cost(model: str, i: int, o: int) -> float | None:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--models", default=",".join(DEFAULT))
-    ap.add_argument("--provider", default="openai", choices=["openai", "deepseek"])
+    ap.add_argument("--provider", default="openai", choices=["openai", "deepseek", "opencode"])
     ap.add_argument("-o", "--out", default="experiments/out/bench.json")
     ap.add_argument("--no-cache", action="store_true")
+    ap.add_argument("--timeout", type=float, default=45.0)
+    ap.add_argument("--concurrency", type=int, default=8)
+    ap.add_argument("--parallel-models", type=int, default=4)
     args = ap.parse_args()
 
-    rows = []
-    for model in [m.strip() for m in args.models.split(",") if m.strip()]:
-        print(f"\n=== {model} ===", flush=True)
-        mk = LLM.deepseek if args.provider == "deepseek" else LLM.openai
+    models = [m.strip() for m in args.models.split(",") if m.strip()]
+    mk = {"deepseek": LLM.deepseek, "opencode": LLM.opencode}.get(args.provider, LLM.openai)
+
+    def bench_one(model):
         try:
-            llm = mk(model, max_concurrency=6, cache_enabled=not args.no_cache)
-            r = run_bench(llm)
+            llm = mk(model, max_concurrency=args.concurrency, cache_enabled=not args.no_cache)
+            # A gateway fronting many providers has a long tail; a wedged upstream
+            # must not hold the whole sweep. One retry, then give up on that call.
+            llm.backend.client = llm.backend.client.with_options(
+                timeout=args.timeout, max_retries=1
+            )
+            return model, run_bench(llm), None
         except Exception as exc:  # noqa: BLE001
-            print(f"  FAILED: {type(exc).__name__}: {str(exc)[:160]}")
+            return model, None, f"{type(exc).__name__}: {str(exc)[:160]}"
+
+    rows = []
+    with ThreadPoolExecutor(max_workers=args.parallel_models) as pool:
+        results = list(pool.map(bench_one, models))
+
+    for model, r, err in results:
+        print(f"\n=== {model} ===", flush=True)
+        if err or r is None:
+            print(f"  FAILED: {err}")
             continue
         c = cost(model, r.input_tokens, r.output_tokens)
         print(f"  extraction {r.extraction_score:6.1%}  ({r.extraction_passed}/{r.extraction_total} checks)")

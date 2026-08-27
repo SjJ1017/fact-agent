@@ -10,7 +10,7 @@ Once matched, `store.in_context(f, agent, t)` and `store.in_output(f, agent, t)`
 are lookups, which is what any lifecycle metric is built on.
 """
 
-from .backends import AnthropicBackend, OpenAICompatBackend, deepseek
+from .backends import AnthropicBackend, OpenAICompatBackend, deepseek, opencode
 from .blocking import SbertBlocker, TfidfBlocker, candidate_pairs, candidate_pairs_against
 from .extract import TraceRecord, extract_facts, extract_trace
 from .llm import LLM, LLMConfig
@@ -45,6 +45,7 @@ __all__ = [
     "AnthropicBackend",
     "OpenAICompatBackend",
     "deepseek",
+    "opencode",
     "extract_facts",
     "extract_trace",
     "TraceRecord",

@@ -14,7 +14,13 @@ from typing import Callable, Optional, Sequence, TypeVar
 
 from pydantic import BaseModel
 
-from .backends import AnthropicBackend, Backend, deepseek, openai as openai_backend
+from .backends import (
+    AnthropicBackend,
+    Backend,
+    deepseek,
+    openai as openai_backend,
+    opencode as opencode_backend,
+)
 from .cache import DiskCache
 
 T = TypeVar("T", bound=BaseModel)
@@ -46,6 +52,10 @@ class LLM:
     @classmethod
     def openai(cls, model: str = "gpt-5.4-mini", **cfg) -> "LLM":
         return cls(LLMConfig(model=model, **cfg), backend=openai_backend(model))
+
+    @classmethod
+    def opencode(cls, model: str = "kimi-k2.6", tier: str = "go", **cfg) -> "LLM":
+        return cls(LLMConfig(model=model, **cfg), backend=opencode_backend(model, tier=tier))
 
     @property
     def usage(self):

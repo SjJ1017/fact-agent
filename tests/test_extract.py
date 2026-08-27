@@ -51,13 +51,20 @@ def test_duplicate_facts_within_one_text_are_dropped():
 
 
 def test_prompt_forbids_unresolved_referents():
-    """Rule 2 was being ignored until it carried examples, exactly like rule 1."""
+    """Rule 2 was being ignored until it carried examples, exactly like rule 1.
+
+    Note "both" is deliberately NOT listed here: a quantified subject is a rule 1
+    (atomicity) defect, not a rule 2 (reference) one, and the two want opposite
+    fixes. Resolving "Both were American" into a single named fact keeps a
+    duplicate of facts already extracted; distributing it removes one.
+    """
     from factflow.extract import EXTRACTION_SYSTEM
 
     flat = " ".join(EXTRACTION_SYSTEM.split())
-    assert "Both were American." in flat, "the failing case must appear as an example"
-    for forbidden in ("both", "the series", "the film", "a lone surname"):
+    assert "The series has 40 books." in flat, "the failing case must appear as an example"
+    for forbidden in ("the series", "the film", "a lone surname"):
         assert forbidden in flat, f"{forbidden!r} not named as forbidden"
+    assert "handled by rule 1" in flat, "rule 2 must hand quantifiers off to rule 1"
 
 
 def test_prompt_separates_siblings_from_subsets():
@@ -94,3 +101,37 @@ def test_audit_ignores_names_that_contain_and():
     assert "unsplit-conjunction" not in kinds, "'Science Fiction and Fantasy' is a name, not a conjunction"
     assert "possible-missed-merge" not in kinds, "rapture vs tribulation are different facts"
     assert "unresolved-referent" not in kinds, "'The film Kiss and Tell' names its referent"
+
+
+def test_quantified_sentence_is_an_atomicity_defect_not_a_reference_one():
+    """"Both were American" is not under-specified, it is not atomic.
+
+    It asserts one thing per member, and those per-member facts are normally
+    already extracted from the same text - so emitting it too produces a
+    duplicate that can never be matched or checked on its own. Resolving the
+    referent would keep the duplicate; distributing removes it.
+    """
+    from factflow.audit import audit
+    from factflow.extract import EXTRACTION_SYSTEM
+    from factflow.types import CanonicalFact, Channel, FactMention, FactStore, Provenance
+
+    flat = " ".join(EXTRACTION_SYSTEM.split())
+    assert "A QUANTIFIER OVER A SET IS NOT AN ATOMIC FACT" in flat
+    assert "Never emit the quantified sentence itself alongside them" in flat
+
+    store = FactStore()
+    for i, t in enumerate([
+        "Both were American.",
+        "All three studies found an effect.",
+        "Both entries explicitly state their nationality as American.",
+        "Scott Derrickson is American.",
+    ]):
+        m = FactMention(mention_id=f"m{i}", text=t,
+                        provenance=Provenance(agent_id="A", round=1, channel=Channel.OUTPUT))
+        store.add_mentions([m])
+        store.assign(CanonicalFact(fact_id=f"f{i}", canonical_text=t, mention_ids=[m.mention_id]))
+
+    by_fact = {f.fact_id: f.kind for f in audit(store)}
+    assert by_fact.get("f0") == "quantified-aggregate"
+    assert by_fact.get("f1") == "quantified-aggregate"
+    assert "f3" not in by_fact, "a proper atomic fact must not be flagged"

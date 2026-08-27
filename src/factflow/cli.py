@@ -43,6 +43,8 @@ def _llm(args) -> LLM:
         return LLM.openai(args.model, **cfg)
     if provider == "deepseek":
         return LLM.deepseek(args.model, **cfg)
+    if provider == "opencode":
+        return LLM.opencode(args.model, **cfg)
     return LLM(LLMConfig(model=args.model, **cfg))
 
 
@@ -128,7 +130,7 @@ def cmd_stats(args) -> int:
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="factflow", description=__doc__)
     p.add_argument("--model", default="claude-opus-5")
-    p.add_argument("--provider", default="anthropic", choices=["anthropic", "openai", "deepseek"])
+    p.add_argument("--provider", default="anthropic", choices=["anthropic", "openai", "deepseek", "opencode"])
     p.add_argument("--concurrency", type=int, default=8)
     p.add_argument("--no-cache", action="store_true")
     sub = p.add_subparsers(dest="cmd", required=True)

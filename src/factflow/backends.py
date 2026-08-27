@@ -112,6 +112,8 @@ class OpenAICompatBackend:
         default_model: str = "deepseek-chat",
         max_repairs: int = 2,
         client: Any | None = None,
+        timeout: float = 120.0,
+        max_retries: int = 2,
     ):
         from openai import OpenAI
 
@@ -120,9 +122,14 @@ class OpenAICompatBackend:
         self.usage = Usage()
         self._token_param = "max_tokens"
         self._unsupported: set[str] = set()
+        # A per-request timeout is not optional on a multi-provider gateway:
+        # one wedged upstream otherwise hangs a whole batch indefinitely, and
+        # the concurrency pool has no way to notice.
         self.client = client or OpenAI(
             api_key=api_key or os.environ.get("DEEPSEEK_API_KEY") or os.environ.get("OPENAI_API_KEY"),
             base_url=base_url,
+            timeout=timeout,
+            max_retries=max_retries,
         )
 
     @staticmethod
@@ -214,6 +221,35 @@ class OpenAICompatBackend:
 def deepseek(model: str = "deepseek-chat", **kw) -> OpenAICompatBackend:
     """DeepSeek via its OpenAI-compatible endpoint. Reads DEEPSEEK_API_KEY."""
     return OpenAICompatBackend(base_url="https://api.deepseek.com", default_model=model, **kw)
+
+
+OPENCODE_ENDPOINTS = {
+    "go": "https://opencode.ai/zen/go/v1",   # OpenCode Go subscription
+    "zen": "https://opencode.ai/zen/v1",     # pay-as-you-go Zen
+}
+
+
+def opencode(model: str = "kimi-k2.6", tier: str = "go", **kw) -> OpenAICompatBackend:
+    """OpenCode gateway - one OpenAI-compatible endpoint over many providers.
+
+    Valuable here because cross-provider comparison becomes a model-string
+    change rather than a client change, so a benchmark measures the model and
+    not the differences between SDKs.
+
+    `tier` picks the endpoint: "go" for an OpenCode Go subscription, "zen" for
+    pay-as-you-go. The two expose different model catalogues. Reads
+    OPENCODE_API_KEY.
+    """
+    import os as _os
+
+    if tier not in OPENCODE_ENDPOINTS:
+        raise ValueError(f"tier must be one of {sorted(OPENCODE_ENDPOINTS)}")
+    return OpenAICompatBackend(
+        api_key=_os.environ.get("OPENCODE_API_KEY"),
+        base_url=OPENCODE_ENDPOINTS[tier],
+        default_model=model,
+        **kw,
+    )
 
 
 def openai(model: str = "gpt-5.4-mini", **kw) -> OpenAICompatBackend:

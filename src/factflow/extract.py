@@ -36,20 +36,27 @@ Rules:
 
    This applies to apposition too: "Ed Wood, an American filmmaker, directed Plan 9" is two facts - that Ed Wood is an American filmmaker, and that he directed Plan 9.
 
+   A QUANTIFIER OVER A SET IS NOT AN ATOMIC FACT. "Both", "all", "each", "neither", "the two", "they" assert one thing per member, so emit one fact per member, naming it:
+
+   "Scott Derrickson and Ed Wood are both American."
+     -> Scott Derrickson is American.
+     -> Ed Wood is American.
+
+   Never emit the quantified sentence itself alongside them. "Both were American" adds nothing once the two per-member facts exist, it cannot be matched or checked on its own, and it duplicates content already covered. If the per-member facts are already among the facts you are emitting, emit nothing further for the quantified sentence.
+
    Do NOT split a phrase whose parts are not separately assertable. "black and white film", "trial and error", "Bosnia and Herzegovina", and a joint action that only holds jointly ("A and B co-founded the company") each stay whole.
 2. SELF-CONTAINED - resolve every pronoun, definite description, quantifier, \
 and relative time expression against the surrounding text. A reader who sees \
 ONLY the fact, with no other context, must be able to check it.
 
-   "Both were American."           -> Scott Derrickson was American.
-                                   -> Ed Wood was American.
    "The series has 40 books."      -> The Animorphs series has 40 books.
    "It was released last year."    -> Kiss and Tell was released in 1945.
    "He directed the film."         -> Tim Burton directed Ed Wood.
 
-   Bare "both", "the series", "the film", "the study", "the author", "they", \
-"this", "the above", "last year", and a lone surname are all FORBIDDEN as the \
-SUBJECT of an emitted fact.
+   Bare "the series", "the film", "the study", "the author", "this", "the \
+above", "last year", and a lone surname are all FORBIDDEN as the SUBJECT of an \
+emitted fact. (Quantified subjects - "both", "all", "they" - are handled by \
+rule 1: distribute them, do not resolve them into a single fact.)
 
    If a referent genuinely cannot be resolved from the text, still emit the \
 fact, using the most specific description the text supports ("the award" -> \
@@ -70,6 +77,12 @@ separately in the `qualifiers` field.
 knowledge, do not infer.
 7. SKIP non-propositional content: questions, instructions, greetings, and \
 pure meta-discourse about the conversation itself.
+8. SKIP statements ABOUT the source material rather than about the world. \
+"Both entries explicitly state their nationality as American", "The documents \
+describe Animorphs as a science fantasy series", and "No other person linked to \
+Corliss Archer held a government post in the documents" are claims about what \
+the text says, not facts. Emit the underlying world fact if there is one, and \
+nothing otherwise.
 
 For each fact also return `quote`: the shortest verbatim span from the source \
 text that supports it.

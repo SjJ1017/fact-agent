@@ -20,8 +20,20 @@ from .blocking import TfidfBlocker, containment, tokenize
 from .types import Channel, FactStore
 
 UNRESOLVED = re.compile(
-    r"^(both|he|she|they|it|this|that|these|those|the (series|film|movie|study|"
+    r"^(he|she|it|this|that|these|those|the (series|film|movie|study|"
     r"book|author|company|article|documents?|position|office|award|trial|program))\b",
+    re.I,
+)
+# A quantified subject is a different defect from an unresolved one. "Both were
+# American" is not under-specified, it is NOT ATOMIC: it asserts one thing per
+# member, and those per-member facts are normally already extracted, so the
+# quantified sentence is a redundant duplicate that can never be matched or
+# checked on its own.
+QUANTIFIED = re.compile(r"^(both|all|each|neither|either|they|the (two|three|four)|no other)\b", re.I)
+# Claims about the source rather than about the world.
+SOURCE_META = re.compile(
+    r"\b(the documents?|the (text|passage|context|entries|entry)|according to the (documents?|text))\b"
+    r"|\b(state[sd]?|describe[sd]?|mention[sd]?|list(ed|s)?) (that|the|it|them)\b",
     re.I,
 )
 # "The office of Secretary of State..." and "The series is Animorphs" name their
@@ -49,7 +61,7 @@ def strip_shared_names(a: str, b: str) -> tuple[str, str]:
         pat = re.compile(re.escape(name), re.I)
         a, b = pat.sub(" ", a), pat.sub(" ", b)
     return a, b
-HEDGE = re.compile(r"\b(the documents?|the (text|passage|context)|according to the (documents?|text))\b", re.I)
+
 
 
 FUNCTION_WORDS = frozenset(
@@ -75,7 +87,12 @@ def audit(store: FactStore, near_dup_threshold: float = 0.82) -> list[Flag]:
 
     for fid, f in facts:
         t = f.canonical_text
-        if UNRESOLVED.match(t) and not RESOLVED_INLINE.match(t):
+        if QUANTIFIED.match(t):
+            flags.append(Flag("high", "quantified-aggregate", fid,
+                              "quantifies over a set instead of asserting one thing; "
+                              "the per-member facts are usually already present, making this a "
+                              "duplicate that cannot be matched or checked on its own"))
+        elif UNRESOLVED.match(t) and not RESOLVED_INLINE.match(t):
             flags.append(Flag("high", "unresolved-referent", fid,
                               "opens with a referent that was never resolved; cannot be matched"))
         masked = t
@@ -84,9 +101,9 @@ def audit(store: FactStore, near_dup_threshold: float = 0.82) -> list[Flag]:
         if CONJUNCTION.search(masked):
             flags.append(Flag("medium", "unsplit-conjunction", fid,
                               "carries a coordinated predicate that should be several facts"))
-        if HEDGE.search(t):
-            flags.append(Flag("medium", "meta-discourse", fid,
-                              "asserts something about the documents rather than about the world"))
+        if SOURCE_META.search(t):
+            flags.append(Flag("medium", "source-meta", fid,
+                              "asserts something about the source text rather than about the world"))
 
     # Over-merge: a cluster whose members share little vocabulary.
     for fid, f in facts:

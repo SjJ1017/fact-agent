@@ -63,6 +63,20 @@ resolving pronouns, definite descriptions, and relative time expressions, and on
 copying numbers and units verbatim. Facts that are not self-contained silently
 destroy every downstream stage.
 
+**A quantifier over a set is an atomicity defect, not a reference one.** `"Both were
+American"` looks like an unresolved referent, and the first fix treated it that way —
+resolve `"Both"` into the named subjects. That is wrong: the sentence asserts *one thing
+per member*, and those per-member facts are normally already extracted from the same
+text. Resolving it keeps a duplicate that can never be matched or checked on its own;
+distributing it removes one. `"both"`, `"all"`, `"each"`, `"neither"`, `"they"` are now
+handled under atomicity — emit one fact per member, and never the quantified sentence
+alongside them.
+
+The same pass added a rule for claims about the *source* rather than the world
+(`"Both entries explicitly state their nationality as American"`, `"The documents
+describe Animorphs as…"`): emit the underlying world fact if there is one, nothing
+otherwise.
+
 **Atomicity needs worked examples, not a rule.** The prompt said "split conjunctions
 into separate facts" from the start and the model ignored it: `"Scott Derrickson is an
 American director, screenwriter and producer"` came back as one fact. That does not stay
