@@ -234,6 +234,42 @@ measurable at that ceiling.
 evidence that collaboration helps. At n=40 it was 92%→92%. The entire apparent effect was
 one question of noise, and it would have been reported as a finding.
 
+### On a hard subset, roles matter and flow separates what accuracy cannot
+
+Screening MMLU-Pro (physics / chemistry / engineering / math) left 27 questions the single
+agent failed, plus 20 controls it passed — 47 in total:
+
+| config | accuracy | unanimous |
+|---|---|---|
+| single agent | 43% | — |
+| full / generalist | 53% | 44/47 |
+| chain / generalist | 53% | 37/47 |
+| **full / specialists** | **66%** | 39/47 |
+
+Specialist roles **strictly dominate**: they solve 6 questions the generalist panel missed
+and lose none in return. That effect was completely invisible on the saturated benchmarks,
+where every configuration sat at 92%.
+
+`full` and `chain` both score 53% — and trace completely differently:
+
+| config | facts/run | source kept | **transmitted** | **persisted** | entailment edges |
+|---|---|---|---|---|---|
+| full / generalist | 65 | 9% | **10** | 25 | 83 |
+| chain / generalist | 47 | 9% | **4** | **36** | 61 |
+| full / specialists | 67 | **13%** | **16** | 24 | 85 |
+
+*(transmitted = facts reaching an agent that had not previously said them; persisted = an
+agent restating its own. 8 runs per config.)*
+
+Chain agents mostly **repeat themselves** — 36 persistence events against 4 transmissions.
+Full-topology agents genuinely **exchange** — 10 transmissions. Two systems with identical
+scores running opposite processes, which is precisely the case a scoreboard cannot see.
+
+Across the three, transmission tracks accuracy (4 → 10 → 16 against 53% → 53% → 66%) while
+persistence runs against it. Eight runs per config is not enough to call that a law, but it
+is the first signal in this project that a flow metric carries information accuracy does
+not.
+
 ### Screening for a hard subset
 
 `--screen N` runs the single agent over N questions first, keeps the ones it fails, and
