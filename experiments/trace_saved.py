@@ -45,8 +45,8 @@ def main() -> int:
     ap.add_argument("dir")
     ap.add_argument("--configs", default="full-generalist,chain-generalist,full-specialists")
     ap.add_argument("--limit", type=int, default=8, help="questions per config")
-    ap.add_argument("--model", default="gpt-5.4-mini")
-    ap.add_argument("--provider", default="openai")
+    ap.add_argument("--model", default="glm-5.3-flash")
+    ap.add_argument("--provider", default="opencode")
     ap.add_argument("--concurrency", type=int, default=12)
     args = ap.parse_args()
 
@@ -75,12 +75,27 @@ def main() -> int:
         except Exception as exc:  # noqa: BLE001
             print(f"  {exec_id}: FAILED {type(exc).__name__}: {str(exc)[:90]}", flush=True)
             return cfg, None
+        if not mentions:
+            # extract_trace tolerates per-call failures, so an exhausted quota or a
+            # wedged endpoint yields an empty, *plausible-looking* store rather than
+            # an error. Refuse to write one -- a store with no output mentions
+            # silently reports zero transmission for every configuration.
+            print(f"  {exec_id}: NO MENTIONS EXTRACTED - not saving", flush=True)
+            return cfg, None
         store.save(str(out))
         print(f"  {exec_id}: {len(mentions)} mentions -> {len(store.facts)} facts", flush=True)
         return cfg, store
 
     with ThreadPoolExecutor(max_workers=4) as pool:
         results = list(pool.map(one, todo))
+
+    if llm.failures:
+        kinds = {}
+        for f in llm.failures:
+            k = f.split(":")[0]
+            kinds[k] = kinds.get(k, 0) + 1
+        print(f"\nWARNING: {len(llm.failures)} LLM calls failed: {kinds}")
+        print(f"  first: {llm.failures[0][:180]}")
 
     by_cfg: dict[str, list[FactStore]] = {}
     for cfg, st in results:

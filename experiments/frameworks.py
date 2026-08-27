@@ -37,6 +37,35 @@ principle you are relying on rather than gesturing at it.
 Keep your answer under 140 words. End with exactly one line:
 FINAL ANSWER: <letter>"""
 
+# Two different things get called "roles" in the literature, and they predict
+# different fact-flow signatures.
+#
+#   DOMAIN roles (internist, pharmacologist) differ in what they KNOW, so they
+#   should decorrelate the evidence pool - which is what they did: round-1
+#   pairwise fact overlap fell 0.83 -> 0.28.
+#
+#   FUNCTIONAL roles (decomposer, analyzer, summarizer, critic) differ in what
+#   they DO to facts. An analyst should derive new facts; a summarizer should
+#   drop irrelevant ones and relay the rest; a critic should contradict. If the
+#   role prompt is doing any work at all, each should leave a distinct signature
+#   in the trace, and a summarizer that only relays is the redundant node that
+#   topology-refinement papers try to prune.
+FUNCTIONAL_ROLES = {
+    "decomposer": "You are the decomposer. Break the question into the specific sub-questions "
+                  "that must be settled, and state what each one hinges on. Do not attempt the "
+                  "final answer until the parts are laid out.",
+    "analyzer": "You are the analyzer. Work each sub-question through: derive the consequences, "
+                "compute what can be computed, and state the intermediate results explicitly.",
+    "summarizer": "You are the summarizer. Consolidate what the panel has established. Keep what "
+                  "bears on the answer, drop what does not, and say plainly which points are "
+                  "settled and which are still open.",
+    "critic": "You are the critic. Find the specific step where an argument fails. Name the "
+              "option a mistaken reading would lead to, and say what would have to be true for "
+              "the current answer to be wrong.",
+    "verifier": "You are the verifier. Re-derive the proposed answer independently and check it "
+                "against every constraint in the question. Say explicitly what you checked.",
+}
+
 ROLES = {
     "internist": "You are a general internist. You weigh the whole clinical picture and the "
                  "differential, and you are the one who notices when a finding does not fit.",
@@ -55,6 +84,7 @@ ROLES = {
     "skeptic": "You are the panel's skeptic. Your job is to find the specific step where an "
                "argument breaks, and to say which option a mistaken reading would lead to.",
 }
+ROLES.update(FUNCTIONAL_ROLES)
 
 ROUND1 = """{vignette}
 

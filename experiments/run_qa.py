@@ -44,7 +44,13 @@ def load_rows(dataset: str, n: int, categories: str) -> list[dict]:
     return rows
 PANELS = {
     "generalist": None,
+    # Domain roles: differ in what they know.
     "specialists": ["internist", "pharmacologist", "pathophysiologist"],
+    "sciexperts": ["theorist", "calculator", "skeptic"],
+    # Functional roles: differ in what they DO to facts. The pipeline shape most
+    # multi-agent frameworks actually ship.
+    "pipeline": ["decomposer", "analyzer", "summarizer"],
+    "critique": ["analyzer", "critic", "verifier"],
 }
 
 
@@ -52,7 +58,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("-n", "--n-questions", type=int, default=8)
     ap.add_argument("--rounds", type=int, default=3)
-    ap.add_argument("--model", default="deepseek-v4-flash")
+    ap.add_argument("--model", default="glm-5.3-flash")
     ap.add_argument("--provider", default="opencode")
     ap.add_argument("--concurrency", type=int, default=10)
     ap.add_argument("--configs", default="full/generalist,chain/generalist,star/generalist,full/specialists")
@@ -64,12 +70,13 @@ def main() -> int:
     ap.add_argument("--timeout", type=float, default=120.0,
                     help="per-request seconds; a wedged gateway call otherwise stalls a sweep")
     ap.add_argument("--dataset", default="medqa", choices=["medqa", "mmlu-pro"])
+    ap.add_argument("--outdir", default=None, help="override the output directory name")
     ap.add_argument("--categories", default="physics,chemistry,biology,health",
                     help="mmlu-pro only: comma-separated categories to sample from")
     args = ap.parse_args()
 
     global OUT
-    OUT = Path(__file__).parent / (f"{args.dataset}_out")
+    OUT = Path(__file__).parent / (args.outdir or f"{args.dataset}_out")
     OUT.mkdir(exist_ok=True)
     mk = {"opencode": LLM.opencode, "openai": LLM.openai}[args.provider]
     llm = mk(args.model, max_concurrency=args.concurrency)

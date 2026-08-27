@@ -46,7 +46,9 @@ def load_prices(refresh: bool = False) -> dict[str, tuple[float, float]]:
 
 PRICES = load_prices()
 
-DEFAULT = ["gpt-5.4-nano", "gpt-4.1-mini", "gpt-5.4-mini", "gpt-5.4", "gpt-5.5"]
+# Default to the flat-rate subscription. Metered providers are opt-in via
+# --provider openai, because a sweep is a lot of tokens.
+DEFAULT = ["glm-5.3-flash", "deepseek-v4-flash", "kimi-k2.6", "qwen3.6-plus"]
 
 
 def cost(model: str, i: int, o: int) -> float | None:
@@ -62,7 +64,7 @@ def rate(model: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--models", default=",".join(DEFAULT))
-    ap.add_argument("--provider", default="openai", choices=["openai", "deepseek", "opencode"])
+    ap.add_argument("--provider", default="opencode", choices=["openai", "deepseek", "opencode"])
     ap.add_argument("-o", "--out", default="experiments/out/bench.json")
     ap.add_argument("--no-cache", action="store_true")
     ap.add_argument("--timeout", type=float, default=45.0)

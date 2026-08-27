@@ -47,12 +47,12 @@ def main() -> int:
     ap.add_argument("-n", "--n-questions", type=int, default=3)
     ap.add_argument("--agents", type=int, default=3)
     ap.add_argument("--rounds", type=int, default=3)
-    ap.add_argument("--model", default="gpt-5.4-mini")
+    ap.add_argument("--model", default="glm-5.3-flash")
     ap.add_argument("--concurrency", type=int, default=6)
     args = ap.parse_args()
 
     OUT.mkdir(exist_ok=True)
-    llm = LLM.openai(args.model, max_concurrency=args.concurrency)
+    llm = LLM.opencode(args.model, max_concurrency=args.concurrency)
 
     ds = load_dataset("hotpotqa/hotpot_qa", "distractor", split="validation", streaming=True)
     rows = [r for _, r in zip(range(args.n_questions), ds)]
