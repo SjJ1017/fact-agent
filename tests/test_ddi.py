@@ -126,3 +126,30 @@ def test_trace_records_tag_the_critical_facts():
     assert len(crit) == 2, "exactly the two mechanism facts are critical"
     assert {r["text"] for r in crit} == set(case.critical_pair)
     assert len([r for r in recs if r["provenance"]["channel"] == "output"]) == 2
+
+
+def test_empty_model_response_raises_instead_of_scoring_zero():
+    """The failure that produced a spectacular but false result.
+
+    deepseek-v4-pro spends its output budget on reasoning before emitting text,
+    so max_tokens=700 returned empty strings. Empty scores as wrong, and the
+    empty rate scales with prompt length -- so the split condition, which has the
+    longest prompts, looked like catastrophic reasoning failure (6%) when it was
+    truncation. A silent empty must be an error, not a data point.
+    """
+    import pytest
+
+    from run_ddi import EmptyResponse, _require_text
+
+    assert _require_text("FINAL ANSWER: YES", "A", 1) == "FINAL ANSWER: YES"
+    for blank in ("", "   ", "\n\n"):
+        with pytest.raises(EmptyResponse):
+            _require_text(blank, "A", 1)
+
+
+def test_default_token_budget_leaves_reasoning_headroom():
+    import inspect
+
+    from run_ddi import run_case
+
+    assert inspect.signature(run_case).parameters["max_tokens"].default >= 4000

@@ -101,7 +101,28 @@ def _parse(text: str) -> tuple[str, str]:
     return ans, mech
 
 
-def run_case(llm: LLM, case: DDICase, condition: str, rounds: int = 2, seed: int = 0) -> DDIRun:
+class EmptyResponse(RuntimeError):
+    """A reasoning model returned no content.
+
+    Reasoning models spend the output budget on reasoning before emitting any
+    text, so a cap sized for the visible answer yields an empty string with no
+    error. That is indistinguishable from a refusal downstream, and it scales
+    with prompt length -- which means the condition with the longest prompts
+    looks like the one that reasons worst. A first run of this experiment
+    reported 6% for the split condition on exactly that artifact.
+    """
+
+
+def _require_text(text: str, agent: str, rnd: int) -> str:
+    if not (text or "").strip():
+        raise EmptyResponse(
+            f"agent {agent} round {rnd} returned no content - raise --max-tokens "
+            f"(reasoning models need headroom well beyond the visible answer)")
+    return text
+
+
+def run_case(llm: LLM, case: DDICase, condition: str, rounds: int = 2, seed: int = 0,
+             max_tokens: int = 6000) -> DDIRun:
     a, b = case.drug_a, case.drug_b
     doss_a = a.dossier(shuffle_seed=seed)
     doss_b = b.dossier(shuffle_seed=seed + 1)
@@ -111,9 +132,9 @@ def run_case(llm: LLM, case: DDICase, condition: str, rounds: int = 2, seed: int
                  case.enzyme, case.critical_pair)
 
     def ask(agent: str, dossiers: str) -> str:
-        return llm.chat(system=SYSTEM,
-                        user=ASK.format(a=a.name, b=b.name, dossiers=dossiers),
-                        temperature=0.3, max_tokens=700)
+        return _require_text(llm.chat(
+            system=SYSTEM, user=ASK.format(a=a.name, b=b.name, dossiers=dossiers),
+            temperature=0.3, max_tokens=max_tokens), agent, 1)
 
     if condition == "solo-both":
         run.transcript["A|1"] = ask("A", both)
@@ -135,9 +156,10 @@ def run_case(llm: LLM, case: DDICase, condition: str, rounds: int = 2, seed: int
                         user=PEER.format(a=a.name, b=b.name, dossiers=view[ag],
                                          peer_header=f"Your colleague reviewing the other drug reported:",
                                          peers=prev),
-                        temperature=0.3, max_tokens=700)
+                        temperature=0.3, max_tokens=max_tokens)
 
-                out = llm.map(later, ["A", "B"], tolerate_failures=False)
+                out = [(ag, _require_text(t, ag, rnd)) for ag, t in
+                       llm.map(later, ["A", "B"], tolerate_failures=False)]
             for ag, text in out:
                 run.transcript[f"{ag}|{rnd}"] = text
 
@@ -190,6 +212,9 @@ def main() -> int:
     ap.add_argument("--repeats", type=int, default=1, help="runs per case, for variance")
     ap.add_argument("--parallel", type=int, default=4)
     ap.add_argument("--timeout", type=float, default=90.0)
+    ap.add_argument("--max-tokens", type=int, default=6000,
+                    help="output budget. Reasoning models consume most of it before "
+                         "emitting text; too low yields silent empty responses.")
     ap.add_argument("--only", default=None, help="'positive', 'negative', or a case id")
     ap.add_argument("--trace", action="store_true", help="also extract+match facts")
     args = ap.parse_args()
@@ -212,7 +237,8 @@ def main() -> int:
             case, rep = job
             exec_id = f"{case.case_id}-{cond}" + (f"-r{rep}" if args.repeats > 1 else "")
             try:
-                run = run_case(llm, case, cond, rounds=args.rounds, seed=rep)
+                run = run_case(llm, case, cond, rounds=args.rounds, seed=rep,
+                               max_tokens=args.max_tokens)
             except Exception as exc:  # noqa: BLE001
                 print(f"  {exec_id}: SKIPPED {type(exc).__name__}: {str(exc)[:100]}", flush=True)
                 return None
@@ -225,6 +251,9 @@ def main() -> int:
         with ThreadPoolExecutor(max_workers=args.parallel) as pool:
             runs = [r for r in pool.map(one, jobs) if r is not None]
 
+        blank = sum(1 for r in runs if not r.verdict)
+        if blank:
+            print(f"  WARNING: {blank}/{len(runs)} runs produced no parsable verdict", flush=True)
         n = len(runs)
         if not n:
             print(f"{cond}: no runs completed\n", flush=True)
