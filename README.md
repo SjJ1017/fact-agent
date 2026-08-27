@@ -303,6 +303,48 @@ agent-rounds, so always dedupe to fact pairs); and on MMLU-Pro most "degradation
 paraphrase compression rather than information loss, because equations and short mechanisms
 carry few of the conditions and magnitudes that degradation actually destroys.
 
+### The DDI join experiment
+
+`experiments/ddi/` is the experiment this line of work was aiming at: a task where
+fact flow answers a question accuracy cannot.
+
+A CYP-mediated drug interaction follows from joining exactly **two** facts:
+
+```
+A: "Fluconazole is a moderate inhibitor of CYP2C9."
+B: "Warfarin's more potent S-enantiomer is metabolised by CYP2C9."
+-> reduced clearance, raised INR, bleeding risk
+```
+
+Split those across agents and the join either happens or it does not — a binary,
+observable event with a timestamp. That licenses the split no scoreboard can make:
+
+| | meaning |
+|---|---|
+| correct **with** join | the answer was derived by combining evidence |
+| correct **without** join | the answer was already known; the evidence was decoration |
+| wrong with join | the facts met and the inference still failed |
+| wrong without join | the facts never met |
+
+Four conditions calibrate it: `solo-both` (both dossiers, no join needed — upper bound),
+`solo-half` (one dossier — the prior-knowledge floor), `split` (the real test), and
+`broadcast` (two agents, both dossiers — controls for "two agents" vs "distributed
+evidence"). `split` minus `solo-half` is what the collaboration actually contributed.
+
+```bash
+python experiments/ddi/run_ddi.py                  # 16 cases x 4 conditions
+python experiments/ddi/trace_ddi.py                # extract + match (the expensive part)
+python experiments/ddi/analyze_ddi.py              # join rate and the four-way split
+```
+
+**The negative controls are the load-bearing part.** Each pairs an inhibitor with a
+substrate of a *different* enzyme, so the surface pattern is identical to a positive and
+only an agent that checks enzyme identity can separate them — pattern matching scores 50%.
+The set is balanced 8/8, and the mechanism fact is shuffled to a different position in every
+dossier so its index cannot be learned.
+
+Verified end-to-end offline against a stub before spending any quota (`tests/test_ddi.py`).
+
 ### Screening for a hard subset
 
 `--screen N` runs the single agent over N questions first, keeps the ones it fails, and
