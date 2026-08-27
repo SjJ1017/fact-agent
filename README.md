@@ -261,14 +261,47 @@ where every configuration sat at 92%.
 *(transmitted = facts reaching an agent that had not previously said them; persisted = an
 agent restating its own. 8 runs per config.)*
 
-Chain agents mostly **repeat themselves** — 36 persistence events against 4 transmissions.
-Full-topology agents genuinely **exchange** — 10 transmissions. Two systems with identical
-scores running opposite processes, which is precisely the case a scoreboard cannot see.
+Chain agents mostly repeat themselves; full-topology agents exchange. That difference is
+real but shallow — chain's head agent has no predecessor, so it is derivable from the
+adjacency matrix without measuring anything.
 
-Across the three, transmission tracks accuracy (4 → 10 → 16 against 53% → 53% → 66%) while
-persistence runs against it. Eight runs per config is not enough to call that a law, but it
-is the first signal in this project that a flow metric carries information accuracy does
-not.
+**The result that is not derivable** comes from holding topology fixed and varying roles.
+At round 1, *before any agent has read any other*:
+
+| | pairwise fact overlap | distinct facts on table | accuracy |
+|---|---|---|---|
+| full / generalist | **0.827** | 10.6 | 53% |
+| full / specialists | **0.277** | **23.6** | **66%** |
+
+Generalist debate is three near-copies of one agent — 60% redundancy. Roles cut overlap to
+0.28 and more than double the evidence pool **before any communication happens**, so the
+gain is a sampling effect rather than a deliberation one.
+
+The trajectories then run opposite: generalists start identical and diverge (0.83 → 0.23,
+union 10.6 → 32.6); specialists start diverse and hold flat. Generalists end with *more*
+distinct facts and score 13 points lower, because **45 of 53 runs already have their final
+majority answer at round 1** — their late diversity is produced after the answer is settled.
+
+And unanimity is worthless without independence: on 5 of the 6 questions specialists
+uniquely solved, the generalist panel was unanimously *wrong*.
+
+### Relation-typed metrics measure revision, not error
+
+| | degradation pairs/run | self-contradictions/run | accuracy |
+|---|---|---|---|
+| chain / generalist | 15.4 | 1.5 | 53% |
+| full / generalist | 25.8 | 2.4 | 53% |
+| full / specialists | **29.8** | **3.4** | **66%** |
+
+The best configuration degrades most and contradicts itself most. Anyone treating those as
+quality signals would rank these three systems exactly backwards — they track how much the
+agents revise, not how wrong they are.
+
+Two measurement traps worth recording: counting raw entailment *edges* inflated degradation
+roughly twentyfold (one run: 132 edges for 6 distinct fact pairs — facts recur across nine
+agent-rounds, so always dedupe to fact pairs); and on MMLU-Pro most "degradation" is
+paraphrase compression rather than information loss, because equations and short mechanisms
+carry few of the conditions and magnitudes that degradation actually destroys.
 
 ### Screening for a hard subset
 
