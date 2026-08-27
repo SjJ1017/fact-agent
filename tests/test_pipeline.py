@@ -13,6 +13,7 @@ from factflow import (  # noqa: E402
     Channel,
     FactStore,
     PropertySpec,
+    Relation,
     Provenance,
     TraceRecord,
     annotate_store,
@@ -157,3 +158,78 @@ def test_property_annotation_writes_typed_values():
     assert all("critical" in p and "kind" in p for p in props)
     assert any(p["critical"] is True and p["kind"] == "measurement" for p in props)
     assert any(p["critical"] is False for p in props)
+
+
+def test_guard_keeps_cluster_when_a_judgement_is_missing():
+    """A dropped adjudication must not split an already-merged cluster.
+
+    Regression: the guard defaulted to splitting whenever the representative
+    check was absent, so one dropped batch shattered a correct cluster. That
+    failed silently - the fact count rose and every retention number computed
+    from it fell.
+    """
+    from factflow.match import cluster
+    from factflow.types import Channel, FactMention, Provenance
+
+    texts = [
+        "Shirley Temple played Corliss Archer in the 1945 film Kiss and Tell",
+        "The 1945 film Kiss and Tell starred Shirley Temple as Corliss Archer",
+        "Kiss and Tell (1945) cast Shirley Temple in the role of Corliss Archer",
+        "In Kiss and Tell, released 1945, Corliss Archer was played by Shirley Temple",
+    ]
+    mentions = [
+        FactMention(
+            mention_id=f"m{i}",
+            text=t,
+            provenance=Provenance(agent_id="ABCD"[i], round=1, channel=Channel.OUTPUT),
+        )
+        for i, t in enumerate(texts)
+    ]
+    # Every pair judged EQUIVALENT: one component of four.
+    relations = [
+        Relation(a=f"m{i}", b=f"m{j}", relation="EQUIVALENT")
+        for i in range(4)
+        for j in range(i + 1, 4)
+    ]
+
+    # A guard that can answer nothing - simulating dropped batches.
+    class SilentLLM:
+        def parse(self, **_kw):
+            raise AssertionError("guard should not need to re-adjudicate known pairs")
+
+        def map(self, fn, items):
+            return []
+
+    facts, _extra = cluster(SilentLLM(), mentions, relations, transitivity_guard=True)
+    assert len(facts) == 1, f"expected one cluster, got {len(facts)}"
+    assert len(facts[0].mention_ids) == 4
+
+
+def test_guard_still_splits_on_explicit_disagreement():
+    from factflow.match import cluster
+    from factflow.types import Channel, FactMention, Provenance
+
+    texts = ["X happened in 1945", "X happened in 1945", "Y happened in 1945"]
+    mentions = [
+        FactMention(
+            mention_id=f"m{i}",
+            text=t,
+            provenance=Provenance(agent_id="ABC"[i], round=1, channel=Channel.OUTPUT),
+        )
+        for i, t in enumerate(texts)
+    ]
+    relations = [
+        Relation(a="m0", b="m1", relation="EQUIVALENT"),
+        Relation(a="m1", b="m2", relation="EQUIVALENT"),  # the bad transitive link
+        Relation(a="m0", b="m2", relation="UNRELATED"),  # representative disagrees
+    ]
+
+    class SilentLLM:
+        def parse(self, **_kw):
+            raise AssertionError("no re-adjudication needed")
+
+        def map(self, fn, items):
+            return []
+
+    facts, _ = cluster(SilentLLM(), mentions, relations, transitivity_guard=True)
+    assert len(facts) == 2, "an explicit disagreement must still split"

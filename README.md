@@ -110,6 +110,38 @@ model + prompt + schema, so prompt edits correctly miss and re-runs are free.
 Pairwise adjudication is batched (default 10 pairs/call). For large sweeps the
 Batch API halves cost again — not wired up yet.
 
+## Backends
+
+Anthropic (native schema-constrained output) and any OpenAI-compatible endpoint:
+
+```python
+LLM()                    # Anthropic, claude-opus-5
+LLM.deepseek()           # DeepSeek via its OpenAI-compatible endpoint
+```
+
+Endpoints without schema enforcement get the schema injected into the prompt plus a
+bounded client-side repair loop. That loop is not optional at volume: a few percent
+of malformed responses across tens of thousands of adjudication calls is a lot of
+silently dropped pairs, and **a dropped pair is indistinguishable from "these facts
+are unrelated"**.
+
+## Experiments
+
+`experiments/` runs a plain multi-agent debate baseline (3 agents, fully connected,
+3 rounds) over HotpotQA and traces the facts through it:
+
+```bash
+python experiments/run_hotpot.py -n 3      # debate -> extract -> match
+python experiments/selectivity.py          # gold vs distractor retention
+python experiments/analyze.py              # degradation, cluster health
+```
+
+Source paragraphs are extracted one record per paragraph so each source fact carries
+its title, which is what lets retention be split by HotpotQA's gold labels. Without
+that split the numbers are uninterpretable: 8 of the 10 paragraphs are distractors,
+so most "lost" source facts were correctly ignored, and raw retention cannot tell
+correct filtering apart from attrition.
+
 ## Known limits
 
 - **Adjudicator accuracy is unmeasured.** Every number this produces inherits it.

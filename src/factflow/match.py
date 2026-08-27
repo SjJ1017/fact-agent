@@ -15,6 +15,7 @@ Two design choices carry most of the weight:
 from __future__ import annotations
 
 import json
+import logging
 from typing import Literal, Optional, Sequence
 
 from pydantic import BaseModel, Field
@@ -22,6 +23,8 @@ from pydantic import BaseModel, Field
 from .blocking import Blocker, TfidfBlocker, candidate_pairs, candidate_pairs_against
 from .llm import LLM
 from .types import CanonicalFact, Channel, FactMention, FactStore, Relation, RelationType
+
+logger = logging.getLogger(__name__)
 
 ADJUDICATION_SYSTEM = """\
 You compare pairs of atomic facts and label the logical relation between them.
@@ -207,6 +210,7 @@ def _guard(
     extra: list[Relation] = []
     out: dict[int, list[int]] = {}
     next_key = max(components) + 1 if components else 0
+    splits = 0
 
     for root, members_idx in components.items():
         if len(members_idx) <= 2:
@@ -231,13 +235,21 @@ def _guard(
         kept = [rep_idx]
         for i in to_check:
             rel = known.get(frozenset((mentions[i].mention_id, mentions[rep_idx].mention_id)))
-            if rel == "EQUIVALENT":
+            # Split only on an EXPLICIT disagreement. A missing judgement (dropped
+            # batch, skipped pair_id) is not evidence against the edge union-find
+            # already accepted, and defaulting to split silently shatters correct
+            # clusters - which inflates the fact count and depresses every
+            # retention number computed from it.
+            if rel is None or rel == "EQUIVALENT":
                 kept.append(i)
             else:
                 out[next_key] = [i]
                 next_key += 1
+                splits += 1
         out[root] = kept
 
+    if splits:
+        logger.info("transitivity guard split off %d mention(s)", splits)
     return out, extra
 
 
