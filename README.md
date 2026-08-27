@@ -63,6 +63,15 @@ resolving pronouns, definite descriptions, and relative time expressions, and on
 copying numbers and units verbatim. Facts that are not self-contained silently
 destroy every downstream stage.
 
+**Atomicity needs worked examples, not a rule.** The prompt said "split conjunctions
+into separate facts" from the start and the model ignored it: `"Scott Derrickson is an
+American director, screenwriter and producer"` came back as one fact. That does not stay
+contained — a later restatement of one conjunct (`"Scott Derrickson is American"`) then
+looks like a *weakened* version of the whole list, and the matcher records a degradation
+event that never happened. Adding four worked splits plus the cases that must stay whole
+(`"black and white film"`, `"Bosnia and Herzegovina"`) took facts carrying an unsplit
+conjunction from 8.8% to 3.6%, and entailment edges touching one from 14.3% to 0.0%.
+
 **Matching returns a typed relation, not a same/different bit.**
 
 | relation | meaning |

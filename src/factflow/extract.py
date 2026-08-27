@@ -22,7 +22,21 @@ An atomic fact is a short, self-contained, verifiable proposition expressing a \
 single piece of information.
 
 Rules:
-1. ATOMIC - one predicate per fact. Split conjunctions into separate facts.
+1. ATOMIC - ONE predicate per fact. A coordinated predicate is several facts, not one. Split every list, however natural it reads as a phrase:
+
+   "Scott Derrickson is an American director, screenwriter and producer."
+     -> Scott Derrickson is American.
+     -> Scott Derrickson is a director.
+     -> Scott Derrickson is a screenwriter.
+     -> Scott Derrickson is a producer.
+
+   "The trial ran from 2018 to 2020 and paid recipients $22 per month."
+     -> The trial ran from 2018 to 2020.
+     -> The trial paid recipients $22 per month.
+
+   This applies to apposition too: "Ed Wood, an American filmmaker, directed Plan 9" is two facts - that Ed Wood is an American filmmaker, and that he directed Plan 9.
+
+   Do NOT split a phrase whose parts are not separately assertable. "black and white film", "trial and error", "Bosnia and Herzegovina", and a joint action that only holds jointly ("A and B co-founded the company") each stay whole.
 2. SELF-CONTAINED - resolve every pronoun, definite description, and relative \
 time expression against the surrounding text. A reader who sees only the fact, \
 with no other context, must be able to check it. Never emit a fact containing \
