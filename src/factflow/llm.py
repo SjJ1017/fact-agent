@@ -99,8 +99,22 @@ class LLM:
         model: str | None = None,
         max_tokens: int | None = None,
         temperature: float = 0.7,
+        sample_id: str | None = None,
     ) -> str:
-        """Free-text generation, used to *produce* traces rather than analyse them."""
+        """Free-text generation, used to *produce* traces rather than analyse them.
+
+        `sample_id` MUST be set whenever several independent samples share a
+        prompt - the usual case being N agents with no role differentiation, who
+        send byte-identical (system, user) pairs. Without it the cache key
+        collides and every agent after the first receives the first one's reply
+        verbatim, so a panel of undifferentiated agents silently becomes one
+        agent counted N times: unanimity is guaranteed, majority voting is
+        meaningless, and any diversity metric reads zero.
+
+        Caching is right for analysis (deterministic work over fixed text) and
+        wrong for generation (independent draws), which is why the two paths
+        differ.
+        """
         model = model or self.model
         max_tokens = max_tokens or self.config.max_tokens
         key = self.cache.key(
@@ -110,6 +124,7 @@ class LLM:
             system=system,
             user=user,
             temperature=temperature,
+            sample_id=sample_id,
         )
         cached = self.cache.get(key)
         if cached is not None:

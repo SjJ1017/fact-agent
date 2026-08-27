@@ -184,7 +184,8 @@ def run_framework(
             system = BASE_SYSTEM
             if roles:
                 system = ROLES[roles[a]] + "\n\n" + BASE_SYSTEM
-            return a, llm.chat(system=system, user=prompts[a], temperature=0.7, max_tokens=700)
+            return a, llm.chat(system=system, user=prompts[a], temperature=0.7, max_tokens=700,
+                               sample_id=f"{res.qid}:{topology}:{a}:{rnd}")
 
         for a, text in llm.map(one, agents, tolerate_failures=False):
             res.transcript[(a, rnd)] = text

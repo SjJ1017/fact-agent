@@ -105,3 +105,48 @@ def test_cache_survives_concurrent_writes_of_one_key():
         with ThreadPoolExecutor(max_workers=12) as pool:
             assert all(pool.map(write, range(60)))
         assert cache.get(key) is not None
+
+
+def test_identical_prompts_do_not_share_a_generation_cache_entry():
+    """The bug that turned a three-agent panel into one agent counted three times.
+
+    Undifferentiated agents send byte-identical (system, user) pairs. The chat
+    cache keyed on those alone, so agents B and C received A's reply verbatim:
+    55/55 generalist runs had byte-identical round-1 output at temperature 0.7.
+    Unanimity was then guaranteed, majority voting meaningless, and every
+    diversity metric read zero -- which looked like a finding about
+    undifferentiated agents rather than a cache collision.
+    """
+    import tempfile
+
+    from factflow.llm import LLM, LLMConfig
+
+    class CountingBackend:
+        name = "counting"
+        default_model = "stub"
+
+        def __init__(self):
+            self.calls = 0
+            self.usage = type("U", (), {"input_tokens": 0, "output_tokens": 0, "calls": 0})()
+
+        def chat(self, *, system, user, model, max_tokens, temperature):
+            self.calls += 1
+            return f"reply {self.calls}"
+
+        def generate(self, **kw):  # pragma: no cover - not used here
+            raise NotImplementedError
+
+    with tempfile.TemporaryDirectory() as d:
+        backend = CountingBackend()
+        llm = LLM(LLMConfig(model="stub", cache_dir=d), backend=backend)
+        kw = dict(system="same", user="same", temperature=0.7)
+
+        a = llm.chat(**kw, sample_id="A")
+        b = llm.chat(**kw, sample_id="B")
+        c = llm.chat(**kw, sample_id="C")
+        assert backend.calls == 3, "each sample must reach the backend"
+        assert len({a, b, c}) == 3, "distinct samples must get distinct replies"
+
+        # Same sample_id still caches, which is what makes a resumed run cheap.
+        again = llm.chat(**kw, sample_id="A")
+        assert again == a and backend.calls == 3

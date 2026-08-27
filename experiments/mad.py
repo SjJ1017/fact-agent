@@ -107,7 +107,8 @@ def run_debate(llm: LLM, row: dict, n_agents: int = 3, n_rounds: int = 3) -> Deb
         # data point, it is a hole the next round indexes into. Better to fail
         # here with the real error than to corrupt the trace silently.
         outputs = llm.map(
-            lambda a: (a, llm.chat(system=SYSTEM, user=prompts[a], temperature=0.7, max_tokens=600)),
+            lambda a: (a, llm.chat(system=SYSTEM, user=prompts[a], temperature=0.7, max_tokens=600,
+                                   sample_id=f"{result.qid}:{a}:{rnd}")),
             agents,
             tolerate_failures=False,
         )
