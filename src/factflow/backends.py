@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 import os
 import re
+from dataclasses import dataclass
 from typing import Any, Protocol, TypeVar
 
 from pydantic import BaseModel, ValidationError
@@ -23,8 +24,23 @@ from pydantic import BaseModel, ValidationError
 T = TypeVar("T", bound=BaseModel)
 
 
+@dataclass
+class Usage:
+    """Token accounting, so cost comparisons rest on measured numbers."""
+
+    input_tokens: int = 0
+    output_tokens: int = 0
+    calls: int = 0
+
+    def add(self, i: int, o: int) -> None:
+        self.input_tokens += i
+        self.output_tokens += o
+        self.calls += 1
+
+
 class Backend(Protocol):
     name: str
+    usage: "Usage"
 
     def generate(self, *, system: str, user: str, output_format: type[T], model: str, max_tokens: int) -> T: ...
     def chat(self, *, system: str, user: str, model: str, max_tokens: int, temperature: float) -> str: ...
@@ -41,6 +57,7 @@ class AnthropicBackend:
 
         self.client = client or anthropic.Anthropic()
         self.effort = effort
+        self.usage = Usage()
 
     def generate(self, *, system, user, output_format, model, max_tokens):
         kwargs: dict[str, Any] = dict(
@@ -53,6 +70,9 @@ class AnthropicBackend:
         if self.effort:
             kwargs["output_config"] = {"effort": self.effort}
         response = self.client.messages.parse(**kwargs)
+        u = getattr(response, "usage", None)
+        if u:
+            self.usage.add(getattr(u, "input_tokens", 0), getattr(u, "output_tokens", 0))
         if getattr(response, "stop_reason", None) == "refusal":
             raise RuntimeError(f"model refused: {getattr(response, 'stop_details', None)}")
         return response.parsed_output
@@ -97,6 +117,9 @@ class OpenAICompatBackend:
 
         self.default_model = default_model
         self.max_repairs = max_repairs
+        self.usage = Usage()
+        self._token_param = "max_tokens"
+        self._unsupported: set[str] = set()
         self.client = client or OpenAI(
             api_key=api_key or os.environ.get("DEEPSEEK_API_KEY") or os.environ.get("OPENAI_API_KEY"),
             base_url=base_url,
@@ -105,6 +128,35 @@ class OpenAICompatBackend:
     @staticmethod
     def _strip(text: str) -> str:
         return _FENCE.sub("", text or "").strip()
+
+    def _create(self, **kwargs):
+        """Call the endpoint, adapting to per-model parameter differences.
+
+        Endpoints that are "OpenAI-compatible" disagree about the spelling of
+        the output cap (`max_tokens` vs `max_completion_tokens`), and reasoning
+        models reject `temperature` outright. Both surface as a 400 naming the
+        offending parameter, so the fix is read off the error and remembered for
+        the rest of the process rather than hard-coded per model name.
+        """
+        for _ in range(4):
+            call = dict(kwargs)
+            for drop in self._unsupported:
+                call.pop(drop, None)
+            if self._token_param != "max_tokens" and "max_tokens" in call:
+                call[self._token_param] = call.pop("max_tokens")
+            try:
+                return self.client.chat.completions.create(**call)
+            except Exception as exc:  # noqa: BLE001
+                msg = str(exc)
+                if "max_tokens" in msg and "max_completion_tokens" in msg:
+                    self._token_param = "max_completion_tokens"
+                    continue
+                m = re.search(r"[Uu]nsupported (?:parameter|value): '([^']+)'", msg)
+                if m and m.group(1).split(".")[0] not in self._unsupported:
+                    self._unsupported.add(m.group(1).split(".")[0])
+                    continue
+                raise
+        raise RuntimeError("could not find a working parameter set for this endpoint")
 
     def generate(self, *, system, user, output_format, model, max_tokens):
         schema = json.dumps(output_format.model_json_schema(), ensure_ascii=False, indent=2)
@@ -115,13 +167,16 @@ class OpenAICompatBackend:
 
         last_error = ""
         for attempt in range(self.max_repairs + 1):
-            response = self.client.chat.completions.create(
+            response = self._create(
                 model=model,
                 messages=messages,
                 max_tokens=max_tokens,
                 temperature=0,
                 response_format={"type": "json_object"},
             )
+            u = getattr(response, "usage", None)
+            if u:
+                self.usage.add(u.prompt_tokens or 0, u.completion_tokens or 0)
             raw = self._strip(response.choices[0].message.content)
             try:
                 return output_format.model_validate_json(raw)
@@ -144,15 +199,27 @@ class OpenAICompatBackend:
         raise ValueError(f"schema validation failed after {self.max_repairs + 1} attempts: {last_error}")
 
     def chat(self, *, system, user, model, max_tokens, temperature):
-        response = self.client.chat.completions.create(
+        response = self._create(
             model=model,
             messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
             max_tokens=max_tokens,
             temperature=temperature,
         )
+        u = getattr(response, "usage", None)
+        if u:
+            self.usage.add(u.prompt_tokens or 0, u.completion_tokens or 0)
         return response.choices[0].message.content or ""
 
 
 def deepseek(model: str = "deepseek-chat", **kw) -> OpenAICompatBackend:
     """DeepSeek via its OpenAI-compatible endpoint. Reads DEEPSEEK_API_KEY."""
     return OpenAICompatBackend(base_url="https://api.deepseek.com", default_model=model, **kw)
+
+
+def openai(model: str = "gpt-5.4-mini", **kw) -> OpenAICompatBackend:
+    """OpenAI. Reads OPENAI_API_KEY."""
+    import os as _os
+
+    return OpenAICompatBackend(
+        api_key=_os.environ.get("OPENAI_API_KEY"), default_model=model, **kw
+    )

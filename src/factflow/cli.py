@@ -24,6 +24,7 @@ from .llm import LLM, LLMConfig
 from .match import match
 from .properties import ABSTRACTION, CRITICALITY, POLARITY_KIND, RELEVANCE, TRUTH, annotate_store
 from .types import FactMention, FactStore
+from .bench import run_bench
 from .viewer import build as build_viewer
 
 BUILTIN_PROPS = {
@@ -36,13 +37,13 @@ BUILTIN_PROPS = {
 
 
 def _llm(args) -> LLM:
-    return LLM(
-        LLMConfig(
-            model=args.model,
-            max_concurrency=args.concurrency,
-            cache_enabled=not args.no_cache,
-        )
-    )
+    cfg = dict(max_concurrency=args.concurrency, cache_enabled=not args.no_cache)
+    provider = getattr(args, "provider", "anthropic")
+    if provider == "openai":
+        return LLM.openai(args.model, **cfg)
+    if provider == "deepseek":
+        return LLM.deepseek(args.model, **cfg)
+    return LLM(LLMConfig(model=args.model, **cfg))
 
 
 def cmd_extract(args) -> int:
@@ -84,6 +85,21 @@ def cmd_annotate(args) -> int:
     return 0
 
 
+def cmd_bench(args) -> int:
+    llm = _llm(args)
+    r = run_bench(llm)
+    print(f"model      {r.model}")
+    print(f"extraction {r.extraction_score:6.1%}  ({r.extraction_passed}/{r.extraction_total} checks)")
+    print(f"relations  {r.relation_score:6.1%}  ({r.relation_correct}/{r.relation_total})")
+    print(f"false EQUIVALENT (the costly error): {r.false_equivalent}")
+    print(f"tokens {r.input_tokens} in / {r.output_tokens} out   {r.seconds:.0f}s")
+    if r.failures:
+        print(f"\n{len(r.failures)} failed checks:")
+        for f in r.failures:
+            print(f"   {f}")
+    return 0
+
+
 def cmd_view(args) -> int:
     out = build_viewer(args.store_dir, args.out, title=args.title)
     size = out.stat().st_size
@@ -112,6 +128,7 @@ def cmd_stats(args) -> int:
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="factflow", description=__doc__)
     p.add_argument("--model", default="claude-opus-5")
+    p.add_argument("--provider", default="anthropic", choices=["anthropic", "openai", "deepseek"])
     p.add_argument("--concurrency", type=int, default=8)
     p.add_argument("--no-cache", action="store_true")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -126,8 +143,8 @@ def main(argv: list[str] | None = None) -> int:
     m.add_argument("mentions")
     m.add_argument("-o", "--out", default="store.json")
     m.add_argument("--store", default=None, help="prior store to match against (keeps ids stable)")
-    m.add_argument("--threshold", type=float, default=0.30)
-    m.add_argument("--top-k", type=int, default=20)
+    m.add_argument("--threshold", type=float, default=0.50)
+    m.add_argument("--top-k", type=int, default=12)
     m.set_defaults(func=cmd_match)
 
     a = sub.add_parser("annotate", help="add properties to canonical facts")
@@ -137,6 +154,9 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--instruction", default=None, help="task context, e.g. the question")
     a.add_argument("-o", "--out", default="store.json")
     a.set_defaults(func=cmd_annotate)
+
+    b = sub.add_parser("bench", help="score this model on the gold probe set")
+    b.set_defaults(func=cmd_bench)
 
     v = sub.add_parser("view", help="build an interactive HTML explorer")
     v.add_argument("store_dir", help="directory holding *.store.json and *.debate.json")

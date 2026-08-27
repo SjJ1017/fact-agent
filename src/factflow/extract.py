@@ -49,8 +49,13 @@ ONLY the fact, with no other context, must be able to check it.
 
    Bare "both", "the series", "the film", "the study", "the author", "they", \
 "this", "the above", "last year", and a lone surname are all FORBIDDEN as the \
-subject of an emitted fact. If the referent cannot be resolved from the text, \
-drop the fact rather than emit an unresolvable one.
+SUBJECT of an emitted fact.
+
+   If a referent genuinely cannot be resolved from the text, still emit the \
+fact, using the most specific description the text supports ("the award" -> \
+"the award presented by SFWA"). Never drop a fact for this reason: a dropped \
+fact is invisible downstream, whereas an under-specified one can at least be \
+seen and corrected.
 3. FAITHFUL - copy numbers, dates, units, names, and magnitudes EXACTLY as \
 written. Never round, convert, or approximate. If the source says "12.3%", the \
 fact says "12.3%".

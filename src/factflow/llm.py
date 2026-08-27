@@ -14,7 +14,7 @@ from typing import Callable, Optional, Sequence, TypeVar
 
 from pydantic import BaseModel
 
-from .backends import AnthropicBackend, Backend, deepseek
+from .backends import AnthropicBackend, Backend, deepseek, openai as openai_backend
 from .cache import DiskCache
 
 T = TypeVar("T", bound=BaseModel)
@@ -42,6 +42,14 @@ class LLM:
     @classmethod
     def deepseek(cls, model: str = "deepseek-chat", **cfg) -> "LLM":
         return cls(LLMConfig(model=model, **cfg), backend=deepseek(model))
+
+    @classmethod
+    def openai(cls, model: str = "gpt-5.4-mini", **cfg) -> "LLM":
+        return cls(LLMConfig(model=model, **cfg), backend=openai_backend(model))
+
+    @property
+    def usage(self):
+        return self.backend.usage
 
     def parse(
         self,

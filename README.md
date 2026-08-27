@@ -88,6 +88,28 @@ survival, and only a direction can say so. A matcher that scores that pair as
 "different" reports it as attrition; one that scores it "same" reports full
 retention. Both are wrong.
 
+**Choosing a model: the two tasks want different things.** `factflow bench` scores a
+model on a gold probe set built from the defects that have actually cost us numbers
+(14 extraction probes, 21 relation probes):
+
+| model | extraction | relations | false-EQUIV | $/bench run |
+|---|---|---|---|---|
+| gpt-4.1-nano | 93.1% | 71.4% | **2** | $0.0033 |
+| gpt-5.4-nano | 98.3% | 76.2% | 0 | $0.0020 |
+| gpt-4.1-mini | 96.6% | 85.7% | 0 | $0.0126 |
+| gpt-5.4-mini | **100%** | 76.2% | 0 | $0.0088 |
+| gpt-5.4 | **100%** | 95.2% | 0 | $0.0457 |
+| gpt-4.1 | **100%** | **100%** | 0 | $0.0659 |
+| gpt-5.5 | 98.3% | 95.2% | 0 | $0.0774 |
+
+Extraction saturates cheap — `gpt-5.4-mini` is perfect at 1/7th the price of `gpt-4.1`,
+and the most expensive model is not the most accurate at it. Relations do not saturate:
+there is a real gradient, and `gpt-4.1-nano` is the only model that emits false
+`EQUIVALENT` edges, which is the error union-find amplifies into merged clusters.
+
+But splitting models saves less than it looks: **adjudication is 92% of tokens** (178
+calls vs 19 on one question). The cost lever is the number of pairs, not the model.
+
 **Blocking scores `max(cosine, token containment)`, not cosine.** Measured on the
 UBI example in `tests/`:
 
@@ -102,6 +124,23 @@ negation token and looks nearly identical. Containment is asymmetric and reads a
 short fact nested inside a longer one as a strong candidate, which is exactly the
 degradation case. Blocking recall is a hard ceiling on the matcher — a pair dropped
 here can never be recovered — so this is not a tuning detail.
+
+**Threshold trades cost against relation type, not against recall flatly.** Measured
+over four real stores:
+
+| setting | EQUIV | ENTAIL | CONTRA | pairs |
+|---|---|---|---|---|
+| .45 / 20 | 99% | 97% | 100% | 3164 |
+| **.50 / 12** (default) | **99%** | **90%** | **100%** | **2214** |
+| .55 / 12 | 98% | 84% | 100% | 1793 |
+| .65 / 10 | 97% | 64% | 100% | 1273 |
+| .75 / 10 | 95% | 64% | 100% | 1103 |
+
+Contradictions survive any threshold — a negation differs by one token. Equivalence
+degrades gently. **Entailment collapses**, for exactly the reason containment exists: a
+weakened restatement shares few tokens with its source. If you only need clustering
+(retention, selectivity), `.65` costs 40% as much. If you need degradation analysis,
+don't go above `.50`.
 
 **Clustering runs a transitivity guard.** LLM equivalence judgements are not
 transitive: `A~B` and `B~C` does not give `A~C`. Naive union-find over noisy edges

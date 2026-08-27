@@ -91,7 +91,7 @@ def adjudicate(
     llm: LLM,
     mentions: Sequence[FactMention],
     pairs: Sequence[tuple[int, int, float]],
-    batch_size: int = 10,
+    batch_size: int = 20,
 ) -> list[Relation]:
     """Label each candidate pair. Batched to amortise the system prompt."""
     if not pairs:
@@ -273,9 +273,9 @@ def match(
     mentions: Sequence[FactMention],
     store: FactStore | None = None,
     blocker: Blocker | None = None,
-    threshold: float = 0.30,
-    top_k: int = 20,
-    batch_size: int = 10,
+    threshold: float = 0.50,
+    top_k: int = 12,
+    batch_size: int = 20,
     transitivity_guard: bool = True,
 ) -> FactStore:
     """Full matching pipeline: block -> adjudicate -> cluster -> register.

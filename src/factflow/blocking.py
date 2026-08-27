@@ -5,8 +5,35 @@ a few hundred mentions.  Blocking narrows to a shortlist of plausible pairs
 cheaply, so the LLM only sees pairs that could plausibly be the same fact.
 
 Recall here is a hard ceiling on the matcher: a true pair that blocking drops
-can never be recovered.  Thresholds are therefore deliberately permissive -
-precision is the adjudicator's job, not this stage's.
+can never be recovered.  That argues for permissive thresholds, and the first
+version of this module took that argument at face value.  Measured, it is wrong.
+
+Loosening does not buy recall uniformly - it buys *marginal* pairs, and every
+marginal pair is a fresh chance for the adjudicator to emit a false EQUIVALENT
+that union-find amplifies into a merged cluster.  Tightening from .45/20 to
+.75/10 cut adjudication calls 145 -> 20 and *raised* agreement with a reference
+clustering from 33% to 78%.
+
+But the recall cost is not uniform across relation types, and that is the whole
+story.  Measured over four real stores:
+
+    setting        EQUIV  ENTAIL  CONTRA   pairs
+    .45 / 20         99%     97%    100%    3164
+    .50 / 12         99%     90%    100%    2214
+    .55 / 12         98%     84%    100%    1793
+    .65 / 10         97%     64%    100%    1273
+    .75 / 10         95%     64%    100%    1103
+
+Contradictions survive any threshold - a negation differs by one token, so the
+pair stays lexically near-identical.  Equivalence degrades gently.  *Entailment
+collapses*, because a weakened restatement shares few tokens with the specific
+fact it came from - which is exactly why containment was added above, and
+exactly what a high threshold re-breaks.
+
+So the right threshold depends on the question.  Clustering alone (retention,
+selectivity) is safe at .65 for 40% of the cost.  Degradation analysis needs the
+entailment edges, so the default below is the conservative point: 99% / 90% /
+100% recall at 70% of the pairs.
 
 Cosine alone is not enough.  The pair type this package most needs to catch is
 *degradation* - a fact restated with its specifics dropped ("reduced poverty by
@@ -112,8 +139,8 @@ class SbertBlocker:
 def candidate_pairs(
     mentions: Sequence[FactMention],
     blocker: Blocker | None = None,
-    threshold: float = 0.45,
-    top_k: int = 20,
+    threshold: float = 0.50,
+    top_k: int = 12,
     same_slot_ok: bool = False,
 ) -> list[CandidatePair]:
     """Shortlist within one pool of mentions.
@@ -163,8 +190,8 @@ def candidate_pairs_against(
     new_mentions: Sequence[FactMention],
     existing_texts: Sequence[str],
     blocker: Blocker | None = None,
-    threshold: float = 0.45,
-    top_k: int = 10,
+    threshold: float = 0.50,
+    top_k: int = 12,
 ) -> list[CandidatePair]:
     """Shortlist new mentions against an existing registry.
 
