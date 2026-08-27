@@ -12,20 +12,39 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from factflow import LLM
 from factflow.bench import run_bench
 
-# USD per 1M tokens. Edit to match your account; token counts are measured, so
-# only this table needs changing if prices move.
-PRICES = {
-    "gpt-5.5":       (1.25, 10.00),
-    "gpt-5.4":       (1.25, 10.00),
-    "gpt-5.4-mini":  (0.25,  2.00),
-    "gpt-5.4-nano":  (0.05,  0.40),
-    "gpt-4.1":       (2.00,  8.00),
-    "gpt-4.1-mini":  (0.40,  1.60),
-    "gpt-4.1-nano":  (0.10,  0.40),
-    "deepseek-chat": (0.27,  1.10),
-}
-# OpenCode Go is a flat subscription, so per-token price is not the right unit
-# for those models. Token counts are still measured and reported.
+PRICE_DB = "https://models.dev/api.json"
+PRICE_CACHE = Path(__file__).parent / "out" / "prices.json"
+# Provider order matters: the Go subscription and pay-as-you-go Zen list
+# different rates for the same DeepSeek model, and we call the Go endpoint.
+PRICE_PROVIDERS = ("opencode-go", "opencode", "openai")
+
+
+def load_prices(refresh: bool = False) -> dict[str, tuple[float, float]]:
+    """Published input/output rates per 1M tokens, from the models.dev database.
+
+    Hand-entered prices were wrong by 2-4x on the gpt-5 family, which silently
+    flattered every cost comparison involving them. Token counts are measured;
+    only the rate table needs to be right, so it is fetched rather than typed.
+    """
+    if PRICE_CACHE.exists() and not refresh:
+        return {k: tuple(v) for k, v in json.loads(PRICE_CACHE.read_text()).items()}
+    import urllib.request
+
+    req = urllib.request.Request(PRICE_DB, headers={"User-Agent": "factflow/0.1"})
+    with urllib.request.urlopen(req, timeout=60) as fh:
+        db = json.load(fh)
+    out: dict[str, tuple[float, float]] = {}
+    for provider in PRICE_PROVIDERS:
+        for name, meta in db.get(provider, {}).get("models", {}).items():
+            cost = meta.get("cost") or {}
+            if "input" in cost and name not in out:
+                out[name] = (cost["input"], cost["output"])
+    PRICE_CACHE.parent.mkdir(parents=True, exist_ok=True)
+    PRICE_CACHE.write_text(json.dumps(out, indent=1))
+    return out
+
+
+PRICES = load_prices()
 
 DEFAULT = ["gpt-5.4-nano", "gpt-4.1-mini", "gpt-5.4-mini", "gpt-5.4", "gpt-5.5"]
 
@@ -33,6 +52,11 @@ DEFAULT = ["gpt-5.4-nano", "gpt-4.1-mini", "gpt-5.4-mini", "gpt-5.4", "gpt-5.5"]
 def cost(model: str, i: int, o: int) -> float | None:
     p = PRICES.get(model)
     return None if p is None else i / 1e6 * p[0] + o / 1e6 * p[1]
+
+
+def rate(model: str) -> str:
+    p = PRICES.get(model)
+    return "-" if p is None else f"{p[0]:g}/{p[1]:g}"
 
 
 def main() -> int:
@@ -96,6 +120,8 @@ def main() -> int:
             "relation_correct": r.relation_correct, "relation_total": r.relation_total,
             "false_equivalent": r.false_equivalent,
             "reliability": r.reliability, "calls_failed": r.calls_failed,
+            "price_in": PRICES.get(model, (None, None))[0],
+            "price_out": PRICES.get(model, (None, None))[1],
             "calls_attempted": r.calls_attempted,
             "input_tokens": r.input_tokens, "output_tokens": r.output_tokens,
             "usd": c, "seconds": r.seconds,

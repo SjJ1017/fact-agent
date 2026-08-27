@@ -102,27 +102,40 @@ survival, and only a direction can say so. A matcher that scores that pair as
 "different" reports it as attrition; one that scores it "same" reports full
 retention. Both are wrong.
 
-**Choosing a model: the two tasks want different things.** `factflow bench` scores a
-model on a gold probe set built from the defects that have actually cost us numbers
-(14 extraction probes, 21 relation probes):
+**Choosing a model matters less than it looks.** `factflow bench` scores a model on a
+gold probe set built from defects that have actually cost us numbers (15 extraction
+probes, 21 relation probes). Across 17 models from OpenAI and the OpenCode Go gateway,
+on identical prompts, at published models.dev rates:
 
-| model | extraction | relations | false-EQUIV | $/bench run |
-|---|---|---|---|---|
-| gpt-4.1-nano | 93.1% | 71.4% | **2** | $0.0033 |
-| gpt-5.4-nano | 98.3% | 76.2% | 0 | $0.0020 |
-| gpt-4.1-mini | 96.6% | 85.7% | 0 | $0.0126 |
-| gpt-5.4-mini | **100%** | 76.2% | 0 | $0.0088 |
-| gpt-5.4 | **100%** | 95.2% | 0 | $0.0457 |
-| gpt-4.1 | **100%** | **100%** | 0 | $0.0659 |
-| gpt-5.5 | 98.3% | 95.2% | 0 | $0.0774 |
+| model | provider | extract | relations | false-EQ | reliab. | $/bench |
+|---|---|---|---|---|---|---|
+| hy3 | Go | 96.6% | **100%** | 0 | 100% | **$0.0026** |
+| glm-5.3-flash | Go | 96.6% | **100%** | 0 | 100% | $0.0042 |
+| gpt-5.4-mini | OpenAI | **100%** | **100%** | 0 | 100% | $0.0277 |
+| deepseek-v4-pro | Go | **100%** | **100%** | 0 | 95% | $0.0461 |
+| gpt-4.1 | OpenAI | **100%** | **100%** | 0 | 100% | $0.0765 |
+| gpt-5.5 | OpenAI | 100% | 100% | 0 | **45%** | $0.1364 |
+| gpt-4.1-nano | OpenAI | 94.8% | **76.2%** | **2** | 100% | $0.0039 |
 
-Extraction saturates cheap — `gpt-5.4-mini` is perfect at 1/7th the price of `gpt-4.1`,
-and the most expensive model is not the most accurate at it. Relations do not saturate:
-there is a real gradient, and `gpt-4.1-nano` is the only model that emits false
-`EQUIVALENT` edges, which is the error union-find amplifies into merged clusters.
+Price does not predict accuracy. `hy3` matches `gpt-4.1` on relations at 1/29th the cost;
+the two most expensive runs in the full set beat nothing. Only `gpt-4.1-nano` is
+disqualified on quality — it is the sole model emitting false `EQUIVALENT` edges, the one
+error that compounds, since a single false equivalence merges two whole clusters.
 
-But splitting models saves less than it looks: **adjudication is 92% of tokens** (178
-calls vs 19 on one question). The cost lever is the number of pairs, not the model.
+**Reliability now separates models more than accuracy does.** `minimax-m3` scores 100/100
+— on the 30% of calls that returned. `gpt-5.5` failed 55%. A model that is perfect on the
+calls it answers and drops half of them is unusable in a pipeline making hundreds of calls
+per question, so bench scores quality only over calls that returned and reports
+reliability separately. An earlier version conflated the two and made three healthy models
+look weak.
+
+**The probe set has saturated.** Eleven of 17 score 100% on extraction, eight on
+relations. That answers the original question — for current models this is not where the
+risk is — and means the next version needs harder cases.
+
+**Costs are fetched, not typed.** Hand-entered rates were 2–4× low on the whole gpt-5
+family, which flattered exactly the models that turned out to be poor value. Token counts
+were always measured; only the rate table was guesswork, and it now comes from models.dev.
 
 **Blocking scores `max(cosine, token containment)`, not cosine.** Measured on the
 UBI example in `tests/`:
