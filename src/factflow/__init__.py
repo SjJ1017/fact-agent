@@ -25,6 +25,8 @@ from .properties import (
     annotate_store,
     annotate_texts,
 )
+from .audit import Flag, audit, summarise
+from .viewer import build as build_viewer, render as render_viewer
 from .types import (
     CanonicalFact,
     Channel,
@@ -68,4 +70,9 @@ __all__ = [
     "Channel",
     "Polarity",
     "Relation",
+    "audit",
+    "summarise",
+    "Flag",
+    "build_viewer",
+    "render_viewer",
 ]

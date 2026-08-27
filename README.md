@@ -151,6 +151,36 @@ that split the numbers are uninterpretable: 8 of the 10 paragraphs are distracto
 so most "lost" source facts were correctly ignored, and raw retention cannot tell
 correct filtering apart from attrition.
 
+## Inspecting a run
+
+`factflow view` builds a self-contained interactive HTML explorer from a directory of
+matched runs — no server, no external assets:
+
+```bash
+factflow view experiments/out -o explorer.html
+```
+
+Three views over the same trace:
+
+- **Flow** — canonical facts as rows, `(agent, round)` slots as columns. Reading across
+  a row is one fact's life; reading down a column is what an agent said at that point.
+  Colour encodes origin: gold paragraph, distractor paragraph, or agent-introduced.
+- **Rounds** — per turn, the context the agent was given, what it said, and the atomic
+  facts extracted from it, side by side. This is the view that makes extraction errors
+  findable, because the source text sits next to its output.
+- **Audit** — heuristic quality flags, worst first.
+
+`factflow.audit` runs the flags standalone too. They deliberately over-report and are a
+reading aid, not a validator — but a naive version is useless: the first pass raised 279
+flags across four runs, of which ~85% were long proper names containing "and"
+(`"Science Fiction and Fantasy"` read as a coordinated predicate; two facts about one
+long-named entity read as near-duplicates). Masking shared proper-name spans and
+requiring that a flagged near-duplicate pair differ only in *function* words took it to
+38 flags, most of which are real.
+
+Every defect found in this project so far was found by reading output, not by a test.
+That is what this view is for.
+
 ## Known limits
 
 - **Adjudicator accuracy is unmeasured.** Every number this produces inherits it.

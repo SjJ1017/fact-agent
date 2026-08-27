@@ -57,13 +57,19 @@ def main() -> int:
     ds = load_dataset("hotpotqa/hotpot_qa", "distractor", split="validation", streaming=True)
     rows = [r for _, r in zip(range(args.n_questions), ds)]
 
-    summary = []
+    summary, skipped = [], []
     for i, row in enumerate(rows):
         exec_id = f"hotpot-{i}"
         print(f"\n{'='*78}\n[{i+1}/{len(rows)}] {row['question']}\n  gold: {row['answer']}  ({row['type']}/{row['level']})")
 
         print("  debating ...", flush=True)
-        result = run_debate(llm, row, n_agents=args.agents, n_rounds=args.rounds)
+        try:
+            result = run_debate(llm, row, n_agents=args.agents, n_rounds=args.rounds)
+        except Exception as exc:  # noqa: BLE001
+            # One unusable question should not cost the other eleven.
+            print(f"  SKIPPED: {type(exc).__name__}: {exc}")
+            skipped.append({"exec_id": exec_id, "question": row["question"], "error": str(exc)[:300]})
+            continue
         save(result, OUT / f"{exec_id}.debate.json")
         print(f"  finals: {result.final}")
 
@@ -92,8 +98,14 @@ def main() -> int:
             }
         )
 
-    (OUT / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False))
+    (OUT / "summary.json").write_text(
+        json.dumps({"runs": summary, "skipped": skipped}, indent=2, ensure_ascii=False)
+    )
     print(f"\n{'='*78}\nwrote {len(summary)} runs to {OUT}")
+    if skipped:
+        print(f"SKIPPED {len(skipped)} question(s):")
+        for s_ in skipped:
+            print(f"   {s_['exec_id']}: {s_['error'][:120]}")
     if llm.failures:
         print(f"WARNING: {len(llm.failures)} LLM calls failed after repair:")
         for f in llm.failures[:5]:

@@ -51,7 +51,15 @@ patients over 65" vs "The drug reduces mortality" -> A_ENTAILS_B.
 "The patient has a fever" vs "The patient has no fever" -> CONTRADICTS.
 4. SAME ENTITY IS NOT ENOUGH. Two facts about the same entity but asserting \
 different predicates are UNRELATED.
-5. Judge propositional content only. Ignore differences in tone, length, \
+5. SIBLING CATEGORIES ARE NOT ENTAILMENT. Entailment requires that the truth of \
+one FORCES the truth of the other. Two roles, professions, genres, or categories \
+that merely overlap or often co-occur are UNRELATED, however related they sound. \
+"Ed Wood is a filmmaker" vs "Ed Wood is a director" -> UNRELATED: a filmmaker \
+need not be a director, and a director need not be called a filmmaker. Use \
+entailment ONLY for a genuine subset relation - "X is a poodle" entails "X is a \
+dog"; "X is a dog" does not entail "X is a poodle". If you have to argue for the \
+entailment, it is UNRELATED.
+6. Judge propositional content only. Ignore differences in tone, length, \
 attribution, and word choice that do not change what is asserted.
 
 Answer for every pair you are given, using the pair_id you were given.

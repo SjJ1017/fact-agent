@@ -37,11 +37,20 @@ Rules:
    This applies to apposition too: "Ed Wood, an American filmmaker, directed Plan 9" is two facts - that Ed Wood is an American filmmaker, and that he directed Plan 9.
 
    Do NOT split a phrase whose parts are not separately assertable. "black and white film", "trial and error", "Bosnia and Herzegovina", and a joint action that only holds jointly ("A and B co-founded the company") each stay whole.
-2. SELF-CONTAINED - resolve every pronoun, definite description, and relative \
-time expression against the surrounding text. A reader who sees only the fact, \
-with no other context, must be able to check it. Never emit a fact containing \
-"it", "this", "the study", "last year", "the above", or a bare surname whose \
-referent is only clear from context.
+2. SELF-CONTAINED - resolve every pronoun, definite description, quantifier, \
+and relative time expression against the surrounding text. A reader who sees \
+ONLY the fact, with no other context, must be able to check it.
+
+   "Both were American."           -> Scott Derrickson was American.
+                                   -> Ed Wood was American.
+   "The series has 40 books."      -> The Animorphs series has 40 books.
+   "It was released last year."    -> Kiss and Tell was released in 1945.
+   "He directed the film."         -> Tim Burton directed Ed Wood.
+
+   Bare "both", "the series", "the film", "the study", "the author", "they", \
+"this", "the above", "last year", and a lone surname are all FORBIDDEN as the \
+subject of an emitted fact. If the referent cannot be resolved from the text, \
+drop the fact rather than emit an unresolvable one.
 3. FAITHFUL - copy numbers, dates, units, names, and magnitudes EXACTLY as \
 written. Never round, convert, or approximate. If the source says "12.3%", the \
 fact says "12.3%".

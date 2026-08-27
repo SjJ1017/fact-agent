@@ -103,12 +103,19 @@ def run_debate(llm: LLM, row: dict, n_agents: int = 3, n_rounds: int = 3) -> Deb
                 prompts[a] = LATER.format(docs=docs, question=row["question"], peers=peers)
 
         # Agents within a round answer independently; they only see round r-1.
+        # tolerate_failures=False on purpose: a dropped turn is not a missing
+        # data point, it is a hole the next round indexes into. Better to fail
+        # here with the real error than to corrupt the trace silently.
         outputs = llm.map(
             lambda a: (a, llm.chat(system=SYSTEM, user=prompts[a], temperature=0.7, max_tokens=600)),
             agents,
+            tolerate_failures=False,
         )
         for a, text in outputs:
             result.transcript[(a, rnd)] = text
+        missing = [a for a in agents if (a, rnd) not in result.transcript]
+        if missing:
+            raise RuntimeError(f"round {rnd}: no output for agent(s) {missing}")
 
     for a in agents:
         result.final[a] = extract_final(result.transcript[(a, n_rounds)])

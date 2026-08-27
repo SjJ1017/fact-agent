@@ -4,6 +4,7 @@
     factflow match    mentions.json -o store.json [--store prior.json]
     factflow annotate store.json --props truth,critical --reference ref.txt -o store.json
     factflow stats    store.json
+    factflow view     experiments/out -o explorer.html
 
 The trace format is a JSON list of records:
 
@@ -23,6 +24,7 @@ from .llm import LLM, LLMConfig
 from .match import match
 from .properties import ABSTRACTION, CRITICALITY, POLARITY_KIND, RELEVANCE, TRUTH, annotate_store
 from .types import FactMention, FactStore
+from .viewer import build as build_viewer
 
 BUILTIN_PROPS = {
     "truth": TRUTH,
@@ -82,6 +84,13 @@ def cmd_annotate(args) -> int:
     return 0
 
 
+def cmd_view(args) -> int:
+    out = build_viewer(args.store_dir, args.out, title=args.title)
+    size = out.stat().st_size
+    print(f"wrote {out} ({size/1024:.0f} KB) - open it in a browser")
+    return 0
+
+
 def cmd_stats(args) -> int:
     store = FactStore.load(args.store_path)
     print(f"executions       : {len(store.executions())}")
@@ -128,6 +137,12 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--instruction", default=None, help="task context, e.g. the question")
     a.add_argument("-o", "--out", default="store.json")
     a.set_defaults(func=cmd_annotate)
+
+    v = sub.add_parser("view", help="build an interactive HTML explorer")
+    v.add_argument("store_dir", help="directory holding *.store.json and *.debate.json")
+    v.add_argument("-o", "--out", default="explorer.html")
+    v.add_argument("--title", default="Fact Flow Explorer")
+    v.set_defaults(func=cmd_view)
 
     s = sub.add_parser("stats", help="summarise a store")
     s.add_argument("store_path")

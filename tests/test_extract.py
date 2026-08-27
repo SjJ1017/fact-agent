@@ -48,3 +48,49 @@ def test_duplicate_facts_within_one_text_are_dropped():
     dup = [SPLIT[0], dict(SPLIT[0]), SPLIT[1]]
     llm = FakeLLM(extractions={SENT: dup})
     assert len(extract_facts(llm, SENT, Provenance(agent_id="A", round=1))) == 2
+
+
+def test_prompt_forbids_unresolved_referents():
+    """Rule 2 was being ignored until it carried examples, exactly like rule 1."""
+    from factflow.extract import EXTRACTION_SYSTEM
+
+    flat = " ".join(EXTRACTION_SYSTEM.split())
+    assert "Both were American." in flat, "the failing case must appear as an example"
+    for forbidden in ("both", "the series", "the film", "a lone surname"):
+        assert forbidden in flat, f"{forbidden!r} not named as forbidden"
+
+
+def test_prompt_separates_siblings_from_subsets():
+    from factflow.match import ADJUDICATION_SYSTEM
+
+    flat = " ".join(ADJUDICATION_SYSTEM.split())
+    assert "SIBLING CATEGORIES ARE NOT ENTAILMENT" in flat
+    assert "poodle" in flat, "the genuine-subset counterexample must stay"
+    assert "filmmaker" in flat, "the sibling counterexample must stay"
+
+
+def test_audit_ignores_names_that_contain_and():
+    """Long proper names broke both heuristics: "Science Fiction and Fantasy"
+    read as a coordinated predicate, and two facts about one long-named entity
+    read as near-duplicates. 236 of 279 flags on the first pass were this."""
+    from factflow.audit import audit
+    from factflow.types import CanonicalFact, Channel, FactMention, FactStore, Provenance
+
+    store = FactStore()
+    texts = [
+        "The Andre Norton Award for Young Adult Science Fiction and Fantasy is presented by SFWA.",
+        "Graphic novels are eligible for the Andre Norton Award for Young Adult Science Fiction and Fantasy.",
+        "The core group of teenagers experience the rapture.",
+        "The core group of teenagers experience the tribulation.",
+        "The film Kiss and Tell was released in 1945.",
+    ]
+    for i, t in enumerate(texts):
+        m = FactMention(mention_id=f"m{i}", text=t,
+                        provenance=Provenance(agent_id="A", round=1, channel=Channel.OUTPUT))
+        store.add_mentions([m])
+        store.assign(CanonicalFact(fact_id=f"f{i}", canonical_text=t, mention_ids=[m.mention_id]))
+
+    kinds = {f.kind for f in audit(store)}
+    assert "unsplit-conjunction" not in kinds, "'Science Fiction and Fantasy' is a name, not a conjunction"
+    assert "possible-missed-merge" not in kinds, "rapture vs tribulation are different facts"
+    assert "unresolved-referent" not in kinds, "'The film Kiss and Tell' names its referent"
