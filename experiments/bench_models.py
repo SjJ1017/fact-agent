@@ -7,7 +7,7 @@ import json
 import sys
 from pathlib import Path
 
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from factflow import LLM
 from factflow.bench import run_bench
@@ -63,14 +63,23 @@ def main() -> int:
 
     rows = []
     with ThreadPoolExecutor(max_workers=args.parallel_models) as pool:
-        results = list(pool.map(bench_one, models))
+        futures = [pool.submit(bench_one, m) for m in models]
+        results = []
+        for fut in as_completed(futures):
+            model, r, err = fut.result()
+            results.append((model, r, err))
+            print(f"\n=== {model} ===", flush=True)
+            if err or r is None:
+                print(f"  FAILED: {err}", flush=True)
+                continue
+            print(f"  extraction {r.extraction_score:6.1%}  relations {r.relation_score:6.1%}  "
+                  f"falseEQ {r.false_equivalent}  reliability {r.reliability:5.0%}  {r.seconds:.0f}s", flush=True)
 
     for model, r, err in results:
-        print(f"\n=== {model} ===", flush=True)
         if err or r is None:
-            print(f"  FAILED: {err}")
             continue
         c = cost(model, r.input_tokens, r.output_tokens)
+        print(f"\n--- {model} ---")
         print(f"  extraction {r.extraction_score:6.1%}  ({r.extraction_passed}/{r.extraction_total} checks)")
         print(f"  relations  {r.relation_score:6.1%}  ({r.relation_correct}/{r.relation_total})"
               f"   false-EQUIVALENT: {r.false_equivalent}")
@@ -86,6 +95,8 @@ def main() -> int:
             "extraction_passed": r.extraction_passed, "extraction_total": r.extraction_total,
             "relation_correct": r.relation_correct, "relation_total": r.relation_total,
             "false_equivalent": r.false_equivalent,
+            "reliability": r.reliability, "calls_failed": r.calls_failed,
+            "calls_attempted": r.calls_attempted,
             "input_tokens": r.input_tokens, "output_tokens": r.output_tokens,
             "usd": c, "seconds": r.seconds,
             "failures": r.failures, "per_relation": r.per_relation,
@@ -94,12 +105,12 @@ def main() -> int:
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(rows, indent=2))
     print(f"\n{'='*92}")
-    print(f"{'model':<16}{'extract':>9}{'relations':>11}{'falseEQ':>9}{'tokens':>14}{'USD':>10}{'sec':>7}")
+    print(f"{'model':<16}{'extract':>9}{'relations':>11}{'falseEQ':>9}{'reliab':>8}{'tokens':>14}{'USD':>10}{'sec':>7}")
     for r in rows:
         tok = f"{r['input_tokens']}/{r['output_tokens']}"
         usd = f"${r['usd']:.4f}" if r["usd"] is not None else "-"
         print(f"{r['model']:<16}{r['extraction']:>8.1%}{r['relations']:>11.1%}"
-              f"{r['false_equivalent']:>9}{tok:>14}{usd:>10}{r['seconds']:>7.0f}")
+              f"{r['false_equivalent']:>9}{r['reliability']:>7.0%}{tok:>14}{usd:>10}{r['seconds']:>7.0f}")
     print(f"\nwrote {args.out}")
     return 0
 

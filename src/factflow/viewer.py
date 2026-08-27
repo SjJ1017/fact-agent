@@ -77,6 +77,8 @@ def build_run(store: FactStore, debate: dict[str, Any], run_id: str) -> dict[str
                           "peers": [{"agent": b, "text": t} for b, t in peers],
                           "facts": turn_facts})
 
+    spacetime = build_spacetime(store, agents, rounds)
+
     flags = [{"severity": f.severity, "kind": f.kind, "fact_id": f.fact_id,
               "detail": f.detail, "partner_id": f.partner_id} for f in audit(store)]
 
@@ -92,6 +94,7 @@ def build_run(store: FactStore, debate: dict[str, Any], run_id: str) -> dict[str
         "facts": facts,
         "turns": turns,
         "documents": debate.get("documents", ""),
+        "spacetime": spacetime,
         "flags": flags,
         "stats": {
             "mentions": len(store.mentions),
@@ -101,6 +104,67 @@ def build_run(store: FactStore, debate: dict[str, Any], run_id: str) -> dict[str
             "introduced": sum(1 for f in facts if f["origin"] == "introduced"),
         },
     }
+
+
+def build_spacetime(store: FactStore, agents: list[str], rounds: list[int]) -> dict[str, Any]:
+    """Time-expanded interaction graph: one node per (agent, round).
+
+    G^t is the agent graph at round t; the edges carry facts rather than
+    messages, which is the whole point of the content-centric view. Three edge
+    kinds, and they mean different things:
+
+      origin       SRC -> (a, t_first)   a source fact first surfaces at (a, t)
+      transmission (a, t) -> (b, t+1)    b now expresses a fact a expressed at t
+                                          and b did not express at t - the fact
+                                          moved between agents
+      persistence  (a, t) -> (a, t+1)    a expresses the same fact again - the
+                                          fact survived in place
+
+    Transmission is inferred from co-expression under full broadcast, not
+    observed: b could have read the same document. It is an upper bound on real
+    transfer, and labelled as such in the UI.
+    """
+    said: dict[tuple[str, int], set[str]] = {(a, r): set() for a in agents for r in rounds}
+    source_facts: set[str] = set()
+    for fid, fact in store.facts.items():
+        for mid in fact.mention_ids:
+            p = store.mentions[mid].provenance
+            if p.channel == Channel.SOURCE:
+                source_facts.add(fid)
+            elif p.channel == Channel.OUTPUT and p.agent_id and p.round in said and False:
+                pass
+        for mid in fact.mention_ids:
+            p = store.mentions[mid].provenance
+            if p.channel == Channel.OUTPUT and (p.agent_id, p.round) in said:
+                said[(p.agent_id, p.round)].add(fid)
+
+    nodes = [{"id": f"{a}{r}", "agent": a, "round": r, "n": len(said[(a, r)])}
+             for r in rounds for a in agents]
+    edges: list[dict[str, Any]] = []
+
+    first_round = rounds[0] if rounds else None
+    if first_round is not None:
+        for a in agents:
+            shared = said[(a, first_round)] & source_facts
+            if shared:
+                edges.append({"kind": "origin", "src": "SRC", "dst": f"{a}{first_round}",
+                              "facts": sorted(shared)})
+
+    for r, nxt in zip(rounds, rounds[1:]):
+        for a in agents:
+            for b in agents:
+                moved = said[(a, r)] & said[(b, nxt)]
+                if a == b:
+                    if moved:
+                        edges.append({"kind": "persistence", "src": f"{a}{r}", "dst": f"{b}{nxt}",
+                                      "facts": sorted(moved)})
+                else:
+                    moved = moved - said[(b, r)]
+                    if moved:
+                        edges.append({"kind": "transmission", "src": f"{a}{r}", "dst": f"{b}{nxt}",
+                                      "facts": sorted(moved)})
+    return {"nodes": nodes, "edges": edges, "agents": agents, "rounds": rounds,
+            "source_facts": sorted(source_facts)}
 
 
 def render(runs: list[dict[str, Any]], title: str = "Fact Flow Explorer") -> str:

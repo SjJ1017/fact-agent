@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import threading
 from pathlib import Path
 from typing import Any, Optional
 
@@ -48,10 +49,17 @@ class DiskCache:
             return
         p = self._path(key)
         p.parent.mkdir(parents=True, exist_ok=True)
-        tmp = p.with_suffix(".tmp")
-        with tmp.open("w", encoding="utf-8") as f:
-            json.dump(value, f, ensure_ascii=False)
-        tmp.replace(p)
+        # The temp name must be unique per writer. Calls run concurrently and two
+        # threads computing the same key would otherwise share one ".tmp": the
+        # first rename wins and the second raises FileNotFoundError, killing a
+        # whole question mid-run for no reason.
+        tmp = p.with_suffix(f".{os.getpid()}.{threading.get_ident()}.tmp")
+        try:
+            with tmp.open("w", encoding="utf-8") as f:
+                json.dump(value, f, ensure_ascii=False)
+            tmp.replace(p)
+        finally:
+            tmp.unlink(missing_ok=True)
 
     def stats(self) -> dict[str, int]:
         return {"hits": self.hits, "misses": self.misses}

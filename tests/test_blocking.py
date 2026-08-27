@@ -81,3 +81,27 @@ def test_default_threshold_is_the_measured_one():
     sig = inspect.signature(candidate_pairs)
     assert sig.parameters["threshold"].default == 0.50
     assert sig.parameters["top_k"].default == 12
+
+
+def test_cache_survives_concurrent_writes_of_one_key():
+    """Two threads computing the same key must not kill each other.
+
+    They shared a single ".tmp" path: the first rename won, the second raised
+    FileNotFoundError, and that propagated up and skipped a whole question.
+    """
+    import tempfile
+    from concurrent.futures import ThreadPoolExecutor
+
+    from factflow.cache import DiskCache
+
+    with tempfile.TemporaryDirectory() as d:
+        cache = DiskCache(d)
+        key = cache.key(kind="probe", model="m", prompt="p")
+
+        def write(i):
+            cache.put(key, {"value": i})
+            return True
+
+        with ThreadPoolExecutor(max_workers=12) as pool:
+            assert all(pool.map(write, range(60)))
+        assert cache.get(key) is not None

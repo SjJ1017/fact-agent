@@ -1,7 +1,7 @@
 (function () {
   "use strict";
   var RUNS = JSON.parse(document.getElementById("data").textContent);
-  var state = { run: 0, tab: "flow", round: null, sel: null };
+  var state = { run: 0, tab: "flow", round: null, sel: null, stEdge: null };
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -95,6 +95,73 @@
     return h;
   }
 
+  /* ---------- spacetime ---------- */
+  function viewSpacetime() {
+    var r = run(), st = r.spacetime;
+    if (!st || !st.nodes.length) return '<p class="empty">no spacetime graph for this run</p>';
+    var agents = st.agents, rounds = st.rounds;
+    var padL = 84, padT = 46, colW = 190, rowH = 92, rad = 24;
+    var W = padL + colW * rounds.length + 60, H = padT + rowH * agents.length + 30;
+
+    function pos(id) {
+      if (id === "SRC") return { x: 34, y: padT + (agents.length - 1) * rowH / 2 };
+      var a = id[0], rd = +id.slice(1);
+      return { x: padL + colW * rounds.indexOf(rd) + 40, y: padT + rowH * agents.indexOf(a) };
+    }
+    var sel = state.stEdge;
+    var h = '<p class="sub" style="margin:18px 0 0">Each column is a round; each node is an agent at ' +
+      'that round. Edges carry <strong>facts</strong>, not messages. Click an edge to list what moved.</p>' +
+      '<div class="st-legend">' +
+      '<span><i style="background:var(--intro)"></i>origin — a source fact first surfaces</span>' +
+      '<span><i style="background:var(--gold)"></i>transmission — a fact reaches an agent that had not said it</span>' +
+      '<span><i style="background:var(--rule-2)"></i>persistence — an agent says it again</span>' +
+      "</div>";
+
+    h += '<div class="st-wrap"><svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Fact flow across rounds">';
+    rounds.forEach(function (rd, i) {
+      h += '<text class="st-col" x="' + (padL + colW * i + 40) + '" y="20">round ' + rd + "</text>";
+    });
+    h += '<text class="st-col" x="34" y="20">source</text>';
+
+    st.edges.forEach(function (e, i) {
+      var a = pos(e.src), b = pos(e.dst);
+      var w = Math.min(9, 1 + Math.sqrt(e.facts.length) * 1.7);
+      var mx = (a.x + b.x) / 2;
+      var d = "M" + (a.x + rad) + "," + a.y + " C" + mx + "," + a.y + " " + mx + "," + b.y + " " + (b.x - rad) + "," + b.y;
+      var dim = sel !== null && sel !== i ? " dim" : "";
+      h += '<path class="st-edge ' + e.kind + dim + '" d="' + d + '" stroke-width="' + w +
+        '" stroke-opacity="' + (e.kind === "persistence" ? 0.5 : 0.75) + '" data-edge="' + i + '"></path>';
+      if (e.facts.length > 1 && e.src !== e.dst[0] + (e.dst.slice(1) - 1))
+        h += '<text class="st-elab" x="' + mx + '" y="' + ((a.y + b.y) / 2 - w / 2 - 4) + '">' + e.facts.length + "</text>";
+    });
+
+    h += '<circle class="st-node src" cx="34" cy="' + pos("SRC").y + '" r="' + rad + '"></circle>';
+    h += '<text class="st-lab" x="34" y="' + pos("SRC").y + '">SRC</text>';
+    st.nodes.forEach(function (n) {
+      var p = pos(n.id);
+      h += '<circle class="st-node" cx="' + p.x + '" cy="' + p.y + '" r="' + rad + '"></circle>';
+      h += '<text class="st-lab" x="' + p.x + '" y="' + (p.y - 4) + '">' + esc(n.agent) + "</text>";
+      h += '<text class="st-cnt" x="' + p.x + '" y="' + (p.y + 11) + '">' + n.n + " facts</text>";
+    });
+    h += "</svg></div>";
+
+    if (sel !== null && st.edges[sel]) {
+      var e = st.edges[sel];
+      h += '<div class="st-detail"><div class="h">' + esc(e.kind) + " &nbsp;" + esc(e.src) +
+        " &rarr; " + esc(e.dst) + " &nbsp;&middot;&nbsp; " + e.facts.length + " facts</div><ul>";
+      e.facts.forEach(function (fid) {
+        var f = factById(fid);
+        h += '<li data-fid="' + esc(fid) + '">' + esc(f ? f.text : fid) + "</li>";
+      });
+      h += "</ul></div>";
+    }
+    h += '<p class="sub" style="margin-top:16px;font-size:13.5px;color:var(--muted)">' +
+      "Transmission is inferred from co-expression, not observed: every agent sees every document " +
+      "under this topology, so B may have read the same paragraph rather than picked it up from A. " +
+      "Treat these edges as an upper bound on real transfer.</p>";
+    return h;
+  }
+
   /* ---------- audit ---------- */
   function viewAudit() {
     var r = run();
@@ -143,6 +210,7 @@
     var r = run(), body;
     if (state.tab === "flow") body = viewFlow();
     else if (state.tab === "rounds") body = viewRounds();
+    else if (state.tab === "spacetime") body = viewSpacetime();
     else body = viewAudit();
 
     var opts = RUNS.map(function (x, i) {
@@ -161,7 +229,7 @@
       "actually said, or work the audit list.</p></header>" +
       '<div class="controls"><select id="runsel">' + opts + "</select>" +
       '<div class="tabs" role="tablist">' +
-      ['flow', 'rounds', 'audit'].map(function (t) {
+      ['flow', 'spacetime', 'rounds', 'audit'].map(function (t) {
         var n = t === "audit" && r.flags.length ? " (" + r.flags.length + ")" : "";
         return '<button class="tab" role="tab" data-tab="' + t + '" aria-selected="' +
           (state.tab === t) + '">' + t + n + "</button>";
@@ -177,7 +245,7 @@
       '<div class="panel on">' + body + "</div>";
 
     document.getElementById("runsel").onchange = function (e) {
-      state.run = +e.target.value; state.round = null; state.sel = null;
+      state.run = +e.target.value; state.round = null; state.sel = null; state.stEdge = null;
       closeDetailSilently(); render();
     };
     Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (b) {
@@ -187,6 +255,13 @@
       b.onclick = function () { state.round = +b.dataset.round; render(); };
     });
     document.getElementById("app").addEventListener("click", function (e) {
+      var edge = e.target.closest("[data-edge]");
+      if (edge) {
+        var i = +edge.dataset.edge;
+        state.stEdge = state.stEdge === i ? null : i;
+        render();
+        return;
+      }
       var el = e.target.closest("[data-fid]");
       if (el) openDetail(el.dataset.fid);
     });

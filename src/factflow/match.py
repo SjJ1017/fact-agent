@@ -41,6 +41,24 @@ specific, precise, or qualified than B.
 
 Decision rules, in priority order:
 
+0. ENTAILMENT REQUIRES A DIFFERENCE IN INFORMATION, NOT IN WORDING. Before \
+choosing an entailment label, name the specific value, scope, condition, or \
+qualifier that one side states and the other omits. If you cannot name one, the \
+answer is EQUIVALENT.
+
+   These are all EQUIVALENT, not entailment:
+   - aspect and voice: "was named ambassador to Ghana" / "held the position of \
+ambassador to Ghana" / "served as ambassador to Ghana" / "was ambassador to \
+Ghana". Appointment and tenure are not separate facts for this purpose.
+   - tense and sequence adverbs: "was named X" / "was later named X" / "was \
+subsequently named X". "Later" adds no checkable content.
+   - name variants of one referent: "Shirley Temple Black" / "Shirley Temple", \
+"Edward Davis Wood Jr." / "Ed Wood".
+   - reporting verbs: "X is a director" / "X worked as a director".
+
+   Do not reason your way to a technical distinction. If two facts would be \
+recorded as the same row in a database of who-did-what, they are EQUIVALENT.
+
 1. PRECISION IS NOT EQUIVALENCE. If one states a value, scope, or condition the \
 other omits or blurs, that is entailment, not equivalence. "Revenue grew 12.3%" \
 vs "Revenue grew" -> A_ENTAILS_B. "12.3%" vs "about 10%" -> A_ENTAILS_B only if \
@@ -50,7 +68,11 @@ patients over 65" vs "The drug reduces mortality" -> A_ENTAILS_B.
 3. POLARITY. Same predicate, opposite polarity -> CONTRADICTS, never UNRELATED. \
 "The patient has a fever" vs "The patient has no fever" -> CONTRADICTS.
 4. SAME ENTITY IS NOT ENOUGH. Two facts about the same entity but asserting \
-different predicates are UNRELATED.
+different predicates are UNRELATED. This includes a repeatable attribute with \
+two different values: a person can hold several posts and a film can have \
+several actors, so "X was ambassador to Ghana" vs "X was ambassador to \
+Czechoslovakia" is UNRELATED, not CONTRADICTS. Reserve CONTRADICTS for values \
+that genuinely cannot both hold - one birth date, one enrolment count.
 5. SIBLING CATEGORIES ARE NOT ENTAILMENT. Entailment requires that the truth of \
 one FORCES the truth of the other. Two roles, professions, genres, or categories \
 that merely overlap or often co-occur are UNRELATED, however related they sound. \

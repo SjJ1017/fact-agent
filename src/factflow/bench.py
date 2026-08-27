@@ -217,9 +217,20 @@ RELATION_PROBES: list[RelationProbe] = [
 
 @dataclass
 class BenchResult:
+    """Quality and reliability are tracked separately on purpose.
+
+    A call that times out or returns unparseable JSON is not the same defect as
+    a wrong answer, and averaging them together makes an unreliable endpoint
+    look like a weak model. The first version of this did exactly that: three
+    models scored 54-73% on extraction where every one of those failures was an
+    API error, not a judgement.
+    """
+
     model: str
     extraction_passed: int = 0
     extraction_total: int = 0
+    calls_attempted: int = 0
+    calls_failed: int = 0
     relation_correct: int = 0
     relation_total: int = 0
     false_equivalent: int = 0        # non-EQUIVALENT gold scored EQUIVALENT: the costly error
@@ -231,7 +242,15 @@ class BenchResult:
 
     @property
     def extraction_score(self) -> float:
+        """Accuracy over checks that actually ran - excludes failed calls."""
         return self.extraction_passed / self.extraction_total if self.extraction_total else 0.0
+
+    @property
+    def reliability(self) -> float:
+        """Share of calls that returned a parseable answer at all."""
+        if not self.calls_attempted:
+            return 1.0
+        return 1.0 - self.calls_failed / self.calls_attempted
 
     @property
     def relation_score(self) -> float:
@@ -245,11 +264,19 @@ def run_bench(llm: LLM, model_label: str | None = None) -> BenchResult:
     res = BenchResult(model=label)
     t0 = time.time()
 
-    for probe in EXTRACTION_PROBES:
+    def _extract(probe):
         try:
-            facts = extract_facts(llm, probe.text, Provenance(agent_id="bench", round=1))
+            return probe, extract_facts(llm, probe.text, Provenance(agent_id="bench", round=1)), None
         except Exception as exc:  # noqa: BLE001
-            res.extraction_total += 1
+            return probe, None, exc
+
+    # Concurrent: the probes are independent, and run serially this is ~75s per
+    # model on a gateway, which makes a sweep unusable.
+    for probe, facts, exc in llm.map(_extract, EXTRACTION_PROBES, tolerate_failures=False):
+        res.calls_attempted += 1
+        if exc is not None:
+            # Not scored: a dead call is a reliability fact, not a quality one.
+            res.calls_failed += 1
             res.failures.append(f"[{probe.name}] call failed: {type(exc).__name__}: {exc}")
             continue
         ok, total, msgs = probe.score(facts)
@@ -268,16 +295,22 @@ def run_bench(llm: LLM, model_label: str | None = None) -> BenchResult:
         ]
         pairs.append((2 * i, 2 * i + 1, 1.0))
 
+    n_batches = (len(pairs) + 4) // 5
+    res.calls_attempted += n_batches
     try:
         rels = adjudicate(llm, mentions, pairs, batch_size=5)
         got = {frozenset((r.a, r.b)): r.relation for r in rels}
     except Exception as exc:  # noqa: BLE001
         res.failures.append(f"[adjudicate] {type(exc).__name__}: {exc}")
         got = {}
+    # Judgements the endpoint never returned are unscored, same as extraction.
+    res.calls_failed += max(0, n_batches - (len(got) + 4) // 5)
 
     for i, probe in enumerate(RELATION_PROBES):
-        res.relation_total += 1
         actual = got.get(frozenset((f"a{i}", f"b{i}")))
+        if actual is None:
+            continue
+        res.relation_total += 1
         correct = actual == probe.gold
         res.relation_correct += correct
         if not correct and actual == "EQUIVALENT":
