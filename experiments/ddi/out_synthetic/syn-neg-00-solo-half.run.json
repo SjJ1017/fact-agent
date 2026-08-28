@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-00",
+  "condition": "solo-half",
+  "drug_a": "Zalacaine",
+  "drug_b": "Venafil",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Zalacaine is a strong inhibitor of HTX-5D.",
+    "Venafil requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Zalacaine is a strong HTX-5D inhibitor. If Venafil were an HTX-5D substrate, Zalacaine could increase its plasma exposure. However, no information about Venafil’s metabolic pathway or substrate status is provided, so I cannot determine whether this inhibition produces a clinically significant pharmacokinetic interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-00-solo-half"
+}

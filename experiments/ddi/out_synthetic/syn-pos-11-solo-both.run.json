@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-11",
+  "condition": "solo-both",
+  "drug_a": "Tunnadol",
+  "drug_b": "Nylerol",
+  "gold": true,
+  "enzyme": "HTX-4B",
+  "critical_pair": [
+    "Tunnadol is a strong inhibitor of HTX-4B.",
+    "Nylerol is cleared almost entirely by HTX-4B."
+  ],
+  "transcript": {
+    "A|1": "Tunnadol is a strong inhibitor of HTX-4B. Nylerol is cleared almost entirely by HTX-4B, so co-administration would be expected to reduce Nylerol’s metabolism/clearance and increase its plasma exposure. Because the affected pathway is the predominant clearance route for Nylerol and the inhibitor is strong, this is likely clinically significant.\n\nMECHANISM: HTX-4B inhibition by Tunnadol decreases Nylerol clearance\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "HTX-4B inhibition by Tunnadol decreases Nylerol clearance"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-11-solo-both"
+}

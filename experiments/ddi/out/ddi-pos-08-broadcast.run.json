@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-pos-08",
+  "condition": "broadcast",
+  "drug_a": "Ketoconazole",
+  "drug_b": "Midazolam",
+  "gold": true,
+  "enzyme": "CYP3A4",
+  "critical_pair": [
+    "Ketoconazole is a strong inhibitor of CYP3A4.",
+    "Midazolam is metabolised almost entirely by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Yes. Ketoconazole is a strong inhibitor of CYP3A4, and midazolam is metabolised almost entirely by CYP3A4. Co-administration therefore markedly reduces midazolam's clearance, raising its plasma concentrations and prolonging its effect (increased and extended sedation). This is well established — midazolam's near-exclusive CYP3A4 dependence (it is even used as a probe substrate for this enzyme) combined with ketoconazole's potent CYP3A4 inhibition is sufficient to conclude a clinically significant pharmacokinetic interaction from the information provided. Dose reduction or an alternative to oral midazolam would typically be considered.\n\nMECHANISM: CYP3A4 inhibition by ketoconazole decreases midazolam metabolism, increasing midazolam exposure\nFINAL ANSWER: YES",
+    "B|1": "Yes. Ketoconazole is a strong inhibitor of CYP3A4, and midazolam is metabolised almost entirely by CYP3A4. Co-administration therefore markedly reduces midazolam's clearance, raising its plasma concentrations and prolonging its effect (increased and extended sedation). This is well established — midazolam's near-exclusive CYP3A4 dependence (it is even used as a probe substrate for this enzyme) combined with ketoconazole's potent CYP3A4 inhibition is sufficient to conclude a clinically significant pharmacokinetic interaction from the information provided. Dose reduction or an alternative to oral midazolam would typically be considered.\n\nMECHANISM: CYP3A4 inhibition by ketoconazole decreases midazolam metabolism, increasing midazolam exposure\nFINAL ANSWER: YES",
+    "A|2": "I agree with my colleague. The provided information is sufficient: ketoconazole is explicitly described as a strong CYP3A4 inhibitor, and midazolam is stated to be metabolised almost entirely by CYP3A4 (it is even used as a probe substrate for this enzyme). Inhibiting the sole clearance pathway of a drug predictably reduces its metabolism, raising plasma concentrations and prolonging effect — here, increased and extended sedation, which is clinically significant. No other information contradicts this; the hepatotoxicity, steroidogenesis, and gastric-pH points are irrelevant to this interaction. The colleague's reasoning and conclusion are sound.\n\nMECHANISM: CYP3A4 inhibition by ketoconazole decreases midazolam metabolism, increasing midazolam exposure\nFINAL ANSWER: YES",
+    "B|2": "I agree with my colleague's assessment. The provided information is sufficient to conclude a clinically significant pharmacokinetic interaction: ketoconazole is explicitly described as a strong CYP3A4 inhibitor, and midazolam is metabolised almost entirely by CYP3A4. Inhibiting the sole metabolic pathway of a drug predictably reduces its clearance, raising plasma concentrations and prolonging its pharmacological effect — here, increased and extended sedation, which is clinically relevant for a short-acting benzodiazepine used in procedural sedation. Midazolam's status as a probe substrate for CYP3A4 further corroborates that its disposition is highly sensitive to CYP3A4 inhibition. No additional assumptions are needed; the mechanism follows directly from the given data.\n\nMECHANISM: CYP3A4 inhibition by ketoconazole decreases midazolam metabolism, increasing midazolam exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "CYP3A4 inhibition by ketoconazole decreases midazolam metabolism, increasing midazolam exposure",
+    "B": "CYP3A4 inhibition by ketoconazole decreases midazolam metabolism, increasing midazolam exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-08-broadcast"
+}

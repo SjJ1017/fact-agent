@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-01",
+  "condition": "solo-both",
+  "drug_a": "Kessozide",
+  "drug_b": "Dralizumab",
+  "gold": true,
+  "enzyme": "HTX-3F",
+  "critical_pair": [
+    "Kessozide is a strong inhibitor of HTX-3F.",
+    "Dralizumab is cleared almost entirely by HTX-3F."
+  ],
+  "transcript": {
+    "A|1": "Yes. Kessozide is described as a strong inhibitor of HTX-3F, and Dralizumab is cleared almost entirely by HTX-3F. Inhibiting the primary clearance pathway would be expected to reduce Dralizumab's elimination, raising its plasma exposure and prolonging its half-life. Because HTX-3F accounts for almost all of Dralizumab's clearance, strong inhibition of this pathway is likely to produce a clinically significant increase in Dralizumab levels. The other listed attributes (storage, tablet strengths, headache incidence, faecal excretion, adult-only approval, registration date, hepatic contraindication) do not alter this conclusion, though the magnitude of exposure change cannot be quantified from the information given.\n\nMECHANISM: HTX-3F inhibition by Kessozide reduces clearance of Dralizumab (increased exposure)\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "HTX-3F inhibition by Kessozide reduces clearance of Dralizumab (increased exposure)"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-01-solo-both"
+}

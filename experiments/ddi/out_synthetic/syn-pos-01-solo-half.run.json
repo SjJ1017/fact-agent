@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-01",
+  "condition": "solo-half",
+  "drug_a": "Kessozide",
+  "drug_b": "Dralizumab",
+  "gold": true,
+  "enzyme": "HTX-3F",
+  "critical_pair": [
+    "Kessozide is a strong inhibitor of HTX-3F.",
+    "Dralizumab is cleared almost entirely by HTX-3F."
+  ],
+  "transcript": {
+    "A|1": "A clinically significant pharmacokinetic interaction cannot be established from the information provided. Kessozide is a strong HTX-3F inhibitor, but there is no information indicating whether Dralizumab is a substrate of HTX-3F or is otherwise cleared by a pathway Kessozide inhibits. Without Dralizumab’s metabolism/elimination data, the effect of HTX-3F inhibition cannot be assessed.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": false,
+  "exec_id": "syn-pos-01-solo-half"
+}

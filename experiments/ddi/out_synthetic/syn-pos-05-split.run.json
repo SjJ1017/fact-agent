@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-05",
+  "condition": "split",
+  "drug_a": "Morozide",
+  "drug_b": "Rixacaine",
+  "gold": true,
+  "enzyme": "HTX-3F",
+  "critical_pair": [
+    "Morozide is a strong inhibitor of HTX-3F.",
+    "Rixacaine is cleared almost entirely by HTX-3F."
+  ],
+  "transcript": {
+    "A|1": "The only mechanistic lead is that Morozide is a strong HTX-3F inhibitor. A pharmacokinetic interaction would be plausible only if Rixacaine is a HTX-3F substrate or otherwise depends on that pathway, but no Rixacaine metabolism, transporter, clearance, or protein-binding data are provided. Morozide’s 92% plasma protein binding also cannot establish displacement without Rixacaine’s binding data. Therefore, the available information is insufficient to determine a clinically significant pharmacokinetic interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|1": "Rixacaine is cleared almost entirely by the enzyme HTX-3F, so any pharmacokinetic interaction with Morozide would have to occur through inhibition or induction of HTX-3F (or, less likely, a transport/absorption effect). However, no information about Morozide has been provided at all — nothing about its metabolism, its effect on HTX-3F, or its absorption properties. Without knowing whether Morozide inhibits or induces HTX-3F, I cannot determine whether co-administration would raise or lower Rixacaine exposure. The available data are therefore insufficient to establish or exclude a clinically significant interaction, and I will not guess.\n\nMECHANISM: insufficient information (Rixacaine cleared by HTX-3F; Morozide's effect on HTX-3F unknown)\nFINAL ANSWER: NO",
+    "A|2": "My colleague's conclusion rests on a factual error: the Morozide information was in fact provided. Morozide is explicitly described as a strong inhibitor of HTX-3F, and Rixacaine is cleared almost entirely by HTX-3F. Combining these two facts, Morozide would substantially reduce Rixacaine's clearance, increasing Rixacaine plasma exposure. Strong inhibition of the sole clearance pathway for a drug is expected to produce a clinically significant rise in exposure (and risk of dose-related toxicity). Nothing in the provided data suggests a compensating mechanism. The interaction is therefore predictable from the given information, unlike my colleague's \"insufficient information\" verdict.\n\nMECHANISM: Morozide strongly inhibits HTX-3F, the enzyme almost entirely responsible for Rixacaine clearance, increasing Rixacaine exposure\nFINAL ANSWER: YES",
+    "B|2": "My colleague overlooked a key line in the Rixacaine data: it is \"cleared almost entirely by HTX-3F.\" That is direct clearance-pathway information, so the claimed insufficiency does not hold. Morozide is a strong HTX-3F inhibitor. Co-administration would block Rixacaine's principal elimination route, reducing clearance and increasing exposure (higher AUC, prolonged half-life beyond ~14 h). Because Rixacaine depends almost entirely on this single pathway, the effect should be substantial — analogous to a strong inhibitor paired with a drug cleared solely by one enzyme. The 2-hour peak time and lack of renal dose adjustment do not alter this conclusion. A clinically significant pharmacokinetic interaction is therefore expected.\n\nMECHANISM: Morozide (strong HTX-3F inhibitor) inhibits HTX-3F-mediated clearance of Rixacaine, increasing Rixacaine exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Morozide strongly inhibits HTX-3F, the enzyme almost entirely responsible for Rixacaine clearance, increasing Rixacaine exposure",
+    "B": "Morozide (strong HTX-3F inhibitor) inhibits HTX-3F-mediated clearance of Rixacaine, increasing Rixacaine exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-05-split"
+}

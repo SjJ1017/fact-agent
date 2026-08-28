@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-pos-06",
+  "condition": "solo-half",
+  "drug_a": "Omeprazole",
+  "drug_b": "Clopidogrel",
+  "gold": true,
+  "enzyme": "CYP2C19",
+  "critical_pair": [
+    "Omeprazole inhibits CYP2C19.",
+    "Clopidogrel is a prodrug requiring CYP2C19 for activation."
+  ],
+  "transcript": {
+    "A|1": "The information provided covers only omeprazole. I know omeprazole inhibits CYP2C19, but nothing is given about clopidogrel's metabolism — specifically, whether clopidogrel is a CYP2C19 substrate or a prodrug requiring CYP2C19-mediated activation. A pharmacokinetic interaction via CYP2C19 inhibition could only be concluded if clopidogrel's CYP2C19 dependence were established, and I cannot derive that from the material provided. I therefore cannot confirm a clinically significant interaction from what I hold, and I will not guess. \"NO\" here means the interaction is not established by the available information, not that it is definitively excluded.\n\nMECHANISM: insufficient information — omeprazole inhibits CYP2C19, but clopidogrel's metabolic pathway is not provided\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information — omeprazole inhibits CYP2C19, but clopidogrel's metabolic pathway is not provided"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-06-solo-half"
+}

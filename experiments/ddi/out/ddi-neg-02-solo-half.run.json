@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-neg-02",
+  "condition": "solo-half",
+  "drug_a": "Ciprofloxacin",
+  "drug_b": "Simvastatin",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Ciprofloxacin is a potent inhibitor of CYP1A2.",
+    "Simvastatin is extensively metabolised by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Ciprofloxacin's only pharmacokinetic property relevant here is potent CYP1A2 inhibition. To predict an interaction, I would need to know whether simvastatin is a CYP1A2 substrate — but the information provided says nothing about simvastatin's metabolism, absorption, or clearance pathways. I cannot derive simvastatin's metabolic route from ciprofloxacin's data alone, so I cannot establish a mechanism-based interaction from what I hold. (In general pharmacology simvastatin is CYP3A4-cleared, but that fact is outside the supplied information, and ciprofloxacin's CYP1A2 inhibition would not affect a CYP3A4 substrate anyway.) Based strictly on the provided data, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: insufficient information (ciprofloxacin inhibits CYP1A2; simvastatin's metabolic pathway not provided)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (ciprofloxacin inhibits CYP1A2; simvastatin's metabolic pathway not provided)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-02-solo-half"
+}

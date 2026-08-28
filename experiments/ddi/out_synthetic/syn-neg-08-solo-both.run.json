@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-08",
+  "condition": "solo-both",
+  "drug_a": "Kessacaine",
+  "drug_b": "Pelotinib",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Kessacaine is a potent inducer of HTX-7M.",
+    "Pelotinib is cleared almost entirely by HTX-5D."
+  ],
+  "transcript": {
+    "A|1": "Kessacaine's only relevant pharmacokinetic property here is potent induction of HTX-7M. Pelotinib, however, is cleared almost entirely by a different enzyme, HTX-5D, and nothing indicates Pelotinib is a substrate of HTX-7M or that Kessacaine affects HTX-5D. Induction of HTX-7M therefore has no pathway to alter Pelotinib's clearance. Pelotinib's high protein binding (92%) could theoretically permit a displacement interaction, but no information suggests Kessacaine displaces it, so no mechanism is established. Based strictly on the data provided, no clinically significant pharmacokinetic interaction is supported.\n\nMECHANISM: HTX-7M induction by Kessacaine does not affect HTX-5D, the enzyme that clears Pelotinib — no shared mechanism\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "HTX-7M induction by Kessacaine does not affect HTX-5D, the enzyme that clears Pelotinib — no shared mechanism"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-08-solo-both"
+}

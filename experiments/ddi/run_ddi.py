@@ -32,6 +32,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from cases import DDICase, load_cases
+from synthetic import load_synthetic
 
 from factflow import LLM
 
@@ -216,15 +217,26 @@ def main() -> int:
                     help="output budget. Reasoning models consume most of it before "
                          "emitting text; too low yields silent empty responses.")
     ap.add_argument("--only", default=None, help="'positive', 'negative', or a case id")
+    ap.add_argument("--cases", default="real", choices=["real", "synthetic"],
+                    help="'real' drugs are memorised (solo-half scores 69%); 'synthetic' "
+                         "uses invented drugs and enzymes so prior knowledge is zero and a "
+                         "correct answer can only come from the join")
+    ap.add_argument("--n-pos", type=int, default=12)
+    ap.add_argument("--n-neg", type=int, default=12)
+    ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--trace", action="store_true", help="also extract+match facts")
     args = ap.parse_args()
 
+    global OUT
+    OUT = Path(__file__).parent / ("out" if args.cases == "real" else "out_synthetic")
     OUT.mkdir(exist_ok=True)
     mk = {"opencode": LLM.opencode, "openai": LLM.openai, "deepseek": LLM.deepseek}[args.provider]
     llm = mk(args.model, max_concurrency=args.parallel * 2)
     llm.backend.client = llm.backend.client.with_options(timeout=args.timeout, max_retries=1)
 
-    cases = load_cases(args.only)
+    cases = (load_cases(args.only) if args.cases == "real" else
+             load_synthetic(args.only, n_positive=args.n_pos, n_negative=args.n_neg,
+                            seed=args.seed))
     conditions = [c.strip() for c in args.conditions.split(",") if c.strip()]
     print(f"{len(cases)} cases x {len(conditions)} conditions x {args.repeats} repeats "
           f"on {args.model}\n", flush=True)

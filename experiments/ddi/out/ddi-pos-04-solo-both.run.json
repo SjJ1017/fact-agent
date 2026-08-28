@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-pos-04",
+  "condition": "solo-both",
+  "drug_a": "Fluoxetine",
+  "drug_b": "Tamoxifen",
+  "gold": true,
+  "enzyme": "CYP2D6",
+  "critical_pair": [
+    "Fluoxetine is a strong inhibitor of CYP2D6.",
+    "Tamoxifen requires CYP2D6 to form its active metabolite endoxifen."
+  ],
+  "transcript": {
+    "A|1": "Yes. Tamoxifen depends on CYP2D6 to form endoxifen, its principal active metabolite, which drives much of its anti-oestrogenic efficacy. Fluoxetine is a strong CYP2D6 inhibitor, and its active metabolite norfluoxetine also inhibits CYP2D6; fluoxetine's unusually long half-life means this inhibition is sustained and persists even after discontinuation. Co-administration therefore markedly reduces endoxifen formation, lowering tamoxifen exposure to its active moiety over a treatment course intended to last five to ten years. This reduced metabolite formation is a pharmacokinetic interaction with potential clinical impact on breast cancer outcomes, and such combinations are generally avoided in favour of CYP2D6-neutral antidepressants.\n\nMECHANISM: Fluoxetine (strong CYP2D6 inhibitor) reduces CYP2D6-mediated conversion of tamoxifen to endoxifen, decreasing active metabolite formation\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "Fluoxetine (strong CYP2D6 inhibitor) reduces CYP2D6-mediated conversion of tamoxifen to endoxifen, decreasing active metabolite formation"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-04-solo-both"
+}

@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-neg-06",
+  "condition": "broadcast",
+  "drug_a": "Ketoconazole",
+  "drug_b": "Clopidogrel",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Ketoconazole is a strong inhibitor of CYP3A4.",
+    "Clopidogrel is a prodrug requiring CYP2C19 for activation."
+  ],
+  "transcript": {
+    "A|1": "Based on the information provided, no interaction can be established. Ketoconazole's only enzymatic effect listed is strong inhibition of CYP3A4. Clopidogrel's activation is stated to require CYP2C19 — not CYP3A4. Since the provided data identifies no shared enzyme or transport pathway between the two drugs, there is no mechanism here through which ketoconazole would reduce clopidogrel's activation or alter its pharmacokinetics. The other ketoconazole properties listed (hepatotoxicity, adrenal steroidogenesis inhibition, acid-dependent absorption) do not bear on clopidogrel's disposition. I therefore cannot derive a clinically significant pharmacokinetic interaction from the information given; notably, the data do not address whether clopidogrel also uses CYP3A4 or whether ketoconazole inhibits CYP2C19, so this conclusion is limited to the provided information.\n\nMECHANISM: insufficient information (ketoconazole inhibits CYP3A4; clopidogrel activation listed as CYP2C19-dependent — no shared pathway given)\nFINAL ANSWER: NO",
+    "B|1": "Based on the information provided, no interaction can be established. Ketoconazole's only enzymatic effect listed is strong inhibition of CYP3A4. Clopidogrel's activation is stated to require CYP2C19 — not CYP3A4. Since the provided data identifies no shared enzyme or transport pathway between the two drugs, there is no mechanism here through which ketoconazole would reduce clopidogrel's activation or alter its pharmacokinetics. The other ketoconazole properties listed (hepatotoxicity, adrenal steroidogenesis inhibition, acid-dependent absorption) do not bear on clopidogrel's disposition. I therefore cannot derive a clinically significant pharmacokinetic interaction from the information given; notably, the data do not address whether clopidogrel also uses CYP3A4 or whether ketoconazole inhibits CYP2C19, so this conclusion is limited to the provided information.\n\nMECHANISM: insufficient information (ketoconazole inhibits CYP3A4; clopidogrel activation listed as CYP2C19-dependent — no shared pathway given)\nFINAL ANSWER: NO",
+    "A|2": "I agree with my colleague's assessment. Working strictly from the supplied data: ketoconazole's only listed enzymatic property is strong CYP3A4 inhibition, while clopidogrel's activation is stated to require CYP2C19. No shared enzyme or transport pathway is identified, and nothing provided indicates ketoconazole inhibits CYP2C19 or that clopidogrel's activation involves CYP3A4. Ketoconazole's other properties (hepatotoxicity, adrenal suppression, acid-dependent absorption) have no bearing on clopidogrel's disposition. Therefore, no pharmacokinetic interaction can be derived from this information. I note the data are incomplete — they do not address whether clopidogrel uses additional CYP enzymes or whether ketoconazole inhibits CYP2C19 — so this conclusion is limited to the information given rather than a definitive real-world ruling.\n\nMECHANISM: insufficient information (ketoconazole inhibits CYP3A4; clopidogrel activation listed as CYP2C19-dependent — no shared pathway provided)\nFINAL ANSWER: NO",
+    "B|2": "I agree with my colleague's assessment. From the provided data, ketoconazole's only relevant pharmacokinetic property is strong CYP3A4 inhibition, while clopidogrel's activation is stated to require CYP2C19. No shared enzyme or transport pathway is identified, and the data are silent on whether clopidogrel additionally uses CYP3A4 or whether ketoconazole inhibits CYP2C19. Therefore, a clinically significant pharmacokinetic interaction cannot be established from the information given — though I note this conclusion is limited to the provided data and does not exclude a real-world interaction via pathways not listed here.\n\nMECHANISM: insufficient information (ketoconazole inhibits CYP3A4; clopidogrel activation listed as CYP2C19-dependent — no shared pathway given)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (ketoconazole inhibits CYP3A4; clopidogrel activation listed as CYP2C19-dependent — no shared pathway provided)",
+    "B": "insufficient information (ketoconazole inhibits CYP3A4; clopidogrel activation listed as CYP2C19-dependent — no shared pathway given)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-06-broadcast"
+}

@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-07",
+  "condition": "split",
+  "drug_a": "Rixapine",
+  "drug_b": "Pelafil",
+  "gold": true,
+  "enzyme": "HTX-1A",
+  "critical_pair": [
+    "Rixapine is a strong inhibitor of HTX-1A.",
+    "Pelafil requires HTX-1A to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "The information provided covers only Rixapine. It tells me Rixapine is a strong inhibitor of HTX-1A (a pharmacodynamic target, not a metabolic enzyme), is 92% protein-bound, and is contraindicated in severe hepatic impairment — but no data are given about Pelafil at all: not its metabolism, eliminating enzymes, transporters, protein binding, or whether it acts on HTX-1A. Without knowing Pelafil's pharmacokinetic profile, I cannot identify any shared enzyme (e.g., a CYP), transporter, or displacement mechanism through which an interaction could occur. Rixapine's hepatic contraindication alone does not establish an interaction with another drug. Therefore, no clinically significant pharmacokinetic interaction can be established from the information available, though this reflects a data gap rather than confirmed absence of interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|1": "The available information is insufficient to determine an interaction. For Pelafil, I know only that it is 92% plasma-protein bound, requires HTX-1A to form its active metabolite, and is contraindicated in severe hepatic impairment. No metabolic enzyme (e.g., a specific CYP), transporter, or clearance pathway is specified, and I have no information at all about Rixapine — its metabolism, its ability to inhibit or induce HTX-1A, or its potential to displace Pelafil from plasma proteins. High protein binding alone does not establish a clinically significant displacement interaction, and hepatic impairment is a patient-factor contraindication, not a drug–drug interaction. Therefore, I cannot confirm a pharmacokinetic interaction from the data provided.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague's conclusion was based on incomplete information. They stated they had no data on Rixapine's inhibitory capacity, but I do: Rixapine is explicitly described as a **strong inhibitor of HTX-1A**. Pelafil, per the colleague's report, **requires HTX-1A to form its active metabolite**.\n\nCombining these two facts, co-administration means Rixapine would strongly inhibit the enzyme responsible for activating Pelafil, substantially reducing formation of Pelafil's active metabolite. Inhibition of a drug's metabolic activation by a strong inhibitor is a recognized, potentially clinically significant pharmacokinetic interaction (reduced active metabolite exposure, likely reduced efficacy).\n\nThe shared 92% protein binding does not by itself establish a displacement interaction, and the hepatic contraindications are patient factors — but the HTX-1A inhibition pathway alone is sufficient to answer.\n\nMECHANISM: Rixapine strongly inhibits HTX-1A, reducing Pelafil's conversion to its active metabolite\nFINAL ANSWER: YES",
+    "B|2": "My colleague's \"NO\" rests on a data gap: they reported that no Pelafil information was available, but Pelafil's profile states it requires HTX-1A to form its active metabolite. Rixapine is a strong HTX-1A inhibitor. Although my colleague characterized HTX-1A as only a pharmacodynamic target, Pelafil's own data establish HTX-1A as the enzyme responsible for Pelafil's metabolic activation. Co-administration would therefore inhibit Pelafil's activation, reducing active metabolite formation — a pharmacokinetic interaction at the metabolism step. Since the inhibition is strong and Pelafil depends on this pathway, reduced efficacy is expected, making the interaction clinically significant. The shared 92% protein binding alone does not establish a displacement mechanism.\n\nMECHANISM: Rixapine (strong HTX-1A inhibitor) blocks HTX-1A-mediated metabolic activation of Pelafil to its active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Rixapine strongly inhibits HTX-1A, reducing Pelafil's conversion to its active metabolite",
+    "B": "Rixapine (strong HTX-1A inhibitor) blocks HTX-1A-mediated metabolic activation of Pelafil to its active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-07-split"
+}

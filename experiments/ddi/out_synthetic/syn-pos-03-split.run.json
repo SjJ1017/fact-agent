@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-03",
+  "condition": "split",
+  "drug_a": "Venustat",
+  "drug_b": "Pelustat",
+  "gold": true,
+  "enzyme": "HTX-6K",
+  "critical_pair": [
+    "Venustat is a strong inhibitor of HTX-6K.",
+    "Pelustat requires HTX-6K to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Venustat is a strong inhibitor of HTX-6K, so it could interact with a co-drug only if that drug is a substrate of HTX-6K or otherwise depends on that pathway. The provided information says nothing about Pelustat’s metabolism, transport, or whether Pelustat is affected by HTX-6K inhibition. Therefore, a clinically significant pharmacokinetic interaction cannot be established from the available data.\n\nMECHANISM: insufficient information — Venustat inhibits HTX-6K, but Pelustat’s HTX-6K dependence is unknown\nFINAL ANSWER: NO",
+    "B|1": "No interaction can be established from the information provided. The data describe only Pelustat: it is given orally once daily, needs HTX-6K to form its active metabolite, is weight-dosed below 50 kg, needs no renal adjustment, and is mainly faecally excreted. No information about Venustat is supplied at all — nothing about its absorption, metabolism, or elimination, and nothing indicating whether Venustat affects HTX-6K activity or Pelustat's faecal excretion pathway. Without knowing Venustat's pharmacokinetic profile, I cannot determine whether it would inhibit or induce the HTX-6K-dependent activation of Pelustat or alter its excretion. The information is therefore insufficient to decide, and no interaction can be confirmed.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague's assessment is incorrect on one key point: information about Venustat *was* supplied, and it is decisive. Venustat is explicitly described as a **strong inhibitor of HTX-6K**, while Pelustat requires HTX-6K to form its active metabolite. Co-administration would therefore suppress the enzymatic activation of Pelustat, reducing formation of its active metabolite and likely diminishing its therapeutic effect. This is a clinically significant pharmacokinetic interaction at the level of metabolic activation. The shared faecal excretion route and the QT data do not alter this conclusion, and no other mechanism in the provided data contradicts it.\n\nMECHANISM: Venustat strongly inhibits HTX-6K, the enzyme needed to convert Pelustat into its active metabolite, reducing Pelustat activation\nFINAL ANSWER: YES",
+    "B|2": "My assessment differs from my colleague's. The colleague stated Pelustat's HTX-6K dependence is unknown, but the provided Pelustat information explicitly says Pelustat **requires HTX-6K to form its active metabolite** — so the dependence is established, not missing. Venustat is reported as a strong inhibitor of HTX-6K. Taken together, Venustat would inhibit the enzymatic activation of Pelustat, reducing formation of its active metabolite and likely diminishing Pelustat's therapeutic effect. This constitutes a clinically significant pharmacokinetic interaction at the HTX-6K activation step. The colleague's \"insufficient information\" conclusion overlooked this explicit statement in the Pelustat data.\n\nMECHANISM: Venustat strongly inhibits HTX-6K, reducing Pelustat's conversion to its active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Venustat strongly inhibits HTX-6K, the enzyme needed to convert Pelustat into its active metabolite, reducing Pelustat activation",
+    "B": "Venustat strongly inhibits HTX-6K, reducing Pelustat's conversion to its active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-03-split"
+}

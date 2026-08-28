@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-03",
+  "condition": "solo-half",
+  "drug_a": "Caddacaine",
+  "drug_b": "Moroxetine",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Caddacaine is a strong inhibitor of HTX-8P.",
+    "Moroxetine is cleared almost entirely by HTX-3F."
+  ],
+  "transcript": {
+    "A|1": "The available information is insufficient to establish a clinically significant pharmacokinetic interaction. The only relevant mechanism provided is that Caddacaine is a strong inhibitor of HTX-8P, but there is no information that Moroxetine is a HTX-8P substrate or is otherwise affected by HTX-8P inhibition. Therefore, an interaction cannot be confirmed or excluded from the data given.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-03-solo-half"
+}

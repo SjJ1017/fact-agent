@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-pos-02",
+  "condition": "solo-both",
+  "drug_a": "Clarithromycin",
+  "drug_b": "Simvastatin",
+  "gold": true,
+  "enzyme": "CYP3A4",
+  "critical_pair": [
+    "Clarithromycin is a strong inhibitor of CYP3A4.",
+    "Simvastatin is extensively metabolised by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Yes. Clarithromycin is a strong inhibitor of CYP3A4, and simvastatin is extensively metabolised by CYP3A4. Co-administration therefore reduces simvastatin's metabolism, increasing its plasma exposure. Because simvastatin's myopathy risk is dose-dependent (concentration-related), elevated levels raise the risk of myopathy and rhabdomyolysis. This is a well-recognised, clinically significant pharmacokinetic interaction; concurrent use is generally avoided or requires an alternative statin/antibiotic.\n\nMECHANISM: CYP3A4 — clarithromycin inhibits CYP3A4, decreasing simvastatin metabolism and increasing its exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "CYP3A4 — clarithromycin inhibits CYP3A4, decreasing simvastatin metabolism and increasing its exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-02-solo-both"
+}

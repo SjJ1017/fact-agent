@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-neg-05",
+  "condition": "solo-half",
+  "drug_a": "Clarithromycin",
+  "drug_b": "Warfarin",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Clarithromycin is a strong inhibitor of CYP3A4.",
+    "Warfarin's more potent S-enantiomer is metabolised by CYP2C9."
+  ],
+  "transcript": {
+    "A|1": "The provided data establishes only that clarithromycin is a strong CYP3A4 inhibitor. To conclude a pharmacokinetic interaction, I would need to know whether warfarin is a substrate of CYP3A4 (or another pathway clarithromycin affects), but no metabolic, clearance, or interaction information is given for warfarin. Therefore, from the information supplied, I cannot confirm a clinically significant pharmacokinetic interaction; the evidence is insufficient rather than negative.\n\nMECHANISM: insufficient information — clarithromycin is a strong CYP3A4 inhibitor, but warfarin's metabolic pathway is not provided\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information — clarithromycin is a strong CYP3A4 inhibitor, but warfarin's metabolic pathway is not provided"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-05-solo-half"
+}

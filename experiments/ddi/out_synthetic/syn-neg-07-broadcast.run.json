@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-07",
+  "condition": "broadcast",
+  "drug_a": "Rixafil",
+  "drug_b": "Sevafil",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Rixafil is a strong inhibitor of HTX-3F.",
+    "Sevafil requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Rixafil is documented as a strong inhibitor of HTX-3F. Sevafil's activation depends on HTX-2C, a different enzyme. Nothing in the provided data indicates that Rixafil inhibits or induces HTX-2C, and shared faecal excretion does not by itself create a pharmacokinetic interaction. Therefore, no interaction mechanism connecting these two drugs can be established from the information given.\n\nHowever, the data are also insufficient to fully exclude an effect of Rixafil on HTX-2C, since only its HTX-3F activity is stated. On the evidence available, no clinically significant pharmacokinetic interaction is supported.\n\nMECHANISM: insufficient information (Rixafil inhibits HTX-3F; Sevafil requires HTX-2C; no link between the two enzymes is provided)\nFINAL ANSWER: NO",
+    "B|1": "Rixafil is documented as a strong inhibitor of HTX-3F. Sevafil's activation depends on HTX-2C, a different enzyme. Nothing in the provided data indicates that Rixafil inhibits or induces HTX-2C, and shared faecal excretion does not by itself create a pharmacokinetic interaction. Therefore, no interaction mechanism connecting these two drugs can be established from the information given.\n\nHowever, the data are also insufficient to fully exclude an effect of Rixafil on HTX-2C, since only its HTX-3F activity is stated. On the evidence available, no clinically significant pharmacokinetic interaction is supported.\n\nMECHANISM: insufficient information (Rixafil inhibits HTX-3F; Sevafil requires HTX-2C; no link between the two enzymes is provided)\nFINAL ANSWER: NO",
+    "A|2": "I agree with my colleague's assessment. The only enzymatic information provided is that Rixafil is a strong inhibitor of HTX-3F, while Sevafil depends on HTX-2C for activation. These are distinct enzymes, and no data link Rixafil to inhibition or induction of HTX-2C, so no mechanism exists by which Rixafil would reduce Sevafil's active metabolite formation. Their shared faecal excretion does not constitute a pharmacokinetic interaction, as excretion routes do not compete in the manner described. Other listed details (headache incidence, food intake, storage, weight-based dosing, adult-only approval) are not relevant to a pharmacokinetic interaction. On the evidence given, no clinically significant interaction is supported, though the data cannot fully exclude unlisted effects on HTX-2C.\n\nMECHANISM: insufficient information (Rixafil inhibits HTX-3F; Sevafil requires HTX-2C; no connection between these enzymes is provided)\nFINAL ANSWER: NO",
+    "B|2": "I agree with my colleague's assessment. Rixafil is a strong inhibitor of HTX-3F, but Sevafil's activation depends on HTX-2C — a different enzyme. Since no inhibition or induction of HTX-2C by Rixafil is documented, there is no established mechanism by which Rixafil would reduce Sevafil's active metabolite formation. Their shared faecal excretion does not constitute a pharmacokinetic interaction, as excretion routes do not interact in this way. Other listed properties (headache incidence, food intake, storage, weight-based dosing, adult-only approval) are pharmacodynamic or practical matters, not interaction mechanisms.\n\nOne caveat: the data only state Rixafil's effect on HTX-3F, so an unlisted effect on HTX-2C cannot be strictly excluded. On the evidence provided, however, no clinically significant interaction is supported.\n\nMECHANISM: insufficient information (Rixafil inhibits HTX-3F; Sevafil needs HTX-2C; no link between the enzymes is provided)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (Rixafil inhibits HTX-3F; Sevafil requires HTX-2C; no connection between these enzymes is provided)",
+    "B": "insufficient information (Rixafil inhibits HTX-3F; Sevafil needs HTX-2C; no link between the enzymes is provided)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-07-broadcast"
+}

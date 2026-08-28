@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-05",
+  "condition": "solo-both",
+  "drug_a": "Kessizumab",
+  "drug_b": "Dralerol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Kessizumab is a potent inducer of HTX-2C.",
+    "Dralerol is cleared almost entirely by HTX-1A."
+  ],
+  "transcript": {
+    "A|1": "Kessizumab is a potent inducer of HTX-2C, but Dralerol's clearance is almost entirely via HTX-1A. Since the induced enzyme (HTX-2C) is not the enzyme responsible for Dralerol's metabolism (HTX-1A), there is no shared metabolic pathway through which Kessizumab could alter Dralerol exposure. The other provided data (protein binding, renal adjustment, dosing, excretion route, Tmax) do not suggest any additional interaction mechanism, and no displacement or transporter effects are described. On the information given, no clinically significant pharmacokinetic interaction is expected.\n\nMECHANISM: No shared pathway — Kessizumab induces HTX-2C, but Dralerol is cleared by HTX-1A\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "No shared pathway — Kessizumab induces HTX-2C, but Dralerol is cleared by HTX-1A"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-05-solo-both"
+}

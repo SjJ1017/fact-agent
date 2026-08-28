@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-05",
+  "condition": "broadcast",
+  "drug_a": "Morozide",
+  "drug_b": "Rixacaine",
+  "gold": true,
+  "enzyme": "HTX-3F",
+  "critical_pair": [
+    "Morozide is a strong inhibitor of HTX-3F.",
+    "Rixacaine is cleared almost entirely by HTX-3F."
+  ],
+  "transcript": {
+    "A|1": "Yes. Morozide is a strong inhibitor of HTX-3F, and Rixacaine is cleared almost entirely by HTX-3F. Co-administration would therefore markedly reduce Rixacaine's metabolism, decreasing its clearance and increasing its plasma exposure (higher AUC and likely prolonged half-life beyond its baseline ~14 hours). Because Rixacaine's elimination depends almost wholly on this single pathway, inhibition by a strong inhibitor is expected to produce a substantial rise in drug levels — a clinically significant pharmacokinetic interaction. The provided information does not quantify the magnitude or specify toxicity thresholds, but the mechanism clearly supports a significant interaction, and dose adjustment or enhanced monitoring would be warranted.\n\nMECHANISM: HTX-3F inhibition by Morozide reduces clearance of Rixacaine (increased exposure)\nFINAL ANSWER: YES",
+    "B|1": "Yes. Morozide is a strong inhibitor of HTX-3F, and Rixacaine is cleared almost entirely by HTX-3F. Co-administration would therefore markedly reduce Rixacaine's metabolism, decreasing its clearance and increasing its plasma exposure (higher AUC and likely prolonged half-life beyond its baseline ~14 hours). Because Rixacaine's elimination depends almost wholly on this single pathway, inhibition by a strong inhibitor is expected to produce a substantial rise in drug levels — a clinically significant pharmacokinetic interaction. The provided information does not quantify the magnitude or specify toxicity thresholds, but the mechanism clearly supports a significant interaction, and dose adjustment or enhanced monitoring would be warranted.\n\nMECHANISM: HTX-3F inhibition by Morozide reduces clearance of Rixacaine (increased exposure)\nFINAL ANSWER: YES",
+    "A|2": "I agree with my colleague's assessment. The provided information is sufficient to conclude an interaction: Morozide is explicitly described as a strong inhibitor of HTX-3F, and Rixacaine is cleared almost entirely via HTX-3F. Inhibiting the single pathway responsible for nearly all of a drug's elimination is expected to markedly reduce its clearance, raising plasma exposure (AUC) and prolonging its ~14-hour half-life. This is a pharmacokinetic interaction at the level of metabolism, not absorption or protein binding (Morozide's 92% protein binding is not relevant here since no displacement data are given). The magnitude is not quantified and no toxicity thresholds are provided, so the clinical consequence cannot be precisely predicted — but a strong inhibitor acting on the sole clearance route supports a clinically significant interaction, warranting monitoring or dose adjustment.\n\nMECHANISM: HTX-3F inhibition by Morozide reduces clearance of Rixacaine (increased exposure)\nFINAL ANSWER: YES",
+    "B|2": "I agree with my colleague's assessment. Morozide is a strong inhibitor of HTX-3F, and Rixacaine is cleared almost entirely by that same enzyme. When a drug's elimination depends almost wholly on a single pathway, strong inhibition of that pathway typically causes a marked decrease in clearance and a substantial increase in plasma exposure (AUC), likely with a prolonged half-life beyond the baseline ~14 hours. This is a well-established basis for predicting a clinically significant pharmacokinetic interaction, even though the provided information does not quantify the magnitude or define toxicity thresholds. Dose adjustment or enhanced monitoring would be warranted. The protein binding, generic status, and peak-time data for either drug do not alter this conclusion.\n\nMECHANISM: HTX-3F inhibition by Morozide reduces clearance of Rixacaine (increased exposure)\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "HTX-3F inhibition by Morozide reduces clearance of Rixacaine (increased exposure)",
+    "B": "HTX-3F inhibition by Morozide reduces clearance of Rixacaine (increased exposure)"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-05-broadcast"
+}

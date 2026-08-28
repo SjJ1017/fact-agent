@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-11",
+  "condition": "solo-both",
+  "drug_a": "Orbafil",
+  "drug_b": "Kessapine",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Orbafil is a strong inhibitor of HTX-3F.",
+    "Kessapine requires HTX-4B to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Orbafil's only stated pharmacokinetic property is strong inhibition of HTX-3F. Kessapine's relevant pathway is formation of its active metabolite via HTX-4B. These are distinct enzymes, and nothing indicates Orbafil affects HTX-4B. No other shared mechanism is supported by the data: Kessapine's 92% protein binding alone does not create an interaction without a displacer, and no absorption or renal mechanism links the two drugs. Therefore, based on the information provided, no clinically significant pharmacokinetic interaction can be identified between Orbafil and Kessapine.\n\nMECHANISM: Orbafil inhibits HTX-3F; Kessapine requires HTX-4B — no overlapping enzyme or mechanism\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Orbafil inhibits HTX-3F; Kessapine requires HTX-4B — no overlapping enzyme or mechanism"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-11-solo-both"
+}

@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-pos-07",
+  "condition": "split",
+  "drug_a": "Paroxetine",
+  "drug_b": "Metoprolol",
+  "gold": true,
+  "enzyme": "CYP2D6",
+  "critical_pair": [
+    "Paroxetine is a strong inhibitor of CYP2D6.",
+    "Metoprolol is metabolised principally by CYP2D6."
+  ],
+  "transcript": {
+    "A|1": "The provided information characterizes only paroxetine: it is a strong CYP2D6 inhibitor. However, nothing is given about metoprolol — in particular, nothing states that metoprolol is metabolized by CYP2D6 (or any enzyme) or is otherwise susceptible to CYP2D6 inhibition. A pharmacokinetic interaction could only be inferred if metoprolol's clearance were known to depend on CYP2D6, and that cannot be derived from the paroxetine data alone. Based strictly on the information provided, the data are insufficient to establish (or exclude) a clinically significant interaction; I will not guess beyond what is given.\n\nMECHANISM: insufficient information (paroxetine is a strong CYP2D6 inhibitor, but metoprolol's metabolic pathway is not provided)\nFINAL ANSWER: NO",
+    "B|1": "Yes. Metoprolol is metabolised principally by CYP2D6 and undergoes extensive first-pass metabolism, so its systemic exposure depends heavily on CYP2D6 activity. Paroxetine is a potent CYP2D6 inhibitor, so co-administration reduces metoprolol's first-pass and systemic clearance, raising metoprolol plasma concentrations. This can produce exaggerated beta-blockade — bradycardia, hypotension, dizziness — particularly in CYP2D6 extensive metabolisers, since poor metabolisers already have higher baseline exposure. The effect is clinically significant and may warrant metoprolol dose reduction or switching to a beta-blocker not dependent on CYP2D6 (e.g., atenolol) or an antidepressant without CYP2D6 inhibition.\n\nMECHANISM: CYP2D6 inhibition by paroxetine increases metoprolol exposure\nFINAL ANSWER: YES",
+    "A|2": "I agree with my colleague's assessment. The provided information confirms paroxetine is a strong CYP2D6 inhibitor, and the colleague's report establishes that metoprolol depends principally on CYP2D6 for its metabolism, including first-pass clearance. Combining these two facts: inhibiting CYP2D6 reduces metoprolol's presystemic and systemic clearance, increasing plasma concentrations and exaggerating beta-blockade (bradycardia, hypotension, dizziness). The effect is most pronounced in CYP2D6 extensive metabolisers, whose exposure normally depends on active CYP2D6; poor metabolisers already have high baseline exposure, so the relative increment is smaller. This is a well-recognised, clinically significant pharmacokinetic interaction, and dose reduction or switching to a CYP2D6-independent beta-blocker (e.g., atenolol) is a reasonable mitigation.\n\nMECHANISM: CYP2D6 inhibition by paroxetine increases metoprolol exposure\nFINAL ANSWER: YES",
+    "B|2": "My colleague's assessment was correct only for the paroxetine data alone. However, the metoprolol information I hold supplies the missing piece: metoprolol is metabolised principally by CYP2D6, and it undergoes extensive first-pass metabolism. Combining this with the colleague's finding that paroxetine is a strong CYP2D6 inhibitor, the interaction can now be derived directly: paroxetine will inhibit the principal clearance pathway of metoprolol, reducing its first-pass and systemic metabolism, raising metoprolol plasma concentrations, and risking exaggerated beta-blockade (bradycardia, hypotension). The colleague's stated condition for inferring an interaction — that metoprolol's clearance depends on CYP2D6 — is satisfied by the metoprolol data. The interaction is therefore clinically significant.\n\nMECHANISM: CYP2D6 — paroxetine strongly inhibits CYP2D6, the principal enzyme metabolising metoprolol, increasing metoprolol exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "CYP2D6 inhibition by paroxetine increases metoprolol exposure",
+    "B": "CYP2D6 — paroxetine strongly inhibits CYP2D6, the principal enzyme metabolising metoprolol, increasing metoprolol exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-07-split"
+}

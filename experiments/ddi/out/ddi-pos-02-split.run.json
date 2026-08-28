@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-pos-02",
+  "condition": "split",
+  "drug_a": "Clarithromycin",
+  "drug_b": "Simvastatin",
+  "gold": true,
+  "enzyme": "CYP3A4",
+  "critical_pair": [
+    "Clarithromycin is a strong inhibitor of CYP3A4.",
+    "Simvastatin is extensively metabolised by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Clarithromycin is described as a strong CYP3A4 inhibitor, so it could raise exposure of any co-prescribed drug cleared by that enzyme. However, the information supplied covers only clarithromycin: nothing states how simvastatin is metabolised. Since not all statins are CYP3A4 substrates, simvastatin's CYP3A4 dependence cannot be derived from the facts given, so a pharmacokinetic interaction cannot be confirmed from this information alone. (In routine practice the combination is contraindicated, but that relies on knowledge of simvastatin beyond the data provided here.) \"NO\" below means \"not established from the supplied information,\" not a denial of a real-world interaction.\n\nMECHANISM: insufficient information (clarithromycin = strong CYP3A4 inhibitor; simvastatin's metabolic pathway not specified)\nFINAL ANSWER: NO",
+    "B|1": "Simvastatin is extensively metabolised by CYP3A4 and carries a dose-dependent myopathy risk, so any drug that inhibits CYP3A4 would be expected to raise simvastatin exposure and increase myopathy risk. However, the information provided covers only simvastatin; I have been given no data on clarithromycin's effect on CYP3A4 (or any other enzyme). From the material supplied, I cannot derive whether clarithromycin inhibits or induces CYP3A4, so I cannot confirm a clinically significant pharmacokinetic interaction rather than guessing. Clinically, this pairing is typically flagged, but that conclusion relies on knowledge of clarithromycin that is outside the information provided here.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague was correct that simvastatin is extensively metabolised by CYP3A4 with dose-dependent myopathy risk, but their conclusion of \"insufficient information\" no longer holds once my data on clarithromycin is combined with theirs. The clarithromycin information explicitly states it is a strong inhibitor of CYP3A4. Therefore, co-administration would inhibit the primary metabolic pathway of simvastatin, raising simvastatin plasma exposure and increasing the risk of dose-dependent myopathy (including rhabdomyolysis). This is a well-established, clinically significant pharmacokinetic interaction, derivable directly from the two datasets combined: strong CYP3A4 inhibition (clarithromycin) plus extensive CYP3A4-dependent clearance and myopathy risk (simvastatin). The combination should be avoided or managed with temporary simvastatin discontinuation.\n\nMECHANISM: Clarithromycin strongly inhibits CYP3A4, increasing simvastatin exposure\nFINAL ANSWER: YES",
+    "B|2": "My colleague's conclusion no longer holds, because my own drug information for simvastatin explicitly states it is \"extensively metabolised by CYP3A4.\" Combining the two datasets:\n\n- Clarithromycin: strong CYP3A4 inhibitor (per colleague's report).\n- Simvastatin: extensively cleared by CYP3A4 (per my information), with a dose-dependent myopathy risk.\n\nCoadministration would therefore reduce simvastatin's metabolism, raising its exposure (and that of its active acid), which plausibly elevates the dose-dependent risk of myopathy. This is a clinically significant pharmacokinetic interaction, and in practice the combination is avoided or contraindicated.\n\nMECHANISM: CYP3A4 inhibition by clarithromycin decreases metabolism of simvastatin, increasing simvastatin exposure and myopathy risk\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Clarithromycin strongly inhibits CYP3A4, increasing simvastatin exposure",
+    "B": "CYP3A4 inhibition by clarithromycin decreases metabolism of simvastatin, increasing simvastatin exposure and myopathy risk"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-02-split"
+}

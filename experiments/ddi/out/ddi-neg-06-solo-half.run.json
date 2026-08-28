@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-neg-06",
+  "condition": "solo-half",
+  "drug_a": "Ketoconazole",
+  "drug_b": "Clopidogrel",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Ketoconazole is a strong inhibitor of CYP3A4.",
+    "Clopidogrel is a prodrug requiring CYP2C19 for activation."
+  ],
+  "transcript": {
+    "A|1": "The provided information characterizes ketoconazole only: it is a strong CYP3A4 inhibitor. However, nothing in the supplied data describes clopidogrel's pharmacology — specifically, whether clopidogrel is a prodrug requiring CYP3A4 (or CYP2C19) for bioactivation, or whether it is eliminated by pathways ketoconazole would inhibit. A pharmacokinetic interaction could only be inferred if clopidogrel's dependence on CYP3A4-mediated activation were established, since ketoconazole's CYP3A4 inhibition would then be expected to blunt formation of the active metabolite. Because the clopidogrel side of this pairing is not documented in the information I hold, I cannot derive the interaction from the given material, and I will not guess.\n\nMECHANISM: insufficient information — clopidogrel's metabolic/activation pathway is not provided\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information — clopidogrel's metabolic/activation pathway is not provided"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-06-solo-half"
+}

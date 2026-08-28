@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-06",
+  "condition": "split",
+  "drug_a": "Moratide",
+  "drug_b": "Quoratide",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Moratide is a potent inducer of HTX-6K.",
+    "Quoratide requires HTX-3F to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Moratide is a potent inducer of HTX-6K, so it could increase the clearance of any drug metabolized by HTX-6K. However, no information is provided about Quoratide’s metabolism, including whether it is an HTX-6K substrate. Therefore, a clinically significant pharmacokinetic interaction cannot be established from the available data; this is not evidence of absence.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|1": "No information about Moratide is provided at all — its metabolism, elimination route, enzyme involvement, or protein binding are unknown. For Quoratide, the only mechanistic clue is that it requires HTX-3F to form its active metabolite, but I have no evidence that Moratide induces or inhibits HTX-3F, nor any data suggesting competition for protein binding or excretion pathways. Quoratide's hepatic contraindication and faecal excretion do not, by themselves, establish an interaction with an unknown second drug. Therefore I cannot derive a pharmacokinetic interaction from the information held, and I will not guess.\n\nMECHANISM: insufficient information (no data on Moratide; possible HTX-3F involvement unassessed)\nFINAL ANSWER: NO",
+    "A|2": "My colleague erred in claiming no Moratide data exists: I hold that Moratide is a potent inducer of HTX-6K. However, this does not create an interaction with Quoratide. Quoratide's activation depends on HTX-3F, a different enzyme, and there is no evidence that Moratide induces or inhibits HTX-3F, nor that Quoratide is a substrate of HTX-6K. No shared metabolic pathway, protein-binding competition, or excretion overlap can be derived from the information held (Moratide's elimination route is unknown; Quoratide's faecal excretion alone establishes nothing). Induction of HTX-6K is therefore mechanistically irrelevant to Quoratide here. The data are insufficient to affirm an interaction, and no plausible mechanism links the two drugs.\n\nMECHANISM: insufficient information — Moratide induces HTX-6K, but Quoratide depends on HTX-3F; no link demonstrated\nFINAL ANSWER: NO",
+    "B|2": "Quoratide's only documented metabolic step is formation of its active metabolite via HTX-3F. Moratide induces HTX-6K — a different enzyme — so it would not be expected to alter Quoratide's activation. No other pharmacokinetic link emerges: faecal excretion, 92% protein binding, and food effects create no documented connection between the drugs, and no displacement or absorption mechanism is described. My colleague correctly notes that Quoratide's complete clearance pathway is unknown, so this is not proof of absence; nevertheless, from the data provided, no mechanism for a clinically significant pharmacokinetic interaction can be identified. I agree with the NO conclusion, with the caveat that any uncharacterized clearance route for Quoratide remains a theoretical uncertainty.\n\nMECHANISM: no shared enzyme — Moratide induces HTX-6K; Quoratide activation requires HTX-3F\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information — Moratide induces HTX-6K, but Quoratide depends on HTX-3F; no link demonstrated",
+    "B": "no shared enzyme — Moratide induces HTX-6K; Quoratide activation requires HTX-3F"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-06-split"
+}

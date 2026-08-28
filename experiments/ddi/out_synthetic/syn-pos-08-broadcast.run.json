@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-08",
+  "condition": "broadcast",
+  "drug_a": "Zalapine",
+  "drug_b": "Orbozide",
+  "gold": true,
+  "enzyme": "HTX-2C",
+  "critical_pair": [
+    "Zalapine is a strong inhibitor of HTX-2C.",
+    "Orbozide requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Yes. Zalapine is a strong inhibitor of HTX-2C, and Orbozide depends on HTX-2C to form its active metabolite. Inhibiting this enzyme would therefore reduce the conversion of Orbozide to its active form, lowering active metabolite exposure. Because the inhibition is described as strong and the affected pathway is required for activation of Orbozide, this is a clinically significant pharmacokinetic interaction, most likely manifesting as reduced therapeutic effect of Orbozide rather than toxicity. The other listed properties (Tmax, protein binding, QT, storage) do not alter this conclusion.\n\nMECHANISM: HTX-2C — Zalapine strongly inhibits it, reducing Orbozide's active metabolite formation\nFINAL ANSWER: YES",
+    "B|1": "Yes. Zalapine is a strong inhibitor of HTX-2C, and Orbozide depends on HTX-2C to form its active metabolite. Inhibiting this enzyme would therefore reduce the conversion of Orbozide to its active form, lowering active metabolite exposure. Because the inhibition is described as strong and the affected pathway is required for activation of Orbozide, this is a clinically significant pharmacokinetic interaction, most likely manifesting as reduced therapeutic effect of Orbozide rather than toxicity. The other listed properties (Tmax, protein binding, QT, storage) do not alter this conclusion.\n\nMECHANISM: HTX-2C — Zalapine strongly inhibits it, reducing Orbozide's active metabolite formation\nFINAL ANSWER: YES",
+    "A|2": "I agree with my colleague's assessment. The evidence is sufficient: Zalapine is explicitly described as a strong inhibitor of HTX-2C, and Orbozide explicitly requires HTX-2C to form its active metabolite. A strong inhibitor acting on the enzyme responsible for a drug's activation would be expected to substantially reduce active metabolite formation, so a clinically significant pharmacokinetic interaction is well supported by the provided information. The likely consequence is reduced Orbozide efficacy rather than toxicity, since inhibition lowers active metabolite exposure. One caveat: the data do not state whether the active metabolite is solely responsible for Orbozide's effect, but given the \"required\" activation pathway, reduced efficacy remains the most reasonable inference. The other properties (Tmax, protein binding, QT, storage) are irrelevant here.\n\nMECHANISM: HTX-2C — Zalapine strongly inhibits it, reducing Orbozide's active metabolite formation\nFINAL ANSWER: YES",
+    "B|2": "I agree with my colleague's assessment. The key facts are directly complementary: Zalapine is a strong inhibitor of HTX-2C, and Orbozide requires HTX-2C to form its active metabolite. Co-administration would therefore suppress Orbozide's activation, reducing exposure to its active metabolite. Because the inhibition is described as strong and the affected pathway is stated to be required for activation, a clinically significant pharmacokinetic interaction is well supported — most plausibly reduced therapeutic effect of Orbozide rather than toxicity. The remaining properties (Tmax ~2 hours for both, 92% protein binding of Zalapine, QT neutrality, storage conditions, adult-only approval) provide no basis for an alternative interaction and do not change this conclusion. No additional information is needed to reach a decision.\n\nMECHANISM: HTX-2C — Zalapine strongly inhibits it, reducing Orbozide's active metabolite formation\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "HTX-2C — Zalapine strongly inhibits it, reducing Orbozide's active metabolite formation",
+    "B": "HTX-2C — Zalapine strongly inhibits it, reducing Orbozide's active metabolite formation"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-08-broadcast"
+}

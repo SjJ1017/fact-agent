@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-00",
+  "condition": "broadcast",
+  "drug_a": "Zalacaine",
+  "drug_b": "Venafil",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Zalacaine is a strong inhibitor of HTX-5D.",
+    "Venafil requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Zalacaine’s only relevant pharmacokinetic property here is strong inhibition of HTX-5D. Venafil’s relevant activation pathway is via HTX-2C to form its active metabolite. Because the listed enzymes differ, and no information indicates Venafil depends on HTX-5D or that Zalacaine affects HTX-2C, no clinically significant pharmacokinetic interaction is supported by the provided data.\n\nMECHANISM: No shared enzyme: Zalacaine inhibits HTX-5D; Venafil bioactivation uses HTX-2C\nFINAL ANSWER: NO",
+    "B|1": "Zalacaine’s only relevant pharmacokinetic property here is strong inhibition of HTX-5D. Venafil’s relevant activation pathway is via HTX-2C to form its active metabolite. Because the listed enzymes differ, and no information indicates Venafil depends on HTX-5D or that Zalacaine affects HTX-2C, no clinically significant pharmacokinetic interaction is supported by the provided data.\n\nMECHANISM: No shared enzyme: Zalacaine inhibits HTX-5D; Venafil bioactivation uses HTX-2C\nFINAL ANSWER: NO",
+    "A|2": "I agree with my colleague's assessment. The provided data show Zalacaine is a strong inhibitor of HTX-5D, while Venafil's only listed metabolic dependency is HTX-2C, needed to form its active metabolite. There is no information that Venafil is a substrate of HTX-5D, nor that Zalacaine inhibits or induces HTX-2C, so the inhibition cannot affect Venafil's activation. Other listed properties (absorption timing, half-life, faecal excretion, renal adjustment, storage, QT, food effects) do not indicate a shared clearance or metabolic pathway. The data are therefore sufficient to conclude no supported mechanism, though I note the information set is limited and does not exclude unlisted pathways.\n\nMECHANISM: No shared enzyme: Zalacaine inhibits HTX-5D; Venafil bioactivation uses HTX-2C\nFINAL ANSWER: NO",
+    "B|2": "I agree with my colleague's assessment. The only pharmacokinetic property of Zalacaine that could drive an interaction is its strong inhibition of HTX-5D. For this to affect Venafil, Venafil would need to be a substrate of HTX-5D, but the provided data states only that Venafil requires HTX-2C to form its active metabolite — nothing links Venafil to HTX-5D. No information indicates Zalacaine inhibits HTX-2C, and Venafil's faecal excretion and half-life suggest no other shared pathway with Zalacaine's listed properties. Therefore, no clinically significant pharmacokinetic interaction is supported by the available information. (Caveat: if unstated data showed Venafil also depends on HTX-5D, this conclusion would change, but nothing provided suggests that.)\n\nMECHANISM: No shared enzyme: Zalacaine inhibits HTX-5D; Venafil bioactivation uses HTX-2C\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "No shared enzyme: Zalacaine inhibits HTX-5D; Venafil bioactivation uses HTX-2C",
+    "B": "No shared enzyme: Zalacaine inhibits HTX-5D; Venafil bioactivation uses HTX-2C"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-00-broadcast"
+}

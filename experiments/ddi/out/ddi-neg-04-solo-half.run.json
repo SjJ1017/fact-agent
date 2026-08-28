@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-neg-04",
+  "condition": "solo-half",
+  "drug_a": "Paroxetine",
+  "drug_b": "Ethinylestradiol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Paroxetine is a strong inhibitor of CYP2D6.",
+    "Ethinylestradiol is metabolised by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Paroxetine's only relevant pharmacokinetic property given is that it is a strong inhibitor of CYP2D6. For an interaction to occur via this mechanism, ethinylestradiol would need to be a CYP2D6 substrate whose clearance is meaningfully reduced by paroxetine. However, the drug information provided contains no data on ethinylestradiol's metabolic pathway, so I cannot confirm from the material given that it is cleared by CYP2D6 (or affected by paroxetine at all). Without that link, no clinically significant pharmacokinetic interaction can be established from the available information. Note: paroxetine's high protein binding is not a basis for predicting a displacement interaction here without corresponding data on ethinylestradiol.\n\nMECHANISM: insufficient information (paroxetine inhibits CYP2D6, but ethinylestradiol's CYP2D6 substrate status is not provided)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (paroxetine inhibits CYP2D6, but ethinylestradiol's CYP2D6 substrate status is not provided)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-04-solo-half"
+}

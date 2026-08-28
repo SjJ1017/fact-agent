@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-11",
+  "condition": "solo-half",
+  "drug_a": "Orbafil",
+  "drug_b": "Kessapine",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Orbafil is a strong inhibitor of HTX-3F.",
+    "Kessapine requires HTX-4B to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Orbafil is described as a strong inhibitor of HTX-3F, so it could raise exposure of any co-administered drug cleared by that enzyme. However, the information provided contains no data on Kessapine at all — nothing about its metabolic pathway, whether it is an HTX-3F substrate, or its elimination route. Without knowing Kessapine's metabolism, I cannot determine whether Orbafil's HTX-3F inhibition would affect it. The available information is therefore insufficient to establish a clinically significant pharmacokinetic interaction, and I will not guess.\n\nMECHANISM: insufficient information (Orbafil inhibits HTX-3F, but Kessapine's metabolic pathway is unknown)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (Orbafil inhibits HTX-3F, but Kessapine's metabolic pathway is unknown)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-11-solo-half"
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-pos-04",
+  "condition": "solo-half",
+  "drug_a": "Fluoxetine",
+  "drug_b": "Tamoxifen",
+  "gold": true,
+  "enzyme": "CYP2D6",
+  "critical_pair": [
+    "Fluoxetine is a strong inhibitor of CYP2D6.",
+    "Tamoxifen requires CYP2D6 to form its active metabolite endoxifen."
+  ],
+  "transcript": {
+    "A|1": "The provided information describes fluoxetine only: it is a strong CYP2D6 inhibitor with a long half-life (and norfluoxetine as an active metabolite, which extends the inhibitory effect). However, no information about tamoxifen is supplied — in particular, nothing states whether tamoxifen is a CYP2D6 substrate or whether its activation/efficacy depends on CYP2D6.\n\nA clinically significant pharmacokinetic interaction would require tamoxifen to be a CYP2D6-dependent substrate whose activation fluoxetine blocks, but that link cannot be derived from the information I hold. Fluoxetine's inhibitory capacity alone does not establish an interaction with an unspecified second drug.\n\nTherefore, based strictly on the given data, the evidence is insufficient to confirm an interaction.\n\nMECHANISM: insufficient information (CYP2D6 inhibition by fluoxetine is documented, but tamoxifen's CYP2D6 dependence is not provided)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (CYP2D6 inhibition by fluoxetine is documented, but tamoxifen's CYP2D6 dependence is not provided)"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-04-solo-half"
+}

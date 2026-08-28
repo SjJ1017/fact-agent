@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-01",
+  "condition": "solo-half",
+  "drug_a": "Caddoxetine",
+  "drug_b": "Immoerol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Caddoxetine is a strong inhibitor of HTX-3F.",
+    "Immoerol is cleared almost entirely by HTX-6K."
+  ],
+  "transcript": {
+    "A|1": "Available data are insufficient to establish a clinically significant pharmacokinetic interaction. The only plausible mechanism provided is Caddoxetine’s strong inhibition of HTX-3F, which could increase exposure of a co-drug if that drug is cleared by HTX-3F. However, no information is given about Immoerol’s metabolism, HTX-3F substrate status, clearance route, or exposure–response sensitivity. Caddoxetine’s half-life, QT neutrality, tablet strengths, and headache rate do not resolve this.\n\nMECHANISM: HTX-3F inhibition by Caddoxetine; Immoerol substrate status unknown, so insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "HTX-3F inhibition by Caddoxetine; Immoerol substrate status unknown, so insufficient information"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-01-solo-half"
+}

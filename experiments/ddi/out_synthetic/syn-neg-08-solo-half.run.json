@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-08",
+  "condition": "solo-half",
+  "drug_a": "Kessacaine",
+  "drug_b": "Pelotinib",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Kessacaine is a potent inducer of HTX-7M.",
+    "Pelotinib is cleared almost entirely by HTX-5D."
+  ],
+  "transcript": {
+    "A|1": "Kessacaine is a potent inducer of HTX-7M, which could lower exposure to drugs cleared via HTX-7M. However, the provided information does not state whether Pelotinib is metabolized by HTX-7M or is otherwise affected by enzyme induction. Without Pelotinib’s metabolic pathway or interaction profile, a clinically significant pharmacokinetic interaction cannot be established from the available data.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-08-solo-half"
+}

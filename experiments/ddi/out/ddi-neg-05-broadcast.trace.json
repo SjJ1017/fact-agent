@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Clarithromycin is a strong inhibitor of CYP3A4.",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Clarithromycin",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Clarithromycin is a macrolide antibiotic.",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Clarithromycin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Clarithromycin is used in Helicobacter pylori eradication regimens.",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Clarithromycin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Clarithromycin is associated with taste disturbance.",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Clarithromycin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Clarithromycin achieves high intracellular concentrations.",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Clarithromycin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Warfarin's more potent S-enantiomer is metabolised by CYP2C9.",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Warfarin",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Warfarin is a vitamin K antagonist used for anticoagulation.",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Warfarin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Warfarin therapy is monitored by INR.",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Warfarin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Warfarin has a narrow therapeutic index.",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Warfarin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Warfarin is highly bound to plasma albumin.",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Warfarin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Clarithromycin is stated to be a strong inhibitor of CYP3A4. However, the only metabolic pathway given for warfarin is its more potent S-enantiomer being metabolised by CYP2C9 — an enzyme clarithromycin is not stated to inhibit. No information links clarithromycin to CYP2C9 inhibition, and although warfarin is highly albumin-bound, no displacement mechanism is described for clarithromycin. Therefore, from the information provided, the enzymes do not connect: the inhibited enzyme (CYP3A4) does not match the stated warfarin-metabolising enzyme (CYP2C9). The information held is insufficient to establish a pharmacokinetic interaction mechanism, so I cannot confirm a clinically significant interaction on this basis rather than guessing.\n\nMECHANISM: insufficient information (clarithromycin inhibits CYP3A4; warfarin's stated pathway is CYP2C9, which is unaffected)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "ddi-neg-05"
+    }
+  },
+  {
+    "text": "Clarithromycin is stated to be a strong inhibitor of CYP3A4. However, the only metabolic pathway given for warfarin is its more potent S-enantiomer being metabolised by CYP2C9 — an enzyme clarithromycin is not stated to inhibit. No information links clarithromycin to CYP2C9 inhibition, and although warfarin is highly albumin-bound, no displacement mechanism is described for clarithromycin. Therefore, from the information provided, the enzymes do not connect: the inhibited enzyme (CYP3A4) does not match the stated warfarin-metabolising enzyme (CYP2C9). The information held is insufficient to establish a pharmacokinetic interaction mechanism, so I cannot confirm a clinically significant interaction on this basis rather than guessing.\n\nMECHANISM: insufficient information (clarithromycin inhibits CYP3A4; warfarin's stated pathway is CYP2C9, which is unaffected)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "ddi-neg-05"
+    }
+  },
+  {
+    "text": "I agree with my colleague's assessment. From the information provided, clarithromycin is a strong CYP3A4 inhibitor, but the only warfarin metabolic pathway stated is CYP2C9 (the S-enantiomer). Nothing links clarithromycin to CYP2C9 inhibition, no metabolic pathway is given for warfarin's R-enantiomer, and although warfarin is highly albumin-bound, no protein-displacement property is described for clarithromycin. Warfarin's narrow therapeutic index means any interaction would matter clinically, but the mechanisms supplied do not connect: the inhibited enzyme (CYP3A4) does not match the stated warfarin-metabolising enzyme (CYP2C9). I therefore cannot confirm a clinically significant pharmacokinetic interaction from the information held, rather than guessing.\n\nMECHANISM: insufficient information (clarithromycin inhibits CYP3A4; warfarin's stated pathway is CYP2C9 — no connecting mechanism provided)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "ddi-neg-05"
+    }
+  },
+  {
+    "text": "I agree with my colleague's assessment. The only metabolic pathway stated for warfarin is S-enantiomer clearance via CYP2C9, while clarithromycin is stated only to inhibit CYP3A4 — the enzymes do not connect. Warfarin's high albumin binding is noted, but no displacement mechanism is described for clarithromycin, and \"high intracellular concentrations\" does not establish a plasma-protein or metabolic link. Warfarin's narrow therapeutic index means any effect would matter, but it does not itself create an interaction. Without a stated mechanism (e.g., CYP3A4 involvement in R-warfarin clearance or protein binding displacement), the information held is insufficient to confirm a clinically significant pharmacokinetic interaction rather than guessing.\n\nMECHANISM: insufficient information (clarithromycin inhibits CYP3A4; warfarin's stated pathway is CYP2C9, unaffected)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-05-broadcast",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "ddi-neg-05"
+    }
+  }
+]

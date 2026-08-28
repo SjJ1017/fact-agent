@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Fluconazole is a moderate inhibitor of CYP2C9.",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Fluconazole",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Fluconazole is used to treat candidiasis and cryptococcal meningitis.",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Fluconazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Fluconazole has high oral bioavailability, close to 90%.",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Fluconazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Fluconazole is eliminated predominantly unchanged in the urine.",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Fluconazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Fluconazole can prolong the QT interval at high doses.",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Fluconazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Warfarin's more potent S-enantiomer is metabolised by CYP2C9.",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Warfarin",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Warfarin is a vitamin K antagonist used for anticoagulation.",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Warfarin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Warfarin therapy is monitored by INR.",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Warfarin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Warfarin has a narrow therapeutic index.",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Warfarin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Warfarin is highly bound to plasma albumin.",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Warfarin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Yes. Fluconazole is a moderate inhibitor of CYP2C9, and warfarin's more potent enantiomer (S-warfarin) is cleared primarily via CYP2C9 metabolism. Inhibiting CYP2C9 reduces S-warfarin clearance, raising plasma levels and augmenting anticoagulant effect (elevated INR, increased bleeding risk). This interaction is well documented clinically and may require INR monitoring and warfarin dose adjustment. Note: the provided card covers only fluconazole; warfarin's CYP2C9 dependence is from standard pharmacologic knowledge, not the supplied text.\n\nMECHANISM: Fluconazole inhibits CYP2C9, decreasing S-warfarin metabolism and increasing warfarin exposure\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "ddi-pos-01"
+    }
+  },
+  {
+    "text": "Yes. Warfarin's more potent S-enantiomer is cleared by CYP2C9, and warfarin has a narrow therapeutic index monitored by INR. Fluconazole is a well-established inhibitor of CYP2C9 (with lesser effects on CYP2C19/3A4), so co-administration slows S-warfarin metabolism, raising warfarin exposure and INR, with increased bleeding risk. Its high albumin binding means displacement contributes minimally; CYP2C9 inhibition is the dominant mechanism. Clinically this is a recognized, significant interaction requiring INR monitoring and often warfarin dose reduction.\n\nMECHANISM: Fluconazole inhibits CYP2C9 → reduced S-warfarin metabolism → increased warfarin exposure/INR\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "ddi-pos-01"
+    }
+  },
+  {
+    "text": "I agree with my colleague's assessment. From the information provided: fluconazole is a moderate inhibitor of CYP2C9, and warfarin's more potent S-enantiomer is cleared via CYP2C9. Inhibition of CYP2C9 therefore reduces S-warfarin metabolism, increasing warfarin exposure. Given warfarin's narrow therapeutic index and INR-based monitoring, this is a clinically significant pharmacokinetic interaction with elevated bleeding risk. Fluconazole's renal elimination and high bioavailability do not alter this conclusion; the CYP2C9 inhibition is the operative mechanism. Protein-binding displacement is at most a minor contributor. This interaction is well recognized and warrants enhanced INR monitoring and possible warfarin dose reduction when fluconazole is started or stopped.\n\nMECHANISM: Fluconazole inhibits CYP2C9 → reduced S-warfarin metabolism → increased warfarin exposure/INR\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "ddi-pos-01"
+    }
+  },
+  {
+    "text": "Yes. The two pieces of information combine cleanly: the warfarin card states its more potent S-enantiomer is metabolised by CYP2C9, and the fluconazole card (per my colleague) identifies fluconazole as a moderate CYP2C9 inhibitor. Inhibiting CYP2C9 reduces clearance of S-warfarin, increasing its plasma exposure and anticoagulant effect. Because warfarin has a narrow therapeutic index and is monitored by INR, this rise in exposure is clinically significant — elevated INR and increased bleeding risk are expected, warranting intensified INR monitoring and likely dose reduction. The high albumin binding suggests a displacement interaction is also theoretically possible, but the CYP2C9 inhibition is the well-established mechanism here. My colleague's assessment is consistent with the supplied information and I agree with it.\n\nMECHANISM: Fluconazole inhibits CYP2C9, decreasing S-warfarin metabolism and increasing warfarin exposure\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "ddi-pos-01-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "ddi-pos-01"
+    }
+  }
+]

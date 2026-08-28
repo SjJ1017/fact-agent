@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-04",
+  "condition": "solo-half",
+  "drug_a": "Zalerol",
+  "drug_b": "Kessustat",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Zalerol is a strong inhibitor of HTX-1A.",
+    "Kessustat is cleared almost entirely by HTX-6K."
+  ],
+  "transcript": {
+    "A|1": "The available information is insufficient to establish a pharmacokinetic interaction. Zalerol is a strong inhibitor of HTX-1A, which could theoretically affect co-administered drugs cleared by that pathway, but no data on Kessustat are provided — nothing about its metabolism, clearance route, whether it is an HTX-1A substrate, or its protein binding. Zalerol's 92% plasma protein binding could raise displacement concerns, but without Kessustat's binding profile or therapeutic index, no conclusion can be drawn. Storage conditions, food administration, and adult-only labeling are not relevant to a drug–drug interaction assessment. Therefore, I cannot confirm a clinically significant pharmacokinetic interaction from the information given.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-04-solo-half"
+}

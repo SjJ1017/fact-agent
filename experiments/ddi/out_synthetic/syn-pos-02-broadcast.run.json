@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-02",
+  "condition": "broadcast",
+  "drug_a": "Nylipramol",
+  "drug_b": "Rixotinib",
+  "gold": true,
+  "enzyme": "HTX-8P",
+  "critical_pair": [
+    "Nylipramol is a strong inhibitor of HTX-8P.",
+    "Rixotinib is cleared almost entirely by HTX-8P."
+  ],
+  "transcript": {
+    "A|1": "Yes. Nylipramol is a strong inhibitor of HTX-8P, and Rixotinib is cleared almost entirely by HTX-8P. Co-administration would therefore markedly reduce Rixotinib's clearance, increasing its plasma exposure. Because HTX-8P accounts for essentially all of Rixotinib's elimination, inhibition by a strong inhibitor is expected to produce a clinically significant rise in Rixotinib levels, with risk of exaggerated effects or toxicity. This is a pharmacokinetic interaction at the level of drug metabolism/clearance, not absorption or protein binding (Nylipramol's 92% protein binding does not imply displacement here, as no displacement data are given).\n\nMECHANISM: Nylipramol strongly inhibits HTX-8P, the enzyme responsible for almost all Rixotinib clearance → increased Rixotinib exposure\nFINAL ANSWER: YES",
+    "B|1": "Yes. Nylipramol is a strong inhibitor of HTX-8P, and Rixotinib is cleared almost entirely by HTX-8P. Co-administration would therefore markedly reduce Rixotinib's clearance, increasing its plasma exposure. Because HTX-8P accounts for essentially all of Rixotinib's elimination, inhibition by a strong inhibitor is expected to produce a clinically significant rise in Rixotinib levels, with risk of exaggerated effects or toxicity. This is a pharmacokinetic interaction at the level of drug metabolism/clearance, not absorption or protein binding (Nylipramol's 92% protein binding does not imply displacement here, as no displacement data are given).\n\nMECHANISM: Nylipramol strongly inhibits HTX-8P, the enzyme responsible for almost all Rixotinib clearance → increased Rixotinib exposure\nFINAL ANSWER: YES",
+    "A|2": "I agree with my colleague's assessment. The key evidence is direct and sufficient: Nylipramol is stated to be a strong inhibitor of HTX-8P, and Rixotinib is stated to be cleared almost entirely by HTX-8P. Inhibiting the enzyme responsible for essentially all of a drug's elimination is a well-established cause of large increases in exposure, so a clinically significant pharmacokinetic interaction is expected. The other data points (faecal excretion, hepatic impairment contraindications, half-life, protein binding, weight-based dosing) do not alter this conclusion; 92% protein binding alone does not demonstrate displacement without displacement data. No information contradicts the interaction, and none is missing that would be needed to decide.\n\nMECHANISM: Nylipramol strongly inhibits HTX-8P, the pathway for almost all Rixotinib clearance → increased Rixotinib exposure\nFINAL ANSWER: YES",
+    "B|2": "I agree with my colleague's assessment. The evidence is sufficient to conclude an interaction: Nylipramol is explicitly described as a strong inhibitor of HTX-8P, and Rixotinib is cleared almost entirely by that same enzyme. Inhibiting the sole (or near-sole) clearance pathway with a strong inhibitor is expected to substantially reduce Rixotinib's clearance and raise its plasma exposure, which is clinically significant by standard criteria.\n\nThe other data do not alter this conclusion: Nylipramol's 92% protein binding alone provides no evidence of displacement (no displacement data are given), and neither drug's hepatic-impairment contraindication, half-life, or Rixotinib's adverse effects bear on a pharmacokinetic interaction between them.\n\nMECHANISM: Nylipramol strongly inhibits HTX-8P, the enzyme responsible for almost all Rixotinib clearance → increased Rixotinib exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Nylipramol strongly inhibits HTX-8P, the pathway for almost all Rixotinib clearance → increased Rixotinib exposure",
+    "B": "Nylipramol strongly inhibits HTX-8P, the enzyme responsible for almost all Rixotinib clearance → increased Rixotinib exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-02-broadcast"
+}

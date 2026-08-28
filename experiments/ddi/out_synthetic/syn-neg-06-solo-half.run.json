@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-06",
+  "condition": "solo-half",
+  "drug_a": "Moratide",
+  "drug_b": "Quoratide",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Moratide is a potent inducer of HTX-6K.",
+    "Quoratide requires HTX-3F to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Moratide is a potent inducer of HTX-6K, so it could increase the clearance of any drug metabolized by HTX-6K. However, no information is provided about Quoratide’s metabolism, including whether it is an HTX-6K substrate. Therefore, a clinically significant pharmacokinetic interaction cannot be established from the available data; this is not evidence of absence.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-06-solo-half"
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-07",
+  "condition": "solo-half",
+  "drug_a": "Rixafil",
+  "drug_b": "Sevafil",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Rixafil is a strong inhibitor of HTX-3F.",
+    "Sevafil requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Rixafil is described as a strong inhibitor of HTX-3F, which could raise exposure of any co-administered drug cleared by that enzyme. However, the information provided for Sevafil is empty: I have no data on how Sevafil is metabolised, whether it is a substrate of HTX-3F, or any other disposition pathway. Without knowing Sevafil's metabolic route, I cannot establish that Rixafil's HTX-3F inhibition affects it. Rixafil's other properties (faecal excretion, once-daily dosing, headache adverse effect) do not bear on a pharmacokinetic interaction. Therefore the available information is not sufficient to confirm an interaction; no mechanism linking the two drugs can be identified from what I hold.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-07-solo-half"
+}

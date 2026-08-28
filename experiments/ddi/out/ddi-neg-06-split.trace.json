@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Ketoconazole is a strong inhibitor of CYP3A4.",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ketoconazole",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Ketoconazole is an imidazole antifungal.",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ketoconazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Ketoconazole absorption requires an acidic gastric environment.",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ketoconazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Ketoconazole has been associated with hepatotoxicity.",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ketoconazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Ketoconazole inhibits adrenal steroidogenesis at high doses.",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ketoconazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Clopidogrel is a prodrug requiring CYP2C19 for activation.",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Clopidogrel",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Clopidogrel is an antiplatelet agent used after coronary stenting.",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Clopidogrel",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Clopidogrel irreversibly blocks the P2Y12 receptor.",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Clopidogrel",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Clopidogrel's antiplatelet effect persists for the platelet lifespan.",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Clopidogrel",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Clopidogrel is often combined with aspirin.",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Clopidogrel",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "The provided information characterizes ketoconazole only: it is a strong CYP3A4 inhibitor. However, nothing in the supplied data describes clopidogrel's pharmacology — specifically, whether clopidogrel is a prodrug requiring CYP3A4 (or CYP2C19) for bioactivation, or whether it is eliminated by pathways ketoconazole would inhibit. A pharmacokinetic interaction could only be inferred if clopidogrel's dependence on CYP3A4-mediated activation were established, since ketoconazole's CYP3A4 inhibition would then be expected to blunt formation of the active metabolite. Because the clopidogrel side of this pairing is not documented in the information I hold, I cannot derive the interaction from the given material, and I will not guess.\n\nMECHANISM: insufficient information — clopidogrel's metabolic/activation pathway is not provided\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "ddi-neg-06"
+    }
+  },
+  {
+    "text": "Clopidogrel's activation depends on CYP2C19, so any interaction would require ketoconazole to inhibit CYP2C19. However, the information provided contains no data on ketoconazole's enzyme effects — nothing states it inhibits CYP2C19, CYP3A4, or any other enzyme. I therefore cannot derive an inhibitory mechanism from the material given, and I should not guess. Based strictly on the supplied information, no clinically significant pharmacokinetic interaction can be established; if ketoconazole's profile were provided and it inhibited CYP2C19, reduced clopidogrel activation and antiplatelet effect would be expected.\n\nMECHANISM: insufficient information (clopidogrel activation via CYP2C19; ketoconazole's enzyme effects not provided)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "ddi-neg-06"
+    }
+  },
+  {
+    "text": "My colleague's conclusion is correct, but their reasoning contains a factual error: the provided information *does* state ketoconazole's enzyme effect — it is a strong CYP3A4 inhibitor. The real question is whether that matters for clopidogrel. The supplied data say clopidogrel's activation depends on CYP2C19, and nothing indicates CYP3A4 participates in that activation. Since ketoconazole's only stated inhibition is CYP3A4, and no CYP3A4 role in clopidogrel activation is given, no overlapping mechanism can be derived. I cannot exclude an interaction via unlisted pathways, but strictly from the material provided, no clinically significant pharmacokinetic interaction is established.\n\nMECHANISM: insufficient information — ketoconazole inhibits CYP3A4, but clopidogrel activation is stated to depend on CYP2C19; no shared enzyme established\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "ddi-neg-06"
+    }
+  },
+  {
+    "text": "My colleague was overly cautious: the clopidogrel data I hold does specify its activation pathway. Clopidogrel is a prodrug requiring **CYP2C19** for activation, while ketoconazole's documented effect is **CYP3A4 inhibition**. Since the enzyme ketoconazole inhibits (CYP3A4) is not the enzyme clopidogrel depends on for bioactivation (CYP2C19), the provided information establishes no mechanism by which ketoconazole would reduce formation of clopidogrel's active metabolite. Nothing in the supplied data indicates ketoconazole inhibits CYP2C19 or otherwise impairs clopidogrel activation or clearance. Therefore, from the information given, no clinically significant pharmacokinetic interaction can be derived for this pairing.\n\nMECHANISM: ketoconazole inhibits CYP3A4; clopidogrel activation requires CYP2C19 — no shared pathway, so no inhibition of activation\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-06-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "ddi-neg-06"
+    }
+  }
+]

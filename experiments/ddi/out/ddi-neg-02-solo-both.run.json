@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-neg-02",
+  "condition": "solo-both",
+  "drug_a": "Ciprofloxacin",
+  "drug_b": "Simvastatin",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Ciprofloxacin is a potent inhibitor of CYP1A2.",
+    "Simvastatin is extensively metabolised by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Ciprofloxacin's only metabolic effect stated is potent inhibition of CYP1A2. Simvastatin's clearance depends on CYP3A4, with no stated contribution from CYP1A2. Since the enzyme inhibited by ciprofloxacin (CYP1A2) is not the enzyme responsible for simvastatin metabolism (CYP3A4), no increase in simvastatin exposure can be derived from the information provided. The divalent-cation absorption effect applies to ciprofloxacin itself, not simvastatin, and the other listed properties (tendon rupture, myopathy warning, Gram-negative activity, evening dosing, prodrug hydrolysis) do not describe a shared pharmacokinetic pathway. The information given is therefore sufficient to conclude no clinically significant pharmacokinetic interaction, though I note I cannot rule out effects outside the data supplied (e.g., any unlisted CYP3A4 inhibition by ciprofloxacin).\n\nMECHANISM: Ciprofloxacin inhibits CYP1A2; simvastatin is metabolised by CYP3A4 — no shared enzyme\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Ciprofloxacin inhibits CYP1A2; simvastatin is metabolised by CYP3A4 — no shared enzyme"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-02-solo-both"
+}

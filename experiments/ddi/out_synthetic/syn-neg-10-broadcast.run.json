@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-10",
+  "condition": "broadcast",
+  "drug_a": "Braxtotinib",
+  "drug_b": "Kessoxetine",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Braxtotinib is a potent inducer of HTX-2C.",
+    "Kessoxetine requires HTX-1A to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "From the supplied information, the only relevant pharmacokinetic mechanism is enzyme-based metabolism: Braxtotinib is a potent inducer of HTX-2C, while Kessoxetine’s stated activation requires HTX-1A. Since the listed induction target does not match Kessoxetine’s listed enzyme pathway, no clinically significant pharmacokinetic interaction is established. I am not assuming effects on any unlisted pathways.\n\nMECHANISM: Braxtotinib induces HTX-2C; Kessoxetine activation is HTX-1A-dependent, with no shared enzyme stated\nFINAL ANSWER: NO",
+    "B|1": "From the supplied information, the only relevant pharmacokinetic mechanism is enzyme-based metabolism: Braxtotinib is a potent inducer of HTX-2C, while Kessoxetine’s stated activation requires HTX-1A. Since the listed induction target does not match Kessoxetine’s listed enzyme pathway, no clinically significant pharmacokinetic interaction is established. I am not assuming effects on any unlisted pathways.\n\nMECHANISM: Braxtotinib induces HTX-2C; Kessoxetine activation is HTX-1A-dependent, with no shared enzyme stated\nFINAL ANSWER: NO",
+    "A|2": "I agree with my colleague's assessment. The only pharmacokinetic mechanism identifiable in the supplied data is enzyme induction: Braxtotinib potently induces HTX-2C. Kessoxetine's only stated metabolic dependency is HTX-1A, needed to form its active metabolite. Because the induced enzyme (HTX-2C) and Kessoxetine's stated pathway (HTX-1A) are different, there is no shared mechanism through which Braxtotinib would alter Kessoxetine's exposure or activation. Other properties listed (renal dosing, hepatic contraindication, storage, age of registration, Tmax) do not bear on a drug–drug interaction between these two agents. I am not assuming any unlisted pathways for either drug. On the information provided, no clinically significant pharmacokinetic interaction is established.\n\nMECHANISM: Braxtotinib induces HTX-2C; Kessoxetine activation is HTX-1A-dependent — no shared enzyme stated\nFINAL ANSWER: NO",
+    "B|2": "I agree with my colleague's assessment. The only pharmacokinetic mechanism stated for Braxtotinib is potent induction of HTX-2C. Kessoxetine's only stated enzymatic dependence is HTX-1A, needed to form its active metabolite. Because the induction target (HTX-2C) does not match the enzyme Kessoxetine depends on (HTX-1A), and no other shared pathway (e.g., renal transporters, CYP enzymes, absorption mechanisms) is described for either drug, no interaction can be derived from the supplied information. One caveat: the data do not exhaustively list Kessoxetine's metabolic pathways, so this reflects absence of an established mechanism rather than proven absence of any interaction. Based strictly on the information provided, no clinically significant pharmacokinetic interaction is established.\n\nMECHANISM: Braxtotinib induces HTX-2C; Kessoxetine activation is HTX-1A-dependent — no shared enzyme stated\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "Braxtotinib induces HTX-2C; Kessoxetine activation is HTX-1A-dependent — no shared enzyme stated",
+    "B": "Braxtotinib induces HTX-2C; Kessoxetine activation is HTX-1A-dependent — no shared enzyme stated"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-10-broadcast"
+}

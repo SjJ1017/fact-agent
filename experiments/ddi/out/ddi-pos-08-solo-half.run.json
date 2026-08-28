@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-pos-08",
+  "condition": "solo-half",
+  "drug_a": "Ketoconazole",
+  "drug_b": "Midazolam",
+  "gold": true,
+  "enzyme": "CYP3A4",
+  "critical_pair": [
+    "Ketoconazole is a strong inhibitor of CYP3A4.",
+    "Midazolam is metabolised almost entirely by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Yes. The provided information establishes that ketoconazole is a strong inhibitor of CYP3A4. Midazolam is almost entirely cleared by CYP3A4-mediated metabolism (well-established pharmacology), so co-administration with a strong CYP3A4 inhibitor markedly reduces midazolam's clearance and increases its plasma exposure. This interaction is clinically significant — particularly for oral midazolam, where exposure can rise several-fold — producing exaggerated and prolonged sedation and increased risk of respiratory depression. Dose reduction, avoidance, or enhanced monitoring of midazolam effects is warranted when ketoconazole is co-prescribed.\n\nMECHANISM: CYP3A4 — ketoconazole strongly inhibits CYP3A4, decreasing midazolam hepatic/intestinal metabolism and raising midazolam exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "CYP3A4 — ketoconazole strongly inhibits CYP3A4, decreasing midazolam hepatic/intestinal metabolism and raising midazolam exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-08-solo-half"
+}

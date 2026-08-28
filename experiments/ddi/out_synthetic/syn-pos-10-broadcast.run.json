@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-10",
+  "condition": "broadcast",
+  "drug_a": "Tunnotinib",
+  "drug_b": "Nylotinib",
+  "gold": true,
+  "enzyme": "HTX-7M",
+  "critical_pair": [
+    "Tunnotinib is a strong inhibitor of HTX-7M.",
+    "Nylotinib requires HTX-7M to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Yes. Tunnotinib is a strong inhibitor of HTX-7M, and Nylotinib depends on HTX-7M to form its active metabolite. Co-administration would therefore substantially reduce conversion of Nylotinib to its active metabolite, lowering active drug exposure and likely reducing efficacy. Because Nylotinib's activity depends on this metabolic activation, inhibition of HTX-7M represents a clinically significant pharmacokinetic interaction (reduced active metabolite formation). Note: the provided information does not state whether the parent Nylotinib is itself active or whether dose adjustment is recommended, so the full clinical consequence cannot be quantified — but a strong inhibitor acting on the sole stated activation pathway for Nylotinib meets the threshold for a clinically significant interaction.\n\nMECHANISM: Tunnotinib strongly inhibits HTX-7M, decreasing Nylotinib active metabolite formation\nFINAL ANSWER: YES",
+    "B|1": "Yes. Tunnotinib is a strong inhibitor of HTX-7M, and Nylotinib depends on HTX-7M to form its active metabolite. Co-administration would therefore substantially reduce conversion of Nylotinib to its active metabolite, lowering active drug exposure and likely reducing efficacy. Because Nylotinib's activity depends on this metabolic activation, inhibition of HTX-7M represents a clinically significant pharmacokinetic interaction (reduced active metabolite formation). Note: the provided information does not state whether the parent Nylotinib is itself active or whether dose adjustment is recommended, so the full clinical consequence cannot be quantified — but a strong inhibitor acting on the sole stated activation pathway for Nylotinib meets the threshold for a clinically significant interaction.\n\nMECHANISM: Tunnotinib strongly inhibits HTX-7M, decreasing Nylotinib active metabolite formation\nFINAL ANSWER: YES",
+    "A|2": "I agree with my colleague's assessment. The two facts connect directly: Tunnotinib is a strong inhibitor of HTX-7M, and Nylotinib requires HTX-7M to form its active metabolite. A strong inhibitor acting on the stated activation pathway for Nylotinib will substantially reduce active metabolite formation — this is a pharmacokinetic interaction by mechanism, analogous to strong CYP2D6 inhibitors blocking activation of prodrugs. The magnitude and net clinical effect (efficacy loss vs. parent accumulation) cannot be quantified from the information provided, since we are not told whether parent Nylotinib is active or contributes to exposure. However, strong inhibition of the sole stated activation route meets the threshold for a clinically significant interaction, and no dose-adjustment guidance is available to mitigate it.\n\nMECHANISM: Tunnotinib strongly inhibits HTX-7M, decreasing Nylotinib active metabolite formation\nFINAL ANSWER: YES",
+    "B|2": "I agree with my colleague's assessment. The provided information establishes a direct mechanism: Tunnotinib is a strong inhibitor of HTX-7M, and Nylotinib requires HTX-7M to form its active metabolite. Co-administration would therefore substantially reduce conversion of Nylotinib to its active metabolite, lowering exposure to the active moiety and likely reducing efficacy. This mirrors recognized clinically significant interactions where strong inhibitors block a drug's metabolic activation. Caveat: the data do not state whether parent Nylotinib is itself active, nor do they quantify the exposure change, so the magnitude of clinical impact cannot be confirmed. However, a strong inhibitor acting on the sole stated activation pathway for Nylotinib is sufficient, based on the information given, to conclude a clinically significant pharmacokinetic interaction.\n\nMECHANISM: Tunnotinib strongly inhibits HTX-7M, decreasing Nylotinib active metabolite formation\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Tunnotinib strongly inhibits HTX-7M, decreasing Nylotinib active metabolite formation",
+    "B": "Tunnotinib strongly inhibits HTX-7M, decreasing Nylotinib active metabolite formation"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-10-broadcast"
+}

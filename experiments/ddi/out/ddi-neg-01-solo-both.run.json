@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-neg-01",
+  "condition": "solo-both",
+  "drug_a": "Fluconazole",
+  "drug_b": "Metoprolol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Fluconazole is a moderate inhibitor of CYP2C9.",
+    "Metoprolol is metabolised principally by CYP2D6."
+  ],
+  "transcript": {
+    "A|1": "Based on the information provided, no clinically significant pharmacokinetic interaction is expected.\n\nFluconazole's only stated inhibitory effect is moderate inhibition of CYP2C9. Metoprolol is metabolised principally by CYP2D6, an enzyme fluconazole is not described as inhibiting. Since the drugs do not share a metabolic pathway in the data given, there is no mechanism by which fluconazole would reduce metoprolol's clearance or first-pass metabolism. Fluconazole's renal elimination and high bioavailability are irrelevant to metoprolol's disposition, and the QT-prolongation concern is a pharmacodynamic issue at high doses, not the pharmacokinetic interaction asked about.\n\nCaveat: the data do not state whether fluconazole inhibits any enzyme other than CYP2C9, so I cannot exclude an unlisted effect on CYP2D6 — but nothing provided supports one.\n\nMECHANISM: no shared enzyme — fluconazole inhibits CYP2C9; metoprolol uses CYP2D6\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "no shared enzyme — fluconazole inhibits CYP2C9; metoprolol uses CYP2D6"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-01-solo-both"
+}

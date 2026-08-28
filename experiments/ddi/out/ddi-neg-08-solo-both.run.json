@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-neg-08",
+  "condition": "solo-both",
+  "drug_a": "Rifampin",
+  "drug_b": "Tamoxifen",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Rifampin is a potent inducer of CYP3A4.",
+    "Tamoxifen requires CYP2D6 to form its active metabolite endoxifen."
+  ],
+  "transcript": {
+    "A|1": "From the information provided, no interaction can be established. Rifampin's listed pharmacokinetic effects are potent CYP3A4 induction and P-glycoprotein induction. Tamoxifen's only stated metabolic dependency is CYP2D6, which forms its active metabolite endoxifen. Rifampin is not described as inducing or inhibiting CYP2D6, and tamoxifen is not identified as a CYP3A4 or P-glycoprotein substrate in the data given. Because the mechanisms rifampin affects (CYP3A4, P-gp) do not overlap with the pathway tamoxifen is stated to depend on (CYP2D6), the provided information is insufficient to infer a pharmacokinetic interaction; asserting one would require assuming unstated CYP3A4 or P-gp involvement of tamoxifen rather than deriving it.\n\nMECHANISM: insufficient information (rifampin induces CYP3A4/P-gp; tamoxifen activation is CYP2D6-mediated, not stated to be affected)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (rifampin induces CYP3A4/P-gp; tamoxifen activation is CYP2D6-mediated, not stated to be affected)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-08-solo-both"
+}

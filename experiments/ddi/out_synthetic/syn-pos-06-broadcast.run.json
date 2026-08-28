@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-06",
+  "condition": "broadcast",
+  "drug_a": "Immoozide",
+  "drug_b": "Quorerol",
+  "gold": true,
+  "enzyme": "HTX-5D",
+  "critical_pair": [
+    "Immoozide is a potent inducer of HTX-5D.",
+    "Quorerol is cleared almost entirely by HTX-5D."
+  ],
+  "transcript": {
+    "A|1": "Yes. Immoozide is described as a potent inducer of the enzyme HTX-5D, while Quorerol is cleared almost entirely by that same enzyme. Induction of HTX-5D by Immoozide would therefore increase Quorerol's metabolic clearance, reducing its plasma concentrations and potentially diminishing its therapeutic effect. Because Quorerol depends on HTX-5D for essentially all of its elimination, this is a mechanism-based interaction likely to be clinically significant, even though the exact magnitude (and Immoozide's own dependence on HTX-5D) is not stated in the provided information.\n\nMECHANISM: Immoozide potently induces HTX-5D, increasing clearance of Quorerol (reduced Quorerol exposure)\nFINAL ANSWER: YES",
+    "B|1": "Yes. Immoozide is described as a potent inducer of the enzyme HTX-5D, while Quorerol is cleared almost entirely by that same enzyme. Induction of HTX-5D by Immoozide would therefore increase Quorerol's metabolic clearance, reducing its plasma concentrations and potentially diminishing its therapeutic effect. Because Quorerol depends on HTX-5D for essentially all of its elimination, this is a mechanism-based interaction likely to be clinically significant, even though the exact magnitude (and Immoozide's own dependence on HTX-5D) is not stated in the provided information.\n\nMECHANISM: Immoozide potently induces HTX-5D, increasing clearance of Quorerol (reduced Quorerol exposure)\nFINAL ANSWER: YES",
+    "A|2": "I agree with my colleague. The provided information is sufficient to conclude an interaction: Immoozide is explicitly described as a potent inducer of HTX-5D, and Quorerol is cleared almost entirely by HTX-5D. Induction of the sole elimination pathway for Quorerol would be expected to substantially increase its metabolic clearance, lowering plasma concentrations and risking loss of therapeutic effect. Given \"potent\" induction combined with near-total dependence of Quorerol's elimination on this single enzyme, a clinically significant pharmacokinetic interaction is well supported, even though the exact magnitude of exposure reduction is not quantified. The other listed details (food, headache, half-life, hepatic impairment contraindication) do not alter this conclusion.\n\nMECHANISM: Immoozide potently induces HTX-5D, increasing clearance of Quorerol (reduced Quorerol exposure)\nFINAL ANSWER: YES",
+    "B|2": "I agree with my colleague's assessment. The provided information is sufficient to establish a mechanism-based interaction: Immoozide is explicitly described as a potent inducer of HTX-5D, and Quorerol is explicitly described as being cleared almost entirely by HTX-5D. Induction of the sole clearance pathway for Quorerol would increase its metabolic clearance and lower its plasma exposure, risking loss of therapeutic effect. Given that \"potent\" induction is stated and the pathway accounts for essentially all elimination, a clinically significant pharmacokinetic interaction is well supported, even though the exact magnitude of exposure reduction is not quantified. No other listed properties (food intake, headache, half-life, registration year) alter this conclusion.\n\nMECHANISM: Immoozide potently induces HTX-5D, increasing clearance of Quorerol (reduced Quorerol exposure)\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Immoozide potently induces HTX-5D, increasing clearance of Quorerol (reduced Quorerol exposure)",
+    "B": "Immoozide potently induces HTX-5D, increasing clearance of Quorerol (reduced Quorerol exposure)"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-06-broadcast"
+}

@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-07",
+  "condition": "broadcast",
+  "drug_a": "Rixapine",
+  "drug_b": "Pelafil",
+  "gold": true,
+  "enzyme": "HTX-1A",
+  "critical_pair": [
+    "Rixapine is a strong inhibitor of HTX-1A.",
+    "Pelafil requires HTX-1A to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Yes. Rixapine is a strong inhibitor of HTX-1A, and Pelafil depends on HTX-1A to form its active metabolite. Co-administration would therefore suppress the enzymatic activation of Pelafil, reducing formation of its active metabolite and likely lowering its therapeutic effect. Because the inhibition is described as \"strong\" and Pelafil's activation is wholly dependent on this enzyme, this is a clinically significant pharmacokinetic interaction (reduced activation, not increased exposure).\n\nThe shared 92% plasma protein binding does not by itself establish a displacement interaction, so I do not rely on it.\n\nMECHANISM: HTX-1A — Rixapine strongly inhibits it, reducing Pelafil's conversion to its active metabolite\nFINAL ANSWER: YES",
+    "B|1": "Yes. Rixapine is a strong inhibitor of HTX-1A, and Pelafil depends on HTX-1A to form its active metabolite. Co-administration would therefore suppress the enzymatic activation of Pelafil, reducing formation of its active metabolite and likely lowering its therapeutic effect. Because the inhibition is described as \"strong\" and Pelafil's activation is wholly dependent on this enzyme, this is a clinically significant pharmacokinetic interaction (reduced activation, not increased exposure).\n\nThe shared 92% plasma protein binding does not by itself establish a displacement interaction, so I do not rely on it.\n\nMECHANISM: HTX-1A — Rixapine strongly inhibits it, reducing Pelafil's conversion to its active metabolite\nFINAL ANSWER: YES",
+    "A|2": "I agree with my colleague. Rixapine is explicitly described as a strong inhibitor of HTX-1A, and Pelafil explicitly requires HTX-1A to form its active metabolite. Combining these two facts, co-administration would suppress Pelafil's enzymatic activation, reducing formation of its active metabolite and likely diminishing its therapeutic effect. Because the inhibition is strong and Pelafil's activation depends on this enzyme, this constitutes a clinically significant pharmacokinetic interaction (reduced activation rather than increased exposure). The shared 92% plasma protein binding is not evidence of a displacement interaction on its own, so I do not rely on it. No other mechanisms (e.g., CYP enzymes, renal clearance) are implicated by the available information.\n\nMECHANISM: HTX-1A — Rixapine strongly inhibits it, reducing Pelafil's conversion to its active metabolite\nFINAL ANSWER: YES",
+    "B|2": "I agree with my colleague's assessment. The provided information is sufficient to conclude an interaction: Rixapine is explicitly described as a strong inhibitor of HTX-1A, and Pelafil explicitly requires HTX-1A to form its active metabolite. Strong inhibition of the sole enzyme responsible for Pelafil's activation would be expected to substantially reduce active metabolite formation, decreasing Pelafil's therapeutic effect — a clinically significant pharmacokinetic interaction (reduced activation rather than increased exposure).\n\nThe shared 92% plasma protein binding is noted but, as my colleague correctly states, identical binding fractions alone do not demonstrate displacement, so I do not rely on it. No other mechanisms (CYP enzymes, renal clearance) are implicated by the data given.\n\nMECHANISM: HTX-1A — Rixapine strongly inhibits it, reducing Pelafil's conversion to its active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "HTX-1A — Rixapine strongly inhibits it, reducing Pelafil's conversion to its active metabolite",
+    "B": "HTX-1A — Rixapine strongly inhibits it, reducing Pelafil's conversion to its active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-07-broadcast"
+}

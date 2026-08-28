@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-pos-03",
+  "condition": "solo-both",
+  "drug_a": "Rifampin",
+  "drug_b": "Ethinylestradiol",
+  "gold": true,
+  "enzyme": "CYP3A4",
+  "critical_pair": [
+    "Rifampin is a potent inducer of CYP3A4.",
+    "Ethinylestradiol is metabolised by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Yes. Rifampin is a potent inducer of CYP3A4, and ethinylestradiol is metabolised by CYP3A4. Induction of CYP3A4 by rifampin would increase the hepatic and intestinal metabolism of ethinylestradiol, lowering its plasma concentrations. Because ethinylestradiol is the oestrogen component of combined oral contraceptives and is dosed orally once daily, reduced exposure can lead to contraceptive failure — a well-recognised, clinically significant interaction. Rifampin's P-glycoprotein induction may further reduce oral absorption, though the CYP3A4 mechanism alone is sufficient to establish significance. The enterohepatic recirculation of ethinylestradiol does not protect against this effect. Patients should be advised that alternative or additional contraceptive methods are required during rifampin therapy.\n\nMECHANISM: CYP3A4 induction by rifampin increases ethinylestradiol metabolism, decreasing its exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "CYP3A4 induction by rifampin increases ethinylestradiol metabolism, decreasing its exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-03-solo-both"
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-pos-07",
+  "condition": "solo-half",
+  "drug_a": "Paroxetine",
+  "drug_b": "Metoprolol",
+  "gold": true,
+  "enzyme": "CYP2D6",
+  "critical_pair": [
+    "Paroxetine is a strong inhibitor of CYP2D6.",
+    "Metoprolol is metabolised principally by CYP2D6."
+  ],
+  "transcript": {
+    "A|1": "The provided information characterizes only paroxetine: it is a strong CYP2D6 inhibitor. However, nothing is given about metoprolol — in particular, nothing states that metoprolol is metabolized by CYP2D6 (or any enzyme) or is otherwise susceptible to CYP2D6 inhibition. A pharmacokinetic interaction could only be inferred if metoprolol's clearance were known to depend on CYP2D6, and that cannot be derived from the paroxetine data alone. Based strictly on the information provided, the data are insufficient to establish (or exclude) a clinically significant interaction; I will not guess beyond what is given.\n\nMECHANISM: insufficient information (paroxetine is a strong CYP2D6 inhibitor, but metoprolol's metabolic pathway is not provided)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (paroxetine is a strong CYP2D6 inhibitor, but metoprolol's metabolic pathway is not provided)"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-07-solo-half"
+}

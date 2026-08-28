@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-neg-03",
+  "condition": "solo-both",
+  "drug_a": "Omeprazole",
+  "drug_b": "Theophylline",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Omeprazole inhibits CYP2C19.",
+    "Theophylline is cleared principally by CYP1A2."
+  ],
+  "transcript": {
+    "A|1": "Omeprazole's only pharmacokinetic property given is inhibition of CYP2C19. Theophylline is cleared principally by CYP1A2, a different enzyme. Since the provided information identifies no shared metabolic pathway, no inhibition or induction mechanism linking the two drugs can be derived. Theophylline's narrow therapeutic range means any interaction would matter, but nothing here establishes one. (In reality, omeprazole has no clinically significant effect on theophylline clearance, consistent with this enzyme mismatch.)\n\nMECHANISM: Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, so no inhibitory/inductive interaction\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, so no inhibitory/inductive interaction"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-03-solo-both"
+}

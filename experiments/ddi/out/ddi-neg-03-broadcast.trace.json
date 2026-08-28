@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Omeprazole inhibits CYP2C19.",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Omeprazole",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Omeprazole is a proton pump inhibitor.",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Omeprazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Omeprazole is used for reflux disease and peptic ulcer.",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Omeprazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Omeprazole is acid-labile and given as an enteric-coated formulation.",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Omeprazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Omeprazole reduces gastric acid secretion for longer than its plasma half-life.",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Omeprazole",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Theophylline is cleared principally by CYP1A2.",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Theophylline",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Theophylline is a methylxanthine bronchodilator.",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Theophylline",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Theophylline serum concentrations are monitored in practice.",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Theophylline",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Theophylline has a narrow therapeutic range.",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Theophylline",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Theophylline clearance is increased in smokers.",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Theophylline",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Omeprazole's only pharmacokinetic property given is inhibition of CYP2C19. Theophylline is cleared principally by CYP1A2, a different enzyme. Since the provided information identifies no shared metabolic pathway, no inhibition or induction mechanism linking the two drugs can be derived. Theophylline's narrow therapeutic range means any interaction would matter, but nothing here establishes one. (In reality, omeprazole has no clinically significant effect on theophylline clearance, consistent with this enzyme mismatch.)\n\nMECHANISM: Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, so no inhibitory/inductive interaction\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "ddi-neg-03"
+    }
+  },
+  {
+    "text": "Omeprazole's only pharmacokinetic property given is inhibition of CYP2C19. Theophylline is cleared principally by CYP1A2, a different enzyme. Since the provided information identifies no shared metabolic pathway, no inhibition or induction mechanism linking the two drugs can be derived. Theophylline's narrow therapeutic range means any interaction would matter, but nothing here establishes one. (In reality, omeprazole has no clinically significant effect on theophylline clearance, consistent with this enzyme mismatch.)\n\nMECHANISM: Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, so no inhibitory/inductive interaction\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "ddi-neg-03"
+    }
+  },
+  {
+    "text": "I agree with my colleague's assessment. The provided information shows omeprazole's only relevant pharmacokinetic property is CYP2C19 inhibition, while theophylline is cleared principally by CYP1A2. These are distinct enzymes, and no shared metabolic pathway, inhibition, or induction mechanism connecting the two drugs can be derived from the data given. Although theophylline's narrow therapeutic range means any interaction would be clinically important, nothing in the supplied information establishes one. One could note that gastric pH changes from acid suppression do not constitute a documented absorption interaction here either, and the information provided does not support one. Based strictly on the drug information available, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, so no interaction derivable\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "ddi-neg-03"
+    }
+  },
+  {
+    "text": "I agree with my colleague's assessment. The only pharmacokinetic property provided for omeprazole is inhibition of CYP2C19, while theophylline is cleared principally by CYP1A2. These are distinct enzymes, and the supplied information identifies no shared metabolic pathway, induction, or other mechanism (e.g., absorption change) linking the two drugs. Although theophylline's narrow therapeutic range means an interaction would be clinically important if one existed, nothing derivable from the given data establishes one. I note that omeprazole has been reported elsewhere to weakly induce CYP1A2, but that is not contained in the information provided, so I cannot rely on it here. Based strictly on the supplied drug information, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, no interaction derivable\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-03-broadcast",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "ddi-neg-03"
+    }
+  }
+]

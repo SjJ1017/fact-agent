@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-10",
+  "condition": "solo-both",
+  "drug_a": "Braxtotinib",
+  "drug_b": "Kessoxetine",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Braxtotinib is a potent inducer of HTX-2C.",
+    "Kessoxetine requires HTX-1A to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "From the supplied information, the only relevant pharmacokinetic mechanism is enzyme-based metabolism: Braxtotinib is a potent inducer of HTX-2C, while Kessoxetine’s stated activation requires HTX-1A. Since the listed induction target does not match Kessoxetine’s listed enzyme pathway, no clinically significant pharmacokinetic interaction is established. I am not assuming effects on any unlisted pathways.\n\nMECHANISM: Braxtotinib induces HTX-2C; Kessoxetine activation is HTX-1A-dependent, with no shared enzyme stated\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Braxtotinib induces HTX-2C; Kessoxetine activation is HTX-1A-dependent, with no shared enzyme stated"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-10-solo-both"
+}

@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-neg-02",
+  "condition": "split",
+  "drug_a": "Ciprofloxacin",
+  "drug_b": "Simvastatin",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Ciprofloxacin is a potent inhibitor of CYP1A2.",
+    "Simvastatin is extensively metabolised by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Ciprofloxacin's only pharmacokinetic property relevant here is potent CYP1A2 inhibition. To predict an interaction, I would need to know whether simvastatin is a CYP1A2 substrate — but the information provided says nothing about simvastatin's metabolism, absorption, or clearance pathways. I cannot derive simvastatin's metabolic route from ciprofloxacin's data alone, so I cannot establish a mechanism-based interaction from what I hold. (In general pharmacology simvastatin is CYP3A4-cleared, but that fact is outside the supplied information, and ciprofloxacin's CYP1A2 inhibition would not affect a CYP3A4 substrate anyway.) Based strictly on the provided data, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: insufficient information (ciprofloxacin inhibits CYP1A2; simvastatin's metabolic pathway not provided)\nFINAL ANSWER: NO",
+    "B|1": "Simvastatin is extensively metabolised by CYP3A4, so any clinically significant interaction would require ciprofloxacin to inhibit or induce CYP3A4 (or otherwise alter simvastatin's absorption or hydrolysis to its active acid). However, the drug information provided covers only simvastatin's metabolism; it contains no data on ciprofloxacin's effects on CYP3A4 or any other enzyme or transport mechanism. Without knowing whether ciprofloxacin inhibits CYP3A4, I cannot derive an interaction from the information given, and I should not guess. Note that even if such an effect existed, simvastatin's dose-dependent myopathy risk would be the plausible clinical consequence of raised exposure — but that remains unestablished here.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "Ciprofloxacin's only enzymatic effect stated in the provided information is potent inhibition of CYP1A2. Simvastatin's clearance, as my colleague reported, depends on CYP3A4. Since CYP1A2 is not involved in simvastatin metabolism, and the data contain nothing about ciprofloxacin inhibiting or inducing CYP3A4, altering simvastatin absorption, or affecting its ester hydrolysis to the active acid, no interaction mechanism can be derived from the information given. I agree with my colleague: the honest conclusion is that the provided data are insufficient to establish an interaction, and I should not import outside knowledge to fill the gap. On the information supplied, no clinically significant pharmacokinetic interaction is supported.\n\nMECHANISM: insufficient information (ciprofloxacin inhibits CYP1A2; simvastatin depends on CYP3A4, with no CYP3A4 effect documented)\nFINAL ANSWER: NO",
+    "B|2": "My colleague was overly cautious: the simvastatin data I hold does state its metabolic route — extensive CYP3A4 metabolism. Combining both datasets, the picture is complete enough to decide.\n\nCiprofloxacin's only relevant pharmacokinetic property is potent CYP1A2 inhibition. Simvastatin is cleared via CYP3A4, a different enzyme. Since ciprofloxacin is not described as inhibiting CYP3A4 (nor P-gp or any other relevant mechanism), there is no shared pathway by which it would raise simvastatin exposure. The dose-dependent myopathy risk of simvastatin would only become relevant if exposure increased, which this mechanism does not support.\n\nCaveat: this conclusion holds strictly for the data supplied; real-world ciprofloxacin has been anecdotally linked to statin myopathy, but that cannot be derived from the mechanisms given here.\n\nMECHANISM: ciprofloxacin inhibits CYP1A2; simvastatin is metabolised by CYP3A4 — no shared enzyme, no inhibition of simvastatin's clearance pathway\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (ciprofloxacin inhibits CYP1A2; simvastatin depends on CYP3A4, with no CYP3A4 effect documented)",
+    "B": "ciprofloxacin inhibits CYP1A2; simvastatin is metabolised by CYP3A4 — no shared enzyme, no inhibition of simvastatin's clearance pathway"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-02-split"
+}

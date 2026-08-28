@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-03",
+  "condition": "solo-both",
+  "drug_a": "Venustat",
+  "drug_b": "Pelustat",
+  "gold": true,
+  "enzyme": "HTX-6K",
+  "critical_pair": [
+    "Venustat is a strong inhibitor of HTX-6K.",
+    "Pelustat requires HTX-6K to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Yes. Venustat is a strong inhibitor of HTX-6K, and Pelustat depends on HTX-6K to form its active metabolite. Co-administration would therefore block Pelustat's metabolic activation, reducing formation of its active metabolite and likely diminishing or abolishing its therapeutic effect. This is a pharmacokinetic interaction at the level of metabolism (activation), and a strong inhibitor acting on an activation pathway is expected to be clinically significant. The shared faecal excretion and once-daily oral dosing do not suggest any additional interaction.\n\nMECHANISM: Venustat strongly inhibits HTX-6K, reducing Pelustat's conversion to its active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "Venustat strongly inhibits HTX-6K, reducing Pelustat's conversion to its active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-03-solo-both"
+}

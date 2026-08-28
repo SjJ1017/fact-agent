@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-pos-05",
+  "condition": "split",
+  "drug_a": "Ciprofloxacin",
+  "drug_b": "Theophylline",
+  "gold": true,
+  "enzyme": "CYP1A2",
+  "critical_pair": [
+    "Ciprofloxacin is a potent inhibitor of CYP1A2.",
+    "Theophylline is cleared principally by CYP1A2."
+  ],
+  "transcript": {
+    "A|1": "Yes. The provided information states that ciprofloxacin is a potent inhibitor of CYP1A2. Theophylline is predominantly cleared via CYP1A2 metabolism — this is standard, well-established pharmacology, since the information supplied covers only ciprofloxacin and gives no metabolic data for theophylline. Inhibiting CYP1A2 reduces theophylline clearance, raising plasma concentrations and the risk of dose-related toxicity (seizures, arrhythmias); theophylline dosing is routinely reduced when co-prescribed with ciprofloxacin. Caveat: because the supplied text does not itself describe theophylline's metabolism, this conclusion rests on established external knowledge of theophylline's CYP1A2 dependence combined with the stated ciprofloxacin inhibition, not on the provided card alone.\n\nMECHANISM: Ciprofloxacin inhibits CYP1A2, the primary enzyme metabolizing theophylline, decreasing theophylline clearance and increasing its plasma levels\nFINAL ANSWER: YES",
+    "B|1": "Yes. The provided information establishes that theophylline is cleared principally by CYP1A2 and has a narrow therapeutic range requiring serum monitoring. Ciprofloxacin is a well-established inhibitor of CYP1A2, so co-administration reduces theophylline clearance and raises serum concentrations. Given theophylline's narrow therapeutic index, this increase is clinically significant and can cause toxicity (nausea, tachyarrhythmias, seizures) — the very reason levels are monitored. Dose reduction, level checks, or an alternative antibiotic (e.g., a non-fluoroquinolone) is typically advised when these drugs must be combined.\n\nMECHANISM: Ciprofloxacin inhibits CYP1A2, decreasing theophylline clearance and increasing theophylline exposure\nFINAL ANSWER: YES",
+    "A|2": "My own drug information confirms ciprofloxacin is a potent CYP1A2 inhibitor. The theophylline-side details (CYP1A2 as its principal clearance pathway, narrow therapeutic index) come from my colleague's report, which is internally consistent and aligns with the known pharmacology. Combining these: inhibiting CYP1A2 reduces theophylline metabolism, raising serum concentrations of a narrow-therapeutic-index drug, which can produce toxicity (nausea, arrhythmias, seizures). This is a classic, clinically significant pharmacokinetic interaction; monitoring levels or dose reduction is warranted. One caveat: I have no independent theophylline data sheet here, so I am relying on the colleague's characterization of theophylline's clearance — but it is sufficient and coherent to support the conclusion.\n\nMECHANISM: Ciprofloxacin inhibits CYP1A2, decreasing theophylline clearance and increasing theophylline exposure\nFINAL ANSWER: YES",
+    "B|2": "Yes. My card confirms theophylline is cleared principally by CYP1A2 and has a narrow therapeutic range with routine serum monitoring. My colleague's review of ciprofloxacin reports it is a potent CYP1A2 inhibitor. Combining the two: CYP1A2 inhibition by ciprofloxacin would reduce theophylline clearance, raising plasma concentrations of a narrow-therapeutic-index drug and risking dose-related toxicity (seizures, arrhythmias). One correction to the colleague's caveat: theophylline's CYP1A2 dependence is stated in my own card, so the only externally sourced element is ciprofloxacin's inhibitory effect, not theophylline's metabolism. Given theophylline's narrow range, this interaction is clinically significant and warrants dose reduction and concentration monitoring.\n\nMECHANISM: Ciprofloxacin inhibits CYP1A2, the principal enzyme clearing theophylline, decreasing theophylline clearance and increasing plasma levels\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Ciprofloxacin inhibits CYP1A2, decreasing theophylline clearance and increasing theophylline exposure",
+    "B": "Ciprofloxacin inhibits CYP1A2, the principal enzyme clearing theophylline, decreasing theophylline clearance and increasing plasma levels"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-05-split"
+}

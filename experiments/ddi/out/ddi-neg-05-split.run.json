@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-neg-05",
+  "condition": "split",
+  "drug_a": "Clarithromycin",
+  "drug_b": "Warfarin",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Clarithromycin is a strong inhibitor of CYP3A4.",
+    "Warfarin's more potent S-enantiomer is metabolised by CYP2C9."
+  ],
+  "transcript": {
+    "A|1": "The provided data establishes only that clarithromycin is a strong CYP3A4 inhibitor. To conclude a pharmacokinetic interaction, I would need to know whether warfarin is a substrate of CYP3A4 (or another pathway clarithromycin affects), but no metabolic, clearance, or interaction information is given for warfarin. Therefore, from the information supplied, I cannot confirm a clinically significant pharmacokinetic interaction; the evidence is insufficient rather than negative.\n\nMECHANISM: insufficient information — clarithromycin is a strong CYP3A4 inhibitor, but warfarin's metabolic pathway is not provided\nFINAL ANSWER: NO",
+    "B|1": "The provided information covers only warfarin: it has a narrow therapeutic index, its potent S-enantiomer is metabolised by CYP2C9, and it is highly albumin-bound. To establish a pharmacokinetic interaction, I would need data on clarithromycin — specifically whether it inhibits CYP2C9 (which would raise S-warfarin exposure and INR) or displaces warfarin from albumin. No such information about clarithromycin's enzyme affinity or protein-binding displacement is supplied, and I cannot derive it from the warfarin data alone. Therefore, based strictly on the information given, a clinically significant interaction cannot be confirmed or excluded; the evidence is insufficient to decide.\n\nMECHANISM: insufficient information (no data on clarithromycin's effect on CYP2C9 or albumin binding)\nFINAL ANSWER: NO",
+    "A|2": "My colleague's logic holds, and clarithromycin's own data does not repair the gap. The only enzymatic effect stated for clarithromycin is strong CYP3A4 inhibition, while the warfarin data assign its potent S-enantiomer to CYP2C9 and mention no CYP3A4 dependence for either enantiomer. Without evidence that warfarin (R- or S-) is a CYP3A4 substrate, CYP3A4 inhibition cannot be linked to reduced warfarin clearance. Nothing indicates clarithromycin displaces highly albumin-bound warfarin either. Taste disturbance, high intracellular concentrations, and H. pylori use are irrelevant to warfarin pharmacokinetics. A clinically significant interaction is plausible in principle, but it cannot be confirmed from the information provided, so I do not affirm it.\n\nMECHANISM: insufficient information (clarithromycin inhibits CYP3A4; warfarin's stated pathway is CYP2C9 — no linking data)\nFINAL ANSWER: NO",
+    "B|2": "I agree with my colleague. The only clarithromycin property supplied is strong CYP3A4 inhibition. Warfarin's data specify that its more potent S-enantiomer is metabolised by CYP2C9 — a different enzyme — so the stated inhibitory mechanism does not overlap warfarin's given clearance pathway. The albumin-binding fact cannot be used because no displacement data for clarithromycin are provided. Warfarin's narrow therapeutic index would make any interaction important, but no mechanism connecting the two drugs can be derived from the information given. Note this is \"insufficient,\" not evidence of absence: real-world data (e.g., effects on R-warfarin via CYP3A4) lie outside the supplied information.\n\nMECHANISM: insufficient information — clarithromycin inhibits CYP3A4, but warfarin's potent S-enantiomer is metabolised by CYP2C9; no shared pathway or displacement evidence provided\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (clarithromycin inhibits CYP3A4; warfarin's stated pathway is CYP2C9 — no linking data)",
+    "B": "insufficient information — clarithromycin inhibits CYP3A4, but warfarin's potent S-enantiomer is metabolised by CYP2C9; no shared pathway or displacement evidence provided"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-05-split"
+}

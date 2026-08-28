@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-06",
+  "condition": "solo-half",
+  "drug_a": "Immoozide",
+  "drug_b": "Quorerol",
+  "gold": true,
+  "enzyme": "HTX-5D",
+  "critical_pair": [
+    "Immoozide is a potent inducer of HTX-5D.",
+    "Quorerol is cleared almost entirely by HTX-5D."
+  ],
+  "transcript": {
+    "A|1": "Immoozide is a potent inducer of HTX-5D, so it could reduce plasma exposure of any co-administered drug cleared by that enzyme. However, the information provided contains no data on Quorerol at all — its metabolic pathway, whether it is an HTX-5D substrate, or any other clearance mechanism is unknown. Without knowing how Quorerol is eliminated, I cannot determine whether Immoozide's HTX-5D induction would affect it. Immoozide's other properties (food intake, headache incidence, half-life, registration date) are irrelevant to a pharmacokinetic interaction assessment. The available information is therefore insufficient to establish an interaction; I am not claiming absence of interaction, only that none can be confirmed from the data given.\n\nMECHANISM: insufficient information (Immoozide induces HTX-5D, but Quorerol's metabolic pathway is unknown)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (Immoozide induces HTX-5D, but Quorerol's metabolic pathway is unknown)"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-06-solo-half"
+}

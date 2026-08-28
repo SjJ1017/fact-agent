@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-07",
+  "condition": "solo-both",
+  "drug_a": "Rixafil",
+  "drug_b": "Sevafil",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Rixafil is a strong inhibitor of HTX-3F.",
+    "Sevafil requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Rixafil is documented as a strong inhibitor of HTX-3F. Sevafil's activation depends on HTX-2C, a different enzyme. Nothing in the provided data indicates that Rixafil inhibits or induces HTX-2C, and shared faecal excretion does not by itself create a pharmacokinetic interaction. Therefore, no interaction mechanism connecting these two drugs can be established from the information given.\n\nHowever, the data are also insufficient to fully exclude an effect of Rixafil on HTX-2C, since only its HTX-3F activity is stated. On the evidence available, no clinically significant pharmacokinetic interaction is supported.\n\nMECHANISM: insufficient information (Rixafil inhibits HTX-3F; Sevafil requires HTX-2C; no link between the two enzymes is provided)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (Rixafil inhibits HTX-3F; Sevafil requires HTX-2C; no link between the two enzymes is provided)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-07-solo-both"
+}

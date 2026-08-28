@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-08",
+  "condition": "solo-half",
+  "drug_a": "Zalapine",
+  "drug_b": "Orbozide",
+  "gold": true,
+  "enzyme": "HTX-2C",
+  "critical_pair": [
+    "Zalapine is a strong inhibitor of HTX-2C.",
+    "Orbozide requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Zalapine’s only relevant PK property here is strong inhibition of HTX-2C. If Orbozide were an HTX-2C substrate, Zalapine could increase Orbozide exposure. However, no Orbozide metabolism, clearance pathway, or clinical exposure-response information is provided, so the interaction cannot be determined from the available data.\n\nMECHANISM: insufficient information—Zalapine inhibits HTX-2C, but Orbozide’s HTX-2C substrate status is unknown\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information—Zalapine inhibits HTX-2C, but Orbozide’s HTX-2C substrate status is unknown"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-08-solo-half"
+}

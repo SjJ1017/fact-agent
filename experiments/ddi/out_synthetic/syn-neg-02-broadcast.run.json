@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-02",
+  "condition": "broadcast",
+  "drug_a": "Braxtatide",
+  "drug_b": "Moradol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Braxtatide is a potent inducer of HTX-7M.",
+    "Moradol is cleared almost entirely by HTX-1A."
+  ],
+  "transcript": {
+    "A|1": "Braxtatide is a potent inducer of HTX-7M, but Moradol is cleared almost entirely by HTX-1A. Since the induction target (HTX-7M) differs from the enzyme responsible for Moradol's clearance (HTX-1A), there is no mechanism by which Braxtatide would increase or decrease Moradol exposure. The other listed properties (food intake, protein binding, half-life, storage, weight-based dosing) do not suggest a shared pathway either. On the information provided, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: Braxtatide induces HTX-7M; Moradol is cleared by HTX-1A — no overlap, no effect\nFINAL ANSWER: NO",
+    "B|1": "Braxtatide is a potent inducer of HTX-7M, but Moradol is cleared almost entirely by HTX-1A. Since the induction target (HTX-7M) differs from the enzyme responsible for Moradol's clearance (HTX-1A), there is no mechanism by which Braxtatide would increase or decrease Moradol exposure. The other listed properties (food intake, protein binding, half-life, storage, weight-based dosing) do not suggest a shared pathway either. On the information provided, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: Braxtatide induces HTX-7M; Moradol is cleared by HTX-1A — no overlap, no effect\nFINAL ANSWER: NO",
+    "A|2": "I agree with my colleague's assessment. Braxtatide's only pharmacokinetic activity described is potent induction of HTX-7M, while Moradol's clearance is almost entirely via HTX-1A. Because the induced enzyme (HTX-7M) is distinct from the enzyme responsible for Moradol's elimination (HTX-1A), induction cannot alter Moradol's exposure. The remaining properties — co-administration with food (a shared administration convenience, not a shared absorption pathway), Moradol's 92% protein binding (no displacement agent identified), Braxtatide's half-life, storage conditions, and weight-based dosing — provide no mechanism for a pharmacokinetic interaction. The information given is sufficient to conclude no clinically significant PK interaction is expected, without needing to guess about unlisted pathways.\n\nMECHANISM: Braxtatide induces HTX-7M; Moradol is cleared by HTX-1A — no overlap, no effect\nFINAL ANSWER: NO",
+    "B|2": "I agree with my colleague's assessment. Braxtatide's only pharmacokinetic activity described is potent induction of HTX-7M, while Moradol is cleared almost entirely by HTX-1A. Because the induced enzyme (HTX-7M) is not the enzyme responsible for Moradol's clearance (HTX-1A), there is no plausible mechanism by which Braxtatide would alter Moradol's exposure. The remaining properties — co-administration with food (which would not create an interaction since both are taken with food anyway), Moradol's 92% protein binding (no displacement data for Braxtatide provided), half-life, storage, and weight-based dosing — do not indicate a shared pathway. On the information provided, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: Braxtatide induces HTX-7M; Moradol is cleared by HTX-1A — no overlap, no effect\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "Braxtatide induces HTX-7M; Moradol is cleared by HTX-1A — no overlap, no effect",
+    "B": "Braxtatide induces HTX-7M; Moradol is cleared by HTX-1A — no overlap, no effect"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-02-broadcast"
+}

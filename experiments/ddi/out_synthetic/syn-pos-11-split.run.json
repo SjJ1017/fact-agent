@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-11",
+  "condition": "split",
+  "drug_a": "Tunnadol",
+  "drug_b": "Nylerol",
+  "gold": true,
+  "enzyme": "HTX-4B",
+  "critical_pair": [
+    "Tunnadol is a strong inhibitor of HTX-4B.",
+    "Nylerol is cleared almost entirely by HTX-4B."
+  ],
+  "transcript": {
+    "A|1": "A clinically significant pharmacokinetic interaction cannot be established from the information provided. Tunnadol is a strong inhibitor of HTX-4B, so an interaction would be plausible if Nylerol is cleared primarily by HTX-4B or has a narrow therapeutic index. However, no Nylerol metabolism, elimination pathway, HTX-4B dependence, or exposure-response information is given. Therefore, the data are insufficient to determine whether HTX-4B inhibition by Tunnadol would meaningfully increase Nylerol exposure.\n\nMECHANISM: Tunnadol strongly inhibits HTX-4B; Nylerol’s HTX-4B substrate status is unknown\nFINAL ANSWER: NO",
+    "B|1": "Nylerol's only relevant pharmacokinetic feature here is that it is cleared almost entirely by the enzyme HTX-4B. A clinically significant interaction would therefore require Tunnadol to inhibit or induce HTX-4B (or otherwise alter Nylerol's clearance). However, no information about Tunnadol is provided at all — nothing about its metabolic pathways, its effect on HTX-4B, or any enzyme inhibition/induction profile. Without knowing whether Tunnadol affects HTX-4B, I cannot determine whether Nylerol's clearance would be altered. The available data are insufficient to decide, and I will not guess. No other shared mechanism (e.g., QT effects, absorption via food) is pharmacokinetic in nature.\n\nMECHANISM: insufficient information (Nylerol cleared by HTX-4B; Tunnadol's effect on HTX-4B unknown)\nFINAL ANSWER: NO",
+    "A|2": "My colleague's assessment is incorrect: the Tunnadol information explicitly states that Tunnadol is a strong inhibitor of HTX-4B. Since Nylerol is cleared almost entirely by HTX-4B, co-administration with a strong inhibitor of that enzyme would substantially reduce Nylerol's clearance, raising its plasma exposure. This is a classic perpetrator–victim interaction: Tunnadol inhibits the sole clearance pathway of Nylerol, which is expected to be clinically significant (potentially requiring dose adjustment or monitoring). The other Tunnadol details (faecal excretion, half-life, weight-based dosing) do not change this conclusion.\n\nMECHANISM: Tunnadol strongly inhibits HTX-4B, the enzyme that clears almost all of Nylerol, decreasing Nylerol clearance and increasing its exposure\nFINAL ANSWER: YES",
+    "B|2": "My colleague's assessment was based on an incomplete reading of the data. The information I hold explicitly states that Nylerol is cleared almost entirely by HTX-4B. Combined with the colleague's report that Tunnadol is a strong inhibitor of HTX-4B, the interaction can now be established: inhibiting the sole clearance pathway of a drug is a classic setup for a clinically significant pharmacokinetic interaction, with substantially increased Nylerol plasma exposure and prolonged half-life expected. The QT information, food effect, and registration date are not relevant to this determination. Since nearly all Nylerol elimination depends on HTX-4B, strong inhibition of that enzyme would meaningfully reduce its clearance, so a clinically significant interaction should be expected.\n\nMECHANISM: Tunnadol strongly inhibits HTX-4B, which clears almost all Nylerol → increased Nylerol exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Tunnadol strongly inhibits HTX-4B, the enzyme that clears almost all of Nylerol, decreasing Nylerol clearance and increasing its exposure",
+    "B": "Tunnadol strongly inhibits HTX-4B, which clears almost all Nylerol → increased Nylerol exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-11-split"
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-07",
+  "condition": "solo-half",
+  "drug_a": "Rixapine",
+  "drug_b": "Pelafil",
+  "gold": true,
+  "enzyme": "HTX-1A",
+  "critical_pair": [
+    "Rixapine is a strong inhibitor of HTX-1A.",
+    "Pelafil requires HTX-1A to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "The information provided covers only Rixapine. It tells me Rixapine is a strong inhibitor of HTX-1A (a pharmacodynamic target, not a metabolic enzyme), is 92% protein-bound, and is contraindicated in severe hepatic impairment — but no data are given about Pelafil at all: not its metabolism, eliminating enzymes, transporters, protein binding, or whether it acts on HTX-1A. Without knowing Pelafil's pharmacokinetic profile, I cannot identify any shared enzyme (e.g., a CYP), transporter, or displacement mechanism through which an interaction could occur. Rixapine's hepatic contraindication alone does not establish an interaction with another drug. Therefore, no clinically significant pharmacokinetic interaction can be established from the information available, though this reflects a data gap rather than confirmed absence of interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": false,
+  "exec_id": "syn-pos-07-solo-half"
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-08",
+  "condition": "solo-both",
+  "drug_a": "Zalapine",
+  "drug_b": "Orbozide",
+  "gold": true,
+  "enzyme": "HTX-2C",
+  "critical_pair": [
+    "Zalapine is a strong inhibitor of HTX-2C.",
+    "Orbozide requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Yes. Zalapine is a strong inhibitor of HTX-2C, and Orbozide depends on HTX-2C to form its active metabolite. Inhibiting this enzyme would therefore reduce the conversion of Orbozide to its active form, lowering active metabolite exposure. Because the inhibition is described as strong and the affected pathway is required for activation of Orbozide, this is a clinically significant pharmacokinetic interaction, most likely manifesting as reduced therapeutic effect of Orbozide rather than toxicity. The other listed properties (Tmax, protein binding, QT, storage) do not alter this conclusion.\n\nMECHANISM: HTX-2C — Zalapine strongly inhibits it, reducing Orbozide's active metabolite formation\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "HTX-2C — Zalapine strongly inhibits it, reducing Orbozide's active metabolite formation"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-08-solo-both"
+}

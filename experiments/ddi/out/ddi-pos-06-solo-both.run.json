@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-pos-06",
+  "condition": "solo-both",
+  "drug_a": "Omeprazole",
+  "drug_b": "Clopidogrel",
+  "gold": true,
+  "enzyme": "CYP2C19",
+  "critical_pair": [
+    "Omeprazole inhibits CYP2C19.",
+    "Clopidogrel is a prodrug requiring CYP2C19 for activation."
+  ],
+  "transcript": {
+    "A|1": "Yes. Omeprazole inhibits CYP2C19, and clopidogrel is a prodrug that requires CYP2C19 for its activation to the active metabolite. By inhibiting this enzyme, omeprazole reduces the formation of clopidogrel's active metabolite, thereby diminishing its antiplatelet effect. This is a pharmacokinetic interaction at the level of metabolic activation, and it is considered clinically significant — reduced platelet inhibition has been demonstrated, which is particularly relevant in patients after coronary stenting who depend on clopidogrel's efficacy. The interaction is not related to gastric pH or absorption, but specifically to CYP2C19 inhibition by omeprazole.\n\nMECHANISM: Omeprazole inhibits CYP2C19, reducing CYP2C19-mediated activation of the clopidogrel prodrug\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "Omeprazole inhibits CYP2C19, reducing CYP2C19-mediated activation of the clopidogrel prodrug"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-06-solo-both"
+}

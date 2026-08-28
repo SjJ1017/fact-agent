@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-pos-07",
+  "condition": "broadcast",
+  "drug_a": "Paroxetine",
+  "drug_b": "Metoprolol",
+  "gold": true,
+  "enzyme": "CYP2D6",
+  "critical_pair": [
+    "Paroxetine is a strong inhibitor of CYP2D6.",
+    "Metoprolol is metabolised principally by CYP2D6."
+  ],
+  "transcript": {
+    "A|1": "Yes. Paroxetine is a strong inhibitor of CYP2D6, and metoprolol is metabolised principally by CYP2D6, with extensive first-pass metabolism dependent on this enzyme. Co-administration means paroxetine will inhibit metoprolol's CYP2D6-mediated metabolism, reducing both first-pass clearance and systemic clearance. This increases metoprolol plasma concentrations, which can produce exaggerated beta-blockade — bradycardia, hypotension, dizziness — and this interaction is clinically recognised as significant. Dose reduction of metoprolol or switching to a non-CYP2D6-dependent beta-blocker is typically advised.\n\nMECHANISM: Paroxetine strongly inhibits CYP2D6, decreasing metabolism of metoprolol (a CYP2D6 substrate) and raising its exposure\nFINAL ANSWER: YES",
+    "B|1": "Yes. Paroxetine is a strong inhibitor of CYP2D6, and metoprolol is metabolised principally by CYP2D6, with extensive first-pass metabolism dependent on this enzyme. Co-administration means paroxetine will inhibit metoprolol's CYP2D6-mediated metabolism, reducing both first-pass clearance and systemic clearance. This increases metoprolol plasma concentrations, which can produce exaggerated beta-blockade — bradycardia, hypotension, dizziness — and this interaction is clinically recognised as significant. Dose reduction of metoprolol or switching to a non-CYP2D6-dependent beta-blocker is typically advised.\n\nMECHANISM: Paroxetine strongly inhibits CYP2D6, decreasing metabolism of metoprolol (a CYP2D6 substrate) and raising its exposure\nFINAL ANSWER: YES",
+    "A|2": "I agree with my colleague's assessment. The provided information supports a clinically significant pharmacokinetic interaction: paroxetine is explicitly listed as a strong CYP2D6 inhibitor, and metoprolol is explicitly listed as metabolised principally by CYP2D6 with extensive first-pass metabolism. Inhibiting CYP2D6 would reduce both presystemic (first-pass) and systemic clearance of metoprolol, raising its plasma concentrations and prolonging/exaggerating its beta-blocking effects (bradycardia, hypotension, dizziness). This mechanism is directly derivable from the given data, and the interaction is well recognised clinically — metoprolol dose reduction or use of a CYP2D6-independent beta-blocker (e.g., atenolol) is commonly advised. No additional information is needed to reach this conclusion.\n\nMECHANISM: Paroxetine strongly inhibits CYP2D6, decreasing CYP2D6-mediated first-pass and systemic metabolism of metoprolol, increasing metoprolol exposure\nFINAL ANSWER: YES",
+    "B|2": "I agree with my colleague's assessment. The drug information provided is sufficient to conclude a clinically significant pharmacokinetic interaction: paroxetine is explicitly listed as a strong CYP2D6 inhibitor, and metoprolol is explicitly listed as metabolised principally by CYP2D6 with extensive first-pass metabolism. Inhibiting CYP2D6 therefore reduces both presystemic (first-pass) and systemic clearance of metoprolol, raising its plasma concentrations. Given metoprolol's use in heart failure and post-MI patients, exaggerated beta-blockade (bradycardia, hypotension) is clinically relevant, and dose reduction or switching to a non-CYP2D6-dependent beta-blocker is a reasonable precaution. The other listed paroxetine properties (protein binding, anticholinergic activity) are not relevant here. No information contradicts this conclusion.\n\nMECHANISM: Paroxetine strongly inhibits CYP2D6, decreasing first-pass and systemic metabolism of metoprolol and increasing its exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Paroxetine strongly inhibits CYP2D6, decreasing CYP2D6-mediated first-pass and systemic metabolism of metoprolol, increasing metoprolol exposure",
+    "B": "Paroxetine strongly inhibits CYP2D6, decreasing first-pass and systemic metabolism of metoprolol and increasing its exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-07-broadcast"
+}

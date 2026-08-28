@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Braxtotinib is a potent inducer of HTX-2C.",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Braxtotinib",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Braxtotinib is dosed by body weight in patients under 50 kg.",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Braxtotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Braxtotinib is contraindicated in severe hepatic impairment.",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Braxtotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Braxtotinib was first registered in 2019.",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Braxtotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Braxtotinib does not require renal dose adjustment.",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Braxtotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessoxetine requires HTX-1A to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessoxetine",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Kessoxetine reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessoxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessoxetine is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessoxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessoxetine was first registered in 2019.",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessoxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessoxetine is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessoxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Braxtotinib is a potent inducer of HTX-2C. If Kessoxetine were metabolized by HTX-2C, induction could reduce Kessoxetine exposure. However, no information is provided about Kessoxetine’s metabolism, whether it is an HTX-2C substrate, or any other pharmacokinetic properties. Without knowing whether Kessoxetine is affected by HTX-2C induction, a clinically significant interaction cannot be established or excluded.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-10"
+    }
+  },
+  {
+    "text": "The available information is not sufficient to determine whether a clinically significant pharmacokinetic interaction exists between Braxtotinib and Kessoxetine.\n\nFor Kessoxetine, the data provided covers only its absorption timing (Tmax ~2 hours), adult-only approval, dependence on HTX-1A for active metabolite formation, registration date, and storage conditions. Critically, no metabolic enzyme (e.g., CYP isoform), transporter, or elimination pathway is specified for Kessoxetine, and no information at all is provided about Braxtotinib — its metabolism, enzymes, or pathways are unknown.\n\nWithout knowing which enzyme(s) each drug depends on or inhibits, no interaction assessment can be made. The HTX-1A mention relates to metabolite formation, but nothing indicates Braxtotinib affects it.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-10"
+    }
+  },
+  {
+    "text": "My assessment agrees with my colleague's conclusion, with one correction: Braxtotinib's enzyme effect is actually documented — it is a potent inducer of HTX-2C. However, this still does not establish a link to Kessoxetine. The only metabolic information given for Kessoxetine is that active metabolite formation depends on HTX-1A; no HTX-2C substrate status, alternative metabolic pathway, transporter, or renal elimination is stated for it. Since Braxtotinib's known effect (HTX-2C induction) has no documented overlap with Kessoxetine's stated HTX-1A pathway, and Kessoxetine's remaining disposition is unknown, a clinically significant pharmacokinetic interaction cannot be established from the available data. I would not assume HTX-2C involvement for Kessoxetine without evidence.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-10"
+    }
+  },
+  {
+    "text": "My colleague overlooked a relevant fact in the drug data: Kessoxetine requires HTX-1A to form its active metabolite, so its metabolism is not entirely unknown. Braxtotinib's only stated pharmacokinetic property is potent induction of HTX-2C. The enzyme Braxtotinib induces (HTX-2C) is different from the enzyme Kessoxetine depends on (HTX-1A), and nothing provided indicates Braxtotinib affects HTX-1A or that Kessoxetine is otherwise an HTX-2C substrate. With no shared enzyme or pathway between the two drugs in the available information, no mechanism exists by which HTX-2C induction would alter Kessoxetine exposure. On the data given, a clinically significant pharmacokinetic interaction is not supported.\n\nMECHANISM: Braxtotinib induces HTX-2C; Kessoxetine's metabolism requires HTX-1A — no shared enzyme\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-10-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-10"
+    }
+  }
+]

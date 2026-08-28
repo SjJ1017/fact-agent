@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-09",
+  "condition": "solo-both",
+  "drug_a": "Quorustat",
+  "drug_b": "Morerol",
+  "gold": true,
+  "enzyme": "HTX-2C",
+  "critical_pair": [
+    "Quorustat is a strong inhibitor of HTX-2C.",
+    "Morerol requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Yes. Quorustat is a strong inhibitor of HTX-2C, and Morerol depends on HTX-2C to form its active metabolite. Co-administration would therefore inhibit Morerol's metabolic activation, reducing formation of its active metabolite and likely diminishing Morerol's therapeutic effect. This is a pharmacokinetic interaction at the level of metabolism (enzyme inhibition), not excretion — both drugs' faecal elimination is irrelevant here. The magnitude of clinical significance is not quantified in the provided information, but a strong inhibitor acting on the sole activation pathway of a prodrug is expected to be clinically meaningful.\n\nMECHANISM: Quorustat strongly inhibits HTX-2C, reducing Morerol's conversion to its active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "Quorustat strongly inhibits HTX-2C, reducing Morerol's conversion to its active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-09-solo-both"
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-02",
+  "condition": "solo-half",
+  "drug_a": "Braxtatide",
+  "drug_b": "Moradol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Braxtatide is a potent inducer of HTX-7M.",
+    "Moradol is cleared almost entirely by HTX-1A."
+  ],
+  "transcript": {
+    "A|1": "Available information shows only that Braxtatide is a potent inducer of HTX-7M. Induction could alter exposure of drugs cleared via HTX-7M, but no Moradol data are provided, so I cannot determine whether Moradol is an HTX-7M substrate, prodrug, or otherwise affected. Thus, a clinically significant pharmacokinetic interaction cannot be established from the supplied information.\n\nMECHANISM: insufficient information (Braxtatide induces HTX-7M; Moradol’s HTX-7M substrate status unknown)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (Braxtatide induces HTX-7M; Moradol’s HTX-7M substrate status unknown)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-02-solo-half"
+}

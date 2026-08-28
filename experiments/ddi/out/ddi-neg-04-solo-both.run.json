@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-neg-04",
+  "condition": "solo-both",
+  "drug_a": "Paroxetine",
+  "drug_b": "Ethinylestradiol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Paroxetine is a strong inhibitor of CYP2D6.",
+    "Ethinylestradiol is metabolised by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Paroxetine's only stated metabolic effect is strong inhibition of CYP2D6. Ethinylestradiol's stated clearance pathway is CYP3A4 metabolism (plus enterohepatic recirculation). Since CYP2D6 inhibition does not affect CYP3A4-mediated metabolism, there is no shared enzymatic pathway between the two drugs in the information provided. Paroxetine's high protein binding could theoretically displace a co-drug, but ethinylestradiol's protein binding is not stated, so no displacement interaction can be inferred. No other pharmacokinetic mechanism (absorption, transport, excretion) is described for either drug that would link them. Therefore, from the information given, no clinically significant pharmacokinetic interaction is expected.\n\nMECHANISM: Paroxetine inhibits CYP2D6; ethinylestradiol is metabolised by CYP3A4 — no shared pathway\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Paroxetine inhibits CYP2D6; ethinylestradiol is metabolised by CYP3A4 — no shared pathway"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-04-solo-both"
+}

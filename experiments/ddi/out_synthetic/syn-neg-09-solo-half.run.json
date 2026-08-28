@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-09",
+  "condition": "solo-half",
+  "drug_a": "Quoracaine",
+  "drug_b": "Kessatide",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Quoracaine is a potent inducer of HTX-2C.",
+    "Kessatide requires HTX-5D to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Quoracaine is a potent inducer of HTX-2C, so it could increase clearance of a co-prescribed drug if that drug is an HTX-2C substrate. However, no Kessatide information is provided: I do not know whether Kessatide is metabolized by HTX-2C, affects HTX-2C, or shares another absorption, transport, or elimination pathway. Therefore, a clinically significant pharmacokinetic interaction cannot be determined from the supplied information; this is insufficient evidence, not proof of no interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-09-solo-half"
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Kessacaine is a potent inducer of HTX-7M.",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessacaine",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Kessacaine reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessacaine is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessacaine is available as a generic formulation.",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessacaine does not require renal dose adjustment.",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Pelotinib is cleared almost entirely by HTX-5D.",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Pelotinib",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Pelotinib has a plasma half-life of roughly fourteen hours.",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Pelotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Pelotinib is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Pelotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Pelotinib is available as a generic formulation.",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Pelotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Pelotinib is 92% bound to plasma proteins.",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Pelotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessacaine is a potent inducer of HTX-7M, which could lower exposure to drugs cleared via HTX-7M. However, the provided information does not state whether Pelotinib is metabolized by HTX-7M or is otherwise affected by enzyme induction. Without Pelotinib’s metabolic pathway or interaction profile, a clinically significant pharmacokinetic interaction cannot be established from the available data.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-08"
+    }
+  },
+  {
+    "text": "Pelotinib is cleared almost entirely by HTX-5D, so a clinically significant pharmacokinetic interaction would most likely require Kessacaine to inhibit or induce HTX-5D. No information about Kessacaine's effect on HTX-5D (or any other mechanism) is provided. Pelotinib's 92% protein binding could allow displacement interactions, but no Kessacaine data are available for that either. Therefore, the available information is insufficient to determine whether an interaction occurs.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-08"
+    }
+  },
+  {
+    "text": "My colleague's bottom line (NO) is sound, though the reasoning can be sharpened. The only enzymatic effect documented for Kessacaine is potent induction of HTX-7M. Pelotinib is cleared almost entirely by HTX-5D — a different enzyme — and nothing provided links Kessacaine to HTX-5D inhibition, induction, or protein-binding displacement. Since no shared pathway or other interaction mechanism is documented, no clinically significant pharmacokinetic interaction is supported by the available data. (The dataset is limited; effects not listed cannot be fully excluded, but nothing given suggests one.)\n\nMECHANISM: No shared pathway — Kessacaine induces HTX-7M only; Pelotinib is cleared via HTX-5D\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-08"
+    }
+  },
+  {
+    "text": "My colleague's caution is understandable but unnecessary here: the available data actually does state Pelotinib's metabolic pathway — it is cleared almost entirely by HTX-5D. Kessacaine's only reported pharmacological action is potent induction of HTX-7M, a different enzyme. Since Pelotinib does not depend on HTX-7M for clearance, enzyme induction by Kessacaine would not meaningfully reduce Pelotinib exposure. No other interaction mechanism (e.g., displacement of Pelotinib's 92% protein binding, or effects on HTX-5D) is described for Kessacaine. Therefore, based on the information provided, no clinically significant pharmacokinetic interaction is expected.\n\nMECHANISM: Pelotinib cleared almost entirely by HTX-5D; Kessacaine induces only HTX-7M — no shared pathway\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-08-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-08"
+    }
+  }
+]

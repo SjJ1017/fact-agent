@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-06",
+  "condition": "solo-both",
+  "drug_a": "Moratide",
+  "drug_b": "Quoratide",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Moratide is a potent inducer of HTX-6K.",
+    "Quoratide requires HTX-3F to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "No clinically significant pharmacokinetic interaction is evident from the information provided. The only metabolic mechanism stated for Moratide is potent induction of HTX-6K, but Quoratide's activation depends on HTX-3F — a different enzyme. Since Moratide's induction target does not match the enzyme Quoratide requires, no effect on Quoratide's active metabolite formation is expected. No other linking mechanism appears: Quoratide's high protein binding (92%) matters only if Moratide displaces it, and no displacement is described; faecal excretion and food requirements do not overlap with any Moratide property listed. Their shared contraindication in severe hepatic impairment is a caution for co-prescribing in that population, but it is not a drug–drug interaction. On the data given, no interaction mechanism connects these drugs.\n\nMECHANISM: Moratide induces HTX-6K, which is not the HTX-3F needed for Quoratide activation — no shared pathway\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Moratide induces HTX-6K, which is not the HTX-3F needed for Quoratide activation — no shared pathway"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-06-solo-both"
+}

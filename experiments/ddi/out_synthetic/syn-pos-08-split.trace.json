@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Zalapine is a strong inhibitor of HTX-2C.",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Zalapine",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Zalapine reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Zalapine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Zalapine is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Zalapine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Zalapine causes mild headache in about 8% of patients.",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Zalapine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Zalapine is 92% bound to plasma proteins.",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Zalapine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbozide requires HTX-2C to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbozide",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Orbozide is given once daily by mouth.",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbozide reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbozide is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbozide has no known effect on the QT interval.",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Zalapine’s only relevant PK property here is strong inhibition of HTX-2C. If Orbozide were an HTX-2C substrate, Zalapine could increase Orbozide exposure. However, no Orbozide metabolism, clearance pathway, or clinical exposure-response information is provided, so the interaction cannot be determined from the available data.\n\nMECHANISM: insufficient information—Zalapine inhibits HTX-2C, but Orbozide’s HTX-2C substrate status is unknown\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-08"
+    }
+  },
+  {
+    "text": "No clinically significant interaction can be established from the information provided. The only relevant pharmacokinetic detail is that Orbozide requires the enzyme HTX-2C to form its active metabolite — so an interaction would be plausible only if Zalapine inhibited or induced HTX-2C (reducing or increasing active metabolite formation). However, no information about Zalapine is given at all: nothing about its metabolism, its effect on HTX-2C or other enzymes, or its influence on absorption. Therefore I cannot confirm that Zalapine affects HTX-2C, and I cannot demonstrate any interaction; by the same token, the data are insufficient to fully exclude one. On the evidence held, no interaction is established.\n\nMECHANISM: insufficient information (HTX-2C activates Orbozide; Zalapine's effect on HTX-2C unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-08"
+    }
+  },
+  {
+    "text": "My colleague lacked the Zalapine data; I have it, and it changes the conclusion.\n\nZalapine is explicitly described as a strong inhibitor of HTX-2C. Orbozide requires HTX-2C to form its active metabolite. Combining these facts: Zalapine will strongly inhibit the very enzyme responsible for activating Orbozide, reducing active metabolite formation and likely diminishing Orbozide's therapeutic effect. This is a clinically significant pharmacokinetic interaction — the direction is reduced activation of Orbozide (not increased exposure of parent drug, and not an effect on absorption or protein binding, for which no relevant overlap is shown; Zalapine's 92% protein binding does not establish displacement without Orbozide binding data).\n\nMECHANISM: Zalapine strongly inhibits HTX-2C, reducing conversion of Orbozide to its active metabolite\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-08"
+    }
+  },
+  {
+    "text": "My colleague's key premise is wrong: Orbozide's HTX-2C substrate status is *not* unknown. The provided data explicitly states Orbozide \"requires HTX-2C to form its active metabolite,\" so Orbozide is an HTX-2C substrate for its activation step.\n\nGiven that, Zalapine's strong inhibition of HTX-2C would impair conversion of Orbozide into its active metabolite, lowering active-moiety exposure when the drugs are co-administered. Blocking activation of a drug via a strong inhibitor of its activating enzyme is a clinically significant pharmacokinetic interaction (reduced efficacy risk), even though the exact magnitude cannot be quantified from the data given.\n\nMECHANISM: Zalapine strongly inhibits HTX-2C, decreasing Orbozide's conversion to its active metabolite\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-08-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-08"
+    }
+  }
+]

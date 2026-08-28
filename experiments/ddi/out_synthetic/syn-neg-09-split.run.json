@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-09",
+  "condition": "split",
+  "drug_a": "Quoracaine",
+  "drug_b": "Kessatide",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Quoracaine is a potent inducer of HTX-2C.",
+    "Kessatide requires HTX-5D to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Quoracaine is a potent inducer of HTX-2C, so it could increase clearance of a co-prescribed drug if that drug is an HTX-2C substrate. However, no Kessatide information is provided: I do not know whether Kessatide is metabolized by HTX-2C, affects HTX-2C, or shares another absorption, transport, or elimination pathway. Therefore, a clinically significant pharmacokinetic interaction cannot be determined from the supplied information; this is insufficient evidence, not proof of no interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|1": "No interaction can be established from the information provided. I have details about Kessatide only: it peaks at ~2 hours, forms its active metabolite via HTX-5D, needs no renal adjustment, and is adult-only. However, I have no information at all about Quoracaine — its metabolic pathway, whether it affects HTX-5D or any other enzyme, or its elimination route. Without knowing Quoracaine's pharmacology, I cannot determine whether it would inhibit, induce, or otherwise alter Kessatide's activation or clearance, or vice versa. The available data are therefore insufficient to confirm or exclude a clinically significant pharmacokinetic interaction; I will not guess.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague's assessment is based on a false premise: they state they have no information on Quoracaine, but I do. Quoracaine is a potent inducer of HTX-2C. Kessatide's relevant pathway is HTX-5D, which forms its active metabolite. These are different enzymes: Quoracaine's induction effect targets HTX-2C, not HTX-5D, and no information suggests any effect of either drug on HTX-5D or on Kessatide's clearance. No other shared mechanism (renal elimination, QT effects) is relevant here. Therefore, based on the named enzymes, no clinically significant pharmacokinetic interaction is expected — the induction by Quoracaine does not touch Kessatide's metabolic pathway.\n\nMECHANISM: Quoracaine induces HTX-2C; Kessatide is metabolized via HTX-5D — no shared enzyme, no interaction\nFINAL ANSWER: NO",
+    "B|2": "My colleague was overly cautious. The Kessatide data I hold specifies its one relevant metabolic feature: it requires HTX-5D to form its active metabolite. Quoracaine's only documented pharmacokinetic property is potent induction of HTX-2C. These are different enzymes, so Quoracaine's induction of HTX-2C would not be expected to alter Kessatide's activation via HTX-5D, nor Kessatide's clearance via any pathway described. No other shared absorption, transport, or elimination mechanism is identified in the supplied information (Kessatide's renal profile and absorption data give no basis for an interaction either). Therefore, based on the available information, no clinically significant pharmacokinetic interaction is evident. This is a derived conclusion from the enzyme mismatch, not merely absence of evidence.\n\nMECHANISM: Kessatide activates via HTX-5D; Quoracaine induces only HTX-2C — no shared enzyme, no induction effect\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "Quoracaine induces HTX-2C; Kessatide is metabolized via HTX-5D — no shared enzyme, no interaction",
+    "B": "Kessatide activates via HTX-5D; Quoracaine induces only HTX-2C — no shared enzyme, no induction effect"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-09-split"
+}

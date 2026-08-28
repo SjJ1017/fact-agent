@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-05",
+  "condition": "solo-half",
+  "drug_a": "Kessizumab",
+  "drug_b": "Dralerol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Kessizumab is a potent inducer of HTX-2C.",
+    "Dralerol is cleared almost entirely by HTX-1A."
+  ],
+  "transcript": {
+    "A|1": "Kessizumab’s only relevant pharmacokinetic property provided is potent induction of HTX-2C. This could lower exposure of a co-prescribed drug if that drug is an HTX-2C substrate. However, no information is given about Dralerol’s metabolism, clearance pathway, or whether it depends on HTX-2C. Therefore, the available data are insufficient to determine a clinically significant pharmacokinetic interaction; I cannot conclude one without evidence that Dralerol is affected by HTX-2C induction.\n\nMECHANISM: insufficient information (Kessizumab induces HTX-2C; Dralerol HTX-2C substrate status unknown)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information (Kessizumab induces HTX-2C; Dralerol HTX-2C substrate status unknown)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-05-solo-half"
+}

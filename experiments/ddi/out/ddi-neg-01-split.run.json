@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-neg-01",
+  "condition": "split",
+  "drug_a": "Fluconazole",
+  "drug_b": "Metoprolol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Fluconazole is a moderate inhibitor of CYP2C9.",
+    "Metoprolol is metabolised principally by CYP2D6."
+  ],
+  "transcript": {
+    "A|1": "Fluconazole's only relevant pharmacokinetic property here is moderate inhibition of CYP2C9. Metoprolol is not a CYP2C9 substrate — it is cleared almost entirely by CYP2D6 (oxidation by CYP2D6, with renal excretion of metabolites), an enzyme fluconazole does not meaningfully inhibit. Fluconazole's other listed properties (renal elimination of parent drug, ~90% bioavailability, QT prolongation) do not create a pharmacokinetic interaction with metoprolol. Note: the provided data describe only fluconazole; metoprolol's CYP2D6 dependence comes from established drug knowledge, not the supplied text. Based on the CYP2C9 inhibition being irrelevant to metoprolol's CYP2D6-mediated clearance, no clinically significant pharmacokinetic interaction is expected.\n\nMECHANISM: Fluconazole inhibits CYP2C9; metoprolol is cleared by CYP2D6, which is unaffected — no relevant inhibition\nFINAL ANSWER: NO",
+    "B|1": "Metoprolol's clearance depends principally on CYP2D6, and its extensive first-pass metabolism means inhibition of CYP2D6 could raise its plasma levels. However, the information provided describes only metoprolol; it contains no data on fluconazole's enzyme effects (e.g., whether it inhibits CYP2D6, CYP3A4, or CYP2C9). Without knowing fluconazole's inhibitory profile, I cannot derive the interaction from the material given. From general pharmacology, fluconazole is at most a weak CYP2D6 inhibitor (its main targets are CYP2C9/3A4), so a clinically significant interaction with metoprolol is not expected — but I flag that this relies on knowledge beyond the supplied text.\n\nMECHANISM: insufficient information — metoprolol is CYP2D6-metabolised, but fluconazole's effect on CYP2D6 is not provided\nFINAL ANSWER: NO",
+    "A|2": "My colleague is right that the supplied fluconazole data do not mention CYP2D6. But I can reach a conclusion without outside knowledge: the only enzyme effect documented for fluconazole is moderate inhibition of CYP2C9, while metoprolol's clearance is stated to depend principally on CYP2D6. These pathways do not overlap, so no pharmacokinetic interaction can be derived from the material given. Fluconazole's other listed properties — renal elimination, ~90% bioavailability, and QT prolongation — do not alter metoprolol's exposure; the QT effect is pharmacodynamic, not the PK interaction asked about. I therefore concur with the colleague's conclusion, though for a cleaner reason: the documented mechanism is irrelevant to metoprolol, rather than the data being wholly absent.\n\nMECHANISM: no shared pathway — fluconazole inhibits CYP2C9; metoprolol is cleared via CYP2D6\nFINAL ANSWER: NO",
+    "B|2": "My colleague's reasoning is sound, with one small correction: metoprolol's CYP2D6 dependence is actually stated in the supplied text (\"metabolised principally by CYP2D6\"), so it does not rest on outside knowledge.\n\nThe logic holds: metoprolol's clearance runs through CYP2D6 (with extensive first-pass metabolism), while fluconazole's only relevant property here is moderate CYP2C9 inhibition. Since metoprolol is not a CYP2C9 substrate and fluconazole is not reported to inhibit CYP2D6, the enzymes do not overlap, so no clinically significant pharmacokinetic interaction is expected. Fluconazole's renal elimination, bioavailability, and QT prolongation are not pharmacokinetic mechanisms affecting metoprolol levels. Caveat: this relies on the colleague's report that fluconazole does not meaningfully inhibit CYP2D6; if that were inaccurate, the conclusion could change.\n\nMECHANISM: Fluconazole inhibits CYP2C9; metoprolol is cleared by CYP2D6, which is not inhibited — no enzyme overlap\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "no shared pathway — fluconazole inhibits CYP2C9; metoprolol is cleared via CYP2D6",
+    "B": "Fluconazole inhibits CYP2C9; metoprolol is cleared by CYP2D6, which is not inhibited — no enzyme overlap"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-01-split"
+}

@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-04",
+  "condition": "split",
+  "drug_a": "Kessipramol",
+  "drug_b": "Sevipramol",
+  "gold": true,
+  "enzyme": "HTX-5D",
+  "critical_pair": [
+    "Kessipramol is a strong inhibitor of HTX-5D.",
+    "Sevipramol requires HTX-5D to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Kessipramol is a strong inhibitor of HTX-5D, so it could increase exposure to any co-drug that depends on HTX-5D for clearance. However, no information is provided about Sevipramol’s metabolism, transport, or whether it is an HTX-5D substrate. Therefore, a clinically significant pharmacokinetic interaction cannot be established from the available data.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|1": "Based on the information provided, I cannot establish a clinically significant pharmacokinetic interaction. The only metabolic detail given is that Sevipramol requires HTX-5D to form its active metabolite. However, I have no information at all about Kessipramol — its metabolism, its effect on HTX-5D, or any enzyme inhibition/induction properties. Without knowing whether Kessipramol affects HTX-5D activity, I cannot determine whether Sevipramol's activation would be altered. The remaining Sevipramol details (headache incidence, storage, age approval, tablet strengths) are pharmacodynamic or administrative and irrelevant to a pharmacokinetic interaction assessment. Therefore, the available data are insufficient to confirm an interaction; no interaction can be identified from what is provided.\n\nMECHANISM: insufficient information (HTX-5D involvement possible, but Kessipramol's effect on it unknown)\nFINAL ANSWER: NO",
+    "A|2": "Your colleague's review appears to have overlooked a key piece of information: Kessipramol is explicitly stated to be a **strong inhibitor of HTX-5D**, and Sevipramol requires HTX-5D to form its active metabolite.\n\nCombining these facts: Kessipramol would strongly inhibit the enzyme responsible for Sevipramol's metabolic activation, reducing formation of Sevipramol's active metabolite. This is a clinically significant pharmacokinetic interaction — it could reduce Sevipramol's efficacy, since activation depends on HTX-5D.\n\nMy colleague's conclusion of \"insufficient information\" is incorrect; the interaction can be identified directly from the provided data (Kessipramol's inhibition of HTX-5D plus Sevipramol's dependence on HTX-5D for activation).\n\nMECHANISM: Kessipramol strongly inhibits HTX-5D, reducing Sevipramol's conversion to its active metabolite\nFINAL ANSWER: YES",
+    "B|2": "My colleague overlooked a key detail: the Sevipramol information explicitly states it \"requires HTX-5D to form its active metabolite.\" That directly establishes Sevipramol as dependent on HTX-5D for bioactivation, so the colleague's claim that no metabolic information exists is incorrect.\n\nKessipramol is a strong HTX-5D inhibitor. Taken together, it would suppress conversion of Sevipramol into its active metabolite, lowering active-moietY exposure and potentially reducing therapeutic effect. This is a pharmacokinetic interaction at the level of metabolic activation. While the magnitude isn't quantified, a strong inhibitor acting on an activation pathway is a clinically relevant interaction that warrants dose adjustment or monitoring.\n\nMECHANISM: HTX-5D — Kessipramol strongly inhibits HTX-5D, decreasing formation of Sevipramol's active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Kessipramol strongly inhibits HTX-5D, reducing Sevipramol's conversion to its active metabolite",
+    "B": "HTX-5D — Kessipramol strongly inhibits HTX-5D, decreasing formation of Sevipramol's active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-04-split"
+}

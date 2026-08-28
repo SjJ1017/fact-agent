@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-05",
+  "condition": "solo-half",
+  "drug_a": "Morozide",
+  "drug_b": "Rixacaine",
+  "gold": true,
+  "enzyme": "HTX-3F",
+  "critical_pair": [
+    "Morozide is a strong inhibitor of HTX-3F.",
+    "Rixacaine is cleared almost entirely by HTX-3F."
+  ],
+  "transcript": {
+    "A|1": "The only mechanistic lead is that Morozide is a strong HTX-3F inhibitor. A pharmacokinetic interaction would be plausible only if Rixacaine is a HTX-3F substrate or otherwise depends on that pathway, but no Rixacaine metabolism, transporter, clearance, or protein-binding data are provided. Morozide’s 92% plasma protein binding also cannot establish displacement without Rixacaine’s binding data. Therefore, the available information is insufficient to determine a clinically significant pharmacokinetic interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": false,
+  "exec_id": "syn-pos-05-solo-half"
+}

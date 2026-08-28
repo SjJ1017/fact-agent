@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Rixafil is a strong inhibitor of HTX-3F.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixafil",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Rixafil is given once daily by mouth.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixafil is dosed by body weight in patients under 50 kg.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixafil is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixafil causes mild headache in about 8% of patients.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Sevafil requires HTX-2C to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Sevafil",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Sevafil is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Sevafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Sevafil is taken with food to reduce nausea.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Sevafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Sevafil is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Sevafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Sevafil is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Sevafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixafil is described as a strong inhibitor of HTX-3F, which could raise exposure of any co-administered drug cleared by that enzyme. However, the information provided for Sevafil is empty: I have no data on how Sevafil is metabolised, whether it is a substrate of HTX-3F, or any other disposition pathway. Without knowing Sevafil's metabolic route, I cannot establish that Rixafil's HTX-3F inhibition affects it. Rixafil's other properties (faecal excretion, once-daily dosing, headache adverse effect) do not bear on a pharmacokinetic interaction. Therefore the available information is not sufficient to confirm an interaction; no mechanism linking the two drugs can be identified from what I hold.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-07"
+    }
+  },
+  {
+    "text": "Sevafil requires the enzyme HTX-2C to form its active metabolite, so a pharmacokinetic interaction would be plausible if Rixafil inhibited or induced HTX-2C (potentially reducing or increasing active metabolite formation, respectively). However, I have no information at all about Rixafil — its metabolic pathway, its effect on HTX-2C, or any other properties. Without knowing whether Rixafil affects HTX-2C, I cannot determine whether an interaction occurs. The information provided is insufficient to decide.\n\nMECHANISM: insufficient information (HTX-2C is the relevant enzyme for Sevafil activation, but Rixafil's effect on it is unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-07"
+    }
+  },
+  {
+    "text": "My colleague overlooked the Rixafil data provided. Rixafil's key pharmacokinetic property is strong inhibition of HTX-3F. Sevafil's active metabolite formation depends on HTX-2C, a different enzyme. Because Rixafil's inhibition is specific to HTX-3F and no effect on HTX-2C is described, Rixafil would not be expected to reduce or increase Sevafil's active metabolite formation. Rixafil's other properties (once-daily oral dosing, weight-based dosing under 50 kg, mainly faecal excretion) suggest no shared absorption or elimination pathway with Sevafil based on the information given. Therefore, no clinically significant pharmacokinetic interaction is identified from the available data.\n\nMECHANISM: Rixafil strongly inhibits HTX-3F; Sevafil activation requires HTX-2C — distinct enzymes, so no effect on active metabolite formation\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-07"
+    }
+  },
+  {
+    "text": "My colleague lacked the Sevafil data, but I have it, and it changes the reasoning: Sevafil's disposition is explicitly tied to HTX-2C, which it requires to form its active metabolite. Rixafil is reported only as a strong inhibitor of HTX-3F — a different enzyme. Since the one enzyme named for Sevafil (HTX-2C) is not the one Rixafil inhibits (HTX-3F), no shared pathway links the two drugs. Nothing in the Sevafil profile (food intake, faecal excretion, storage, adult-only use) suggests absorption, transport, or excretion overlap with Rixafil either. I cannot rule out effects on unlisted pathways, but from the information given, no interaction mechanism can be identified, so a clinically significant pharmacokinetic interaction is not supported.\n\nMECHANISM: no shared pathway — Sevafil depends on HTX-2C; Rixafil inhibits only HTX-3F\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-07"
+    }
+  }
+]

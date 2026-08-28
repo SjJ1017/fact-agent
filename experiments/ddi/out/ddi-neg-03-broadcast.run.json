@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-neg-03",
+  "condition": "broadcast",
+  "drug_a": "Omeprazole",
+  "drug_b": "Theophylline",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Omeprazole inhibits CYP2C19.",
+    "Theophylline is cleared principally by CYP1A2."
+  ],
+  "transcript": {
+    "A|1": "Omeprazole's only pharmacokinetic property given is inhibition of CYP2C19. Theophylline is cleared principally by CYP1A2, a different enzyme. Since the provided information identifies no shared metabolic pathway, no inhibition or induction mechanism linking the two drugs can be derived. Theophylline's narrow therapeutic range means any interaction would matter, but nothing here establishes one. (In reality, omeprazole has no clinically significant effect on theophylline clearance, consistent with this enzyme mismatch.)\n\nMECHANISM: Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, so no inhibitory/inductive interaction\nFINAL ANSWER: NO",
+    "B|1": "Omeprazole's only pharmacokinetic property given is inhibition of CYP2C19. Theophylline is cleared principally by CYP1A2, a different enzyme. Since the provided information identifies no shared metabolic pathway, no inhibition or induction mechanism linking the two drugs can be derived. Theophylline's narrow therapeutic range means any interaction would matter, but nothing here establishes one. (In reality, omeprazole has no clinically significant effect on theophylline clearance, consistent with this enzyme mismatch.)\n\nMECHANISM: Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, so no inhibitory/inductive interaction\nFINAL ANSWER: NO",
+    "A|2": "I agree with my colleague's assessment. The provided information shows omeprazole's only relevant pharmacokinetic property is CYP2C19 inhibition, while theophylline is cleared principally by CYP1A2. These are distinct enzymes, and no shared metabolic pathway, inhibition, or induction mechanism connecting the two drugs can be derived from the data given. Although theophylline's narrow therapeutic range means any interaction would be clinically important, nothing in the supplied information establishes one. One could note that gastric pH changes from acid suppression do not constitute a documented absorption interaction here either, and the information provided does not support one. Based strictly on the drug information available, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, so no interaction derivable\nFINAL ANSWER: NO",
+    "B|2": "I agree with my colleague's assessment. The only pharmacokinetic property provided for omeprazole is inhibition of CYP2C19, while theophylline is cleared principally by CYP1A2. These are distinct enzymes, and the supplied information identifies no shared metabolic pathway, induction, or other mechanism (e.g., absorption change) linking the two drugs. Although theophylline's narrow therapeutic range means an interaction would be clinically important if one existed, nothing derivable from the given data establishes one. I note that omeprazole has been reported elsewhere to weakly induce CYP1A2, but that is not contained in the information provided, so I cannot rely on it here. Based strictly on the supplied drug information, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, no interaction derivable\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, so no interaction derivable",
+    "B": "Omeprazole inhibits CYP2C19; theophylline is cleared by CYP1A2 — no shared enzyme, no interaction derivable"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-03-broadcast"
+}

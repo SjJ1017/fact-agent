@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-pos-05",
+  "condition": "solo-half",
+  "drug_a": "Ciprofloxacin",
+  "drug_b": "Theophylline",
+  "gold": true,
+  "enzyme": "CYP1A2",
+  "critical_pair": [
+    "Ciprofloxacin is a potent inhibitor of CYP1A2.",
+    "Theophylline is cleared principally by CYP1A2."
+  ],
+  "transcript": {
+    "A|1": "Yes. The provided information states that ciprofloxacin is a potent inhibitor of CYP1A2. Theophylline is predominantly cleared via CYP1A2 metabolism — this is standard, well-established pharmacology, since the information supplied covers only ciprofloxacin and gives no metabolic data for theophylline. Inhibiting CYP1A2 reduces theophylline clearance, raising plasma concentrations and the risk of dose-related toxicity (seizures, arrhythmias); theophylline dosing is routinely reduced when co-prescribed with ciprofloxacin. Caveat: because the supplied text does not itself describe theophylline's metabolism, this conclusion rests on established external knowledge of theophylline's CYP1A2 dependence combined with the stated ciprofloxacin inhibition, not on the provided card alone.\n\nMECHANISM: Ciprofloxacin inhibits CYP1A2, the primary enzyme metabolizing theophylline, decreasing theophylline clearance and increasing its plasma levels\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "Ciprofloxacin inhibits CYP1A2, the primary enzyme metabolizing theophylline, decreasing theophylline clearance and increasing its plasma levels"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-05-solo-half"
+}

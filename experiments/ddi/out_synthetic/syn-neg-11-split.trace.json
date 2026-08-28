@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Orbafil is a strong inhibitor of HTX-3F.",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbafil",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Orbafil is supplied as 10 mg and 25 mg tablets.",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbafil is given once daily by mouth.",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbafil does not require renal dose adjustment.",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbafil was first registered in 2019.",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessapine requires HTX-4B to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessapine",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Kessapine is taken with food to reduce nausea.",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessapine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessapine reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessapine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessapine is 92% bound to plasma proteins.",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessapine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessapine is available as a generic formulation.",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessapine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbafil is described as a strong inhibitor of HTX-3F, so it could raise exposure of any co-administered drug cleared by that enzyme. However, the information provided contains no data on Kessapine at all — nothing about its metabolic pathway, whether it is an HTX-3F substrate, or its elimination route. Without knowing Kessapine's metabolism, I cannot determine whether Orbafil's HTX-3F inhibition would affect it. The available information is therefore insufficient to establish a clinically significant pharmacokinetic interaction, and I will not guess.\n\nMECHANISM: insufficient information (Orbafil inhibits HTX-3F, but Kessapine's metabolic pathway is unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-11"
+    }
+  },
+  {
+    "text": "No Orbafil information was provided, so I cannot evaluate any shared pathway. From Kessapine's data alone, the only plausible pharmacokinetic interaction mechanisms would be: (1) inhibition or induction of HTX-4B, the enzyme/step required to form Kessapine's active metabolite, or (2) displacement from plasma protein binding (Kessapine is 92% bound). However, without knowing whether Orbafil affects HTX-4B or is highly protein-bound, neither mechanism can be assessed. The available information is therefore insufficient to establish a clinically significant interaction; no evidence of one exists in the data given.\n\nMECHANISM: insufficient information (HTX-4B metabolism and protein-binding displacement cannot be assessed without Orbafil data)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-11"
+    }
+  },
+  {
+    "text": "Orbafil's only documented pharmacokinetic property is strong inhibition of HTX-3F. Kessapine's plausible interaction pathways, per my colleague, are HTX-4B (required for its active metabolite) and plasma protein binding (92% bound). HTX-3F and HTX-4B are distinct enzymes, so Orbafil's known effect does not touch Kessapine's metabolic activation, and nothing indicates Orbafil affects HTX-4B. For displacement, Orbafil's protein binding is unknown, but there is no evidence it is a highly bound displacer. No shared mechanism is therefore identifiable from the data; the theoretical displacement risk cannot be fully excluded, but nothing supports a clinically significant interaction. My colleague's conclusion stands.\n\nMECHANISM: no overlap — Orbafil inhibits HTX-3F; Kessapine's pathway is HTX-4B (distinct enzyme); protein displacement unevaluable\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-11"
+    }
+  },
+  {
+    "text": "My colleague overlooked a key detail: Kessapine's data does state its metabolic pathway — it requires HTX-4B to form its active metabolite. Orbafil's only reported action is strong inhibition of HTX-3F, a different enzyme. Since Kessapine's known metabolic step depends on HTX-4B, not HTX-3F, Orbafil's inhibition would not be expected to alter Kessapine's exposure or activation. No other mechanism is supported: Kessapine's 92% protein binding and food administration provide no plausible link to Orbafil, and no HTX-4B inhibition by Orbafil is reported. The only metabolic information given for Kessapine is HTX-4B-dependent activation, which does not overlap with Orbafil's HTX-3F inhibition. On the information provided, no clinically significant pharmacokinetic interaction is expected.\n\nMECHANISM: Orbafil inhibits HTX-3F; Kessapine's known metabolic step is HTX-4B-mediated — different enzymes, no overlap\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-11-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-11"
+    }
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-04",
+  "condition": "broadcast",
+  "drug_a": "Zalerol",
+  "drug_b": "Kessustat",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Zalerol is a strong inhibitor of HTX-1A.",
+    "Kessustat is cleared almost entirely by HTX-6K."
+  ],
+  "transcript": {
+    "A|1": "Zalerol's only described pharmacokinetic activity is strong inhibition of HTX-1A. Kessustat, however, is cleared almost entirely by HTX-6K — a different enzyme — and nothing in the provided data indicates Zalerol affects HTX-6K, Kessustat's absorption, or its distribution. Zalerol's 92% plasma protein binding raises a theoretical displacement concern, but Kessustat's protein binding is not provided, so no displacement-based interaction can be established. With no shared enzyme or mechanism between the two drugs, no clinically significant pharmacokinetic interaction is expected on the information available.\n\nMECHANISM: Zalerol inhibits HTX-1A; Kessustat is cleared by HTX-6K — no overlapping pathway, no inhibition of Kessustat's clearance\nFINAL ANSWER: NO",
+    "B|1": "Zalerol's only described pharmacokinetic activity is strong inhibition of HTX-1A. Kessustat, however, is cleared almost entirely by HTX-6K — a different enzyme — and nothing in the provided data indicates Zalerol affects HTX-6K, Kessustat's absorption, or its distribution. Zalerol's 92% plasma protein binding raises a theoretical displacement concern, but Kessustat's protein binding is not provided, so no displacement-based interaction can be established. With no shared enzyme or mechanism between the two drugs, no clinically significant pharmacokinetic interaction is expected on the information available.\n\nMECHANISM: Zalerol inhibits HTX-1A; Kessustat is cleared by HTX-6K — no overlapping pathway, no inhibition of Kessustat's clearance\nFINAL ANSWER: NO",
+    "A|2": "I agree with my colleague's assessment. Zalerol's only stated pharmacokinetic activity is strong inhibition of HTX-1A, while Kessustat's elimination depends almost entirely on HTX-6K — a distinct enzyme. Nothing in the provided data indicates Zalerol inhibits or induces HTX-6K, alters Kessustat's absorption, or otherwise affects its clearance. The 92% plasma protein binding of Zalerol is a theoretical displacement consideration, but Kessustat's protein binding is not provided, so a displacement interaction cannot be established from the information given. Other listed attributes (storage, food, age restriction, hepatic contraindication, weight-based dosing, QT) do not bear on a drug–drug pharmacokinetic interaction between these two agents. With no shared enzyme or mechanism identified, no clinically significant pharmacokinetic interaction is expected.\n\nMECHANISM: Zalerol inhibits HTX-1A; Kessustat is cleared by HTX-6K — no overlapping pathway, no effect on Kessustat's clearance\nFINAL ANSWER: NO",
+    "B|2": "I agree with my colleague's assessment. Zalerol's only stated pharmacokinetic property relevant to interactions is strong inhibition of HTX-1A. Kessustat's elimination is almost entirely via HTX-6K, a distinct enzyme, and nothing in the provided data indicates Zalerol inhibits or induces HTX-6K or alters Kessustat's absorption or distribution. Therefore, no CYP-style (here, HTX-mediated) metabolic interaction can be established. Regarding protein binding: Zalerol is 92% bound, but Kessustat's protein binding is not provided, so a displacement interaction cannot be confirmed — and even theoretically, displacement alone would not establish clinical significance here. The remaining listed attributes (storage, age indication, food, weight-based dosing, QT, generic status) have no bearing on a pharmacokinetic interaction. The information given is sufficient to conclude no interaction is expected.\n\nMECHANISM: Zalerol inhibits HTX-1A; Kessustat is cleared by HTX-6K — no shared enzyme or pathway, no effect on Kessustat's clearance\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "Zalerol inhibits HTX-1A; Kessustat is cleared by HTX-6K — no overlapping pathway, no effect on Kessustat's clearance",
+    "B": "Zalerol inhibits HTX-1A; Kessustat is cleared by HTX-6K — no shared enzyme or pathway, no effect on Kessustat's clearance"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-04-broadcast"
+}

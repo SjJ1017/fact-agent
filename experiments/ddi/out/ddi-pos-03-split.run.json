@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-pos-03",
+  "condition": "split",
+  "drug_a": "Rifampin",
+  "drug_b": "Ethinylestradiol",
+  "gold": true,
+  "enzyme": "CYP3A4",
+  "critical_pair": [
+    "Rifampin is a potent inducer of CYP3A4.",
+    "Ethinylestradiol is metabolised by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Yes. Rifampin is a potent inducer of CYP3A4 (and of P-glycoprotein). Ethinylestradiol is extensively cleared by CYP3A4-mediated metabolism (and is a P-gp substrate), so co-administration with rifampin markedly increases its metabolic clearance and lowers plasma ethinylestradiol concentrations. This reduces contraceptive efficacy and commonly causes breakthrough bleeding or unintended pregnancy — a well-recognized, clinically significant interaction; alternative or additional non-hormonal contraception is advised. Caveat: the provided monograph covers only rifampin; this conclusion relies on the established fact that ethinylestradiol is a CYP3A4 substrate, which is not stated in the information given.\n\nMECHANISM: CYP3A4 induction by rifampin → increased metabolism and reduced exposure of ethinylestradiol (P-gp induction may contribute)\nFINAL ANSWER: YES",
+    "B|1": "Ethinylestradiol is a CYP3A4 substrate and undergoes enterohepatic recirculation, so a co-administered drug could theoretically alter its exposure via CYP3A4 induction/inhibition or effects on recirculation. However, the information provided contains no data on rifampin at all — nothing about its effect on CYP3A4, hepatic enzyme induction, or enterohepatic recirculation. Without knowing rifampin's enzymatic effects, I cannot determine from the supplied material whether co-administration changes ethinylestradiol levels, and I will not guess beyond what I have been given. The information is therefore insufficient to establish a clinically significant pharmacokinetic interaction.\n\nMECHANISM: insufficient information — ethinylestradiol is CYP3A4-metabolised, but no data on rifampin's effect on CYP3A4 is provided\nFINAL ANSWER: NO",
+    "A|2": "My colleague's assessment was limited because they lacked the rifampin data — but I have it. The rifampin information explicitly states it is a potent inducer of CYP3A4 (and also a P-glycoprotein inducer). Ethinylestradiol is confirmed to be a CYP3A4 substrate. Combining these: rifampin's CYP3A4 induction would increase ethinylestradiol's hepatic metabolism, lowering its plasma exposure. This is a well-established clinically significant interaction — reduced ethinylestradiol levels can compromise contraceptive efficacy, and additional P-glycoprotein induction may further reduce absorption/exposure. Unlike my colleague, I can resolve this because the missing piece (rifampin's enzymatic effect) is present in my drug information. The interaction is clinically significant, and alternative contraception or dose adjustment is warranted.\n\nMECHANISM: CYP3A4 induction by rifampin → increased ethinylestradiol metabolism → decreased ethinylestradiol exposure\nFINAL ANSWER: YES",
+    "B|2": "My colleague's caveat is resolved: the ethinylestradiol information I hold explicitly states it is metabolised by CYP3A4. Combining this with the colleague's rifampin data (potent CYP3A4 inducer), the interaction is established: rifampin induces CYP3A4, increasing hepatic and intestinal metabolism of ethinylestradiol, lowering its plasma concentrations. Since ethinylestradiol is the oestrogen component of combined oral contraceptives given orally once daily, reduced exposure undermines contraceptive efficacy, with risk of breakthrough bleeding and unintended pregnancy. Rifampin's P-gp induction may contribute further, though CYP3A4 induction is the primary, sufficient mechanism here. This is a well-recognised, clinically significant interaction; additional or alternative non-hormonal contraception is advised during rifampin use.\n\nMECHANISM: CYP3A4 induction by rifampin → increased metabolism and reduced exposure of ethinylestradiol\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "CYP3A4 induction by rifampin → increased ethinylestradiol metabolism → decreased ethinylestradiol exposure",
+    "B": "CYP3A4 induction by rifampin → increased metabolism and reduced exposure of ethinylestradiol"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-03-split"
+}

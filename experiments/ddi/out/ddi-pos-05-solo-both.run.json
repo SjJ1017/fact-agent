@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-pos-05",
+  "condition": "solo-both",
+  "drug_a": "Ciprofloxacin",
+  "drug_b": "Theophylline",
+  "gold": true,
+  "enzyme": "CYP1A2",
+  "critical_pair": [
+    "Ciprofloxacin is a potent inhibitor of CYP1A2.",
+    "Theophylline is cleared principally by CYP1A2."
+  ],
+  "transcript": {
+    "A|1": "Yes. Ciprofloxacin is a potent inhibitor of CYP1A2, and theophylline is cleared principally via CYP1A2. Inhibiting this enzyme would reduce theophylline clearance and raise its serum concentrations. Because theophylline has a narrow therapeutic range (and is monitored in practice), elevated levels risk toxicity (e.g., seizures, arrhythmias), making this a clinically significant pharmacokinetic interaction. Dose reduction or alternative antibiotic is typically advised.\n\nMECHANISM: CYP1A2 inhibition by ciprofloxacin decreases theophylline clearance, increasing theophylline exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "CYP1A2 inhibition by ciprofloxacin decreases theophylline clearance, increasing theophylline exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-05-solo-both"
+}

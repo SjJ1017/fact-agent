@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Paroxetine is a strong inhibitor of CYP2D6.",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Paroxetine",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Paroxetine is a selective serotonin reuptake inhibitor.",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Paroxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Paroxetine is associated with discontinuation symptoms if stopped abruptly.",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Paroxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Paroxetine has anticholinergic activity relative to other SSRIs.",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Paroxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Paroxetine is highly protein bound.",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Paroxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Ethinylestradiol is metabolised by CYP3A4.",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ethinylestradiol",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Ethinylestradiol is the oestrogen component of combined oral contraceptives.",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ethinylestradiol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Ethinylestradiol undergoes enterohepatic recirculation.",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ethinylestradiol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Ethinylestradiol increases hepatic synthesis of clotting factors.",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ethinylestradiol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Ethinylestradiol is administered orally once daily in most regimens.",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ethinylestradiol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Paroxetine's only relevant pharmacokinetic property given is that it is a strong inhibitor of CYP2D6. For an interaction to occur via this mechanism, ethinylestradiol would need to be a CYP2D6 substrate whose clearance is meaningfully reduced by paroxetine. However, the drug information provided contains no data on ethinylestradiol's metabolic pathway, so I cannot confirm from the material given that it is cleared by CYP2D6 (or affected by paroxetine at all). Without that link, no clinically significant pharmacokinetic interaction can be established from the available information. Note: paroxetine's high protein binding is not a basis for predicting a displacement interaction here without corresponding data on ethinylestradiol.\n\nMECHANISM: insufficient information (paroxetine inhibits CYP2D6, but ethinylestradiol's CYP2D6 substrate status is not provided)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "ddi-neg-04"
+    }
+  },
+  {
+    "text": "Paroxetine is a potent inhibitor of CYP2D6 (with minimal effect on CYP3A4). Ethinylestradiol's clearance depends on CYP3A4-mediated metabolism and enterohepatic recirculation; paroxetine does not inhibit CYP3A4 nor is it known to disrupt enterohepatic recirculation (e.g., via gut flora effects, as antibiotics do). Since the enzyme responsible for ethinylestradiol metabolism (CYP3A4) is not the enzyme inhibited by paroxetine (CYP2D6), no relevant pharmacokinetic mechanism links the two drugs. The provided information supports this: ethinylestradiol's listed pathways are unaffected by paroxetine's known pharmacology. Therefore, no clinically significant pharmacokinetic interaction is expected, and ethinylestradiol contraceptive efficacy should be maintained.\n\nMECHANISM: Paroxetine inhibits CYP2D6; ethinylestradiol is metabolised by CYP3A4 — no shared pathway, no inhibition\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "ddi-neg-04"
+    }
+  },
+  {
+    "text": "I agree with my colleague's assessment. Paroxetine's only relevant pharmacokinetic property here is potent CYP2D6 inhibition; ethinylestradiol's clearance is CYP3A4-mediated plus conjugation and enterohepatic recirculation, none of which paroxetine affects. No shared metabolic pathway exists.\n\nOne theoretical consideration from my own data: paroxetine is highly protein bound, so displacement interactions could be hypothesised. However, I have no information on ethinylestradiol's protein binding, and displacement interactions are rarely clinically significant, so this does not establish an interaction. The metabolic evidence is decisive: the enzyme inhibited (CYP2D6) is not the enzyme responsible for ethinylestradiol clearance (CYP3A4).\n\nContraceptive efficacy should be maintained; no clinically significant pharmacokinetic interaction is expected.\n\nMECHANISM: Paroxetine inhibits CYP2D6; ethinylestradiol is cleared via CYP3A4 and conjugation — no shared pathway\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "ddi-neg-04"
+    }
+  },
+  {
+    "text": "My colleague lacked the ethinylestradiol metabolic data, but I have it: ethinylestradiol is metabolised by CYP3A4, not CYP2D6. Paroxetine's only relevant property given is strong CYP2D6 inhibition, which therefore does not affect ethinylestradiol's clearance. No inhibition of CYP3A4 by paroxetine is stated, and no other shared mechanism (e.g., effects on enterohepatic recirculation) is described in the material provided. The protein-binding point is correctly dismissed without corresponding data. On the information available, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: no overlap — paroxetine inhibits CYP2D6, while ethinylestradiol is cleared by CYP3A4\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-04-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "ddi-neg-04"
+    }
+  }
+]

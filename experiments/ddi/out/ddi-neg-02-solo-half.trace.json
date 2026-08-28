@@ -1,0 +1,152 @@
+[
+  {
+    "text": "Ciprofloxacin is a potent inhibitor of CYP1A2.",
+    "provenance": {
+      "execution_id": "ddi-neg-02-solo-half",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ciprofloxacin",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Ciprofloxacin is a fluoroquinolone antibiotic.",
+    "provenance": {
+      "execution_id": "ddi-neg-02-solo-half",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ciprofloxacin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Ciprofloxacin is active against many Gram-negative organisms.",
+    "provenance": {
+      "execution_id": "ddi-neg-02-solo-half",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ciprofloxacin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Ciprofloxacin absorption is reduced by divalent cations.",
+    "provenance": {
+      "execution_id": "ddi-neg-02-solo-half",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ciprofloxacin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Ciprofloxacin carries a warning for tendon rupture.",
+    "provenance": {
+      "execution_id": "ddi-neg-02-solo-half",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Ciprofloxacin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Simvastatin is extensively metabolised by CYP3A4.",
+    "provenance": {
+      "execution_id": "ddi-neg-02-solo-half",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Simvastatin",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Simvastatin is an HMG-CoA reductase inhibitor used to lower LDL cholesterol.",
+    "provenance": {
+      "execution_id": "ddi-neg-02-solo-half",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Simvastatin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Simvastatin is usually taken in the evening.",
+    "provenance": {
+      "execution_id": "ddi-neg-02-solo-half",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Simvastatin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Simvastatin is a lactone prodrug hydrolysed to its active acid.",
+    "provenance": {
+      "execution_id": "ddi-neg-02-solo-half",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Simvastatin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Simvastatin carries a dose-dependent risk of myopathy.",
+    "provenance": {
+      "execution_id": "ddi-neg-02-solo-half",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Simvastatin",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Ciprofloxacin's only pharmacokinetic property relevant here is potent CYP1A2 inhibition. To predict an interaction, I would need to know whether simvastatin is a CYP1A2 substrate — but the information provided says nothing about simvastatin's metabolism, absorption, or clearance pathways. I cannot derive simvastatin's metabolic route from ciprofloxacin's data alone, so I cannot establish a mechanism-based interaction from what I hold. (In general pharmacology simvastatin is CYP3A4-cleared, but that fact is outside the supplied information, and ciprofloxacin's CYP1A2 inhibition would not affect a CYP3A4 substrate anyway.) Based strictly on the provided data, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: insufficient information (ciprofloxacin inhibits CYP1A2; simvastatin's metabolic pathway not provided)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "ddi-neg-02-solo-half",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "ddi-neg-02"
+    }
+  }
+]

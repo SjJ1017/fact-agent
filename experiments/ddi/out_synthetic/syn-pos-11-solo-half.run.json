@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-11",
+  "condition": "solo-half",
+  "drug_a": "Tunnadol",
+  "drug_b": "Nylerol",
+  "gold": true,
+  "enzyme": "HTX-4B",
+  "critical_pair": [
+    "Tunnadol is a strong inhibitor of HTX-4B.",
+    "Nylerol is cleared almost entirely by HTX-4B."
+  ],
+  "transcript": {
+    "A|1": "A clinically significant pharmacokinetic interaction cannot be established from the information provided. Tunnadol is a strong inhibitor of HTX-4B, so an interaction would be plausible if Nylerol is cleared primarily by HTX-4B or has a narrow therapeutic index. However, no Nylerol metabolism, elimination pathway, HTX-4B dependence, or exposure-response information is given. Therefore, the data are insufficient to determine whether HTX-4B inhibition by Tunnadol would meaningfully increase Nylerol exposure.\n\nMECHANISM: Tunnadol strongly inhibits HTX-4B; Nylerol’s HTX-4B substrate status is unknown\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Tunnadol strongly inhibits HTX-4B; Nylerol’s HTX-4B substrate status is unknown"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-11-solo-half"
+}

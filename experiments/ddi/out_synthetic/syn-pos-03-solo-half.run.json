@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-03",
+  "condition": "solo-half",
+  "drug_a": "Venustat",
+  "drug_b": "Pelustat",
+  "gold": true,
+  "enzyme": "HTX-6K",
+  "critical_pair": [
+    "Venustat is a strong inhibitor of HTX-6K.",
+    "Pelustat requires HTX-6K to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Venustat is a strong inhibitor of HTX-6K, so it could interact with a co-drug only if that drug is a substrate of HTX-6K or otherwise depends on that pathway. The provided information says nothing about Pelustat’s metabolism, transport, or whether Pelustat is affected by HTX-6K inhibition. Therefore, a clinically significant pharmacokinetic interaction cannot be established from the available data.\n\nMECHANISM: insufficient information — Venustat inhibits HTX-6K, but Pelustat’s HTX-6K dependence is unknown\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information — Venustat inhibits HTX-6K, but Pelustat’s HTX-6K dependence is unknown"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-03-solo-half"
+}

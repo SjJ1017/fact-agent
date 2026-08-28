@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-10",
+  "condition": "solo-half",
+  "drug_a": "Tunnotinib",
+  "drug_b": "Nylotinib",
+  "gold": true,
+  "enzyme": "HTX-7M",
+  "critical_pair": [
+    "Tunnotinib is a strong inhibitor of HTX-7M.",
+    "Nylotinib requires HTX-7M to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Tunnotinib is a strong inhibitor of HTX-7M, but the provided information does not state whether Nylotinib is a HTX-7M substrate or is otherwise affected by HTX-7M inhibition. Without Nylotinib metabolism, transport, exposure, or interaction data, a clinically significant pharmacokinetic interaction cannot be established from the available information.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": false,
+  "exec_id": "syn-pos-10-solo-half"
+}

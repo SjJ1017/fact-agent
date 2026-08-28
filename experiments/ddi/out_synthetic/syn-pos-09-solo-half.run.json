@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-09",
+  "condition": "solo-half",
+  "drug_a": "Quorustat",
+  "drug_b": "Morerol",
+  "gold": true,
+  "enzyme": "HTX-2C",
+  "critical_pair": [
+    "Quorustat is a strong inhibitor of HTX-2C.",
+    "Morerol requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Quorustat is a strong HTX-2C inhibitor, so it could increase exposure of a co-drug if that drug is cleared by HTX-2C. However, no information is provided about Morerol’s metabolism, HTX-2C substrate status, absorption, or elimination. Quorustat’s faecal excretion, protein binding, and Tmax do not by themselves establish an interaction with Morerol. Thus, a clinically significant pharmacokinetic interaction cannot be confirmed or excluded from the supplied data.\n\nMECHANISM: HTX-2C inhibition by Quorustat is possible, but Morerol’s HTX-2C substrate status is unknown — insufficient information\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "HTX-2C inhibition by Quorustat is possible, but Morerol’s HTX-2C substrate status is unknown — insufficient information"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-09-solo-half"
+}

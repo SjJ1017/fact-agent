@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Quorustat is a strong inhibitor of HTX-2C.",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Quorustat",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Quorustat reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Quorustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Quorustat is contraindicated in severe hepatic impairment.",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Quorustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Quorustat is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Quorustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Quorustat is 92% bound to plasma proteins.",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Quorustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morerol requires HTX-2C to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morerol",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Morerol is supplied as 10 mg and 25 mg tablets.",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morerol is given once daily by mouth.",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morerol is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morerol is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Quorustat is a strong HTX-2C inhibitor, so it could increase exposure of a co-drug if that drug is cleared by HTX-2C. However, no information is provided about Morerol’s metabolism, HTX-2C substrate status, absorption, or elimination. Quorustat’s faecal excretion, protein binding, and Tmax do not by themselves establish an interaction with Morerol. Thus, a clinically significant pharmacokinetic interaction cannot be confirmed or excluded from the supplied data.\n\nMECHANISM: HTX-2C inhibition by Quorustat is possible, but Morerol’s HTX-2C substrate status is unknown — insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-09"
+    }
+  },
+  {
+    "text": "The available information is insufficient to determine a pharmacokinetic interaction. I have data only for Morerol: it requires HTX-2C to form its active metabolite and is excreted mainly in faeces. However, I hold no information about Quorustat at all — nothing about whether it inhibits or induces HTX-2C, affects Morerol absorption, or alters its elimination. Without knowing Quorustat's enzymatic effects, I cannot conclude that it interferes with Morerol's activation via HTX-2C or its faecal excretion. No interaction can be established from the data provided, but this reflects a gap in information rather than confirmed absence of an interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-09"
+    }
+  },
+  {
+    "text": "My colleague's \"insufficient information\" conclusion stemmed from lacking Quorustat data, but I hold that missing piece: Quorustat is a strong inhibitor of HTX-2C. Morerol requires HTX-2C to form its active metabolite. Combining both datasets, co-administration means Quorustat would strongly block the enzyme responsible for Morerol's metabolic activation, reducing active metabolite formation. This is a clinically significant pharmacokinetic interaction — likely diminished Morerol efficacy — even though both drugs' faecal excretion routes do not themselves interact. The colleague's gap is resolved by my Quorustat profile, so the interaction can now be established rather than remaining uncertain.\n\nMECHANISM: Quorustat strongly inhibits HTX-2C, reducing Morerol's conversion to its active metabolite\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-09"
+    }
+  },
+  {
+    "text": "My colleague overlooked a key fact: Morerol's own label states it \"requires HTX-2C to form its active metabolite.\" That directly establishes Morerol as a substrate of HTX-2C for metabolic activation — no further metabolism data are needed. Since Quorustat is a strong HTX-2C inhibitor, co-administration would block Morerol's conversion to its active metabolite, lowering active-metabolite exposure and likely reducing Morerol's therapeutic effect. This is a clinically significant pharmacokinetic interaction (inhibition of metabolic activation), even though parent-drug levels might rise or stay similar. The faecal excretion and storage details are irrelevant here. My colleague's \"cannot confirm or exclude\" conclusion should be updated: the interaction can be confirmed from the supplied data.\n\nMECHANISM: HTX-2C inhibition by Quorustat decreases Morerol's metabolic activation to its active metabolite\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-09-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-09"
+    }
+  }
+]

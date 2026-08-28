@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-00",
+  "condition": "solo-both",
+  "drug_a": "Immootinib",
+  "drug_b": "Rixipramol",
+  "gold": true,
+  "enzyme": "HTX-7M",
+  "critical_pair": [
+    "Immootinib is a potent inducer of HTX-7M.",
+    "Rixipramol requires HTX-7M to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Yes. Immootinib is a potent inducer of the enzyme HTX-7M, and Rixipramol depends on HTX-7M for conversion to its active metabolite. Induction of HTX-7M would therefore increase the metabolism of Rixipramol, raising levels of its active metabolite (and potentially lowering parent drug levels). Because the induction is described as potent, this altered exposure is expected to be clinically significant — the combined effect could increase both efficacy and metabolite-related adverse effects. Note that the available information does not quantify the magnitude of change, but a potent inducer acting on the sole activation pathway is sufficient to flag a clinically relevant interaction.\n\nMECHANISM: HTX-7M — Immootinib potently induces HTX-7M, increasing Rixipramol's conversion to its active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "HTX-7M — Immootinib potently induces HTX-7M, increasing Rixipramol's conversion to its active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-00-solo-both"
+}

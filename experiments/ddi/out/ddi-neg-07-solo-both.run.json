@@ -1,0 +1,25 @@
+{
+  "case_id": "ddi-neg-07",
+  "condition": "solo-both",
+  "drug_a": "Fluoxetine",
+  "drug_b": "Midazolam",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Fluoxetine is a strong inhibitor of CYP2D6.",
+    "Midazolam is metabolised almost entirely by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Fluoxetine's only stated inhibitory effect is on CYP2D6, where it is a strong inhibitor. Midazolam, however, is metabolised almost entirely by CYP3A4 and even serves as a probe substrate for CYP3A4 interactions. Since the provided information identifies no CYP3A4 inhibition by fluoxetine (or norfluoxetine), there is no shared enzymatic pathway through which fluoxetine would impair midazolam clearance. The long half-life of fluoxetine is relevant to duration of CYP2D6 inhibition but does not create a CYP3A4 effect. On the information given, no mechanism exists for a clinically significant pharmacokinetic interaction, though I cannot exclude weak CYP3A4 effects not listed here.\n\nMECHANISM: Fluoxetine inhibits CYP2D6; midazolam is cleared by CYP3A4 — no shared enzyme, no inhibition expected\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Fluoxetine inhibits CYP2D6; midazolam is cleared by CYP3A4 — no shared enzyme, no inhibition expected"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "ddi-neg-07-solo-both"
+}

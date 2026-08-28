@@ -1,0 +1,30 @@
+{
+  "case_id": "ddi-pos-02",
+  "condition": "broadcast",
+  "drug_a": "Clarithromycin",
+  "drug_b": "Simvastatin",
+  "gold": true,
+  "enzyme": "CYP3A4",
+  "critical_pair": [
+    "Clarithromycin is a strong inhibitor of CYP3A4.",
+    "Simvastatin is extensively metabolised by CYP3A4."
+  ],
+  "transcript": {
+    "A|1": "Yes. Clarithromycin is a strong inhibitor of CYP3A4, and simvastatin is extensively metabolised by CYP3A4. Co-administration therefore reduces simvastatin's metabolism, increasing its plasma exposure. Because simvastatin's myopathy risk is dose-dependent (concentration-related), elevated levels raise the risk of myopathy and rhabdomyolysis. This is a well-recognised, clinically significant pharmacokinetic interaction; concurrent use is generally avoided or requires an alternative statin/antibiotic.\n\nMECHANISM: CYP3A4 — clarithromycin inhibits CYP3A4, decreasing simvastatin metabolism and increasing its exposure\nFINAL ANSWER: YES",
+    "B|1": "Yes. Clarithromycin is a strong inhibitor of CYP3A4, and simvastatin is extensively metabolised by CYP3A4. Co-administration therefore reduces simvastatin's metabolism, increasing its plasma exposure. Because simvastatin's myopathy risk is dose-dependent (concentration-related), elevated levels raise the risk of myopathy and rhabdomyolysis. This is a well-recognised, clinically significant pharmacokinetic interaction; concurrent use is generally avoided or requires an alternative statin/antibiotic.\n\nMECHANISM: CYP3A4 — clarithromycin inhibits CYP3A4, decreasing simvastatin metabolism and increasing its exposure\nFINAL ANSWER: YES",
+    "A|2": "I agree with my colleague's assessment. The provided information is sufficient to reach a conclusion: clarithromycin is explicitly listed as a strong inhibitor of CYP3A4, and simvastatin is explicitly listed as extensively metabolised by CYP3A4. Inhibition of this enzyme will reduce simvastatin's metabolic clearance, raising its plasma exposure. Since simvastatin's myopathy risk is stated to be dose-dependent (i.e., concentration-related), the increased exposure translates into a clinically meaningful elevation in myopathy/rhabdomyolysis risk. This is a well-established, clinically significant pharmacokinetic interaction; the combination is generally avoided, or a non-CYP3A4-metabolised statin or alternative antibiotic should be used. No additional information is needed to support this conclusion.\n\nMECHANISM: CYP3A4 — clarithromycin strongly inhibits CYP3A4, decreasing simvastatin metabolism and increasing its exposure\nFINAL ANSWER: YES",
+    "B|2": "I agree with my colleague's assessment. The provided information is sufficient to conclude an interaction: clarithromycin is explicitly listed as a strong CYP3A4 inhibitor, and simvastatin is explicitly listed as extensively metabolised by CYP3A4. Inhibiting CYP3A4 therefore reduces simvastatin's metabolism, raising its plasma exposure. Since simvastatin's myopathy risk is stated to be dose-dependent (i.e., concentration-related), increased exposure elevates the risk of myopathy and, at high levels, rhabdomyolysis. This is a clinically significant pharmacokinetic interaction; the combination is generally avoided, or a non-CYP3A4-metabolised statin or alternative antibiotic is used. No additional information is needed to reach this conclusion.\n\nMECHANISM: CYP3A4 — clarithromycin inhibits CYP3A4, decreasing simvastatin metabolism and increasing its exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "CYP3A4 — clarithromycin strongly inhibits CYP3A4, decreasing simvastatin metabolism and increasing its exposure",
+    "B": "CYP3A4 — clarithromycin inhibits CYP3A4, decreasing simvastatin metabolism and increasing its exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "ddi-pos-02-broadcast"
+}

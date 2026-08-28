@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Kessizumab is a potent inducer of HTX-2C.",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessizumab",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Kessizumab is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessizumab",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessizumab is dosed by body weight in patients under 50 kg.",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessizumab",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessizumab is 92% bound to plasma proteins.",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessizumab",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessizumab does not require renal dose adjustment.",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessizumab",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Dralerol is cleared almost entirely by HTX-1A.",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Dralerol",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Dralerol is given once daily by mouth.",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Dralerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Dralerol reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Dralerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Dralerol is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Dralerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Dralerol does not require renal dose adjustment.",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Dralerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessizumab’s only relevant pharmacokinetic property provided is potent induction of HTX-2C. This could lower exposure of a co-prescribed drug if that drug is an HTX-2C substrate. However, no information is given about Dralerol’s metabolism, clearance pathway, or whether it depends on HTX-2C. Therefore, the available data are insufficient to determine a clinically significant pharmacokinetic interaction; I cannot conclude one without evidence that Dralerol is affected by HTX-2C induction.\n\nMECHANISM: insufficient information (Kessizumab induces HTX-2C; Dralerol HTX-2C substrate status unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-05"
+    }
+  },
+  {
+    "text": "**Assessment:** Dralerol's clearance depends almost entirely on the enzyme HTX-1A, so a pharmacokinetic interaction would most plausibly occur if Kessizumab inhibited or induced HTX-1A (or otherwise altered Dralerol absorption/biliary excretion). However, no information about Kessizumab is provided — nothing on its metabolism, its effect on HTX-1A, or any transporter activity. Therefore I cannot determine whether Kessizumab alters Dralerol exposure. The available data are insufficient to confirm or exclude an interaction; this is not evidence of absence of an interaction.\n\nMECHANISM: insufficient information — Dralerol is cleared by HTX-1A, but Kessizumab's effect on HTX-1A is unknown\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-05"
+    }
+  },
+  {
+    "text": "My colleague correctly identified Dralerol's HTX-1A dependence but stopped short of using the key fact available: Kessizumab's documented interaction mechanism is potent induction of HTX-2C — a different enzyme. Nothing provided links Kessizumab to HTX-1A, transporters, or absorption. Since the only mechanism Kessizumab is shown to have (HTX-2C induction) does not involve the enzyme that clears Dralerol (HTX-1A), no pharmacokinetic interaction is expected on the available data. Kessizumab's other properties (92% protein binding, no renal adjustment, weight-based dosing) suggest no additional interaction pathway. Caveat: this reflects the information supplied; an unlisted effect on HTX-1A cannot be absolutely excluded, but nothing supports one, so this is a reasoned \"no,\" not a guess.\n\nMECHANISM: Kessizumab induces HTX-2C; Dralerol is cleared via HTX-1A — no shared enzyme or mechanism\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-05"
+    }
+  },
+  {
+    "text": "My colleague's conclusion was overly cautious. We do have the key information: Dralerol is cleared almost entirely by HTX-1A. Kessizumab's only relevant pharmacokinetic property is potent induction of HTX-2C. Since Dralerol's clearance depends on HTX-1A, not HTX-2C, the induction of HTX-2C cannot increase Dralerol's clearance or lower its exposure. No other interaction mechanism (e.g., absorption, transport, renal handling) is suggested by the provided data — Dralerol's faecal excretion and rapid absorption are consistent with normal handling, and no effect of Kessizumab on these is described. Therefore, no clinically significant pharmacokinetic interaction is expected.\n\nMECHANISM: Dralerol cleared by HTX-1A; Kessizumab induces HTX-2C only — no pathway overlap\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-05-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-05"
+    }
+  }
+]
