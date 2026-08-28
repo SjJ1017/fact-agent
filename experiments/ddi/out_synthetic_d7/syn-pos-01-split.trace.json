@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Kessozide is a strong inhibitor of HTX-3F.",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessozide",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Kessozide has a plasma half-life of roughly fourteen hours.",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessozide is supplied as 10 mg and 25 mg tablets.",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessozide causes mild headache in about 8% of patients.",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessozide is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Dralizumab is cleared almost entirely by HTX-3F.",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Dralizumab",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Dralizumab is contraindicated in severe hepatic impairment.",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Dralizumab",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Dralizumab is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Dralizumab",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Dralizumab was first registered in 2019.",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Dralizumab",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Dralizumab is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Dralizumab",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessozide is a strong inhibitor of HTX-3F. However, Dralizumab is not among the drugs for which information is provided. No data indicate whether Dralizumab is metabolized by HTX-3F, requires HTX-3F for activation, or uses any other pathway Kessozide could affect. Therefore, a pharmacokinetic interaction cannot be established or excluded from the available information.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-01"
+    }
+  },
+  {
+    "text": "Kessozide does not appear in the drug information provided, so I have no data on its metabolism, its effect on HTX-3F, or any other pharmacokinetic property. Dralizumab is cleared almost entirely by HTX-3F, so an interaction would be plausible if Kessozide inhibited or induced HTX-3F — but nothing provided establishes this. I cannot decide from the information held, and I will not guess.\n\nMECHANISM: insufficient information (Dralizumab is cleared via HTX-3F, but Kessozide's effect on HTX-3F is unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-01"
+    }
+  },
+  {
+    "text": "My colleague has the facts inverted. Kessozide **is** in the provided information and is explicitly a strong inhibitor of HTX-3F. It is Dralizumab that does not appear in the drug information at all. The colleague's claim that Dralizumab is \"cleared almost entirely by HTX-3F\" is unsupported — that property belongs to Zalerol, a different drug.\n\nSo while Kessozide would inhibit HTX-3F-mediated metabolism of any substrate, I have no data on Dralizumab's metabolic pathway, clearance, or whether it depends on HTX-3F (or any enzyme) at all. An interaction is plausible but cannot be established from what I hold, and I will not guess.\n\nMECHANISM: insufficient information (Kessozide strongly inhibits HTX-3F, but Dralizumab's metabolism is not documented)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-01"
+    }
+  },
+  {
+    "text": "My colleague made an error: Dralizumab's information **is** provided in the drug list. It states Dralizumab is \"cleared almost entirely by HTX-3F.\" The colleague's own report establishes that Kessozide is a strong inhibitor of HTX-3F. Combining these two facts: Kessozide would inhibit the sole clearance pathway of Dralizumab, reducing its elimination and increasing plasma exposure. This is a clinically significant pharmacokinetic interaction (inhibitor + exclusive substrate of the same enzyme). The only caveat is that Kessozide's inhibitor status rests on the colleague's report rather than my own drug list, but accepting that given information, the interaction follows directly and the colleague's \"insufficient information\" conclusion should be overturned.\n\nMECHANISM: Kessozide strongly inhibits HTX-3F, decreasing clearance of Dralizumab (cleared almost entirely by HTX-3F), increasing Dralizumab exposure\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-01-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-01"
+    }
+  }
+]

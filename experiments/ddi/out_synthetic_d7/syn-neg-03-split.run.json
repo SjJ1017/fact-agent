@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-03",
+  "condition": "split",
+  "drug_a": "Tunnadol",
+  "drug_b": "Nylerol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Tunnadol is a strong inhibitor of HTX-4B.",
+    "Nylerol is cleared almost entirely by HTX-7M."
+  ],
+  "transcript": {
+    "A|1": "The provided drug information includes no entry for Nylerol, so I cannot determine its metabolic pathway, clearance mechanism, or interaction potential. Tunnadol is a strong inhibitor of HTX-4B, but without knowing whether Nylerol is a substrate of HTX-4B (or affects Tunnadol's elimination), no interaction can be established or excluded. The information held is not sufficient to decide.\n\nMECHANISM: insufficient information (Tunnadol inhibits HTX-4B, but Nylerol's metabolism is unknown)\nFINAL ANSWER: NO",
+    "B|1": "Note: \"Tunnadol\" does not appear in the provided drug list; the closest match is Tunnustat, so I assume that is what is meant.\n\nTunnustat is a potent inducer of HTX-4B. However, Nylerol is cleared almost entirely by HTX-7M — a different enzyme — so induction of HTX-4B would not affect Nylerol's exposure. No other pharmacokinetic mechanism (transport, absorption, protein binding displacement) linking the two is described in the information given. Therefore, no clinically significant pharmacokinetic interaction is expected.\n\nMECHANISM: Tunnustat induces HTX-4B, but Nylerol is cleared by HTX-7M; no shared enzyme, so no interaction\nFINAL ANSWER: NO",
+    "A|2": "My colleague's note contains two errors. First, Tunnadol does appear in the provided list — no substitution with \"Tunnustat\" is needed. Tunnadol is a strong inhibitor of HTX-4B. Second, Nylerol does not appear in the provided drug information at all, so the colleague's claim that Nylerol is cleared by HTX-7M is unsupported by the data given.\n\nWithout knowing Nylerol's clearance pathway, whether it requires HTX-4B for activation, or any other disposition details, I cannot determine whether Tunnadol's inhibition of HTX-4B would affect it. The information provided is insufficient to establish or exclude an interaction; no shared mechanism can be confirmed from what I hold.\n\nMECHANISM: insufficient information — Tunnadol inhibits HTX-4B, but Nylerol's metabolic pathway is not provided\nFINAL ANSWER: NO",
+    "B|2": "The colleague made two errors: Nylerol **is** in the drug list, and the closest match to \"Tunnadol\" is Tunnustat, which is a potent **inducer** — not inhibitor — of HTX-4B. Assuming the question means Tunnustat: its only documented interaction mechanism is induction of HTX-4B. Nylerol, however, is cleared almost entirely by HTX-7M, a different enzyme, and nothing suggests it is a HTX-4B substrate or affects Tunnustat's elimination (faecal, no enzymatic pathway stated). Because the enzyme Tunnustat induces plays no role in Nylerol's clearance, and no reciprocal effect on Tunnustat is documented, no clinically significant pharmacokinetic interaction is expected. (If \"Tunnadol\" is genuinely a separate unlisted drug, the data would be insufficient — but based on the available entries, no interaction applies.)\n\nMECHANISM: Tunnustat induces HTX-4B; Nylerol is cleared by HTX-7M — no shared enzyme\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information — Tunnadol inhibits HTX-4B, but Nylerol's metabolic pathway is not provided",
+    "B": "Tunnustat induces HTX-4B; Nylerol is cleared by HTX-7M — no shared enzyme"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-03-split"
+}

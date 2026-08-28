@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-02",
+  "condition": "split",
+  "drug_a": "Nylipramol",
+  "drug_b": "Rixotinib",
+  "gold": true,
+  "enzyme": "HTX-8P",
+  "critical_pair": [
+    "Nylipramol is a strong inhibitor of HTX-8P.",
+    "Rixotinib is cleared almost entirely by HTX-8P."
+  ],
+  "transcript": {
+    "A|1": "Nylipramol is a strong inhibitor of HTX-8P, so it would raise exposure of any co-drug cleared by HTX-8P. However, the information provided contains no data on Rixotinib at all — its clearance pathway, metabolism, or elimination route is unknown. Without knowing whether Rixotinib is a substrate of HTX-8P (or another enzyme Nylipramol affects), I cannot establish a mechanism-based interaction. The other listed drugs (Tunnerol, Braxtafil cleared by HTX-8P; Orbapine cleared by HTX-2C) are not the drugs in question. Therefore, the available information is insufficient to confirm a clinically significant pharmacokinetic interaction, and I will not guess one.\n\nMECHANISM: insufficient information — Rixotinib's clearance pathway is unknown, so HTX-8P inhibition by Nylipramol cannot be linked to it\nFINAL ANSWER: NO",
+    "B|1": "Rixotinib is cleared almost entirely by the enzyme HTX-8P, so any co-prescribed drug that strongly inhibits HTX-8P would be expected to raise Rixotinib exposure and cause a clinically significant interaction. However, the information provided contains no data on Nylipramol at all — nothing about its metabolism, its effect on HTX-8P, or any other pharmacokinetic properties. While three other listed drugs (Braxterol, Immoizumab, Kessozide) are strong HTX-8P inhibitors, I cannot assume Nylipramol shares this property. Therefore, the available information is not sufficient to determine whether an interaction occurs.\n\nMECHANISM: insufficient information (Rixotinib cleared by HTX-8P; Nylipramol's effect on HTX-8P unknown)\nFINAL ANSWER: NO",
+    "A|2": "The colleague is right that Rixotinib is cleared almost entirely by HTX-8P, but wrong that there is no data on Nylipramol: the provided information explicitly states that **Nylipramol is a strong inhibitor of HTX-8P**. Combining a strong inhibitor of the clearance enzyme with a drug cleared almost entirely by that enzyme would be expected to substantially raise Rixotinib plasma exposure — a clinically significant pharmacokinetic interaction. (Caveat: Rixotinib's clearance pathway rests on the colleague's report, since Rixotinib is not in my own drug list; Nylipramol's inhibitory effect, however, is confirmed directly from the data given.)\n\nMECHANISM: Nylipramol strongly inhibits HTX-8P, the enzyme that clears Rixotinib → increased Rixotinib exposure\nFINAL ANSWER: YES",
+    "B|2": "My colleague overlooked the Rixotinib data provided: it explicitly states Rixotinib is cleared almost entirely by HTX-8P. Combined with the colleague's finding that Nylipramol is a strong HTX-8P inhibitor, a mechanism-based interaction is established: inhibiting the sole clearance pathway of Rixotinib would substantially raise its plasma exposure, which is clinically significant (and Rixotinib has no listed mitigating factor here). The colleague's conclusion of \"insufficient information\" is incorrect — the clearance pathway was available and directly links to Nylipramol's inhibition.\n\nMECHANISM: Nylipramol strongly inhibits HTX-8P, the enzyme that clears Rixotinib almost entirely, increasing Rixotinib exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Nylipramol strongly inhibits HTX-8P, the enzyme that clears Rixotinib → increased Rixotinib exposure",
+    "B": "Nylipramol strongly inhibits HTX-8P, the enzyme that clears Rixotinib almost entirely, increasing Rixotinib exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-02-split"
+}

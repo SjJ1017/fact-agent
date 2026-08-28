@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Zalacaine is a strong inhibitor of HTX-5D.",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Zalacaine",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Zalacaine is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Zalacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Zalacaine reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Zalacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Zalacaine does not require renal dose adjustment.",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Zalacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Zalacaine is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Zalacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Venafil requires HTX-2C to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Venafil",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Venafil is taken with food to reduce nausea.",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Venafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Venafil has a plasma half-life of roughly fourteen hours.",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Venafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Venafil has no known effect on the QT interval.",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Venafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Venafil is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Venafil",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Venafil does not appear in the drug information provided. I know Zalacaine is a strong inhibitor of HTX-5D, but I have no data on Venafil's clearance pathway, so I cannot determine whether HTX-5D inhibition would affect it. No interaction can be established from the available information.\n\nMECHANISM: insufficient information — Venafil's metabolic pathway is unknown, so Zalacaine's HTX-5D inhibition cannot be linked to it\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-04"
+    }
+  },
+  {
+    "text": "Zalacaine does not appear in the drug information provided, so I have no data on its metabolism, elimination pathway, or enzyme interactions. Venafil requires HTX-2C to form its active metabolite, but without knowing whether Zalacaine inhibits or induces HTX-2C (or interacts by any other mechanism), no interaction can be established or excluded. The information held is not sufficient to decide, so I will not guess.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-04"
+    }
+  },
+  {
+    "text": "**Assessment:** Zalacaine's only documented enzyme effect is strong inhibition of HTX-5D. Venafil, per the colleague's report, requires HTX-2C to form its active metabolite. These are different enzymes: Zalacaine's HTX-5D inhibition would not impair Venafil's HTX-2C-dependent activation, and no other mechanism (protein-binding displacement, absorption effects, etc.) is documented for either drug. The colleague was overly cautious — although Venafil's full profile is not listed, the known mechanisms do not overlap, so the absence of an interaction can be derived rather than merely left open. No pharmacokinetic dose adjustment or monitoring is indicated.\n\nMECHANISM: Zalacaine inhibits HTX-5D; Venafil depends on HTX-2C — no shared pathway\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-04"
+    }
+  },
+  {
+    "text": "Correction to my colleague: Venafil **does** appear in the provided information — it requires HTX-2C to form its active metabolite and is excreted mainly in faeces. It is **Zalacaine** that is absent from the drug information, so I hold no verified data on Zalacaine's enzyme effects.\n\nEven accepting my colleague's unverified claim that Zalacaine is a strong HTX-5D inhibitor, that mechanism is irrelevant here: Venafil's metabolic activation depends on HTX-2C, not HTX-5D, so HTX-5D inhibition would not be expected to alter Venafil's exposure or metabolite formation. No provided information links the two drugs through any shared enzyme or pathway. The missing piece is any data on Zalacaine itself.\n\nMECHANISM: insufficient information — Zalacaine is absent from the data; Venafil uses HTX-2C, not the HTX-5D pathway cited\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-04-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-04"
+    }
+  }
+]

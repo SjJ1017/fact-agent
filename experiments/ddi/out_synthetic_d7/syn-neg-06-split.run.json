@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-06",
+  "condition": "split",
+  "drug_a": "Braxtatide",
+  "drug_b": "Moradol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Braxtatide is a potent inducer of HTX-7M.",
+    "Moradol is cleared almost entirely by HTX-1A."
+  ],
+  "transcript": {
+    "A|1": "Braxtatide is a potent inducer of HTX-7M, so it could increase the clearance of any co-administered drug metabolised by HTX-7M. However, no information is provided about Moradol at all — its clearance pathway, metabolising enzymes, or route of elimination are unknown. Without knowing whether Moradol is a substrate of HTX-7M (or affected by any other mechanism), I cannot establish a pharmacokinetic link between the two drugs. The available data are therefore insufficient to confirm an interaction, and no mechanism can be identified from the information given. On the basis of what is provided, no clinically significant pharmacokinetic interaction can be substantiated.\n\nMECHANISM: insufficient information (Braxtatide induces HTX-7M, but Moradol's metabolic pathway is unknown)\nFINAL ANSWER: NO",
+    "B|1": "The provided drug list does not contain any drug named \"Braxtatide.\" The closest entry is Braxtafil, but I cannot assume they are the same drug, so a definitive assessment for Braxtatide is not possible from the information given.\n\nFor completeness: even if Braxtafil were intended, it is a strong inhibitor of HTX-7M, while Moradol is cleared almost entirely by HTX-1A. Since the inhibitor's target enzyme (HTX-7M) differs from Moradol's clearance pathway (HTX-1A), no pharmacokinetic interaction would be expected between Braxtafil and Moradol. Protein binding (both 92%) alone does not establish a clinically significant interaction without displacement data.\n\nMECHANISM: insufficient information — Braxtatide is not in the provided data; Braxtafil inhibits HTX-7M, but Moradol is cleared by HTX-1A (no overlap)\nFINAL ANSWER: NO",
+    "A|2": "Correction to my colleague: Braxtatide **is** in the provided list — it is a potent inducer of HTX-7M (there is no \"Braxtafil\" entry to worry about). However, Moradol does not appear anywhere in the provided drug data. The HTX-1A clearance my colleague attributed to Moradol actually belongs to Kessadol, and I cannot assume the two are the same drug. Without knowing whether Moradol is a substrate of HTX-7M or otherwise affected by enzyme induction, I cannot determine whether Braxtatide's induction of HTX-7M would change Moradol exposure. The data held are therefore insufficient to establish a clinically significant pharmacokinetic interaction; none can be confirmed from what is provided.\n\nMECHANISM: insufficient information — Braxtatide potently induces HTX-7M, but Moradol's metabolic/clearance pathway is not provided\nFINAL ANSWER: NO",
+    "B|2": "My colleague made two errors. First, Moradol's clearance IS documented: it is cleared almost entirely by HTX-1A — its pathway is not unknown. Second, \"Braxtatide\" does not appear in the provided drug information at all; the listed drug is Braxtafil, which is a strong inhibitor (not inducer) of HTX-7M. Even if Braxtafil were meant, HTX-7M is irrelevant to Moradol, which uses HTX-1A. No drug in the provided set is described as inhibiting or inducing HTX-1A. Since Braxtatide's own enzyme effects are entirely undocumented, I cannot establish any pharmacokinetic link to Moradol, but I also cannot fully exclude one. On the information given, no interaction can be substantiated.\n\nMECHANISM: insufficient information (Moradol cleared by HTX-1A; Braxtatide's effect on HTX-1A unknown — Braxtafil inhibits HTX-7M, which is irrelevant)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information — Braxtatide potently induces HTX-7M, but Moradol's metabolic/clearance pathway is not provided",
+    "B": "insufficient information (Moradol cleared by HTX-1A; Braxtatide's effect on HTX-1A unknown — Braxtafil inhibits HTX-7M, which is irrelevant)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-06-split"
+}

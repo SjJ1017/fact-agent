@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-00",
+  "condition": "solo-both",
+  "drug_a": "Kesserol",
+  "drug_b": "Orbozide",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Kesserol is a strong inhibitor of HTX-2C.",
+    "Orbozide requires HTX-1A to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Kesserol is a strong inhibitor of HTX-2C. Orbozide's active metabolite formation depends on HTX-1A, and nothing indicates Orbozide is cleared by or dependent on HTX-2C. Since the enzyme Kesserol inhibits (HTX-2C) is not the enzyme Orbozide requires (HTX-1A), there is no mechanism by which Kesserol would reduce Orbozide's activation or alter its exposure. No other shared pharmacokinetic pathway (protein binding displacement, renal handling, etc.) is indicated by the provided data. Therefore, based on the information given, no clinically significant pharmacokinetic interaction is expected.\n\nMECHANISM: Kesserol inhibits HTX-2C; Orbozide requires HTX-1A — no shared enzyme pathway\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Kesserol inhibits HTX-2C; Orbozide requires HTX-1A — no shared enzyme pathway"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-00-solo-both"
+}

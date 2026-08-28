@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-03",
+  "condition": "split",
+  "drug_a": "Tunnadol",
+  "drug_b": "Nylerol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Tunnadol is a strong inhibitor of HTX-4B.",
+    "Nylerol is cleared almost entirely by HTX-7M."
+  ],
+  "transcript": {
+    "A|1": "No information about Nylerol is provided in the drug data. Tunnadol is a strong inhibitor of HTX-4B, so an interaction would only be expected if Nylerol were cleared by HTX-4B (or otherwise affected by Tunnadol). Since Nylerol's metabolic pathway, clearance route, and elimination are unknown, I cannot determine whether Tunnadol's HTX-4B inhibition is relevant. The available information is not sufficient to decide.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|1": "The drug information provided covers Morafil, Nylipramol, Quorozide, and Nylerol — but contains no data on Tunnadol. Although Nylerol is cleared almost entirely by HTX-7M, and Morafil is a strong HTX-7M inhibitor, Morafil is not Tunnadol, and nothing indicates Tunnadol affects HTX-7M or any other clearance pathway. Without knowing Tunnadol's metabolism, enzyme effects, or protein binding, no interaction assessment is possible. The information is insufficient to decide, so I will not guess.\n\nMECHANISM: insufficient information (Tunnadol's metabolic/enzyme profile is not provided; Nylerol is cleared by HTX-7M, but Tunnadol's effect on HTX-7M is unknown)\nFINAL ANSWER: NO",
+    "A|2": "My information set does contain Tunnadol, contrary to my colleague's claim: Tunnadol is a strong inhibitor of HTX-4B and is excreted mainly in faeces. The colleague's report supplies the missing Nylerol fact: Nylerol is cleared almost entirely by HTX-7M. The strong HTX-7M inhibitor the colleague identified (Morafil) is a different drug — Tunnadol's only stated enzymatic effect is on HTX-4B, not HTX-7M. Since Nylerol's clearance pathway (HTX-7M) is unaffected by Tunnadol, there is no shared enzyme and no mechanism for a pharmacokinetic interaction. Nothing suggests Nylerol alters Tunnadol's faecal excretion either. On the available information, no clinically significant PK interaction is expected.\n\nMECHANISM: Tunnadol is a strong HTX-4B inhibitor; Nylerol is cleared via HTX-7M — no overlapping enzyme\nFINAL ANSWER: NO",
+    "B|2": "My colleague erred on both drugs. Nylerol **is** in the data: it is cleared almost entirely by HTX-7M. Conversely, nothing describes Tunnadol — the strong HTX-7M inhibitor listed is Morafil, and the claim that Tunnadol inhibits HTX-4B is unsupported by the provided data.\n\nThe relevant question is whether Tunnadol inhibits or induces HTX-7M, since that enzyme accounts for essentially all Nylerol clearance. No provided information addresses Tunnadol's effect on HTX-7M or any enzyme, and Nylerol's protein binding is unknown, so a displacement mechanism cannot be assessed either. An interaction therefore cannot be established, but neither can it be excluded — the data are insufficient, not reassuring. I would not confirm a clinically significant interaction.\n\nMECHANISM: insufficient information — Nylerol cleared almost entirely by HTX-7M; Tunnadol's effect on HTX-7M undocumented\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "Tunnadol is a strong HTX-4B inhibitor; Nylerol is cleared via HTX-7M — no overlapping enzyme",
+    "B": "insufficient information — Nylerol cleared almost entirely by HTX-7M; Tunnadol's effect on HTX-7M undocumented"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-03-split"
+}

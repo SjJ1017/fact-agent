@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-05",
+  "condition": "solo-both",
+  "drug_a": "Caddoxetine",
+  "drug_b": "Immoerol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Caddoxetine is a strong inhibitor of HTX-3F.",
+    "Immoerol is cleared almost entirely by HTX-6K."
+  ],
+  "transcript": {
+    "A|1": "Caddoxetine is a strong inhibitor of HTX-3F, but Immoerol is cleared almost entirely by HTX-6K, a different enzyme. Caddoxetine is not described as affecting HTX-6K, and Immoerol's clearance pathway is therefore unaffected. No other shared pharmacokinetic mechanism (absorption, protein binding, transport) is indicated in the provided data. The information given is sufficient to conclude that no clinically significant pharmacokinetic interaction is expected via the stated mechanisms.\n\nMECHANISM: Caddoxetine inhibits HTX-3F; Immoerol is cleared by HTX-6K — no overlap, no effect\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Caddoxetine inhibits HTX-3F; Immoerol is cleared by HTX-6K — no overlap, no effect"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-05-solo-both"
+}

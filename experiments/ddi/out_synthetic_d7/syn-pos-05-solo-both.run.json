@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-05",
+  "condition": "solo-both",
+  "drug_a": "Morozide",
+  "drug_b": "Rixacaine",
+  "gold": true,
+  "enzyme": "HTX-3F",
+  "critical_pair": [
+    "Morozide is a strong inhibitor of HTX-3F.",
+    "Rixacaine is cleared almost entirely by HTX-3F."
+  ],
+  "transcript": {
+    "A|1": "Yes. Morozide is a strong inhibitor of HTX-3F, and Rixacaine is cleared almost entirely by HTX-3F. Co-administration would therefore reduce Rixacaine's metabolism, raising its plasma exposure and prolonging its effect. Because HTX-3F is described as the near-exclusive clearance pathway for Rixacaine, inhibition by a strong inhibitor is expected to produce a clinically significant increase in Rixacaine levels.\n\nMECHANISM: Morozide strongly inhibits HTX-3F, the enzyme responsible for Rixacaine's clearance, increasing Rixacaine exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "Morozide strongly inhibits HTX-3F, the enzyme responsible for Rixacaine's clearance, increasing Rixacaine exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-05-solo-both"
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-06",
+  "condition": "solo-both",
+  "drug_a": "Immoozide",
+  "drug_b": "Quorerol",
+  "gold": true,
+  "enzyme": "HTX-5D",
+  "critical_pair": [
+    "Immoozide is a potent inducer of HTX-5D.",
+    "Quorerol is cleared almost entirely by HTX-5D."
+  ],
+  "transcript": {
+    "A|1": "Yes. Immoozide is a potent inducer of HTX-5D, and Quorerol is cleared almost entirely by HTX-5D. Inducing the sole clearance pathway for Quorerol would be expected to substantially increase its metabolism, lowering Quorerol plasma concentrations and potentially reducing its efficacy. Because Quorerol depends on this single enzyme for elimination, the effect is likely to be clinically significant.\n\nMECHANISM: HTX-5D induction by Immoozide → increased clearance of Quorerol → reduced Quorerol exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "HTX-5D induction by Immoozide → increased clearance of Quorerol → reduced Quorerol exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-06-solo-both"
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-02",
+  "condition": "solo-both",
+  "drug_a": "Moripramol",
+  "drug_b": "Nylotinib",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Moripramol is a strong inhibitor of HTX-7M.",
+    "Nylotinib requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Moripramol is a strong inhibitor of HTX-7M. Nylotinib requires HTX-2C for its metabolic activation. Since Moripramol's inhibitory effect is on HTX-7M and not HTX-2C, there is no shared enzyme pathway by which Moripramol would impair Nylotinib's metabolism or active metabolite formation. No other relevant pharmacokinetic mechanisms (e.g., protein binding, absorption effects) are indicated in the provided information.\n\nMECHANISM: Moripramol inhibits HTX-7M; Nylotinib uses HTX-2C — no enzyme overlap\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Moripramol inhibits HTX-7M; Nylotinib uses HTX-2C — no enzyme overlap"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-02-solo-both"
+}

@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-07",
+  "condition": "split",
+  "drug_a": "Rixapine",
+  "drug_b": "Pelafil",
+  "gold": true,
+  "enzyme": "HTX-1A",
+  "critical_pair": [
+    "Rixapine is a strong inhibitor of HTX-1A.",
+    "Pelafil requires HTX-1A to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Pelafil does not appear in the drug information provided, so its metabolic pathway and interactions cannot be assessed directly. The closest listed name is Pelacaine, but assuming they are the same drug would be guessing. For completeness: even if Pelafil meant Pelacaine, Rixapine is a strong inhibitor of HTX-1A, while Pelacaine requires HTX-3F to form its active metabolite — different enzymes, so no pharmacokinetic interaction would be expected via that mechanism. However, since Pelafil itself is undocumented, I cannot confirm its enzyme dependence, protein binding, or clearance, and therefore cannot definitively rule out an interaction.\n\nMECHANISM: insufficient information (Pelafil not in provided data; if Pelacaine, Rixapine inhibits HTX-1A but Pelacaine uses HTX-3F — no overlap)\nFINAL ANSWER: NO",
+    "B|1": "Rixapine does not appear in the drug information provided, so its metabolic pathway and any effect on enzymes (e.g., HTX-1A) are unknown. Pelafil requires HTX-1A to form its active metabolite, so an interaction would only be expected if Rixapine induced or inhibited HTX-1A (as, for example, Nylotinib induces HTX-1A). Without any data on Rixapine's enzyme effects, I cannot establish such a mechanism. No interaction can be confirmed from the information held, and I will not guess.\n\nMECHANISM: insufficient information — Rixapine's effect on HTX-1A (Pelafil's activation pathway) is unknown\nFINAL ANSWER: NO",
+    "A|2": "My colleague erred on one point: Rixapine **does** appear in the drug information provided, and it is explicitly listed as a **strong inhibitor of HTX-1A**. That removes the uncertainty they flagged.\n\nThe remaining premise comes from my colleague's review of Pelafil: it requires HTX-1A to form its active metabolite. Combining the two, Rixapine would strongly inhibit the enzyme responsible for Pelafil's activation, suppressing formation of Pelafil's active metabolite. Inhibition of a drug's activation pathway is a clinically significant pharmacokinetic interaction (reduced efficacy of the prodrug), not a benign one.\n\nOne caveat: I cannot independently verify Pelafil's HTX-1A dependence from my own drug list, so I am relying on my colleague's report for that half of the mechanism.\n\nMECHANISM: Rixapine strongly inhibits HTX-1A, the enzyme Pelafil requires to form its active metabolite (inhibition → reduced activation)\nFINAL ANSWER: YES",
+    "B|2": "Correcting my colleague: Pelafil **is** listed in the provided data. It requires HTX-1A to form its active metabolite. My colleague's own review states Rixapine is a strong inhibitor of HTX-1A. Taken together, Rixapine would block Pelafil's HTX-1A-mediated activation, reducing formation of its active metabolite and lowering active exposure — a clinically significant pharmacokinetic interaction. The colleague's \"no interaction\" conclusion rested on substituting an unlisted \"Pelacaine\" (HTX-3F pathway) for Pelafil, which is not justified. Caveat: my drug list contains no Rixapine data, so the inhibition claim relies on the colleague's report; Pelafil's HTX-1A dependence, however, is confirmed directly from the provided information.\n\nMECHANISM: Rixapine inhibits HTX-1A, reducing Pelafil's HTX-1A-mediated activation to its active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Rixapine strongly inhibits HTX-1A, the enzyme Pelafil requires to form its active metabolite (inhibition → reduced activation)",
+    "B": "Rixapine inhibits HTX-1A, reducing Pelafil's HTX-1A-mediated activation to its active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-07-split"
+}

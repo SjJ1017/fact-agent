@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-01",
+  "condition": "split",
+  "drug_a": "Orbatide",
+  "drug_b": "Morerol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Orbatide is a strong inhibitor of HTX-2C.",
+    "Morerol requires HTX-4B to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Morerol does not appear in the drug information provided. I have data on Orbatide (a strong HTX-2C inhibitor, 92% plasma protein bound, mainly faecally excreted), but nothing describing Morerol's metabolism, elimination route, or whether it depends on HTX-2C or any other enzyme/transporter. Without knowing Morerol's pharmacokinetic profile, I cannot determine whether Orbatide's HTX-2C inhibition (or any other property) would alter Morerol exposure. The listed drugs Pelustat, Morizumab, and Zalerol inhibit or induce other enzymes (HTX-4B, HTX-5D), but none of these is Morerol, and I will not assume a typo or substitution. The available information is therefore insufficient to establish any interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|1": "Insufficient information. Morerol requires HTX-4B to form its active metabolite, but no provided information describes Orbatide’s metabolism, enzyme effects, or transport interactions. None of the other listed drugs inhibit or induce HTX-4B, so no mechanism-based interaction with Morerol can be inferred from the data given.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "I agree with my colleague's assessment. The only enzyme effect documented for Orbatide is strong inhibition of HTX-2C. Morerol's only described metabolic pathway is via HTX-4B (per the colleague's review), which Orbatide neither inhibits nor induces. No other shared mechanism can be evaluated: Orbatide's 92% protein binding cannot be assessed for displacement without Morerol's binding data, no transporter interactions are described for either drug, and both drugs' renal/hepatic handling details do not overlap in a way that suggests a PK interaction. Since the known pathways do not intersect, no clinically significant pharmacokinetic interaction is supported by the available data.\n\nMECHANISM: Orbatide inhibits HTX-2C only; Morerol depends on HTX-4B — no overlapping enzyme\nFINAL ANSWER: NO",
+    "B|2": "My colleague's premise is incorrect: Morerol **is** in the drug information provided. Morerol requires HTX-4B to form its active metabolite and is excreted mainly in faeces. Orbatide, per my colleague's report, is a strong HTX-2C inhibitor, 92% protein bound, and mainly faecally excreted.\n\nHTX-2C inhibition does not affect Morerol's HTX-4B-dependent activation, and no other shared enzyme or transporter is documented for either drug. Shared faecal excretion is not a recognized interaction mechanism, and protein binding of Morerol is unknown (displacement cannot be assessed, but no evidence supports it). Neither drug's full profile is available, so an undocumented mechanism cannot be entirely excluded, but no mechanism for a clinically significant pharmacokinetic interaction is supported.\n\nMECHANISM: Orbatide inhibits HTX-2C; Morerol's activation requires HTX-4B — no shared enzyme or pathway\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "Orbatide inhibits HTX-2C only; Morerol depends on HTX-4B — no overlapping enzyme",
+    "B": "Orbatide inhibits HTX-2C; Morerol's activation requires HTX-4B — no shared enzyme or pathway"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-01-split"
+}

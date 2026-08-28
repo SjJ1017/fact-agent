@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-01",
+  "condition": "solo-both",
+  "drug_a": "Kessozide",
+  "drug_b": "Dralizumab",
+  "gold": true,
+  "enzyme": "HTX-3F",
+  "critical_pair": [
+    "Kessozide is a strong inhibitor of HTX-3F.",
+    "Dralizumab is cleared almost entirely by HTX-3F."
+  ],
+  "transcript": {
+    "A|1": "Yes. Kessozide is a strong inhibitor of HTX-3F, and Dralizumab is cleared almost entirely by HTX-3F. Co-administration would therefore reduce Dralizumab's metabolism/clearance, increasing its plasma exposure and risk of dose-related toxicity. Since Dralizumab depends on this single pathway for elimination, inhibition by a strong inhibitor is expected to produce a clinically significant pharmacokinetic interaction.\n\nMECHANISM: Kessozide strongly inhibits HTX-3F, decreasing clearance of Dralizumab (HTX-3F substrate) and raising its exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "Kessozide strongly inhibits HTX-3F, decreasing clearance of Dralizumab (HTX-3F substrate) and raising its exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-01-solo-both"
+}

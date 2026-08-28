@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-02",
+  "condition": "split",
+  "drug_a": "Moripramol",
+  "drug_b": "Nylotinib",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Moripramol is a strong inhibitor of HTX-7M.",
+    "Nylotinib requires HTX-2C to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Nylotinib does not appear in the drug information provided. Moripramol is described only as a strong inhibitor of HTX-7M, but nothing indicates that Nylotinib is a substrate of HTX-7M (or of any other enzyme listed). None of the other agents' data (Orboxetine/HTX-8P, Morafil/HTX-2C, Venerol/HTX-2C) involves either drug in this pair. Without knowing Nylotinib's metabolic pathway or clearance mechanism, I cannot derive any interaction with Moripramol's HTX-7M inhibition. The information given is therefore insufficient to establish a clinically significant pharmacokinetic interaction, and I will not guess one.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|1": "The available information is insufficient to determine a clinically significant pharmacokinetic interaction. Nylotinib requires HTX-2C to form its active metabolite, but no information is provided about Moripramol’s metabolism, HTX-2C dependence, or whether it inhibits or induces HTX-2C. The other listed drugs do not involve Moripramol and cannot be used to infer an interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My assessment agrees with the conclusion but notes a flaw in the colleague's reasoning. The provided data contains no information about Nylotinib at all — the claim that it requires HTX-2C is not supported by the material given. What we do know: Moripramol is a strong inhibitor of HTX-7M, and none of the listed drugs' HTX-7M dependence links to Nylotinib. Morafil inhibits HTX-2C and Venerel uses HTX-2C, but neither involves Moripramol. Without documented metabolism pathways for Nylotinib, no shared enzyme or transport mechanism with Moripramol can be identified. Therefore, no clinically significant pharmacokinetic interaction can be established from the available information — though this reflects insufficient data rather than confirmed absence of interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|2": "I agree with my colleague's assessment. From the data provided, Nylotinib's only stated metabolic dependency is activation via HTX-2C to form its active metabolite. Moripramol is reported only as a strong inhibitor of HTX-7M — a different enzyme. Since HTX-7M inhibition does not affect the HTX-2C pathway Nylotinib uses, no mechanism-based pharmacokinetic interaction can be derived. None of the other agents' data (Caddacaine/HTX-4B, Tunnoxetine or Rixapine/HTX-7M) links Moripramol to Nylotinib's clearance or activation either. I cannot rule out an interaction via unlisted pathways, but nothing in the available information supports one, so I will not guess.\n\nMECHANISM: insufficient information (Moripramol inhibits HTX-7M; Nylotinib uses HTX-2C — no shared pathway)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information",
+    "B": "insufficient information (Moripramol inhibits HTX-7M; Nylotinib uses HTX-2C — no shared pathway)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-02-split"
+}

@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-04",
+  "condition": "split",
+  "drug_a": "Kessipramol",
+  "drug_b": "Sevipramol",
+  "gold": true,
+  "enzyme": "HTX-5D",
+  "critical_pair": [
+    "Kessipramol is a strong inhibitor of HTX-5D.",
+    "Sevipramol requires HTX-5D to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Kessipramol is a strong inhibitor of HTX-5D, so a pharmacokinetic interaction would be expected only if Sevipramol is a substrate cleared by HTX-5D (or otherwise affected by that enzyme). However, no information about Sevipramol is provided in the drug data I hold — its metabolic pathway, clearance route, and enzyme dependence are all unknown. The other listed drugs (e.g., Orbafil, Venafil cleared by HTX-5D) are irrelevant here since neither is the co-prescribed pair in question. Without knowing whether Sevipramol depends on HTX-5D, I cannot confirm a clinically significant interaction, and I will not guess. Explicitly: the available information is insufficient to decide.\n\nMECHANISM: insufficient information — Kessipramol inhibits HTX-5D, but Sevipramol's metabolic pathway is not provided\nFINAL ANSWER: NO",
+    "B|1": "Kessipramol does not appear in the drug information provided, so I have no data on its metabolism, elimination pathway, or any effect it may have on enzymes such as HTX-5D. Sevipramol requires HTX-5D to form its active metabolite, so an interaction would be plausible if Kessipramol induced or inhibited HTX-5D — but I cannot verify this, since Kessipramol's properties are unknown to me. The available information is therefore insufficient to determine whether a clinically significant pharmacokinetic interaction exists, and I will not guess. Note also that no listed drug (e.g., Tunnipramol, Draloxetine, Quoracaine, which induce HTX-5D) is Kessipramol, so no inference can be drawn from the other entries.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague erred in one respect: Kessipramol **does** appear in the provided information, and it is listed as a strong inhibitor of HTX-5D. However, the colleague is correct on the key point: Sevipramol does not appear anywhere in the drug information I hold. I therefore have no data on whether Sevipramol is a substrate of HTX-5D (or any other enzyme), whether it requires metabolic activation, or how it is cleared. While Kessipramol's inhibitory effect on HTX-5D is established, inhibition only produces a pharmacokinetic interaction if the co-prescribed drug depends on that enzyme — and I cannot verify that for Sevipramol. The colleague's assertion that Sevipramol requires HTX-5D is not supported by the information given to me, so I will not rely on it.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|2": "My dataset contains the Sevipramol information the colleague lacked: **Sevipramol requires HTX-5D to form its active metabolite.** The colleague reports Kessipramol is a strong HTX-5D inhibitor. Combining these, Kessipramol would suppress the enzymatic activation of Sevipramol, reducing formation of its active metabolite and likely diminishing its therapeutic effect — a clinically significant pharmacokinetic interaction. The colleague's \"insufficient information\" conclusion arose only because Sevipramol's enzyme dependence was absent from their data; it is present here, so the interaction can now be confirmed. None of the other listed drugs are part of this co-prescribed pair.\n\nMECHANISM: Kessipramol inhibits HTX-5D, reducing Sevipramol's conversion to its active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "NO",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "insufficient information",
+    "B": "Kessipramol inhibits HTX-5D, reducing Sevipramol's conversion to its active metabolite"
+  },
+  "verdict": "NO",
+  "correct": false,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-04-split"
+}

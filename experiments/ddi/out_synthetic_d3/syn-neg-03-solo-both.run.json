@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-03",
+  "condition": "solo-both",
+  "drug_a": "Tunnadol",
+  "drug_b": "Nylerol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Tunnadol is a strong inhibitor of HTX-4B.",
+    "Nylerol is cleared almost entirely by HTX-7M."
+  ],
+  "transcript": {
+    "A|1": "Tunnadol is a strong inhibitor of HTX-4B, but Nylerol is cleared almost entirely by HTX-7M, a different enzyme. Since Nylerol's elimination does not depend on HTX-4B, Tunnadol's inhibitory effect would not be expected to alter Nylerol exposure. Conversely, none of the listed properties of Nylerol indicate that it inhibits or induces any enzyme, so it would not be expected to affect Tunnadol's disposition either. The remaining attributes (faecal excretion, half-life, weight-based dosing, food administration, QT profile) provide no basis for a pharmacokinetic interaction between these two drugs.\n\nMECHANISM: Tunnadol inhibits HTX-4B; Nylerol is cleared by HTX-7M, so no enzyme overlap — no interaction\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Tunnadol inhibits HTX-4B; Nylerol is cleared by HTX-7M, so no enzyme overlap — no interaction"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-03-solo-both"
+}

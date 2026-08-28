@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Kesserol is a strong inhibitor of HTX-2C.",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kesserol",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Kesserol reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kesserol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kesserol is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kesserol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kesserol causes mild headache in about 8% of patients.",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kesserol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kesserol is 92% bound to plasma proteins.",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kesserol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbozide requires HTX-1A to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbozide",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Orbozide is given once daily by mouth.",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbozide reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbozide is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbozide has no known effect on the QT interval.",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbozide does not appear in the drug information provided. The listed drugs are Kesserol, Morafil, Zalotinib, and Orbotinib — there is no entry for Orbozide, so I cannot assess its metabolism, clearance pathway, or interaction potential.\n\nFor completeness: even if \"Orbozide\" were a misspelling of Orbotinib, no interaction would be expected, because Kesserol is a strong inhibitor of HTX-2C while Orbotinib is cleared almost entirely by HTX-1A — different enzymes, so inhibition of HTX-2C would not affect Orbotinib clearance. However, since the question names a drug I have no data on, I must flag this as unverifiable rather than assume they are the same drug.\n\nMECHANISM: insufficient information — Orbozide is not among the provided drugs (Kesserol inhibits HTX-2C; Orbotinib uses HTX-1A)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-00"
+    }
+  },
+  {
+    "text": "Kesserol does not appear anywhere in the drug information provided — only Orbozide, Zaloxetine, Quorapine, and Tunnoxetine are described. Without any data on Kesserol (its metabolism, enzyme involvement, or elimination pathway), I cannot establish any mechanism-based interaction with Orbozide. Orbozide's only stated metabolic dependency is on HTX-1A for forming its active metabolite, but I have no information on whether Kesserol affects HTX-1A or any other pathway. Therefore, no clinically significant pharmacokinetic interaction can be confirmed from the available information, and I explicitly cannot rule one in or out.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-00"
+    }
+  },
+  {
+    "text": "**Correction to my colleague's report:** Kesserol *is* described in the provided information — it is a strong inhibitor of HTX-2C. The colleague also cited drug names (Zaloxetine, Quorapine, Tunnoxetine) that do not appear in the data.\n\n\"Orbozide\" is not listed by that exact name; the only matching agent is **Orbotinib**, which is cleared almost entirely by HTX-1A, and HTX-1A is its only stated metabolic dependency.\n\nKesserol's inhibition is specific to HTX-2C, with no stated effect on HTX-1A. Since the inhibited enzyme (HTX-2C) and the clearance pathway (HTX-1A) do not overlap, no mechanism-based pharmacokinetic interaction is expected. (If \"Orbozide\" were truly a distinct undocumented drug, the data would be insufficient — but no interaction can be confirmed either way.)\n\nMECHANISM: Kesserol inhibits HTX-2C; Orbotinib (presumed Orbozide) is cleared by HTX-1A — no shared enzyme\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-00"
+    }
+  },
+  {
+    "text": "My colleague's report is inaccurate on a key point: Orbozide **does** appear in the drug information I hold — it requires HTX-1A to form its active metabolite. However, Kesserol does not appear in my information at all, so I have no data on whether Kesserol inhibits or induces HTX-1A or any other enzyme. The other listed drugs are unhelpful here: Zaloxetine inhibits HTX-4B, Quorapine induces HTX-2C, and Tunnoxetine is cleared by HTX-2C — none bears on HTX-1A. The colleague's speculation about \"Orbotinib\" and HTX-2C concerns a different drug and cannot be relied on. Since Orbozide's activation depends on HTX-1A and Kesserol's effect on that enzyme is unknown, an interaction can be neither confirmed nor excluded; no interaction can be established from the available data.\n\nMECHANISM: insufficient information — Orbozide requires HTX-1A for activation; Kesserol's effect on HTX-1A is unknown (Kesserol absent from provided data)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-00-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-00"
+    }
+  }
+]

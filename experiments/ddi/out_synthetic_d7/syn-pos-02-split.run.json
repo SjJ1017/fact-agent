@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-02",
+  "condition": "split",
+  "drug_a": "Nylipramol",
+  "drug_b": "Rixotinib",
+  "gold": true,
+  "enzyme": "HTX-8P",
+  "critical_pair": [
+    "Nylipramol is a strong inhibitor of HTX-8P.",
+    "Rixotinib is cleared almost entirely by HTX-8P."
+  ],
+  "transcript": {
+    "A|1": "Nylipramol is a strong inhibitor of HTX-8P, so it could raise exposure of any co-drug cleared by HTX-8P (as seen with Tunnerol and Braxtafil). However, the provided information contains no entry for Rixotinib: its clearance pathway, metabolic enzymes, or substrate status are unknown. Without knowing whether Rixotinib depends on HTX-8P (or another pathway Nylipramol affects), I cannot establish a mechanism-based interaction. Nylipramol's high protein binding (92%) alone does not predict a clinically significant interaction without displacement data for Rixotinib. Therefore, the available information is insufficient to confirm an interaction; no interaction can be demonstrated from what is given.\n\nMECHANISM: insufficient information — Nylipramol inhibits HTX-8P, but Rixotinib's clearance enzyme is unknown\nFINAL ANSWER: NO",
+    "B|1": "Rixotinib is cleared almost entirely by HTX-8P, so a clinically significant pharmacokinetic interaction would most likely arise if the co-prescribed drug inhibited or induced HTX-8P (as Yurapine or Zalozide would inhibit it). However, the provided drug information contains no entry for Nylipramol at all — nothing about its metabolism, enzyme effects, or clearance. I therefore cannot determine whether Nylipramol affects HTX-8P or any other mechanism relevant to Rixotinib's exposure. No interaction can be established from the information held, but it also cannot be excluded; the data are simply insufficient to decide.\n\nMECHANISM: insufficient information (Rixotinib cleared by HTX-8P; Nylipramol's enzyme effects unknown)\nFINAL ANSWER: NO",
+    "A|2": "My colleague's assessment was mistaken: the drug information I hold does contain an entry for Nylipramol, and it states that Nylipramol is a strong inhibitor of HTX-8P. The colleague's own review establishes that Rixotinib is cleared almost entirely by HTX-8P. Combining these two facts, co-administration of Nylipramol would strongly inhibit the primary clearance pathway of Rixotinib, substantially raising Rixotinib plasma exposure. This is a clinically significant pharmacokinetic interaction, and a dose adjustment or alternative agent would typically be considered. The colleague's conclusion of \"insufficient information\" no longer applies once Nylipramol's HTX-8P inhibition is accounted for.\n\nMECHANISM: Nylipramol strongly inhibits HTX-8P, the enzyme that clears Rixotinib, increasing Rixotinib exposure\nFINAL ANSWER: YES",
+    "B|2": "My colleague's conclusion is outdated on one key point: the drug information I hold does include Rixotinib, and it states that Rixotinib is cleared almost entirely by HTX-8P. Combining this with the colleague's finding that Nylipramol is a strong HTX-8P inhibitor establishes a clear mechanism-based interaction: inhibiting the sole clearance pathway of Rixotinib would be expected to substantially raise Rixotinib plasma exposure, which is clinically significant given HTX-8P is described as its near-exclusive clearance route. The colleague's points about protein binding are irrelevant once the metabolic mechanism is established. Therefore, a clinically significant pharmacokinetic interaction should be expected when these drugs are co-prescribed.\n\nMECHANISM: Nylipramol strongly inhibits HTX-8P, the enzyme that clears almost all Rixotinib, reducing Rixotinib clearance and increasing its exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Nylipramol strongly inhibits HTX-8P, the enzyme that clears Rixotinib, increasing Rixotinib exposure",
+    "B": "Nylipramol strongly inhibits HTX-8P, the enzyme that clears almost all Rixotinib, reducing Rixotinib clearance and increasing its exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-02-split"
+}

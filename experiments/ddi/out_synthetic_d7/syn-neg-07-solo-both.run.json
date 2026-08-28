@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-07",
+  "condition": "solo-both",
+  "drug_a": "Caddacaine",
+  "drug_b": "Moroxetine",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Caddacaine is a strong inhibitor of HTX-8P.",
+    "Moroxetine is cleared almost entirely by HTX-3F."
+  ],
+  "transcript": {
+    "A|1": "Caddacaine is a strong inhibitor of HTX-8P. Moroxetine is cleared almost entirely by HTX-3F, a different enzyme. Since Caddacaine's only listed pharmacokinetic property is HTX-8P inhibition, and Moroxetine's clearance does not depend on HTX-8P, there is no shared enzyme or transport mechanism between the two drugs in the information provided. No other interaction-relevant properties (e.g., protein binding displacement effects) are indicated for this pair.\n\nMECHANISM: Caddacaine inhibits HTX-8P; Moroxetine is cleared by HTX-3F — no shared pathway, no interaction\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Caddacaine inhibits HTX-8P; Moroxetine is cleared by HTX-3F — no shared pathway, no interaction"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-07-solo-both"
+}

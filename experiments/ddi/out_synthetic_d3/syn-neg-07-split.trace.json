@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Caddacaine is a strong inhibitor of HTX-8P.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Caddacaine",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Caddacaine is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Caddacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Caddacaine is given once daily by mouth.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Caddacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Caddacaine is available as a generic formulation.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Caddacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Caddacaine has no known effect on the QT interval.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Caddacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Moroxetine is cleared almost entirely by HTX-3F.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Moroxetine",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Moroxetine is contraindicated in severe hepatic impairment.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Moroxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Moroxetine is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Moroxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Moroxetine is 92% bound to plasma proteins.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Moroxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Moroxetine causes mild headache in about 8% of patients.",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Moroxetine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "The provided data do not describe Moroxetine’s metabolism, transport, or clearance. Caddacaine is a strong inhibitor of HTX-8P, but there is no evidence that Moroxetine depends on HTX-8P or another pathway affected by Caddacaine. The HTX-3F information applies to other listed drugs, not Moroxetine. Therefore, a clinically significant pharmacokinetic interaction cannot be established from the information given.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-07"
+    }
+  },
+  {
+    "text": "No assessment of Caddacaine is possible: the provided drug information contains no entry for Caddacaine, so its clearance pathway, enzyme involvement, and interaction potential are unknown.\n\nFor Moroxetine, the only relevant pharmacokinetic detail is that it is cleared almost entirely by HTX-3F. Among the other drugs described, only Pelerol has an enzyme effect (induction of HTX-8P), which is a different enzyme and would not affect Moroxetine clearance. However, since Caddacaine's effect on HTX-3F (or any other mechanism) is undocumented, a definitive interaction assessment cannot be made. The absence of evidence here reflects a gap in the information provided, not confirmed safety.\n\nMECHANISM: insufficient information (Moroxetine cleared by HTX-3F; Caddacaine's effect on HTX-3F unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-07"
+    }
+  },
+  {
+    "text": "My colleague's assessment contains unsupported claims. The provided information includes no entry for Moroxetine, so the assertion that it is \"cleared almost entirely by HTX-3F\" cannot be derived from the data, and \"Pelerol\" does not appear among the listed drugs at all.\n\nWhat the data actually shows: Caddacaine is a strong inhibitor of HTX-8P (not HTX-3F). No provided information links Moroxetine to HTX-8P or to any other pathway Caddacaine affects. Since Moroxetine's metabolic pathway is undocumented, an interaction via HTX-8P inhibition can neither be established nor excluded. The information given is therefore insufficient to confirm a clinically significant pharmacokinetic interaction.\n\nMECHANISM: insufficient information (Caddacaine strongly inhibits HTX-8P; Moroxetine's metabolic pathway is not documented)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-07"
+    }
+  },
+  {
+    "text": "**Assessment:** My colleague reached the right conclusion but misstated one fact: the provided data explicitly say Moroxetine **is** cleared almost entirely by HTX-3F, so that pathway does apply to Moroxetine. That said, the conclusion still holds. Caddacaine's reported effect is strong inhibition of HTX-8P — the enzyme relevant to Draladol and Dralipramol, not Moroxetine. Since Moroxetine depends on HTX-3F, and nothing indicates Caddacaine inhibits or induces HTX-3F, there is no shared pharmacokinetic pathway. Protein binding (92% for both Moroxetine and Draladol) is irrelevant here because Caddacaine is not the co-prescribed drug in question. No clinically significant interaction can be established.\n\nMECHANISM: Moroxetine cleared by HTX-3F; Caddacaine inhibits HTX-8P — no shared pathway\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-07-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-07"
+    }
+  }
+]

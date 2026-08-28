@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-neg-01",
+  "condition": "solo-both",
+  "drug_a": "Orbatide",
+  "drug_b": "Morerol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Orbatide is a strong inhibitor of HTX-2C.",
+    "Morerol requires HTX-4B to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Orbatide is a strong inhibitor of HTX-2C. Morerol requires HTX-4B to form its active metabolite. Since Orbatide's inhibitory effect is specific to HTX-2C and Morerol's activation depends on a different enzyme (HTX-4B), there is no mechanism by which Orbatide would impair Morerol's metabolic activation. No other relevant pharmacokinetic properties (absorption, protein binding, excretion) create an interaction pathway between these two drugs based on the information provided.\n\nMECHANISM: Orbatide inhibits HTX-2C; Morerol requires HTX-4B for activation — different enzymes, no effect\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO"
+  },
+  "mechanism": {
+    "A": "Orbatide inhibits HTX-2C; Morerol requires HTX-4B for activation — different enzymes, no effect"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-01-solo-both"
+}

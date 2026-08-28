@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-02",
+  "condition": "solo-both",
+  "drug_a": "Nylipramol",
+  "drug_b": "Rixotinib",
+  "gold": true,
+  "enzyme": "HTX-8P",
+  "critical_pair": [
+    "Nylipramol is a strong inhibitor of HTX-8P.",
+    "Rixotinib is cleared almost entirely by HTX-8P."
+  ],
+  "transcript": {
+    "A|1": "Yes. Nylipramol is a strong inhibitor of HTX-8P, and Rixotinib is cleared almost entirely by HTX-8P. Co-administration would therefore reduce Rixotinib's metabolism, increasing its plasma exposure (higher AUC and Cmax), which constitutes a clinically significant pharmacokinetic interaction. Dose adjustment or monitoring of Rixotinib exposure would be warranted.\n\nMECHANISM: Nylipramol strongly inhibits HTX-8P, decreasing clearance of Rixotinib (substrate), raising Rixotinib exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "Nylipramol strongly inhibits HTX-8P, decreasing clearance of Rixotinib (substrate), raising Rixotinib exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-02-solo-both"
+}

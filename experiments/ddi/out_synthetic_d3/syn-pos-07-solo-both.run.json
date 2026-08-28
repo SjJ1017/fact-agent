@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-07",
+  "condition": "solo-both",
+  "drug_a": "Rixapine",
+  "drug_b": "Pelafil",
+  "gold": true,
+  "enzyme": "HTX-1A",
+  "critical_pair": [
+    "Rixapine is a strong inhibitor of HTX-1A.",
+    "Pelafil requires HTX-1A to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Yes. Rixapine is a strong inhibitor of HTX-1A, while Pelafil depends on HTX-1A to form its active metabolite. Co-administration would therefore suppress Pelafil's metabolic activation, reducing formation of its active metabolite and potentially diminishing Pelafil's therapeutic effect. Because Pelafil's activity depends on this conversion, inhibition of the responsible enzyme is a clinically significant pharmacokinetic interaction, not merely a theoretical one. No other shared pathway (e.g., protein binding displacement) is established by the information provided, so the interaction rests specifically on HTX-1A inhibition.\n\nMECHANISM: Rixapine strongly inhibits HTX-1A, reducing Pelafil's conversion to its active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "Rixapine strongly inhibits HTX-1A, reducing Pelafil's conversion to its active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-07-solo-both"
+}

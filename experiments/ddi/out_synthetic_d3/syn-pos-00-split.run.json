@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-00",
+  "condition": "split",
+  "drug_a": "Immootinib",
+  "drug_b": "Rixipramol",
+  "gold": true,
+  "enzyme": "HTX-7M",
+  "critical_pair": [
+    "Immootinib is a potent inducer of HTX-7M.",
+    "Rixipramol requires HTX-7M to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Immootinib is a potent inducer of HTX-7M, so it could raise the clearance of any co-prescribed drug metabolised by HTX-7M. However, the information provided contains no data on Rixipramol at all — nothing about its metabolic pathway, clearance route, or susceptibility to enzyme induction. Without knowing whether Rixipramol is a substrate of HTX-7M (or otherwise affected by induction), I cannot establish a mechanism-based interaction. The other listed drugs (Nylafil, Nylustat, Zalerol) involve HTX-8P or HTX-7M but are not part of this question and shed no light on Rixipramol.\n\nTherefore, the available information is insufficient to decide; no interaction can be confirmed from what is given.\n\nMECHANISM: insufficient information (Immootinib induces HTX-7M, but Rixipramol's metabolism is unknown)\nFINAL ANSWER: NO",
+    "B|1": "Immootinib is not described in the information provided, so I cannot determine whether it inhibits, induces, or is metabolized by any enzyme. Rixipramol requires HTX-7M to form its active metabolite, so an interaction would be plausible if Immootinib affected HTX-7M — but nothing in the supplied data establishes this. None of the other listed drugs (Quorizumab, Venozide, Draladol) are the pair in question, and no shared pathway between Immootinib and Rixipramol can be confirmed. The information is therefore insufficient to establish a clinically significant pharmacokinetic interaction, and I will not speculate.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague erred on Immootinib: the supplied data explicitly states it is a **potent inducer of HTX-7M**. Combining this with the colleague's report that Rixipramol requires HTX-7M to form its active metabolite, a mechanism emerges: Immootinib would induce HTX-7M, increasing conversion of Rixipramol to its active metabolite, raising active metabolite exposure and the risk of exaggerated effect or toxicity. This is a plausible, clinically significant pharmacokinetic interaction, so the colleague's \"insufficient information\" conclusion should be revised. (Caveat: I cannot verify Rixipramol's pathway from my own data sheet, so I rely on the colleague's report for that half.)\n\nMECHANISM: Immootinib potently induces HTX-7M, increasing formation of Rixipramol's active metabolite\nFINAL ANSWER: YES",
+    "B|2": "My colleague overlooked the Rixipramol entry in the provided data: Rixipramol requires HTX-7M to form its active metabolite. Combining that with the colleague's report that Immootinib is a potent HTX-7M inducer (Immootinib itself is not in my drug list, so I rely on that report), induction of HTX-7M would be expected to accelerate Rixipramol's activation, increasing formation and exposure of its active metabolite. This is a mechanism-based pharmacokinetic interaction; the direction is increased activation of a prodrug, not blocked clearance, so the risk is heightened effect or toxicity from the active metabolite. Magnitude data are lacking, but a potent inducer acting on a drug's obligatory activation pathway is classically clinically significant.\n\nMECHANISM: HTX-7M — Immootinib induces HTX-7M, increasing Rixipramol's conversion to its active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Immootinib potently induces HTX-7M, increasing formation of Rixipramol's active metabolite",
+    "B": "HTX-7M — Immootinib induces HTX-7M, increasing Rixipramol's conversion to its active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-00-split"
+}

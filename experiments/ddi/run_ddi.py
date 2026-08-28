@@ -32,7 +32,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from cases import DDICase, load_cases
-from synthetic import load_synthetic
+from synthetic import load_synthetic, with_decoys
 
 from factflow import LLM
 
@@ -149,10 +149,14 @@ def _require_text(text: str, agent: str, rnd: int) -> str:
 
 
 def run_case(llm: LLM, case: DDICase, condition: str, rounds: int = 2, seed: int = 0,
-             max_tokens: int = 6000, roles: dict[str, str] | None = None) -> DDIRun:
+             max_tokens: int = 6000, roles: dict[str, str] | None = None,
+             n_decoys: int = 0) -> DDIRun:
     a, b = case.drug_a, case.drug_b
-    doss_a = a.dossier(shuffle_seed=seed)
-    doss_b = b.dossier(shuffle_seed=seed + 1)
+    if n_decoys:
+        doss_a, doss_b = with_decoys(case, n_decoys, seed=seed)
+    else:
+        doss_a = a.dossier(shuffle_seed=seed)
+        doss_b = b.dossier(shuffle_seed=seed + 1)
     both = f"{doss_a}\n\n{doss_b}"
 
     run = DDIRun(case.case_id, condition, a.name, b.name, case.interacts,
@@ -168,7 +172,7 @@ def run_case(llm: LLM, case: DDICase, condition: str, rounds: int = 2, seed: int
         return _require_text(llm.chat(
             system=sys_for(agent), user=ASK.format(a=a.name, b=b.name, dossiers=dossiers),
             temperature=0.3, max_tokens=max_tokens,
-            sample_id=f"{case.case_id}:{condition}:{agent}:1:{roles}"), agent, 1)
+            sample_id=f"{case.case_id}:{condition}:{agent}:1:{roles}:{n_decoys}"), agent, 1)
 
     if condition == "solo-both":
         run.transcript["A|1"] = ask("A", both)
@@ -191,7 +195,7 @@ def run_case(llm: LLM, case: DDICase, condition: str, rounds: int = 2, seed: int
                                          peer_header=f"Your colleague reviewing the other drug reported:",
                                          peers=prev),
                         temperature=0.3, max_tokens=max_tokens,
-                        sample_id=f"{case.case_id}:{condition}:{ag}:{rnd}:{roles}")
+                        sample_id=f"{case.case_id}:{condition}:{ag}:{rnd}:{roles}:{n_decoys}")
 
                 out = [(ag, _require_text(t, ag, rnd)) for ag, t in
                        llm.map(later, ["A", "B"], tolerate_failures=False)]
@@ -262,6 +266,9 @@ def main() -> int:
                     help="comma-separated roles for agents A,B e.g. 'analyzer,summarizer'. "
                          "Order matters and is the point: reversing it swaps who consolidates.")
     ap.add_argument("--tag", default="", help="suffix for the output directory")
+    ap.add_argument("--decoys", type=int, default=0,
+                    help="decoy drug dossiers per agent. At 0 the join is trivial "
+                         "(one candidate per side); raising it forces a search.")
     ap.add_argument("--trace", action="store_true", help="also extract+match facts")
     args = ap.parse_args()
 
@@ -295,7 +302,8 @@ def main() -> int:
             exec_id = f"{case.case_id}-{cond}" + (f"-r{rep}" if args.repeats > 1 else "")
             try:
                 run = run_case(llm, case, cond, rounds=args.rounds, seed=rep,
-                               max_tokens=args.max_tokens, roles=roles)
+                               max_tokens=args.max_tokens, roles=roles,
+                               n_decoys=args.decoys)
             except Exception as exc:  # noqa: BLE001
                 print(f"  {exec_id}: SKIPPED {type(exc).__name__}: {str(exc)[:100]}", flush=True)
                 return None

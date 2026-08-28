@@ -114,6 +114,41 @@ def generate(n_positive: int = 12, n_negative: int = 12, seed: int = 0) -> list[
     return cases
 
 
+def with_decoys(case: DDICase, n_decoys: int, seed: int = 0) -> tuple[str, str]:
+    """Bury each agent's real dossier among decoy drugs.
+
+    At one dossier per agent the join is trivial: there is exactly one candidate
+    fact on each side and 100% is the expected score. The task only becomes a
+    real search when the relevant pair has to be found among many, so this
+    returns each agent's view as several dossiers, exactly one of which is the
+    drug under question.
+
+    Decoy enzymes are drawn to include the case's own enzyme, so a decoy can
+    share an enzyme with the *other* agent's real drug. An agent that answers by
+    scanning for any enzyme match will then join the wrong pair.
+    """
+    rng = random.Random(f"decoy:{case.case_id}:{seed}")
+    used = {case.drug_a.name, case.drug_b.name}
+    views = []
+    for real, partner in ((case.drug_a, case.drug_b), (case.drug_b, case.drug_a)):
+        partner_enz = ENZYMES[0]
+        for e in ENZYMES:
+            if e in partner.mechanism:
+                partner_enz = e
+                break
+        decoys = []
+        for i in range(n_decoys):
+            nm = _name(rng, used)
+            # Half the decoys use the partner's enzyme: a lure for enzyme-scanning.
+            enz = partner_enz if i % 2 == 0 else rng.choice(ENZYMES)
+            tmpl = rng.choice([INHIBITOR, INDUCER, SUBSTRATE, PRODRUG])
+            decoys.append(_drug(rng, nm, tmpl.format(d=nm, e=enz)))
+        block = [real] + decoys
+        rng.shuffle(block)
+        views.append("\n\n".join(d.dossier(shuffle_seed=seed) for d in block))
+    return views[0], views[1]
+
+
 def load_synthetic(only: str | None = None, **kw) -> list[DDICase]:
     cases = generate(**kw)
     if not only:

@@ -1,0 +1,25 @@
+{
+  "case_id": "syn-pos-04",
+  "condition": "solo-both",
+  "drug_a": "Kessipramol",
+  "drug_b": "Sevipramol",
+  "gold": true,
+  "enzyme": "HTX-5D",
+  "critical_pair": [
+    "Kessipramol is a strong inhibitor of HTX-5D.",
+    "Sevipramol requires HTX-5D to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Kessipramol is a strong inhibitor of HTX-5D, and Sevipramol requires HTX-5D to form its active metabolite. Taking them together would be expected to reduce formation of Sevipramol’s active metabolite, potentially lowering its pharmacological activity. Because a strong inhibitor affects a required activation pathway for Sevipramol, this is a clinically significant pharmacokinetic interaction.\n\nMECHANISM: Kessipramol inhibits HTX-5D, decreasing Sevipramol active metabolite formation\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES"
+  },
+  "mechanism": {
+    "A": "Kessipramol inhibits HTX-5D, decreasing Sevipramol active metabolite formation"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-04-solo-both"
+}
