@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-02",
+  "condition": "split",
+  "drug_a": "Nylipramol",
+  "drug_b": "Rixotinib",
+  "gold": true,
+  "enzyme": "HTX-8P",
+  "critical_pair": [
+    "Nylipramol is a strong inhibitor of HTX-8P.",
+    "Rixotinib is cleared almost entirely by HTX-8P."
+  ],
+  "transcript": {
+    "A|1": "Nylipramol is established as a strong HTX-8P inhibitor, so any interaction would hinge on whether Rixotinib is an HTX-8P substrate. However, no drug information for Rixotinib was provided — its metabolic pathway, clearance route, and protein binding are all unknown. Nylipramol's 92% plasma protein binding raises a theoretical displacement concern, but without Rixotinib's binding profile this cannot be assessed. Nylipramol's faecal excretion, hepatic contraindication, and half-life concern Nylipramol itself and do not inform an interaction with the other drug. The available information is therefore insufficient to establish or exclude a clinically significant pharmacokinetic interaction; no mechanism linking the two drugs can be confirmed from what is held.\n\nMECHANISM: insufficient information (Rixotinib's HTX-8P substrate status unknown)\nFINAL ANSWER: NO",
+    "B|1": "Rixotinib is cleared almost entirely by the enzyme HTX-8P, so a pharmacokinetic interaction would require Nylipramol to inhibit or induce HTX-8P, or compete with Rixotinib as a substrate of that enzyme. However, I have been given no information about Nylipramol at all — no metabolic pathway, no enzyme inhibition or induction profile, and no substrate data. I therefore cannot determine whether Nylipramol alters HTX-8P-mediated clearance of Rixotinib. Rixotinib's other properties (headache incidence, weight-based dosing, lack of QT effect, hepatic contraindication) do not bear on a pharmacokinetic interaction. Because the Nylipramol data needed to assess this are absent, no interaction can be confirmed, but this reflects missing information rather than evidence of absence.\n\nMECHANISM: insufficient information (Nylipramol's effect on HTX-8P is unknown)\nFINAL ANSWER: NO",
+    "A|2": "My colleague lacked the Nylipramol data, but I hold it: Nylipramol is explicitly described as a strong inhibitor of HTX-8P. Since Rixotinib is cleared almost entirely by HTX-8P, co-administration with a strong inhibitor of that enzyme would substantially reduce Rixotinib's clearance and increase its exposure. This is a direct enzyme-inhibition interaction, not substrate competition. Nylipramol's other properties (faecal excretion, hepatic contraindication, 92% protein binding, ~14 h half-life) do not change this conclusion. The colleague's \"insufficient information\" verdict is superseded by the data now available; the missing piece has been supplied and it points clearly to an interaction.\n\nMECHANISM: Nylipramol strongly inhibits HTX-8P, the enzyme responsible for Rixotinib clearance → decreased Rixotinib clearance, increased exposure\nFINAL ANSWER: YES",
+    "B|2": "My colleague's conclusion rests on the claim that Rixotinib's clearance route is unknown, but the information I hold contradicts this: Rixotinib is explicitly stated to be cleared almost entirely by HTX-8P. That makes Rixotinib an HTX-8P substrate, which is exactly the condition the colleague identified as decisive.\n\nNylipramol is a strong HTX-8P inhibitor. Co-administration would therefore inhibit the enzyme responsible for nearly all of Rixotinib's clearance, reducing its elimination and raising Rixotinib plasma exposure. Because HTX-8P accounts for almost the entire clearance of Rixotinib, inhibition by a strong inhibitor is expected to produce a marked increase in exposure — a clinically significant pharmacokinetic interaction. The protein-binding displacement concern remains unassessable, but it is not needed to establish the interaction.\n\nMECHANISM: Nylipramol strongly inhibits HTX-8P, decreasing clearance of Rixotinib (an HTX-8P substrate) and increasing its exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Nylipramol strongly inhibits HTX-8P, the enzyme responsible for Rixotinib clearance → decreased Rixotinib clearance, increased exposure",
+    "B": "Nylipramol strongly inhibits HTX-8P, decreasing clearance of Rixotinib (an HTX-8P substrate) and increasing its exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-02-split"
+}

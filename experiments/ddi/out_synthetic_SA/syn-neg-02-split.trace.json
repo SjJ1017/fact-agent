@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Moripramol is a strong inhibitor of HTX-7M.",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Moripramol",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Moripramol is supplied as 10 mg and 25 mg tablets.",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Moripramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Moripramol is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Moripramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Moripramol has no known effect on the QT interval.",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Moripramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Moripramol does not require renal dose adjustment.",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Moripramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Nylotinib requires HTX-2C to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Nylotinib",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Nylotinib is dosed by body weight in patients under 50 kg.",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Nylotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Nylotinib is contraindicated in severe hepatic impairment.",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Nylotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Nylotinib is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Nylotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Nylotinib has no known effect on the QT interval.",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Nylotinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "**Consolidated assessment:**\n\nThe panel established only one pharmacologically relevant fact: Moripramol is a strong inhibitor of the enzyme HTX-7M. Everything else on record (tablet strengths, QT neutrality, renal dosing, adult-only approval) bears on Moripramol's use, not on an interaction.\n\nFor a pharmacokinetic interaction via HTX-7M inhibition, we would need to know whether Nylotinib is a substrate of HTX-7M (or cleared by another pathway Moripramol affects). No information about Nylotinib's metabolism, transport, or elimination was provided. Therefore the substrate status of Nylotinib — the decisive fact — is unknown, and the presence or absence of a clinically significant interaction cannot be determined. This is an explicit statement of insufficiency, not a conclusion that no interaction exists.\n\nMECHANISM: insufficient information — Moripramol strongly inhibits HTX-7M, but Nylotinib's metabolic pathway is unspecified\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-02"
+    }
+  },
+  {
+    "text": "Available data show only that Nylotinib requires HTX-2C to form its active metabolite and is contraindicated in severe hepatic impairment. There is no information that Moripramol inhibits or induces HTX-2C, nor any information about Moripramol’s metabolism or whether Nylotinib affects it. Therefore, a clinically significant pharmacokinetic interaction cannot be established from the provided information.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-02"
+    }
+  },
+  {
+    "text": "The panel's findings do not connect these drugs. Moripramol's only relevant property is strong inhibition of HTX-7M. Nylotinib's only relevant property is dependence on HTX-2C to form its active metabolite. These are different enzymes: Moripramol's inhibition of HTX-7M does not affect Nylotinib's activation via HTX-2C, and there is no evidence that Moripramol inhibits or induces HTX-2C. Conversely, nothing indicates Nylotinib affects Moripramol's metabolism, and Moripramol's own metabolic pathway is unknown. The remaining details (tablet strengths, QT status, renal dosing, adult-only approval, hepatic impairment contraindication) bear on dosing and safety, not on a pharmacokinetic interaction. I concur with my colleague: an interaction cannot be established from the available information.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-02"
+    }
+  },
+  {
+    "text": "My colleague's \"insufficient information\" conclusion overlooks a decisive fact already in the Nylotinib data: Nylotinib requires HTX-2C to form its active metabolite. This specifies its metabolic pathway. Moripramol is a strong inhibitor of HTX-7M — a different enzyme. Because Moripramol's inhibitory effect is directed at HTX-7M, and Nylotinib's known metabolic step (activation) is mediated by HTX-2C, Moripramol would not be expected to inhibit Nylotinib's activation or change its exposure through enzyme inhibition. The remaining Nylotinib properties (storage, weight-based dosing, hepatic contraindication, QT neutrality) and Moripramol's non-pharmacological details bear no relevance to a pharmacokinetic interaction. With no overlapping enzyme between the inhibitor and the substrate pathway, no clinically significant interaction is derivable from the available data.\n\nMECHANISM: Moripramol inhibits HTX-7M; Nylotinib's activation uses HTX-2C — different enzymes, no effect on Nylotinib metabolism\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-02-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-02"
+    }
+  }
+]

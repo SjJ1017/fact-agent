@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-00",
+  "condition": "split",
+  "drug_a": "Immootinib",
+  "drug_b": "Rixipramol",
+  "gold": true,
+  "enzyme": "HTX-7M",
+  "critical_pair": [
+    "Immootinib is a potent inducer of HTX-7M.",
+    "Rixipramol requires HTX-7M to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Immootinib is a potent inducer of the enzyme HTX-7M. If Rixipramol were metabolised by HTX-7M, co-administration would be expected to increase Rixipramol's clearance, lowering its plasma levels and potentially reducing efficacy. However, the information provided covers only Immootinib: nothing is stated about Rixipramol's metabolic pathway, and I cannot confirm that Rixipramol is a substrate of HTX-7M. Immootinib's other listed properties (faecal excretion, food intake, tablet strengths, no QT effect) do not bear on a pharmacokinetic interaction. Therefore, while a mechanism exists in principle, the available data do not allow me to establish that it applies to this combination, and I will not assume it does.\n\nMECHANISM: insufficient information (Immootinib induces HTX-7M, but Rixipramol's metabolism by HTX-7M is unconfirmed)\nFINAL ANSWER: NO",
+    "B|1": "**Summary of panel findings:**\n\nThe available information on Rixipramol is limited to non-interaction details: administration with food for nausea, no renal dose adjustment, storage conditions, tablet strengths, and the fact that it requires HTX-7M to form its active metabolite. Nothing provided describes Immootinib at all — no enzyme substrate, inhibitor, or inducer status, no transporter effects, and no data on whether it affects HTX-7M or Rixipramol's activation pathway.\n\nBecause Immootinib's pharmacokinetic profile is entirely absent, no mechanism of interaction can be proposed or excluded. The only candidate mechanism (HTX-7M-mediated activation of Rixipramol) cannot be evaluated without knowing Immootinib's effect on that step. This is an absence of evidence, not evidence of absence.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague's conclusion was based on incomplete information: they did not have Immootinib's profile. I do. Immootinib is a potent inducer of HTX-7M, and Rixipramol requires HTX-7M to form its active metabolite. Combining these facts, Immootinib will increase HTX-7M activity, accelerating Rixipramol's conversion to its active metabolite. This raises active metabolite exposure, which is a plausible clinically significant pharmacokinetic interaction (increased activation, potentially increased efficacy or toxicity). The colleague's \"absence of evidence\" reasoning no longer applies because the missing piece — Immootinib's effect on HTX-7M — is now available and points clearly in one direction.\n\nMECHANISM: Immootinib potently induces HTX-7M, increasing conversion of Rixipramol to its active metabolite (increased active metabolite exposure)\nFINAL ANSWER: YES",
+    "B|2": "The colleague overlooked a key line in the Rixipramol data: it explicitly states Rixipramol **requires HTX-7M to form its active metabolite**. Combined with the confirmed fact that Immootinib is a potent HTX-7M inducer, the mechanism is established, not merely hypothetical. Induction of HTX-7M would increase conversion of Rixipramol to its active metabolite, raising active metabolite exposure (and likely lowering parent drug levels). Because Immootinib is described as a *potent* inducer and Rixipramol's activation depends entirely on this enzyme, a clinically significant pharmacokinetic interaction is expected — in the direction of enhanced activation rather than reduced efficacy. The colleague's \"NO\" rested on the mistaken belief that Rixipramol's metabolic pathway was unstated; it was stated.\n\nMECHANISM: Immootinib potently induces HTX-7M, the enzyme Rixipramol requires to form its active metabolite → increased activation of Rixipramol\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Immootinib potently induces HTX-7M, increasing conversion of Rixipramol to its active metabolite (increased active metabolite exposure)",
+    "B": "Immootinib potently induces HTX-7M, the enzyme Rixipramol requires to form its active metabolite → increased activation of Rixipramol"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-00-split"
+}

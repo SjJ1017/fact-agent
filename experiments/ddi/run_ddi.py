@@ -39,6 +39,32 @@ from factflow import LLM
 OUT = Path(__file__).parent / "out"
 CONDITIONS = ("solo-both", "solo-half", "split", "broadcast")
 
+# Why the DDI set is the right place to ask whether a summarizer drops facts.
+#
+# On MMLU-Pro the summarizer's profile was indistinguishable from the analyzer's
+# (drop 7.3 vs 6.3). Reading its turns showed why: it never consolidated, it
+# re-derived the whole argument every round in fewer words. Two structural
+# reasons, and the DDI dossiers remove both:
+#
+#   1. NOTHING TO DROP. An MMLU-Pro question carries three clues, all relevant.
+#      A filter cannot demonstrate filtering when nothing is irrelevant. Each
+#      DDI dossier carries one mechanism fact plus four facts (dosing, protein
+#      binding, storage) that bear on nothing.
+#   2. EVERY AGENT MUST RETURN A VERDICT. `FINAL ANSWER` forces a summarizer to
+#      re-derive rather than consolidate. ROLE_SYSTEM drops that requirement for
+#      the consolidating role.
+
+ROLES = {
+    "analyzer": "You are the analyst. Derive the consequence of the drug properties you can "
+                "see. State the enzyme and the direction of the effect explicitly.",
+    "summarizer": "You are the summarizer. Consolidate what the panel has established. Carry "
+                  "forward only what bears on whether these two drugs interact, and leave out "
+                  "anything that does not. Do not re-derive the argument from scratch.",
+    "critic": "You are the critic. Find the specific step where the argument fails. Say what "
+              "would have to be true for the conclusion to be wrong.",
+    "none": "",
+}
+
 SYSTEM = """\
 You are assessing whether two co-prescribed drugs interact.
 
@@ -123,7 +149,7 @@ def _require_text(text: str, agent: str, rnd: int) -> str:
 
 
 def run_case(llm: LLM, case: DDICase, condition: str, rounds: int = 2, seed: int = 0,
-             max_tokens: int = 6000) -> DDIRun:
+             max_tokens: int = 6000, roles: dict[str, str] | None = None) -> DDIRun:
     a, b = case.drug_a, case.drug_b
     doss_a = a.dossier(shuffle_seed=seed)
     doss_b = b.dossier(shuffle_seed=seed + 1)
@@ -132,10 +158,17 @@ def run_case(llm: LLM, case: DDICase, condition: str, rounds: int = 2, seed: int
     run = DDIRun(case.case_id, condition, a.name, b.name, case.interacts,
                  case.enzyme, case.critical_pair)
 
+    def sys_for(agent: str) -> str:
+        role = roles.get(agent) if roles else None
+        if not role or role == "none":
+            return SYSTEM
+        return ROLES[role] + "\n\n" + SYSTEM
+
     def ask(agent: str, dossiers: str) -> str:
         return _require_text(llm.chat(
-            system=SYSTEM, user=ASK.format(a=a.name, b=b.name, dossiers=dossiers),
-            temperature=0.3, max_tokens=max_tokens), agent, 1)
+            system=sys_for(agent), user=ASK.format(a=a.name, b=b.name, dossiers=dossiers),
+            temperature=0.3, max_tokens=max_tokens,
+            sample_id=f"{case.case_id}:{condition}:{agent}:1:{roles}"), agent, 1)
 
     if condition == "solo-both":
         run.transcript["A|1"] = ask("A", both)
@@ -153,11 +186,12 @@ def run_case(llm: LLM, case: DDICase, condition: str, rounds: int = 2, seed: int
                     other = "B" if ag == "A" else "A"
                     prev = run.transcript.get(f"{other}|{rnd - 1}", "")
                     return ag, llm.chat(
-                        system=SYSTEM,
+                        system=sys_for(ag),
                         user=PEER.format(a=a.name, b=b.name, dossiers=view[ag],
                                          peer_header=f"Your colleague reviewing the other drug reported:",
                                          peers=prev),
-                        temperature=0.3, max_tokens=max_tokens)
+                        temperature=0.3, max_tokens=max_tokens,
+                        sample_id=f"{case.case_id}:{condition}:{ag}:{rnd}:{roles}")
 
                 out = [(ag, _require_text(t, ag, rnd)) for ag, t in
                        llm.map(later, ["A", "B"], tolerate_failures=False)]
@@ -224,15 +258,26 @@ def main() -> int:
     ap.add_argument("--n-pos", type=int, default=12)
     ap.add_argument("--n-neg", type=int, default=12)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--roles", default=None,
+                    help="comma-separated roles for agents A,B e.g. 'analyzer,summarizer'. "
+                         "Order matters and is the point: reversing it swaps who consolidates.")
+    ap.add_argument("--tag", default="", help="suffix for the output directory")
     ap.add_argument("--trace", action="store_true", help="also extract+match facts")
     args = ap.parse_args()
 
     global OUT
-    OUT = Path(__file__).parent / ("out" if args.cases == "real" else "out_synthetic")
+    OUT = Path(__file__).parent / (("out" if args.cases == "real" else "out_synthetic")
+                                   + (f"_{args.tag}" if args.tag else ""))
     OUT.mkdir(exist_ok=True)
     mk = {"opencode": LLM.opencode, "openai": LLM.openai, "deepseek": LLM.deepseek}[args.provider]
     llm = mk(args.model, max_concurrency=args.parallel * 2)
     llm.backend.client = llm.backend.client.with_options(timeout=args.timeout, max_retries=1)
+
+    roles = None
+    if args.roles:
+        names = [r.strip() for r in args.roles.split(",")]
+        roles = dict(zip(("A", "B"), names))
+        print(f"roles: {roles}")
 
     cases = (load_cases(args.only) if args.cases == "real" else
              load_synthetic(args.only, n_positive=args.n_pos, n_negative=args.n_neg,
@@ -250,7 +295,7 @@ def main() -> int:
             exec_id = f"{case.case_id}-{cond}" + (f"-r{rep}" if args.repeats > 1 else "")
             try:
                 run = run_case(llm, case, cond, rounds=args.rounds, seed=rep,
-                               max_tokens=args.max_tokens)
+                               max_tokens=args.max_tokens, roles=roles)
             except Exception as exc:  # noqa: BLE001
                 print(f"  {exec_id}: SKIPPED {type(exc).__name__}: {str(exc)[:100]}", flush=True)
                 return None

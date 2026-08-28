@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Tunnadol is a strong inhibitor of HTX-4B.",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Tunnadol",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Tunnadol is dosed by body weight in patients under 50 kg.",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Tunnadol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Tunnadol has a plasma half-life of roughly fourteen hours.",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Tunnadol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Tunnadol is available as a generic formulation.",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Tunnadol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Tunnadol is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Tunnadol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Nylerol is cleared almost entirely by HTX-7M.",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Nylerol",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Nylerol is taken with food to reduce nausea.",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Nylerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Nylerol has a plasma half-life of roughly fourteen hours.",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Nylerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Nylerol has no known effect on the QT interval.",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Nylerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Nylerol was first registered in 2019.",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Nylerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Tunnadol is a strong HTX-4B inhibitor, so it could increase exposure to a co-prescribed drug cleared by HTX-4B. However, no Nylerol information is provided: its metabolism, HTX-4B substrate status, elimination route, or exposure-response sensitivity are unknown. Tunnadol’s half-life, faecal excretion, weight-based dosing, and generic status do not establish an interaction by themselves. Therefore, a clinically significant pharmacokinetic interaction cannot be confirmed or excluded from the available data.\n\nMECHANISM: insufficient information (Tunnadol inhibits HTX-4B; Nylerol’s HTX-4B dependence unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-03"
+    }
+  },
+  {
+    "text": "Nylerol is cleared almost entirely by the enzyme HTX-7M, so any pharmacokinetic interaction with Tunnadol would have to occur through Tunnadol inhibiting or inducing HTX-7M, which would raise or lower Nylerol exposure respectively. However, I have been given no information about Tunnadol at all — nothing on whether it affects HTX-7M, or on its own clearance pathways. Without knowing Tunnadol's effect on HTX-7M, I cannot derive any change in Nylerol levels. The available data are therefore insufficient to establish an interaction; I can only say no interaction is demonstrable from what I hold, not that none exists.\n\nMECHANISM: insufficient information (Nylerol cleared by HTX-7M; Tunnadol's effect on HTX-7M unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-03"
+    }
+  },
+  {
+    "text": "My colleague lacked Tunnadol's profile; I hold it. Tunnadol's only stated pharmacokinetic activity is strong inhibition of HTX-4B. Nylerol is cleared almost entirely by HTX-7M, a different enzyme. Since Tunnadol's known inhibitory effect does not touch Nylerol's clearance pathway, and no other information (faecal excretion, 14-hour half-life, weight-based dosing) suggests any effect on HTX-7M or on Nylerol's elimination, no mechanism for a pharmacokinetic interaction can be constructed from the available data. The colleague's conclusion is unchanged once Tunnadol's profile is supplied: the enzyme Tunnadol affects is simply not the one that clears Nylerol. No clinically significant interaction is demonstrable.\n\nMECHANISM: no overlap — Tunnadol inhibits HTX-4B; Nylerol is cleared by HTX-7M\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-03"
+    }
+  },
+  {
+    "text": "My colleague overlooked a key fact: Nylerol's clearance enzyme is specified — it is cleared almost entirely by HTX-7M. Tunnadol inhibits HTX-4B, a different enzyme. Inhibition of HTX-4B cannot meaningfully increase exposure to a drug that does not depend on HTX-4B for clearance. Nylerol's half-life (~14 h) and food requirements are irrelevant here. The only residual uncertainty is whether Tunnadol also affects HTX-7M, but nothing in the provided data suggests that, and I should not speculate beyond the given information. On the evidence available, no clinically significant pharmacokinetic interaction is expected.\n\nMECHANISM: Tunnadol inhibits HTX-4B; Nylerol is cleared by HTX-7M, so no inhibition of its clearance pathway\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-03-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-03"
+    }
+  }
+]

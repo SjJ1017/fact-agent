@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-04",
+  "condition": "split",
+  "drug_a": "Kessipramol",
+  "drug_b": "Sevipramol",
+  "gold": true,
+  "enzyme": "HTX-5D",
+  "critical_pair": [
+    "Kessipramol is a strong inhibitor of HTX-5D.",
+    "Sevipramol requires HTX-5D to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Kessipramol is a strong inhibitor of HTX-5D, so it would raise exposure of any co-administered drug cleared primarily via HTX-5D. However, I have no information about Sevipramol at all — in particular, nothing indicating whether Sevipramol is a substrate of HTX-5D or is cleared by any other pathway Kessipramol affects. Without knowing Sevipramol's metabolic route, I cannot derive a clinically significant pharmacokinetic interaction from the available data. The inhibition property of Kessipramol alone is not sufficient to conclude an interaction occurs.\n\nMECHANISM: insufficient information — Kessipramol strongly inhibits HTX-5D, but Sevipramol's substrate status for HTX-5D is unknown\nFINAL ANSWER: NO",
+    "B|1": "The available information is insufficient to establish any pharmacokinetic interaction. I hold data only for Sevipramol; no drug information for Kessipramol was provided, so no shared enzyme, transporter, or absorption pathway can be assessed. The only mechanistic detail given is that Sevipramol requires HTX-5D to form its active metabolite, but nothing indicates whether Kessipramol affects HTX-5D or any step of Sevipramol's absorption, distribution, metabolism, or excretion. The remaining Sevipramol details (headache incidence, storage, adult-only approval, tablet strengths) are pharmacodynamic or administrative and bear on PK interaction only through HTX-5D, which cannot be evaluated without Kessipramol data. On the evidence available, no interaction can be affirmed.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague lacked the Kessipramol data, but I hold it: Kessipramol is a strong inhibitor of HTX-5D. The colleague's Sevipramol data states Sevipramol requires HTX-5D to form its active metabolite. Combining these, Kessipramol's strong inhibition of HTX-5D would directly impair the metabolic activation of Sevipramol, reducing formation of its active metabolite and likely diminishing Sevipramol's therapeutic effect. This is a pharmacokinetic interaction at the level of metabolism (bioactivation), and strong inhibition of the sole enzyme required for activation is clinically significant. The colleague's \"insufficient information\" conclusion was correct only in isolation; with both datasets, the shared enzyme HTX-5D links the two drugs and the interaction can be affirmed.\n\nMECHANISM: Kessipramol strongly inhibits HTX-5D, decreasing Sevipramol's conversion to its active metabolite\nFINAL ANSWER: YES",
+    "B|2": "My colleague's \"no\" rested on not knowing Sevipramol's relationship to HTX-5D. The Sevipramol data I hold supplies that missing link: Sevipramol requires HTX-5D to form its active metabolite. Kessipramol is a strong HTX-5D inhibitor, so co-administration would block or markedly reduce Sevipramol's metabolic activation, lowering active-metabolite exposure. This is a direct, mechanism-based pharmacokinetic interaction; a strong inhibitor acting on the enzyme required for a drug's activation is presumptively clinically significant. Residual uncertainty: we are not told whether the parent drug is itself active or how much efficacy depends on the metabolite, so the magnitude of clinical impact is not quantified — but the interaction mechanism itself is established, unlike in my colleague's assessment.\n\nMECHANISM: Kessipramol strongly inhibits HTX-5D, the enzyme Sevipramol requires to form its active metabolite → reduced active-metabolite formation\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Kessipramol strongly inhibits HTX-5D, decreasing Sevipramol's conversion to its active metabolite",
+    "B": "Kessipramol strongly inhibits HTX-5D, the enzyme Sevipramol requires to form its active metabolite → reduced active-metabolite formation"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-04-split"
+}

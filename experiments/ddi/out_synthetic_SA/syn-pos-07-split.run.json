@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-07",
+  "condition": "split",
+  "drug_a": "Rixapine",
+  "drug_b": "Pelafil",
+  "gold": true,
+  "enzyme": "HTX-1A",
+  "critical_pair": [
+    "Rixapine is a strong inhibitor of HTX-1A.",
+    "Pelafil requires HTX-1A to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "The available information covers only Rixapine; nothing is provided about Pelafil's metabolism, elimination, or protein binding. Rixapine's HTX-1A inhibition is a receptor (pharmacodynamic) action, not a pharmacokinetic mechanism, and no metabolizing enzyme for either drug is named. Rixapine's 92% protein binding could theoretically displace a highly bound co-drug, but without Pelafil's binding data this cannot be assessed. Hepatic impairment contraindication and renal dosing notes do not bear on a drug–drug interaction here. The information held is therefore not sufficient to establish any pharmacokinetic interaction between these two drugs, and none can be affirmed from what is given.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|1": "**Analysis:** Pelafil's only specified enzymatic step is activation via HTX-1A to form its active metabolite; it is also 92% protein-bound and hepatically cleared (contraindicated in severe hepatic impairment). However, I have been given **no information about Rixapine at all** — not its metabolic enzymes, its inhibitory or inducing properties, its protein binding, or its route of elimination. Therefore I cannot evaluate whether Rixapine affects HTX-1A, displaces Pelafil from plasma proteins, or shares any other pharmacokinetic pathway. No interaction mechanism can be established from the data provided, but neither can one be excluded.\n\nMECHANISM: insufficient information (Pelafil's HTX-1A activation is the only enzyme identified; Rixapine's enzyme effects are unknown)\nFINAL ANSWER: NO",
+    "A|2": "My colleague's assessment is based on a factual error: they stated they had no information about Rixapine, but the provided data explicitly identifies Rixapine as a **strong inhibitor of HTX-1A**. This is directly relevant, because Pelafil's only specified enzymatic step is activation via HTX-1A to its active metabolite. Co-administration would therefore suppress Pelafil's conversion to its active form, reducing active metabolite exposure — a clinically significant pharmacokinetic interaction (reduced efficacy). The shared 92% protein binding is noted but is not needed to establish the interaction; the HTX-1A mechanism is sufficient on its own. The colleague's \"cannot exclude\" caveat is resolved by this data.\n\nMECHANISM: Rixapine strongly inhibits HTX-1A, blocking Pelafil's activation to its active metabolite\nFINAL ANSWER: YES",
+    "B|2": "My colleague reached \"insufficient information\" because they held only Rixapine data; I hold the missing Pelafil data, so their assessment can be updated. Pelafil's label states it **requires HTX-1A to form its active metabolite** — meaning HTX-1A is the enzyme responsible for Pelafil's metabolic activation (a prodrug step). The colleague reports that Rixapine inhibits HTX-1A. Their classification of this as a purely receptor/pharmacodynamic effect is contradicted by Pelafil's data: anything required to form a metabolite is acting as a metabolizing enzyme. Combining both datasets, Rixapine's HTX-1A inhibition would impair conversion of Pelafil into its active metabolite, reducing active-molety exposure — a pharmacokinetic interaction (direction: decreased activation, likely reduced efficacy). Pelafil's 92% protein binding adds no additional assessable mechanism here.\n\nMECHANISM: Rixapine inhibits HTX-1A, decreasing enzymatic formation of Pelafil's active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Rixapine strongly inhibits HTX-1A, blocking Pelafil's activation to its active metabolite",
+    "B": "Rixapine inhibits HTX-1A, decreasing enzymatic formation of Pelafil's active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-07-split"
+}

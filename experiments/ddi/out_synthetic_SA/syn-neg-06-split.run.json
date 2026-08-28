@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-06",
+  "condition": "split",
+  "drug_a": "Braxtatide",
+  "drug_b": "Moradol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Braxtatide is a potent inducer of HTX-7M.",
+    "Moradol is cleared almost entirely by HTX-1A."
+  ],
+  "transcript": {
+    "A|1": "Braxtatide's only pharmacokinetically relevant property here is that it is a potent inducer of HTX-7M; its food advice, 14-hour half-life, storage conditions, and registration date have no bearing on an interaction. No information describes Moradol at all — nothing on its metabolic enzymes, whether it is an HTX-7M substrate, or how it is cleared. An induction-mediated interaction requires the co-prescribed drug to be metabolized by the induced enzyme. Since Moradol's metabolic pathway is unknown, no interaction can be confirmed, and none can be excluded. The information held is therefore insufficient to establish a clinically significant pharmacokinetic interaction.\n\nMECHANISM: insufficient information (Braxtatide induces HTX-7M; Moradol's metabolic pathway is unknown)\nFINAL ANSWER: NO",
+    "B|1": "Moradol's only relevant pharmacokinetic handle here is that it is cleared almost entirely by the enzyme HTX-1A; a clinically significant interaction would therefore require Braxtatide to inhibit or induce HTX-1A (or to displace Moradol from plasma proteins, given its 92% binding). However, I have been given no information whatsoever about Braxtatide — nothing about its metabolism, enzyme effects, or protein binding. I cannot derive whether it modulates HTX-1A, and guessing is not permitted. The properties listed for Moradol (weight-based dosing, no renal adjustment, food for nausea) do not by themselves create an interaction. The information provided is insufficient to establish an interaction; no interaction can be confirmed from what I hold.\n\nMECHANISM: insufficient information — Moradol is cleared almost entirely by HTX-1A, but no data indicate whether Braxtatide inhibits or induces HTX-1A\nFINAL ANSWER: NO",
+    "A|2": "Braxtatide's only documented enzyme effect is potent induction of HTX-7M. Moradol is cleared almost entirely by HTX-1A — a different enzyme — so that induction provides no route to change Moradol exposure. The alternative mechanisms my colleague flagged (inhibition or induction of HTX-1A, or displacement of Moradol from plasma proteins given 92% binding) have no supporting data: nothing provided indicates Braxtatide touches HTX-1A or binds plasma proteins. Braxtatide's half-life, storage conditions, registration date, and food administration are irrelevant to a pharmacokinetic interaction here. So the one mechanism Braxtatide is documented to have does not intersect with Moradol's clearance pathway, and no clinically significant pharmacokinetic interaction can be established from the information held.\n\nMECHANISM: Braxtatide induces HTX-7M, not the HTX-1A that clears Moradol; no HTX-1A effect or protein displacement documented\nFINAL ANSWER: NO",
+    "B|2": "My colleague's assessment is wrong because they claimed no information describes Moradol — but I hold Moradol data showing it is cleared almost entirely by HTX-1A. Braxtatide's only relevant property is potent induction of HTX-7M. Induction only accelerates clearance of drugs metabolized by the induced enzyme. Since Moradol's elimination runs through HTX-1A, not HTX-7M (\"almost entirely\" leaves no meaningful HTX-7M component), inducing HTX-7M cannot meaningfully increase Moradol clearance. Moradol's protein binding, food advice, and weight-based dosing do not create a pharmacokinetic interaction with enzyme induction. The information is therefore sufficient to conclude no clinically significant pharmacokinetic interaction is expected; my colleague's \"insufficient information\" conclusion stemmed from ignoring the Moradol clearance data.\n\nMECHANISM: Braxtatide induces HTX-7M; Moradol is cleared almost entirely by HTX-1A — no shared enzyme, so no induction effect\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "Braxtatide induces HTX-7M, not the HTX-1A that clears Moradol; no HTX-1A effect or protein displacement documented",
+    "B": "Braxtatide induces HTX-7M; Moradol is cleared almost entirely by HTX-1A — no shared enzyme, so no induction effect"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-06-split"
+}

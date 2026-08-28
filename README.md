@@ -345,6 +345,25 @@ dossier so its index cannot be learned.
 
 Verified end-to-end offline against a stub before spending any quota (`tests/test_ddi.py`).
 
+### Roles: the summarizer retains more, not less
+
+The DDI dossiers carry four genuinely irrelevant facts per drug, so filtering is
+measurable. Assigning a `summarizer` role and measuring what it carries forward:
+
+| config | agent A | agent B |
+|---|---|---|
+| no roles | 24% | 37% |
+| A=analyzer, **B=summarizer** | 30% | **53%** |
+| **A=summarizer**, B=analyzer | **42%** | 39% |
+
+Whichever position holds the label retains **more** irrelevant material. The effect
+survives length normalisation (turns are 730–831 chars throughout; irrelevant facts per
+1000 chars is 1.29 and 1.03 at summarizer positions against 0.65–0.94 elsewhere) and
+appears in both orderings, so it is the role rather than the position.
+
+Accuracy is 100% in every arm. Reversing the role order changes nothing measurable except
+which agent shows the effect — order is not the lever, the label is.
+
 ### Screening for a hard subset
 
 `--screen N` runs the single agent over N questions first, keeps the ones it fails, and

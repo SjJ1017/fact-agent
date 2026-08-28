@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Morozide is a strong inhibitor of HTX-3F.",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morozide",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Morozide is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morozide reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morozide is 92% bound to plasma proteins.",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morozide is available as a generic formulation.",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morozide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixacaine is cleared almost entirely by HTX-3F.",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixacaine",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Rixacaine reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixacaine has a plasma half-life of roughly fourteen hours.",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixacaine is available as a generic formulation.",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixacaine does not require renal dose adjustment.",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixacaine",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morozide’s only relevant mechanism is strong inhibition of HTX-3F. A pharmacokinetic interaction with Rixacaine would require evidence that Rixacaine is a HTX-3F substrate or is otherwise affected by this pathway, but no Rixacaine metabolism or susceptibility data are provided. Morozide’s protein binding, adult-only use, generic status, and Tmax do not establish an interaction. Thus, no clinically significant interaction is established, though it cannot be excluded.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-05"
+    }
+  },
+  {
+    "text": "Rixacaine is cleared almost entirely by HTX-3F, so a clinically significant pharmacokinetic interaction would most likely require Morozide to inhibit or induce HTX-3F, thereby changing Rixacaine exposure. However, no information is provided about Morozide’s effect on HTX-3F or on Rixacaine absorption, distribution, or elimination. Therefore, the available data are insufficient to determine whether co-administration produces a clinically significant interaction.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-05"
+    }
+  },
+  {
+    "text": "My colleague overlooked a key fact: the Morozide label explicitly states it is a **strong inhibitor of HTX-3F**. Since Rixacaine is cleared almost entirely by HTX-3F, co-administration with a strong inhibitor of that enzyme would be expected to substantially reduce Rixacaine clearance and increase its plasma exposure — a classic and likely clinically significant pharmacokinetic interaction. The other data points (protein binding, generic availability, adult-only approval, time to peak concentration) do not bear on this question and can be set aside. The colleague's own reasoning actually supports YES once the inhibition fact is included; their \"insufficient information\" conclusion and NO answer were both in error.\n\nMECHANISM: Morozide strongly inhibits HTX-3F, the enzyme responsible for nearly all Rixacaine clearance, increasing Rixacaine exposure\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-05"
+    }
+  },
+  {
+    "text": "My colleague overlooked key information in the Rixacaine profile. Rixacaine is explicitly stated to be \"cleared almost entirely by HTX-3F\" — this directly establishes Rixacaine as a HTX-3F substrate, which is exactly the evidence the colleague said was missing. Since Morozide is a strong inhibitor of HTX-3F, co-administration would substantially reduce Rixacaine's clearance, increasing its plasma concentrations and half-life (currently ~14 hours). Given that HTX-3F accounts for essentially all of Rixacaine's elimination, strong inhibition of this pathway would be expected to produce a clinically significant rise in Rixacaine exposure, with corresponding risk of dose-related adverse effects. The interaction is therefore established from the available data.\n\nMECHANISM: Morozide strongly inhibits HTX-3F, the enzyme responsible for almost all Rixacaine clearance → decreased Rixacaine clearance and increased exposure\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-05-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-05"
+    }
+  }
+]

@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Orbatide is a strong inhibitor of HTX-2C.",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbatide",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Orbatide reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbatide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbatide is contraindicated in severe hepatic impairment.",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbatide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbatide is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbatide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbatide is 92% bound to plasma proteins.",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Orbatide",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morerol requires HTX-4B to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morerol",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Morerol is supplied as 10 mg and 25 mg tablets.",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morerol is given once daily by mouth.",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morerol is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Morerol is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Morerol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Orbatide is a strong inhibitor of HTX-2C, so any interaction would hinge on Morerol being an HTX-2C substrate. No information on Morerol's metabolism, elimination pathway, or protein binding has been provided, so substrate status cannot be established. Orbatide's high protein binding (92%) could theoretically displace a highly bound co-drug, but Morerol's binding is unknown. Orbatide's faecal excretion and hepatic contraindication do not by themselves create an interaction. With no data on Morerol's disposition, a clinically significant pharmacokinetic interaction cannot be confirmed or excluded from the information held.\n\nMECHANISM: insufficient information (Orbatide inhibits HTX-2C, but Morerol's substrate status is unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-01"
+    }
+  },
+  {
+    "text": "Based on the information provided, I cannot establish a pharmacokinetic interaction. The only metabolic handle I have is that Morerol requires **HTX-4B** to form its active metabolite — so any interaction would most plausibly occur if Orbatide inhibited or induced HTX-4B, altering active metabolite formation. However, I have **no information at all about Orbatide**: nothing on its metabolism, its effect on HTX-4B, absorption, transporters, or excretion. Morerol's faecal excretion and once-daily oral dosing alone do not predict an interaction. Therefore, the data I hold are insufficient to decide; I am not aware of any mechanism by which Orbatide would affect Morerol, but I cannot exclude one.\n\nMECHANISM: insufficient information (HTX-4B activation of Morerol is the plausible site, but Orbatide's effect on it is unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-neg-01"
+    }
+  },
+  {
+    "text": "Orbatide's only stated drug–drug mechanism is strong inhibition of **HTX-2C**. Morerol's relevant pathway is activation via **HTX-4B**. These are distinct enzymes, so Orbatide cannot impair Morerol's active metabolite formation. No other mechanism links them: Orbatide's 92% protein binding establishes no displacement effect (Morerol's binding is unknown), shared faecal excretion does not by itself create an interaction, and nothing indicates Orbatide alters absorption or transporters. My colleague's uncertainty is now resolved by the Orbatide data: the plausible interaction site (HTX-4B) is untouched by Orbatide's known effect (HTX-2C inhibition). On the information provided, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: Orbatide inhibits HTX-2C; Morerol is activated via HTX-4B — no shared enzyme, no interaction\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-01"
+    }
+  },
+  {
+    "text": "My colleague's \"insufficient information\" conclusion rests on an oversight: Morerol's metabolism **is** specified — it requires HTX-4B to form its active metabolite. Orbatide is a strong inhibitor of HTX-2C, a different enzyme, so that inhibition cannot affect Morerol's activation. Nothing provided indicates Morerol is an HTX-2C substrate; its identified enzymatic step is HTX-4B, and it is excreted mainly in faeces. Orbatide's 92% protein binding could only displace a highly bound co-drug, but Morerol's binding is unknown, so displacement remains speculative, not demonstrable. With no shared enzyme or disposition pathway identified between the two drugs, no clinically significant pharmacokinetic interaction is expected on the information held.\n\nMECHANISM: no overlap — Orbatide inhibits HTX-2C, while Morerol's activation depends on HTX-4B (unaffected)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-neg-01-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-neg-01"
+    }
+  }
+]

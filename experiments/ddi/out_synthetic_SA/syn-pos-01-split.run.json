@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-01",
+  "condition": "split",
+  "drug_a": "Kessozide",
+  "drug_b": "Dralizumab",
+  "gold": true,
+  "enzyme": "HTX-3F",
+  "critical_pair": [
+    "Kessozide is a strong inhibitor of HTX-3F.",
+    "Dralizumab is cleared almost entirely by HTX-3F."
+  ],
+  "transcript": {
+    "A|1": "The only pharmacokinetic property of Kessozide that could drive an interaction is its strong inhibition of HTX-3F. For that to matter, Dralizumab would need to be a substrate of HTX-3F or otherwise depend on that pathway for clearance. No information about Dralizumab is provided at all — nothing on its metabolism, transport, elimination route, or HTX-3F substrate status. Kessozide's half-life, storage conditions, tablet strengths, and headache incidence bear on dosing and tolerability, not on a two-drug PK interaction. Since Kessozide's HTX-3F inhibition cannot be linked to any change in Dralizumab exposure, and no alternative shared mechanism is described, the available data do not establish an interaction — though the assessment is limited by the absence of Dralizumab data.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|1": "Dralizumab is cleared almost entirely by HTX-3F, so a clinically significant pharmacokinetic interaction would require Kessozide to inhibit or induce HTX-3F. However, no information about Kessozide’s effect on HTX-3F or on Dralizumab clearance is provided. Dralizumab’s faecal excretion, adult-only approval, registration date, and hepatic impairment contraindication do not establish an interaction. Therefore, the available information is insufficient to determine whether a clinically significant pharmacokinetic interaction occurs.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague overlooked a key fact: the Kessozide information explicitly states it is a **strong inhibitor of HTX-3F**. Since Dralizumab is cleared almost entirely by HTX-3F, strong inhibition of that enzyme would substantially reduce Dralizumab clearance and increase its exposure — a clinically significant pharmacokinetic interaction. The colleague's conclusion of \"insufficient information\" is therefore incorrect; the necessary information is present. Kessozide's half-life, storage, tablet strengths, and headache rate, and Dralizumab's excretion, approval, and contraindication details, do not bear on this and are excluded.\n\nMECHANISM: Kessozide strongly inhibits HTX-3F, the enzyme responsible for almost all Dralizumab clearance, decreasing clearance and increasing Dralizumab exposure\nFINAL ANSWER: YES",
+    "B|2": "My colleague's assessment is outdated: the Dralizumab data I hold explicitly state it is \"cleared almost entirely by HTX-3F.\" The colleague's key precondition — that Dralizumab must be an HTX-3F substrate for Kessozide's inhibition to matter — is therefore satisfied. Kessozide is a strong HTX-3F inhibitor (per the colleague's review of that drug). Strong inhibition of the enzyme responsible for nearly all Dralizumab clearance will reduce its elimination, raise exposure, and risk toxicity; Dralizumab's contraindication in severe hepatic impairment underscores that elevated levels are a safety concern. This is a clinically significant pharmacokinetic interaction.\n\nMECHANISM: Kessozide strongly inhibits HTX-3F, the near-exclusive clearance pathway of Dralizumab → decreased Dralizumab clearance and increased exposure\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Kessozide strongly inhibits HTX-3F, the enzyme responsible for almost all Dralizumab clearance, decreasing clearance and increasing Dralizumab exposure",
+    "B": "Kessozide strongly inhibits HTX-3F, the near-exclusive clearance pathway of Dralizumab → decreased Dralizumab clearance and increased exposure"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-01-split"
+}

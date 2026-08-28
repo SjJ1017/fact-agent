@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-05",
+  "condition": "split",
+  "drug_a": "Caddoxetine",
+  "drug_b": "Immoerol",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Caddoxetine is a strong inhibitor of HTX-3F.",
+    "Immoerol is cleared almost entirely by HTX-6K."
+  ],
+  "transcript": {
+    "A|1": "Caddoxetine’s only relevant pharmacokinetic property here is that it is a strong inhibitor of HTX-3F, which would tend to increase exposure of any co-prescribed drug cleared by HTX-3F. However, no information is provided about Immoerol—particularly whether Immoerol is a substrate of HTX-3F or has clearance pathways affected by Caddoxetine. Its half-life, QT effects, formulations, and adverse effects do not establish a pharmacokinetic interaction. Therefore, a clinically significant interaction cannot be confirmed or excluded from the available data; this is insufficient information rather than evidence of no interaction.\n\nMECHANISM: insufficient information (Caddoxetine strongly inhibits HTX-3F; Immoerol HTX-3F substrate status unknown)\nFINAL ANSWER: NO",
+    "B|1": "Immoerol is cleared almost entirely by HTX-6K, so any pharmacokinetic interaction with Caddoxetine would require Caddoxetine to inhibit or induce HTX-6K. No drug information was provided for Caddoxetine — nothing on its metabolism or its effect on HTX-6K or any other enzyme. An HTX-6K-mediated interaction therefore can neither be confirmed nor excluded. No clinically significant interaction can be established from the available data, but this reflects missing information rather than a demonstrated absence; the evidence held is insufficient to decide definitively.\n\nMECHANISM: insufficient information — Immoerol cleared by HTX-6K; Caddoxetine's effect on HTX-6K unknown\nFINAL ANSWER: NO",
+    "A|2": "My colleague's premise was partly wrong: Caddoxetine data *was* available to me. Caddoxetine is a strong inhibitor of HTX-3F. However, Immoerol is cleared almost entirely by HTX-6K — a different enzyme. A pharmacokinetic interaction would require Caddoxetine to inhibit or induce HTX-6K (or alter Immoerol's absorption, distribution, or excretion, for which no data exist). Strong inhibition of HTX-3F cannot be extrapolated to HTX-6K, and no effect of Caddoxetine on HTX-6K is documented. Therefore the known pharmacology of Caddoxetine does not intersect Immoerol's clearance pathway, and no clinically significant interaction can be established. An HTX-6K effect is not definitively excluded, but nothing supports one.\n\nMECHANISM: insufficient information — Caddoxetine inhibits HTX-3F; Immoerol cleared by HTX-6K; Caddoxetine's effect on HTX-6K unknown\nFINAL ANSWER: NO",
+    "B|2": "My colleague overlooked a key fact: Immoerol's clearance pathway is actually specified — it is cleared almost entirely by HTX-6K. Caddoxetine's only relevant property is strong inhibition of HTX-3F, a different enzyme. Since Immoerol is not cleared by HTX-3F, Caddoxetine's inhibition would not increase Immoerol exposure. No other interaction mechanism (absorption, transport, etc.) is suggested by the available data. Therefore, based on the information provided, there is no clinically significant pharmacokinetic interaction. This conclusion is limited to the data given; any pathway not listed cannot be assessed.\n\nMECHANISM: no overlap — Caddoxetine inhibits HTX-3F; Immoerol is cleared by HTX-6K\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "insufficient information — Caddoxetine inhibits HTX-3F; Immoerol cleared by HTX-6K; Caddoxetine's effect on HTX-6K unknown",
+    "B": "no overlap — Caddoxetine inhibits HTX-3F; Immoerol is cleared by HTX-6K"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-05-split"
+}

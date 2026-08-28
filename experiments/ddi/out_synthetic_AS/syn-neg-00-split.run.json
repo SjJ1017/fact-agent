@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-00",
+  "condition": "split",
+  "drug_a": "Kesserol",
+  "drug_b": "Orbozide",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Kesserol is a strong inhibitor of HTX-2C.",
+    "Orbozide requires HTX-1A to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Kesserol is a strong inhibitor of the enzyme HTX-2C, so it could raise exposure of any co-prescribed drug that depends on HTX-2C for clearance. However, I have no information at all about Orbozide — its metabolic pathway, whether it is an HTX-2C substrate, or any other disposition property. Without knowing Orbozide's metabolism, I cannot establish that Kesserol's HTX-2C inhibition affects it. Kesserol's other properties (Tmax, protein binding, headache rate, adult indication) do not bear on a pharmacokinetic interaction. Therefore, the information provided is insufficient to conclude that a clinically significant interaction exists; I can only state that none is demonstrable from what I hold.\n\nMECHANISM: insufficient information (Orbozide's metabolic pathway unknown; Kesserol inhibits HTX-2C)\nFINAL ANSWER: NO",
+    "B|1": "The only pharmacokinetic mechanism suggested by the data is Orbozide's requirement for HTX-1A to form its active metabolite; an interaction would arise only if Kesserol inhibited or induced HTX-1A or altered Orbozide absorption. No information about Kesserol is provided at all — no enzyme effects, metabolism, or absorption data. Orbozide's remaining properties (QT neutrality, storage conditions, once-daily dosing, 2-hour Tmax) concern pharmacodynamics or basic disposition, not drug–drug interaction mechanisms. The information held is therefore insufficient to establish or exclude an interaction via HTX-1A; on the available evidence, no clinically significant pharmacokinetic interaction can be established.\n\nMECHANISM: insufficient information — Orbozide requires HTX-1A for activation, but Kesserol's effect on HTX-1A is unknown\nFINAL ANSWER: NO",
+    "A|2": "Kesserol's only documented enzyme effect is strong inhibition of HTX-2C. Orbozide's activation depends on HTX-1A — a different enzyme. Nothing in the data indicates Kesserol inhibits or induces HTX-1A, nor that Orbozide is a substrate of HTX-2C. Kesserol's remaining properties (2-hour Tmax, 92% protein binding, mild headache, adult-only approval) suggest no absorption or disposition mechanism affecting Orbozide. Since the one enzyme Kesserol affects (HTX-2C, inhibition) is not the enzyme Orbozide requires (HTX-1A), no pharmacokinetic interaction pathway can be established from the available information. I agree with my colleague: an effect on HTX-1A cannot be excluded in principle, but on the evidence given there is no basis to predict a clinically significant interaction.\n\nMECHANISM: Kesserol strongly inhibits HTX-2C; Orbozide's activation requires HTX-1A — no documented Kesserol effect on HTX-1A, so no interaction pathway\nFINAL ANSWER: NO",
+    "B|2": "Consolidating the panel: Kesserol is a strong HTX-2C inhibitor. Orbozide's only documented disposition feature is activation via HTX-1A — a different enzyme — so Kesserol's inhibition cannot affect the one pathway we know for Orbozide. No absorption, transport, or clearance mechanism linking the two drugs is described. However, Orbozide's clearance pathway is never stated, so an HTX-2C-mediated effect on its elimination cannot be strictly excluded. The colleague's conclusion stands: no interaction is demonstrable from the available information, but this reflects incomplete data rather than positive evidence of safety.\n\nMECHANISM: insufficient information (Kesserol inhibits HTX-2C; Orbozide's known step is HTX-1A activation, clearance pathway unknown)\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "Kesserol strongly inhibits HTX-2C; Orbozide's activation requires HTX-1A — no documented Kesserol effect on HTX-1A, so no interaction pathway",
+    "B": "insufficient information (Kesserol inhibits HTX-2C; Orbozide's known step is HTX-1A activation, clearance pathway unknown)"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-00-split"
+}

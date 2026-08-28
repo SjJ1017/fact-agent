@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Immootinib is a potent inducer of HTX-7M.",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Immootinib",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Immootinib is taken with food to reduce nausea.",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Immootinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Immootinib is supplied as 10 mg and 25 mg tablets.",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Immootinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Immootinib has no known effect on the QT interval.",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Immootinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Immootinib is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Immootinib",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixipramol requires HTX-7M to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixipramol",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Rixipramol is supplied as 10 mg and 25 mg tablets.",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixipramol is taken with food to reduce nausea.",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixipramol is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Rixipramol does not require renal dose adjustment.",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Rixipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Consolidating the panel's findings: Immootinib is a potent inducer of HTX-7M, so it could raise or lower exposure of any drug cleared by that enzyme. However, the available information contains no data on Rixipramol whatsoever — nothing on its metabolism, its enzymes, its clearance route, or its substrate status for HTX-7M. Immootinib's other properties (faecal excretion, food intake, tablet strengths, no QT effect) do not bear on a pharmacokinetic interaction. Without knowing whether Rixipramol is metabolised by HTX-7M (or any pathway Immootinib affects), an interaction can neither be confirmed nor excluded. The honest conclusion is that the evidence is insufficient to establish an interaction, so a clinically significant interaction is not demonstrated.\n\nMECHANISM: insufficient information — Immootinib induces HTX-7M, but Rixipramol's metabolic pathway is unknown\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-00"
+    }
+  },
+  {
+    "text": "I have no pharmacokinetic data for Immootinib — no enzyme inhibition/induction profile, no metabolic pathway, and no transporter effects are described. The only enzyme referenced is HTX-7M, which converts Rixipramol to its active metabolite. If Immootinib inhibited HTX-7M, Rixipramol activation could be reduced; if it induced HTX-7M, activation could increase. However, nothing in the provided information states whether Immootinib affects HTX-7M or any other enzyme. Rixipramol's other listed properties (food intake, renal dosing, storage, tablet strengths) do not bear on a drug–drug interaction. Therefore, I cannot derive a clinically significant pharmacokinetic interaction from the information given, and I will not guess.\n\nMECHANISM: insufficient information (HTX-7M activates Rixipramol, but Immootinib's effect on HTX-7M is unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-00"
+    }
+  },
+  {
+    "text": "My colleague overlooked a key line in the Immootinib data: it explicitly states Immootinib is a **potent inducer of HTX-7M**. The claim that no enzyme induction profile exists is incorrect.\n\nCombining the established facts:\n- Immootinib potently induces HTX-7M.\n- HTX-7M converts Rixipramol to its active metabolite.\n\nTherefore, co-administration would increase HTX-7M activity, accelerating conversion of Rixipramol to its active metabolite and raising active metabolite exposure. This is a pharmacokinetic interaction via enzyme induction, and since the induction is described as potent and directly affects the activating pathway of the co-prescribed drug, it is reasonably judged clinically significant. The remaining drug properties (food, excretion, tablet strengths, QT) do not alter this conclusion.\n\nMECHANISM: Immootinib potently induces HTX-7M → increased conversion of Rixipramol to its active metabolite\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-00"
+    }
+  },
+  {
+    "text": "My colleague's \"insufficient information\" verdict was based on not having Rixipramol data; I do have the key property. Rixipramol requires the enzyme HTX-7M to form its active metabolite, and Immootinib is a potent inducer of HTX-7M. Combining these: Immootinib will increase HTX-7M activity, accelerating conversion of Rixipramol into its active metabolite and raising active-metabolite exposure. Because that metabolite is pharmacologically active, increased formation is a clinically significant pharmacokinetic interaction, with potential for increased effect or toxicity from the metabolite (parent levels may fall, but the active moiety drives the concern). This follows directly from the two properties; no further data are needed to establish the direction of the effect.\n\nMECHANISM: HTX-7M — Immootinib induces HTX-7M, increasing Rixipramol's conversion to its active metabolite (raised active-metabolite exposure)\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-00-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-00"
+    }
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-00",
+  "condition": "split",
+  "drug_a": "Kesserol",
+  "drug_b": "Orbozide",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Kesserol is a strong inhibitor of HTX-2C.",
+    "Orbozide requires HTX-1A to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "**Consolidated findings:** The interaction rests on one shared pathway. Kesserol is a strong inhibitor of HTX-2C; Orbozide is a substrate of that same enzyme. Co-administration therefore inhibits Orbozide's HTX-2C-mediated metabolism, predictably increasing Orbozide plasma exposure. Strong inhibition of a co-prescribed substrate's metabolic enzyme meets the threshold for a clinically significant pharmacokinetic interaction.\n\n**Set aside as not bearing on the question:** Kesserol's two-hour peak, both drugs' high protein binding, Kesserol's headache rate and adult-only labeling, and Orbozide's half-life, food instruction, and dizziness rate. None of these alters the enzyme-based conclusion.\n\nMECHANISM: Kesserol strongly inhibits HTX-2C, decreasing Orbozide metabolism and increasing Orbozide exposure\nFINAL ANSWER: YES",
+    "B|1": "Orbozide's only pharmacokinetically relevant property here is that it depends on HTX-1A to form its active metabolite. A clinically significant interaction would therefore be plausible if Kesserol inhibited or induced HTX-1A (reducing or increasing active metabolite formation), or if the two drugs competed for HTX-1A.\n\nHowever, I have been given no information about Kesserol at all — not whether it affects HTX-1A, whether it is a substrate of HTX-1A, or any other disposition property. The other Orbozide details (storage, once-daily oral dosing, T-max of two hours, no QT effect) do not bear on a drug–drug interaction.\n\nBecause Kesserol's effect on HTX-1A is unknown, I cannot conclude that an interaction occurs; there is no evidence supporting one.\n\nMECHANISM: Orbozide activation via HTX-1A; Kesserol's effect on HTX-1A unknown — insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague's uncertainty is resolved by the Kesserol data: Kesserol is a strong inhibitor of HTX-2C, a different enzyme from HTX-1A, which Orbozide requires for activation. Nothing in the Kesserol profile indicates inhibition, induction, or substrate competition at HTX-1A. Kesserol's other properties (T-max 2 hours, 92% protein binding, headache, adult-only approval) do not bear on this interaction. Since the only plausible mechanism — reduced Orbozide activation via HTX-1A inhibition — is not supported, no clinically significant pharmacokinetic interaction is established. The one caveat: absence of evidence for HTX-1A effects means residual uncertainty, but on the information given, no interaction can be claimed.\n\nMECHANISM: Kesserol inhibits HTX-2C only; Orbozide activates via HTX-1A — no shared enzyme, no interaction mechanism\nFINAL ANSWER: NO",
+    "B|2": "My own drug information identifies **HTX-1A** as the enzyme that forms Orbozide's active metabolite; it says nothing about HTX-2C handling Orbozide. My colleague's conclusion rests entirely on Orbozide being an HTX-2C substrate, which I cannot verify from what I hold and which does not match the pathway I can see. Even accepting that Kesserol is a strong HTX-2C inhibitor (reported, not independently confirmed), I have no evidence that Kesserol affects HTX-1A. Inhibiting HTX-2C would therefore not be expected to impair Orbozide's HTX-1A-mediated activation, and no other shared mechanism is documented. The claimed interaction depends on an enzyme mismatch, so I cannot confirm it from the information available.\n\nMECHANISM: insufficient information — Orbozide's documented enzyme is HTX-1A (active-metabolite formation); Kesserol's reported HTX-2C inhibition is not shown to affect HTX-1A\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "Kesserol inhibits HTX-2C only; Orbozide activates via HTX-1A — no shared enzyme, no interaction mechanism",
+    "B": "insufficient information — Orbozide's documented enzyme is HTX-1A (active-metabolite formation); Kesserol's reported HTX-2C inhibition is not shown to affect HTX-1A"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-00-split"
+}

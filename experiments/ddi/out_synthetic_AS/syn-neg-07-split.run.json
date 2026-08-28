@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-neg-07",
+  "condition": "split",
+  "drug_a": "Caddacaine",
+  "drug_b": "Moroxetine",
+  "gold": false,
+  "enzyme": "none shared",
+  "critical_pair": [
+    "Caddacaine is a strong inhibitor of HTX-8P.",
+    "Moroxetine is cleared almost entirely by HTX-3F."
+  ],
+  "transcript": {
+    "A|1": "Caddacaine is a strong inhibitor of HTX-8P. If Moroxetine were a clinically relevant HTX-8P substrate, Caddacaine could reduce Moroxetine’s metabolism and increase its exposure. However, no information is provided about Moroxetine’s metabolic pathway, whether HTX-8P clears it, or the clinical effect of changed exposure. Therefore, a clinically significant pharmacokinetic interaction cannot be established from the available data.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "B|1": "No interaction can be established from the information provided. Moroxetine's relevant pharmacokinetic profile is that it is cleared almost entirely by HTX-3F and is 92% plasma-protein bound, so a clinically significant interaction would most plausibly arise if Caddacaine inhibited or induced HTX-3F, or displaced Moroxetine from plasma proteins. However, no drug information is available for Caddacaine at all — nothing on its metabolic pathways, its effect on HTX-3F, or its protein binding. The remaining Moroxetine details (adult-only approval, headache incidence, hepatic contraindication) do not bear on this question. The data held are therefore insufficient to decide either way; no interaction is demonstrated.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague overlooked the Caddacaine data I hold: Caddacaine is a **strong inhibitor of HTX-8P**. That is the only enzymatic effect documented for Caddacaine.\n\nMoroxetine, per the colleague's report, is cleared almost entirely by **HTX-3F**. Caddacaine's known inhibition is therefore directed at an enzyme that plays no role in Moroxetine's clearance, so it would not raise Moroxetine exposure. No information suggests Caddacaine inhibits or induces HTX-3F, and no data indicate protein-binding displacement of Moroxetine (92% bound) by Caddacaine.\n\nThus the one mechanism we can name — strong HTX-8P inhibition by Caddacaine — does not intersect with Moroxetine's elimination pathway, and no alternative mechanism is supported by the available data. The colleague's \"no Caddacaine information\" premise was incorrect, but the conclusion of no demonstrated interaction stands.\n\nMECHANISM: Caddacaine strongly inhibits HTX-8P; Moroxetine is cleared by HTX-3F — no overlap, no effect on Moroxetine exposure\nFINAL ANSWER: NO",
+    "B|2": "The Moroxetine data resolves the uncertainty my colleague flagged: Moroxetine is cleared almost entirely by HTX-3F, not HTX-8P. Caddacaine is a strong inhibitor of HTX-8P only, so it cannot inhibit the enzyme responsible for Moroxetine's clearance. The HTX-8P inhibition mechanism therefore does not apply to Moroxetine. No other pharmacokinetic mechanism is supported by the available data: nothing indicates Caddacaine displaces Moroxetine's plasma protein binding or affects HTX-3F. A clinically significant pharmacokinetic interaction is not established.\n\nMECHANISM: Caddacaine inhibits HTX-8P; Moroxetine is cleared almost entirely by HTX-3F — no shared pathway\nFINAL ANSWER: NO"
+  },
+  "final": {
+    "A": "NO",
+    "B": "NO"
+  },
+  "mechanism": {
+    "A": "Caddacaine strongly inhibits HTX-8P; Moroxetine is cleared by HTX-3F — no overlap, no effect on Moroxetine exposure",
+    "B": "Caddacaine inhibits HTX-8P; Moroxetine is cleared almost entirely by HTX-3F — no shared pathway"
+  },
+  "verdict": "NO",
+  "correct": true,
+  "named_enzyme": false,
+  "exec_id": "syn-neg-07-split"
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Kessipramol is a strong inhibitor of HTX-5D.",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessipramol",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Kessipramol is dosed by body weight in patients under 50 kg.",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessipramol is given once daily by mouth.",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessipramol is available as a generic formulation.",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessipramol is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Kessipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Sevipramol requires HTX-5D to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Sevipramol",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Sevipramol is supplied as 10 mg and 25 mg tablets.",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Sevipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Sevipramol is approved for use in adults only.",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Sevipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Sevipramol is stored below 25 degrees Celsius.",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Sevipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Sevipramol causes mild headache in about 8% of patients.",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Sevipramol",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Kessipramol's only property bearing on an interaction is that it is a strong inhibitor of HTX-5D; its weight-based dosing, once-daily oral route, storage conditions, and generic status are irrelevant here. For this inhibition to produce a clinically significant pharmacokinetic interaction, Sevipramol would need to be an HTX-5D substrate cleared at least partly via that pathway. No information about Sevipramol's metabolism, elimination, or enzyme involvement has been provided, so the inhibition cannot be linked to it. The available data are therefore explicitly insufficient to confirm an interaction, and none can be established from what is held.\n\nMECHANISM: insufficient information — Kessipramol inhibits HTX-5D, but Sevipramol's HTX-5D substrate status is unknown\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-04"
+    }
+  },
+  {
+    "text": "Sevipramol is known to require the enzyme HTX-5D for formation of its active metabolite, so any interaction would most plausibly occur if Kessipramol inhibited or induced HTX-5D, altering Sevipramol activation. However, I have been given no information about Kessipramol at all — nothing about its metabolism, its effect on HTX-5D, or any enzyme inhibition/induction properties. The remaining Sevipramol details (headache incidence, storage, adult-only approval, tablet strengths) are pharmacokinetic or clinical facts that do not bear on a drug–drug interaction. Therefore I cannot establish or exclude an interaction from the information provided; no interaction can be asserted.\n\nMECHANISM: insufficient information (HTX-5D is the relevant enzyme for Sevipramol activation, but Kessipramol's effect on it is unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-04"
+    }
+  },
+  {
+    "text": "My colleague lacked the key fact, but the information I hold supplies it: Kessipramol is explicitly described as a strong inhibitor of HTX-5D. Sevipramol requires HTX-5D to form its active metabolite. Strong inhibition of that enzyme by Kessipramol would therefore impair Sevipramol's activation, reducing active metabolite formation — a clinically significant pharmacokinetic interaction. The colleague's other Sevipramol details (headache incidence, storage, approval, tablet strengths) remain irrelevant, as they correctly noted. The interaction can now be asserted rather than left open.\n\nMECHANISM: Kessipramol strongly inhibits HTX-5D, reducing Sevipramol's conversion to its active metabolite\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-04"
+    }
+  },
+  {
+    "text": "My colleague overlooked a key fact in the Sevipramol data I hold: Sevipramol **requires HTX-5D to form its active metabolite**. This explicitly establishes Sevipramol as a substrate of HTX-5D for its activation step, resolving the gap the colleague identified.\n\nGiven that Kessipramol is a strong HTX-5D inhibitor, co-administration would suppress the enzyme Sevipramol depends on for activation. This would reduce formation of Sevipramol's active metabolite, lowering active exposure — a pharmacokinetic interaction at the metabolic activation step. A strong inhibitor blocking the obligatory activation pathway of a prodrug is expected to be clinically significant.\n\nMECHANISM: Kessipramol strongly inhibits HTX-5D, decreasing conversion of Sevipramol to its active metabolite (reduced activation)\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-04-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-04"
+    }
+  }
+]

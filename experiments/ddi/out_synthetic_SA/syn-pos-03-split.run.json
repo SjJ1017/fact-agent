@@ -1,0 +1,30 @@
+{
+  "case_id": "syn-pos-03",
+  "condition": "split",
+  "drug_a": "Venustat",
+  "drug_b": "Pelustat",
+  "gold": true,
+  "enzyme": "HTX-6K",
+  "critical_pair": [
+    "Venustat is a strong inhibitor of HTX-6K.",
+    "Pelustat requires HTX-6K to form its active metabolite."
+  ],
+  "transcript": {
+    "A|1": "Venustat is a strong inhibitor of HTX-6K, so a pharmacokinetic interaction would require Pelustat to be an HTX-6K substrate (risking elevated Pelustat exposure) or to affect Venustat's metabolism or excretion. No information about Pelustat is provided: its metabolic pathway, whether it is an HTX-6K substrate, and any effect on Venustat's clearance are all unknown. Venustat's faecal excretion, once-daily oral dosing, and two-hour peak do not by themselves establish or exclude an interaction. The available information is therefore insufficient to confirm a clinically significant pharmacokinetic interaction; no mechanism can be established from what is held.\n\nMECHANISM: insufficient information (Pelustat's metabolism and HTX-6K substrate status unknown)\nFINAL ANSWER: NO",
+    "B|1": "No information about Venustat is provided — not its metabolic pathway, the enzymes or transporters involved, its absorption or excretion, nor any effect on HTX-6K, the activation factor Pelustat depends on. From Pelustat's profile alone (oral once-daily dosing, faecal excretion, no renal adjustment), no point of pharmacokinetic contact with Venustat can be derived. Without data on Venustat, I cannot implicate any specific CYP enzyme, transporter, or the HTX-6K activation step as a site of interaction. The available information is therefore insufficient to establish a clinically significant pharmacokinetic interaction, and I will not guess one.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "A|2": "My colleague correctly noted they lacked Venustat data, but I hold it: Venustat is a strong inhibitor of HTX-6K. Their Pelustat profile identifies HTX-6K as the activation factor Pelustat depends on. Combining the two profiles establishes a direct point of pharmacokinetic contact: Venustat's strong inhibition of HTX-6K will suppress the activation step Pelustat requires, reducing formation of Pelustat's active moiety and lowering its effective exposure. This is a clinically significant pharmacokinetic interaction — the colleague's \"insufficient information\" conclusion applied only to their side of the pair and is superseded once Venustat's HTX-6K inhibition is brought in. No other pathway (renal, CYP, transporter) needs to be invoked; the HTX-6K activation step alone decides it.\n\nMECHANISM: Venustat strongly inhibits HTX-6K, the activation factor Pelustat depends on, reducing Pelustat activation\nFINAL ANSWER: YES",
+    "B|2": "My colleague overlooked the Pelustat data I hold: Pelustat explicitly requires HTX-6K to form its active metabolite, which makes Pelustat an HTX-6K substrate for bioactivation. Venustat is a strong HTX-6K inhibitor. Co-administration therefore inhibits the enzyme Pelustat depends on for activation, reducing formation of Pelustat's active metabolite and lowering active exposure — a clinically significant pharmacokinetic interaction. Note the direction: this is decreased active metabolite (reduced efficacy risk), not elevated parent-drug toxicity. The other Pelustat details (weight-based dosing, faecal excretion, no renal adjustment) do not change this conclusion. My colleague's \"insufficient information\" verdict is incorrect because the required substrate relationship is stated in the drug information provided.\n\nMECHANISM: Venustat inhibits HTX-6K, decreasing Pelustat's conversion to its active metabolite\nFINAL ANSWER: YES"
+  },
+  "final": {
+    "A": "YES",
+    "B": "YES"
+  },
+  "mechanism": {
+    "A": "Venustat strongly inhibits HTX-6K, the activation factor Pelustat depends on, reducing Pelustat activation",
+    "B": "Venustat inhibits HTX-6K, decreasing Pelustat's conversion to its active metabolite"
+  },
+  "verdict": "YES",
+  "correct": true,
+  "named_enzyme": true,
+  "exec_id": "syn-pos-03-split"
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Venustat is a strong inhibitor of HTX-6K.",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Venustat",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Venustat reaches peak plasma concentration about two hours after a dose.",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Venustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Venustat is given once daily by mouth.",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Venustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Venustat has no known effect on the QT interval.",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Venustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Venustat is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Venustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Pelustat requires HTX-6K to form its active metabolite.",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Pelustat",
+      "extra": {
+        "gold": true,
+        "critical": true
+      }
+    }
+  },
+  {
+    "text": "Pelustat is dosed by body weight in patients under 50 kg.",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Pelustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Pelustat is given once daily by mouth.",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Pelustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Pelustat is excreted mainly in the faeces.",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Pelustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Pelustat does not require renal dose adjustment.",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": null,
+      "round": 0,
+      "channel": "source",
+      "doc_id": "Pelustat",
+      "extra": {
+        "gold": false,
+        "critical": false
+      }
+    }
+  },
+  {
+    "text": "Venustat is a strong inhibitor of HTX-6K, so it could raise exposure of any co-administered drug cleared by that enzyme. However, I have no information at all about Pelustat: I do not know whether Pelustat is a substrate of HTX-6K, how it is metabolised, or how it is eliminated. Venustat's other properties (faecal excretion, once-daily oral dosing, T_max of 2 hours, no QT effect) do not by themselves establish an interaction. Without knowing Pelustat's clearance pathway, I cannot confirm that HTX-6K inhibition by Venustat would affect Pelustat's plasma levels. The information provided is therefore insufficient to establish a clinically significant pharmacokinetic interaction; I am not guessing either way, but no interaction can be demonstrated from the data held.\n\nMECHANISM: insufficient information (Venustat inhibits HTX-6K, but Pelustat's substrate status is unknown)\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": "A",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-03"
+    }
+  },
+  {
+    "text": "Consolidating the panel's findings: the only mechanistic handle for a pharmacokinetic interaction with Pelustat would be its activation step via HTX-6K, or competition for the route responsible for its mainly faecal excretion. However, we hold no information on Venustat whatsoever — nothing on whether it affects HTX-6K, any metabolising enzyme, transporters, or excretion pathways. No shared enzyme or mechanism can be named, and none can be excluded. Per the panel's conclusion, the available information is not sufficient to establish an interaction; there is no evidence of one, but this is an absence of data rather than a demonstrated clean profile.\n\nMECHANISM: insufficient information\nFINAL ANSWER: NO",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": "B",
+      "round": 1,
+      "channel": "output",
+      "doc_id": "syn-pos-03"
+    }
+  },
+  {
+    "text": "My colleague's conclusion rested on the claim that nothing was known about Venustat — but the Venustat profile I hold contradicts this. Venustat is explicitly a **strong inhibitor of HTX-6K**, and the colleague's own review identifies HTX-6K-mediated activation as the key mechanistic handle for Pelustat. Combining the two: Venustat's strong inhibition of HTX-6K will suppress the enzyme that activates Pelustat, reducing formation of Pelustat's active metabolite. A strong inhibitor acting directly on the other drug's activation pathway is the classic setup for a clinically significant pharmacokinetic interaction (reduced efficacy of the affected drug). The colleague's \"absence of data\" reasoning no longer applies, since the inhibitory property is documented.\n\nMECHANISM: Venustat strongly inhibits HTX-6K, the enzyme that activates Pelustat — decreased Pelustat activation\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": "A",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-03"
+    }
+  },
+  {
+    "text": "The colleague's key gap — whether Pelustat is a substrate of HTX-6K — is resolved by the Pelustat data: Pelustat *requires* HTX-6K to form its active metabolite, so it is a substrate of that enzyme. Venustat is a strong HTX-6K inhibitor, so co-administration would suppress conversion of Pelustat into its active metabolite, lowering exposure to the active moiety. This is a pharmacokinetic interaction at the level of metabolic activation, and inhibition by a strong inhibitor of the sole activation step is expected to be clinically significant. Other details (faecal excretion, weight-based dosing, renal adjustment) do not alter this conclusion.\n\nMECHANISM: Venustat strongly inhibits HTX-6K, reducing Pelustat's conversion to its active metabolite (decreased activation)\nFINAL ANSWER: YES",
+    "provenance": {
+      "execution_id": "syn-pos-03-split",
+      "agent_id": "B",
+      "round": 2,
+      "channel": "output",
+      "doc_id": "syn-pos-03"
+    }
+  }
+]
