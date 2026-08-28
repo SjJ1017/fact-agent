@@ -1,0 +1,328 @@
+{
+  "cost_basis": "estimated: output characters / 4",
+  "configs": {
+    "chain-generalist": {
+      "n_questions": 8,
+      "trajectory": [
+        {
+          "round": 1,
+          "n_runs": 8,
+          "alive": 9.375,
+          "born": 9.375,
+          "died": 0.0,
+          "carried": 0.0,
+          "cumulative": 9.375,
+          "said": 26.5,
+          "born_contested": 2.0,
+          "born_survives": 8.875,
+          "cost": 283.3125,
+          "born_by_grounding": {
+            "injected": 8.375,
+            "gold": 0.75,
+            "context": 0.25
+          },
+          "died_by_grounding": {}
+        },
+        {
+          "round": 2,
+          "n_runs": 8,
+          "alive": 24.25,
+          "born": 15.5,
+          "died": 0.625,
+          "carried": 8.75,
+          "cumulative": 24.875,
+          "said": 32.625,
+          "born_contested": 2.5,
+          "born_survives": 6.625,
+          "cost": 618.28125,
+          "born_by_grounding": {
+            "injected": 15.375,
+            "gold": 0.125
+          },
+          "died_by_grounding": {
+            "injected": 0.5,
+            "gold": 0.125
+          }
+        },
+        {
+          "round": 3,
+          "n_runs": 8,
+          "alive": 24.375,
+          "born": 8.875,
+          "died": 9.125,
+          "carried": 15.125,
+          "cumulative": 33.75,
+          "said": 33.375,
+          "born_contested": 0.75,
+          "born_survives": 8.875,
+          "cost": 954.71875,
+          "born_by_grounding": {
+            "injected": 8.75,
+            "gold": 0.125
+          },
+          "died_by_grounding": {
+            "injected": 9.125
+          }
+        }
+      ],
+      "survival": {
+        "1": {
+          "1": 1.0,
+          "2": 0.9274553571428571,
+          "3": 0.9482886904761904
+        },
+        "2": {
+          "2": 1.0,
+          "3": 0.43072916666666666
+        },
+        "3": {
+          "3": 1.0
+        }
+      },
+      "signature": {
+        "n_facts": 33.75,
+        "grounding:gold": 0.028667717086834736,
+        "grounding:context": 0.008370535714285714,
+        "grounding:injected": 0.9629617471988796,
+        "support:single": 0.6786703431372549,
+        "support:multi": 0.3213296568627451,
+        "spread:private": 0.6491876750700281,
+        "spread:shared": 0.350812324929972,
+        "fate:dropped": 0.2706359418767507,
+        "fate:survived": 0.7293640581232492,
+        "contested": 0.15333989845938373,
+        "redundancy": 0.6272738929284737,
+        "echo_rate": 0.0935782967032967
+      },
+      "churn": {
+        "correct": {
+          "mean": 0.18563669903159935,
+          "n": 7
+        },
+        "wrong": {
+          "mean": 0.06666666666666667,
+          "n": 1
+        }
+      },
+      "gold_facts_per_run": 1.0,
+      "fragility_gold": 0.16666666666666666
+    },
+    "full-generalist": {
+      "n_questions": 8,
+      "trajectory": [
+        {
+          "round": 1,
+          "n_runs": 8,
+          "alive": 10.625,
+          "born": 10.625,
+          "died": 0.0,
+          "carried": 0.0,
+          "cumulative": 10.625,
+          "said": 26.875,
+          "born_contested": 2.75,
+          "born_survives": 5.125,
+          "cost": 283.3125,
+          "born_by_grounding": {
+            "injected": 9.875,
+            "gold": 0.625,
+            "context": 0.125
+          },
+          "died_by_grounding": {}
+        },
+        {
+          "round": 2,
+          "n_runs": 8,
+          "alive": 26.25,
+          "born": 20.625,
+          "died": 5.0,
+          "carried": 5.625,
+          "cumulative": 31.25,
+          "said": 37.875,
+          "born_contested": 4.0,
+          "born_survives": 6.625,
+          "cost": 647.625,
+          "born_by_grounding": {
+            "injected": 20.5,
+            "context": 0.125
+          },
+          "died_by_grounding": {
+            "injected": 4.875,
+            "gold": 0.125
+          }
+        },
+        {
+          "round": 3,
+          "n_runs": 8,
+          "alive": 32.625,
+          "born": 20.875,
+          "died": 15.125,
+          "carried": 11.125,
+          "cumulative": 52.125,
+          "said": 43.25,
+          "born_contested": 2.375,
+          "born_survives": 20.875,
+          "cost": 1039.21875,
+          "born_by_grounding": {
+            "injected": 20.5,
+            "gold": 0.125,
+            "context": 0.25
+          },
+          "died_by_grounding": {
+            "injected": 14.875,
+            "context": 0.125,
+            "gold": 0.125
+          }
+        }
+      ],
+      "survival": {
+        "1": {
+          "1": 1.0,
+          "2": 0.5721567175514544,
+          "3": 0.4626870205817574
+        },
+        "2": {
+          "2": 1.0,
+          "3": 0.36697811447811446
+        },
+        "3": {
+          "3": 1.0
+        }
+      },
+      "signature": {
+        "n_facts": 52.125,
+        "grounding:gold": 0.012412300343334825,
+        "grounding:context": 0.00882034632034632,
+        "grounding:injected": 0.9787673533363189,
+        "support:single": 0.7018230332885506,
+        "support:multi": 0.2981769667114495,
+        "spread:private": 0.623906553216898,
+        "spread:shared": 0.37609344678310197,
+        "fate:dropped": 0.3512184654426034,
+        "fate:survived": 0.6487815345573966,
+        "contested": 0.1536553963278101,
+        "redundancy": 0.5235119235837212,
+        "echo_rate": 0.20551378446115287
+      },
+      "churn": {
+        "correct": {
+          "mean": 0.27616613981161897,
+          "n": 7
+        },
+        "wrong": {
+          "mean": 0.22058823529411764,
+          "n": 1
+        }
+      },
+      "gold_facts_per_run": 0.75,
+      "fragility_gold": 0.25
+    },
+    "full-specialists": {
+      "n_questions": 8,
+      "trajectory": [
+        {
+          "round": 1,
+          "n_runs": 8,
+          "alive": 23.625,
+          "born": 23.625,
+          "died": 0.0,
+          "carried": 0.0,
+          "cumulative": 23.625,
+          "said": 32.375,
+          "born_contested": 5.875,
+          "born_survives": 8.625,
+          "cost": 338.28125,
+          "born_by_grounding": {
+            "injected": 22.25,
+            "gold": 0.875,
+            "context": 0.5
+          },
+          "died_by_grounding": {}
+        },
+        {
+          "round": 2,
+          "n_runs": 8,
+          "alive": 25.625,
+          "born": 17.5,
+          "died": 15.5,
+          "carried": 8.125,
+          "cumulative": 41.125,
+          "said": 35.5,
+          "born_contested": 4.0,
+          "born_survives": 4.75,
+          "cost": 688.8125,
+          "born_by_grounding": {
+            "injected": 17.5
+          },
+          "died_by_grounding": {
+            "injected": 15.0,
+            "context": 0.375,
+            "gold": 0.125
+          }
+        },
+        {
+          "round": 3,
+          "n_runs": 8,
+          "alive": 26.75,
+          "born": 13.375,
+          "died": 13.75,
+          "carried": 11.875,
+          "cumulative": 54.5,
+          "said": 36.5,
+          "born_contested": 1.75,
+          "born_survives": 13.375,
+          "cost": 1051.625,
+          "born_by_grounding": {
+            "injected": 12.875,
+            "gold": 0.375,
+            "context": 0.125
+          },
+          "died_by_grounding": {
+            "injected": 13.75
+          }
+        }
+      ],
+      "survival": {
+        "1": {
+          "1": 1.0,
+          "2": 0.40574358684089473,
+          "3": 0.4424211876832844
+        },
+        "2": {
+          "2": 1.0,
+          "3": 0.23271883289124667
+        },
+        "3": {
+          "3": 1.0
+        }
+      },
+      "signature": {
+        "n_facts": 54.5,
+        "grounding:gold": 0.019251878100260838,
+        "grounding:context": 0.009755162011754304,
+        "grounding:injected": 0.970992959887985,
+        "support:single": 0.7867782176710083,
+        "support:multi": 0.2132217823289917,
+        "spread:private": 0.6387960675719955,
+        "spread:shared": 0.3612039324280046,
+        "fate:dropped": 0.47104075534868706,
+        "fate:survived": 0.528959244651313,
+        "contested": 0.1692755419712848,
+        "redundancy": 0.5072706977559328,
+        "echo_rate": 0.45715921469597937
+      },
+      "churn": {
+        "correct": {
+          "mean": 0.34871899686141167,
+          "n": 7
+        },
+        "wrong": {
+          "mean": 0.37272727272727274,
+          "n": 1
+        }
+      },
+      "gold_facts_per_run": 1.25,
+      "fragility_gold": 0.5
+    }
+  },
+  "source_dir": "experiments/mmlu-pro_out"
+}
