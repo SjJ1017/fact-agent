@@ -170,3 +170,44 @@ def test_contested_facts_are_flagged_from_contradiction_edges():
     v = build_view(st, "e")
     assert v.classes[_fid(st, "X")].contested
     assert v.classes[_fid(st, "NOT X")].contested
+
+
+# -- trajectories -----------------------------------------------------------
+
+def test_trajectory_counts_births_and_deaths():
+    st = _store({("A", 1): ["X", "Y"], ("A", 2): ["Y", "Z"], ("A", 3): ["Z"]})
+    rows = build_view(st, "e")
+    t = __import__("factflow.aggregate", fromlist=["trajectory"]).trajectory(rows)
+    assert [r["born"] for r in t] == [2, 1, 0]
+    assert [r["died"] for r in t] == [0, 1, 1]
+    assert [r["carried"] for r in t] == [0, 1, 1]
+    assert [r["cumulative"] for r in t] == [2, 3, 3]
+
+
+def test_a_config_that_never_prunes_has_a_flat_survival_curve():
+    from factflow.aggregate import survival_curve
+    hoarder = build_view(_store({("A", 1): ["X", "Y"], ("A", 2): ["X", "Y"],
+                                 ("A", 3): ["X", "Y"]}), "e")
+    pruner = build_view(_store({("A", 1): ["X", "Y"], ("A", 2): ["X"],
+                                ("A", 3): ["X"]}), "e")
+    assert survival_curve(hoarder)[1] == [1.0, 1.0, 1.0]
+    assert survival_curve(pruner)[1] == [1.0, 0.5, 0.5]
+
+
+def test_trajectory_accumulates_cost_across_agents():
+    from factflow.aggregate import trajectory
+    st = _store({("A", 1): ["X"], ("B", 1): ["Y"], ("A", 2): ["X"], ("B", 2): ["Y"]})
+    v = build_view(st, "e")
+    cost = {("A", 1): 10.0, ("B", 1): 5.0, ("A", 2): 20.0, ("B", 2): 1.0}
+    assert [r["cost"] for r in trajectory(v, cost)] == [15.0, 36.0]
+
+
+def test_mean_trajectory_aligns_runs_of_different_content():
+    from factflow.aggregate import mean_trajectory
+    a = build_view(_store({("A", 1): ["X"], ("A", 2): ["X"]}), "e")
+    b = build_view(_store({("A", 1): ["P", "Q", "R"], ("A", 2): ["P"]}), "e")
+    m = mean_trajectory([a, b])
+    assert [r["round"] for r in m] == [1, 2]
+    assert m[0]["born"] == 2.0          # (1 + 3) / 2
+    assert m[1]["died"] == 1.0          # (0 + 2) / 2
+    assert all(r["n_runs"] == 2 for r in m)

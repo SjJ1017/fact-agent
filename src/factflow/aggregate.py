@@ -238,3 +238,127 @@ def mean_flow(views: Iterable[RunView], axis: str = "grounding") -> dict[tuple[s
         for k, c in compressed_flow(v, axis).items():
             acc[k] += c
     return {k: val / n for k, val in acc.items()} if n else {}
+
+
+# -- trajectories -----------------------------------------------------------
+#
+# Transport is only one of the things a round does. An agent that reasons emits
+# facts nobody held, and calling those a leak misreads the task: on an inference
+# problem the *birth* rate is the signal, not a defect. So the per-round view
+# below tracks a population, not a pipeline. Facts are born, carried, and die,
+# and a configuration has a characteristic demography.
+#
+# Rounds align across runs by construction, so these curves average, and the
+# cost axis makes them comparable between configurations that buy their rounds
+# at different prices.
+
+
+def trajectory(view: RunView, cost: Optional[dict[tuple[str, int], float]] = None) -> list[dict]:
+    """Per-round population accounting for the facts in a run.
+
+        alive     distinct facts anyone expressed this round
+        born      alive now, never expressed before
+        died      expressed last round, expressed by nobody now
+        carried   alive in both rounds
+
+    `died` is not waste by default. A fact that is raised, examined, and dropped
+    is what deliberation is supposed to look like; a fact that is dropped and
+    was gold is a loss. The split by grounding keeps those apart.
+
+    `cost` maps (agent, round) to whatever the round cost - tokens, characters,
+    money. When given, each row carries the running total, so a curve can be
+    drawn against spend rather than against round index.
+    """
+    rows: list[dict] = []
+    seen: set[str] = set()
+    prev: set[str] = set()
+    spend = 0.0
+
+    for r in view.rounds:
+        alive = set().union(*[view.said[(a, r)] for a in view.agents]) if view.agents else set()
+        born = alive - seen
+        died = prev - alive
+        if cost is not None:
+            spend += sum(cost.get((a, r), 0.0) for a in view.agents)
+
+        def split(ids: set[str], axis: str) -> dict[str, int]:
+            out: dict[str, int] = defaultdict(int)
+            for f in ids:
+                c = view.classes.get(f)
+                if c is not None:
+                    out[getattr(c, axis)] += 1
+            return dict(out)
+
+        rows.append({
+            "round": r,
+            "alive": len(alive),
+            "born": len(born),
+            "died": len(died),
+            "carried": len(alive & prev),
+            "cumulative": len(seen | alive),
+            "said": sum(len(view.said[(a, r)]) for a in view.agents),
+            "born_by_grounding": split(born, "grounding"),
+            "died_by_grounding": split(died, "grounding"),
+            "born_contested": sum(1 for f in born if view.classes.get(f)
+                                  and view.classes[f].contested),
+            # Of what was born this round, how much is still standing at the end.
+            "born_survives": sum(1 for f in born if view.classes.get(f)
+                                 and view.classes[f].fate == "survived"),
+            "cost": spend,
+        })
+        seen |= alive
+        prev = alive
+    return rows
+
+
+def survival_curve(view: RunView) -> dict[int, list[float]]:
+    """For facts born at round b, the fraction still expressed at each later round.
+
+    A configuration that generates freely and prunes hard has a steep curve; one
+    that accumulates without discarding has a flat one. Two runs can reach the
+    same number of surviving facts by either route, and only the curve says
+    which happened.
+    """
+    born_at: dict[str, int] = {}
+    alive_at: dict[int, set[str]] = {}
+    seen: set[str] = set()
+    for r in view.rounds:
+        alive = set().union(*[view.said[(a, r)] for a in view.agents]) if view.agents else set()
+        alive_at[r] = alive
+        for f in alive - seen:
+            born_at[f] = r
+        seen |= alive
+
+    out: dict[int, list[float]] = {}
+    for b in view.rounds:
+        cohort = [f for f, r in born_at.items() if r == b]
+        if not cohort:
+            continue
+        out[b] = [sum(f in alive_at[r] for f in cohort) / len(cohort)
+                  for r in view.rounds if r >= b]
+    return out
+
+
+def mean_trajectory(views: Iterable[RunView],
+                    cost: Optional[dict[str, dict[tuple[str, int], float]]] = None) -> list[dict]:
+    """Average the per-round rows. Rounds are the alignment key, so this is
+    exactly the operation transcripts do not admit."""
+    acc: dict[int, list[dict]] = defaultdict(list)
+    for v in views:
+        for row in trajectory(v, (cost or {}).get(v.execution_id)):
+            acc[row["round"]].append(row)
+    scalars = ("alive", "born", "died", "carried", "cumulative", "said",
+               "born_contested", "born_survives", "cost")
+    out = []
+    for r in sorted(acc):
+        rows = acc[r]
+        m = {"round": r, "n_runs": len(rows)}
+        m.update({k: sum(x[k] for x in rows) / len(rows) for k in scalars})
+        for field in ("born_by_grounding", "died_by_grounding"):
+            agg: dict[str, float] = defaultdict(float)
+            for x in rows:
+                for k, val in x[field].items():
+                    agg[k] += val / len(rows)
+            m[field] = dict(agg)
+        out.append(m)
+    return out
