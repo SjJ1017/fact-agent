@@ -1,0 +1,620 @@
+{
+  "cost_basis": "estimated: output characters / 4",
+  "configs": {
+    "deepseek-v4-flash-full-lenses": {
+      "n_questions": 12,
+      "trajectory": [
+        {
+          "round": 1,
+          "n_runs": 11,
+          "alive": 21.545454545454547,
+          "born": 21.545454545454547,
+          "died": 0.0,
+          "carried": 0.0,
+          "cumulative": 21.545454545454547,
+          "said": 22.09090909090909,
+          "born_contested": 0.09090909090909091,
+          "born_survives": 0.6363636363636364,
+          "cost": 572.4090909090909,
+          "born_by_grounding": {
+            "injected": 21.545454545454547
+          },
+          "died_by_grounding": {}
+        },
+        {
+          "round": 2,
+          "n_runs": 11,
+          "alive": 21.181818181818183,
+          "born": 20.09090909090909,
+          "died": 20.454545454545453,
+          "carried": 1.0909090909090908,
+          "cumulative": 41.63636363636363,
+          "said": 22.09090909090909,
+          "born_contested": 0.18181818181818182,
+          "born_survives": 1.3636363636363635,
+          "cost": 1144.8863636363637,
+          "born_by_grounding": {
+            "injected": 20.090909090909093
+          },
+          "died_by_grounding": {
+            "injected": 20.454545454545457
+          }
+        },
+        {
+          "round": 3,
+          "n_runs": 11,
+          "alive": 20.545454545454547,
+          "born": 18.545454545454547,
+          "died": 19.272727272727273,
+          "carried": 1.9090909090909092,
+          "cumulative": 60.18181818181818,
+          "said": 21.363636363636363,
+          "born_contested": 0.09090909090909091,
+          "born_survives": 18.545454545454547,
+          "cost": 1727.4318181818182,
+          "born_by_grounding": {
+            "injected": 18.545454545454547
+          },
+          "died_by_grounding": {
+            "injected": 19.272727272727273
+          }
+        }
+      ],
+      "survival": {
+        "1": {
+          "1": 1.0,
+          "2": 0.05526538678712592,
+          "3": 0.03279691323169584
+        },
+        "2": {
+          "2": 1.0,
+          "3": 0.06932830983633122
+        },
+        "3": {
+          "3": 1.0
+        }
+      },
+      "signature": {
+        "n_facts": 55.166666666666664,
+        "grounding:gold": 0.0,
+        "grounding:context": 0.0,
+        "grounding:injected": 0.9166666666666666,
+        "support:single": 0.8953927958603196,
+        "support:multi": 0.02127387080634705,
+        "spread:private": 0.8650433308720643,
+        "spread:shared": 0.05162333579460226,
+        "fate:dropped": 0.6042912930630757,
+        "fate:survived": 0.312375373603591,
+        "contested": 0.006608209429406532,
+        "redundancy": 0.07647539865426427,
+        "echo_rate": 0.5833333333333333
+      },
+      "churn": {
+        "correct": {
+          "mean": null,
+          "n": 0
+        },
+        "wrong": {
+          "mean": 0.5751199488433201,
+          "n": 12
+        }
+      },
+      "gold_facts_per_run": 0.0,
+      "fragility_gold": 0.0
+    },
+    "deepseek-v4-flash-full-neutral": {
+      "n_questions": 12,
+      "trajectory": [
+        {
+          "round": 1,
+          "n_runs": 12,
+          "alive": 20.5,
+          "born": 20.5,
+          "died": 0.0,
+          "carried": 0.0,
+          "cumulative": 20.5,
+          "said": 20.75,
+          "born_contested": 0.16666666666666666,
+          "born_survives": 0.6666666666666666,
+          "cost": 530.75,
+          "born_by_grounding": {
+            "injected": 20.333333333333332,
+            "gold": 0.16666666666666666
+          },
+          "died_by_grounding": {}
+        },
+        {
+          "round": 2,
+          "n_runs": 12,
+          "alive": 20.916666666666668,
+          "born": 20.083333333333332,
+          "died": 19.666666666666668,
+          "carried": 0.8333333333333334,
+          "cumulative": 40.583333333333336,
+          "said": 21.5,
+          "born_contested": 0.25,
+          "born_survives": 1.8333333333333333,
+          "cost": 1065.125,
+          "born_by_grounding": {
+            "injected": 20.0,
+            "context": 0.08333333333333333
+          },
+          "died_by_grounding": {
+            "injected": 19.499999999999996,
+            "gold": 0.16666666666666666
+          }
+        },
+        {
+          "round": 3,
+          "n_runs": 12,
+          "alive": 20.25,
+          "born": 17.75,
+          "died": 18.666666666666668,
+          "carried": 2.25,
+          "cumulative": 58.333333333333336,
+          "said": 21.083333333333332,
+          "born_contested": 0.3333333333333333,
+          "born_survives": 17.75,
+          "cost": 1581.9791666666667,
+          "born_by_grounding": {
+            "injected": 17.75
+          },
+          "died_by_grounding": {
+            "injected": 18.583333333333332,
+            "context": 0.08333333333333333
+          }
+        }
+      ],
+      "survival": {
+        "1": {
+          "1": 1.0,
+          "2": 0.03879830917874396,
+          "3": 0.033288043478260865
+        },
+        "2": {
+          "2": 1.0,
+          "3": 0.09103713871305404
+        },
+        "3": {
+          "3": 1.0
+        }
+      },
+      "signature": {
+        "n_facts": 58.333333333333336,
+        "grounding:gold": 0.0028735632183908046,
+        "grounding:context": 0.003787878787878788,
+        "grounding:injected": 0.9933385579937304,
+        "support:single": 0.9894218254512371,
+        "support:multi": 0.010578174548762783,
+        "spread:private": 0.9485570247629531,
+        "spread:shared": 0.051442975237046905,
+        "fate:dropped": 0.6544971711333442,
+        "fate:survived": 0.3455028288666558,
+        "contested": 0.012692448037275622,
+        "redundancy": 0.07451209505401496,
+        "echo_rate": 0.6200396825396826
+      },
+      "churn": {
+        "correct": {
+          "mean": null,
+          "n": 0
+        },
+        "wrong": {
+          "mean": 0.6248120353926522,
+          "n": 12
+        }
+      },
+      "gold_facts_per_run": 0.16666666666666666,
+      "fragility_gold": 0.0
+    },
+    "deepseek-v4-flash-full-stance": {
+      "n_questions": 12,
+      "trajectory": [
+        {
+          "round": 1,
+          "n_runs": 12,
+          "alive": 22.0,
+          "born": 22.0,
+          "died": 0.0,
+          "carried": 0.0,
+          "cumulative": 22.0,
+          "said": 22.333333333333332,
+          "born_contested": 0.08333333333333333,
+          "born_survives": 0.25,
+          "cost": 659.1666666666666,
+          "born_by_grounding": {
+            "injected": 21.916666666666664,
+            "gold": 0.08333333333333333
+          },
+          "died_by_grounding": {}
+        },
+        {
+          "round": 2,
+          "n_runs": 12,
+          "alive": 18.916666666666668,
+          "born": 18.083333333333332,
+          "died": 21.166666666666668,
+          "carried": 0.8333333333333334,
+          "cumulative": 40.083333333333336,
+          "said": 19.416666666666668,
+          "born_contested": 0.08333333333333333,
+          "born_survives": 1.3333333333333333,
+          "cost": 1265.8333333333333,
+          "born_by_grounding": {
+            "injected": 18.083333333333336
+          },
+          "died_by_grounding": {
+            "injected": 21.083333333333332,
+            "gold": 0.08333333333333333
+          }
+        },
+        {
+          "round": 3,
+          "n_runs": 12,
+          "alive": 19.333333333333332,
+          "born": 17.75,
+          "died": 17.416666666666668,
+          "carried": 1.5,
+          "cumulative": 57.833333333333336,
+          "said": 19.916666666666668,
+          "born_contested": 0.08333333333333333,
+          "born_survives": 17.75,
+          "cost": 1898.3958333333333,
+          "born_by_grounding": {
+            "injected": 17.583333333333332,
+            "gold": 0.16666666666666666
+          },
+          "died_by_grounding": {
+            "injected": 17.416666666666664
+          }
+        }
+      ],
+      "survival": {
+        "1": {
+          "1": 1.0,
+          "2": 0.0387530193236715,
+          "3": 0.014039855072463768
+        },
+        "2": {
+          "2": 1.0,
+          "3": 0.08123905080426819
+        },
+        "3": {
+          "3": 1.0
+        }
+      },
+      "signature": {
+        "n_facts": 57.833333333333336,
+        "grounding:gold": 0.003998567677249941,
+        "grounding:context": 0.0,
+        "grounding:injected": 0.9960014323227501,
+        "support:single": 0.9845834192534983,
+        "support:multi": 0.01541658074650177,
+        "spread:private": 0.9509177669962182,
+        "spread:shared": 0.04908223300378184,
+        "fate:dropped": 0.6699493890478473,
+        "fate:survived": 0.33005061095215266,
+        "contested": 0.004545454545454545,
+        "redundancy": 0.0627294570942112,
+        "echo_rate": 0.6319444444444444
+      },
+      "churn": {
+        "correct": {
+          "mean": null,
+          "n": 0
+        },
+        "wrong": {
+          "mean": 0.6445462817184672,
+          "n": 12
+        }
+      },
+      "gold_facts_per_run": 0.25,
+      "fragility_gold": 0.08333333333333333
+    },
+    "glm-5.3-flash-full-lenses": {
+      "n_questions": 1,
+      "trajectory": [
+        {
+          "round": 1,
+          "n_runs": 1,
+          "alive": 18.0,
+          "born": 18.0,
+          "died": 0.0,
+          "carried": 0.0,
+          "cumulative": 18.0,
+          "said": 18.0,
+          "born_contested": 0.0,
+          "born_survives": 0.0,
+          "cost": 665.5,
+          "born_by_grounding": {
+            "injected": 18.0
+          },
+          "died_by_grounding": {}
+        },
+        {
+          "round": 2,
+          "n_runs": 1,
+          "alive": 16.0,
+          "born": 16.0,
+          "died": 18.0,
+          "carried": 0.0,
+          "cumulative": 34.0,
+          "said": 16.0,
+          "born_contested": 0.0,
+          "born_survives": 1.0,
+          "cost": 1465.5,
+          "born_by_grounding": {
+            "injected": 16.0
+          },
+          "died_by_grounding": {
+            "injected": 18.0
+          }
+        },
+        {
+          "round": 3,
+          "n_runs": 1,
+          "alive": 16.0,
+          "born": 15.0,
+          "died": 15.0,
+          "carried": 1.0,
+          "cumulative": 49.0,
+          "said": 16.0,
+          "born_contested": 0.0,
+          "born_survives": 15.0,
+          "cost": 2372.25,
+          "born_by_grounding": {
+            "injected": 15.0
+          },
+          "died_by_grounding": {
+            "injected": 15.0
+          }
+        }
+      ],
+      "survival": {
+        "1": {
+          "1": 1.0,
+          "2": 0.0,
+          "3": 0.0
+        },
+        "2": {
+          "2": 1.0,
+          "3": 0.0625
+        },
+        "3": {
+          "3": 1.0
+        }
+      },
+      "signature": {
+        "n_facts": 49.0,
+        "grounding:gold": 0.0,
+        "grounding:context": 0.0,
+        "grounding:injected": 1.0,
+        "support:single": 1.0,
+        "support:multi": 0.0,
+        "spread:private": 0.9795918367346939,
+        "spread:shared": 0.02040816326530612,
+        "fate:dropped": 0.673469387755102,
+        "fate:survived": 0.32653061224489793,
+        "contested": 0.0,
+        "redundancy": 0.020000000000000018,
+        "echo_rate": 1.0
+      },
+      "churn": {
+        "correct": {
+          "mean": null,
+          "n": 0
+        },
+        "wrong": {
+          "mean": 0.66,
+          "n": 1
+        }
+      },
+      "gold_facts_per_run": 0.0,
+      "fragility_gold": 0.0
+    },
+    "glm-5.3-flash-full-neutral": {
+      "n_questions": 1,
+      "trajectory": [
+        {
+          "round": 1,
+          "n_runs": 1,
+          "alive": 23.0,
+          "born": 23.0,
+          "died": 0.0,
+          "carried": 0.0,
+          "cumulative": 23.0,
+          "said": 23.0,
+          "born_contested": 0.0,
+          "born_survives": 0.0,
+          "cost": 942.75,
+          "born_by_grounding": {
+            "injected": 23.0
+          },
+          "died_by_grounding": {}
+        },
+        {
+          "round": 2,
+          "n_runs": 1,
+          "alive": 16.0,
+          "born": 16.0,
+          "died": 23.0,
+          "carried": 0.0,
+          "cumulative": 39.0,
+          "said": 16.0,
+          "born_contested": 0.0,
+          "born_survives": 0.0,
+          "cost": 1583.75,
+          "born_by_grounding": {
+            "injected": 16.0
+          },
+          "died_by_grounding": {
+            "injected": 23.0
+          }
+        },
+        {
+          "round": 3,
+          "n_runs": 1,
+          "alive": 14.0,
+          "born": 14.0,
+          "died": 16.0,
+          "carried": 0.0,
+          "cumulative": 53.0,
+          "said": 16.0,
+          "born_contested": 0.0,
+          "born_survives": 14.0,
+          "cost": 2207.75,
+          "born_by_grounding": {
+            "injected": 14.0
+          },
+          "died_by_grounding": {
+            "injected": 16.0
+          }
+        }
+      ],
+      "survival": {
+        "1": {
+          "1": 1.0,
+          "2": 0.0,
+          "3": 0.0
+        },
+        "2": {
+          "2": 1.0,
+          "3": 0.0
+        },
+        "3": {
+          "3": 1.0
+        }
+      },
+      "signature": {
+        "n_facts": 53.0,
+        "grounding:gold": 0.0,
+        "grounding:context": 0.0,
+        "grounding:injected": 1.0,
+        "support:single": 0.9622641509433962,
+        "support:multi": 0.03773584905660377,
+        "spread:private": 0.9622641509433962,
+        "spread:shared": 0.03773584905660377,
+        "fate:dropped": 0.7358490566037735,
+        "fate:survived": 0.2641509433962264,
+        "contested": 0.0,
+        "redundancy": 0.036363636363636376,
+        "echo_rate": 0.0
+      },
+      "churn": {
+        "correct": {
+          "mean": null,
+          "n": 0
+        },
+        "wrong": {
+          "mean": 0.7358490566037735,
+          "n": 1
+        }
+      },
+      "gold_facts_per_run": 0.0,
+      "fragility_gold": 0.0
+    },
+    "glm-5.3-flash-full-stance": {
+      "n_questions": 1,
+      "trajectory": [
+        {
+          "round": 1,
+          "n_runs": 1,
+          "alive": 16.0,
+          "born": 16.0,
+          "died": 0.0,
+          "carried": 0.0,
+          "cumulative": 16.0,
+          "said": 16.0,
+          "born_contested": 1.0,
+          "born_survives": 0.0,
+          "cost": 973.75,
+          "born_by_grounding": {
+            "injected": 16.0
+          },
+          "died_by_grounding": {}
+        },
+        {
+          "round": 2,
+          "n_runs": 1,
+          "alive": 24.0,
+          "born": 23.0,
+          "died": 15.0,
+          "carried": 1.0,
+          "cumulative": 39.0,
+          "said": 24.0,
+          "born_contested": 1.0,
+          "born_survives": 2.0,
+          "cost": 1915.0,
+          "born_by_grounding": {
+            "injected": 23.0
+          },
+          "died_by_grounding": {
+            "injected": 15.0
+          }
+        },
+        {
+          "round": 3,
+          "n_runs": 1,
+          "alive": 20.0,
+          "born": 18.0,
+          "died": 22.0,
+          "carried": 2.0,
+          "cumulative": 57.0,
+          "said": 21.0,
+          "born_contested": 0.0,
+          "born_survives": 18.0,
+          "cost": 2630.75,
+          "born_by_grounding": {
+            "injected": 17.0,
+            "gold": 1.0
+          },
+          "died_by_grounding": {
+            "injected": 22.0
+          }
+        }
+      ],
+      "survival": {
+        "1": {
+          "1": 1.0,
+          "2": 0.0625,
+          "3": 0.0
+        },
+        "2": {
+          "2": 1.0,
+          "3": 0.08695652173913043
+        },
+        "3": {
+          "3": 1.0
+        }
+      },
+      "signature": {
+        "n_facts": 57.0,
+        "grounding:gold": 0.017543859649122806,
+        "grounding:context": 0.0,
+        "grounding:injected": 0.9824561403508771,
+        "support:single": 1.0,
+        "support:multi": 0.0,
+        "spread:private": 0.9473684210526315,
+        "spread:shared": 0.05263157894736842,
+        "fate:dropped": 0.6491228070175439,
+        "fate:survived": 0.3508771929824561,
+        "contested": 0.03508771929824561,
+        "redundancy": 0.06557377049180324,
+        "echo_rate": 1.0
+      },
+      "churn": {
+        "correct": {
+          "mean": null,
+          "n": 0
+        },
+        "wrong": {
+          "mean": 0.6166666666666667,
+          "n": 1
+        }
+      },
+      "gold_facts_per_run": 1.0,
+      "fragility_gold": 1.0
+    }
+  },
+  "source_dir": "experiments/perspectrum_pilot_full"
+}
