@@ -703,13 +703,19 @@ def identify(
     return out
 
 
-def _binary_judge(batch_size: int, auto_reject_below: float,
-                  auto_accept_above: float, cue: bool):
-    """`identify` bound to the caller's settings, shaped like `adjudicate`."""
+def _binary_judge(batch_size: int, cue: bool):
+    """`identify` bound for the guard, with both shortcuts switched off.
+
+    The guard passes a similarity of 1.0 as a placeholder - it is re-checking
+    members against a representative, not scoring them - so a judge carrying
+    `auto_accept_above` would read that placeholder as certainty and approve
+    every pair without asking. The guard exists precisely to ask, and with the
+    shortcut live it merged 154 mentions into one 85-member blob spanning
+    unrelated claims.
+    """
     def judge(llm, mentions, pairs, **_kw):
         return identify(llm, mentions, pairs, batch_size=batch_size,
-                        auto_reject_below=auto_reject_below,
-                        auto_accept_above=auto_accept_above, cue=cue)
+                        auto_reject_below=0.0, auto_accept_above=1.01, cue=cue)
     return judge
 
 
@@ -764,8 +770,7 @@ def binary_match(
                              auto_accept_above=auto_accept_above, cue=cue,
                              progress=progress)
         facts, extra = cluster(llm, fresh, relations, transitivity_guard=transitivity_guard,
-                               judge=_binary_judge(batch_size, auto_reject_below,
-                                                   auto_accept_above, cue))
+                               judge=_binary_judge(batch_size, cue))
         store.relations.extend(relations)
         store.relations.extend(extra)
         for f in facts:

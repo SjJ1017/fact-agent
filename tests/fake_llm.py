@@ -39,6 +39,8 @@ class FakeLLM:
             return self._atomize(user, output_format)
         if name in ("AdjudicationResult", "LeanAdjudication"):
             return self._adjudicate(user, output_format)
+        if name in ("IdentityResult", "IdentityResultBare"):
+            return self._identify(user, output_format)
         if name == "AnnotationResult":
             return self._annotate(user, output_format)
         raise AssertionError(f"FakeLLM has no handler for {name}")
@@ -69,6 +71,16 @@ class FakeLLM:
                 rel = "UNRELATED"
             judgements.append({"pair_id": p["pair_id"], "relation": rel, "confidence": 1.0})
         return model.model_validate({"judgements": judgements})
+
+    def _identify(self, user: str, model):
+        """SAME iff the pair is in `equivalent`; the binary matcher's payload
+        is flat, so `a`/`b` are the texts themselves."""
+        out = []
+        for p in json.loads(user):
+            same = frozenset((p["a"], p["b"])) in self.equivalent
+            out.append({"pair_id": p["pair_id"], "diff": "none" if same else "differs",
+                        "same": same})
+        return model.model_validate({"judgements": out})
 
     def _atomize(self, user: str, model):
         """Splits on " and " unless the text is in `keep_whole`."""

@@ -159,3 +159,16 @@ def test_the_guard_asks_the_same_question_the_caller_did():
     assert asked, "no judgement was made at all"
     assert "AdjudicationResult" not in asked, f"guard fell back to five-way: {asked}"
     assert set(asked) <= {"IdentityResult", "IdentityResultBare"}
+
+
+def test_the_guard_never_takes_the_auto_accept_shortcut():
+    """The guard passes similarity 1.0 as a placeholder, not a measurement. A
+    judge that honours auto_accept_above then approves every pair it was called
+    to question - which merged 154 mentions into one 85-member blob."""
+    from factflow.match import _binary_judge
+    ms = [_m("m1", "The ban raises pressure.", "A", 1),
+          _m("m2", "Rain fell in April.", "B", 1)]
+    llm = FakeLLM()                       # nothing is equivalent
+    rels = _binary_judge(batch_size=8, cue=True)(llm, ms, [(0, 1, 1.0)])
+    assert llm.calls, "the guard skipped the question it exists to ask"
+    assert [r.relation for r in rels] == ["UNRELATED"]
