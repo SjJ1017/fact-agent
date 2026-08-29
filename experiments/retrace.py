@@ -76,7 +76,7 @@ def main() -> int:
     ap.add_argument("--embed", default="BAAI/bge-base-en-v1.5",
                     help="blocker model; '' falls back to TF-IDF")
     ap.add_argument("--threshold", type=float, default=0.70,
-                    help="0.70 on bge-base loses no SAME and drops 94.9% of the rest")
+                    help="0.70 on bge-base loses no SAME and drops 94.9%% of the rest")
     ap.add_argument("--top-k", type=int, default=12)
     ap.add_argument("--batch-size", type=int, default=16)
     ap.add_argument("--no-atomize", action="store_true")
