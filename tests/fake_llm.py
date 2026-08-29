@@ -33,7 +33,7 @@ class FakeLLM:
         self.calls.append(name)
         if name == "ExtractionResult":
             return self._extract(user, output_format)
-        if name == "AdjudicationResult":
+        if name in ("AdjudicationResult", "LeanAdjudication"):
             return self._adjudicate(user, output_format)
         if name == "AnnotationResult":
             return self._annotate(user, output_format)

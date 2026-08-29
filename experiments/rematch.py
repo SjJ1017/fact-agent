@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import time
 import sys
 from pathlib import Path
 
@@ -34,7 +35,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from factflow.blocking import candidate_pairs  # noqa: E402
 from factflow.llm import LLM  # noqa: E402
-from factflow.match import match  # noqa: E402
+from factflow.match import incremental_match, match  # noqa: E402
 from factflow.types import FactMention, FactStore  # noqa: E402
 
 
@@ -52,7 +53,14 @@ def main() -> int:
     ap.add_argument("--provider", default="opencode", choices=["opencode", "deepseek", "openai"])
     ap.add_argument("--threshold", type=float, default=0.50)
     ap.add_argument("--top-k", type=int, default=12)
-    ap.add_argument("--batch-size", type=int, default=8)
+    ap.add_argument("--batch-size", type=int, default=12)
+    ap.add_argument("--auto-reject-below", type=float, default=0.55,
+                    help="skip the LLM for pairs the blocker already implies are unrelated; "
+                         "0.55 loses no EQUIVALENT on the calibration set and removes 45%% of pairs")
+    ap.add_argument("--rationale", action="store_true",
+                    help="ask for a per-pair explanation (slower; nothing downstream reads it)")
+    ap.add_argument("--incremental", action="store_true",
+                    help="match turn by turn against the canon so far instead of all-pairs")
     ap.add_argument("--concurrency", type=int, default=6)
     ap.add_argument("--timeout", type=float, default=120.0)
     ap.add_argument("--max-retries", type=int, default=1)
@@ -103,8 +111,14 @@ def main() -> int:
             # The tracer may still be writing this file; leave it for a later pass.
             print(f"[{i}/{len(paths)}] {p.name} -> unreadable ({exc}), skipping", flush=True)
             continue
+        fn = incremental_match if a.incremental else match
+        kw = dict(threshold=a.threshold, top_k=a.top_k, batch_size=a.batch_size,
+                  auto_reject_below=a.auto_reject_below, rationale=a.rationale)
+        if a.incremental:
+            kw["progress"] = p.name[:28]
+        t0 = time.time()
         try:
-            store = match(llm, ms, threshold=a.threshold, top_k=a.top_k, batch_size=a.batch_size)
+            store = fn(llm, ms, **kw)
         except Exception as exc:
             print(f"[{i}/{len(paths)}] {p.name} -> MATCH FAILED: {exc}", flush=True)
             continue
@@ -112,7 +126,7 @@ def main() -> int:
         after = len(store.facts)
         print(f"[{i}/{len(paths)}] {p.name}  {len(ms)} mentions  "
               f"facts {before} -> {after}  (merge {1 - after / max(len(ms), 1):.1%}, "
-              f"was {1 - before / max(len(ms), 1):.1%})", flush=True)
+              f"was {1 - before / max(len(ms), 1):.1%})  {time.time() - t0:.0f}s", flush=True)
     return 0
 
 

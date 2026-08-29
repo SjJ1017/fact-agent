@@ -99,6 +99,23 @@ class AdjudicationResult(BaseModel):
     judgements: list[PairJudgement]
 
 
+class LeanJudgement(BaseModel):
+    """Same decision without the prose.
+
+    `rationale` is the largest part of the adjudicator's output and nothing
+    downstream reads it, so generating one per pair is paid latency for an
+    audit trail nobody opens. It stays available behind a flag.
+    """
+
+    pair_id: int
+    relation: Literal["EQUIVALENT", "A_ENTAILS_B", "B_ENTAILS_A", "CONTRADICTS", "UNRELATED"]
+    confidence: float = Field(ge=0.0, le=1.0, default=1.0)
+
+
+class LeanAdjudication(BaseModel):
+    judgements: list[LeanJudgement]
+
+
 def _render_pair(pid: int, a: FactMention, b: FactMention) -> dict:
     def side(m: FactMention) -> dict:
         d = {"text": m.text, "polarity": m.polarity.value}
@@ -114,23 +131,104 @@ def adjudicate(
     mentions: Sequence[FactMention],
     pairs: Sequence[tuple[int, int, float]],
     batch_size: int = 20,
+    auto_reject_below: float = 0.0,
+    rationale: bool = True,
+    progress: Optional[str] = None,
+    bisect_on_failure: bool = True,
+    unjudged_out: Optional[list] = None,
 ) -> list[Relation]:
-    """Label each candidate pair. Batched to amortise the system prompt."""
+    """Label each candidate pair. Batched to amortise the system prompt.
+
+    `auto_reject_below` spends the LLM budget where the decision is actually in
+    doubt. Blocking similarity is not a verdict, but at the extremes it is
+    informative enough to skip the call. Measured on 128 adjudicated pairs from
+    the Perspectrum pilot (TF-IDF similarity, threshold .50 / top_k 12):
+
+        similarity        n    EQUIVALENT   ENTAILS   UNRELATED
+        >= .95           33          73%        27%          0%
+        .85 - .95        28          32%        64%           4%
+        .75 - .85         3          33%        33%          33%
+        .65 - .75         8           0%        50%          50%
+        .50 - .55        56           0%         5%          95%
+
+    Nothing below .55 was judged EQUIVALENT, and only 5% entailed - so rejecting
+    that band outright costs no merge and removes 44% of the calls. The upper
+    end is *not* safe to auto-merge: above .95 more than a quarter are
+    entailments rather than equivalences, and merging those would collapse a
+    fact with its own refinement, which is exactly the distinction the typed
+    relation exists to keep.
+
+    `progress` labels a per-batch line on stderr. Without it a long pass prints
+    nothing until every batch is done, which makes slow indistinguishable from
+    hung - the failure mode that cost an afternoon.
+    """
     if not pairs:
         return []
+
+    skipped: list[Relation] = []
+    if auto_reject_below > 0:
+        keep = []
+        for i, j, sim in pairs:
+            if sim < auto_reject_below:
+                skipped.append(Relation(a=mentions[i].mention_id, b=mentions[j].mention_id,
+                                        relation="UNRELATED", confidence=1.0 - sim))
+            else:
+                keep.append((i, j, sim))
+        pairs = keep
+        if not pairs:
+            return skipped
+
+    schema = AdjudicationResult if rationale else LeanAdjudication
 
     batches: list[list[tuple[int, tuple[int, int, float]]]] = []
     for start in range(0, len(pairs), batch_size):
         chunk = list(enumerate(pairs[start : start + batch_size], start=start))
         batches.append(chunk)
 
-    def _one(chunk) -> list[Relation]:
+    done = [0]
+    unjudged: list[tuple[int, int]] = []
+
+    def _call(chunk) -> list[Relation]:
         payload = [_render_pair(pid, mentions[i], mentions[j]) for pid, (i, j, _) in chunk]
         result = llm.parse(
             system=ADJUDICATION_SYSTEM,
             user=json.dumps(payload, ensure_ascii=False, indent=2),
-            output_format=AdjudicationResult,
+            output_format=schema,
         )
+        return _collect(result, chunk)
+
+    def _one(chunk) -> list[Relation]:
+        try:
+            out = _call(chunk)
+        except Exception:
+            # A gateway that content-filters does not refuse, it stalls, so one
+            # poisoned pair takes the whole batch down with it and the eleven
+            # innocent pairs beside it are lost silently. Bisecting isolates the
+            # offender in log(n) extra calls and keeps the rest of the batch.
+            out = _bisect(chunk)
+        done[0] += 1
+        if progress:
+            print(f"[adjudicate {progress}] batch {done[0]}/{len(batches)}"
+                  f"{f'  unjudged={len(unjudged)}' if unjudged else ''}", flush=True)
+        return out
+
+    def _bisect(chunk) -> list[Relation]:
+        if not bisect_on_failure:
+            return []
+        if len(chunk) == 1:
+            _pid, (i, j, _s) = chunk[0]
+            unjudged.append((i, j))
+            return []
+        mid = len(chunk) // 2
+        out: list[Relation] = []
+        for half in (chunk[:mid], chunk[mid:]):
+            try:
+                out += _call(half)
+            except Exception:
+                out += _bisect(half)
+        return out
+
+    def _collect(result, chunk) -> list[Relation]:
         by_id = {j.pair_id: j for j in result.judgements}
         out: list[Relation] = []
         for pid, (i, j, _sim) in chunk:
@@ -143,12 +241,17 @@ def adjudicate(
                     b=mentions[j].mention_id,
                     relation=judged.relation,
                     confidence=judged.confidence,
-                    rationale=judged.rationale,
+                    rationale=getattr(judged, "rationale", None),
                 )
             )
         return out
 
-    return [r for batch in llm.map(_one, batches) for r in batch]
+    out = skipped + [r for batch in llm.map(_one, batches) for r in batch]
+    if unjudged:
+        logger.warning("%d pair(s) could not be judged (likely content-filtered)", len(unjudged))
+        if unjudged_out is not None:
+            unjudged_out.extend(unjudged)
+    return out
 
 
 class _UnionFind:
@@ -299,6 +402,8 @@ def match(
     top_k: int = 12,
     batch_size: int = 20,
     transitivity_guard: bool = True,
+    auto_reject_below: float = 0.0,
+    rationale: bool = True,
 ) -> FactStore:
     """Full matching pipeline: block -> adjudicate -> cluster -> register.
 
@@ -328,7 +433,8 @@ def match(
             pool = mentions + probe
             offset = len(mentions)
             pool_pairs = [(i, offset + j, sim) for i, j, sim in cross]
-            for r in adjudicate(llm, pool, pool_pairs, batch_size=batch_size):
+            for r in adjudicate(llm, pool, pool_pairs, batch_size=batch_size,
+                                auto_reject_below=auto_reject_below, rationale=rationale):
                 if r.relation != "EQUIVALENT":
                     continue
                 mid, reg = (r.a, r.b) if r.b.startswith("__reg__") else (r.b, r.a)
@@ -340,7 +446,8 @@ def match(
 
     if fresh:
         pairs = candidate_pairs(fresh, blocker=blocker, threshold=threshold, top_k=top_k)
-        relations = adjudicate(llm, fresh, pairs, batch_size=batch_size)
+        relations = adjudicate(llm, fresh, pairs, batch_size=batch_size,
+                               auto_reject_below=auto_reject_below, rationale=rationale)
         facts, extra = cluster(llm, fresh, relations, transitivity_guard=transitivity_guard)
         store.relations.extend(relations)
         store.relations.extend(extra)
@@ -359,4 +466,47 @@ def match(
             fact.mention_ids.append(mid)
         store.assign(fact)
 
+    return store
+
+
+def incremental_match(
+    llm: LLM,
+    mentions: Sequence[FactMention],
+    store: FactStore | None = None,
+    threshold: float = 0.50,
+    top_k: int = 12,
+    batch_size: int = 12,
+    auto_reject_below: float = 0.55,
+    rationale: bool = False,
+    progress: Optional[str] = None,
+) -> FactStore:
+    """Match turn by turn against the canon built so far.
+
+    All-pairs matching is quadratic in mentions: a 3-round 3-agent debate at 8
+    facts a turn is ~97 mentions and ~150 candidate pairs, and doubling the
+    rounds quadruples the bill. It is also the wrong shape for the data, which
+    arrives in time order.
+
+    Feeding one turn at a time into `match` compares each turn's facts against
+    the *canonical facts* accumulated so far rather than against every earlier
+    mention. Canon grows far slower than mentions do - that is the whole premise
+    of tracking facts rather than text - so the cost goes from O(n^2) to O(n*k).
+
+    It also matches how a debate is read, which means the same code can run
+    online, mid-run, instead of only as a post-mortem.
+    """
+    store = store or FactStore()
+    turns: dict[tuple[int, str], list[FactMention]] = {}
+    for m in mentions:
+        p = m.provenance
+        turns.setdefault((p.round or 0, p.agent_id or ""), []).append(m)
+
+    for n, (slot, group) in enumerate(sorted(turns.items()), 1):
+        label = f"{progress} {slot[1]}|{slot[0]}" if progress else None
+        if label:
+            print(f"[incremental {label}] {n}/{len(turns)}  {len(group)} mentions, "
+                  f"canon={len(store.facts)}", flush=True)
+        store = match(llm, group, store=store, threshold=threshold, top_k=top_k,
+                      batch_size=batch_size, auto_reject_below=auto_reject_below,
+                      rationale=rationale)
     return store
