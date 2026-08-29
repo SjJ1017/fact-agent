@@ -101,13 +101,21 @@ def main() -> int:
         t0 = time.time()
 
         pieces = slots(debate)
-        mentions = []
-        for text, prov in pieces:
+
+        # The fourteen slots of a run are independent, so extracting them one
+        # after another spends fourteen round trips of wall clock on work that
+        # fits in two. `llm.map` bounds the fan-out at the configured
+        # concurrency and keeps input order, so mentions stay in slot order.
+        def _extract(piece):
+            text, prov = piece
             try:
-                mentions.extend(extract_facts(llm, text, prov))
+                return extract_facts(llm, text, prov)
             except Exception as exc:
                 print(f"    extract failed {prov.doc_id or prov.agent_id}|{prov.round}: "
                       f"{type(exc).__name__}", flush=True)
+                return []
+
+        mentions = [m for group in llm.map(_extract, pieces) for m in group]
         raw = len(mentions)
         if not raw:
             print(f"[{i}/{len(paths)}] {label}: no facts extracted, skipping", flush=True)
