@@ -211,3 +211,61 @@ def test_mean_trajectory_aligns_runs_of_different_content():
     assert m[0]["born"] == 2.0          # (1 + 3) / 2
     assert m[1]["died"] == 1.0          # (0 + 2) / 2
     assert all(r["n_runs"] == 2 for r in m)
+
+
+# -- lineages ---------------------------------------------------------------
+
+def test_a_refinement_continues_the_lineage_rather_than_starting_one():
+    """A narrowed restatement is the same line of argument, not a new fact."""
+    st = _store({("A", 1): ["E1 offers no data on symbols."],
+                 ("B", 2): ["E1 offers no data on visible symbols."]})
+    ma = next(m for m in st.mentions if "A1" in m)
+    mb = next(m for m in st.mentions if "B2" in m)
+    st.relations.append(Relation(a=mb, b=ma, relation="A_ENTAILS_B"))
+
+    plain = build_view(st, "e")
+    lineage = build_view(st, "e", by_lineage=True)
+    assert len(plain.classes) == 2
+    assert len(lineage.classes) == 1
+    # By fact the first dies at r2; by lineage the argument survives.
+    from factflow.aggregate import survival_curve
+    assert survival_curve(plain)[1] == [1.0, 0.0]
+    assert survival_curve(lineage)[1] == [1.0, 1.0]
+
+
+def test_contradiction_does_not_join_a_lineage():
+    """Two facts that cannot both be true are not one another's refinement."""
+    from factflow.aggregate import lineages
+    st = _store({("A", 1): ["X"], ("B", 1): ["NOT X"]})
+    ma = next(m for m in st.mentions if "A1" in m)
+    mb = next(m for m in st.mentions if "B1" in m)
+    st.relations.append(Relation(a=ma, b=mb, relation="CONTRADICTS"))
+    assert len(set(lineages(st).values())) == 2
+
+
+def test_lineage_is_off_by_default():
+    st = _store({("A", 1): ["P"], ("A", 2): ["Q"]})
+    ma = next(m for m in st.mentions if "A1" in m)
+    mb = next(m for m in st.mentions if "A2" in m)
+    st.relations.append(Relation(a=ma, b=mb, relation="A_ENTAILS_B"))
+    assert len(build_view(st, "e").classes) == 2
+    assert len(build_view(st, "e", by_lineage=True).classes) == 1
+
+
+def test_lineage_chains_transitively():
+    from factflow.aggregate import lineages
+    st = _store({("A", 1): ["P"], ("A", 2): ["Q"], ("A", 3): ["R"]})
+    ids = {t: st.facts[_fid(st, t)].mention_ids[0] for t in ("P", "Q", "R")}
+    st.relations.append(Relation(a=ids["P"], b=ids["Q"], relation="A_ENTAILS_B"))
+    st.relations.append(Relation(a=ids["Q"], b=ids["R"], relation="B_ENTAILS_A"))
+    assert len(set(lineages(st).values())) == 1
+
+
+def test_lineage_keeps_gold_grounding_from_any_member():
+    st = _store({("A", 1): ["G"], ("B", 2): ["G refined"]}, source=[("G", True)])
+    ma = next(m for m in st.mentions if "A1" in m)
+    mb = next(m for m in st.mentions if "B2" in m)
+    st.relations.append(Relation(a=mb, b=ma, relation="A_ENTAILS_B"))
+    v = build_view(st, "e", by_lineage=True)
+    assert len(v.classes) == 1
+    assert next(iter(v.classes.values())).grounding == "gold"

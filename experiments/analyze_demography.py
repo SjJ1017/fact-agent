@@ -30,15 +30,17 @@ from factflow.aggregate import (  # noqa: E402
 from factflow import graph as G  # noqa: E402
 from factflow.types import FactStore  # noqa: E402
 
-CHARS_PER_TOKEN = 4.0  # crude, and flagged as such wherever it is used
+CHARS_PER_TOKEN = 4.0
+GLOB = ["*.store.json"]  # crude, and flagged as such wherever it is used
 
 
-def load(out_dir: Path):
+def load(out_dir: Path, by_lineage: bool = False):
     """-> {config: [(qid, view, correct, cost_map)]}, and whether cost is real."""
     runs = defaultdict(list)
     real_usage = True
-    for store_p in sorted(out_dir.glob("*.store.json")):
-        stem = store_p.name[: -len(".store.json")]
+    for store_p in sorted(out_dir.glob(GLOB[0])):
+        stem = store_p.name[: -len(GLOB[0]) + 1] if GLOB[0].startswith("*") else store_p.stem
+        stem = store_p.name.split(".")[0]
         m = re.match(r"(.+?-\d+)-(.+)", stem)
         if not m:
             continue
@@ -51,7 +53,7 @@ def load(out_dir: Path):
         execs = store.executions()
         if not execs:
             continue
-        view = build_view(store, execs[0], dj.get("roles"))
+        view = build_view(store, execs[0], dj.get("roles"), by_lineage=by_lineage)
 
         usage = dj.get("usage") or {}
         cost = {}
@@ -142,9 +144,14 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("out_dir", type=Path, help="directory of *.debate.json / *.store.json")
     ap.add_argument("--json", type=Path, help="also write the numbers here")
+    ap.add_argument("--by-lineage", action="store_true",
+                    help="track a proposition through its refinements instead of demanding "
+                         "exact equivalence; see factflow.aggregate.lineages")
+    ap.add_argument("--glob", default="*.store.json")
     a = ap.parse_args()
 
-    runs, real = load(a.out_dir)
+    GLOB[0] = a.glob
+    runs, real = load(a.out_dir, a.by_lineage)
     if not runs:
         print(f"no paired .store.json / .debate.json under {a.out_dir}", file=sys.stderr)
         return 1
