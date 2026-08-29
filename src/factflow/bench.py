@@ -21,7 +21,7 @@ from typing import Any, Sequence
 
 from .extract import extract_facts
 from .llm import LLM
-from .match import adjudicate
+from .match import identify
 from .types import Channel, FactMention, Polarity, Provenance, RelationType
 
 FORBIDDEN_OPENERS = re.compile(
@@ -157,6 +157,19 @@ EXTRACTION_PROBES: list[ExtractionProbe] = [
     ),
 ]
 
+# Which five-way labels are SAME under the binary question. An entailment that
+# only drops a modifier is the same claim more loosely worded; one that changes
+# which cases the claim covers is a different claim, and the probes below carry
+# whichever label they were written with - `_binary_gold` maps the ones that
+# survive, and probes whose original label straddles the line were re-labelled
+# in place rather than mapped.
+_SAME_LABELS = {"EQUIVALENT"}
+
+
+def _binary_gold(gold: str) -> str:
+    return "EQUIVALENT" if gold in _SAME_LABELS else "UNRELATED"
+
+
 RELATION_PROBES: list[RelationProbe] = [
     RelationProbe("paraphrase", "Shirley Temple was named US ambassador to Ghana.",
                   "Shirley Temple was appointed United States ambassador to Ghana.",
@@ -165,13 +178,13 @@ RELATION_PROBES: list[RelationProbe] = [
                   "Shirley Temple played Corliss Archer in the 1945 film Kiss and Tell.",
                   "EQUIVALENT", "reordering is not a content change"),
     RelationProbe("specificity-drop", "Scott Derrickson is an American director.",
-                  "Scott Derrickson is a director.", "A_ENTAILS_B", "the modifier is dropped"),
+                  "Scott Derrickson is a director.", "EQUIVALENT", "dropping a modifier is looser wording, not a different claim"),
     RelationProbe("qualifier-drop", "The drug reduces mortality in patients over 65.",
-                  "The drug reduces mortality.", "A_ENTAILS_B", "the scope condition is dropped"),
+                  "The drug reduces mortality.", "UNRELATED", "dropping the scope changes which cases are covered"),
     RelationProbe("value-drop", "Revenue grew 12.3% in Q4.", "Revenue grew.",
-                  "A_ENTAILS_B", "the figure is dropped"),
+                  "UNRELATED", "the figure is what the claim was about"),
     RelationProbe("hypernym", "Rex is a poodle.", "Rex is a dog.",
-                  "A_ENTAILS_B", "a genuine subset relation must still be found"),
+                  "UNRELATED", "a subset is a different set of cases"),
     RelationProbe("reversed-direction", "Scott Derrickson is a director.",
                   "Scott Derrickson is an American director.",
                   "B_ENTAILS_A", "direction matters and is easy to invert"),
@@ -298,10 +311,10 @@ def run_bench(llm: LLM, model_label: str | None = None) -> BenchResult:
     n_batches = (len(pairs) + 4) // 5
     res.calls_attempted += n_batches
     try:
-        rels = adjudicate(llm, mentions, pairs, batch_size=5)
+        rels = identify(llm, mentions, pairs, batch_size=5)
         got = {frozenset((r.a, r.b)): r.relation for r in rels}
     except Exception as exc:  # noqa: BLE001
-        res.failures.append(f"[adjudicate] {type(exc).__name__}: {exc}")
+        res.failures.append(f"[identify] {type(exc).__name__}: {exc}")
         got = {}
     # Judgements the endpoint never returned are unscored, same as extraction.
     res.calls_failed += max(0, n_batches - (len(got) + 4) // 5)
@@ -311,7 +324,9 @@ def run_bench(llm: LLM, model_label: str | None = None) -> BenchResult:
         if actual is None:
             continue
         res.relation_total += 1
-        correct = actual == probe.gold
+        # The matcher answers SAME/DIFFERENT, so a probe is scored on which
+        # side of that line it falls, not on a direction nothing now produces.
+        correct = actual == _binary_gold(probe.gold)
         res.relation_correct += correct
         if not correct and actual == "EQUIVALENT":
             res.false_equivalent += 1

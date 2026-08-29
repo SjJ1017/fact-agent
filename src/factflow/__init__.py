@@ -14,7 +14,7 @@ from .backends import AnthropicBackend, OpenAICompatBackend, deepseek, opencode
 from .blocking import SbertBlocker, TfidfBlocker, candidate_pairs, candidate_pairs_against
 from .extract import TraceRecord, extract_facts, extract_trace
 from .llm import LLM, LLMConfig
-from .match import adjudicate, cluster, match
+from .match import cluster, identify, match
 from .properties import (
     ABSTRACTION,
     CRITICALITY,
@@ -50,7 +50,7 @@ __all__ = [
     "extract_trace",
     "TraceRecord",
     "match",
-    "adjudicate",
+    "identify",
     "cluster",
     "candidate_pairs",
     "candidate_pairs_against",

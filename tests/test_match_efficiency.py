@@ -1,9 +1,8 @@
-"""The two changes that make matching affordable, and the one that makes it legible.
+"""The two rules that make matching affordable and stop it collapsing.
 
-Matching is the quadratic stage: a 3-round 3-agent debate is ~97 mentions and
-~150 candidate pairs, and every pair used to cost an LLM call. These tests pin
-the behaviour of skipping the calls whose answer the blocker already implies,
-of not paying for prose nobody reads, and of walking the debate in time order.
+Both were paid for in wasted runs. Skipping the pairs whose answer the blocker
+already implies is what makes the pass affordable; refusing to chain a weak
+edge is what stops union-find fusing a whole debate into one cluster.
 """
 
 from __future__ import annotations
@@ -15,8 +14,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tests"))
 
 from fake_llm import FakeLLM
 
-from factflow.match import adjudicate, incremental_match
-from factflow.types import Channel, FactMention, Provenance
+from factflow.match import UNION_MIN_SIMILARITY, cluster, identify, match
+from factflow.types import Channel, FactMention, Provenance, Relation
 
 
 def _m(mid: str, text: str, agent: str = "A", rnd: int = 1) -> FactMention:
@@ -25,150 +24,124 @@ def _m(mid: str, text: str, agent: str = "A", rnd: int = 1) -> FactMention:
                                              round=rnd, channel=Channel.OUTPUT))
 
 
+# -- spending the call where the answer is in doubt -------------------------
+
 def test_pairs_below_the_band_are_rejected_without_a_call():
-    ms = [_m("m1", "Handguns are concealable."), _m("m2", "Rain fell in April.")]
+    ms = [_m("m1", "Handguns are concealable."), _m("m2", "Rain fell in April.", "B")]
     llm = FakeLLM(equivalent={frozenset({"Handguns are concealable.", "Rain fell in April."})})
-    rels = adjudicate(llm, ms, [(0, 1, 0.40)], auto_reject_below=0.55)
-    assert llm.calls == []                      # the whole point: no call made
+    rels = identify(llm, ms, [(0, 1, 0.40)], auto_reject_below=0.55)
+    assert llm.calls == []
     assert [r.relation for r in rels] == ["UNRELATED"]
 
 
-def test_pairs_inside_the_band_still_go_to_the_adjudicator():
-    ms = [_m("m1", "Handguns are concealable."), _m("m2", "Handguns can be concealed.")]
-    llm = FakeLLM(equivalent={frozenset({"Handguns are concealable.",
-                                         "Handguns can be concealed."})})
-    rels = adjudicate(llm, ms, [(0, 1, 0.80)], auto_reject_below=0.55)
-    assert llm.calls == ["AdjudicationResult"]
+def test_pairs_above_the_band_are_accepted_without_a_call():
+    ms = [_m("m1", "The ban raises pressure."), _m("m2", "The ban increases pressure.", "B")]
+    llm = FakeLLM()
+    rels = identify(llm, ms, [(0, 1, 0.97)], auto_accept_above=0.95)
+    assert llm.calls == []
     assert [r.relation for r in rels] == ["EQUIVALENT"]
 
 
+def test_pairs_inside_the_band_go_to_the_model():
+    ms = [_m("m1", "Handguns are concealable."), _m("m2", "Handguns can be concealed.", "B")]
+    llm = FakeLLM(equivalent={frozenset({"Handguns are concealable.",
+                                         "Handguns can be concealed."})})
+    rels = identify(llm, ms, [(0, 1, 0.80)], auto_reject_below=0.55, auto_accept_above=0.95)
+    assert llm.calls == ["IdentityResult"]
+    assert [r.relation for r in rels] == ["EQUIVALENT"]
+
+
+def test_both_shortcuts_are_off_by_default():
+    """A caller passing a placeholder rather than a measured similarity must get
+    a real judgement, not have the placeholder decide the pair."""
+    ms = [_m("m1", "A"), _m("m2", "B", "B")]
+    llm = FakeLLM()
+    identify(llm, ms, [(0, 1, 1.0)])
+    assert llm.calls == ["IdentityResult"]
+
+
 def test_a_mixed_batch_splits_into_skipped_and_judged():
-    ms = [_m("m1", "A"), _m("m2", "B"), _m("m3", "C")]
+    ms = [_m("m1", "A"), _m("m2", "B", "B"), _m("m3", "C", "C")]
     llm = FakeLLM(equivalent={frozenset({"A", "B"})})
-    rels = adjudicate(llm, ms, [(0, 1, 0.90), (0, 2, 0.30), (1, 2, 0.20)],
-                      auto_reject_below=0.55)
-    assert llm.calls == ["AdjudicationResult"]   # one batch, not three
+    rels = identify(llm, ms, [(0, 1, 0.80), (0, 2, 0.30), (1, 2, 0.20)],
+                    auto_reject_below=0.55)
+    assert llm.calls == ["IdentityResult"]        # one batch, not three calls
     by = {frozenset({r.a, r.b}): r.relation for r in rels}
     assert by[frozenset({"m1", "m2"})] == "EQUIVALENT"
     assert by[frozenset({"m1", "m3"})] == "UNRELATED"
     assert by[frozenset({"m2", "m3"})] == "UNRELATED"
 
 
-def test_auto_reject_off_by_default_so_existing_callers_are_unchanged():
-    ms = [_m("m1", "A"), _m("m2", "B")]
-    llm = FakeLLM()
-    adjudicate(llm, ms, [(0, 1, 0.10)])
-    assert llm.calls == ["AdjudicationResult"]
+def test_the_note_is_kept_when_the_model_names_a_difference():
+    ms = [_m("m1", "A"), _m("m2", "B", "B")]
+    rels = identify(FakeLLM(), ms, [(0, 1, 0.80)])
+    assert rels[0].rationale == "differs"          # 'none' is dropped, a real note is not
 
 
-def test_rationale_off_requests_the_lean_schema():
-    ms = [_m("m1", "A"), _m("m2", "B")]
-    llm = FakeLLM(equivalent={frozenset({"A", "B"})})
-    rels = adjudicate(llm, ms, [(0, 1, 0.90)], rationale=False)
-    assert llm.calls == ["LeanAdjudication"]
-    assert rels[0].relation == "EQUIVALENT"
-    assert rels[0].rationale is None
+# -- not chaining a weak edge ----------------------------------------------
+
+def _eq(a: str, b: str, sim: float) -> Relation:
+    return Relation(a=a, b=b, relation="EQUIVALENT", confidence=sim)
 
 
-def test_incremental_walks_turns_in_time_order():
-    ms = [_m("m3", "Third.", "A", 2), _m("m1", "First.", "A", 1), _m("m2", "Second.", "B", 1)]
-    seen: list[str] = []
+def test_a_strong_edge_merges():
+    ms = [_m("m1", "A"), _m("m2", "A too", "B")]
+    facts = cluster(ms, [_eq("m1", "m2", 0.95)])
+    assert len(facts) == 1
 
-    class Recorder(FakeLLM):
-        def parse(self, *, system, user, output_format, **kw):
-            seen.append(user)
-            return super().parse(system=system, user=user, output_format=output_format, **kw)
 
-    store = incremental_match(Recorder(), ms)
-    # every mention registered exactly once, and each turn was its own step
+def test_a_weak_edge_is_recorded_but_does_not_merge():
+    """The judgement stands for its own pair; it just may not imply a third."""
+    ms = [_m("m1", "A"), _m("m2", "A too", "B")]
+    facts = cluster(ms, [_eq("m1", "m2", 0.75)])
+    assert len(facts) == 2
+
+
+def test_weak_edges_cannot_chain_unrelated_facts_together():
+    """A~B and B~C at low similarity must not produce A~C, which nobody judged.
+    Unioning every SAME edge fused six real stores into clusters of up to 111."""
+    ms = [_m("m1", "The ban raises pressure."),
+          _m("m2", "Pressure rises.", "B"),
+          _m("m3", "Rain fell in April.", "C")]
+    weak = [_eq("m1", "m2", 0.72), _eq("m2", "m3", 0.71)]
+    assert len(cluster(ms, weak)) == 3
+    strong = [_eq("m1", "m2", 0.95), _eq("m2", "m3", 0.95)]
+    assert len(cluster(ms, strong)) == 1          # the rule is about strength, not shape
+
+
+def test_the_union_threshold_is_the_documented_one():
+    ms = [_m("m1", "A"), _m("m2", "A too", "B")]
+    assert len(cluster(ms, [_eq("m1", "m2", UNION_MIN_SIMILARITY)])) == 1
+    assert len(cluster(ms, [_eq("m1", "m2", UNION_MIN_SIMILARITY - 0.01)])) == 2
+
+
+def test_unrelated_edges_never_merge_however_similar():
+    ms = [_m("m1", "A"), _m("m2", "B", "B")]
+    r = Relation(a="m1", b="m2", relation="UNRELATED", confidence=0.99)
+    assert len(cluster(ms, [r])) == 2
+
+
+# -- the whole path ---------------------------------------------------------
+
+def test_match_registers_every_mention_once():
+    ms = [_m("m1", "The ban raises social pressure.", "A", 1),
+          _m("m2", "The ban increases social pressure.", "B", 1),
+          _m("m3", "Rain fell in April.", "C", 1)]
+    eq = {frozenset({"The ban raises social pressure.",
+                     "The ban increases social pressure."})}
+    store = match(FakeLLM(equivalent=eq), ms, threshold=0.2, top_k=5,
+                  auto_accept_above=1.01)
     assert set(store.mentions) == {"m1", "m2", "m3"}
-    assert len(store.facts) == 3
+    assert sum(len(f.mention_ids) for f in store.facts.values()) == 3
 
 
-def test_incremental_compares_against_the_canon_not_every_mention():
-    """A fact repeated in later turns links to the registered fact, so the canon
-    stays small while mentions accumulate."""
-    ms = [_m("m1", "Handguns are concealable.", "A", 1),
-          _m("m2", "Handguns are concealable.", "B", 1),
-          _m("m3", "Handguns are concealable.", "A", 2)]
-    store = incremental_match(FakeLLM(), ms)
-    assert len(store.mentions) == 3
-    assert len(store.facts) == 1                      # identical text collapses by id
-    assert len(store.facts[next(iter(store.facts))].mention_ids) == 3
-
-
-def test_a_poisoned_pair_does_not_take_its_batch_down_with_it():
-    """A content-filtered pair stalls rather than refusing, so a batch failure
-    must not discard the pairs that were fine."""
-    ms = [_m("m1", "A"), _m("m2", "B"), _m("m3", "POISON"), _m("m4", "D")]
-
-    class Filtered(FakeLLM):
-        def parse(self, *, system, user, output_format, **kw):
-            if "POISON" in user:
-                raise TimeoutError("gateway stalled")
-            return super().parse(system=system, user=user, output_format=output_format, **kw)
-
-    llm = Filtered(equivalent={frozenset({"A", "B"})})
-    bad: list = []
-    rels = adjudicate(llm, ms, [(0, 1, 0.90), (2, 3, 0.90)], batch_size=8,
-                      unjudged_out=bad)
-    judged = {frozenset({r.a, r.b}): r.relation for r in rels}
-    assert judged[frozenset({"m1", "m2"})] == "EQUIVALENT"   # survived the bisect
-    assert bad == [(2, 3)]                                    # offender isolated
-    assert frozenset({"m3", "m4"}) not in judged
-
-
-def test_bisect_can_be_turned_off():
-    ms = [_m("m1", "A"), _m("m2", "POISON")]
-
-    class Filtered(FakeLLM):
-        def parse(self, **_kw):
-            raise TimeoutError("gateway stalled")
-
-    assert adjudicate(Filtered(), ms, [(0, 1, 0.9)], bisect_on_failure=False) == []
-
-
-def test_the_guard_asks_the_same_question_the_caller_did():
-    """A guard that adjudicates a five-way relation over clusters built from
-    SAME/DIFFERENT gives one pair two verdicts under two definitions, and pays
-    the expensive question to do it."""
-    from factflow.match import binary_match
-    asked: list[str] = []
-
-    class Watcher(FakeLLM):
-        def parse(self, *, system, user, output_format, **kw):
-            asked.append(output_format.__name__)
-            return super().parse(system=system, user=user, output_format=output_format, **kw)
-
-    # Four wordings of one claim, plus an unrelated one so the blocker has
-    # something to contrast against - identical strings give TF-IDF nothing to
-    # weigh and produce no candidate pairs at all. Union-find then builds a
-    # component big enough (> 2 members) for the guard to re-verify.
-    texts = ["The ban raises social pressure.",
-             "The ban increases social pressure.",
-             "Social pressure rises under the ban.",
-             "The ban leads to greater social pressure.",
-             "Rain fell in April."]
-    # Spread across agents and rounds: candidate_pairs skips pairs from one
-    # slot, since extraction already deduplicated within a turn.
-    slots = [("A", 1), ("B", 1), ("C", 1), ("A", 2), ("B", 2)]
-    ms = [_m(f"m{i}", x, agent=s[0], rnd=s[1])
-          for i, (x, s) in enumerate(zip(texts, slots))]
-    equivalent = {frozenset({a, b}) for a in texts[:4] for b in texts[:4] if a != b}
-    binary_match(Watcher(equivalent=equivalent), ms, threshold=0.2, top_k=5)
-    assert asked, "no judgement was made at all"
-    assert "AdjudicationResult" not in asked, f"guard fell back to five-way: {asked}"
-    assert set(asked) <= {"IdentityResult", "IdentityResultBare"}
-
-
-def test_the_guard_never_takes_the_auto_accept_shortcut():
-    """The guard passes similarity 1.0 as a placeholder, not a measurement. A
-    judge that honours auto_accept_above then approves every pair it was called
-    to question - which merged 154 mentions into one 85-member blob."""
-    from factflow.match import _binary_judge
-    ms = [_m("m1", "The ban raises pressure.", "A", 1),
-          _m("m2", "Rain fell in April.", "B", 1)]
-    llm = FakeLLM()                       # nothing is equivalent
-    rels = _binary_judge(batch_size=8, cue=True)(llm, ms, [(0, 1, 1.0)])
-    assert llm.calls, "the guard skipped the question it exists to ask"
-    assert [r.relation for r in rels] == ["UNRELATED"]
+def test_a_subset_is_not_auto_accepted_as_the_same_fact():
+    """candidate_pairs scores max(cosine, containment), so a fact whose tokens
+    are all contained in another scores 1.0 - and that is the dropped-scope
+    case, which is DIFFERENT. An accept-above rule would merge them unasked."""
+    ms = [_m("m1", "UBI reduced poverty by 12.3% in the Kenya pilot."),
+          _m("m2", "UBI reduced poverty.", "B")]
+    llm = FakeLLM()                                # nothing declared equivalent
+    store = match(llm, ms, threshold=0.2, top_k=5, union_min_similarity=0.2)
+    assert llm.calls, "the pair was decided without asking"
+    assert len(store.facts) == 2

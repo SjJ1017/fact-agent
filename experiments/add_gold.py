@@ -34,7 +34,7 @@ from factflow.atomize import atomize  # noqa: E402
 from factflow.blocking import SbertBlocker  # noqa: E402
 from factflow.extract import extract_facts  # noqa: E402
 from factflow.llm import LLM  # noqa: E402
-from factflow.match import binary_match  # noqa: E402
+from factflow.match import match  # noqa: E402
 from factflow.types import Channel, FactStore, Provenance  # noqa: E402
 
 
@@ -95,9 +95,9 @@ def main() -> int:
         # Matching against the existing store is what links a perspective to the
         # agents that reached it: a gold mention joining an existing fact means
         # somebody said it, and a gold fact standing alone means nobody did.
-        store = binary_match(llm, mentions, store=store, blocker=blocker,
-                             threshold=a.threshold, top_k=12, batch_size=16,
-                             auto_reject_below=a.threshold, auto_accept_above=0.95)
+        store = match(llm, mentions, store=store, blocker=blocker,
+                      threshold=a.threshold, top_k=12, batch_size=16,
+                      )
         store.save(str(p))
         reached = sum(1 for f in store.facts.values()
                       if any(store.mentions[m].provenance.extra.get("gold")

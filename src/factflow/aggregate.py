@@ -76,9 +76,9 @@ class RunView:
     roles: dict[str, str]                      # agent -> role label
 
 
-def _grounding(store: FactStore, fid: str, members: Optional[list[str]] = None) -> str:
+def _grounding(store: FactStore, fid: str) -> str:
     seen_source = False
-    for mid in [m for f in (members or [fid]) for m in store.facts[f].mention_ids]:
+    for mid in store.facts[fid].mention_ids:
         p = store.mentions[mid].provenance
         if p.channel == Channel.SOURCE:
             seen_source = True
@@ -100,59 +100,14 @@ def _contested(store: FactStore) -> set[str]:
     return out
 
 
-def lineages(store: FactStore) -> dict[str, str]:
-    """Group facts joined by entailment under one representative id.
-
-    Clustering merges only EQUIVALENT, which is right: "E1 offers no data on
-    religious symbols" and "E1 offers no data on *visible* religious symbols"
-    are not the same claim, and collapsing them would erase a real narrowing.
-
-    But for asking whether a proposition survived a debate, treating them as
-    unrelated is worse. The second is the first, refined. Counting that as one
-    fact dying and another being born is how a run that carefully sharpened its
-    argument comes out looking like a run that forgot everything and started
-    over - which is exactly the 0.04 survival the Perspectrum pilot reported.
-
-    A lineage is the weakly-connected component of the entailment graph. It says
-    "this line of argument persisted", while the fact ids underneath still say
-    how it changed. Contradiction is deliberately not an edge here: two facts
-    that cannot both be true are not one another's refinement.
-    """
-    parent: dict[str, str] = {}
-
-    def find(x: str) -> str:
-        parent.setdefault(x, x)
-        while parent[x] != x:
-            parent[x] = parent[parent[x]]
-            x = parent[x]
-        return x
-
-    for fid in store.facts:
-        find(fid)
-    for r in store.relations:
-        if "ENTAILS" not in r.relation:
-            continue
-        fa, fb = store.mention_to_fact.get(r.a), store.mention_to_fact.get(r.b)
-        if fa and fb and fa != fb:
-            ra, rb = find(fa), find(fb)
-            if ra != rb:
-                parent[rb] = ra
-    return {fid: find(fid) for fid in store.facts}
-
-
 def build_view(
     store: FactStore,
     execution_id: str,
     roles: Optional[dict[str, str]] = None,
-    by_lineage: bool = False,
 ) -> RunView:
-    """`by_lineage` tracks a proposition through its refinements rather than
-    demanding exact equivalence - see `lineages`. Off by default so existing
-    numbers do not move under anyone."""
     agents = store.agents(execution_id)
     rounds = [r for r in store.rounds(execution_id) if r > 0]
     said: dict[tuple[str, int], set[str]] = {(a, r): set() for a in agents for r in rounds}
-    key = lineages(store) if by_lineage else {f: f for f in store.facts}
 
     for fid, fact in store.facts.items():
         for mid in fact.mention_ids:
@@ -160,7 +115,7 @@ def build_view(
             if p.execution_id != execution_id or p.channel != Channel.OUTPUT:
                 continue
             if (p.agent_id, p.round) in said:
-                said[(p.agent_id, p.round)].add(key[fid])
+                said[(p.agent_id, p.round)].add(fid)
 
     # An agent asserts a fact *independently* if it expressed the fact at a round
     # by which no peer had expressed it. Anything later is an echo, however
@@ -168,7 +123,7 @@ def build_view(
     # topology it is conservative, because a non-neighbour's utterance was never
     # visible and so cannot have been echoed.
     independent: dict[str, set[str]] = defaultdict(set)
-    for fid in sorted(set(key.values())):
+    for fid in store.facts:
         first: dict[str, int] = {}
         for a in agents:
             hits = [r for r in rounds if fid in said[(a, r)]]
@@ -181,17 +136,17 @@ def build_view(
             if r == earliest:
                 independent[fid].add(a)
 
-    contested = {key.get(f, f) for f in _contested(store)}
+    contested = _contested(store)
     last = rounds[-1] if rounds else 0
     survivors = set().union(*[said[(a, last)] for a in agents]) if rounds else set()
 
     classes: dict[str, FactClass] = {}
-    for fid in sorted(set(key.values())):
+    for fid in store.facts:
         holders = {a for a in agents if any(fid in said[(a, r)] for r in rounds)}
         if not holders:
             continue  # source-only fact nobody ever uttered; not part of the flow
         classes[fid] = FactClass(
-            grounding=_grounding(store, fid, [f for f, k in key.items() if k == fid]),
+            grounding=_grounding(store, fid),
             support="multi" if len(independent[fid]) > 1 else "single",
             spread="shared" if len(holders) > 1 else "private",
             fate="survived" if fid in survivors else "dropped",

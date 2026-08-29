@@ -39,7 +39,7 @@ from factflow.atomize import atomize  # noqa: E402
 from factflow.blocking import SbertBlocker, TfidfBlocker  # noqa: E402
 from factflow.extract import extract_facts  # noqa: E402
 from factflow.llm import LLM  # noqa: E402
-from factflow.match import binary_match  # noqa: E402
+from factflow.match import match  # noqa: E402
 from factflow.types import Channel, Provenance  # noqa: E402
 
 
@@ -125,10 +125,9 @@ def main() -> int:
             mentions = atomize(llm, mentions, batch_size=20)
         split = len(mentions)
 
-        store = binary_match(llm, mentions, blocker=blocker, threshold=a.threshold,
-                             top_k=a.top_k, batch_size=a.batch_size,
-                             auto_reject_below=a.threshold, auto_accept_above=0.95,
-                             progress=label)
+        store = match(llm, mentions, blocker=blocker, threshold=a.threshold,
+                      top_k=a.top_k, batch_size=a.batch_size,
+                      progress=label)
         store.save(str(target))
         print(f"[{i}/{len(paths)}] {label}  extract {raw} -> atomise {split} -> "
               f"{len(store.facts)} facts  (merge {1 - len(store.facts)/max(split,1):.0%})  "

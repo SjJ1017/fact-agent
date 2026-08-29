@@ -34,7 +34,7 @@ CHARS_PER_TOKEN = 4.0
 GLOB = ["*.store.json"]  # crude, and flagged as such wherever it is used
 
 
-def load(out_dir: Path, by_lineage: bool = False):
+def load(out_dir: Path):
     """-> {config: [(qid, view, correct, cost_map)]}, and whether cost is real."""
     runs = defaultdict(list)
     real_usage = True
@@ -53,7 +53,7 @@ def load(out_dir: Path, by_lineage: bool = False):
         execs = store.executions()
         if not execs:
             continue
-        view = build_view(store, execs[0], dj.get("roles"), by_lineage=by_lineage)
+        view = build_view(store, execs[0], dj.get("roles"))
 
         usage = dj.get("usage") or {}
         cost = {}
@@ -144,14 +144,11 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("out_dir", type=Path, help="directory of *.debate.json / *.store.json")
     ap.add_argument("--json", type=Path, help="also write the numbers here")
-    ap.add_argument("--by-lineage", action="store_true",
-                    help="track a proposition through its refinements instead of demanding "
-                         "exact equivalence; see factflow.aggregate.lineages")
     ap.add_argument("--glob", default="*.store.json")
     a = ap.parse_args()
 
     GLOB[0] = a.glob
-    runs, real = load(a.out_dir, a.by_lineage)
+    runs, real = load(a.out_dir)
     if not runs:
         print(f"no paired .store.json / .debate.json under {a.out_dir}", file=sys.stderr)
         return 1
