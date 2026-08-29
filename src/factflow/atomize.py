@@ -37,14 +37,39 @@ ATOMIZE_SYSTEM = """\
 You split sentences that assert several things into one sentence per assertion.
 
 A sentence is ATOMIC when it asserts exactly one thing about one subject. Split
-anything else, and repeat the shared parts in full so each piece stands alone:
+anything else, and repeat the shared parts in full so each piece stands alone.
+
+Two things must survive the split, and both are easy to lose:
+
+  ATTRIBUTION. If the sentence says who claims something, every piece says it
+  too, and a joined subject distributes over every piece:
 
   "E3 and E4 argue against banning the veil on slippery-slope and
    trust-in-government grounds."
     -> E3 argues against banning the veil.
     -> E4 argues against banning the veil.
-    -> Banning the veil creates slippery-slope risks.
-    -> Banning the veil undermines trust in government.
+    -> E3 claims that banning the veil creates slippery-slope risks.
+    -> E4 claims that banning the veil creates slippery-slope risks.
+    -> E3 claims that banning the veil undermines trust in government.
+    -> E4 claims that banning the veil undermines trust in government.
+
+  A COMPLETE PROPOSITION. A ground, reason, or risk named by a bare noun is not
+  a fact - say what is actually being claimed. "cites discrimination" becomes
+  "claims the ban would cause discrimination", never "cites discrimination as a
+  reason":
+
+  "E3 and E4 cite discrimination, backlash, and government discretion."
+    -> E3 claims banning the veil would cause discrimination.
+    -> E4 claims banning the veil would cause discrimination.
+    -> E3 claims banning the veil would cause backlash.
+    -> E4 claims banning the veil would cause backlash.
+    -> E3 claims banning the veil leaves too much to government discretion.
+    -> E4 claims banning the veil leaves too much to government discretion.
+
+  Recovering the proposition from a noun phrase means using the rest of the
+  sentence, not inventing: the subject of the claim is whatever the sentence was
+  about. If the sentence genuinely does not say what the claim is, keep the
+  noun phrase as it stands rather than guessing.
 
   "Scott Derrickson is an American director and screenwriter."
     -> Scott Derrickson is American.
@@ -68,7 +93,8 @@ Do NOT split:
   - a range: "ran from 2018 to 2020"
 
 Keep the original wording wherever you can; you are dividing a sentence, not
-rewriting it. Never add information that was not there, and never drop a piece.
+rewriting it. Never add information that was not there, and never drop a piece -
+the parts together must assert everything the original asserted, no more.
 If a sentence is already atomic, return it unchanged as its single part."""
 
 
