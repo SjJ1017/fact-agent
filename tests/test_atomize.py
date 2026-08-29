@@ -100,3 +100,32 @@ def test_prefilter_can_be_disabled():
     llm = FakeLLM()
     atomize(llm, [_m("m1", "Handguns are concealable.")], prefilter=False)
     assert llm.calls == ["AtomizeResult"]
+
+
+# -- the cache guard --------------------------------------------------------
+
+def test_an_empty_extraction_is_not_cached():
+    """A call that returns nothing has failed; caching it makes the failure
+    permanent and silent, which is how a poisoned entry turned a working
+    extractor into one that reported zero facts on every later run."""
+    from factflow.extract import extract_facts
+    from factflow.llm import LLM, LLMConfig
+    import tempfile
+
+    class Flaky:
+        name = "fake"
+        default_model = "m"
+        calls = 0
+
+        def generate(self, *, system, user, output_format, model, max_tokens):
+            Flaky.calls += 1
+            if Flaky.calls == 1:                      # first attempt comes back empty
+                return output_format.model_validate({"facts": []})
+            return output_format.model_validate(
+                {"facts": [{"text": "A holds.", "polarity": "affirm", "quote": "A holds."}]})
+
+    with tempfile.TemporaryDirectory() as d:
+        llm = LLM(LLMConfig(model="m", cache_dir=d), backend=Flaky())
+        assert extract_facts(llm, "some text") == []
+        again = extract_facts(llm, "some text")       # same key: must retry, not replay
+        assert [m.text for m in again] == ["A holds."]

@@ -148,6 +148,9 @@ def extract_facts(
         system=system,
         user=f"<text>\n{text}\n</text>",
         output_format=ExtractionResult,
+        # Zero facts from a non-empty text means the call failed, not that the
+        # text was factless. Caching that would make the failure permanent.
+        cache_if=lambda r: bool(r.facts),
     )
 
     mentions: list[FactMention] = []

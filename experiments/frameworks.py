@@ -11,9 +11,10 @@ plausible options, and reasoning that spans pharmacology, physiology and
 clinical judgement. No agent can look anything up, so what an agent contributes
 is what it knows, which is what makes role assignment and topology do work.
 
-Three topologies, differing in who reads whom:
+Four topologies, differing in who reads whom:
 
     full   every agent reads every other      (the Du et al. debate default)
+    ring   each agent reads its predecessor   (bounded, cyclic propagation)
     chain  A -> B -> C, each reads only its predecessor
     star   spokes read the hub, the hub reads everyone
 """
@@ -28,7 +29,7 @@ from typing import Any, Sequence
 
 from factflow import LLM
 
-TOPOLOGIES = ("full", "chain", "star")
+TOPOLOGIES = ("full", "ring", "chain", "star")
 
 BASE_SYSTEM = """\
 You are one participant in a panel answering a hard exam question.
@@ -111,6 +112,8 @@ def neighbours(topology: str, agents: Sequence[str], agent: str) -> list[str]:
     i = agents.index(agent)
     if topology == "full":
         return [a for a in agents if a != agent]
+    if topology == "ring":
+        return [agents[(i - 1) % len(agents)]]
     if topology == "chain":
         return [agents[i - 1]] if i > 0 else []
     if topology == "star":

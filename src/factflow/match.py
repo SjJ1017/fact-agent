@@ -510,3 +510,256 @@ def incremental_match(
                       batch_size=batch_size, auto_reject_below=auto_reject_below,
                       rationale=rationale)
     return store
+
+
+# -- binary identity --------------------------------------------------------
+#
+# The five-way relation is the right description of what two facts are to each
+# other, and the wrong instrument for measuring a debate.
+#
+# Two costs sank it. Deciding a direction of entailment is a much harder
+# judgement than deciding sameness, and on a reasoning model that shows up
+# directly as spend: an eight-pair adjudication burned its entire 4000-token
+# budget on reasoning and returned an empty string, three times over, which is
+# what made a slow pass look like a hung one.
+#
+# The second cost is that the distinction was not buying anything. "E1 offers no
+# data on the actual effects of religious symbols" and "E1 provides no data on
+# the actual effects of *visible* religious symbols" are an entailment, strictly
+# speaking. For counting whether an argument survived a round they are the same
+# claim, and treating them otherwise is what drove cohort survival to 0.04. And
+# where an entailment *does* change the claim materially, the honest reading is
+# that a new fact was inferred - which the SAME/DIFFERENT split already records
+# by calling them different.
+#
+# So: ask the cheap question. Diversity and survival do not need more resolution
+# than this.
+
+
+IDENTITY_SYSTEM = """\
+You decide whether two atomic facts state the same thing.
+
+SAME: they assert the same thing about the same subject. Paraphrase, word order,
+synonyms, added or dropped hedges, and differences in how precisely a scope is
+worded are all SAME - if both would be recorded as one row in a table of
+who-claimed-what, they are SAME.
+
+DIFFERENT: they assert different things, contradict each other, or concern
+different subjects. A qualifier that changes *which* cases the claim covers, or
+reverses it, makes them DIFFERENT.
+
+For each pair, first name the single difference between a and b in at most eight
+words (write "none" if there is none), then rule. A difference in wording is not
+a difference. Judge only what is written; do not reason about whether either is
+true, and do not deliberate beyond that one short note.
+
+Answer every pair."""
+
+
+class IdentityJudgement(BaseModel):
+    """`diff` before `same`, and the order is the point.
+
+    A model with hidden reasoning spends an unbounded budget before it writes
+    anything - measured here at 4000 reasoning tokens and an empty string. A
+    short field in the schema buys most of the same deliberation at a length we
+    choose: the model must name the difference before it may rule on it, and
+    naming it costs a dozen tokens rather than four thousand.
+
+    JSON is generated in field order, so naming the difference first puts it in
+    the context the decision token is drawn from. Asking for it afterwards is
+    not worthless - a model told it will have to justify itself answers
+    differently - but that route works only through anticipation, and this one
+    makes the note causally available.
+    """
+
+    pair_id: int
+    diff: str = Field(description="The one difference between a and b in at most "
+                                  "8 words, or 'none'. Wording differences are not "
+                                  "differences.")
+    same: bool
+
+
+class IdentityJudgementBare(BaseModel):
+    pair_id: int
+    same: bool
+
+
+class IdentityResult(BaseModel):
+    judgements: list[IdentityJudgement]
+
+
+class IdentityResultBare(BaseModel):
+    judgements: list[IdentityJudgementBare]
+
+
+def identify(
+    llm: LLM,
+    mentions: Sequence[FactMention],
+    pairs: Sequence[tuple[int, int, float]],
+    batch_size: int = 16,
+    auto_reject_below: float = 0.55,
+    auto_accept_above: float = 1.01,
+    cue: bool = True,
+    progress: Optional[str] = None,
+    unjudged_out: Optional[list] = None,
+) -> list[Relation]:
+    """SAME/DIFFERENT for each candidate pair, emitted as EQUIVALENT/UNRELATED.
+
+    Returns `Relation`s so everything downstream - cluster, FactStore, the
+    aggregate views - keeps working unchanged; only two of the five labels are
+    ever produced.
+
+    Both cut-offs are measured, on 128 adjudicated pairs from the Perspectrum
+    pilot relabelled SAME (= EQUIVALENT or either entailment) / DIFFERENT:
+
+                     SAME median   DIFF median   at .60 loses SAME   saves DIFF
+        TF-IDF            .917          .500              4.3%          89.8%
+        MiniLM            .935          .323              0.0%          88.1%
+
+    The embedding separates them by .61 against TF-IDF's .42, and at .60 it
+    drops nothing. At the top, MiniLM >= .95 was 81% equivalent and 19%
+    entailment with no unrelated pair at all - which under the five-way scheme
+    was unusable, since merging an entailment collapses a fact with its own
+    refinement, and under SAME/DIFFERENT is simply correct. Making the question
+    binary is what makes the upper cut-off safe.
+    """
+    if not pairs:
+        return []
+
+    out: list[Relation] = []
+    ask: list[tuple[int, int, float]] = []
+    for i, j, sim in pairs:
+        if sim < auto_reject_below:
+            out.append(Relation(a=mentions[i].mention_id, b=mentions[j].mention_id,
+                                relation="UNRELATED", confidence=1.0 - sim))
+        elif sim >= auto_accept_above:
+            out.append(Relation(a=mentions[i].mention_id, b=mentions[j].mention_id,
+                                relation="EQUIVALENT", confidence=sim))
+        else:
+            ask.append((i, j, sim))
+    if not ask:
+        return out
+
+    batches = [list(enumerate(ask[s:s + batch_size], start=s))
+               for s in range(0, len(ask), batch_size)]
+    done = [0]
+    unjudged: list[tuple[int, int]] = []
+
+    def _call(chunk) -> list[Relation]:
+        payload = [{"pair_id": pid, "a": mentions[i].text, "b": mentions[j].text}
+                   for pid, (i, j, _) in chunk]
+        res = llm.parse(system=IDENTITY_SYSTEM,
+                        user=json.dumps(payload, ensure_ascii=False),
+                        output_format=IdentityResult if cue else IdentityResultBare)
+        by_id = {j.pair_id: j.same for j in res.judgements}
+        notes = {j.pair_id: getattr(j, "diff", None) for j in res.judgements}
+        got: list[Relation] = []
+        for pid, (i, j, sim) in chunk:
+            if pid not in by_id:
+                continue
+            note = notes.get(pid)
+            got.append(Relation(a=mentions[i].mention_id, b=mentions[j].mention_id,
+                                relation="EQUIVALENT" if by_id[pid] else "UNRELATED",
+                                confidence=sim,
+                                rationale=note if note and note != "none" else None))
+        return got
+
+    def _bisect(chunk) -> list[Relation]:
+        if len(chunk) == 1:
+            unjudged.append((chunk[0][1][0], chunk[0][1][1]))
+            return []
+        mid = len(chunk) // 2
+        got: list[Relation] = []
+        for half in (chunk[:mid], chunk[mid:]):
+            try:
+                got += _call(half)
+            except Exception:
+                got += _bisect(half)
+        return got
+
+    def _one(chunk) -> list[Relation]:
+        try:
+            got = _call(chunk)
+        except Exception:
+            got = _bisect(chunk)
+        done[0] += 1
+        if progress:
+            print(f"[identify {progress}] batch {done[0]}/{len(batches)}"
+                  f"{f'  unjudged={len(unjudged)}' if unjudged else ''}", flush=True)
+        return got
+
+    out += [r for b in llm.map(_one, batches) for r in b]
+    if unjudged:
+        logger.warning("%d pair(s) could not be judged", len(unjudged))
+        if unjudged_out is not None:
+            unjudged_out.extend(unjudged)
+    return out
+
+
+def binary_match(
+    llm: LLM,
+    mentions: Sequence[FactMention],
+    store: FactStore | None = None,
+    blocker: Blocker | None = None,
+    threshold: float = 0.50,
+    top_k: int = 12,
+    batch_size: int = 16,
+    auto_reject_below: float = 0.55,
+    auto_accept_above: float = 1.01,
+    cue: bool = True,
+    transitivity_guard: bool = True,
+    progress: Optional[str] = None,
+) -> FactStore:
+    """`match` with the cheap question. Same inputs, same FactStore out."""
+    store = store or FactStore()
+    mentions = list(mentions)
+    if not mentions:
+        return store
+
+    existing = [(fid, f.canonical_text) for fid, f in store.facts.items()]
+    linked: dict[str, str] = {}
+    if existing:
+        cross = candidate_pairs_against(mentions, [x for _, x in existing],
+                                        blocker=blocker or TfidfBlocker(),
+                                        threshold=threshold, top_k=top_k)
+        if cross:
+            probe = [FactMention(mention_id=f"__reg__{fid}", text=text,
+                                 provenance=mentions[0].provenance.model_copy(
+                                     update={"channel": Channel.SOURCE}))
+                     for fid, text in existing]
+            pool = mentions + probe
+            offset = len(mentions)
+            for r in identify(llm, pool, [(i, offset + j, s) for i, j, s in cross],
+                              batch_size=batch_size, auto_reject_below=auto_reject_below,
+                              auto_accept_above=auto_accept_above, cue=cue,
+                              progress=progress):
+                if r.relation != "EQUIVALENT":
+                    continue
+                mid, reg = (r.a, r.b) if r.b.startswith("__reg__") else (r.b, r.a)
+                linked.setdefault(mid, reg.removeprefix("__reg__"))
+
+    fresh = [m for m in mentions if m.mention_id not in linked]
+    store.add_mentions(mentions)
+    if fresh:
+        pairs = candidate_pairs(fresh, blocker=blocker, threshold=threshold, top_k=top_k)
+        relations = identify(llm, fresh, pairs, batch_size=batch_size,
+                             auto_reject_below=auto_reject_below,
+                             auto_accept_above=auto_accept_above, cue=cue,
+                             progress=progress)
+        facts, extra = cluster(llm, fresh, relations, transitivity_guard=transitivity_guard)
+        store.relations.extend(relations)
+        store.relations.extend(extra)
+        for f in facts:
+            cur = store.facts.get(f.fact_id)
+            if cur:
+                cur.mention_ids = sorted(set(cur.mention_ids) | set(f.mention_ids))
+                store.assign(cur)
+            else:
+                store.assign(f)
+
+    for mid, fid in linked.items():
+        fact = store.facts[fid]
+        if mid not in fact.mention_ids:
+            fact.mention_ids.append(mid)
+        store.assign(fact)
+    return store

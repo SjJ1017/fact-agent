@@ -69,7 +69,17 @@ class LLM:
         output_format: type[T],
         model: str | None = None,
         max_tokens: int | None = None,
+        cache_if: Optional[Callable[[T], bool]] = None,
     ) -> T:
+        """`cache_if` guards against persisting a degenerate result.
+
+        A run that returns nothing - an extraction that yields zero facts
+        because the budget went to reasoning - is indistinguishable from a
+        legitimate empty answer once it is in the cache, and every later run
+        inherits it silently. Callers that know what "nothing" means for them
+        pass a predicate; a false one skips the write, so the next attempt tries
+        again instead of replaying the failure.
+        """
         model = model or self.model
         max_tokens = max_tokens or self.config.max_tokens
 
@@ -88,7 +98,8 @@ class LLM:
         parsed = self.backend.generate(
             system=system, user=user, output_format=output_format, model=model, max_tokens=max_tokens
         )
-        self.cache.put(key, parsed.model_dump(mode="json"))
+        if cache_if is None or cache_if(parsed):
+            self.cache.put(key, parsed.model_dump(mode="json"))
         return parsed
 
     def chat(

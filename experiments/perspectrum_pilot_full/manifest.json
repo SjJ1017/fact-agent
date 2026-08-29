@@ -1,0 +1,37 @@
+{
+  "data_dir": "/private/tmp/perspectrum-src/data/dataset",
+  "claim_ids": [
+    904,
+    221,
+    229,
+    578,
+    261,
+    857,
+    697,
+    233,
+    823,
+    902,
+    434,
+    171
+  ],
+  "models": [
+    "deepseek-v4-flash"
+  ],
+  "trace_model": "glm-5.3-flash",
+  "panels": [
+    "neutral",
+    "lenses",
+    "stance"
+  ],
+  "topologies": [
+    "full"
+  ],
+  "rounds": 3,
+  "seed": 17,
+  "split": "test",
+  "evidence_per_side": 2,
+  "min_evidence_per_side": 2,
+  "evidence_chars": 700,
+  "max_agent_tokens": 800,
+  "trace_max_tokens": 1600
+}
