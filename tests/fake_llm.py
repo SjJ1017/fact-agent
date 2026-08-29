@@ -20,12 +20,14 @@ class FakeLLM:
         entails: set[tuple[str, str]] | None = None,
         contradicts: set[frozenset[str]] | None = None,
         annotator: Callable[[str], dict] | None = None,
+        keep_whole: set[str] | None = None,
     ):
         self.extractions = extractions or {}
         self.equivalent = equivalent or set()
         self.entails = entails or set()
         self.contradicts = contradicts or set()
         self.annotator = annotator or (lambda text: {})
+        self.keep_whole = keep_whole or set()
         self.calls: list[str] = []
 
     def parse(self, *, system: str, user: str, output_format: type[BaseModel], **_kw):
@@ -33,6 +35,8 @@ class FakeLLM:
         self.calls.append(name)
         if name == "ExtractionResult":
             return self._extract(user, output_format)
+        if name == "AtomizeResult":
+            return self._atomize(user, output_format)
         if name in ("AdjudicationResult", "LeanAdjudication"):
             return self._adjudicate(user, output_format)
         if name == "AnnotationResult":
@@ -65,6 +69,16 @@ class FakeLLM:
                 rel = "UNRELATED"
             judgements.append({"pair_id": p["pair_id"], "relation": rel, "confidence": 1.0})
         return model.model_validate({"judgements": judgements})
+
+    def _atomize(self, user: str, model):
+        """Splits on " and " unless the text is in `keep_whole`."""
+        out = []
+        for item in json.loads(user):
+            txt = item["text"]
+            parts = [txt] if txt in self.keep_whole else [
+                p.strip() for p in txt.replace(".", "").split(" and ") if p.strip()]
+            out.append({"fact_id": item["fact_id"], "parts": parts})
+        return model.model_validate({"facts": out})
 
     def _annotate(self, user: str, model):
         listing = user.split("<facts>", 1)[1].rsplit("</facts>", 1)[0].strip()
