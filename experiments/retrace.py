@@ -91,6 +91,7 @@ def main() -> int:
     llm = LLM.opencode(a.model, max_concurrency=a.concurrency, max_tokens=a.max_tokens)
     llm.backend.client = llm.backend.client.with_options(timeout=a.timeout, max_retries=1)
 
+    seen = (0, 0, 0)
     for i, p in enumerate(paths, 1):
         target = p.with_name(p.name.replace(".debate.json", "") + a.suffix)
         if target.exists():
@@ -131,8 +132,20 @@ def main() -> int:
         store.save(str(target))
         print(f"[{i}/{len(paths)}] {label}  extract {raw} -> atomise {split} -> "
               f"{len(store.facts)} facts  (merge {1 - len(store.facts)/max(split,1):.0%})  "
-              f"{time.time()-t0:.0f}s", flush=True)
+              f"{time.time()-t0:.0f}s  {_delta(llm, seen)}", flush=True)
+        seen = (llm.usage.calls, llm.usage.input_tokens, llm.usage.output_tokens)
+    print(f"\ntotal: {llm.usage.report(a.model)}", flush=True)
     return 0
+
+
+def _delta(llm, seen) -> str:
+    """This store's share of the running total, so a per-store cost is measured
+    rather than inferred from an average."""
+    from factflow.backends import Usage
+    d = Usage(input_tokens=llm.usage.input_tokens - seen[1],
+              output_tokens=llm.usage.output_tokens - seen[2],
+              calls=llm.usage.calls - seen[0])
+    return d.report(llm.model)
 
 
 if __name__ == "__main__":

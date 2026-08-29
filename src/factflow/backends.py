@@ -15,27 +15,56 @@ from __future__ import annotations
 
 import json
 import os
+from pathlib import Path
 import re
 from dataclasses import dataclass
-from typing import Any, Protocol, TypeVar
+from typing import Optional, Any, Protocol, TypeVar
 
 from pydantic import BaseModel, ValidationError
 
 T = TypeVar("T", bound=BaseModel)
 
 
+PRICES_PATH = Path(__file__).resolve().parents[2] / "experiments" / "out" / "prices.json"
+
+
 @dataclass
 class Usage:
-    """Token accounting, so cost comparisons rest on measured numbers."""
+    """Token accounting, so cost comparisons rest on measured numbers.
+
+    Estimating this instead is a reliable way to be wrong by a multiple. A cost
+    model built from one model's reasoning on one task was off by 3.5x when
+    carried to a different model on a different task: the reasoning budget is a
+    property of the pair, not of either one.
+    """
 
     input_tokens: int = 0
     output_tokens: int = 0
     calls: int = 0
+    cached: int = 0
 
     def add(self, i: int, o: int) -> None:
         self.input_tokens += i
         self.output_tokens += o
         self.calls += 1
+
+    def cost(self, model: str) -> Optional[float]:
+        """USD, from experiments/out/prices.json. None when the model is absent -
+        an unpriced model must not silently read as free."""
+        try:
+            prices = json.loads(PRICES_PATH.read_text())
+        except Exception:
+            return None
+        p = prices.get(model)
+        if not p:
+            return None
+        return self.input_tokens / 1e6 * p[0] + self.output_tokens / 1e6 * p[1]
+
+    def report(self, model: str) -> str:
+        c = self.cost(model)
+        money = f"${c:.4f}" if c is not None else "cost unknown (model not in prices.json)"
+        return (f"{self.calls} calls, {self.input_tokens:,} in / "
+                f"{self.output_tokens:,} out, {money}")
 
 
 class Backend(Protocol):

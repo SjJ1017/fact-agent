@@ -60,6 +60,7 @@ def main() -> int:
     llm = LLM.opencode(a.model, max_concurrency=a.concurrency, max_tokens=a.max_tokens)
     llm.backend.client = llm.backend.client.with_options(timeout=a.timeout, max_retries=1)
 
+    seen = (0, 0, 0)
     for i, p in enumerate(paths, 1):
         debate_p = p.with_name(p.name.split(".")[0] + ".debate.json")
         if not debate_p.exists():
@@ -109,8 +110,21 @@ def main() -> int:
                             for m in f.mention_ids))
         print(f"[{i}/{len(paths)}] {p.name}  +{len(mentions)} gold mentions  "
               f"facts {before} -> {len(store.facts)}  "
-              f"reached {reached}/{n_gold} gold facts  {time.time()-t0:.0f}s", flush=True)
+              f"reached {reached}/{n_gold} gold facts  {time.time()-t0:.0f}s  "
+              f"{_delta(llm, seen)}", flush=True)
+        seen = (llm.usage.calls, llm.usage.input_tokens, llm.usage.output_tokens)
+    print(f"\ntotal: {llm.usage.report(a.model)}", flush=True)
     return 0
+
+
+def _delta(llm, seen) -> str:
+    """This store's share of the running total, so a per-store cost is measured
+    rather than inferred from an average."""
+    from factflow.backends import Usage
+    d = Usage(input_tokens=llm.usage.input_tokens - seen[1],
+              output_tokens=llm.usage.output_tokens - seen[2],
+              calls=llm.usage.calls - seen[0])
+    return d.report(llm.model)
 
 
 if __name__ == "__main__":
