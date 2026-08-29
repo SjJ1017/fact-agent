@@ -288,6 +288,7 @@ def cluster(
     relations: Sequence[Relation],
     transitivity_guard: bool = True,
     min_confidence: float = 0.0,
+    judge: Optional[Callable[..., list[Relation]]] = None,
 ) -> tuple[list[CanonicalFact], list[Relation]]:
     """Group mentions into canonical facts using EQUIVALENT edges only.
 
@@ -307,7 +308,7 @@ def cluster(
 
     extra: list[Relation] = []
     if transitivity_guard:
-        components, extra = _guard(llm, mentions, relations, components)
+        components, extra = _guard(llm, mentions, relations, components, judge)
 
     facts: list[CanonicalFact] = []
     for members_idx in components.values():
@@ -329,8 +330,14 @@ def _guard(
     mentions: Sequence[FactMention],
     relations: Sequence[Relation],
     components: dict[int, list[int]],
+    judge: Optional[Callable[..., list[Relation]]] = None,
 ) -> tuple[dict[int, list[int]], list[Relation]]:
     """Re-verify every member of a large component against its representative.
+
+    `judge` must be the same question the caller asked in the first place. A
+    guard that adjudicates a five-way relation over clusters built from
+    SAME/DIFFERENT answers gives a pair two different verdicts under two
+    different definitions, and pays the expensive question to do it.
 
     Transitive closure over noisy pairwise judgements is the main source of
     over-merging, and it degrades silently: the cluster count drops and every
@@ -358,7 +365,7 @@ def _guard(
             if frozenset((mentions[i].mention_id, mentions[rep_idx].mention_id)) not in known
         ]
         if unknown:
-            new_rels = adjudicate(
+            new_rels = (judge or adjudicate)(
                 llm, mentions, [(min(rep_idx, i), max(rep_idx, i), 1.0) for i in unknown]
             )
             extra.extend(new_rels)
@@ -696,6 +703,16 @@ def identify(
     return out
 
 
+def _binary_judge(batch_size: int, auto_reject_below: float,
+                  auto_accept_above: float, cue: bool):
+    """`identify` bound to the caller's settings, shaped like `adjudicate`."""
+    def judge(llm, mentions, pairs, **_kw):
+        return identify(llm, mentions, pairs, batch_size=batch_size,
+                        auto_reject_below=auto_reject_below,
+                        auto_accept_above=auto_accept_above, cue=cue)
+    return judge
+
+
 def binary_match(
     llm: LLM,
     mentions: Sequence[FactMention],
@@ -746,7 +763,9 @@ def binary_match(
                              auto_reject_below=auto_reject_below,
                              auto_accept_above=auto_accept_above, cue=cue,
                              progress=progress)
-        facts, extra = cluster(llm, fresh, relations, transitivity_guard=transitivity_guard)
+        facts, extra = cluster(llm, fresh, relations, transitivity_guard=transitivity_guard,
+                               judge=_binary_judge(batch_size, auto_reject_below,
+                                                   auto_accept_above, cue))
         store.relations.extend(relations)
         store.relations.extend(extra)
         for f in facts:

@@ -126,3 +126,36 @@ def test_bisect_can_be_turned_off():
             raise TimeoutError("gateway stalled")
 
     assert adjudicate(Filtered(), ms, [(0, 1, 0.9)], bisect_on_failure=False) == []
+
+
+def test_the_guard_asks_the_same_question_the_caller_did():
+    """A guard that adjudicates a five-way relation over clusters built from
+    SAME/DIFFERENT gives one pair two verdicts under two definitions, and pays
+    the expensive question to do it."""
+    from factflow.match import binary_match
+    asked: list[str] = []
+
+    class Watcher(FakeLLM):
+        def parse(self, *, system, user, output_format, **kw):
+            asked.append(output_format.__name__)
+            return super().parse(system=system, user=user, output_format=output_format, **kw)
+
+    # Four wordings of one claim, plus an unrelated one so the blocker has
+    # something to contrast against - identical strings give TF-IDF nothing to
+    # weigh and produce no candidate pairs at all. Union-find then builds a
+    # component big enough (> 2 members) for the guard to re-verify.
+    texts = ["The ban raises social pressure.",
+             "The ban increases social pressure.",
+             "Social pressure rises under the ban.",
+             "The ban leads to greater social pressure.",
+             "Rain fell in April."]
+    # Spread across agents and rounds: candidate_pairs skips pairs from one
+    # slot, since extraction already deduplicated within a turn.
+    slots = [("A", 1), ("B", 1), ("C", 1), ("A", 2), ("B", 2)]
+    ms = [_m(f"m{i}", x, agent=s[0], rnd=s[1])
+          for i, (x, s) in enumerate(zip(texts, slots))]
+    equivalent = {frozenset({a, b}) for a in texts[:4] for b in texts[:4] if a != b}
+    binary_match(Watcher(equivalent=equivalent), ms, threshold=0.2, top_k=5)
+    assert asked, "no judgement was made at all"
+    assert "AdjudicationResult" not in asked, f"guard fell back to five-way: {asked}"
+    assert set(asked) <= {"IdentityResult", "IdentityResultBare"}
