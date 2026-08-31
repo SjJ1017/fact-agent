@@ -18,9 +18,11 @@ nothing but the sentence itself - which also makes this the cheapest LLM call in
 the pipeline, and the one place where a store produced by someone else's prompt
 can still be repaired.
 
-Only suspect facts are sent. `looks_joined` is a deliberately loose regex filter:
-a false positive costs one call that returns the fact unchanged, a false
-negative leaves a conjunction in the store, so it errs toward asking.
+Only suspect facts are sent. `looks_joined` is a deliberately loose regex
+filter: a false positive costs one call that returns the fact unchanged, a
+false negative leaves a conjunction in the store, so it errs toward asking. It
+also matches attribution wrappers, since those need stripping whether or not
+anything is joined.
 """
 
 from __future__ import annotations
@@ -34,56 +36,59 @@ from .llm import LLM
 from .types import FactMention
 
 ATOMIZE_SYSTEM = """\
-You split sentences that assert several things into one sentence per assertion.
+You rewrite each sentence into the atomic facts about the world that it states.
 
-A sentence is ATOMIC when it asserts exactly one thing about one subject. Split
-anything else, and repeat the shared parts in full so each piece stands alone.
+Two jobs, and every sentence needs both checked:
 
-Two things must survive the split, and both are easy to lose:
+  1. STRIP the attribution, if any. Do this even when the sentence states only
+     one thing - a single claim wrapped in "E1 shows ..." still needs unwrapping.
+  2. SPLIT what is left, if it asserts more than one thing. Repeat the shared
+     parts in full so each piece stands alone.
 
-  ATTRIBUTION. If the sentence says who claims something, every piece says it
-  too, and a joined subject distributes over every piece:
+JOB 1 - DROP THE ATTRIBUTION. A fact is about the world, not about who mentioned it.
+  "E1 shows handguns are concealable" and "handguns are concealable" are one
+  fact, and writing the source into the sentence records the same information
+  twice - provenance already says which agent said it in which round.
+
+  It also nests without limit. "Panelist B identifies that E2's estimate lacks
+  controls" is a fact about a fact about a fact, and the next round can wrap it
+  again. Every agent wraps to a different depth, so nothing ever matches. Strip
+  the wrapper and keep the proposition:
+
+  "E1 shows handguns are concealable ranged weapons."
+    -> Handguns are concealable ranged weapons.
+
+  "Panelist B asserts the dossier contains opinions."
+    -> The dossier contains opinions.
 
   "E3 and E4 argue against banning the veil on slippery-slope and
    trust-in-government grounds."
-    -> E3 argues against banning the veil.
-    -> E4 argues against banning the veil.
-    -> E3 claims that banning the veil creates slippery-slope risks.
-    -> E4 claims that banning the veil creates slippery-slope risks.
-    -> E3 claims that banning the veil undermines trust in government.
-    -> E4 claims that banning the veil undermines trust in government.
+    -> The veil should not be banned.
+    -> Banning the veil creates slippery-slope risks.
+    -> Banning the veil undermines trust in government.
 
-  A COMPLETE PROPOSITION. A ground, reason, or risk named by a bare noun is not
+  Note the last one: with the attribution gone, E3 and E4 asserting the same
+  thing is one fact, not two. Only the grounds are separate claims.
+
+JOB 2 - A COMPLETE PROPOSITION. A ground, reason, or risk named by a bare noun is not
   a fact - say what is actually being claimed. "cites discrimination" becomes
-  "claims the ban would cause discrimination", never "cites discrimination as a
+  "the ban would cause discrimination", never "cites discrimination as a
   reason":
 
   "E3 and E4 cite discrimination, backlash, and government discretion."
-    -> E3 claims banning the veil would cause discrimination.
-    -> E4 claims banning the veil would cause discrimination.
-    -> E3 claims banning the veil would cause backlash.
-    -> E4 claims banning the veil would cause backlash.
-    -> E3 claims banning the veil leaves too much to government discretion.
-    -> E4 claims banning the veil leaves too much to government discretion.
+    -> Banning the veil would cause discrimination.
+    -> Banning the veil would cause backlash.
+    -> Banning the veil leaves too much to government discretion.
 
   Recovering the proposition from a noun phrase means using the rest of the
   sentence, not inventing: the subject of the claim is whatever the sentence was
   about. If the sentence genuinely does not say what the claim is, keep the
   noun phrase as it stands rather than guessing.
 
-  "Scott Derrickson is an American director and screenwriter."
-    -> Scott Derrickson is American.
-    -> Scott Derrickson is a director.
-    -> Scott Derrickson is a screenwriter.
-
-  "E2 reports declines in handgun crime and gives no controls for confounds."
-    -> E2 reports declines in handgun crime.
-    -> E2 gives no controls for confounds.
-
-A set quantifier is not atomic. "Both", "all", "each", "neither", "the two",
-"they" assert one thing per member, so name each member:
-
-  "Both dossiers name the same enzyme." -> one fact per dossier, named.
+  When the sentence is *about* a source rather than merely attributed to one -
+  "E2 does not address public buildings", "the dossier contains no controls" -
+  that is what it asserts, so keep it. The rule removes a wrapper around a
+  claim; it does not delete a claim whose subject happens to be a document.
 
 Do NOT split:
   - a name or term that happens to contain a conjunction: "Bosnia and
@@ -92,10 +97,13 @@ Do NOT split:
     whole when the clearance requires both
   - a range: "ran from 2018 to 2020"
 
-Keep the original wording wherever you can; you are dividing a sentence, not
-rewriting it. Never add information that was not there, and never drop a piece -
-the parts together must assert everything the original asserted, no more.
-If a sentence is already atomic, return it unchanged as its single part."""
+Keep the original wording wherever you can. Never add information that was not
+there, and never drop a claim - the parts together must assert everything the
+original asserted about the world, no more.
+
+Return a sentence unchanged only when it is BOTH unattributed AND single. A
+sentence that states one thing but names who states it is not unchanged: it
+comes back as one part, with the wrapper gone."""
 
 
 class SplitFact(BaseModel):
@@ -112,7 +120,10 @@ class AtomizeResult(BaseModel):
 _JOINED = re.compile(
     r"\b(and|or|as well as|along with)\b"
     r"|\b(both|all|each|neither|either|the two|they|these|those)\b"
-    r"|,\s*\w+(\s+\w+){0,3}\s*,",
+    r"|,\s*\w+(\s+\w+){0,3}\s*,"
+    # attribution wrappers: stripped even when nothing is joined
+    r"|^(E\d+|Panelist\s+\w+|Agent\s+\w+)\s+\w+"
+    r"|\b(claims?|shows?|argues?|states?|asserts?|reports?|notes?|identifies)\s+that\b",
     re.IGNORECASE,
 )
 
@@ -181,10 +192,22 @@ def atomize(
     out: list[FactMention] = []
     for i, m in enumerate(mentions):
         parts = splits.get(i)
-        if not parts or len(parts) == 1:
-            # Unchanged, or the model confirmed it was already atomic. Either
-            # way keep the original id so nothing downstream has to re-link.
+        if not parts:
             out.append(m)
+            continue
+        if len(parts) == 1:
+            # One part is not the same as no change: stripping an attribution
+            # rewrites a single claim in place, and returning the original here
+            # silently discarded every unwrap the model performed.
+            if _same_text(parts[0], m.text):
+                out.append(m)                      # genuinely untouched: keep the id
+            else:
+                out.append(_derive(m, parts[0], 1))
             continue
         out.extend(_derive(m, p, n) for n, p in enumerate(parts, 1))
     return out
+
+
+def _same_text(a: str, b: str) -> bool:
+    norm = lambda s: " ".join(s.lower().split()).rstrip(".")
+    return norm(a) == norm(b)

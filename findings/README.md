@@ -16,6 +16,7 @@
 
 | 日期 | 发现 | 状态 |
 |---|---|---|
+| 2026-08-31 | [Persona 改变事实人口学，不自动增加信息流](2026-08-31-perspectrum-deepseek-personas.md) | DeepSeek 初步分析，n=12 |
 | 2026-08-29 | [修好匹配：五个真因，和四次我自己推翻的解释](2026-08-29-fixing-the-matcher.md) | 流水线已重建，三条件结果待出 |
 | 2026-08-28 | [匹配是瓶颈：Perspectrum 试点暴露的 infra 问题](2026-08-28-matching-is-the-bottleneck.md) | 诊断完成，方案待实施 |
 | 2026-08-28 | [事实人口学：生成–淘汰轨迹区分了准确率相同的配置](2026-08-28-fact-demography.md) | 初步，n=8 |

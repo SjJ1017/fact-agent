@@ -1,0 +1,1852 @@
+{
+  "model": "deepseek-v4-flash",
+  "n_runs": 36,
+  "n_claims": 12,
+  "metrics": [
+    "n_facts",
+    "adoption",
+    "persistence",
+    "shared",
+    "multi",
+    "survived",
+    "redundancy",
+    "echo",
+    "r1_alive",
+    "r2_born",
+    "r2_died",
+    "r3_born",
+    "r3_died",
+    "r3_carried",
+    "r1_to_r3",
+    "r2_to_r3",
+    "source_matched"
+  ],
+  "means": {
+    "lenses": {
+      "n_facts": 118.58333333333333,
+      "adoption": 13.333333333333334,
+      "persistence": 5.5,
+      "shared": 0.13589167081127476,
+      "multi": 0.04441106866973087,
+      "survived": 0.3912524592685249,
+      "redundancy": 0.18429970760830117,
+      "echo": 0.6571490400437769,
+      "r1_alive": 39.666666666666664,
+      "r2_born": 43.5,
+      "r2_died": 34.166666666666664,
+      "r3_born": 35.416666666666664,
+      "r3_died": 40.083333333333336,
+      "r3_carried": 8.916666666666666,
+      "r1_to_r3": 0.11634566593845475,
+      "r2_to_r3": 0.14774982199865844,
+      "source_matched": 0.007473640224795172
+    },
+    "neutral": {
+      "n_facts": 100.41666666666667,
+      "adoption": 14.25,
+      "persistence": 5.916666666666667,
+      "shared": 0.15426285139261467,
+      "multi": 0.04884489344363406,
+      "survived": 0.3983425229622709,
+      "redundancy": 0.20950961221537784,
+      "echo": 0.6879646162527555,
+      "r1_alive": 36.333333333333336,
+      "r2_born": 35.166666666666664,
+      "r2_died": 29.833333333333332,
+      "r3_born": 28.916666666666668,
+      "r3_died": 31.166666666666668,
+      "r3_carried": 10.5,
+      "r1_to_r3": 0.1075192862415837,
+      "r2_to_r3": 0.20382954210262572,
+      "source_matched": 0.012131931474871824
+    },
+    "stance": {
+      "n_facts": 113.58333333333333,
+      "adoption": 12.5,
+      "persistence": 4.833333333333333,
+      "shared": 0.10734996314847725,
+      "multi": 0.027162940372902684,
+      "survived": 0.37386776744914246,
+      "redundancy": 0.16505225096731957,
+      "echo": 0.7311990786990787,
+      "r1_alive": 42,
+      "r2_born": 38.5,
+      "r2_died": 36.083333333333336,
+      "r3_born": 33.083333333333336,
+      "r3_died": 36.166666666666664,
+      "r3_carried": 8.25,
+      "r1_to_r3": 0.10430505335355662,
+      "r2_to_r3": 0.12687768975206207,
+      "source_matched": 0.010225452428085454
+    }
+  },
+  "paired_vs_neutral": {
+    "lenses": {
+      "n_claims": 12,
+      "metrics": {
+        "n_facts": {
+          "mean_difference": 18.166666666666668,
+          "median_difference": 17.5,
+          "positive": 7,
+          "negative": 5,
+          "zero": 0,
+          "bootstrap_95": [
+            1.1666666666666667,
+            35.333333333333336
+          ]
+        },
+        "adoption": {
+          "mean_difference": -0.9166666666666666,
+          "median_difference": 2.0,
+          "positive": 6,
+          "negative": 5,
+          "zero": 1,
+          "bootstrap_95": [
+            -6.5,
+            4.0
+          ]
+        },
+        "persistence": {
+          "mean_difference": -0.4166666666666667,
+          "median_difference": -1.0,
+          "positive": 4,
+          "negative": 6,
+          "zero": 2,
+          "bootstrap_95": [
+            -3.6666666666666665,
+            3.3333333333333335
+          ]
+        },
+        "shared": {
+          "mean_difference": -0.018371180581339908,
+          "median_difference": -0.019036108378781308,
+          "positive": 5,
+          "negative": 7,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.05571407996257968,
+            0.0166603771819353
+          ]
+        },
+        "multi": {
+          "mean_difference": -0.00443382477390319,
+          "median_difference": 0.005399263935043277,
+          "positive": 7,
+          "negative": 5,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.025002864176289486,
+            0.015254564295422606
+          ]
+        },
+        "survived": {
+          "mean_difference": -0.007090063693746017,
+          "median_difference": -0.008363177808788841,
+          "positive": 5,
+          "negative": 7,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.06659524872963406,
+            0.054060335119995584
+          ]
+        },
+        "redundancy": {
+          "mean_difference": -0.025209904607076682,
+          "median_difference": -0.043083675943828836,
+          "positive": 4,
+          "negative": 8,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.07296163639281346,
+            0.0256097138790345
+          ]
+        },
+        "echo": {
+          "mean_difference": -0.030815576208978568,
+          "median_difference": -0.07559107559107558,
+          "positive": 5,
+          "negative": 7,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.14969488231738684,
+            0.09186766358085885
+          ]
+        },
+        "r1_alive": {
+          "mean_difference": 3.3333333333333335,
+          "median_difference": 1.5,
+          "positive": 8,
+          "negative": 4,
+          "zero": 0,
+          "bootstrap_95": [
+            -4.666666666666667,
+            11.166666666666666
+          ]
+        },
+        "r2_born": {
+          "mean_difference": 8.333333333333334,
+          "median_difference": 5.0,
+          "positive": 7,
+          "negative": 5,
+          "zero": 0,
+          "bootstrap_95": [
+            0.4166666666666667,
+            17.0
+          ]
+        },
+        "r2_died": {
+          "mean_difference": 4.333333333333333,
+          "median_difference": 3.5,
+          "positive": 7,
+          "negative": 4,
+          "zero": 1,
+          "bootstrap_95": [
+            -3.0,
+            11.583333333333334
+          ]
+        },
+        "r3_born": {
+          "mean_difference": 6.5,
+          "median_difference": 2.5,
+          "positive": 6,
+          "negative": 6,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.3333333333333333,
+            14.0
+          ]
+        },
+        "r3_died": {
+          "mean_difference": 8.916666666666666,
+          "median_difference": 13.0,
+          "positive": 7,
+          "negative": 5,
+          "zero": 0,
+          "bootstrap_95": [
+            0.9166666666666666,
+            17.083333333333332
+          ]
+        },
+        "r3_carried": {
+          "mean_difference": -1.5833333333333333,
+          "median_difference": 0.0,
+          "positive": 5,
+          "negative": 5,
+          "zero": 2,
+          "bootstrap_95": [
+            -5.333333333333333,
+            1.4166666666666667
+          ]
+        },
+        "r1_to_r3": {
+          "mean_difference": 0.008826379696871051,
+          "median_difference": -0.017925247902364605,
+          "positive": 5,
+          "negative": 6,
+          "zero": 1,
+          "bootstrap_95": [
+            -0.03195696279504289,
+            0.06509370889531081
+          ]
+        },
+        "r2_to_r3": {
+          "mean_difference": -0.05607972010396727,
+          "median_difference": -0.0035608747044917205,
+          "positive": 6,
+          "negative": 6,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.138780889665036,
+            0.013800695718090575
+          ]
+        },
+        "source_matched": {
+          "mean_difference": -0.004658291250076651,
+          "median_difference": 0.0,
+          "positive": 2,
+          "negative": 5,
+          "zero": 5,
+          "bootstrap_95": [
+            -0.01099595233560373,
+            0.0008294864022409731
+          ]
+        }
+      }
+    },
+    "stance": {
+      "n_claims": 12,
+      "metrics": {
+        "n_facts": {
+          "mean_difference": 13.166666666666666,
+          "median_difference": 8.0,
+          "positive": 9,
+          "negative": 3,
+          "zero": 0,
+          "bootstrap_95": [
+            1.0,
+            27.583333333333332
+          ]
+        },
+        "adoption": {
+          "mean_difference": -1.75,
+          "median_difference": -3.0,
+          "positive": 4,
+          "negative": 8,
+          "zero": 0,
+          "bootstrap_95": [
+            -6.75,
+            3.4166666666666665
+          ]
+        },
+        "persistence": {
+          "mean_difference": -1.0833333333333333,
+          "median_difference": -2.0,
+          "positive": 4,
+          "negative": 8,
+          "zero": 0,
+          "bootstrap_95": [
+            -4.25,
+            2.6666666666666665
+          ]
+        },
+        "shared": {
+          "mean_difference": -0.04691288824413742,
+          "median_difference": -0.05497380997054991,
+          "positive": 3,
+          "negative": 9,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.07496918299029977,
+            -0.0170323629777453
+          ]
+        },
+        "multi": {
+          "mean_difference": -0.021681953070731376,
+          "median_difference": -0.018016013304326,
+          "positive": 4,
+          "negative": 8,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.03964480033236652,
+            -0.005399866631025443
+          ]
+        },
+        "survived": {
+          "mean_difference": -0.024474755513128454,
+          "median_difference": -0.013507625272331153,
+          "positive": 5,
+          "negative": 7,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.09192697741804191,
+            0.04140653360242363
+          ]
+        },
+        "redundancy": {
+          "mean_difference": -0.04445736124805826,
+          "median_difference": -0.05705365696133946,
+          "positive": 4,
+          "negative": 8,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.08320579576545513,
+            -0.00285937887497408
+          ]
+        },
+        "echo": {
+          "mean_difference": 0.04323446244632326,
+          "median_difference": 0.06210012210012211,
+          "positive": 7,
+          "negative": 5,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.07627933155022938,
+            0.16012341602898877
+          ]
+        },
+        "r1_alive": {
+          "mean_difference": 5.666666666666667,
+          "median_difference": 9.0,
+          "positive": 8,
+          "negative": 4,
+          "zero": 0,
+          "bootstrap_95": [
+            -1.9166666666666667,
+            12.5
+          ]
+        },
+        "r2_born": {
+          "mean_difference": 3.3333333333333335,
+          "median_difference": 0.0,
+          "positive": 5,
+          "negative": 4,
+          "zero": 3,
+          "bootstrap_95": [
+            -1.9166666666666667,
+            9.166666666666666
+          ]
+        },
+        "r2_died": {
+          "mean_difference": 6.25,
+          "median_difference": 9.0,
+          "positive": 8,
+          "negative": 4,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.5833333333333334,
+            12.5
+          ]
+        },
+        "r3_born": {
+          "mean_difference": 4.166666666666667,
+          "median_difference": 2.0,
+          "positive": 7,
+          "negative": 3,
+          "zero": 2,
+          "bootstrap_95": [
+            -2.75,
+            11.416666666666666
+          ]
+        },
+        "r3_died": {
+          "mean_difference": 5,
+          "median_difference": 1.0,
+          "positive": 6,
+          "negative": 5,
+          "zero": 1,
+          "bootstrap_95": [
+            -1.5833333333333333,
+            11.916666666666666
+          ]
+        },
+        "r3_carried": {
+          "mean_difference": -2.25,
+          "median_difference": -3.0,
+          "positive": 2,
+          "negative": 8,
+          "zero": 2,
+          "bootstrap_95": [
+            -5.666666666666667,
+            1.1666666666666667
+          ]
+        },
+        "r1_to_r3": {
+          "mean_difference": -0.0032142328880270755,
+          "median_difference": 0.0024615524615524687,
+          "positive": 6,
+          "negative": 6,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.037357695829261704,
+            0.03076226339794677
+          ]
+        },
+        "r2_to_r3": {
+          "mean_difference": -0.07695185235056366,
+          "median_difference": -0.045223577235772354,
+          "positive": 4,
+          "negative": 8,
+          "zero": 0,
+          "bootstrap_95": [
+            -0.14918294507381666,
+            -0.011978689141337729
+          ]
+        },
+        "source_matched": {
+          "mean_difference": -0.0019064790467863697,
+          "median_difference": 0.0,
+          "positive": 2,
+          "negative": 4,
+          "zero": 6,
+          "bootstrap_95": [
+            -0.009156956176227863,
+            0.005062169391249802
+          ]
+        }
+      }
+    }
+  },
+  "complete_slot_sensitivity": {
+    "claim_ids": [
+      "221",
+      "233",
+      "261",
+      "578",
+      "697"
+    ],
+    "paired_vs_neutral": {
+      "lenses": {
+        "n_claims": 5,
+        "metrics": {
+          "n_facts": {
+            "mean_difference": 14.4,
+            "positive": 3,
+            "negative": 2,
+            "zero": 0
+          },
+          "adoption": {
+            "mean_difference": -1.6,
+            "positive": 3,
+            "negative": 2,
+            "zero": 0
+          },
+          "persistence": {
+            "mean_difference": -0.4,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "shared": {
+            "mean_difference": -0.001282436158286626,
+            "positive": 3,
+            "negative": 2,
+            "zero": 0
+          },
+          "multi": {
+            "mean_difference": 0.02045424887366819,
+            "positive": 5,
+            "negative": 0,
+            "zero": 0
+          },
+          "survived": {
+            "mean_difference": -0.03977520140634007,
+            "positive": 1,
+            "negative": 4,
+            "zero": 0
+          },
+          "redundancy": {
+            "mean_difference": -0.00017362632092692286,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "echo": {
+            "mean_difference": -0.13176081228712805,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "r1_alive": {
+            "mean_difference": 2.6,
+            "positive": 3,
+            "negative": 2,
+            "zero": 0
+          },
+          "r2_born": {
+            "mean_difference": 8.2,
+            "positive": 3,
+            "negative": 2,
+            "zero": 0
+          },
+          "r2_died": {
+            "mean_difference": 2.6,
+            "positive": 3,
+            "negative": 2,
+            "zero": 0
+          },
+          "r3_born": {
+            "mean_difference": 3.6,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "r3_died": {
+            "mean_difference": 10.6,
+            "positive": 3,
+            "negative": 2,
+            "zero": 0
+          },
+          "r3_carried": {
+            "mean_difference": -2.4,
+            "positive": 3,
+            "negative": 1,
+            "zero": 1
+          },
+          "r1_to_r3": {
+            "mean_difference": -0.011290558614121657,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "r2_to_r3": {
+            "mean_difference": -0.08126197362185945,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "source_matched": {
+            "mean_difference": -0.004296369078871844,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          }
+        }
+      },
+      "stance": {
+        "n_claims": 5,
+        "metrics": {
+          "n_facts": {
+            "mean_difference": -1.6,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "adoption": {
+            "mean_difference": -5.6,
+            "positive": 1,
+            "negative": 4,
+            "zero": 0
+          },
+          "persistence": {
+            "mean_difference": -0.6,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "shared": {
+            "mean_difference": -0.04043355647832474,
+            "positive": 1,
+            "negative": 4,
+            "zero": 0
+          },
+          "multi": {
+            "mean_difference": 0.0048474904378925255,
+            "positive": 4,
+            "negative": 1,
+            "zero": 0
+          },
+          "survived": {
+            "mean_difference": -0.05220085978735216,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "redundancy": {
+            "mean_difference": -0.02672771478256706,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "echo": {
+            "mean_difference": -0.10888631836000254,
+            "positive": 1,
+            "negative": 4,
+            "zero": 0
+          },
+          "r1_alive": {
+            "mean_difference": -3.8,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "r2_born": {
+            "mean_difference": 3.8,
+            "positive": 2,
+            "negative": 1,
+            "zero": 2
+          },
+          "r2_died": {
+            "mean_difference": -2.2,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "r3_born": {
+            "mean_difference": -1.6,
+            "positive": 2,
+            "negative": 2,
+            "zero": 1
+          },
+          "r3_died": {
+            "mean_difference": 7,
+            "positive": 3,
+            "negative": 2,
+            "zero": 0
+          },
+          "r3_carried": {
+            "mean_difference": -4.8,
+            "positive": 0,
+            "negative": 4,
+            "zero": 1
+          },
+          "r1_to_r3": {
+            "mean_difference": -0.029682001856823476,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0
+          },
+          "r2_to_r3": {
+            "mean_difference": -0.10263308168795975,
+            "positive": 1,
+            "negative": 4,
+            "zero": 0
+          },
+          "source_matched": {
+            "mean_difference": -9.882415950202526e-05,
+            "positive": 1,
+            "negative": 2,
+            "zero": 2
+          }
+        }
+      }
+    }
+  },
+  "runs": [
+    {
+      "claim_id": "171",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-171-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 118.0,
+      "shared": 0.2033898305084746,
+      "multi": 0.0847457627118644,
+      "survived": 0.4067796610169492,
+      "redundancy": 0.2804878048780488,
+      "echo": 0.5833333333333334,
+      "source_matched": 0.0,
+      "adoption": 17,
+      "persistence": 6,
+      "r1_alive": 49,
+      "r2_born": 38,
+      "r2_died": 40,
+      "r3_born": 31,
+      "r3_died": 35,
+      "r3_carried": 12,
+      "r1_to_r3": 0.24489795918367346,
+      "r2_to_r3": 0.13157894736842105,
+      "contradictions": 0,
+      "equivalences": 258
+    },
+    {
+      "claim_id": "171",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-171-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 8,
+      "expected_output_slots": 9,
+      "n_facts": 124.0,
+      "shared": 0.14516129032258066,
+      "multi": 0.03225806451612903,
+      "survived": 0.3951612903225806,
+      "redundancy": 0.21019108280254772,
+      "echo": 0.7777777777777778,
+      "source_matched": 0.0,
+      "adoption": 18,
+      "persistence": 6,
+      "r1_alive": 40,
+      "r2_born": 49,
+      "r2_died": 30,
+      "r3_born": 35,
+      "r3_died": 47,
+      "r3_carried": 12,
+      "r1_to_r3": 0.2,
+      "r2_to_r3": 0.12244897959183673,
+      "contradictions": 0,
+      "equivalences": 247
+    },
+    {
+      "claim_id": "171",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-171-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 130.0,
+      "shared": 0.19230769230769232,
+      "multi": 0.023076923076923078,
+      "survived": 0.46153846153846156,
+      "redundancy": 0.2737430167597765,
+      "echo": 0.88,
+      "source_matched": 0.0,
+      "adoption": 30,
+      "persistence": 10,
+      "r1_alive": 48,
+      "r2_born": 44,
+      "r2_died": 34,
+      "r3_born": 38,
+      "r3_died": 38,
+      "r3_carried": 20,
+      "r1_to_r3": 0.3125,
+      "r2_to_r3": 0.1590909090909091,
+      "contradictions": 0,
+      "equivalences": 315
+    },
+    {
+      "claim_id": "221",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-221-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 133.0,
+      "shared": 0.10526315789473684,
+      "multi": 0.03007518796992481,
+      "survived": 0.39849624060150374,
+      "redundancy": 0.14193548387096777,
+      "echo": 0.7142857142857143,
+      "source_matched": 0.0,
+      "adoption": 12,
+      "persistence": 3,
+      "r1_alive": 46,
+      "r2_born": 47,
+      "r2_died": 44,
+      "r3_born": 40,
+      "r3_died": 38,
+      "r3_carried": 11,
+      "r1_to_r3": 0.08695652173913043,
+      "r2_to_r3": 0.19148936170212766,
+      "contradictions": 0,
+      "equivalences": 204
+    },
+    {
+      "claim_id": "221",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-221-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 151.0,
+      "shared": 0.12582781456953643,
+      "multi": 0.013245033112582781,
+      "survived": 0.4105960264900662,
+      "redundancy": 0.16574585635359118,
+      "echo": 0.8947368421052632,
+      "source_matched": 0.013245033112582781,
+      "adoption": 17,
+      "persistence": 6,
+      "r1_alive": 57,
+      "r2_born": 48,
+      "r2_died": 49,
+      "r3_born": 46,
+      "r3_died": 45,
+      "r3_carried": 11,
+      "r1_to_r3": 0.12280701754385964,
+      "r2_to_r3": 0.1875,
+      "contradictions": 0,
+      "equivalences": 317
+    },
+    {
+      "claim_id": "221",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-221-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 128.0,
+      "shared": 0.078125,
+      "multi": 0.015625,
+      "survived": 0.4296875,
+      "redundancy": 0.11724137931034484,
+      "echo": 0.8,
+      "source_matched": 0.0078125,
+      "adoption": 12,
+      "persistence": 3,
+      "r1_alive": 33,
+      "r2_born": 48,
+      "r2_died": 30,
+      "r3_born": 47,
+      "r3_died": 43,
+      "r3_carried": 8,
+      "r1_to_r3": 0.030303030303030304,
+      "r2_to_r3": 0.14583333333333334,
+      "contradictions": 0,
+      "equivalences": 225
+    },
+    {
+      "claim_id": "229",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-229-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 114.0,
+      "shared": 0.06140350877192982,
+      "multi": 0.02631578947368421,
+      "survived": 0.3333333333333333,
+      "redundancy": 0.07317073170731703,
+      "echo": 0.5714285714285714,
+      "source_matched": 0.0,
+      "adoption": 4,
+      "persistence": 1,
+      "r1_alive": 21,
+      "r2_born": 61,
+      "r2_died": 21,
+      "r3_born": 32,
+      "r3_died": 56,
+      "r3_carried": 5,
+      "r1_to_r3": 0.047619047619047616,
+      "r2_to_r3": 0.08196721311475409,
+      "contradictions": 0,
+      "equivalences": 139
+    },
+    {
+      "claim_id": "229",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-229-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 8,
+      "expected_output_slots": 9,
+      "n_facts": 74.0,
+      "shared": 0.12162162162162163,
+      "multi": 0.04054054054054054,
+      "survived": 0.43243243243243246,
+      "redundancy": 0.2210526315789474,
+      "echo": 0.6666666666666666,
+      "source_matched": 0.0,
+      "adoption": 9,
+      "persistence": 9,
+      "r1_alive": 20,
+      "r2_born": 28,
+      "r2_died": 15,
+      "r3_born": 26,
+      "r3_died": 27,
+      "r3_carried": 6,
+      "r1_to_r3": 0.1,
+      "r2_to_r3": 0.14285714285714285,
+      "contradictions": 0,
+      "equivalences": 158
+    },
+    {
+      "claim_id": "229",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-229-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 95.0,
+      "shared": 0.042105263157894736,
+      "multi": 0.021052631578947368,
+      "survived": 0.37894736842105264,
+      "redundancy": 0.10377358490566035,
+      "echo": 0.5,
+      "source_matched": 0.010526315789473684,
+      "adoption": 4,
+      "persistence": 1,
+      "r1_alive": 33,
+      "r2_born": 30,
+      "r2_died": 31,
+      "r3_born": 32,
+      "r3_died": 29,
+      "r3_carried": 3,
+      "r1_to_r3": 0.09090909090909091,
+      "r2_to_r3": 0.03333333333333333,
+      "contradictions": 0,
+      "equivalences": 156
+    },
+    {
+      "claim_id": "233",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-233-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 89.0,
+      "shared": 0.16853932584269662,
+      "multi": 0.07865168539325842,
+      "survived": 0.34831460674157305,
+      "redundancy": 0.2764227642276422,
+      "echo": 0.5333333333333333,
+      "source_matched": 0.033707865168539325,
+      "adoption": 14,
+      "persistence": 10,
+      "r1_alive": 30,
+      "r2_born": 37,
+      "r2_died": 21,
+      "r3_born": 22,
+      "r3_died": 37,
+      "r3_carried": 9,
+      "r1_to_r3": 0.16666666666666666,
+      "r2_to_r3": 0.10810810810810811,
+      "contradictions": 0,
+      "equivalences": 287
+    },
+    {
+      "claim_id": "233",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-233-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 102.0,
+      "shared": 0.11764705882352941,
+      "multi": 0.06862745098039216,
+      "survived": 0.35294117647058826,
+      "redundancy": 0.1707317073170732,
+      "echo": 0.4166666666666667,
+      "source_matched": 0.0392156862745098,
+      "adoption": 8,
+      "persistence": 4,
+      "r1_alive": 33,
+      "r2_born": 41,
+      "r2_died": 28,
+      "r3_born": 28,
+      "r3_died": 38,
+      "r3_carried": 8,
+      "r1_to_r3": 0.09090909090909091,
+      "r2_to_r3": 0.12195121951219512,
+      "contradictions": 0,
+      "equivalences": 281
+    },
+    {
+      "claim_id": "233",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-233-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 96.0,
+      "shared": 0.13541666666666666,
+      "multi": 0.052083333333333336,
+      "survived": 0.3333333333333333,
+      "redundancy": 0.1724137931034483,
+      "echo": 0.6153846153846154,
+      "source_matched": 0.020833333333333332,
+      "adoption": 10,
+      "persistence": 3,
+      "r1_alive": 27,
+      "r2_born": 41,
+      "r2_died": 20,
+      "r3_born": 28,
+      "r3_died": 44,
+      "r3_carried": 4,
+      "r1_to_r3": 0.037037037037037035,
+      "r2_to_r3": 0.07317073170731707,
+      "contradictions": 0,
+      "equivalences": 215
+    },
+    {
+      "claim_id": "261",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-261-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 123.0,
+      "shared": 0.15447154471544716,
+      "multi": 0.032520325203252036,
+      "survived": 0.3902439024390244,
+      "redundancy": 0.17449664429530198,
+      "echo": 0.7894736842105263,
+      "source_matched": 0.032520325203252036,
+      "adoption": 15,
+      "persistence": 4,
+      "r1_alive": 41,
+      "r2_born": 45,
+      "r2_died": 34,
+      "r3_born": 37,
+      "r3_died": 44,
+      "r3_carried": 8,
+      "r1_to_r3": 0.0975609756097561,
+      "r2_to_r3": 0.15555555555555556,
+      "contradictions": 0,
+      "equivalences": 225
+    },
+    {
+      "claim_id": "261",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-261-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 77.0,
+      "shared": 0.11688311688311688,
+      "multi": 0.0,
+      "survived": 0.5714285714285714,
+      "redundancy": 0.1630434782608695,
+      "echo": 1.0,
+      "source_matched": 0.05194805194805195,
+      "adoption": 11,
+      "persistence": 1,
+      "r1_alive": 27,
+      "r2_born": 12,
+      "r2_died": 21,
+      "r3_born": 38,
+      "r3_died": 13,
+      "r3_carried": 5,
+      "r1_to_r3": 0.14814814814814814,
+      "r2_to_r3": 0.16666666666666666,
+      "contradictions": 0,
+      "equivalences": 177
+    },
+    {
+      "claim_id": "261",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-261-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 93.0,
+      "shared": 0.07526881720430108,
+      "multi": 0.010752688172043012,
+      "survived": 0.3333333333333333,
+      "redundancy": 0.13084112149532712,
+      "echo": 0.8571428571428571,
+      "source_matched": 0.07526881720430108,
+      "adoption": 5,
+      "persistence": 3,
+      "r1_alive": 37,
+      "r2_born": 32,
+      "r2_died": 33,
+      "r3_born": 24,
+      "r3_died": 33,
+      "r3_carried": 3,
+      "r1_to_r3": 0.16216216216216217,
+      "r2_to_r3": 0.03125,
+      "contradictions": 0,
+      "equivalences": 214
+    },
+    {
+      "claim_id": "434",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-434-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 8,
+      "expected_output_slots": 9,
+      "n_facts": 131.0,
+      "shared": 0.08396946564885496,
+      "multi": 0.030534351145038167,
+      "survived": 0.33587786259541985,
+      "redundancy": 0.07746478873239437,
+      "echo": 0.6363636363636364,
+      "source_matched": 0.0,
+      "adoption": 7,
+      "persistence": 0,
+      "r1_alive": 27,
+      "r2_born": 66,
+      "r2_died": 26,
+      "r3_born": 38,
+      "r3_died": 61,
+      "r3_carried": 6,
+      "r1_to_r3": 0.0,
+      "r2_to_r3": 0.09090909090909091,
+      "contradictions": 0,
+      "equivalences": 117
+    },
+    {
+      "claim_id": "434",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-434-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 8,
+      "expected_output_slots": 9,
+      "n_facts": 134.0,
+      "shared": 0.19402985074626866,
+      "multi": 0.05970149253731343,
+      "survived": 0.44776119402985076,
+      "redundancy": 0.22093023255813948,
+      "echo": 0.6923076923076923,
+      "source_matched": 0.0,
+      "adoption": 25,
+      "persistence": 5,
+      "r1_alive": 36,
+      "r2_born": 55,
+      "r2_died": 28,
+      "r3_born": 43,
+      "r3_died": 46,
+      "r3_carried": 17,
+      "r1_to_r3": 0.0,
+      "r2_to_r3": 0.3090909090909091,
+      "contradictions": 0,
+      "equivalences": 407
+    },
+    {
+      "claim_id": "434",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-434-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 8,
+      "expected_output_slots": 9,
+      "n_facts": 135.0,
+      "shared": 0.1037037037037037,
+      "multi": 0.02962962962962963,
+      "survived": 0.28888888888888886,
+      "redundancy": 0.11184210526315785,
+      "echo": 0.7142857142857143,
+      "source_matched": 0.0,
+      "adoption": 11,
+      "persistence": 2,
+      "r1_alive": 53,
+      "r2_born": 51,
+      "r2_died": 50,
+      "r3_born": 31,
+      "r3_died": 46,
+      "r3_carried": 8,
+      "r1_to_r3": 0.018867924528301886,
+      "r2_to_r3": 0.13725490196078433,
+      "contradictions": 0,
+      "equivalences": 137
+    },
+    {
+      "claim_id": "578",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-578-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 136.0,
+      "shared": 0.09558823529411764,
+      "multi": 0.051470588235294115,
+      "survived": 0.4264705882352941,
+      "redundancy": 0.16564417177914115,
+      "echo": 0.46153846153846156,
+      "source_matched": 0.007352941176470588,
+      "adoption": 7,
+      "persistence": 5,
+      "r1_alive": 45,
+      "r2_born": 41,
+      "r2_died": 40,
+      "r3_born": 50,
+      "r3_died": 40,
+      "r3_carried": 6,
+      "r1_to_r3": 0.08888888888888889,
+      "r2_to_r3": 0.0975609756097561,
+      "contradictions": 0,
+      "equivalences": 249
+    },
+    {
+      "claim_id": "578",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-578-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 120.0,
+      "shared": 0.225,
+      "multi": 0.025,
+      "survived": 0.525,
+      "redundancy": 0.25,
+      "echo": 0.8888888888888888,
+      "source_matched": 0.0,
+      "adoption": 27,
+      "persistence": 7,
+      "r1_alive": 43,
+      "r2_born": 40,
+      "r2_died": 39,
+      "r3_born": 37,
+      "r3_died": 21,
+      "r3_carried": 23,
+      "r1_to_r3": 0.13953488372093023,
+      "r2_to_r3": 0.5,
+      "contradictions": 0,
+      "equivalences": 246
+    },
+    {
+      "claim_id": "578",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-578-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 115.0,
+      "shared": 0.10434782608695652,
+      "multi": 0.043478260869565216,
+      "survived": 0.3391304347826087,
+      "redundancy": 0.18439716312056742,
+      "echo": 0.5833333333333334,
+      "source_matched": 0.0,
+      "adoption": 9,
+      "persistence": 8,
+      "r1_alive": 41,
+      "r2_born": 45,
+      "r2_died": 37,
+      "r3_born": 29,
+      "r3_died": 41,
+      "r3_carried": 8,
+      "r1_to_r3": 0.0975609756097561,
+      "r2_to_r3": 0.13333333333333333,
+      "contradictions": 0,
+      "equivalences": 275
+    },
+    {
+      "claim_id": "697",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-697-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 107.0,
+      "shared": 0.1308411214953271,
+      "multi": 0.04672897196261682,
+      "survived": 0.35514018691588783,
+      "redundancy": 0.14400000000000002,
+      "echo": 0.6428571428571429,
+      "source_matched": 0.009345794392523364,
+      "adoption": 11,
+      "persistence": 0,
+      "r1_alive": 38,
+      "r2_born": 39,
+      "r2_died": 34,
+      "r3_born": 30,
+      "r3_died": 37,
+      "r3_carried": 6,
+      "r1_to_r3": 0.07894736842105263,
+      "r2_to_r3": 0.1282051282051282,
+      "contradictions": 0,
+      "equivalences": 213
+    },
+    {
+      "claim_id": "697",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-697-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 66.0,
+      "shared": 0.07575757575757576,
+      "multi": 0.030303030303030304,
+      "survived": 0.25757575757575757,
+      "redundancy": 0.15384615384615385,
+      "echo": 0.6,
+      "source_matched": 0.0,
+      "adoption": 4,
+      "persistence": 6,
+      "r1_alive": 27,
+      "r2_born": 27,
+      "r2_died": 23,
+      "r3_born": 12,
+      "r3_died": 26,
+      "r3_carried": 5,
+      "r1_to_r3": 0.07407407407407407,
+      "r2_to_r3": 0.1111111111111111,
+      "contradictions": 0,
+      "equivalences": 119
+    },
+    {
+      "claim_id": "697",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-697-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 76.0,
+      "shared": 0.06578947368421052,
+      "multi": 0.039473684210526314,
+      "survived": 0.42105263157894735,
+      "redundancy": 0.1648351648351648,
+      "echo": 0.4,
+      "source_matched": 0.0,
+      "adoption": 3,
+      "persistence": 4,
+      "r1_alive": 30,
+      "r2_born": 21,
+      "r2_died": 29,
+      "r3_born": 25,
+      "r3_died": 17,
+      "r3_carried": 5,
+      "r1_to_r3": 0.1,
+      "r2_to_r3": 0.19047619047619047,
+      "contradictions": 0,
+      "equivalences": 127
+    },
+    {
+      "claim_id": "823",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-823-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 122.0,
+      "shared": 0.14754098360655737,
+      "multi": 0.01639344262295082,
+      "survived": 0.4098360655737705,
+      "redundancy": 0.17006802721088432,
+      "echo": 0.8888888888888888,
+      "source_matched": 0.0,
+      "adoption": 19,
+      "persistence": 3,
+      "r1_alive": 49,
+      "r2_born": 33,
+      "r2_died": 40,
+      "r3_born": 40,
+      "r3_died": 33,
+      "r3_carried": 9,
+      "r1_to_r3": 0.04081632653061224,
+      "r2_to_r3": 0.24242424242424243,
+      "contradictions": 0,
+      "equivalences": 269
+    },
+    {
+      "claim_id": "823",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-823-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 103.0,
+      "shared": 0.1650485436893204,
+      "multi": 0.06796116504854369,
+      "survived": 0.23300970873786409,
+      "redundancy": 0.24817518248175185,
+      "echo": 0.5882352941176471,
+      "source_matched": 0.02912621359223301,
+      "adoption": 14,
+      "persistence": 10,
+      "r1_alive": 48,
+      "r2_born": 41,
+      "r2_died": 40,
+      "r3_born": 14,
+      "r3_died": 39,
+      "r3_carried": 10,
+      "r1_to_r3": 0.08333333333333333,
+      "r2_to_r3": 0.14634146341463414,
+      "contradictions": 0,
+      "equivalences": 230
+    },
+    {
+      "claim_id": "823",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-823-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 8,
+      "expected_output_slots": 9,
+      "n_facts": 107.0,
+      "shared": 0.102803738317757,
+      "multi": 0.018691588785046728,
+      "survived": 0.37383177570093457,
+      "redundancy": 0.1507936507936508,
+      "echo": 0.8181818181818182,
+      "source_matched": 0.0,
+      "adoption": 12,
+      "persistence": 4,
+      "r1_alive": 42,
+      "r2_born": 32,
+      "r2_died": 38,
+      "r3_born": 33,
+      "r3_died": 30,
+      "r3_carried": 6,
+      "r1_to_r3": 0.07142857142857142,
+      "r2_to_r3": 0.125,
+      "contradictions": 0,
+      "equivalences": 169
+    },
+    {
+      "claim_id": "857",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-857-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 8,
+      "expected_output_slots": 9,
+      "n_facts": 123.0,
+      "shared": 0.08130081300813008,
+      "multi": 0.032520325203252036,
+      "survived": 0.42276422764227645,
+      "redundancy": 0.10869565217391308,
+      "echo": 0.6,
+      "source_matched": 0.0,
+      "adoption": 8,
+      "persistence": 3,
+      "r1_alive": 43,
+      "r2_born": 31,
+      "r2_died": 38,
+      "r3_born": 49,
+      "r3_died": 33,
+      "r3_carried": 3,
+      "r1_to_r3": 0.046511627906976744,
+      "r2_to_r3": 0.03225806451612903,
+      "contradictions": 0,
+      "equivalences": 149
+    },
+    {
+      "claim_id": "857",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-857-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 7,
+      "expected_output_slots": 9,
+      "n_facts": 63.0,
+      "shared": 0.12698412698412698,
+      "multi": 0.031746031746031744,
+      "survived": 0.3492063492063492,
+      "redundancy": 0.17105263157894735,
+      "echo": 0.75,
+      "source_matched": 0.0,
+      "adoption": 8,
+      "persistence": 3,
+      "r1_alive": 25,
+      "r2_born": 22,
+      "r2_died": 23,
+      "r3_born": 16,
+      "r3_died": 18,
+      "r3_carried": 6,
+      "r1_to_r3": 0.04,
+      "r2_to_r3": 0.22727272727272727,
+      "contradictions": 0,
+      "equivalences": 88
+    },
+    {
+      "claim_id": "857",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-857-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 8,
+      "expected_output_slots": 9,
+      "n_facts": 137.0,
+      "shared": 0.021897810218978103,
+      "multi": 0.0,
+      "survived": 0.3795620437956204,
+      "redundancy": 0.04861111111111116,
+      "echo": 1.0,
+      "source_matched": 0.0,
+      "adoption": 4,
+      "persistence": 1,
+      "r1_alive": 45,
+      "r2_born": 44,
+      "r2_died": 43,
+      "r3_born": 48,
+      "r3_died": 43,
+      "r3_carried": 3,
+      "r1_to_r3": 0.06666666666666667,
+      "r2_to_r3": 0.022727272727272728,
+      "contradictions": 0,
+      "equivalences": 169
+    },
+    {
+      "claim_id": "902",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-902-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 8,
+      "expected_output_slots": 9,
+      "n_facts": 79.0,
+      "shared": 0.3037974683544304,
+      "multi": 0.0759493670886076,
+      "survived": 0.5569620253164557,
+      "redundancy": 0.4697986577181208,
+      "echo": 0.75,
+      "source_matched": 0.0,
+      "adoption": 32,
+      "persistence": 29,
+      "r1_alive": 23,
+      "r2_born": 34,
+      "r2_died": 13,
+      "r3_born": 22,
+      "r3_died": 23,
+      "r3_carried": 21,
+      "r1_to_r3": 0.43478260869565216,
+      "r2_to_r3": 0.35294117647058826,
+      "contradictions": 0,
+      "equivalences": 223
+    },
+    {
+      "claim_id": "902",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-902-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 108.0,
+      "shared": 0.26851851851851855,
+      "multi": 0.12037037037037036,
+      "survived": 0.4074074074074074,
+      "redundancy": 0.33742331288343563,
+      "echo": 0.5517241379310345,
+      "source_matched": 0.0,
+      "adoption": 21,
+      "persistence": 14,
+      "r1_alive": 47,
+      "r2_born": 35,
+      "r2_died": 35,
+      "r3_born": 26,
+      "r3_died": 31,
+      "r3_carried": 16,
+      "r1_to_r3": 0.1702127659574468,
+      "r2_to_r3": 0.2857142857142857,
+      "contradictions": 0,
+      "equivalences": 227
+    },
+    {
+      "claim_id": "902",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-902-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 130.0,
+      "shared": 0.18461538461538463,
+      "multi": 0.03076923076923077,
+      "survived": 0.4,
+      "redundancy": 0.22155688622754488,
+      "echo": 0.8333333333333334,
+      "source_matched": 0.0,
+      "adoption": 26,
+      "persistence": 4,
+      "r1_alive": 59,
+      "r2_born": 35,
+      "r2_died": 48,
+      "r3_born": 36,
+      "r3_died": 30,
+      "r3_carried": 16,
+      "r1_to_r3": 0.06779661016949153,
+      "r2_to_r3": 0.34285714285714286,
+      "contradictions": 0,
+      "equivalences": 267
+    },
+    {
+      "claim_id": "904",
+      "panel": "lenses",
+      "topology": "full",
+      "path": "perspectrum-904-deepseek-v4-flash-full-lenses.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 148.0,
+      "shared": 0.0945945945945946,
+      "multi": 0.02702702702702703,
+      "survived": 0.3108108108108108,
+      "redundancy": 0.12941176470588234,
+      "echo": 0.7142857142857143,
+      "source_matched": 0.006756756756756757,
+      "adoption": 14,
+      "persistence": 2,
+      "r1_alive": 64,
+      "r2_born": 50,
+      "r2_died": 59,
+      "r3_born": 34,
+      "r3_died": 44,
+      "r3_carried": 11,
+      "r1_to_r3": 0.0625,
+      "r2_to_r3": 0.16,
+      "contradictions": 0,
+      "equivalences": 299
+    },
+    {
+      "claim_id": "904",
+      "panel": "neutral",
+      "topology": "full",
+      "path": "perspectrum-904-deepseek-v4-flash-full-neutral.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 8,
+      "expected_output_slots": 9,
+      "n_facts": 83.0,
+      "shared": 0.1686746987951807,
+      "multi": 0.0963855421686747,
+      "survived": 0.39759036144578314,
+      "redundancy": 0.20192307692307687,
+      "echo": 0.42857142857142855,
+      "source_matched": 0.012048192771084338,
+      "adoption": 9,
+      "persistence": 0,
+      "r1_alive": 33,
+      "r2_born": 24,
+      "r2_died": 27,
+      "r3_born": 26,
+      "r3_died": 23,
+      "r3_carried": 7,
+      "r1_to_r3": 0.12121212121212122,
+      "r2_to_r3": 0.125,
+      "contradictions": 0,
+      "equivalences": 180
+    },
+    {
+      "claim_id": "904",
+      "panel": "stance",
+      "topology": "full",
+      "path": "perspectrum-904-deepseek-v4-flash-full-stance.v2.json",
+      "agents": [
+        "A",
+        "B",
+        "C"
+      ],
+      "factful_output_slots": 9,
+      "expected_output_slots": 9,
+      "n_facts": 121.0,
+      "shared": 0.18181818181818182,
+      "multi": 0.04132231404958678,
+      "survived": 0.34710743801652894,
+      "redundancy": 0.3005780346820809,
+      "echo": 0.7727272727272727,
+      "source_matched": 0.008264462809917356,
+      "adoption": 24,
+      "persistence": 15,
+      "r1_alive": 56,
+      "r2_born": 39,
+      "r2_died": 40,
+      "r3_born": 26,
+      "r3_died": 40,
+      "r3_carried": 15,
+      "r1_to_r3": 0.19642857142857142,
+      "r2_to_r3": 0.1282051282051282,
+      "contradictions": 0,
+      "equivalences": 442
+    }
+  ],
+  "notes": [
+    "Adoption means a fact newly expressed by an agent that appeared in another agent's immediately preceding output.",
+    "Source matching is diagnostic only: these v2 stores have not received a source-grounding audit."
+  ]
+}

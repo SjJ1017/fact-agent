@@ -36,7 +36,13 @@ def test_prefilter_catches_conjunctions_and_set_quantifiers():
 
 def test_prefilter_passes_a_plain_single_claim():
     assert not looks_joined("Handguns are concealable.")
-    assert not looks_joined("E2 reports declines in handgun crime.")
+    assert not looks_joined("The veil creates social pressure.")
+
+
+def test_prefilter_catches_attribution_even_with_nothing_joined():
+    """A wrapper needs stripping whether or not the sentence is also joined."""
+    assert looks_joined("E1 shows handguns are concealable.")
+    assert looks_joined("Panelist B asserts the dossier contains opinions.")
 
 
 def test_prefilter_errs_toward_asking():
@@ -129,3 +135,28 @@ def test_an_empty_extraction_is_not_cached():
         assert extract_facts(llm, "some text") == []
         again = extract_facts(llm, "some text")       # same key: must retry, not replay
         assert [m.text for m in again] == ["A holds."]
+
+
+def test_a_stripped_single_claim_is_not_mistaken_for_no_change():
+    """Unwrapping rewrites a claim in place and still returns one part.
+    Treating one part as 'unchanged' silently discarded every strip."""
+    class Stripper(FakeLLM):
+        def _atomize(self, user, model):
+            import json as _j
+            out = []
+            for item in _j.loads(user):
+                txt = item["text"]
+                out.append({"fact_id": item["fact_id"],
+                            "parts": [txt.split(" shows ", 1)[-1]]})
+            return model.model_validate({"facts": out})
+
+    ms = [_m("m1", "E1 shows handguns are concealable.")]
+    out = atomize(Stripper(), ms)
+    assert [m.text for m in out] == ["handguns are concealable."]
+    assert out[0].provenance.extra["split_from"] == "m1"
+
+
+def test_a_genuinely_untouched_fact_keeps_its_id():
+    ms = [_m("m1", "Bosnia and Herzegovina is a country.")]
+    out = atomize(FakeLLM(keep_whole={"Bosnia and Herzegovina is a country."}), ms)
+    assert out[0].mention_id == "m1"

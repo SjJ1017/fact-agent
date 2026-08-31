@@ -18,13 +18,38 @@ fact is the honest reading, and that is what DIFFERENT says.
 THE RULE IS THAT TRANSITIVITY IS NOT FREE. Union-find over pairwise SAME edges
 will chain: A~B and B~C is taken as A~C, and a few plausible-looking edges at
 the bottom of the similarity range are enough to fuse a whole run into one
-cluster. Measured on six stores, unioning every SAME edge produced clusters of
-up to 111 mentions spanning unrelated claims. Requiring the edge to also carry
-a blocking similarity of at least .90 caps the largest cluster at 8 across all
-six while keeping 18% of mentions merged - the point where the blob disappears
-and further tightening only costs recall. Weaker SAME edges are still recorded
-as relations, because the judgement stands on its own; they simply do not get
-to imply a third pair nobody judged.
+cluster - unioning every SAME edge produced clusters of up to 159 mentions
+spanning unrelated claims. Weaker SAME edges are still recorded as relations,
+because the judgement stands on its own; they simply do not get to imply a
+third pair nobody judged.
+
+The cut is at .85, and how it was chosen matters more than the number. A first
+attempt picked .90 by asking where the blob disappeared. That is a symptom, not
+the question, and it was calibrated on stores from before extraction was fixed,
+where the edges were unreliable because the facts were not atomic. Carried onto
+atomic stores it vetoed 190 of 258 judged-SAME edges - 74% - and drove
+between-agent Jaccard to .03, which is not a finding about debate but about the
+rule.
+
+The question is where the model's SAME judgements stop being right, and that
+needs reading the edges. By eye, over sampled pairs from twelve stores:
+
+    .85-.90   all correct   "E2 is irrelevant to public buildings" /
+                            "E2 does not concern public buildings"
+    .80-.85   mostly right  "the University of Maryland study claimed the ban
+                            prevented 47 deaths" / "a study attributes 47
+                            annual lives saved to the ban"
+    .75-.80   starts to break - and the way it breaks is disqualifying:
+                            "E4 challenges the Middle Way's practicality" /
+                            "E3 questions the Middle Way strategy's
+                            practicality" merges claims attributed to
+                            different sources
+    .70-.75   clearly wrong "the Middle Way is hopeless" / "viability of the
+                            Middle Way is contested"
+
+So .85 keeps the band that is right and stops before the band that confuses one
+evidence item with another, which for a dataset built on tracing which source
+said what is the error that matters.
 
 An earlier fix for the same problem re-checked every member of a large cluster
 against a representative. It cost an LLM call per member - most of a
@@ -49,7 +74,7 @@ from .types import CanonicalFact, Channel, FactMention, FactStore, Relation
 logger = logging.getLogger(__name__)
 
 # Union only above this blocking similarity. See the module docstring.
-UNION_MIN_SIMILARITY = 0.90
+UNION_MIN_SIMILARITY = 0.85
 
 IDENTITY_SYSTEM = """\
 You decide whether two atomic facts state the same thing.

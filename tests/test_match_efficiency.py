@@ -91,9 +91,11 @@ def test_a_strong_edge_merges():
 
 
 def test_a_weak_edge_is_recorded_but_does_not_merge():
-    """The judgement stands for its own pair; it just may not imply a third."""
+    """The judgement stands for its own pair; it just may not imply a third.
+    .75-.80 is where SAME starts merging claims attributed to different sources,
+    which is why the cut sits above it."""
     ms = [_m("m1", "A"), _m("m2", "A too", "B")]
-    facts = cluster(ms, [_eq("m1", "m2", 0.75)])
+    facts = cluster(ms, [_eq("m1", "m2", 0.78)])
     assert len(facts) == 2
 
 
