@@ -47,6 +47,13 @@ percentile bootstrap over the 12 differences. Pairing matters because claims
 differ far more from each other than conditions do. No multiple-comparison
 correction is applied; read a single interval accordingly.
 
+Each contrast reports `p_positive`, the share of bootstrap means above zero.
+Read that, not `excludes_zero`. An interval crossing zero is not evidence of no
+effect, and at n=12 the two can be far apart: +5.90 [-0.74, +11.94] has 96% of
+its bootstrap mass above zero and 8 of 12 claims positive. Calling that "no
+effect" throws away most of what the data says. `excludes_zero` is kept only
+because it is what the 95% interval literally means.
+
     python experiments/analyze_flow_profile.py
     python experiments/analyze_flow_profile.py --topologies full star chain
 """
@@ -235,10 +242,17 @@ def collect(model: str, topologies: tuple[str, ...]) -> dict[tuple[str, str, str
     return out
 
 
-def bootstrap(values: list[float], draws: int = 20_000, seed: int = 0) -> tuple[float, float]:
+def bootstrap(values: list[float], draws: int = 20_000,
+              seed: int = 0) -> tuple[float, float, float]:
+    """Percentile interval plus the share of bootstrap means above zero."""
     rng = random.Random(seed)
-    means = sorted(st.mean(rng.choices(values, k=len(values))) for _ in range(draws))
-    return means[int(0.025 * draws)], means[int(0.975 * draws)]
+    means = [st.mean(rng.choices(values, k=len(values))) for _ in range(draws)]
+    # Ties count as half, so a contrast that is identically zero — `reception`
+    # within one topology, where the wiring cannot vary — lands at 0.5 rather
+    # than at 0.0, which would otherwise read as maximally confident negative.
+    above = (sum(m > 0 for m in means) + 0.5 * sum(m == 0 for m in means)) / draws
+    means.sort()
+    return means[int(0.025 * draws)], means[int(0.975 * draws)], above
 
 
 def contrast(data, keys_a, keys_b, claims) -> dict:
@@ -250,9 +264,10 @@ def contrast(data, keys_a, keys_b, claims) -> dict:
                  if ka(c) in data and kb(c) in data]
         if len(diffs) < 3:
             continue
-        lo, hi = bootstrap(diffs)
+        lo, hi, p_positive = bootstrap(diffs)
         out[metric] = {
             "delta": st.mean(diffs), "lo": lo, "hi": hi,
+            "p_positive": p_positive,
             "positive": sum(1 for d in diffs if d > 0), "n": len(diffs),
             "excludes_zero": lo > 0 or hi < 0,
         }
@@ -336,12 +351,17 @@ def main() -> None:
               f"{pct(c['delivery_use']):>7s}{pct(c['meta_share']):>7s}"
               f"{num(c['balance']):>7s}")
 
-    print("\npaired contrasts whose 95% bootstrap CI excludes zero:")
-    for key, stat in paired.items():
-        if stat["excludes_zero"]:
-            print(f"  {key:44s} {stat['delta']:+9.3f} "
-                  f"[{stat['lo']:+.3f}, {stat['hi']:+.3f}]  "
-                  f"{stat['positive']}/{stat['n']} positive")
+    print("\npaired contrasts, strongest first. p = share of bootstrap means")
+    print("above zero; .96 leans positive as surely as .04 leans negative.")
+    ranked = sorted(paired.items(),
+                    key=lambda kv: -abs(kv[1]["p_positive"] - 0.5))
+    for key, stat in ranked:
+        if abs(stat["p_positive"] - 0.5) < 0.35:      # p in (0.15, 0.85)
+            continue
+        mark = "*" if stat["excludes_zero"] else " "
+        print(f" {mark}{key:46s} {stat['delta']:+9.3f} "
+              f"[{stat['lo']:+.3f}, {stat['hi']:+.3f}]  "
+              f"p={stat['p_positive']:.3f}  {stat['positive']}/{stat['n']}")
     print(f"\nwrote {args.out / 'flow-profile.json'} and flow-profile-per-debate.csv")
 
 

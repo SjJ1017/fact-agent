@@ -107,6 +107,7 @@ figcaption{
 .swatch{width:22px; height:0; border-top-width:2px; border-top-style:solid; display:inline-block;}
 .dotm{width:9px;height:9px;border-radius:50%;display:inline-block;background:currentColor}
 .sqm{width:9px;height:9px;display:inline-block;border:1.6px solid currentColor}
+.trm{width:0;height:0;display:inline-block;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:9px solid currentColor}
 
 /* ---- readings table ---- */
 .tablewrap{overflow-x:auto; margin-top:2.2rem;
@@ -172,35 +173,38 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
 
 <header class="masthead">
   <div class="measure">
-  <p class="kicker"><span>Perspectrum · DeepSeek-V4-Flash</span><span>12 claims × 3 人格 × 2 拓扑 = 72 场辩论</span><span>2026-09-01</span></p>
+  <p class="kicker"><span>Perspectrum · DeepSeek-V4-Flash</span><span>12 claims × 3 人格 × 3 拓扑 = 108 场辩论</span><span>2026-09-01</span></p>
   <h1>事实流剖面</h1>
-  <p class="thesis">人格越强，agent 产出的事实越多，<em>被别人接住的越少</em>。全连接和星型都是如此。</p>
-  <p class="standfirst">而把全连接砍成星型——投递事件从 12 降到 8，少了三分之一的连线——在所有流动指标上都测不出效应。人格这个旋钮拧得动事实流，拓扑这个旋钮在这个规模下拧不动。</p>
+  <p class="thesis">拓扑决定 agent 有多大机会<em>听到</em>别人；人格决定它听到之后<em>接不接</em>。这两件事一直被同一个数字盖着。</p>
+  <p class="standfirst">而"人格越强、产出的事实越多"是写得更长，不是说得更多。按输出 token 归一化后，信息密度在 lenses 见顶，stance 又掉回去——是个倒 U，不是单调上升。</p>
   </div>
 </header>
 
 <section>
   <div class="measure">
     <p class="eyebrow">测什么</p>
-    <h2>只用 agent、轮次、投递、事实定义的三族指标</h2>
-    <p>要做跨拓扑、跨人格的比较，指标就不能依赖任何一种设置特有的东西——不能依赖“中心节点”，不能依赖“谁扮演支持方”。这里的每个量都只从四样东西算出来：有哪些 agent、有哪些轮次、谁的输出被投递给了谁、以及每个 turn 说了哪些原子事实。</p>
+    <h2>只用 agent、轮次、投递、事实定义的指标</h2>
+    <p>要做跨拓扑、跨人格的比较，指标就不能依赖任何一种设置特有的东西——不能依赖"中心节点"，不能依赖"谁扮演支持方"。这里的每个量都只从四样东西算出来：有哪些 agent、有哪些轮次、谁的输出被投递给了谁、以及每个 turn 说了哪些原子事实。</p>
 
-    <h3>一、token 预算的去向</h3>
-    <p>把每个 turn 说出的事实分成三堆，互斥且穷尽：<strong>新事实</strong>（自己没说过、也没在收到的内容里出现过）、<strong>自持</strong>（自己上一轮说过）、<strong>采纳</strong>（首次出现在自己嘴里，但已经在收到的投递中出现过）。<code>采纳占比</code>就是采纳 ÷ 三者之和——一个 agent 的产出里有多大比例是在接别人的话。</p>
+    <h3>三档人格</h3>
+    <p><code>neutral</code> 不给任何角色设定；<code>lenses</code> 给一个分析视角（从什么角度切入），但不要求站边；<code>stance</code> 直接指定立场。三档是递增的"人格强度"。</p>
 
-    <h3>二、流动图的形状</h3>
-    <p>把“事实从 a 流到 b”当作有向加权边。<code>嵌套度</code>是 agent 之间事实集合的平均包含率，衡量他们说的东西有多重叠；<code>事实覆盖</code>是每个事实平均被几个 agent 说出（3 个 agent，上限 3.0）；<code>流量基尼</code>衡量流量是均摊在所有连线上还是挤在一两条上；<code>投递利用率</code>是有多大比例的投递事件真的搬动了至少一个事实。</p>
+    <h3>三种拓扑</h3>
+    <p><code>full</code> 全连接，每场 12 次投递；<code>star</code> 星型，B 和 C 只通过中心 A 交流，8 次投递；<code>chain</code> 链式 A→B→C，<strong>没有回边</strong>，4 次投递。三种都是 3 个 agent、3 轮。</p>
 
-    <h3>三、事实群体本身</h3>
-    <p><code>元陈述占比</code>是被判为中立的事实比例——大多是对辩论本身或对证据 Ex 的评价，而不是对世界的断言。<code>正反平衡</code>是 <span class="num">1 − |n₊ − n₋| / (n₊ + n₋)</span>，1 表示支持与反对的事实数量相当。</p>
+    <h3>为什么必须按 token 归一化</h3>
+    <p>输出长度本身随人格变化：同一批 claim 上，stance 组比 neutral 组多写约 <span class="num">15%</span>（full <span class="num">1348 → 1569</span> token）。原始事实数分不开"说了更多不同的东西"和"写了更多字"，所以计数类指标一律再报每千输出 token 的密度。token 由 bge-base-en-v1.5 重新分词 transcript 得到——不用 token_clock 层，因为那层按"事实首次出现的 turn"记数，抽不出事实的 turn 就不计，分母正好偏在最不该偏的地方。</p>
+
+    <h3>采纳必须拆成两项</h3>
+    <p>chain 是 A→B→C 没有回边，<strong>A 什么都收不到</strong>，9 个 turn 里只有 4 个有输入（full 和 star 是 6 个）。所以 <code>采纳占比</code>一个数在干两件事：<strong>有多大机会听到</strong>，和<strong>听到之后接多少</strong>。前者叫<code>接收率</code>（有输入的 turn / 全部 turn，纯结构量），后者叫<code>条件采纳率</code>（只在有输入的 turn 上算）。拓扑变化时必须看这两个，不能只看乘积。</p>
   </div>
 
   <div class="tablewrap">
     <table>
-      <caption>六个条件的读数，每格是 12 个 claim 的均值。</caption>
+      <caption>九个条件的读数，每格是 12 个 claim 的均值。</caption>
       <thead>
-        <tr><th></th><th class="grp" colspan="3">全连接</th><th class="grp sep" colspan="3">星型</th></tr>
-        <tr><th>指标</th><th>neutral</th><th>lenses</th><th>stance</th><th class="sep">neutral</th><th>lenses</th><th>stance</th></tr>
+        <tr><th></th><th class="grp" colspan="3">full · 12 次投递</th><th class="grp sep" colspan="3">star · 8 次投递</th><th class="grp sep" colspan="3">chain · 4 次投递</th></tr>
+        <tr><th>指标</th><th>neutral</th><th>lenses</th><th>stance</th><th class="sep">neutral</th><th>lenses</th><th>stance</th><th class="sep">neutral</th><th>lenses</th><th>stance</th></tr>
       </thead>
       <tbody>
 <!--__TABLE__-->
@@ -211,76 +215,86 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
 
 <section>
   <div class="measure">
-    <p class="eyebrow">主结果</p>
-    <h2>人格梯度：产得更多，接得更少</h2>
-    <p>从 neutral 到 lenses 到 stance，人格设定越具体，产出的事实越多——全连接下多 <span class="num">21</span> 个，星型下多 <span class="num">20</span> 个。但这些多出来的事实并没有进入共享池：嵌套度、事实覆盖、采纳占比全部单调下降，而且<strong>两种拓扑上是同一个方向、同一个量级</strong>。</p>
-    <p>下降的不止采纳。自持占比同样单调走低（全连接 <span class="num">15.5% → 10.9%</span>，星型 <span class="num">12.7% → 8.2%</span>，两边 CI 都不含零）——人格越强，agent 连自己上一轮说过的事实都更少重提。采纳和自持是产出里仅有的两种“回头”，两个一起塌，意味着 stance 条件下的输出几乎全是新生成。</p>
+    <p class="eyebrow">怎么读下面的区间</p>
+    <h2>跨零不等于没有效应</h2>
+    <p>每个对比都按 claim 配对（同一个 claim、同一个条件对，12 个差值做 20000 次 bootstrap），报三样东西：点估计、95% 百分位区间、以及 <span class="num">p</span>——bootstrap 均值落在零以上的比例。</p>
+    <p><strong>读 p，不要读"区间是否跨零"。</strong>两者在 n=12 时可以差很远：<span class="num">+5.90 [−0.74, +11.94]</span> 的区间跨零，但 <span class="num">96%</span> 的 bootstrap 质量在零以上、12 个 claim 里 8 个为正。把它叫"没有效应"，等于扔掉数据里绝大部分信息。<span class="num">p=0.96</span> 偏正的程度，和 <span class="num">p=0.04</span> 偏负的程度是一样的。</p>
+    <p>下面凡是标 <span style="color:var(--sig)">★</span> 的，是 95% 区间也排除零的那些；没标的仍然按 p 值读。全文没有做多重比较校正。</p>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">拓扑</p>
+    <h2>线路只买到"听到的机会"</h2>
+    <p>把 full 砍成 chain，接收率从 <span class="num">66.7%</span> 掉到 <span class="num">42.6%</span>——<span class="num">−24.1pp</span>，置信区间几乎没有宽度，因为它基本是线路的常数。但同样这一刀，条件采纳率只动了 <span class="num">−5.2pp</span>，小一个数量级。</p>
+    <p>而 star 砍掉 B↔C 之后，接收率<strong>一点没变</strong>（<span class="num">0.0pp</span>，p=0.5）。star 的投递事件从 12 降到 8，但每个 turn 还是照样有人给它送东西——少的是<em>来源的多样性</em>，不是<em>有没有来源</em>。这解释了之前 star 和 full 在几乎所有指标上测不出差别：真正起作用的线路变量是接收率，不是边数。</p>
   </div>
 
   <figure>
     <div class="panel">
       <div class="legend">
-        <span style="color:var(--p3)"><i class="dotm"></i>全连接（每场 12 次投递）</span>
-        <span style="color:var(--p2)"><i class="sqm"></i>星型（每场 8 次投递）</span>
+        <span style="color:var(--muted)">相对 full，同 claim 同人格配对</span>
+        <span style="color:var(--sig)">★ 95% 区间也排除零</span>
+      </div>
+      <div id="fig-decomp"></div>
+    </div>
+    <figcaption>把采纳占比拆成结构项和行为项。接收率上 chain 的三根柱子又长又窄；条件采纳率上所有柱子都短，而 star 的三根几乎压在零线上。</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">人格</p>
+    <h2>密度在中间见顶</h2>
+    <p>原始事实数上，stance 比 neutral 多 <span class="num">21</span> 个（full），区间干净地排除零。但 stance 也多写了 <span class="num">15%</span> 的字。按 token 归一化后，这个差变成 <span class="num">+5.90 [−0.74, +11.94]</span>，<span class="num">p=0.96</span>——仍然偏正，但效应被砍掉大半。</p>
+    <p>真正大的那一档是 <code>lenses</code>：事实密度 <span class="num">+15.97 [+6.95, +23.95]</span>，<span class="num">p=0.999</span>，12 个 claim 里 11 个为正。而从 lenses 再走到 stance 是往回掉：<span class="num">−10.06 [−16.62, −2.45]</span>，<span class="num">p=0.006</span>。full 的事实密度走势是 <span class="num">53.7 → 69.7 → 59.6</span>，chain 是 <span class="num">55.6 → 63.1 → 52.9</span>。</p>
+    <p>给一个<em>视角</em>，agent 看到不同的东西；再给一个<em>立场</em>，它把同样的东西说得更用力。后者花掉的是 token，不是信息。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--p3)"><i class="dotm"></i>full</span>
+        <span style="color:var(--p2)"><i class="sqm"></i>star</span>
+        <span style="color:var(--p1)"><i class="trm"></i>chain</span>
         <span style="color:var(--muted)">横轴：neutral → lenses → stance</span>
       </div>
       <div id="fig-gradient"></div>
     </div>
-    <figcaption>四个指标在人格梯度上的走向。实心圆＝全连接，空心方＝星型。事实数上升，其余三个下降；两条线在每个指标上几乎平行。</figcaption>
+    <figcaption>四个指标在人格梯度上的走向。事实密度是倒 U；采纳的三个口径一路向下；嵌套度单调下降。</figcaption>
   </figure>
 
   <div class="measure">
-    <p style="margin-top:2.4rem">均值可能被少数几场辩论带偏，所以下面按 claim 配对：同一个 claim、同一个拓扑，stance 减 neutral，再对 12 个差值做 bootstrap 置信区间。这样每个 claim 自己当自己的对照，主题难度的差异被消掉了。</p>
+    <p style="margin-top:2.4rem">采纳则是一路向下，而且归一化后依然成立：采纳密度 stance−neutral 在 full 是 <span class="num">−2.65 [−4.98, −0.21]</span>（p=0.017），star 是 <span class="num">−3.04 [−5.71, −0.51]</span>（p=0.008）。条件采纳率同样：full <span class="num">−4.7pp</span>（p=0.008），star <span class="num">−4.6pp</span>（p=0.04）。嵌套度和事实覆盖是比率，本来就不受长度影响，三个拓扑上都单调下降。</p>
   </div>
-
-  <figure>
-    <div class="panel">
-      <div class="legend">
-        <span style="color:var(--sig)"><i class="dotm"></i>置信区间不含零</span>
-        <span style="color:var(--muted)"><i class="dotm"></i>含零</span>
-        <span style="color:var(--muted)">95% bootstrap CI，n=12 claim，20000 次重采样</span>
-      </div>
-      <div id="fig-paired"></div>
-    </div>
-    <figcaption>stance 减 neutral 的配对差值。事实数、新事实、自持占比、嵌套度、事实覆盖在两个拓扑上都不含零；采纳占比在全连接上不含零，星型上上界落在 <span class="num">+0.001</span>——同样的负向效应，只是差一点。</figcaption>
-  </figure>
 
   <div class="callout">
-    <span class="lbl">读法</span>
-    <p>嵌套度在全连接下 12 个 claim 里只有 2 个上升，星型下只有 1 个。这不是均值被拉动，是几乎每一场辩论都朝同一个方向走。</p>
+    <span class="lbl">合起来</span>
+    <p>lenses 提高了系统<strong>产生</strong>差异的能力；stance 没有再提高它，却继续降低系统<strong>吸收</strong>差异的能力。瓶颈不在生成，在整合——而且加强人格越过某一点之后，两头都在变差。</p>
   </div>
 </section>
 
 <section>
   <div class="measure">
-    <p class="eyebrow">阴性结果</p>
-    <h2>拓扑什么都没动</h2>
-    <p>星型把 B 和 C 之间的连线拿掉了：每场辩论的投递事件从 12 降到 8。按直觉这应该显著削弱事实的传播。但把同一个 claim、同一个人格下的星型减全连接，<strong>24 个对比里有 23 个的置信区间跨过零</strong>。唯一的例外是 stance 下的自持占比（<span class="num">−0.027</span>，<span class="num">[−0.053, −0.002]</span>）——在一次没有做多重比较校正的 24 次比较里，这正是最不该单独相信的那种区间。</p>
+    <p class="eyebrow">交互</p>
+    <h2>人格效应要靠接触才表达得出来</h2>
+    <p>同一个 stance−neutral 的对比，在三个拓扑上的量级差很多：</p>
   </div>
 
   <figure>
     <div class="panel">
       <div class="legend">
-        <span style="color:var(--muted)">星型 − 全连接，按 claim 配对，每个人格分别算</span>
+        <span style="color:var(--muted)">stance − neutral，三个拓扑并排；为让量纲不同的指标可比，横轴是差值 ÷ 该指标在全部 108 场中的标准差</span>
       </div>
-      <div id="fig-topo"></div>
+      <div id="fig-interaction"></div>
     </div>
-    <figcaption>全部拓扑对比。为了让量纲不同的指标能并排看，横轴是差值除以该指标在全部 72 场中的标准差。除 stance 一列的自持占比刚刚够到零线左边，其余全部跨过零。</figcaption>
+    <figcaption>chain 一列几乎处处更靠近零。它的 agent 本来就很少接触，人格给不给差别不大。</figcaption>
   </figure>
 
   <div class="measure">
-    <p style="margin-top:2.4rem">这有两种读法，现在的数据分不开。一是<strong>拓扑真的不重要</strong>：3 个 agent、投递从 12 减到 8，还不足以让信息传播受限——每个 agent 仍然直接看到中心节点，间接内容照样能两跳传到。二是<strong>拓扑效应被人格效应的方差淹没了</strong>：人格的效应量在 <span class="num">0.5–1.0</span> 个标准差量级，拓扑若只有 <span class="num">0.2</span>，12 个 claim 检不出来。要分开需要更极端的拓扑（chain 正在跑）或更多 claim。</p>
-  </div>
-</section>
-
-<section>
-  <div class="measure">
-    <p class="eyebrow">解释</p>
-    <h2>整合容量，而不是多样性不足</h2>
-    <p>常见的多 agent 设计假设是：给 agent 不同的人格/视角，能拓宽搜索、覆盖更多角度。这批数据的前半段支持这个假设——人格确实带来更多事实。后半段不支持：多出来的事实<strong>留在了产生它的那个 agent 身上</strong>。事实覆盖从 <span class="num">1.33</span> 掉到 <span class="num">1.17</span>，意味着在最强人格下，一个事实平均只被 1.2 个 agent 说过——大多数事实从头到尾只有一个人提。</p>
-    <p>把这两半合起来，瓶颈不在<strong>生成</strong>多样性，而在<strong>整合</strong>多样性。系统能产出的差异，超过了它能吸收的差异。加强人格拓宽了输入端，同时收窄了吸收端——因为一个有立场的 agent 更倾向于说自己的话，而不是接对方的话。</p>
-    <p>自持占比同时下降是同一件事的另一面。一个 agent 不重提自己上一轮的事实，也不接别人的事实，就意味着每一轮都在开新话题——辩论在横向铺开，而不是在纵向收敛。这样的轨迹里没有可供收敛的公共基底。</p>
-    <p>这也解释了流量基尼为什么在 stance 下最高（全连接 <span class="num">0.400</span>、星型 <span class="num">0.413</span>）：少数几条连线承担了绝大部分实际搬动的事实，其余连线名义上通着，实际是空转。投递利用率同时下降，说明这不是流量重新分配，是流量整体变稀。</p>
+    <p style="margin-top:2.4rem">事实数 full <span class="num">+21.0</span> / star <span class="num">+20.1</span> / chain <span class="num">+6.8</span>；自持占比 <span class="num">−4.5 / −4.5 / −0.7</span>；条件采纳率 <span class="num">−4.7 / −4.6 / −1.2</span>。只有嵌套度和事实覆盖在 chain 上还留着（<span class="num">−0.04</span>、<span class="num">−0.06</span>，约为 full 的三分之一到一半）。</p>
+    <p>读法是：<strong>人格效应是通过互相接触表达出来的</strong>。在 chain 里，agent 大部分时间对着自己说话，人格设定改变的只是它自己的措辞，改变不了群体的事实分布。这也给了整合容量假设一个可证伪的推论——如果瓶颈真在吸收，那么减少接触应该同时削弱人格带来的好处和坏处，而不是只削弱一头。目前看是两头一起弱。</p>
   </div>
 </section>
 
@@ -289,22 +303,23 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
     <p class="eyebrow">边界</p>
     <h2>这批数据不能说什么</h2>
     <ul class="limits">
-      <li><b>只有 DeepSeek-V4-Flash。</b>GLM 的那批只跑了全连接，没有星型对照，所以完全没有进入这个分析。模型间是否复现未知。</li>
-      <li><b>星型有 14 个空 turn</b>（占 4.3%，全连接只有 0.9%）。这些 turn 有实质内容（93–128 词）但抽取返回零个事实。人格分布均匀，位置上外围 10 : 中心 4，大致按人数比例，所以不系统偏向某个条件——但它会同时压低星型的事实数和采纳数，是拓扑阴性结果的一个待排除解释。</li>
-      <li><b>立场标注未经人工验证。</b>而且已知约一半有立场的事实是<em>证据层</em>的（“E3 支持禁令”），不是<em>世界层</em>的（“面纱是宗教义务”）。正反平衡这一行因此是混合口径，只能横向比条件，不能当作辩论立场分布的绝对读数。</li>
-      <li><b>事实匹配的人工核对准确率是 80%。</b>剩下 20% 的错误会同时影响采纳、嵌套、覆盖——但没有理由认为错误率随条件变化，所以条件间的<em>差</em>比每格的<em>绝对值</em>可信。</li>
-      <li><b>没做多重比较校正。</b>这里报的是配对 bootstrap 置信区间，不是校正后的显著性。跨 7 个指标 × 6 组对比看，偶然出现一两条不含零是正常的。人格梯度可信是因为它<em>同时</em>在两个独立拓扑上、在四个相关指标上、以 10/12 到 11/12 的一致方向出现，不是因为某一条 CI。</li>
-      <li><b>“采纳”只判事实同一性，不判态度。</b>一个 agent 复述对方的事实来反驳它，和复述来同意它，在这里计为同一件事。这是有意的——先量流动，再谈方向——但意味着采纳占比不能直接读成“达成共识”。</li>
-      <li><b>chain 拓扑还在抽取中。</b>补上之后会有第三个拓扑点，也是三个里连线最少的，对上面“拓扑真的不重要”这个读法是最直接的检验。</li>
+      <li><b>chain 的立场标注还没跑完。</b>表里 chain 的元陈述占比和正反平衡是空的，跑完会补上。其余 chain 指标都是完整的 12 个 claim。</li>
+      <li><b>只有 DeepSeek-V4-Flash。</b>GLM 那批只跑了全连接，没有 star/chain 对照，完全没有进入这个分析。模型间是否复现未知。</li>
+      <li><b>抽取会漏 turn。</b>star 有 14 个 turn（4.3%，full 只有 0.9%）有实质内容但抽取返回零个事实，chain 更多。这会同时压低接收率和事实数——star 在 lenses 那一格接收率是 63.0% 而非 66.7%，就是这个原因。</li>
+      <li><b>立场标注未经人工验证</b>，且约一半有立场的事实是<em>证据层</em>的（"E3 支持禁令"）而非<em>世界层</em>的。正反平衡是混合口径，只能横向比条件。</li>
+      <li><b>事实匹配的人工核对准确率是 80%。</b>没有理由认为错误率随条件变化，所以条件间的<em>差</em>比每格的<em>绝对值</em>可信。</li>
+      <li><b>没做多重比较校正。</b>这里报的是配对 bootstrap 的点估计、区间和 p。跨十几个指标 × 九组对比看，偶然出现极端 p 是正常的。可信的是那些<em>同时</em>在多个拓扑、多个相关指标上一致出现的模式。</li>
+      <li><b>"采纳"只判事实同一性，不判态度。</b>复述对方的事实来反驳它，和复述来同意它，计为同一件事。</li>
+      <li><b>拓扑只变了连接方式，没变 agent 数和轮数。</b>接收率的三个取值 66.7% / 66.7% / 42.6% 来自三种固定接线，不是连续变量——"接收率是起作用的变量"这个说法还需要一个能连续调接收率的设计来检验。</li>
     </ul>
   </div>
 </section>
 
 <div class="prov measure">
-  <div><b>store</b> experiments/perspectrum_pilot_full/*.v2.json（全连接）· experiments/perspectrum_pilot_star_chain/*.v2.json（星型）</div>
-  <div><b>立场标注</b> experiments/labels/stance/*.json （105 个，batch 24 / max_tokens 16000 / truth 口径）</div>
-  <div><b>pipeline</b> 抽取 minimax-m2.5 → 原子化剥离归属外壳 → bge-base-en-v1.5 @0.70 top_k 12 → 二值 SAME/DIFF batch 16 → union ≥ 0.85</div>
-  <div><b>本页数据</b> findings/data/flow-profile.json（<code>python experiments/analyze_flow_profile.py</code> 重算）</div>
+  <div><b>store</b> experiments/perspectrum_pilot_full/*.v2.json（full）· experiments/perspectrum_pilot_star_chain/*.v2.json（star、chain）</div>
+  <div><b>标注层</b> experiments/labels/stance/ · experiments/labels/token_clock/</div>
+  <div><b>pipeline</b> 抽取 minimax-m2.5 → 原子化剥离归属外壳 → bge-base-en-v1.5 @0.70 top_k 12 → 二值 SAME/DIFF batch 16 → union ≥ 0.85 → 立场 deepseek-v4-flash batch 24 truth 口径</div>
+  <div><b>本页数据</b> findings/data/flow-profile.json ·<code>python experiments/analyze_flow_profile.py --topologies full star chain</code></div>
   <div><b>本页</b> <code>python experiments/report/build_flow_profile.py</code> · 说明见 findings/2026-09-01-flow-profile.md</div>
 </div>
 
@@ -313,211 +328,179 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
 <script>
 const D = /*__DATA__*/null;
 const PANELS = ["neutral","lenses","stance"];
-const RAMP = ["var(--p1)","var(--p2)","var(--p3)"];
+const TOPOS  = D.topologies;
+const TCOL   = {full:"var(--p3)", star:"var(--p2)", chain:"var(--p1)"};
 const NS = "http://www.w3.org/2000/svg";
+const MONO = '"IBM Plex Mono",monospace';
+const SANS = '"IBM Plex Sans","Noto Sans SC",sans-serif';
 
-function el(t, a){const n=document.createElementNS(NS,t);
-  for(const k in a) n.setAttribute(k, a[k]); return n;}
-function txt(x,y,s,a){const t=el("text",Object.assign({x:x,y:y},a||{}));
-  t.textContent=s; return t;}
+function el(t,a){const n=document.createElementNS(NS,t); for(const k in a) n.setAttribute(k,a[k]); return n;}
+function txt(x,y,s,a){const t=el("text",Object.assign({x:x,y:y},a||{})); t.textContent=s; return t;}
+function marker(g,topo,x,y,col){
+  if(topo==="full") g.appendChild(el("circle",{cx:x,cy:y,r:4.6,fill:col}));
+  else if(topo==="star") g.appendChild(el("rect",{x:x-4.2,y:y-4.2,width:8.4,height:8.4,
+    fill:"var(--surface)",stroke:col,"stroke-width":2}));
+  else g.appendChild(el("path",{d:`M${x},${y-5.2}L${x+4.8},${y+3.4}L${x-4.8},${y+3.4}Z`,
+    fill:"var(--surface)",stroke:col,"stroke-width":1.8,"stroke-linejoin":"round"}));
+}
+function dash(topo){return topo==="full"?"none":(topo==="star"?"5 4":"2 3");}
+// how far from 0.5 the bootstrap mass sits; drives emphasis, not a threshold
+function lean(p){return Math.min(1, Math.abs(p-0.5)/0.45);}
 
-/* ---------- figure 1: persona gradient, 4 small multiples ---------- */
+/* ---------- figure: reception vs conditional uptake, relative to full ---------- */
+function decomp(){
+  const cols=[{m:"reception",label:"接收率",note:"结构项 · 线路直接决定"},
+              {m:"adopted_share_recv",label:"条件采纳率",note:"行为项 · 只在有输入的 turn 上算"}];
+  const rows=[];
+  PANELS.forEach(p=>TOPOS.filter(t=>t!=="full").forEach(t=>rows.push({p:p,t:t})));
+  const W=1000, rowH=40, top=64, bot=42, labW=124, GUT=48, RPAD=126;
+  const H=top+rows.length*rowH+bot, colW=(W-labW-GUT-RPAD*2)/2;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"接收率与条件采纳率相对 full 的配对差值，star 与 chain 分别列出"});
+
+  cols.forEach((c,ci)=>{
+    const cx0=labW+ci*(colW+RPAD+GUT);
+    svg.appendChild(txt(cx0+colW/2,22,c.label,{fill:"var(--ink)","font-size":"14",
+      "text-anchor":"middle","font-weight":"600","font-family":SANS}));
+    svg.appendChild(txt(cx0+colW/2,40,c.note,{fill:"var(--faint)","font-size":"10.5",
+      "text-anchor":"middle","font-family":SANS}));
+    let span=0;
+    rows.forEach(r=>{const v=D.paired[`topology|${r.p}|${r.t}-full|${c.m}`];
+      if(v) span=Math.max(span,Math.abs(v.lo),Math.abs(v.hi));});
+    span=(span||0.01)*1.15;
+    const sx=q=>cx0+colW/2+(q/span)*(colW/2);
+    svg.appendChild(el("line",{x1:cx0+colW/2,y1:top-10,x2:cx0+colW/2,y2:H-bot+4,
+      stroke:"var(--rule)","stroke-width":1}));
+
+    rows.forEach((r,ri)=>{
+      const v=D.paired[`topology|${r.p}|${r.t}-full|${c.m}`]; if(!v) return;
+      const y=top+ri*rowH+rowH/2, col=TCOL[r.t], em=lean(v.p_positive);
+      svg.appendChild(el("line",{x1:sx(v.lo),y1:y,x2:sx(v.hi),y2:y,stroke:col,
+        "stroke-width":2,opacity:0.28+0.5*em,"stroke-linecap":"round"}));
+      [v.lo,v.hi].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-4,x2:sx(q),y2:y+4,
+        stroke:col,"stroke-width":2,opacity:0.28+0.5*em})));
+      marker(svg,r.t,sx(v.delta),y,col);
+      const star=v.excludes_zero?"★ ":"";
+      svg.appendChild(txt(cx0+colW+14,y+4,
+        `${star}${(v.delta*100>=0?"+":"")}${(v.delta*100).toFixed(1)}pp  p=${v.p_positive.toFixed(3)}`,
+        {fill:v.excludes_zero?"var(--sig)":"var(--muted)","font-size":"10.5","font-family":MONO}));
+      if(ci===0){
+        svg.appendChild(txt(labW-16,y+4,`${r.t} · ${r.p}`,
+          {fill:"var(--ink)","font-size":"11.5","text-anchor":"end","font-family":MONO}));
+        if(ri<rows.length-1 && (ri+1)%2===0)
+          svg.appendChild(el("line",{x1:20,y1:y+rowH/2,x2:W-20,y2:y+rowH/2,
+            stroke:"var(--rule-soft)","stroke-width":1}));
+      }
+    });
+    svg.appendChild(txt(cx0+colW/2,H-14,"← 比 full 少        0        比 full 多 →",
+      {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle","font-family":MONO}));
+  });
+  return svg;
+}
+
+/* ---------- figure: persona gradient, 4 small multiples × 3 topologies ---------- */
 function gradient(){
-  const metrics = [
-    {k:"n_facts", label:"事实数",   fmt:v=>v.toFixed(0)},
-    {k:"adopted_share",  label:"采纳占比", fmt:v=>(v*100).toFixed(1)+"%"},
-    {k:"nestedness",   label:"嵌套度",   fmt:v=>v.toFixed(2)},
-    {k:"reach",  label:"事实覆盖", fmt:v=>v.toFixed(2)}
+  const metrics=[
+    {k:"facts_per_k",        label:"事实密度 / 千 token", fmt:v=>v.toFixed(1)},
+    {k:"adopted_per_k",      label:"采纳密度 / 千 token", fmt:v=>v.toFixed(1)},
+    {k:"adopted_share_recv", label:"条件采纳率",          fmt:v=>(v*100).toFixed(1)+"%"},
+    {k:"nestedness",         label:"嵌套度",              fmt:v=>v.toFixed(2)}
   ];
-  const W=1000, cw=W/4, H=300, top=52, bot=66, padx=34;
-  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img",
-    "aria-label":"四个指标在 neutral、lenses、stance 三种人格设定下的走向，全连接与星型各一条线"});
-
+  const W=1000, cw=W/4, H=320, top=54, bot=70, padx=36;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"四个指标在 neutral、lenses、stance 上的走向，三个拓扑各一条线"});
   metrics.forEach((m,mi)=>{
-    const x0 = mi*cw;
-    const vals=[];
-    ["full","star"].forEach(t=>PANELS.forEach(p=>vals.push(D.cells[t+"/"+p][m.k])));
+    const x0=mi*cw, vals=[];
+    TOPOS.forEach(t=>PANELS.forEach(p=>{const c=D.cells[t+"/"+p]; if(c) vals.push(c[m.k]);}));
     let lo=Math.min(...vals), hi=Math.max(...vals);
-    const pad=(hi-lo)*0.42 || 1; lo-=pad; hi+=pad;
-    const px = i => x0+padx + i*((cw-2*padx)/2);
-    const py = v => H-bot - (v-lo)/(hi-lo)*(H-top-bot);
-
-    const g = el("g",{});
+    const pad=(hi-lo)*0.40||1; lo-=pad; hi+=pad;
+    const px=i=>x0+padx+i*((cw-2*padx)/2), py=v=>H-bot-(v-lo)/(hi-lo)*(H-top-bot);
+    const g=el("g",{});
     g.appendChild(el("line",{x1:x0+padx-18,y1:H-bot+.5,x2:x0+cw-padx+18,y2:H-bot+.5,
       stroke:"var(--rule)","stroke-width":1}));
-    if(mi>0) g.appendChild(el("line",{x1:x0,y1:top-34,x2:x0,y2:H-bot+34,
+    if(mi>0) g.appendChild(el("line",{x1:x0,y1:top-34,x2:x0,y2:H-bot+38,
       stroke:"var(--rule-soft)","stroke-width":1}));
-
-    g.appendChild(txt(x0+padx-18, top-26, m.label, {fill:"var(--ink)",
-      "font-size":"14.5",
-      "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif',"font-weight":"600"}));
-
-    ["full","star"].forEach(t=>{
-      const pts = PANELS.map((p,i)=>[px(i), py(D.cells[t+"/"+p][m.k])]);
-      const col = t==="full" ? "var(--p3)" : "var(--p2)";
-      g.appendChild(el("path",{d:"M"+pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join("L"),
-        fill:"none", stroke:col, "stroke-width": t==="full"?2.2:1.6,
-        "stroke-dasharray": t==="full"?"none":"5 4",
-        "stroke-linejoin":"round","stroke-linecap":"round"}));
-      pts.forEach((pt,i)=>{
-        if(t==="full") g.appendChild(el("circle",{cx:pt[0],cy:pt[1],r:4.6,fill:col}));
-        else g.appendChild(el("rect",{x:pt[0]-4.2,y:pt[1]-4.2,width:8.4,height:8.4,
-          fill:"var(--surface)", stroke:col, "stroke-width":2}));
-        const v=D.cells[t+"/"+PANELS[i]][m.k];
-        g.appendChild(txt(pt[0], pt[1] + (t==="full"?-12:20), m.fmt(v),
-          {fill:t==="full"?"var(--ink)":"var(--muted)","font-size":"10.5",
-           "text-anchor":"middle","font-family":'"IBM Plex Mono",monospace'}));
+    g.appendChild(txt(x0+padx-18,top-26,m.label,{fill:"var(--ink)","font-size":"13.5",
+      "font-family":SANS,"font-weight":"600"}));
+    TOPOS.forEach(t=>{
+      const pts=PANELS.map((p,i)=>{const c=D.cells[t+"/"+p]; return c?[px(i),py(c[m.k])]:null;})
+                      .filter(Boolean);
+      if(pts.length<2) return;
+      const col=TCOL[t];
+      g.appendChild(el("path",{d:"M"+pts.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join("L"),
+        fill:"none",stroke:col,"stroke-width":t==="full"?2.2:1.7,
+        "stroke-dasharray":dash(t),"stroke-linejoin":"round","stroke-linecap":"round"}));
+      pts.forEach((q,i)=>{
+        marker(g,t,q[0],q[1],col);
+        if(t==="full") g.appendChild(txt(q[0],q[1]-12,m.fmt(D.cells[t+"/"+PANELS[i]][m.k]),
+          {fill:"var(--ink)","font-size":"10","text-anchor":"middle","font-family":MONO}));
       });
     });
-
-    PANELS.forEach((p,i)=>{
-      g.appendChild(txt(px(i), H-bot+24, p, {fill:RAMP[i],"font-size":"11",
-        "text-anchor":"middle","font-family":'"IBM Plex Mono",monospace',
-        "letter-spacing":".04em","font-weight":i===2?"600":"400"}));
-    });
+    PANELS.forEach((p,i)=>g.appendChild(txt(px(i),H-bot+24,p,
+      {fill:"var(--muted)","font-size":"11","text-anchor":"middle","font-family":MONO,
+       "letter-spacing":".04em"})));
     svg.appendChild(g);
   });
   return svg;
 }
 
-/* ---------- figure 2: paired stance − neutral ---------- */
-function paired(){
+/* ---------- figure: persona effect attenuates with wiring ---------- */
+function interaction(){
   const metrics=[
-    {k:"n_facts", label:"事实数",    unit:"个"},
-    {k:"novel",  label:"新事实",    unit:"个"},
-    {k:"adopted_share",  label:"采纳占比",  unit:"pp", mul:100},
-    {k:"held_share", label:"自持占比",  unit:"pp", mul:100},
-    {k:"nestedness",   label:"嵌套度",    unit:"",   mul:1},
-    {k:"reach",  label:"事实覆盖",  unit:"",   mul:1},
-    {k:"flow_gini",   label:"流量基尼",  unit:"",   mul:1},
-    {k:"delivery_use",   label:"投递利用率",unit:"pp", mul:100}
+    {k:"facts_per_k",label:"事实密度"},{k:"novel_per_k",label:"新事实密度"},
+    {k:"adopted_per_k",label:"采纳密度"},{k:"adopted_share_recv",label:"条件采纳率"},
+    {k:"held_share",label:"自持占比"},{k:"nestedness",label:"嵌套度"},
+    {k:"reach",label:"事实覆盖"}
   ];
-  const W=1000, rowH=48, top=44, bot=36;
-  const H = top + metrics.length*rowH + bot;
-  const labW=112, GUT=58, RPAD=86;
-  // per-metric standard deviation across all 72 debates, for a shared x scale per row
-  Object.values(D.per_debate).forEach(()=>{});
-  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img",
-    "aria-label":"stance 减 neutral 的配对差值与置信区间，全连接与星型分列"});
-
-  const colW=(W-labW-GUT-RPAD*2)/2;
-  ["full","star"].forEach((t,ti)=>{
-    const cx0 = labW + ti*(colW+RPAD+GUT);
-    svg.appendChild(txt(cx0+colW/2, 20, ti===0?"全连接":"星型",
-      {fill:"var(--ink)","font-size":"13","text-anchor":"middle","font-weight":"600",
-       "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
-
-    metrics.forEach((m,mi)=>{
-      const key=`${t}|stance-neutral|${m.k}`, v=D.paired[key];
-      if(!v) return;
-      const y = top + mi*rowH + rowH/2;
-      // scale: symmetric around 0, from the wider of the two panels
-      let span=0;
-      ["full","star"].forEach(tt=>{const w=D.paired[`${tt}|stance-neutral|${m.k}`];
-        if(w) span=Math.max(span, Math.abs(w.lo), Math.abs(w.hi));});
-      span*=1.18;
-      const sx = q => cx0 + colW/2 + (q/span)*(colW/2);
-      const col = v.excludes_zero ? "var(--sig)" : "var(--muted)";
-
-      svg.appendChild(el("line",{x1:cx0+colW/2,y1:y-16,x2:cx0+colW/2,y2:y+16,
-        stroke:"var(--rule)","stroke-width":1}));
-      svg.appendChild(el("line",{x1:sx(v.lo),y1:y,x2:sx(v.hi),y2:y,
-        stroke:col,"stroke-width":2,opacity:v.excludes_zero?.85:.45,"stroke-linecap":"round"}));
-      [v.lo,v.hi].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-4,x2:sx(q),y2:y+4,
-        stroke:col,"stroke-width":2,opacity:v.excludes_zero?.85:.45})));
-      svg.appendChild(el("circle",{cx:sx(v.delta),cy:y,r:4.5,fill:col}));
-
-      const mul=m.mul||1;
-      const s=(v.delta*mul>=0?"+":"")+(v.delta*mul).toFixed(Math.abs(v.delta*mul)>=10?1:2)+
-              (m.unit?" "+m.unit:"");
-      svg.appendChild(txt(cx0+colW+14, y+4, s,
-        {fill:v.excludes_zero?"var(--sig)":"var(--faint)","font-size":"11",
-         "font-family":'"IBM Plex Mono",monospace'}));
-      svg.appendChild(txt(cx0+colW/2, y+21, `${v.positive}/${v.n} 为正`,
-        {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle",
-         "font-family":'"IBM Plex Mono",monospace'}));
-
-      if(ti===0){
-        svg.appendChild(txt(labW-16, y+4, m.label,
-          {fill:"var(--ink)","font-size":"12.5","text-anchor":"end",
-           "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
-      }
-      if(mi<metrics.length-1 && ti===0){
-        svg.appendChild(el("line",{x1:20,y1:y+rowH/2,x2:W-20,y2:y+rowH/2,
-          stroke:"var(--rule-soft)","stroke-width":1}));
-      }
-    });
-  });
-  svg.appendChild(txt(W/2, H-10, "← stance 更低    0    stance 更高 →",
-    {fill:"var(--faint)","font-size":"10","text-anchor":"middle",
-     "font-family":'"IBM Plex Mono",monospace',"letter-spacing":".05em"}));
-  return svg;
-}
-
-/* ---------- figure 3: topology contrasts, standardised ---------- */
-function topo(){
-  const metrics=[
-    {k:"n_facts",label:"事实数"},{k:"novel",label:"新事实"},
-    {k:"adopted_share",label:"采纳占比"},{k:"held_share",label:"自持占比"},
-    {k:"nestedness",label:"嵌套度"},
-    {k:"reach",label:"事实覆盖"},{k:"flow_gini",label:"流量基尼"},
-    {k:"delivery_use",label:"投递利用率"}
-  ];
-  // pooled SD per metric across all 72 debates
   const sd={};
   metrics.forEach(m=>{
-    const v=Object.values(D.per_debate).map(r=>r[m.k]);
+    const v=Object.values(D.per_debate).map(r=>r[m.k]).filter(x=>typeof x==="number");
     const mu=v.reduce((a,b)=>a+b,0)/v.length;
-    sd[m.k]=Math.sqrt(v.reduce((a,b)=>a+(b-mu)*(b-mu),0)/(v.length-1));
+    sd[m.k]=Math.sqrt(v.reduce((a,b)=>a+(b-mu)*(b-mu),0)/(v.length-1))||1;
   });
-  const W=1000, rowH=40, top=44, bot=30, labW=120;
-  const H=top+metrics.length*rowH+bot;
-  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img",
-    "aria-label":"星型减全连接的标准化配对差值，每个人格一列，全部跨过零"});
-  const colW=(W-labW-70)/3;
+  const W=1000, rowH=42, top=48, bot=34, labW=124;
+  const H=top+metrics.length*rowH+bot, colW=(W-labW-80)/TOPOS.length;
   let SPAN=0;
-  PANELS.forEach(p=>metrics.forEach(m=>{
-    const v=D.paired[`topology|${p}|star-full|${m.k}`]; if(!v) return; const sc=sd[m.k]||1;
-    SPAN=Math.max(SPAN, Math.abs(v.lo/sc), Math.abs(v.hi/sc));
+  TOPOS.forEach(t=>metrics.forEach(m=>{
+    const v=D.paired[`${t}|stance-neutral|${m.k}`]; if(!v) return;
+    SPAN=Math.max(SPAN,Math.abs(v.lo/sd[m.k]),Math.abs(v.hi/sd[m.k]));
   }));
   SPAN*=1.08;
-
-  PANELS.forEach((p,pi)=>{
-    const cx0=labW+pi*(colW+35);
-    svg.appendChild(txt(cx0+colW/2,20,p,
-      {fill:"var(--ink)","font-size":"12.5","text-anchor":"middle","font-weight":"600",
-       "font-family":'"IBM Plex Mono",monospace',"letter-spacing":".05em"}));
-    const sx=q=>cx0+colW/2+(q/SPAN)*(colW/2);
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"stance 减 neutral 的标准化配对差值，三个拓扑分列"});
+  TOPOS.forEach((t,ti)=>{
+    const cx0=labW+ti*(colW+30), sx=q=>cx0+colW/2+(q/SPAN)*(colW/2), col=TCOL[t];
+    svg.appendChild(txt(cx0+colW/2,22,t,{fill:"var(--ink)","font-size":"13",
+      "text-anchor":"middle","font-weight":"600","font-family":MONO,"letter-spacing":".05em"}));
     svg.appendChild(el("line",{x1:cx0+colW/2,y1:top-8,x2:cx0+colW/2,y2:H-bot+2,
       stroke:"var(--rule)","stroke-width":1}));
-
     metrics.forEach((m,mi)=>{
-      const v=D.paired[`topology|${p}|star-full|${m.k}`]; if(!v) return;
-      const y=top+mi*rowH+rowH/2, s=sd[m.k]||1;
-      const lo=v.lo/s, hi=v.hi/s, d=v.delta/s;
-      svg.appendChild(el("line",{x1:sx(lo),y1:y,x2:sx(hi),y2:y,
-        stroke:"var(--p2)","stroke-width":2,opacity:.5,"stroke-linecap":"round"}));
-      [lo,hi].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-3.5,x2:sx(q),y2:y+3.5,
-        stroke:"var(--p2)","stroke-width":2,opacity:.5})));
-      svg.appendChild(el("circle",{cx:sx(d),cy:y,r:4,fill:"var(--p2)"}));
-      if(pi===0){
-        svg.appendChild(txt(labW-16,y+4,m.label,
-          {fill:"var(--ink)","font-size":"12.5","text-anchor":"end",
-           "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
-        svg.appendChild(el("line",{x1:20,y1:y+rowH/2,x2:W-20,y2:y+rowH/2,
-          stroke:"var(--rule-soft)","stroke-width":1}));
+      const v=D.paired[`${t}|stance-neutral|${m.k}`]; if(!v) return;
+      const y=top+mi*rowH+rowH/2, s=sd[m.k], em=lean(v.p_positive);
+      svg.appendChild(el("line",{x1:sx(v.lo/s),y1:y,x2:sx(v.hi/s),y2:y,stroke:col,
+        "stroke-width":2,opacity:0.25+0.5*em,"stroke-linecap":"round"}));
+      [v.lo/s,v.hi/s].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-3.5,x2:sx(q),y2:y+3.5,
+        stroke:col,"stroke-width":2,opacity:0.25+0.5*em})));
+      marker(svg,t,sx(v.delta/s),y,col);
+      svg.appendChild(txt(cx0+colW/2,y+20,
+        (v.excludes_zero?"★ ":"")+"p="+v.p_positive.toFixed(2),
+        {fill:v.excludes_zero?"var(--sig)":"var(--faint)","font-size":"9.5",
+         "text-anchor":"middle","font-family":MONO}));
+      if(ti===0){
+        svg.appendChild(txt(labW-16,y+4,m.label,{fill:"var(--ink)","font-size":"12",
+          "text-anchor":"end","font-family":SANS}));
+        if(mi<metrics.length-1)
+          svg.appendChild(el("line",{x1:20,y1:y+rowH/2,x2:W-20,y2:y+rowH/2,
+            stroke:"var(--rule-soft)","stroke-width":1}));
       }
     });
-    [-1,0,1].forEach(q=>{
-      svg.appendChild(txt(sx(q),H-bot+18,q===0?"0":(q>0?"+":"")+q+"σ",
-        {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle",
-         "font-family":'"IBM Plex Mono",monospace'}));
-    });
+    [-1,0,1].forEach(q=>svg.appendChild(txt(sx(q),H-bot+18,q===0?"0":(q>0?"+":"")+q+"σ",
+      {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle","font-family":MONO})));
   });
   return svg;
 }
 
+document.getElementById("fig-decomp").appendChild(decomp());
 document.getElementById("fig-gradient").appendChild(gradient());
-document.getElementById("fig-paired").appendChild(paired());
-document.getElementById("fig-topo").appendChild(topo());
+document.getElementById("fig-interaction").appendChild(interaction());
 </script>
