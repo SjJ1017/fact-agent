@@ -33,10 +33,11 @@ def _load(path: Path) -> dict:
         return json.load(fh)
 
 
-def export_stance(src: Path, out: Path) -> int:
+def export_stance(src: Path, out: Path, pattern: str = "*.stance.json") -> int:
     out.mkdir(parents=True, exist_ok=True)
     written = 0
-    for path in sorted(src.glob("*.stance.json")):
+    suffix = pattern.lstrip("*")
+    for path in sorted(src.glob(pattern)):
         store = _load(path)
         labels = {
             fid: [fact["properties"]["stance"], fact["canonical_text"]]
@@ -45,7 +46,7 @@ def export_stance(src: Path, out: Path) -> int:
         }
         if not labels:
             continue
-        name = path.name[: -len(".stance.json")]
+        name = path.name[: -len(suffix)]
         payload = {
             "execution_id": name,
             "layer": "stance",
@@ -63,10 +64,17 @@ def export_stance(src: Path, out: Path) -> int:
     return written
 
 
-def export_token_clock(src: Path, out: Path) -> int:
+def export_token_clock(src: Path, out: Path, pattern: str = "*.tokens.json") -> int:
+    """Read the clock from wherever it sits.
+
+    `token_clock.py` writes an enriched copy next to the store as
+    `*.tokens.json`; `retrace.py --record-token-clock` writes it into the store
+    itself. Both end up here, so pass whichever glob matches the source.
+    """
     out.mkdir(parents=True, exist_ok=True)
     written = 0
-    for path in sorted(src.glob("*.tokens.json")):
+    suffix = pattern.lstrip("*")
+    for path in sorted(src.glob(pattern)):
         store = _load(path)
         mentions = {
             mid: m["provenance"]["extra"]["token_clock"]
@@ -80,7 +88,7 @@ def export_token_clock(src: Path, out: Path) -> int:
         }
         if not mentions and not facts:
             continue
-        name = path.name[: -len(".tokens.json")]
+        name = path.name[: -len(suffix)]
         payload = {
             "execution_id": name,
             "layer": "token_clock",
@@ -134,16 +142,22 @@ def attach_labels(store: dict, execution_id: str, layer: str = "stance") -> int:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--stance", type=Path, help="directory of *.stance.json stores")
-    ap.add_argument("--token-clock", type=Path, help="directory of *.tokens.json stores")
+    ap.add_argument("--stance", type=Path, help="directory holding stance-annotated stores")
+    ap.add_argument("--stance-glob", default="*.stance.json")
+    ap.add_argument("--token-clock", type=Path,
+                    help="directory holding clock-annotated stores; pass "
+                         "--token-clock-glob '*.v2.json' for stores written by "
+                         "retrace.py --record-token-clock")
+    ap.add_argument("--token-clock-glob", default="*.tokens.json")
     ap.add_argument("--out", type=Path, default=LABELS)
     args = ap.parse_args()
 
     if args.stance:
-        n = export_stance(args.stance, args.out / "stance")
+        n = export_stance(args.stance, args.out / "stance", args.stance_glob)
         print(f"stance      {n:3d} debates -> {args.out / 'stance'}")
     if args.token_clock:
-        n = export_token_clock(args.token_clock, args.out / "token_clock")
+        n = export_token_clock(args.token_clock, args.out / "token_clock",
+                               args.token_clock_glob)
         print(f"token_clock {n:3d} debates -> {args.out / 'token_clock'}")
 
 

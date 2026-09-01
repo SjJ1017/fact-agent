@@ -15,6 +15,17 @@ Three families:
                  delivery). Mutually exclusive and exhaustive, so `adopted` is
                  readable as "what share of this system's output is uptake".
 
+                 `adopted_share` over all turns confounds two things that
+                 topology moves in opposite directions: how often an agent takes
+                 up what it hears, and how often it hears anything at all. Chain
+                 is A->B->C with no back edges, so A never receives and only 4 of
+                 9 turns have any input, against 6 of 9 for full and star. Its
+                 raw adoption rate reads 5pp below full and is not an uptake
+                 effect. `reception` reports the structural term on its own and
+                 `adopted_share_recv` the behavioural one, restricted to turns
+                 that actually received something. Compare those two, not the
+                 raw share, whenever topology varies.
+
   graph shape    nestedness (mean pairwise containment of agents' fact sets),
                  reach (how many agents said a given fact), flow Gini (is the
                  carried volume spread over the wiring or piled on one edge),
@@ -51,8 +62,8 @@ STORE_DIRS = [ROOT / "perspectrum_pilot_full", ROOT / "perspectrum_pilot_star_ch
 OUT = ROOT.parent / "findings" / "data"
 
 PANELS = ("neutral", "lenses", "stance")
-METRICS = ("n_facts", "novel", "adopted_share", "held_share",
-           "nestedness", "reach", "flow_gini", "delivery_use")
+METRICS = ("n_facts", "novel", "adopted_share", "adopted_share_recv", "reception",
+           "held_share", "nestedness", "reach", "flow_gini", "delivery_use")
 
 
 def gini(values: list[float]) -> float:
@@ -90,17 +101,28 @@ def profile(store: dict, debate: dict, execution_id: str) -> dict:
             received[(listener, int(rnd))] |= said[(speaker, int(peer_round))]
 
     novel = held = adopted = 0
+    recv_novel = recv_held = recv_adopted = 0
+    receiving_turns = 0
     for agent in agents:
         for rnd in rounds:
             earlier = set().union(
                 *[said[(agent, r)] for r in rounds if r < rnd]
             ) if rnd > rounds[0] else set()
             current = said[(agent, rnd)]
-            held += len(current & earlier)
             fresh = current - earlier
-            adopted += len(fresh & received[(agent, rnd)])
-            novel += len(fresh - received[(agent, rnd)])
+            trio = (len(fresh - received[(agent, rnd)]),
+                    len(current & earlier),
+                    len(fresh & received[(agent, rnd)]))
+            novel += trio[0]
+            held += trio[1]
+            adopted += trio[2]
+            if received[(agent, rnd)]:
+                receiving_turns += 1
+                recv_novel += trio[0]
+                recv_held += trio[1]
+                recv_adopted += trio[2]
     total = novel + held + adopted
+    recv_total = recv_novel + recv_held + recv_adopted
 
     sets = {a: set().union(*[said[(a, r)] for r in rounds]) for a in agents}
     spoken = set().union(*sets.values())
@@ -141,6 +163,8 @@ def profile(store: dict, debate: dict, execution_id: str) -> dict:
         "held": held,
         "adopted": adopted,
         "adopted_share": adopted / total if total else 0.0,
+        "adopted_share_recv": recv_adopted / recv_total if recv_total else 0.0,
+        "reception": receiving_turns / (len(agents) * len(rounds)),
         "held_share": held / total if total else 0.0,
         "nestedness": st.mean(nest) if nest else 0.0,
         "reach": st.mean(reach) if reach else 0.0,
@@ -263,7 +287,7 @@ def main() -> None:
             writer.writerow({"topology": topology, "claim": claim,
                              "panel": panel, **row})
 
-    head = f"{'condition':16s}{'n':>3s}{'facts':>8s}{'adopt':>8s}{'held':>7s}"
+    head = f"{'condition':16s}{'n':>3s}{'facts':>8s}{'adopt':>8s}{'a|recv':>8s}{'recv':>7s}{'held':>7s}"
     head += f"{'nest':>8s}{'reach':>7s}{'gini':>7s}{'d.use':>7s}{'meta':>7s}{'bal':>7s}"
     print(head)
     print("-" * len(head))
@@ -271,6 +295,7 @@ def main() -> None:
         pct = lambda v: "  —  " if v is None else f"{v:.1%}"
         num = lambda v: "  —  " if v is None else f"{v:.3f}"
         print(f"{name:16s}{c['n']:3d}{c['n_facts']:8.1f}{pct(c['adopted_share']):>8s}"
+              f"{pct(c['adopted_share_recv']):>8s}{pct(c['reception']):>7s}"
               f"{pct(c['held_share']):>7s}{num(c['nestedness']):>8s}"
               f"{c['reach']:7.2f}{num(c['flow_gini']):>7s}"
               f"{pct(c['delivery_use']):>7s}{pct(c['meta_share']):>7s}"
