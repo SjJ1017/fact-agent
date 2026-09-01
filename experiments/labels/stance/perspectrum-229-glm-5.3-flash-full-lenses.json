@@ -1,0 +1,497 @@
+{
+ "execution_id": "perspectrum-229-glm-5.3-flash-full-lenses",
+ "layer": "stance",
+ "mode": "truth",
+ "judge": "deepseek-v4-flash",
+ "note": "SUPPORT / UNDERMINE / NEUTRAL relative to the claim. NEUTRAL also catches evidence-level verdicts, see findings/2026-08-31-stance-balance.md",
+ "labels": {
+  "f_65535b8d7b8fae1d": [
+   "SUPPORT",
+   "No evidence in the dossier establishes that voting lacks value."
+  ],
+  "f_3eed628afd6dcc4e": [
+   "SUPPORT",
+   "The mechanisms cited in the dossier (accountability, collective expression) are compatible with voting being worth it, especially outside safe seats."
+  ],
+  "f_2306ac705b1e1e15": [
+   "NEUTRAL",
+   "The verdict on whether voting is worthwhile is UNCERTAIN."
+  ],
+  "f_2cde71da82e298be": [
+   "NEUTRAL",
+   "The cited figures (30%, 32%) in E3 are unsourced within the dossier."
+  ],
+  "f_06022bd4337e2b04": [
+   "UNDERMINE",
+   "Non-voters abstain because they know votes count for little."
+  ],
+  "f_b9000f4811ece78a": [
+   "UNDERMINE",
+   "Under FPTP, an individual vote in a safe seat has near-zero probability of being pivotal."
+  ],
+  "f_70f603684228448a": [
+   "SUPPORT",
+   "Retrospective punishment of incumbents is a mechanism by which voting works."
+  ],
+  "f_13d1ef678af1e372": [
+   "NEUTRAL",
+   "Abstention could equally reflect apathy, contentment, or barriers."
+  ],
+  "f_8f1d8b52eb6123c0": [
+   "SUPPORT",
+   "The dossier is one-sided."
+  ],
+  "f_cd3c921a365a5764": [
+   "NEUTRAL",
+   "E4 is overgeneralized."
+  ],
+  "f_ee576cbaa2c24595": [
+   "NEUTRAL",
+   "There is no evidence on cumulative effects of turnout."
+  ],
+  "f_a5efef217023c536": [
+   "NEUTRAL",
+   "There is no evidence on party-level effects of turnout."
+  ],
+  "f_05ef6f92e9870f49": [
+   "UNDERMINE",
+   "There is no evidence on non-instrumental benefits."
+  ],
+  "f_c2723f6f5d5c3324": [
+   "NEUTRAL",
+   "Marginal seats are unaddressed scope exceptions."
+  ],
+  "f_375d607efe6c4487": [
+   "SUPPORT",
+   "Local contests are unaddressed scope exceptions."
+  ],
+  "f_935f3c2b35d61237": [
+   "UNDERMINE",
+   "Devolved contests are unaddressed scope exceptions."
+  ],
+  "f_49ce95cc4cce8a90": [
+   "NEUTRAL",
+   "Apathy is an unexcluded alternative."
+  ],
+  "f_7bf06beb07b95401": [
+   "SUPPORT",
+   "Registration barriers are unexcluded alternatives."
+  ],
+  "f_2903583a09e6db7d": [
+   "NEUTRAL",
+   "Contentment is an unexcluded alternative."
+  ],
+  "f_bd774ca0d060f5f6": [
+   "NEUTRAL",
+   "E3 statistics are unsourced within the dossier."
+  ],
+  "f_62a5f6495d0bafe2": [
+   "NEUTRAL",
+   "E1 has no external validity beyond one voter's trust deficit."
+  ],
+  "f_b93de5bcfdbf6910": [
+   "NEUTRAL",
+   "There is no evidence on close races."
+  ],
+  "f_7779236e149550ff": [
+   "SUPPORT",
+   "Voting retains retrospective punitive power."
+  ],
+  "f_60d86085813f968b": [
+   "NEUTRAL",
+   "E2 is a philosophical value judgment, not empirical evidence."
+  ],
+  "f_03fb82e2c9f1da4b": [
+   "NEUTRAL",
+   "Low turnout describes a system, not the worth of any individual vote."
+  ],
+  "f_b67651065c9af57b": [
+   "UNDERMINE",
+   "The inference that non-voters rationally calculate futility is speculative."
+  ],
+  "f_71ee27285849e47a": [
+   "SUPPORT",
+   "The case against voting rests on anecdote."
+  ],
+  "f_92608bfb141e6b15": [
+   "SUPPORT",
+   "The case against voting rests on contested inference."
+  ],
+  "f_6c1f9313b03bdf19": [
+   "SUPPORT",
+   "The case against voting rests on overgeneralization."
+  ],
+  "f_0df112771ccee6e0": [
+   "NEUTRAL",
+   "E1 is a single personal anecdote about broken promises."
+  ],
+  "f_e3b026e3750189e6": [
+   "NEUTRAL",
+   "The dossier addresses instrumental efficacy of voting only negatively."
+  ],
+  "f_f788e2fce97c7eba": [
+   "UNDERMINE",
+   "Wasted votes concentrate in safe seats."
+  ],
+  "f_9c2ac09c62515b30": [
+   "SUPPORT",
+   "E4 is a valid structural point."
+  ],
+  "f_77fdbe4633078c8d": [
+   "SUPPORT",
+   "The inference 'low turnout → voters rationally judge votes futile' fails to exclude confounders"
+  ],
+  "f_9932e3d84fcadcbc": [
+   "UNDERMINE",
+   "The causal chain of broken promise, distrust, and disengagement explains one voter's exit"
+  ],
+  "f_14507e9d5181754e": [
+   "SUPPORT",
+   "The attenuation of individual vote weight in safe seats does not propagate to marginal seats"
+  ],
+  "f_ed3ade2d54b48617": [
+   "SUPPORT",
+   "The attenuation of individual vote weight in safe seats does not propagate to other contests"
+  ],
+  "f_e4ee515497b43864": [
+   "NEUTRAL",
+   "Apathy is a confounder."
+  ],
+  "f_89b3ae858a70b98b": [
+   "SUPPORT",
+   "Barriers are confounders."
+  ],
+  "f_faefe2f97fb23c58": [
+   "NEUTRAL",
+   "Satisfaction is a confounder."
+  ],
+  "f_0fb8ef9c50a8ee0f": [
+   "NEUTRAL",
+   "The causal chain of broken promise, distrust, and disengagement is internally coherent"
+  ],
+  "f_d38658d418a9c485": [
+   "NEUTRAL",
+   "Descriptive turnout data cannot establish the motivational cause without ruling out apathy, barriers, and satisfaction"
+  ],
+  "f_9c8f746016c28f1d": [
+   "UNDERMINE",
+   "The dossier demonstrates diminished instrumental weight in specific contexts"
+  ],
+  "f_78eafe77b21804cc": [
+   "UNDERMINE",
+   "FPTP structurally attenuates individual vote weight in safe seats"
+  ],
+  "f_74bfae3003d60fe2": [
+   "SUPPORT",
+   "Voting is the only retrospective punishment mechanism"
+  ],
+  "f_cc984b784c6a796c": [
+   "NEUTRAL",
+   "The dossier excludes access barriers without evidence."
+  ],
+  "f_45f95526ebefe739": [
+   "NEUTRAL",
+   "The causal claim that abstention equals rational calculation is unverified."
+  ],
+  "f_9ef9b67869a7a616": [
+   "SUPPORT",
+   "A one-sided case with contested inference and scope exceptions cannot establish the negative."
+  ],
+  "f_5eb39baee4f5be5b": [
+   "UNDERMINE",
+   "FPTP makes individual votes non-pivotal in safe seats."
+  ],
+  "f_aa7e12430588233e": [
+   "SUPPORT",
+   "The dossier quantifies no costs of voting against any benefits."
+  ],
+  "f_b63769e2008da2dd": [
+   "UNDERMINE",
+   "The dossier overgeneralizes one constituency type to all voters."
+  ],
+  "f_0805b69f6b14fbf8": [
+   "SUPPORT",
+   "Retrospective accountability is a functioning mechanism requiring mass participation."
+  ],
+  "f_66eee89d80829386": [
+   "SUPPORT",
+   "Abstention on futility grounds partially causes the futility it cites."
+  ],
+  "f_b039702c8f1844ae": [
+   "NEUTRAL",
+   "Affected voters split into safe-seat constituents, marginal-seat voters, local electorate voters, and devolved electorate voters."
+  ],
+  "f_4c3017f280977f64": [
+   "NEUTRAL",
+   "The dossier excludes apathy without evidence."
+  ],
+  "f_17cd0f7545eabb32": [
+   "NEUTRAL",
+   "E1 represents one voter's trust deficit."
+  ],
+  "f_ba4a69b008be1cce": [
+   "NEUTRAL",
+   "E1 is anecdote, not generalizable evidence."
+  ],
+  "f_81211832ef22507b": [
+   "NEUTRAL",
+   "The dossier's figures are unsourced."
+  ],
+  "f_0e85bac398b0a8a6": [
+   "SUPPORT",
+   "Marginal seats fall outside the pivotal-vote argument's reach"
+  ],
+  "f_675ceb77290f50cf": [
+   "SUPPORT",
+   "Votes tally toward totals even when not decisive"
+  ],
+  "f_b029157f448c7774": [
+   "UNDERMINE",
+   "E4's pivotal-vote argument holds only in safe seats"
+  ],
+  "f_509db922ecb8e7dc": [
+   "SUPPORT",
+   "Local elections fall outside the pivotal-vote argument's reach"
+  ],
+  "f_242fe2d251766e26": [
+   "NEUTRAL",
+   "The 'it is worth voting' claim is unscoped and universal"
+  ],
+  "f_2a7d21a90e01b261": [
+   "NEUTRAL",
+   "The 32% figure concerns US party preference, not voting's worth"
+  ],
+  "f_34072ef4e1682690": [
+   "NEUTRAL",
+   "E1 has no external validity"
+  ],
+  "f_c9233ee29bb44040": [
+   "SUPPORT",
+   "Retrospective accountability is a mechanism by which voting retains worth."
+  ],
+  "f_a9b8399bf120f242": [
+   "NEUTRAL",
+   "E1 concerns the UK Lisbon Treaty era context"
+  ],
+  "f_bf64717916339a3f": [
+   "NEUTRAL",
+   "E1 is valid only for that individual's context"
+  ],
+  "f_271ab64f3cd89e2e": [
+   "NEUTRAL",
+   "The dossier cannot settle the general normative claim about voting's worth"
+  ],
+  "f_825890f2ae479440": [
+   "NEUTRAL",
+   "Referendums fall outside the pivotal-vote argument's reach"
+  ],
+  "f_e7ddfe4860b8f50f": [
+   "NEUTRAL",
+   "The dossier's arguments at most undermine voting's worth in narrow scopes"
+  ],
+  "f_c4d4e7d886d441be": [
+   "NEUTRAL",
+   "E4 conflates pivotalness with counting."
+  ],
+  "f_37b1f7fc659374a0": [
+   "NEUTRAL",
+   "No controls are offered for E3's claim."
+  ],
+  "f_9e1ea8ef97bdb75c": [
+   "UNDERMINE",
+   "E3's causal claim is asserted without identification."
+  ],
+  "f_c4214d5a8758a424": [
+   "UNDERMINE",
+   "A safe-seat vote rarely changing the outcome is a genuine structural mechanism."
+  ],
+  "f_463ba101603148ba": [
+   "UNDERMINE",
+   "A safe-seat vote rarely changes the outcome."
+  ],
+  "f_930ba8fd878c7154": [
+   "UNDERMINE",
+   "No longitudinal evidence is offered for E3's claim."
+  ],
+  "f_b07b391f7b4460f3": [
+   "UNDERMINE",
+   "Turnout data alone cannot distinguish the futility mechanism from apathy."
+  ],
+  "f_4efd8a61dc5d3958": [
+   "NEUTRAL",
+   "No comparison is offered for E3's claim."
+  ],
+  "f_012151b3374ade6d": [
+   "NEUTRAL",
+   "Turnout data alone cannot distinguish the futility mechanism from access barriers."
+  ],
+  "f_99a1104a38483902": [
+   "UNDERMINE",
+   "E3's causal claim concerns abstention because voters perceive futility."
+  ],
+  "f_5fccd9462275e7bd": [
+   "NEUTRAL",
+   "Turnout data alone cannot distinguish the futility mechanism from satisfaction."
+  ],
+  "f_7bb67267ce3f33e3": [
+   "NEUTRAL",
+   "Local elections sit outside E4's reach"
+  ],
+  "f_c037e67bbb6efd82": [
+   "NEUTRAL",
+   "Maximal direct democracy is admitted impractical"
+  ],
+  "f_0eb6dcda7888819b": [
+   "NEUTRAL",
+   "E1 represents a genuine grievance for that individual"
+  ],
+  "f_ae4a46660ae57336": [
+   "NEUTRAL",
+   "Referendums sit outside E4's reach"
+  ],
+  "f_6f17ab719d20137b": [
+   "NEUTRAL",
+   "E1 speaks for one cohort (Lisbon-era Labour voters)"
+  ],
+  "f_97997f05e14389a8": [
+   "SUPPORT",
+   "E2 concedes the operative point"
+  ],
+  "f_b367067635e48106": [
+   "NEUTRAL",
+   "E2's preferred alternative is maximal direct democracy"
+  ],
+  "f_68366fdac594cefb": [
+   "NEUTRAL",
+   "Marginal-seat voters sit outside E4's reach"
+  ],
+  "f_2eebba5bab595327": [
+   "NEUTRAL",
+   "E4 cannot generalize across the population the unscoped claim covers"
+  ],
+  "f_f716eb07e2ad0ee0": [
+   "NEUTRAL",
+   "E4's structural vote-attenuation binds only safe-seat electorates under FPTP"
+  ],
+  "f_0e48df9b596cfc28": [
+   "SUPPORT",
+   "Retrospective punishment via voting is the only feasible accountability mechanism citizens hold"
+  ],
+  "f_871a18defeac7dd7": [
+   "SUPPORT",
+   "Within the feasible option set, voting remains the available lever"
+  ],
+  "f_f880cfd32ce94549": [
+   "NEUTRAL",
+   "Devolved elections sit outside E4's reach"
+  ],
+  "f_4f46936f297a87d7": [
+   "NEUTRAL",
+   "The scope of the analysis is UK/US only."
+  ],
+  "f_44ac632096844b15": [
+   "SUPPORT",
+   "The only power citizens hold is retrospective punishment via voting."
+  ],
+  "f_32e7ffe5d24530ce": [
+   "NEUTRAL",
+   "The verdict is UNCERTAIN."
+  ],
+  "f_586882bfe0a003c9": [
+   "NEUTRAL",
+   "The mechanism in E4 is bound in scope to safe seats under FPTP."
+  ],
+  "f_ac1eee7a3031c6e4": [
+   "UNDERMINE",
+   "The inference that abstention signals rational futility excludes confounders."
+  ],
+  "f_8d4bc43a276e4b05": [
+   "NEUTRAL",
+   "The broken-referendum claim does not demonstrate voting's general worth."
+  ],
+  "f_737ae2cac6608284": [
+   "SUPPORT",
+   "One-sided evidence weakens the claim only within narrow scopes."
+  ],
+  "f_a3d83363c8354807": [
+   "SUPPORT",
+   "No quantified voting costs are provided."
+  ],
+  "f_10ef1263542e3488": [
+   "NEUTRAL",
+   "The Marcuse quotation is characterized as rhetoric, not evidence."
+  ],
+  "f_e9b0c89405d9385c": [
+   "SUPPORT",
+   "The claim is not weakened generally."
+  ],
+  "f_85732317e5fd9f61": [
+   "NEUTRAL",
+   "No civic benefits are weighed."
+  ],
+  "f_5f3ce2c13a803354": [
+   "NEUTRAL",
+   "The analysis in E4 is silent on marginal seats."
+  ],
+  "f_9b1047243b6f21ef": [
+   "SUPPORT",
+   "The mechanism in E4 is genuine."
+  ],
+  "f_b42d359786edb56f": [
+   "SUPPORT",
+   "If the embedded concession is accepted, abstention becomes a forfeiture of the sole accountability channel."
+  ],
+  "f_3a4a494f13e090a4": [
+   "NEUTRAL",
+   "No other electoral systems are considered."
+  ],
+  "f_1a7beabbdcaa9296": [
+   "NEUTRAL",
+   "E1 cites one testimony (n=1)."
+  ],
+  "f_9270453f1ed9d0a8": [
+   "NEUTRAL",
+   "The '32% agree two parties is good' line is a non-sequitur for voting's worth."
+  ],
+  "f_631ad01093af645a": [
+   "SUPPORT",
+   "The analysis in E4 is silent on devolved contests."
+  ],
+  "f_732257ae4b9304b4": [
+   "NEUTRAL",
+   "The broken-referendum claim cannot be verified within the dossier."
+  ],
+  "f_b91ac98e6dffe335": [
+   "NEUTRAL",
+   "No marginal-seat counteranalysis is provided."
+  ],
+  "f_cdcee877f7f9e9f4": [
+   "NEUTRAL",
+   "The scope limitation in E4 is characterized as a textbook overgeneralization."
+  ],
+  "f_c197c2d756b0fe5a": [
+   "NEUTRAL",
+   "The broken-referendum claim evidences one voter's trust deficit."
+  ],
+  "f_2c2108156c57ea84": [
+   "UNDERMINE",
+   "No expressive benefits are weighed."
+  ],
+  "f_0e98817c6041231b": [
+   "NEUTRAL",
+   "The analysis in E4 is silent on local contests."
+  ],
+  "f_8b806e893ad7058b": [
+   "NEUTRAL",
+   "E1 assesses external validity as near zero."
+  ],
+  "f_8312c36b6d0ce01f": [
+   "SUPPORT",
+   "The confounders excluded are apathy and access barriers."
+  ],
+  "f_0aacb2191ebeb0b8": [
+   "SUPPORT",
+   "This self-undermines the anti-voting case."
+  ]
+ }
+}

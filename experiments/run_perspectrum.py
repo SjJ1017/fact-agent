@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import statistics
 import sys
@@ -92,6 +93,23 @@ class Case:
     claim: str
     evidence: tuple[dict[str, str], ...]
     perspectives: tuple[dict[str, str], ...]
+
+
+def load_opencode_key() -> None:
+    """Load only the local OpenCode key for non-interactive experiment runs."""
+    if os.environ.get("OPENCODE_API_KEY"):
+        return
+    env_path = Path(__file__).resolve().parents[1] / ".env"
+    if not env_path.exists():
+        return
+    for raw in env_path.read_text().splitlines():
+        line = raw.strip()
+        if line.startswith("export "):
+            line = line[len("export "):].strip()
+        key, separator, value = line.partition("=")
+        if separator and key.strip() == "OPENCODE_API_KEY":
+            os.environ["OPENCODE_API_KEY"] = value.strip().strip("'\"")
+            return
 
 
 def _load_json(path: Path) -> Any:
@@ -478,6 +496,8 @@ def main() -> int:
     parser.add_argument("--trace", action="store_true", help="extract and match atomic facts after the debates")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
+
+    load_opencode_key()
 
     models = [item.strip() for item in args.models.split(",") if item.strip()]
     panels = [item.strip() for item in args.panels.split(",") if item.strip()]

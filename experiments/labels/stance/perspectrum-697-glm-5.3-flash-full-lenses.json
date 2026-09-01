@@ -1,0 +1,637 @@
+{
+ "execution_id": "perspectrum-697-glm-5.3-flash-full-lenses",
+ "layer": "stance",
+ "mode": "truth",
+ "judge": "deepseek-v4-flash",
+ "note": "SUPPORT / UNDERMINE / NEUTRAL relative to the claim. NEUTRAL also catches evidence-level verdicts, see findings/2026-08-31-stance-balance.md",
+ "labels": {
+  "f_2b65250e51815b09": [
+   "NEUTRAL",
+   "TalkTalk is an ISP."
+  ],
+  "f_6e43e42ed6a9921f": [
+   "UNDERMINE",
+   "It is relatively easy for determined file-sharers to mask their identity or activity to avoid detection."
+  ],
+  "f_e6adaac34d8e161d": [
+   "SUPPORT",
+   "Some stakeholders believe piracy causes industry difficulties"
+  ],
+  "f_961fba9e762129e9": [
+   "UNDERMINE",
+   "E4 offers an alternative mechanism to disconnection"
+  ],
+  "f_47f54f4b4968381b": [
+   "UNDERMINE",
+   "The dossier's causal evidence points against the proposed remedy"
+  ],
+  "f_9806ddf9b353bffc": [
+   "UNDERMINE",
+   "E4 offers persuasion as a less coercive alternative."
+  ],
+  "f_de3962eb3a8f5784": [
+   "SUPPORT",
+   "E1 attributes revenue losses to file-sharing"
+  ],
+  "f_25b7a9393c3241a2": [
+   "NEUTRAL",
+   "E3 notes alleged offenders regarding disconnection"
+  ],
+  "f_b7621a1131ea888b": [
+   "UNDERMINE",
+   "The causal link from file-sharing to revenue losses is asserted, not established"
+  ],
+  "f_bb3f283a5f06d678": [
+   "UNDERMINE",
+   "The alternative mechanism in E4 includes education"
+  ],
+  "f_0d2e0642a92b4a82": [
+   "NEUTRAL",
+   "The alternative mechanism in E4 includes legal alternatives"
+  ],
+  "f_cb34e2af9de7eafd": [
+   "UNDERMINE",
+   "Disconnection may fail against determined users"
+  ],
+  "f_8a776b21249d4bf9": [
+   "UNDERMINE",
+   "No independent evidence rules out economic conditions as a confounder"
+  ],
+  "f_3543916a80b2c915": [
+   "UNDERMINE",
+   "Nothing in the dossier shows disconnection is proportionate"
+  ],
+  "f_0168bdfc14c2cabe": [
+   "NEUTRAL",
+   "\"Should be cut off\" is a normative policy judgment"
+  ],
+  "f_2b0d0f2dbe32f9fd": [
+   "UNDERMINE",
+   "The dossier contains no evidence on effectiveness of disconnection."
+  ],
+  "f_fe0b9a78274b9c5c": [
+   "UNDERMINE",
+   "No independent evidence rules out cannibalization vs. non-payment as a confounder"
+  ],
+  "f_7ae650ceec71bca7": [
+   "UNDERMINE",
+   "The dossier offers no evidence weighing disconnection against due process concerns"
+  ],
+  "f_c20ffae4155b4107": [
+   "NEUTRAL",
+   "At most, piracy is associated with industry difficulties"
+  ],
+  "f_fc1bcf024769ab58": [
+   "UNDERMINE",
+   "E3 and E4 affirmatively dispute the efficacy of disconnection"
+  ],
+  "f_77b79bd553dc7b46": [
+   "UNDERMINE",
+   "No independent evidence rules out shifting consumption as a confounder"
+  ],
+  "f_dbe754d17bce2b87": [
+   "UNDERMINE",
+   "The dossier offers no evidence weighing disconnection against proportionality concerns"
+  ],
+  "f_d4ed42b941e19cca": [
+   "UNDERMINE",
+   "The attribution of revenue losses to file-sharing in E1 and E2 are claims by interested parties"
+  ],
+  "f_e84486b54e26030f": [
+   "UNDERMINE",
+   "The alternative mechanism in E4 plausibly targets the behavior's cause rather than its symptoms"
+  ],
+  "f_30d6d6287b2cd152": [
+   "SUPPORT",
+   "E2 attributes revenue losses to file-sharing"
+  ],
+  "f_41e19d024ced6764": [
+   "UNDERMINE",
+   "The dossier's efficacy evidence points against the proposed remedy"
+  ],
+  "f_ed20851ddce096f8": [
+   "UNDERMINE",
+   "Nothing in the dossier shows disconnection is enforceable"
+  ],
+  "f_59f73794711ba920": [
+   "UNDERMINE",
+   "E3 directly challenges the remedy link"
+  ],
+  "f_ca286020a84d7389": [
+   "UNDERMINE",
+   "Cutting a household connection affects homeworkers."
+  ],
+  "f_0a1aa0727094d54d": [
+   "UNDERMINE",
+   "The feasibility problems are concrete."
+  ],
+  "f_d13c376fbb0c4013": [
+   "UNDERMINE",
+   "E3 uses the phrase 'alleged offenders'."
+  ],
+  "f_1acb090eebc9f32f": [
+   "UNDERMINE",
+   "Per Sundin is an industry figure."
+  ],
+  "f_2972d4438be22d13": [
+   "UNDERMINE",
+   "The proportionality problems are concrete."
+  ],
+  "f_83e2cba7e21db05c": [
+   "UNDERMINE",
+   "Cutting a household connection affects access to services."
+  ],
+  "f_13592bbff40bd39b": [
+   "UNDERMINE",
+   "Disconnection is collective punishment."
+  ],
+  "f_83214c3ffdadb3bf": [
+   "UNDERMINE",
+   "E4 offers legal services as a less coercive alternative."
+  ],
+  "f_dabd5080147195c9": [
+   "UNDERMINE",
+   "The evidence cannot settle whether disconnection is proportionate."
+  ],
+  "f_159167c41553ec57": [
+   "UNDERMINE",
+   "Penalties are applied before guilt is established."
+  ],
+  "f_0a9d1a01b09a5c07": [
+   "NEUTRAL",
+   "Whether disconnection is proportionate is a normative call."
+  ],
+  "f_2e8beee7c5616d9f": [
+   "UNDERMINE",
+   "Detection errors lead to mistaken disconnections of innocent subscribers."
+  ],
+  "f_c454da06df518786": [
+   "SUPPORT",
+   "Disconnection removes casual sharers."
+  ],
+  "f_65fc64c5dc901df2": [
+   "UNDERMINE",
+   "E4 shifts the burden onto proponents to show disconnection is necessary."
+  ],
+  "f_0441400d0e5647e6": [
+   "UNDERMINE",
+   "E1 notes that iTunes growth stalled."
+  ],
+  "f_c8ecb65944dabf25": [
+   "UNDERMINE",
+   "E3's use of 'alleged' flags a due-process gap."
+  ],
+  "f_02dda347e2886ac2": [
+   "UNDERMINE",
+   "The harm claims are weakly evidenced."
+  ],
+  "f_08cb65dcdf8f55ff": [
+   "UNDERMINE",
+   "E2 comes from industry figures with a direct stake."
+  ],
+  "f_4c6d43d74e4b92d3": [
+   "UNDERMINE",
+   "Disconnection is a poor cost-effectiveness trade."
+  ],
+  "f_6bdaac91a153d7e0": [
+   "UNDERMINE",
+   "Declining revenues have multiple plausible causes."
+  ],
+  "f_e88248bfff0a3abc": [
+   "UNDERMINE",
+   "Stalled iTunes growth suggests market factors beyond piracy."
+  ],
+  "f_c289387560c2a33b": [
+   "UNDERMINE",
+   "Cutting a household connection affects family members."
+  ],
+  "f_91fa9988c9e582c8": [
+   "SUPPORT",
+   "Industry figures attribute losses to piracy."
+  ],
+  "f_480ec02d7a9d99f4": [
+   "UNDERMINE",
+   "File-sharers can mask activity."
+  ],
+  "f_bd82163aafaf074c": [
+   "UNDERMINE",
+   "Disconnection fails against determined file-sharers."
+  ],
+  "f_6062c8f8e022b721": [
+   "UNDERMINE",
+   "File-sharers can mask identity."
+  ],
+  "f_474755eece7d3729": [
+   "UNDERMINE",
+   "E1 comes from industry figures with a direct stake."
+  ],
+  "f_384a9fb425e1aec3": [
+   "UNDERMINE",
+   "The dossier contains no evidence on false-positive rates."
+  ],
+  "f_0751c0940c3d6b5f": [
+   "UNDERMINE",
+   "The dossier contains no evidence on collateral harm to households."
+  ],
+  "f_e4efc129b477d60c": [
+   "UNDERMINE",
+   "The dossier contains no evidence on shared connections."
+  ],
+  "f_9a73d1bafb7ff091": [
+   "UNDERMINE",
+   "The remedy is contested among ISPs."
+  ],
+  "f_d89f157e06b46e13": [
+   "NEUTRAL",
+   "The policy claim requires proof that disconnection is an effective, proportionate remedy."
+  ],
+  "f_a4ca027a2eb0eea8": [
+   "UNDERMINE",
+   "The policy claim overgeneralizes from two industries to a blanket internet-access penalty."
+  ],
+  "f_d20d52afb97eae98": [
+   "UNDERMINE",
+   "Confounders including recession, pricing, and consumption shifts are unexamined in E1 and E2."
+  ],
+  "f_a12ea5b3023f7495": [
+   "UNDERMINE",
+   "The policy claim requires proof that illegal downloading causes industry harm."
+  ],
+  "f_9caaf16042045932": [
+   "UNDERMINE",
+   "E1 and E2 rest on assertions by interested industry figures."
+  ],
+  "f_935c6b9a3fc8e82e": [
+   "UNDERMINE",
+   "The Watchmen figure conflates viewing with lost sales."
+  ],
+  "f_98ba88d116c82638": [
+   "UNDERMINE",
+   "A competing policy view favors persuasion and legal alternatives."
+  ],
+  "f_17f5266d6cbbc2ce": [
+   "NEUTRAL",
+   "The author concurs with B and C"
+  ],
+  "f_ed862740926c7ea6": [
+   "UNDERMINE",
+   "The dossier fails on each of the three required causal links"
+  ],
+  "f_4aa5ce4f0754e6f1": [
+   "UNDERMINE",
+   "The harm claims are stakeholder assertions"
+  ],
+  "f_532bfc8137fe55e9": [
+   "SUPPORT",
+   "Piracy leads to industry decline."
+  ],
+  "f_a3fbefc9ca2bb85d": [
+   "SUPPORT",
+   "Disconnection reduces piracy."
+  ],
+  "f_faedd9d48a5de037": [
+   "SUPPORT",
+   "Reduced piracy leads to recovery."
+  ],
+  "f_aa84606ce66dfb16": [
+   "UNDERMINE",
+   "'Blamed' in the dossier is attribution, not evidence"
+  ],
+  "f_b88f2ef1e1e6de56": [
+   "UNDERMINE",
+   "The verdict is UNDERMINE"
+  ],
+  "f_91e55d48bf69be61": [
+   "UNDERMINE",
+   "If determined sharers can mask identity or activity, disconnection cannot reach the causal target it's meant to affect"
+  ],
+  "f_0f500168e5286504": [
+   "UNDERMINE",
+   "Disconnection filters only the detectable sharers, not the responsible ones"
+  ],
+  "f_5ff6bf9e7365211f": [
+   "UNDERMINE",
+   "E3 affirmatively undermines the intervention's mechanism"
+  ],
+  "f_ac8a7169c6146524": [
+   "UNDERMINE",
+   "E2's Watchmen figure counts free viewers but establishes no counterfactual"
+  ],
+  "f_741a268f0dd1564d": [
+   "UNDERMINE",
+   "E1's 'fully attributed' figure is a CEO's assertion, not an identified causal estimate"
+  ],
+  "f_a07e82713b80d1ac": [
+   "UNDERMINE",
+   "E2 never shows that 16.9 million free viewers would otherwise have paid"
+  ],
+  "f_2af7862bb5707ea9": [
+   "UNDERMINE",
+   "Coercion is not established as necessary"
+  ],
+  "f_7ff74da1e21e7251": [
+   "UNDERMINE",
+   "The remedy's futility is the best-evidenced point in the dossier"
+  ],
+  "f_6d75aa0fe261fd78": [
+   "UNDERMINE",
+   "Confounders (market shifts, pricing, and the iTunes stall) are unaddressed in the dossier"
+  ],
+  "f_027114c131d1cc81": [
+   "UNDERMINE",
+   "E4's persuasion alternative reinforces that coercion is contested"
+  ],
+  "f_20f61404f095c6c4": [
+   "UNDERMINE",
+   "No evidence whatsoever links disconnection to revenue recovery"
+  ],
+  "f_d8d30315d869b5b8": [
+   "UNDERMINE",
+   "The policy operates at the cost of an enforcement apparatus."
+  ],
+  "f_0ba2a54040adddb3": [
+   "UNDERMINE",
+   "No dossier evidence isolates piracy from confounders."
+  ],
+  "f_ac9cc6261b3cf0fb": [
+   "UNDERMINE",
+   "No dossier evidence exists on error rates."
+  ],
+  "f_eb4ed5ffc045f2cd": [
+   "UNDERMINE",
+   "E3 indicates disconnection is technically circumventable by determined users."
+  ],
+  "f_98b855ccb2e94080": [
+   "UNDERMINE",
+   "The claim generalizes a blanket access penalty from two industries' revenue concerns."
+  ],
+  "f_57d63b8912abad50": [
+   "UNDERMINE",
+   "The claim represents a disproportionate instrument relative to the asserted harm."
+  ],
+  "f_421d6771deae5125": [
+   "UNDERMINE",
+   "The dossier does not support efficacy."
+  ],
+  "f_0d4872b66346805f": [
+   "UNDERMINE",
+   "Disconnection penalizes family members who share a connection with an alleged offender."
+  ],
+  "f_58fda55359bbc1b6": [
+   "UNDERMINE",
+   "E4's persuasion-and-education route achieves the behavioral goal without externalities."
+  ],
+  "f_9ac919ece49e3a90": [
+   "UNDERMINE",
+   "The dossier affirmatively evidences collateral damage."
+  ],
+  "f_a61c1c49f0132afe": [
+   "UNDERMINE",
+   "The policy binds only less sophisticated users."
+  ],
+  "f_62354089bbc701ce": [
+   "UNDERMINE",
+   "Disconnection penalizes remote workers who share a connection with an alleged offender."
+  ],
+  "f_681b9fb450cde5b1": [
+   "UNDERMINE",
+   "False positives would impose severe collateral harm."
+  ],
+  "f_1e19000d659d7228": [
+   "UNDERMINE",
+   "The policy fails its stated target."
+  ],
+  "f_67afbda0349302f7": [
+   "UNDERMINE",
+   "The dossier does not support proportionality."
+  ],
+  "f_ba5c2169e4642d3f": [
+   "UNDERMINE",
+   "Disconnection penalizes students who share a connection with an alleged offender."
+  ],
+  "f_8efae7785d4650b7": [
+   "UNDERMINE",
+   "No dossier evidence exists on appeal mechanisms."
+  ],
+  "f_73f7681f8461de78": [
+   "NEUTRAL",
+   "TalkTalk's position is one ISP's view."
+  ],
+  "f_060a7ebbc2efe32c": [
+   "NEUTRAL",
+   "The claim presumes disconnection is applied only to the guilty."
+  ],
+  "f_404f62144c82ca7c": [
+   "UNDERMINE",
+   "TalkTalk's position is the only implementation evidence offered."
+  ],
+  "f_1eb8b3cb64eca54e": [
+   "UNDERMINE",
+   "One title's box-office performance cannot ground an internet-wide remedy."
+  ],
+  "f_bd077c70d0246483": [
+   "UNDERMINE",
+   "Confounders are untested in the evidence."
+  ],
+  "f_958fa43f35cd3ea8": [
+   "UNDERMINE",
+   "The claim presumes disconnection is effective."
+  ],
+  "f_7978490c038c85c6": [
+   "UNDERMINE",
+   "Uncertainty cuts against the claim rather than leaving it merely unproven."
+  ],
+  "f_7e4ce03e9dcb5c86": [
+   "UNDERMINE",
+   "E1 and E2 cover music plus a single film (Watchmen)."
+  ],
+  "f_c0ac6ed420dc2a6c": [
+   "UNDERMINE",
+   "The dossier contains no affirmative instance of disconnection reducing piracy."
+  ],
+  "f_48106a68658ba968": [
+   "UNDERMINE",
+   "No evidentiary threshold is stated in the policy."
+  ],
+  "f_6131068e1e0207fd": [
+   "UNDERMINE",
+   "Collateral punishment of household members is unaddressed."
+  ],
+  "f_b6ddd667965bb8a5": [
+   "UNDERMINE",
+   "E3 specifies an exception class the policy cannot reach."
+  ],
+  "f_16755c0b9e562a3d": [
+   "UNDERMINE",
+   "TalkTalk's evidence runs against the remedy."
+  ],
+  "f_11b61b67202bf6ad": [
+   "UNDERMINE",
+   "The harm claims are contested."
+  ],
+  "f_866bb22fb32b36aa": [
+   "UNDERMINE",
+   "The claim presumes disconnection is enforceable."
+  ],
+  "f_921ff3bff7c6e951": [
+   "UNDERMINE",
+   "The feasibility objections are direct."
+  ],
+  "f_b310f7aef610e9d2": [
+   "UNDERMINE",
+   "One title's box-office performance cannot ground an industry-wide remedy."
+  ],
+  "f_3803383fecaf489f": [
+   "UNDERMINE",
+   "\"Fully attributed\" and \"blamed\" are assertions by financially interested parties."
+  ],
+  "f_6ba124d712a4d45c": [
+   "UNDERMINE",
+   "No appeal process is stated in the policy."
+  ],
+  "f_6806b066390feb05": [
+   "UNDERMINE",
+   "Determined users mask identity or activity."
+  ],
+  "f_bbe01b135731d7fd": [
+   "UNDERMINE",
+   "Students sharing a line bear the sanction with no alleged wrongdoing"
+  ],
+  "f_ee3bf3a993af3288": [
+   "UNDERMINE",
+   "Family members sharing a line bear the sanction with no alleged wrongdoing"
+  ],
+  "f_af4745f12ce763a1": [
+   "SUPPORT",
+   "E3 is direct implementation evidence from an ISP"
+  ],
+  "f_5e698118998c0bee": [
+   "UNDERMINE",
+   "No error-correction is specified in E3"
+  ],
+  "f_5a862a84184f0375": [
+   "UNDERMINE",
+   "Nothing addresses false disconnections"
+  ],
+  "f_496d0d0af81d2c49": [
+   "NEUTRAL",
+   "Legal services are offered as an alternative"
+  ],
+  "f_96f2728aa624921c": [
+   "UNDERMINE",
+   "Disconnection is connection-level, not person-level"
+  ],
+  "f_2b3b8b9b23c17fed": [
+   "UNDERMINE",
+   "False disconnections are inevitable"
+  ],
+  "f_c86e8aa15f01cb7b": [
+   "UNDERMINE",
+   "A lower-cost alternative is offered"
+  ],
+  "f_2a988818905a8f72": [
+   "UNDERMINE",
+   "No evidentiary threshold is specified in E3"
+  ],
+  "f_31fb6eba85bb35d5": [
+   "UNDERMINE",
+   "Home workers sharing a line bear the sanction with no alleged wrongdoing"
+  ],
+  "f_d4ec7e417e9d400e": [
+   "UNDERMINE",
+   "Education is offered as an alternative"
+  ],
+  "f_61b32fac2b99bb5c": [
+   "UNDERMINE",
+   "An alternative with fewer side effects is offered"
+  ],
+  "f_31edfae01194996e": [
+   "UNDERMINE",
+   "Small businesses sharing a line bear the sanction with no alleged wrongdoing"
+  ],
+  "f_d109406796178770": [
+   "UNDERMINE",
+   "No appeal mechanism is specified in E3"
+  ],
+  "f_8ac5c452a1c7a454": [
+   "UNDERMINE",
+   "A remedy that reaches only the detectable, not the responsible, fails on its own terms"
+  ],
+  "f_9e69b0fd3dce7b74": [
+   "UNDERMINE",
+   "The affected population is never accounted for in the claim"
+  ],
+  "f_872928db0d0a66e1": [
+   "UNDERMINE",
+   "The claim overgeneralizes to all user populations"
+  ],
+  "f_5a2ae95b75f90fe1": [
+   "UNDERMINE",
+   "The claim overgeneralizes to households"
+  ],
+  "f_def5d95dd3100f8e": [
+   "UNDERMINE",
+   "TalkTalk has a direct interest in avoiding enforcement obligations"
+  ],
+  "f_d9ac25914e47bb7a": [
+   "UNDERMINE",
+   "E3's technical point is unrebutted in the dossier"
+  ],
+  "f_d776dcfc551d7ad6": [
+   "UNDERMINE",
+   "'Illegal downloaders' is undefined regarding alleged vs. adjudicated status"
+  ],
+  "f_81855e76b381f3b6": [
+   "UNDERMINE",
+   "The evidence affirmatively undercuts efficacy"
+  ],
+  "f_2d553d9c7f9755c1": [
+   "UNDERMINE",
+   "'Fully attributed' and 'blamed' are attributions, not causal estimates"
+  ],
+  "f_ad007fbb72919174": [
+   "SUPPORT",
+   "E3's technical point is plausible"
+  ],
+  "f_949ff5150d06270c": [
+   "UNDERMINE",
+   "'Illegal downloaders' is undefined regarding evidence thresholds"
+  ],
+  "f_9d1880c7ec1a21df": [
+   "UNDERMINE",
+   "Evidence covers music and film only"
+  ],
+  "f_85c1ccb745fac451": [
+   "UNDERMINE",
+   "'Illegal downloaders' is undefined regarding disconnection duration"
+  ],
+  "f_e20bae3fd66fd896": [
+   "UNDERMINE",
+   "The claim overgeneralizes to all internet use"
+  ],
+  "f_7211c583f65308e0": [
+   "UNDERMINE",
+   "As stated, the policy is unimplementable"
+  ],
+  "f_d42bd2d36ab05341": [
+   "UNDERMINE",
+   "No evidence supports efficacy"
+  ],
+  "f_8dd7e08981869aa4": [
+   "UNDERMINE",
+   "The claim overgeneralizes to all infringement types"
+  ],
+  "f_4e5a8a1cde2e78d6": [
+   "UNDERMINE",
+   "'Illegal downloaders' is undefined regarding repeat-offense handling"
+  ],
+  "f_ca29b3c4b289acfb": [
+   "NEUTRAL",
+   "Proportionality is ultimately a value judgment"
+  ],
+  "f_deab9a7c62fb643d": [
+   "NEUTRAL",
+   "E3-E4 come from TalkTalk"
+  ]
+ }
+}

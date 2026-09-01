@@ -16,6 +16,9 @@
 
 | 日期 | 发现 | 状态 |
 |---|---|---|
+| 2026-09-01 | [事实流剖面：full × star × 三档人格](2026-09-01-flow-profile.md) | **72 场，配对 CI；人格效应两拓扑复现，拓扑效应测不到** |
+| 2026-09-01 | [现有数据支持的 RQ 结论与新假设](2026-09-01-current-data-rq-hypotheses.md) | DeepSeek n=12、GLM n=11；探索性 |
+| 2026-09-01 | [共享实验状态与运行前检查](2026-09-01-shared-experiment-status.md) | 操作前必读；记录 canonical artifact |
 | 2026-08-31 | [Token 对齐的 lifecycle：persona 更改 churn，多于 uptake](2026-08-31-deepseek-token-lifecycle.md) | DeepSeek、full topology，n=12 |
 | 2026-08-31 | [Persona、topology 与 fact flow 的实验设计](2026-08-31-persona-topology-fact-flow-design.md) | 设计备忘录，待预注册与验证 |
 | 2026-08-31 | [Persona 改变事实人口学，不自动增加信息流](2026-08-31-perspectrum-deepseek-personas.md) | DeepSeek 初步分析，n=12 |
@@ -27,9 +30,18 @@
 
 ## 关于原始数据
 
-`experiments/*_out/` 全部被 `.gitignore` 忽略（trace + store 加起来几 MB 到几十 MB）。
-所以**原始数据只在本机**。每个 finding 的 `findings/data/*.json` 存的是算完的数字，
-体积小、已提交，即使原始 store 丢了，表里的数还能对得上。
+三层，越往下越小、越可靠：
+
+| 层 | 位置 | 在 git 里 | 说明 |
+|---|---|---|---|
+| 原始 trace / sweep 产物 | `experiments/*_out/` | ❌ | 被 `.gitignore` 忽略，只在本机 |
+| fact store | `experiments/perspectrum_pilot_*/*.v2.json` | ✅ | Perspectrum 的 105 场，36 MB |
+| 标注层 | `experiments/labels/{stance,token_clock}/` | ✅ | 只存标注本身，8.7 MB |
+| 算完的结果 | `findings/data/*.json`、`*.csv` | ✅ | 几十 KB，即使 store 丢了也对得上 |
+
+**标注不要以 enriched store 的形式提交。** `label_fact_stance.py` 和 `token_clock.py`
+都是"复制整个 store + 加一个字段"，两遍标注就是 75 MB 的逐字节副本。
+用 `experiments/export_labels.py` 导出成 sidecar，用它的 `attach_labels()` 挂回去。
 
 要让某个发现完全可复现，就得把它依赖的 `.store.json` 显式加进 git（`git add -f`）。
 目前还没有这么做过。

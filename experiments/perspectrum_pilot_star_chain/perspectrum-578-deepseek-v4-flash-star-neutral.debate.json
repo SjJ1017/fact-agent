@@ -1,0 +1,274 @@
+{
+  "execution_id": "perspectrum-578-deepseek-v4-flash-star-neutral",
+  "claim_id": 578,
+  "claim": "College education is worth it",
+  "model": "deepseek-v4-flash",
+  "topology": "star",
+  "panel": "neutral",
+  "roles": {
+    "A": "You are a neutral evidence analyst. Seek the strongest relevant facts on both sides.",
+    "B": "You are a neutral evidence analyst. Seek the strongest relevant facts on both sides.",
+    "C": "You are a neutral evidence analyst. Seek the strongest relevant facts on both sides."
+  },
+  "rounds": 3,
+  "evidence": [
+    {
+      "id": "E1",
+      "stance": "support",
+      "text": "Henry Bienan, PhD, President Emeritus of Northwestern University, argues that a college education results in \"greater productivity, lower crime, better health, better citizenship for more educated people.\" A 2009 study found 16 to 24 year old high school drop-outs were 63% more likely to be incarcerated than those with a bachelor's degree or higher. According to the Bureau of Labor Statistics, from Sep. 2008 to Sep. 2009, 43% of college graduates did volunteer work compared to 19% of high school graduates and 27% of adults in general.",
+      "source": "procon"
+    },
+    {
+      "id": "E2",
+      "stance": "support",
+      "text": "Students live, go to classes, and socialize with other students from around the world and learn from professors with a variety of expertise. The community of people on a college campus means students are likely to make diverse friends and business connections, and, potentially, find a spouse or mate. Access to a variety of people allows college students to learn about different cultures, religions, and personalities they may have not been exposed to in their home towns, which broadens their knowledge and perspective.",
+      "source": "procon"
+    },
+    {
+      "id": "E3",
+      "stance": "undermine",
+      "text": "According to the Bureau of Labor Statistics, of the 30 projected fastest growing jobs between 2010 and 2020, five do not require a high school diploma, nine require a high school diploma, four require an associate's degree, six require a bachelor's degree, and six require graduate degrees. The following successful people either never enrolled in college or never completed their college degrees: Richard Branson, founder and chairman of the Virgin Group; Charles Culpepper, owner and CEO of Coca Cola; Ellen Degeneres, comedian and actress; Michael Dell, founder of Dell, Inc.; Walt Disney, Disney Corporation founder; Bill Gates, Microsoft founder; Steve Jobs, co-founder of Apple;",
+      "source": "procon"
+    },
+    {
+      "id": "E4",
+      "stance": "undermine",
+      "text": "According to the Department of Labor, as of 2008, 17 million college graduates were in positions that did not require a college education. More than 16,000 parking lot attendants, 83,000 bartenders, 115,000 janitors and 15% of taxi drivers have bachelor's degrees. College graduates with jobs that do not require college degrees earn 30-40% less per week than those who work in jobs requiring college degrees.",
+      "source": "procon"
+    }
+  ],
+  "gold_perspectives": [
+    {
+      "stance": "support",
+      "text": "College graduates are more productive as members of society."
+    },
+    {
+      "stance": "support",
+      "text": "College exposes students to diverse people and ideas."
+    },
+    {
+      "stance": "support",
+      "text": "The children of college graduates are healthier and more prepared for school."
+    },
+    {
+      "stance": "support",
+      "text": "More and more jobs require college degrees."
+    },
+    {
+      "stance": "support",
+      "text": "College graduates have more and better employment opportunities."
+    },
+    {
+      "stance": "support",
+      "text": "Earning a college degree is a major life achievement."
+    },
+    {
+      "stance": "support",
+      "text": "Young adults learn interpersonal skills in college."
+    },
+    {
+      "stance": "support",
+      "text": "Graduating from college can keep poverty at bay."
+    },
+    {
+      "stance": "support",
+      "text": "College education has a high return as an investment."
+    },
+    {
+      "stance": "support",
+      "text": "Learning is always worthwhile."
+    },
+    {
+      "stance": "support",
+      "text": "Colleges provide networking value."
+    },
+    {
+      "stance": "support",
+      "text": "College graduates are healthier and live longer."
+    },
+    {
+      "stance": "support",
+      "text": "College allows students to explore career options."
+    },
+    {
+      "stance": "support",
+      "text": "We must retain a respect for academia"
+    },
+    {
+      "stance": "support",
+      "text": "University education gives people something to aim for"
+    },
+    {
+      "stance": "undermine",
+      "text": "Many people succeed without college degrees."
+    },
+    {
+      "stance": "undermine",
+      "text": "Many college graduates are employed in jobs that do not require college degrees."
+    },
+    {
+      "stance": "undermine",
+      "text": "Colleges may be indoctrinating students instead of educating them."
+    },
+    {
+      "stance": "undermine",
+      "text": "Too many students earning degrees has diluted the value of a bachelor's degree."
+    },
+    {
+      "stance": "undermine",
+      "text": "Many recent college graduates are un- or underemployed."
+    },
+    {
+      "stance": "undermine",
+      "text": "A college degree is no guarantee of workplace benefits."
+    },
+    {
+      "stance": "undermine",
+      "text": "Learning a trade profession is a better option than college for many young adults."
+    },
+    {
+      "stance": "undermine",
+      "text": "The total cost of going to college also includes the cost of missing opportunities to make money at a job."
+    },
+    {
+      "stance": "undermine",
+      "text": "College stress can lead to health problems and other negative consequences."
+    },
+    {
+      "stance": "undermine",
+      "text": "College degrees do not guarantee learning or job preparation."
+    },
+    {
+      "stance": "undermine",
+      "text": "Universities don’t have unlimited places available"
+    }
+  ],
+  "transcript": {
+    "A|1": "The dossier provides mixed empirical evidence. E1 and E2 support non-economic benefits: lower incarceration, higher volunteering, broader social and cultural exposure. E3 shows many successful people lack degrees, and lists job-growth data where roughly half of fastest-growing jobs require postsecondary education. E4 directly undermines economic returns: millions of graduates are underemployed, with substantial wage penalties. Whether these benefits outweigh costs is partly a value judgment, not purely empirical. The evidence supports some benefits but does not establish that college is clearly \"worth it\" overall, especially financially. \n\nVERDICT: UNCERTAIN",
+    "B|1": "The dossier supports both sides. E1 and E2 show non-economic benefits: college graduates report better health, citizenship, lower incarceration, more volunteering, and broader social/cultural exposure. E3 indicates many fast-growing jobs require college or graduate degrees, but also lists highly successful college dropouts. E4 directly undermines the claim: 17 million graduates hold jobs not requiring degrees, often earning 30–40% less. Whether college is \"worth it\" depends on individual goals, field, costs, and alternatives; the evidence cannot settle that value judgment.\n\nVERDICT: UNCERTAIN",
+    "C|1": "Evidence shows mixed empirical support. E1 and E2 indicate benefits: lower incarceration among graduates, higher volunteer rates, and social/cultural advantages. E3 shows some highly successful people lack degrees and many fast-growing jobs do not require bachelor's degrees. E4 shows many graduates are underemployed in jobs not requiring degrees and earn less than matched graduates. However, the dossier omits tuition costs, debt, earnings over time, and non-economic trade-offs. Whether college is \"worth it\" depends on comparing benefits against costs and individual goals, which the evidence does not fully address. Thus the claim is not clearly supported or refuted.  \n\nVERDICT: UNCERTAIN",
+    "A|2": "The dossier supplies concrete empirical claims on both sides: E1/E2 show non-economic benefits (lower incarceration, higher volunteering, broader social exposure), while E4 shows 17 million graduates in jobs not requiring degrees, often earning 30–40% less. E3 shows that many fast-growing jobs require college or graduate degrees, but also lists successful dropouts. Panelist B correctly notes that \"worth it\" depends on individual goals and alternatives. Panelist C rightly adds that the dossier omits tuition costs, debt, and lifetime earnings, which are essential for a cost-benefit judgment. Neither panelist overstates the evidence, and their reasoning aligns with the dossier. Since \"worth it\" is a value judgment requiring comparison of benefits against costs, and the dossier lacks key cost data and personal context, the claim remains neither clearly supported nor refuted.\n\nVERDICT: UNCERTAIN",
+    "B|2": "Panelist A’s reasoning is sound: the dossier does not settle the claim. E1 and E2 show real non-economic benefits—lower incarceration, more volunteering, broader social exposure—but “worth it” also requires weighing costs and financial outcomes. E4 directly undercuts the economic case: millions of graduates are underemployed and earn 30–40% less when in non-college jobs. E3 adds that some highly successful people lacked degrees, though this only shows exceptions, not the average return. The job-growth data in E3 is mixed, with roughly half of fastest-growing jobs requiring postsecondary education. Since the dossier lacks comprehensive earnings, debt, and lifetime data, the overall verdict remains unresolved.\n\nVERDICT: UNCERTAIN",
+    "C|2": "The dossier supports some benefits but does not establish overall worth. E1 shows lower incarceration and higher volunteering among graduates, and E2 describes social/cultural gains—real but largely non-economic. E4 is the strongest economic counterweight: 17 million graduates in jobs not requiring degrees and 30–40% wage penalties for underemployment. E3’s billionaire dropouts are anecdotal, though its job-growth data show roughly half of fastest-growing jobs need postsecondary education, which cuts both ways. Panelist A’s UNCERTAIN verdict is warranted: whether non-economic benefits and partial labor-market advantages outweigh debt, opportunity costs, and underemployment risk depends on individual circumstances and value priorities, not purely empirical proof. The evidence is genuinely mixed, so I retain uncertainty rather than shifting to support or undermine.\n\nVERDICT: UNCERTAIN",
+    "A|3": "The dossier shows genuine non-economic benefits: E1 links degrees to lower incarceration and higher volunteering; E2 describes social and cultural gains. But “worth it” depends on costs and financial returns, which the dossier does not fully measure. E4 is a strong counterweight: 17 million graduates are in jobs not requiring degrees, and underemployed graduates earn 30–40% less weekly. E3’s job-growth data cuts both ways—roughly half of fastest-growing jobs require postsecondary education—while the dropout billionaires are anecdotes, not average outcomes. Panelists B and C are right that the evidence is mixed and incomplete. There is no comprehensive data on tuition, debt, lifetime earnings, or individual variation. The non-economic benefits are real, but they do not by themselves prove overall worth for all students, and E4 shows meaningful economic risk. Thus I retain uncertainty.\n\nVERDICT: UNCERTAIN",
+    "B|3": "Panelist A’s assessment is sound: the dossier contains genuine evidence on both sides, but no cost data. E1 shows correlations—not causation—between education and incarceration or volunteering. E2 describes social benefits, but these are qualitative, not measured against costs. E3 shows many fast-growing jobs require degrees, yet also lists prominent dropouts; it does not quantify the probability of success without college. E4 provides concrete underemployment data: 17 million graduates in non-degree jobs and 30–40% lower earnings, which directly weakens a blanket “worth it” claim.\n\nThe missing elements—tuition, debt, lifetime earnings, and individual circumstances—are decisive. “Worth it” is a value judgment requiring comparison of benefits to costs, and the dossier cannot support that comparison. Panelist A’s UNCERTAIN verdict remains the most defensible position.\n\nVERDICT: UNCERTAIN",
+    "C|3": "Panelist A’s assessment is sound. The dossier offers concrete empirical claims: E1 shows graduates have lower incarceration and higher volunteering; E2 describes social and networking benefits; E3 shows many growing jobs require degrees but also lists successful non-graduates; E4 shows 17 million graduates in jobs not requiring degrees, earning 30–40% less. Panelist B is right that “worth it” depends on individual goals and alternatives. Panelist C is also right that the dossier omits tuition costs, debt, and lifetime earnings—essential for any cost-benefit judgment. Without those data, the claim cannot be confirmed or refuted as a general statement. The evidence supports some benefits and some drawbacks, but no net calculation is possible.\n\nVERDICT: UNCERTAIN"
+  },
+  "prompts": {
+    "A|1": "Claim under review:\nCollege education is worth it\n\nEvidence dossier:\n[E1] Henry Bienan, PhD, President Emeritus of Northwestern University, argues that a college education results in \"greater productivity, lower crime, better health, better citizenship for more educated people.\" A 2009 study found 16 to 24 year old high school drop-outs were 63% more likely to be incarcerated than those with a bachelor's degree or higher. According to the Bureau of Labor Statistics, from Sep. 2008 to Sep. 2009, 43% of college graduates did volunteer work compared to 19% of high school graduates and 27% of adults in general.\n\n[E2] Students live, go to classes, and socialize with other students from around the world and learn from professors with a variety of expertise. The community of people on a college campus means students are likely to make diverse friends and business connections, and, potentially, find a spouse or mate. Access to a variety of people allows college students to learn about different cultures, religions, and personalities they may have not been exposed to in their home towns, which broadens their knowledge and perspective.\n\n[E3] According to the Bureau of Labor Statistics, of the 30 projected fastest growing jobs between 2010 and 2020, five do not require a high school diploma, nine require a high school diploma, four require an associate's degree, six require a bachelor's degree, and six require graduate degrees. The following successful people either never enrolled in college or never completed their college degrees: Richard Branson, founder and chairman of the Virgin Group; Charles Culpepper, owner and CEO of Coca Cola; Ellen Degeneres, comedian and actress; Michael Dell, founder of Dell, Inc.; Walt Disney, Disney Corporation founder; Bill Gates, Microsoft founder; Steve Jobs, co-founder of Apple;\n\n[E4] According to the Department of Labor, as of 2008, 17 million college graduates were in positions that did not require a college education. More than 16,000 parking lot attendants, 83,000 bartenders, 115,000 janitors and 15% of taxi drivers have bachelor's degrees. College graduates with jobs that do not require college degrees earn 30-40% less per week than those who work in jobs requiring college degrees.\n\nGive your independent assessment before seeing other panelists.",
+    "B|1": "Claim under review:\nCollege education is worth it\n\nEvidence dossier:\n[E1] Henry Bienan, PhD, President Emeritus of Northwestern University, argues that a college education results in \"greater productivity, lower crime, better health, better citizenship for more educated people.\" A 2009 study found 16 to 24 year old high school drop-outs were 63% more likely to be incarcerated than those with a bachelor's degree or higher. According to the Bureau of Labor Statistics, from Sep. 2008 to Sep. 2009, 43% of college graduates did volunteer work compared to 19% of high school graduates and 27% of adults in general.\n\n[E2] Students live, go to classes, and socialize with other students from around the world and learn from professors with a variety of expertise. The community of people on a college campus means students are likely to make diverse friends and business connections, and, potentially, find a spouse or mate. Access to a variety of people allows college students to learn about different cultures, religions, and personalities they may have not been exposed to in their home towns, which broadens their knowledge and perspective.\n\n[E3] According to the Bureau of Labor Statistics, of the 30 projected fastest growing jobs between 2010 and 2020, five do not require a high school diploma, nine require a high school diploma, four require an associate's degree, six require a bachelor's degree, and six require graduate degrees. The following successful people either never enrolled in college or never completed their college degrees: Richard Branson, founder and chairman of the Virgin Group; Charles Culpepper, owner and CEO of Coca Cola; Ellen Degeneres, comedian and actress; Michael Dell, founder of Dell, Inc.; Walt Disney, Disney Corporation founder; Bill Gates, Microsoft founder; Steve Jobs, co-founder of Apple;\n\n[E4] According to the Department of Labor, as of 2008, 17 million college graduates were in positions that did not require a college education. More than 16,000 parking lot attendants, 83,000 bartenders, 115,000 janitors and 15% of taxi drivers have bachelor's degrees. College graduates with jobs that do not require college degrees earn 30-40% less per week than those who work in jobs requiring college degrees.\n\nGive your independent assessment before seeing other panelists.",
+    "C|1": "Claim under review:\nCollege education is worth it\n\nEvidence dossier:\n[E1] Henry Bienan, PhD, President Emeritus of Northwestern University, argues that a college education results in \"greater productivity, lower crime, better health, better citizenship for more educated people.\" A 2009 study found 16 to 24 year old high school drop-outs were 63% more likely to be incarcerated than those with a bachelor's degree or higher. According to the Bureau of Labor Statistics, from Sep. 2008 to Sep. 2009, 43% of college graduates did volunteer work compared to 19% of high school graduates and 27% of adults in general.\n\n[E2] Students live, go to classes, and socialize with other students from around the world and learn from professors with a variety of expertise. The community of people on a college campus means students are likely to make diverse friends and business connections, and, potentially, find a spouse or mate. Access to a variety of people allows college students to learn about different cultures, religions, and personalities they may have not been exposed to in their home towns, which broadens their knowledge and perspective.\n\n[E3] According to the Bureau of Labor Statistics, of the 30 projected fastest growing jobs between 2010 and 2020, five do not require a high school diploma, nine require a high school diploma, four require an associate's degree, six require a bachelor's degree, and six require graduate degrees. The following successful people either never enrolled in college or never completed their college degrees: Richard Branson, founder and chairman of the Virgin Group; Charles Culpepper, owner and CEO of Coca Cola; Ellen Degeneres, comedian and actress; Michael Dell, founder of Dell, Inc.; Walt Disney, Disney Corporation founder; Bill Gates, Microsoft founder; Steve Jobs, co-founder of Apple;\n\n[E4] According to the Department of Labor, as of 2008, 17 million college graduates were in positions that did not require a college education. More than 16,000 parking lot attendants, 83,000 bartenders, 115,000 janitors and 15% of taxi drivers have bachelor's degrees. College graduates with jobs that do not require college degrees earn 30-40% less per week than those who work in jobs requiring college degrees.\n\nGive your independent assessment before seeing other panelists.",
+    "A|2": "Claim under review:\nCollege education is worth it\n\nEvidence dossier:\n[E1] Henry Bienan, PhD, President Emeritus of Northwestern University, argues that a college education results in \"greater productivity, lower crime, better health, better citizenship for more educated people.\" A 2009 study found 16 to 24 year old high school drop-outs were 63% more likely to be incarcerated than those with a bachelor's degree or higher. According to the Bureau of Labor Statistics, from Sep. 2008 to Sep. 2009, 43% of college graduates did volunteer work compared to 19% of high school graduates and 27% of adults in general.\n\n[E2] Students live, go to classes, and socialize with other students from around the world and learn from professors with a variety of expertise. The community of people on a college campus means students are likely to make diverse friends and business connections, and, potentially, find a spouse or mate. Access to a variety of people allows college students to learn about different cultures, religions, and personalities they may have not been exposed to in their home towns, which broadens their knowledge and perspective.\n\n[E3] According to the Bureau of Labor Statistics, of the 30 projected fastest growing jobs between 2010 and 2020, five do not require a high school diploma, nine require a high school diploma, four require an associate's degree, six require a bachelor's degree, and six require graduate degrees. The following successful people either never enrolled in college or never completed their college degrees: Richard Branson, founder and chairman of the Virgin Group; Charles Culpepper, owner and CEO of Coca Cola; Ellen Degeneres, comedian and actress; Michael Dell, founder of Dell, Inc.; Walt Disney, Disney Corporation founder; Bill Gates, Microsoft founder; Steve Jobs, co-founder of Apple;\n\n[E4] According to the Department of Labor, as of 2008, 17 million college graduates were in positions that did not require a college education. More than 16,000 parking lot attendants, 83,000 bartenders, 115,000 janitors and 15% of taxi drivers have bachelor's degrees. College graduates with jobs that do not require college degrees earn 30-40% less per week than those who work in jobs requiring college degrees.\n\nThese are the panelists' latest assessments:\n\n--- Panelist B ---\nThe dossier supports both sides. E1 and E2 show non-economic benefits: college graduates report better health, citizenship, lower incarceration, more volunteering, and broader social/cultural exposure. E3 indicates many fast-growing jobs require college or graduate degrees, but also lists highly successful college dropouts. E4 directly undermines the claim: 17 million graduates hold jobs not requiring degrees, often earning 30–40% less. Whether college is \"worth it\" depends on individual goals, field, costs, and alternatives; the evidence cannot settle that value judgment.\n\nVERDICT: UNCERTAIN\n\n--- Panelist C ---\nEvidence shows mixed empirical support. E1 and E2 indicate benefits: lower incarceration among graduates, higher volunteer rates, and social/cultural advantages. E3 shows some highly successful people lack degrees and many fast-growing jobs do not require bachelor's degrees. E4 shows many graduates are underemployed in jobs not requiring degrees and earn less than matched graduates. However, the dossier omits tuition costs, debt, earnings over time, and non-economic trade-offs. Whether college is \"worth it\" depends on comparing benefits against costs and individual goals, which the evidence does not fully address. Thus the claim is not clearly supported or refuted.  \n\nVERDICT: UNCERTAIN\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "B|2": "Claim under review:\nCollege education is worth it\n\nEvidence dossier:\n[E1] Henry Bienan, PhD, President Emeritus of Northwestern University, argues that a college education results in \"greater productivity, lower crime, better health, better citizenship for more educated people.\" A 2009 study found 16 to 24 year old high school drop-outs were 63% more likely to be incarcerated than those with a bachelor's degree or higher. According to the Bureau of Labor Statistics, from Sep. 2008 to Sep. 2009, 43% of college graduates did volunteer work compared to 19% of high school graduates and 27% of adults in general.\n\n[E2] Students live, go to classes, and socialize with other students from around the world and learn from professors with a variety of expertise. The community of people on a college campus means students are likely to make diverse friends and business connections, and, potentially, find a spouse or mate. Access to a variety of people allows college students to learn about different cultures, religions, and personalities they may have not been exposed to in their home towns, which broadens their knowledge and perspective.\n\n[E3] According to the Bureau of Labor Statistics, of the 30 projected fastest growing jobs between 2010 and 2020, five do not require a high school diploma, nine require a high school diploma, four require an associate's degree, six require a bachelor's degree, and six require graduate degrees. The following successful people either never enrolled in college or never completed their college degrees: Richard Branson, founder and chairman of the Virgin Group; Charles Culpepper, owner and CEO of Coca Cola; Ellen Degeneres, comedian and actress; Michael Dell, founder of Dell, Inc.; Walt Disney, Disney Corporation founder; Bill Gates, Microsoft founder; Steve Jobs, co-founder of Apple;\n\n[E4] According to the Department of Labor, as of 2008, 17 million college graduates were in positions that did not require a college education. More than 16,000 parking lot attendants, 83,000 bartenders, 115,000 janitors and 15% of taxi drivers have bachelor's degrees. College graduates with jobs that do not require college degrees earn 30-40% less per week than those who work in jobs requiring college degrees.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nThe dossier provides mixed empirical evidence. E1 and E2 support non-economic benefits: lower incarceration, higher volunteering, broader social and cultural exposure. E3 shows many successful people lack degrees, and lists job-growth data where roughly half of fastest-growing jobs require postsecondary education. E4 directly undermines economic returns: millions of graduates are underemployed, with substantial wage penalties. Whether these benefits outweigh costs is partly a value judgment, not purely empirical. The evidence supports some benefits but does not establish that college is clearly \"worth it\" overall, especially financially. \n\nVERDICT: UNCERTAIN\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "C|2": "Claim under review:\nCollege education is worth it\n\nEvidence dossier:\n[E1] Henry Bienan, PhD, President Emeritus of Northwestern University, argues that a college education results in \"greater productivity, lower crime, better health, better citizenship for more educated people.\" A 2009 study found 16 to 24 year old high school drop-outs were 63% more likely to be incarcerated than those with a bachelor's degree or higher. According to the Bureau of Labor Statistics, from Sep. 2008 to Sep. 2009, 43% of college graduates did volunteer work compared to 19% of high school graduates and 27% of adults in general.\n\n[E2] Students live, go to classes, and socialize with other students from around the world and learn from professors with a variety of expertise. The community of people on a college campus means students are likely to make diverse friends and business connections, and, potentially, find a spouse or mate. Access to a variety of people allows college students to learn about different cultures, religions, and personalities they may have not been exposed to in their home towns, which broadens their knowledge and perspective.\n\n[E3] According to the Bureau of Labor Statistics, of the 30 projected fastest growing jobs between 2010 and 2020, five do not require a high school diploma, nine require a high school diploma, four require an associate's degree, six require a bachelor's degree, and six require graduate degrees. The following successful people either never enrolled in college or never completed their college degrees: Richard Branson, founder and chairman of the Virgin Group; Charles Culpepper, owner and CEO of Coca Cola; Ellen Degeneres, comedian and actress; Michael Dell, founder of Dell, Inc.; Walt Disney, Disney Corporation founder; Bill Gates, Microsoft founder; Steve Jobs, co-founder of Apple;\n\n[E4] According to the Department of Labor, as of 2008, 17 million college graduates were in positions that did not require a college education. More than 16,000 parking lot attendants, 83,000 bartenders, 115,000 janitors and 15% of taxi drivers have bachelor's degrees. College graduates with jobs that do not require college degrees earn 30-40% less per week than those who work in jobs requiring college degrees.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nThe dossier provides mixed empirical evidence. E1 and E2 support non-economic benefits: lower incarceration, higher volunteering, broader social and cultural exposure. E3 shows many successful people lack degrees, and lists job-growth data where roughly half of fastest-growing jobs require postsecondary education. E4 directly undermines economic returns: millions of graduates are underemployed, with substantial wage penalties. Whether these benefits outweigh costs is partly a value judgment, not purely empirical. The evidence supports some benefits but does not establish that college is clearly \"worth it\" overall, especially financially. \n\nVERDICT: UNCERTAIN\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "A|3": "Claim under review:\nCollege education is worth it\n\nEvidence dossier:\n[E1] Henry Bienan, PhD, President Emeritus of Northwestern University, argues that a college education results in \"greater productivity, lower crime, better health, better citizenship for more educated people.\" A 2009 study found 16 to 24 year old high school drop-outs were 63% more likely to be incarcerated than those with a bachelor's degree or higher. According to the Bureau of Labor Statistics, from Sep. 2008 to Sep. 2009, 43% of college graduates did volunteer work compared to 19% of high school graduates and 27% of adults in general.\n\n[E2] Students live, go to classes, and socialize with other students from around the world and learn from professors with a variety of expertise. The community of people on a college campus means students are likely to make diverse friends and business connections, and, potentially, find a spouse or mate. Access to a variety of people allows college students to learn about different cultures, religions, and personalities they may have not been exposed to in their home towns, which broadens their knowledge and perspective.\n\n[E3] According to the Bureau of Labor Statistics, of the 30 projected fastest growing jobs between 2010 and 2020, five do not require a high school diploma, nine require a high school diploma, four require an associate's degree, six require a bachelor's degree, and six require graduate degrees. The following successful people either never enrolled in college or never completed their college degrees: Richard Branson, founder and chairman of the Virgin Group; Charles Culpepper, owner and CEO of Coca Cola; Ellen Degeneres, comedian and actress; Michael Dell, founder of Dell, Inc.; Walt Disney, Disney Corporation founder; Bill Gates, Microsoft founder; Steve Jobs, co-founder of Apple;\n\n[E4] According to the Department of Labor, as of 2008, 17 million college graduates were in positions that did not require a college education. More than 16,000 parking lot attendants, 83,000 bartenders, 115,000 janitors and 15% of taxi drivers have bachelor's degrees. College graduates with jobs that do not require college degrees earn 30-40% less per week than those who work in jobs requiring college degrees.\n\nThese are the panelists' latest assessments:\n\n--- Panelist B ---\nPanelist A’s reasoning is sound: the dossier does not settle the claim. E1 and E2 show real non-economic benefits—lower incarceration, more volunteering, broader social exposure—but “worth it” also requires weighing costs and financial outcomes. E4 directly undercuts the economic case: millions of graduates are underemployed and earn 30–40% less when in non-college jobs. E3 adds that some highly successful people lacked degrees, though this only shows exceptions, not the average return. The job-growth data in E3 is mixed, with roughly half of fastest-growing jobs requiring postsecondary education. Since the dossier lacks comprehensive earnings, debt, and lifetime data, the overall verdict remains unresolved.\n\nVERDICT: UNCERTAIN\n\n--- Panelist C ---\nThe dossier supports some benefits but does not establish overall worth. E1 shows lower incarceration and higher volunteering among graduates, and E2 describes social/cultural gains—real but largely non-economic. E4 is the strongest economic counterweight: 17 million graduates in jobs not requiring degrees and 30–40% wage penalties for underemployment. E3’s billionaire dropouts are anecdotal, though its job-growth data show roughly half of fastest-growing jobs need postsecondary education, which cuts both ways. Panelist A’s UNCERTAIN verdict is warranted: whether non-economic benefits and partial labor-market advantages outweigh debt, opportunity costs, and underemployment risk depends on individual circumstances and value priorities, not purely empirical proof. The evidence is genuinely mixed, so I retain uncertainty rather than shifting to support or undermine.\n\nVERDICT: UNCERTAIN\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "B|3": "Claim under review:\nCollege education is worth it\n\nEvidence dossier:\n[E1] Henry Bienan, PhD, President Emeritus of Northwestern University, argues that a college education results in \"greater productivity, lower crime, better health, better citizenship for more educated people.\" A 2009 study found 16 to 24 year old high school drop-outs were 63% more likely to be incarcerated than those with a bachelor's degree or higher. According to the Bureau of Labor Statistics, from Sep. 2008 to Sep. 2009, 43% of college graduates did volunteer work compared to 19% of high school graduates and 27% of adults in general.\n\n[E2] Students live, go to classes, and socialize with other students from around the world and learn from professors with a variety of expertise. The community of people on a college campus means students are likely to make diverse friends and business connections, and, potentially, find a spouse or mate. Access to a variety of people allows college students to learn about different cultures, religions, and personalities they may have not been exposed to in their home towns, which broadens their knowledge and perspective.\n\n[E3] According to the Bureau of Labor Statistics, of the 30 projected fastest growing jobs between 2010 and 2020, five do not require a high school diploma, nine require a high school diploma, four require an associate's degree, six require a bachelor's degree, and six require graduate degrees. The following successful people either never enrolled in college or never completed their college degrees: Richard Branson, founder and chairman of the Virgin Group; Charles Culpepper, owner and CEO of Coca Cola; Ellen Degeneres, comedian and actress; Michael Dell, founder of Dell, Inc.; Walt Disney, Disney Corporation founder; Bill Gates, Microsoft founder; Steve Jobs, co-founder of Apple;\n\n[E4] According to the Department of Labor, as of 2008, 17 million college graduates were in positions that did not require a college education. More than 16,000 parking lot attendants, 83,000 bartenders, 115,000 janitors and 15% of taxi drivers have bachelor's degrees. College graduates with jobs that do not require college degrees earn 30-40% less per week than those who work in jobs requiring college degrees.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nThe dossier supplies concrete empirical claims on both sides: E1/E2 show non-economic benefits (lower incarceration, higher volunteering, broader social exposure), while E4 shows 17 million graduates in jobs not requiring degrees, often earning 30–40% less. E3 shows that many fast-growing jobs require college or graduate degrees, but also lists successful dropouts. Panelist B correctly notes that \"worth it\" depends on individual goals and alternatives. Panelist C rightly adds that the dossier omits tuition costs, debt, and lifetime earnings, which are essential for a cost-benefit judgment. Neither panelist overstates the evidence, and their reasoning aligns with the dossier. Since \"worth it\" is a value judgment requiring comparison of benefits against costs, and the dossier lacks key cost data and personal context, the claim remains neither clearly supported nor refuted.\n\nVERDICT: UNCERTAIN\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "C|3": "Claim under review:\nCollege education is worth it\n\nEvidence dossier:\n[E1] Henry Bienan, PhD, President Emeritus of Northwestern University, argues that a college education results in \"greater productivity, lower crime, better health, better citizenship for more educated people.\" A 2009 study found 16 to 24 year old high school drop-outs were 63% more likely to be incarcerated than those with a bachelor's degree or higher. According to the Bureau of Labor Statistics, from Sep. 2008 to Sep. 2009, 43% of college graduates did volunteer work compared to 19% of high school graduates and 27% of adults in general.\n\n[E2] Students live, go to classes, and socialize with other students from around the world and learn from professors with a variety of expertise. The community of people on a college campus means students are likely to make diverse friends and business connections, and, potentially, find a spouse or mate. Access to a variety of people allows college students to learn about different cultures, religions, and personalities they may have not been exposed to in their home towns, which broadens their knowledge and perspective.\n\n[E3] According to the Bureau of Labor Statistics, of the 30 projected fastest growing jobs between 2010 and 2020, five do not require a high school diploma, nine require a high school diploma, four require an associate's degree, six require a bachelor's degree, and six require graduate degrees. The following successful people either never enrolled in college or never completed their college degrees: Richard Branson, founder and chairman of the Virgin Group; Charles Culpepper, owner and CEO of Coca Cola; Ellen Degeneres, comedian and actress; Michael Dell, founder of Dell, Inc.; Walt Disney, Disney Corporation founder; Bill Gates, Microsoft founder; Steve Jobs, co-founder of Apple;\n\n[E4] According to the Department of Labor, as of 2008, 17 million college graduates were in positions that did not require a college education. More than 16,000 parking lot attendants, 83,000 bartenders, 115,000 janitors and 15% of taxi drivers have bachelor's degrees. College graduates with jobs that do not require college degrees earn 30-40% less per week than those who work in jobs requiring college degrees.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nThe dossier supplies concrete empirical claims on both sides: E1/E2 show non-economic benefits (lower incarceration, higher volunteering, broader social exposure), while E4 shows 17 million graduates in jobs not requiring degrees, often earning 30–40% less. E3 shows that many fast-growing jobs require college or graduate degrees, but also lists successful dropouts. Panelist B correctly notes that \"worth it\" depends on individual goals and alternatives. Panelist C rightly adds that the dossier omits tuition costs, debt, and lifetime earnings, which are essential for a cost-benefit judgment. Neither panelist overstates the evidence, and their reasoning aligns with the dossier. Since \"worth it\" is a value judgment requiring comparison of benefits against costs, and the dossier lacks key cost data and personal context, the claim remains neither clearly supported nor refuted.\n\nVERDICT: UNCERTAIN\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it."
+  },
+  "delivery": {
+    "A|1": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": []
+    },
+    "B|1": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": []
+    },
+    "C|1": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": []
+    },
+    "A|2": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "B|1",
+        "C|1"
+      ]
+    },
+    "B|2": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|1"
+      ]
+    },
+    "C|2": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|1"
+      ]
+    },
+    "A|3": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "B|2",
+        "C|2"
+      ]
+    },
+    "B|3": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|2"
+      ]
+    },
+    "C|3": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|2"
+      ]
+    }
+  }
+}

@@ -1,0 +1,532 @@
+<title>事实流剖面</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap">
+
+<style>
+:root{
+  --ground:#eef1f1; --surface:#ffffff; --sunk:#e5eaea;
+  --ink:#12181b; --body:#2c3538; --muted:#5f6b6e; --faint:#8b9799;
+  --rule:#d5dcdc; --rule-soft:#e4e9e9;
+  --p1:#7ba3a7; --p2:#3d7d85; --p3:#0d363d;
+  --accent:#123f46; --sig:#a8532c; --sig-soft:#f0e0d6;
+  --shadow:0 1px 2px rgba(18,63,70,.06), 0 8px 24px -16px rgba(18,63,70,.28);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0f1516; --surface:#161e20; --sunk:#131a1c;
+    --ink:#e4eaea; --body:#c6d1d2; --muted:#94a3a4; --faint:#6d7c7e;
+    --rule:#283335; --rule-soft:#1e282a;
+    --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
+    --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0f1516; --surface:#161e20; --sunk:#131a1c;
+  --ink:#e4eaea; --body:#c6d1d2; --muted:#94a3a4; --faint:#6d7c7e;
+  --rule:#283335; --rule-soft:#1e282a;
+  --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
+  --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--body);
+  font-family:"IBM Plex Sans","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  font-size:16px; line-height:1.68; -webkit-font-smoothing:antialiased;
+}
+.page{max-width:1120px; margin:0 auto; padding:0 24px 96px;}
+.measure{max-width:41rem; margin-inline:auto;}
+
+/* ---- masthead ---- */
+.masthead{padding:72px 0 40px; border-bottom:1px solid var(--rule);}
+.kicker{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.72rem;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; margin:0 0 1.6rem;
+}
+h1{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif; font-weight:500;
+  font-size:clamp(2.6rem,7vw,4.1rem); line-height:1.04; letter-spacing:-.015em;
+  color:var(--ink); margin:0; text-wrap:balance;
+}
+.thesis{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif;
+  font-size:clamp(1.22rem,2.6vw,1.52rem); line-height:1.5; color:var(--ink);
+  margin:1.6rem 0 0; max-width:34rem; text-wrap:pretty;
+}
+.thesis em{font-style:normal; box-shadow:inset 0 -.42em 0 var(--sig-soft); padding:0 .1em;}
+.standfirst{margin:1.2rem 0 0; max-width:34rem; color:var(--muted); font-size:.95rem;}
+
+/* ---- section rhythm ---- */
+section{padding-top:64px;}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.7rem;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--sig);
+  margin:0 0 .7rem; display:flex; align-items:center; gap:.6rem;
+}
+.eyebrow::after{content:""; flex:1; height:1px; background:var(--rule);}
+h2{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif; font-weight:500;
+  font-size:clamp(1.75rem,3.6vw,2.3rem); line-height:1.2; color:var(--ink);
+  margin:0 0 1.1rem; letter-spacing:-.01em; text-wrap:balance;
+}
+h3{
+  font-size:.94rem; font-weight:600; color:var(--ink); margin:2.2rem 0 .5rem;
+  letter-spacing:.005em;
+}
+p{margin:0 0 1.05rem;}
+.measure p:last-child{margin-bottom:0;}
+strong{color:var(--ink); font-weight:600;}
+code, .num{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums;}
+code{font-size:.86em; background:var(--sunk); padding:.12em .38em; border-radius:3px; color:var(--ink);}
+a{color:var(--accent); text-underline-offset:3px;}
+
+/* ---- figure band ---- */
+figure{margin:2.4rem 0 0; }
+figcaption{
+  font-size:.83rem; color:var(--muted); margin-top:.9rem;
+  max-width:38rem; margin-inline:auto; line-height:1.6;
+}
+.panel{
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:2px; box-shadow:var(--shadow); padding:26px 24px 20px;
+  overflow-x:auto;
+}
+.panel svg{display:block; width:100%; height:auto; overflow:visible;}
+
+/* ---- legend ---- */
+.legend{
+  display:flex; flex-wrap:wrap; gap:.4rem 1.4rem; align-items:center;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.71rem;
+  letter-spacing:.06em; color:var(--muted); margin:0 0 18px;
+}
+.legend span{display:inline-flex; align-items:center; gap:.45rem;}
+.swatch{width:22px; height:0; border-top-width:2px; border-top-style:solid; display:inline-block;}
+.dotm{width:9px;height:9px;border-radius:50%;display:inline-block;background:currentColor}
+.sqm{width:9px;height:9px;display:inline-block;border:1.6px solid currentColor}
+
+/* ---- readings table ---- */
+.tablewrap{overflow-x:auto; margin-top:2.2rem;
+  background:var(--surface); border:1px solid var(--rule); border-radius:2px; box-shadow:var(--shadow);}
+table{border-collapse:collapse; width:100%; min-width:640px;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.8rem;
+  font-variant-numeric:tabular-nums;}
+caption{caption-side:top; text-align:left; padding:18px 20px 0; font-family:"IBM Plex Sans","Noto Sans SC",sans-serif;
+  font-size:.83rem; color:var(--muted);}
+thead th{
+  font-weight:500; font-size:.68rem; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--muted); text-align:right; padding:14px 14px 8px; white-space:nowrap;
+  border-bottom:1px solid var(--rule);
+}
+thead th.grp{text-align:center; border-bottom:1px solid var(--rule-soft); padding-bottom:4px; color:var(--ink);}
+thead th:first-child{text-align:left;}
+tbody th{
+  font-family:"IBM Plex Sans","Noto Sans SC",sans-serif; font-weight:400; font-size:.82rem;
+  text-align:left; color:var(--ink); padding:7px 14px; white-space:nowrap;
+}
+tbody td{text-align:right; padding:7px 14px; color:var(--body); white-space:nowrap;}
+tbody tr:nth-child(even){background:var(--sunk);}
+td.sep, th.sep{border-left:1px solid var(--rule);}
+
+/* ---- callout ---- */
+.callout{
+  margin:2.4rem auto 0; max-width:41rem; padding:20px 22px;
+  background:var(--surface); border:1px solid var(--rule); border-left:3px solid var(--sig);
+  border-radius:2px; font-size:.93rem;
+}
+.callout p:last-child{margin-bottom:0;}
+.callout .lbl{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.68rem; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--sig); display:block; margin-bottom:.5rem;
+}
+
+/* ---- limits ---- */
+.limits{list-style:none; padding:0; margin:1.4rem 0 0; display:flex; flex-direction:column; gap:1.05rem;}
+.limits li{padding-left:1.6rem; position:relative; font-size:.93rem;}
+.limits li::before{
+  content:""; position:absolute; left:0; top:.62em; width:.55rem; height:.55rem;
+  border:1.5px solid var(--sig); border-radius:50%;
+}
+.limits b{color:var(--ink); font-weight:600;}
+
+/* ---- provenance ---- */
+.prov{margin-top:64px; padding-top:26px; border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.76rem; color:var(--faint);
+  line-height:1.85;}
+.prov b{color:var(--muted); font-weight:500;}
+.prov div{overflow-wrap:anywhere;}
+
+:focus-visible{outline:2px solid var(--sig); outline-offset:3px;}
+@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important}}
+@media (max-width:640px){
+  .masthead{padding-top:48px}
+  section{padding-top:48px}
+  .panel{padding:18px 14px 14px}
+}
+</style>
+
+<div class="page">
+
+<header class="masthead">
+  <div class="measure">
+  <p class="kicker"><span>Perspectrum · DeepSeek-V4-Flash</span><span>12 claims × 3 人格 × 2 拓扑 = 72 场辩论</span><span>2026-09-01</span></p>
+  <h1>事实流剖面</h1>
+  <p class="thesis">人格越强，agent 产出的事实越多，<em>被别人接住的越少</em>。全连接和星型都是如此。</p>
+  <p class="standfirst">而把全连接砍成星型——投递事件从 12 降到 8，少了三分之一的连线——在所有流动指标上都测不出效应。人格这个旋钮拧得动事实流，拓扑这个旋钮在这个规模下拧不动。</p>
+  </div>
+</header>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">测什么</p>
+    <h2>只用 agent、轮次、投递、事实定义的三族指标</h2>
+    <p>要做跨拓扑、跨人格的比较，指标就不能依赖任何一种设置特有的东西——不能依赖“中心节点”，不能依赖“谁扮演支持方”。这里的每个量都只从四样东西算出来：有哪些 agent、有哪些轮次、谁的输出被投递给了谁、以及每个 turn 说了哪些原子事实。</p>
+
+    <h3>一、token 预算的去向</h3>
+    <p>把每个 turn 说出的事实分成三堆，互斥且穷尽：<strong>新事实</strong>（自己没说过、也没在收到的内容里出现过）、<strong>自持</strong>（自己上一轮说过）、<strong>采纳</strong>（首次出现在自己嘴里，但已经在收到的投递中出现过）。<code>采纳占比</code>就是采纳 ÷ 三者之和——一个 agent 的产出里有多大比例是在接别人的话。</p>
+
+    <h3>二、流动图的形状</h3>
+    <p>把“事实从 a 流到 b”当作有向加权边。<code>嵌套度</code>是 agent 之间事实集合的平均包含率，衡量他们说的东西有多重叠；<code>事实覆盖</code>是每个事实平均被几个 agent 说出（3 个 agent，上限 3.0）；<code>流量基尼</code>衡量流量是均摊在所有连线上还是挤在一两条上；<code>投递利用率</code>是有多大比例的投递事件真的搬动了至少一个事实。</p>
+
+    <h3>三、事实群体本身</h3>
+    <p><code>元陈述占比</code>是被判为中立的事实比例——大多是对辩论本身或对证据 Ex 的评价，而不是对世界的断言。<code>正反平衡</code>是 <span class="num">1 − |n₊ − n₋| / (n₊ + n₋)</span>，1 表示支持与反对的事实数量相当。</p>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <caption>六个条件的读数，每格是 12 个 claim 的均值。</caption>
+      <thead>
+        <tr><th></th><th class="grp" colspan="3">全连接</th><th class="grp sep" colspan="3">星型</th></tr>
+        <tr><th>指标</th><th>neutral</th><th>lenses</th><th>stance</th><th class="sep">neutral</th><th>lenses</th><th>stance</th></tr>
+      </thead>
+      <tbody>
+<tr><th scope="row">事实数</th><td>72.4</td><td>97.7</td><td>93.4</td><td class="sep">79.2</td><td>86.8</td><td>99.3</td></tr>
+<tr><th scope="row">新事实</th><td>81.1</td><td>106.7</td><td>101.3</td><td class="sep">89.5</td><td>94.8</td><td>106.8</td></tr>
+<tr><th scope="row">采纳占比</th><td>12.9%</td><td>10.8%</td><td>9.7%</td><td class="sep">10.2%</td><td>10.1%</td><td>7.1%</td></tr>
+<tr><th scope="row">自持占比</th><td>15.5%</td><td>9.2%</td><td>10.9%</td><td class="sep">12.7%</td><td>8.9%</td><td>8.2%</td></tr>
+<tr><th scope="row">嵌套度</th><td>0.330</td><td>0.250</td><td>0.231</td><td class="sep">0.292</td><td>0.243</td><td>0.181</td></tr>
+<tr><th scope="row">事实覆盖</th><td>1.33</td><td>1.25</td><td>1.23</td><td class="sep">1.30</td><td>1.24</td><td>1.17</td></tr>
+<tr><th scope="row">流量基尼</th><td>0.348</td><td>0.308</td><td>0.400</td><td class="sep">0.296</td><td>0.328</td><td>0.413</td></tr>
+<tr><th scope="row">投递利用率</th><td>64%</td><td>71%</td><td>60%</td><td class="sep">69%</td><td>57%</td><td>57%</td></tr>
+<tr><th scope="row">元陈述占比</th><td>33%</td><td>39%</td><td>28%</td><td class="sep">46%</td><td>33%</td><td>30%</td></tr>
+<tr><th scope="row">正反平衡</th><td>0.528</td><td>0.506</td><td>0.657</td><td class="sep">0.573</td><td>0.390</td><td>0.610</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">主结果</p>
+    <h2>人格梯度：产得更多，接得更少</h2>
+    <p>从 neutral 到 lenses 到 stance，人格设定越具体，产出的事实越多——全连接下多 <span class="num">21</span> 个，星型下多 <span class="num">20</span> 个。但这些多出来的事实并没有进入共享池：嵌套度、事实覆盖、采纳占比全部单调下降，而且<strong>两种拓扑上是同一个方向、同一个量级</strong>。</p>
+    <p>下降的不止采纳。自持占比同样单调走低（全连接 <span class="num">15.5% → 10.9%</span>，星型 <span class="num">12.7% → 8.2%</span>，两边 CI 都不含零）——人格越强，agent 连自己上一轮说过的事实都更少重提。采纳和自持是产出里仅有的两种“回头”，两个一起塌，意味着 stance 条件下的输出几乎全是新生成。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--p3)"><i class="dotm"></i>全连接（每场 12 次投递）</span>
+        <span style="color:var(--p2)"><i class="sqm"></i>星型（每场 8 次投递）</span>
+        <span style="color:var(--muted)">横轴：neutral → lenses → stance</span>
+      </div>
+      <div id="fig-gradient"></div>
+    </div>
+    <figcaption>四个指标在人格梯度上的走向。实心圆＝全连接，空心方＝星型。事实数上升，其余三个下降；两条线在每个指标上几乎平行。</figcaption>
+  </figure>
+
+  <div class="measure">
+    <p style="margin-top:2.4rem">均值可能被少数几场辩论带偏，所以下面按 claim 配对：同一个 claim、同一个拓扑，stance 减 neutral，再对 12 个差值做 bootstrap 置信区间。这样每个 claim 自己当自己的对照，主题难度的差异被消掉了。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--sig)"><i class="dotm"></i>置信区间不含零</span>
+        <span style="color:var(--muted)"><i class="dotm"></i>含零</span>
+        <span style="color:var(--muted)">95% bootstrap CI，n=12 claim，20000 次重采样</span>
+      </div>
+      <div id="fig-paired"></div>
+    </div>
+    <figcaption>stance 减 neutral 的配对差值。事实数、新事实、自持占比、嵌套度、事实覆盖在两个拓扑上都不含零；采纳占比在全连接上不含零，星型上上界落在 <span class="num">+0.001</span>——同样的负向效应，只是差一点。</figcaption>
+  </figure>
+
+  <div class="callout">
+    <span class="lbl">读法</span>
+    <p>嵌套度在全连接下 12 个 claim 里只有 2 个上升，星型下只有 1 个。这不是均值被拉动，是几乎每一场辩论都朝同一个方向走。</p>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">阴性结果</p>
+    <h2>拓扑什么都没动</h2>
+    <p>星型把 B 和 C 之间的连线拿掉了：每场辩论的投递事件从 12 降到 8。按直觉这应该显著削弱事实的传播。但把同一个 claim、同一个人格下的星型减全连接，<strong>24 个对比里有 23 个的置信区间跨过零</strong>。唯一的例外是 stance 下的自持占比（<span class="num">−0.027</span>，<span class="num">[−0.053, −0.002]</span>）——在一次没有做多重比较校正的 24 次比较里，这正是最不该单独相信的那种区间。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--muted)">星型 − 全连接，按 claim 配对，每个人格分别算</span>
+      </div>
+      <div id="fig-topo"></div>
+    </div>
+    <figcaption>全部拓扑对比。为了让量纲不同的指标能并排看，横轴是差值除以该指标在全部 72 场中的标准差。除 stance 一列的自持占比刚刚够到零线左边，其余全部跨过零。</figcaption>
+  </figure>
+
+  <div class="measure">
+    <p style="margin-top:2.4rem">这有两种读法，现在的数据分不开。一是<strong>拓扑真的不重要</strong>：3 个 agent、投递从 12 减到 8，还不足以让信息传播受限——每个 agent 仍然直接看到中心节点，间接内容照样能两跳传到。二是<strong>拓扑效应被人格效应的方差淹没了</strong>：人格的效应量在 <span class="num">0.5–1.0</span> 个标准差量级，拓扑若只有 <span class="num">0.2</span>，12 个 claim 检不出来。要分开需要更极端的拓扑（chain 正在跑）或更多 claim。</p>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">解释</p>
+    <h2>整合容量，而不是多样性不足</h2>
+    <p>常见的多 agent 设计假设是：给 agent 不同的人格/视角，能拓宽搜索、覆盖更多角度。这批数据的前半段支持这个假设——人格确实带来更多事实。后半段不支持：多出来的事实<strong>留在了产生它的那个 agent 身上</strong>。事实覆盖从 <span class="num">1.33</span> 掉到 <span class="num">1.17</span>，意味着在最强人格下，一个事实平均只被 1.2 个 agent 说过——大多数事实从头到尾只有一个人提。</p>
+    <p>把这两半合起来，瓶颈不在<strong>生成</strong>多样性，而在<strong>整合</strong>多样性。系统能产出的差异，超过了它能吸收的差异。加强人格拓宽了输入端，同时收窄了吸收端——因为一个有立场的 agent 更倾向于说自己的话，而不是接对方的话。</p>
+    <p>自持占比同时下降是同一件事的另一面。一个 agent 不重提自己上一轮的事实，也不接别人的事实，就意味着每一轮都在开新话题——辩论在横向铺开，而不是在纵向收敛。这样的轨迹里没有可供收敛的公共基底。</p>
+    <p>这也解释了流量基尼为什么在 stance 下最高（全连接 <span class="num">0.400</span>、星型 <span class="num">0.413</span>）：少数几条连线承担了绝大部分实际搬动的事实，其余连线名义上通着，实际是空转。投递利用率同时下降，说明这不是流量重新分配，是流量整体变稀。</p>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">边界</p>
+    <h2>这批数据不能说什么</h2>
+    <ul class="limits">
+      <li><b>只有 DeepSeek-V4-Flash。</b>GLM 的那批只跑了全连接，没有星型对照，所以完全没有进入这个分析。模型间是否复现未知。</li>
+      <li><b>星型有 14 个空 turn</b>（占 4.3%，全连接只有 0.9%）。这些 turn 有实质内容（93–128 词）但抽取返回零个事实。人格分布均匀，位置上外围 10 : 中心 4，大致按人数比例，所以不系统偏向某个条件——但它会同时压低星型的事实数和采纳数，是拓扑阴性结果的一个待排除解释。</li>
+      <li><b>立场标注未经人工验证。</b>而且已知约一半有立场的事实是<em>证据层</em>的（“E3 支持禁令”），不是<em>世界层</em>的（“面纱是宗教义务”）。正反平衡这一行因此是混合口径，只能横向比条件，不能当作辩论立场分布的绝对读数。</li>
+      <li><b>事实匹配的人工核对准确率是 80%。</b>剩下 20% 的错误会同时影响采纳、嵌套、覆盖——但没有理由认为错误率随条件变化，所以条件间的<em>差</em>比每格的<em>绝对值</em>可信。</li>
+      <li><b>没做多重比较校正。</b>这里报的是配对 bootstrap 置信区间，不是校正后的显著性。跨 7 个指标 × 6 组对比看，偶然出现一两条不含零是正常的。人格梯度可信是因为它<em>同时</em>在两个独立拓扑上、在四个相关指标上、以 10/12 到 11/12 的一致方向出现，不是因为某一条 CI。</li>
+      <li><b>“采纳”只判事实同一性，不判态度。</b>一个 agent 复述对方的事实来反驳它，和复述来同意它，在这里计为同一件事。这是有意的——先量流动，再谈方向——但意味着采纳占比不能直接读成“达成共识”。</li>
+      <li><b>chain 拓扑还在抽取中。</b>补上之后会有第三个拓扑点，也是三个里连线最少的，对上面“拓扑真的不重要”这个读法是最直接的检验。</li>
+    </ul>
+  </div>
+</section>
+
+<div class="prov measure">
+  <div><b>store</b> experiments/perspectrum_pilot_full/*.v2.json（全连接）· experiments/perspectrum_pilot_star_chain/*.v2.json（星型）</div>
+  <div><b>立场标注</b> experiments/labels/stance/*.json （105 个，batch 24 / max_tokens 16000 / truth 口径）</div>
+  <div><b>pipeline</b> 抽取 minimax-m2.5 → 原子化剥离归属外壳 → bge-base-en-v1.5 @0.70 top_k 12 → 二值 SAME/DIFF batch 16 → union ≥ 0.85</div>
+  <div><b>本页数据</b> findings/data/flow-profile.json（<code>python experiments/analyze_flow_profile.py</code> 重算）</div>
+  <div><b>本页</b> <code>python experiments/report/build_flow_profile.py</code> · 说明见 findings/2026-09-01-flow-profile.md</div>
+</div>
+
+</div>
+
+<script>
+const D = {"model":"deepseek-v4-flash","topologies":["full","star"],"claims":["171","221","229","233","261","434","578","697","823","857","902","904"],"cells":{"full/neutral":{"n":12,"n_facts":72.41666666666667,"novel":81.08333333333333,"held":17.083333333333332,"adopted":14.75,"adopted_share":0.12868684583118847,"held_share":0.15471532883367517,"nestedness":0.32975767363306613,"reach":1.3320800249830027,"flow_gini":0.3475334614904874,"delivery_use":0.6388888888888888,"deliveries":12,"n_agents":3,"meta_share":0.3341500088549842,"balance":0.528428333444645},"full/lenses":{"n":12,"n_facts":97.66666666666667,"novel":106.66666666666667,"held":12.166666666666666,"adopted":14.333333333333334,"adopted_share":0.10810141239774967,"held_share":0.09246455842798651,"nestedness":0.24987856691399418,"reach":1.2546250573527087,"flow_gini":0.30776199312383523,"delivery_use":0.7083333333333334,"deliveries":12,"n_agents":3,"meta_share":0.3899322011723348,"balance":0.5061769990858189},"full/stance":{"n":12,"n_facts":93.41666666666667,"novel":101.33333333333333,"held":14.25,"adopted":13.25,"adopted_share":0.09699233824600037,"held_share":0.10947609560778315,"nestedness":0.2314531055692543,"reach":1.2284093991938176,"flow_gini":0.4001948736820336,"delivery_use":0.6041666666666666,"deliveries":12,"n_agents":3,"meta_share":0.27705458060250115,"balance":0.6572447272278892},"star/neutral":{"n":12,"n_facts":79.25,"novel":89.5,"held":14.333333333333334,"adopted":11.666666666666666,"adopted_share":0.1015834110663576,"held_share":0.12695660851683985,"nestedness":0.2920845981052682,"reach":1.2982710228244596,"flow_gini":0.29592386887278527,"delivery_use":0.6875,"deliveries":8,"n_agents":3,"meta_share":0.4646329355088231,"balance":0.5725555226077281},"star/lenses":{"n":12,"n_facts":86.83333333333333,"novel":94.75,"held":10.416666666666666,"adopted":11.666666666666666,"adopted_share":0.10063169603031559,"held_share":0.0889859971130916,"nestedness":0.24304279051755767,"reach":1.2429736072580122,"flow_gini":0.3277777777777778,"delivery_use":0.5729166666666666,"deliveries":8,"n_agents":3,"meta_share":0.3256375049433314,"balance":0.3898251809098028},"star/stance":{"n":12,"n_facts":99.33333333333333,"novel":106.83333333333333,"held":10.333333333333334,"adopted":8.5,"adopted_share":0.07110221421567442,"held_share":0.08220499505710765,"nestedness":0.18127298514345236,"reach":1.1740789373933924,"flow_gini":0.41266684704184703,"delivery_use":0.5729166666666666,"deliveries":8,"n_agents":3,"meta_share":0.30476231842846696,"balance":0.6104587485206772}},"paired":{"full|lenses-neutral|n_facts":{"delta":25.25,"lo":12.583333333333334,"hi":37.416666666666664,"positive":10,"n":12,"excludes_zero":true},"full|lenses-neutral|novel":{"delta":25.583333333333332,"lo":13.333333333333334,"hi":37.166666666666664,"positive":10,"n":12,"excludes_zero":true},"full|lenses-neutral|adopted_share":{"delta":-0.020585433433438795,"lo":-0.053120723491813224,"hi":0.013271129863108163,"positive":5,"n":12,"excludes_zero":false},"full|lenses-neutral|held_share":{"delta":-0.062250770405688674,"lo":-0.09934951105296297,"hi":-0.026492881957988434,"positive":1,"n":12,"excludes_zero":true},"full|lenses-neutral|nestedness":{"delta":-0.07987910671907197,"lo":-0.13908475339480686,"hi":-0.017509537781492713,"positive":2,"n":12,"excludes_zero":true},"full|lenses-neutral|reach":{"delta":-0.07745496763029407,"lo":-0.14805570666699783,"hi":-0.003689107023807666,"positive":3,"n":12,"excludes_zero":true},"full|lenses-neutral|flow_gini":{"delta":-0.03977146836665219,"lo":-0.13360190004926847,"hi":0.055431496913880746,"positive":5,"n":12,"excludes_zero":false},"full|lenses-neutral|delivery_use":{"delta":0.06944444444444446,"lo":-0.04166666666666665,"hi":0.19444444444444445,"positive":5,"n":12,"excludes_zero":false},"full|stance-neutral|n_facts":{"delta":21,"lo":11.333333333333334,"hi":30.333333333333332,"positive":10,"n":12,"excludes_zero":true},"full|stance-neutral|novel":{"delta":20.25,"lo":10.5,"hi":29.25,"positive":10,"n":12,"excludes_zero":true},"full|stance-neutral|adopted_share":{"delta":-0.031694507585188096,"lo":-0.06376603027559076,"hi":-0.0028596942296490787,"positive":4,"n":12,"excludes_zero":true},"full|stance-neutral|held_share":{"delta":-0.04523923322589202,"lo":-0.08019989788756991,"hi":-0.007934186714533659,"positive":4,"n":12,"excludes_zero":true},"full|stance-neutral|nestedness":{"delta":-0.09830456806381185,"lo":-0.15914737514666455,"hi":-0.038742139636483854,"positive":2,"n":12,"excludes_zero":true},"full|stance-neutral|reach":{"delta":-0.10367062578918511,"lo":-0.17149771157316637,"hi":-0.03831259896610911,"positive":2,"n":12,"excludes_zero":true},"full|stance-neutral|flow_gini":{"delta":0.052661412191546186,"lo":-0.044516811190433866,"hi":0.15861849626628421,"positive":7,"n":12,"excludes_zero":false},"full|stance-neutral|delivery_use":{"delta":-0.034722222222222224,"lo":-0.15972222222222224,"hi":0.10416666666666667,"positive":3,"n":12,"excludes_zero":false},"full|stance-lenses|n_facts":{"delta":-4.25,"lo":-13.666666666666666,"hi":6.916666666666667,"positive":3,"n":12,"excludes_zero":false},"full|stance-lenses|novel":{"delta":-5.333333333333333,"lo":-14.416666666666666,"hi":5.083333333333333,"positive":4,"n":12,"excludes_zero":false},"full|stance-lenses|adopted_share":{"delta":-0.011109074151749302,"lo":-0.03743957104051278,"hi":0.01616002648597834,"positive":3,"n":12,"excludes_zero":false},"full|stance-lenses|held_share":{"delta":0.017011537179796653,"lo":-0.02237707077129242,"hi":0.05166120671657428,"positive":8,"n":12,"excludes_zero":false},"full|stance-lenses|nestedness":{"delta":-0.018425461344739887,"lo":-0.08357942166722296,"hi":0.045707828349253264,"positive":7,"n":12,"excludes_zero":false},"full|stance-lenses|reach":{"delta":-0.026215658158891042,"lo":-0.10373138141115235,"hi":0.05241536074556025,"positive":6,"n":12,"excludes_zero":false},"full|stance-lenses|flow_gini":{"delta":0.09243288055819837,"lo":0.004359043928075207,"hi":0.17771335706674507,"positive":9,"n":12,"excludes_zero":true},"full|stance-lenses|delivery_use":{"delta":-0.10416666666666669,"lo":-0.2013888888888889,"hi":-0.006944444444444485,"positive":2,"n":12,"excludes_zero":true},"star|lenses-neutral|n_facts":{"delta":7.583333333333333,"lo":-7.333333333333333,"hi":20.416666666666668,"positive":9,"n":12,"excludes_zero":false},"star|lenses-neutral|novel":{"delta":5.25,"lo":-8,"hi":16.75,"positive":8,"n":12,"excludes_zero":false},"star|lenses-neutral|adopted_share":{"delta":-0.0009517150360420125,"lo":-0.03154697924052712,"hi":0.03256003920448652,"positive":4,"n":12,"excludes_zero":false},"star|lenses-neutral|held_share":{"delta":-0.03797061140374823,"lo":-0.07060038085721107,"hi":-0.004178475583151239,"positive":4,"n":12,"excludes_zero":true},"star|lenses-neutral|nestedness":{"delta":-0.04904180758771052,"lo":-0.12269533546823333,"hi":0.0309674219474243,"positive":4,"n":12,"excludes_zero":false},"star|lenses-neutral|reach":{"delta":-0.05529741556644735,"lo":-0.1400369307892296,"hi":0.035361798438810134,"positive":4,"n":12,"excludes_zero":false},"star|lenses-neutral|flow_gini":{"delta":0.03185390890499249,"lo":-0.06150435320326963,"hi":0.14291294002981308,"positive":6,"n":12,"excludes_zero":false},"star|lenses-neutral|delivery_use":{"delta":-0.11458333333333333,"lo":-0.2604166666666667,"hi":0.020833333333333332,"positive":2,"n":12,"excludes_zero":false},"star|stance-neutral|n_facts":{"delta":20.083333333333332,"lo":2,"hi":35.166666666666664,"positive":9,"n":12,"excludes_zero":true},"star|stance-neutral|novel":{"delta":17.333333333333332,"lo":0.16666666666666666,"hi":32.583333333333336,"positive":9,"n":12,"excludes_zero":true},"star|stance-neutral|adopted_share":{"delta":-0.030481196850683172,"lo":-0.05926328061562569,"hi":0.0013758026047679117,"positive":4,"n":12,"excludes_zero":false},"star|stance-neutral|held_share":{"delta":-0.044751613459732185,"lo":-0.07239113098283005,"hi":-0.020640326131427397,"positive":2,"n":12,"excludes_zero":true},"star|stance-neutral|nestedness":{"delta":-0.11081161296181585,"lo":-0.17568348730594316,"hi":-0.031595060046741896,"positive":1,"n":12,"excludes_zero":true},"star|stance-neutral|reach":{"delta":-0.12419208543106715,"lo":-0.19323954339538899,"hi":-0.042293376902657,"positive":1,"n":12,"excludes_zero":true},"star|stance-neutral|flow_gini":{"delta":0.11674297816906176,"lo":-0.003306252570958466,"hi":0.23502192144800504,"positive":8,"n":12,"excludes_zero":false},"star|stance-neutral|delivery_use":{"delta":-0.11458333333333333,"lo":-0.2708333333333333,"hi":0.041666666666666664,"positive":4,"n":12,"excludes_zero":false},"star|stance-lenses|n_facts":{"delta":12.5,"lo":-3.0833333333333335,"hi":27.416666666666668,"positive":8,"n":12,"excludes_zero":false},"star|stance-lenses|novel":{"delta":12.083333333333334,"lo":-4.333333333333333,"hi":27.833333333333332,"positive":8,"n":12,"excludes_zero":false},"star|stance-lenses|adopted_share":{"delta":-0.029529481814641156,"lo":-0.0673115857073429,"hi":0.005080809518745778,"positive":5,"n":12,"excludes_zero":false},"star|stance-lenses|held_share":{"delta":-0.0067810020559839505,"lo":-0.044582920467177656,"hi":0.026735561755257254,"positive":7,"n":12,"excludes_zero":false},"star|stance-lenses|nestedness":{"delta":-0.06176980537410533,"lo":-0.14544895875517255,"hi":0.008821404204921009,"positive":5,"n":12,"excludes_zero":false},"star|stance-lenses|reach":{"delta":-0.0688946698646198,"lo":-0.16072142892151256,"hi":0.004674030967592872,"positive":5,"n":12,"excludes_zero":false},"star|stance-lenses|flow_gini":{"delta":0.08488906926406928,"lo":-0.07655874218374216,"hi":0.2397727272727273,"positive":8,"n":12,"excludes_zero":false},"star|stance-lenses|delivery_use":{"delta":0.0,"lo":-0.22916666666666666,"hi":0.19791666666666666,"positive":7,"n":12,"excludes_zero":false},"topology|neutral|star-full|n_facts":{"delta":6.833333333333333,"lo":-5.416666666666667,"hi":21.416666666666668,"positive":7,"n":12,"excludes_zero":false},"topology|neutral|star-full|novel":{"delta":8.416666666666666,"lo":-4.166666666666667,"hi":22.416666666666668,"positive":8,"n":12,"excludes_zero":false},"topology|neutral|star-full|adopted_share":{"delta":-0.02710343476483087,"lo":-0.06281323469479934,"hi":0.006662502478849373,"positive":5,"n":12,"excludes_zero":false},"topology|neutral|star-full|held_share":{"delta":-0.02775872031683534,"lo":-0.057046431395176914,"hi":0.002214799108561323,"positive":5,"n":12,"excludes_zero":false},"topology|neutral|star-full|nestedness":{"delta":-0.037673075527797945,"lo":-0.11157574956450564,"hi":0.02223643523784838,"positive":4,"n":12,"excludes_zero":false},"topology|neutral|star-full|reach":{"delta":-0.033809002158543155,"lo":-0.11976932108784523,"hi":0.043113082369111856,"positive":4,"n":12,"excludes_zero":false},"topology|neutral|star-full|flow_gini":{"delta":-0.051609592617702135,"lo":-0.15239267233869294,"hi":0.04808930324435442,"positive":4,"n":12,"excludes_zero":false},"topology|neutral|star-full|delivery_use":{"delta":0.04861111111111112,"lo":-0.10416666666666666,"hi":0.19791666666666666,"positive":7,"n":12,"excludes_zero":false},"topology|lenses|star-full|n_facts":{"delta":-10.833333333333334,"lo":-25.416666666666668,"hi":5.333333333333333,"positive":3,"n":12,"excludes_zero":false},"topology|lenses|star-full|novel":{"delta":-11.916666666666666,"lo":-24.916666666666668,"hi":2.3333333333333335,"positive":3,"n":12,"excludes_zero":false},"topology|lenses|star-full|adopted_share":{"delta":-0.007469716367434089,"lo":-0.033614919144668985,"hi":0.02150657583934329,"positive":5,"n":12,"excludes_zero":false},"topology|lenses|star-full|held_share":{"delta":-0.0034785613148949,"lo":-0.036682361476266204,"hi":0.0336177515365224,"positive":5,"n":12,"excludes_zero":false},"topology|lenses|star-full|nestedness":{"delta":-0.006835776396436503,"lo":-0.07792468594146285,"hi":0.07037263067908034,"positive":5,"n":12,"excludes_zero":false},"topology|lenses|star-full|reach":{"delta":-0.011651450094696444,"lo":-0.09597226566770428,"hi":0.07959086299837094,"positive":5,"n":12,"excludes_zero":false},"topology|lenses|star-full|flow_gini":{"delta":0.020015784653942544,"lo":-0.11019127680311892,"hi":0.1646439148083885,"positive":5,"n":12,"excludes_zero":false},"topology|lenses|star-full|delivery_use":{"delta":-0.13541666666666669,"lo":-0.2916666666666667,"hi":0.013888888888888873,"positive":4,"n":12,"excludes_zero":false},"topology|stance|star-full|n_facts":{"delta":5.916666666666667,"lo":-2.0833333333333335,"hi":13.583333333333334,"positive":9,"n":12,"excludes_zero":false},"topology|stance|star-full|novel":{"delta":5.5,"lo":-3.5,"hi":14.416666666666666,"positive":7,"n":12,"excludes_zero":false},"topology|stance|star-full|adopted_share":{"delta":-0.025890124030325944,"lo":-0.06537641799432743,"hi":0.011810766289992,"positive":4,"n":12,"excludes_zero":false},"topology|stance|star-full|held_share":{"delta":-0.027271100550675505,"lo":-0.052718126478881716,"hi":-0.001770106014554416,"positive":3,"n":12,"excludes_zero":true},"topology|stance|star-full|nestedness":{"delta":-0.05018012042580194,"lo":-0.13598496641315902,"hi":0.029303676902379536,"positive":6,"n":12,"excludes_zero":false},"topology|stance|star-full|reach":{"delta":-0.0543304618004252,"lo":-0.14929016983280935,"hi":0.029564554517996278,"positive":6,"n":12,"excludes_zero":false},"topology|stance|star-full|flow_gini":{"delta":0.012471973359813435,"lo":-0.12646264565918774,"hi":0.1566705150221232,"positive":4,"n":12,"excludes_zero":false},"topology|stance|star-full|delivery_use":{"delta":-0.03124999999999999,"lo":-0.21875,"hi":0.13541666666666669,"positive":6,"n":12,"excludes_zero":false}},"per_debate":{"full|171|lenses":{"n_facts":96,"novel":112,"held":17,"adopted":12,"adopted_share":0.0851063829787234,"held_share":0.12056737588652482,"nestedness":0.3030309596032548,"reach":1.2916666666666667,"flow_gini":0.14583333333333334,"delivery_use":0.8333333333333334,"deliveries":12,"n_agents":3,"meta_share":0.3958333333333333,"balance":0.03448275862068961},"full|171|neutral":{"n_facts":86,"novel":89,"held":16,"adopted":26,"adopted_share":0.1984732824427481,"held_share":0.12213740458015267,"nestedness":0.3334920634920635,"reach":1.3372093023255813,"flow_gini":0.3390804597701149,"delivery_use":0.75,"deliveries":12,"n_agents":3,"meta_share":0.7209302325581395,"balance":0.25},"full|171|stance":{"n_facts":89,"novel":99,"held":20,"adopted":24,"adopted_share":0.16783216783216784,"held_share":0.13986013986013987,"nestedness":0.3718338399189463,"reach":1.3820224719101124,"flow_gini":0.2654320987654321,"delivery_use":0.8333333333333334,"deliveries":12,"n_agents":3,"meta_share":0.3707865168539326,"balance":0.25},"full|221|lenses":{"n_facts":117,"novel":123,"held":8,"adopted":16,"adopted_share":0.10884353741496598,"held_share":0.05442176870748299,"nestedness":0.19352324263038548,"reach":1.188034188034188,"flow_gini":0.2777777777777778,"delivery_use":0.75,"deliveries":12,"n_agents":3,"meta_share":0.2564102564102564,"balance":0.5057471264367817},"full|221|neutral":{"n_facts":117,"novel":131,"held":23,"adopted":14,"adopted_share":0.08333333333333333,"held_share":0.13690476190476192,"nestedness":0.23775490756622833,"reach":1.2393162393162394,"flow_gini":0.4166666666666667,"delivery_use":0.75,"deliveries":12,"n_agents":3,"meta_share":0.24786324786324787,"balance":0.6363636363636364},"full|221|stance":{"n_facts":110,"novel":119,"held":10,"adopted":13,"adopted_share":0.09154929577464789,"held_share":0.07042253521126761,"nestedness":0.2117229870671673,"reach":1.2,"flow_gini":0.47619047619047616,"delivery_use":0.5833333333333334,"deliveries":12,"n_agents":3,"meta_share":0.2545454545454545,"balance":0.8780487804878049},"full|229|lenses":{"n_facts":100,"novel":104,"held":5,"adopted":8,"adopted_share":0.06837606837606838,"held_share":0.042735042735042736,"nestedness":0.12986392262708052,"reach":1.12,"flow_gini":0.16666666666666666,"delivery_use":0.5,"deliveries":12,"n_agents":3,"meta_share":0.5,"balance":0.56},"full|229|neutral":{"n_facts":52,"novel":60,"held":22,"adopted":12,"adopted_share":0.1276595744680851,"held_share":0.23404255319148937,"nestedness":0.3782467532467533,"reach":1.3846153846153846,"flow_gini":0.2647058823529412,"delivery_use":0.6666666666666666,"deliveries":12,"n_agents":3,"meta_share":0.5384615384615384,"balance":0.08333333333333337},"full|229|stance":{"n_facts":86,"novel":89,"held":11,"adopted":6,"adopted_share":0.05660377358490566,"held_share":0.10377358490566038,"nestedness":0.13297101449275361,"reach":1.1046511627906976,"flow_gini":0.11904761904761904,"delivery_use":0.5,"deliveries":12,"n_agents":3,"meta_share":0.29069767441860467,"balance":0.7213114754098361},"full|233|lenses":{"n_facts":65,"novel":76,"held":17,"adopted":15,"adopted_share":0.1388888888888889,"held_share":0.1574074074074074,"nestedness":0.3810752688172043,"reach":1.4,"flow_gini":0.35964912280701755,"delivery_use":0.8333333333333334,"deliveries":12,"n_agents":3,"meta_share":0.3230769230769231,"balance":0.5909090909090908},"full|233|neutral":{"n_facts":51,"novel":64,"held":19,"adopted":5,"adopted_share":0.056818181818181816,"held_share":0.2159090909090909,"nestedness":0.3808167141500475,"reach":1.3529411764705883,"flow_gini":0.5952380952380952,"delivery_use":0.3333333333333333,"deliveries":12,"n_agents":3,"meta_share":0.11764705882352941,"balance":0.9777777777777777},"full|233|stance":{"n_facts":81,"novel":90,"held":16,"adopted":14,"adopted_share":0.11666666666666667,"held_share":0.13333333333333333,"nestedness":0.2703907203907204,"reach":1.2839506172839505,"flow_gini":0.43333333333333335,"delivery_use":0.6666666666666666,"deliveries":12,"n_agents":3,"meta_share":0.345679012345679,"balance":0.8679245283018868},"full|261|lenses":{"n_facts":99,"novel":110,"held":7,"adopted":17,"adopted_share":0.12686567164179105,"held_share":0.05223880597014925,"nestedness":0.2575900900900901,"reach":1.2828282828282829,"flow_gini":0.4473684210526316,"delivery_use":0.6666666666666666,"deliveries":12,"n_agents":3,"meta_share":0.3434343434343434,"balance":0.676923076923077},"full|261|neutral":{"n_facts":46,"novel":52,"held":11,"adopted":15,"adopted_share":0.19230769230769232,"held_share":0.14102564102564102,"nestedness":0.43525334314807995,"reach":1.4565217391304348,"flow_gini":0.2708333333333333,"delivery_use":0.6666666666666666,"deliveries":12,"n_agents":3,"meta_share":0.30434782608695654,"balance":0.75},"full|261|stance":{"n_facts":77,"novel":84,"held":13,"adopted":3,"adopted_share":0.03,"held_share":0.13,"nestedness":0.13954663693794128,"reach":1.12987012987013,"flow_gini":0.7222222222222222,"delivery_use":0.25,"deliveries":12,"n_agents":3,"meta_share":0.22077922077922077,"balance":0.8333333333333334},"full|434|lenses":{"n_facts":129,"novel":133,"held":3,"adopted":14,"adopted_share":0.09333333333333334,"held_share":0.02,"nestedness":0.1452751266643101,"reach":1.1395348837209303,"flow_gini":0.30952380952380953,"delivery_use":0.8333333333333334,"deliveries":12,"n_agents":3,"meta_share":0.3875968992248062,"balance":0.9873417721518988},"full|434|neutral":{"n_facts":74,"novel":84,"held":23,"adopted":19,"adopted_share":0.15079365079365079,"held_share":0.18253968253968253,"nestedness":0.3768762677484787,"reach":1.3918918918918919,"flow_gini":0.18181818181818182,"delivery_use":0.8333333333333334,"deliveries":12,"n_agents":3,"meta_share":0.35135135135135137,"balance":0.75},"full|434|stance":{"n_facts":126,"novel":134,"held":12,"adopted":14,"adopted_share":0.0875,"held_share":0.075,"nestedness":0.18353853169174647,"reach":1.1746031746031746,"flow_gini":0.46296296296296297,"delivery_use":0.6666666666666666,"deliveries":12,"n_agents":3,"meta_share":0.36507936507936506,"balance":0.975},"full|578|lenses":{"n_facts":109,"novel":122,"held":14,"adopted":12,"adopted_share":0.08108108108108109,"held_share":0.0945945945945946,"nestedness":0.22839506172839505,"reach":1.2293577981651376,"flow_gini":0.0641025641025641,"delivery_use":0.75,"deliveries":12,"n_agents":3,"meta_share":0.28440366972477066,"balance":0.7948717948717949},"full|578|neutral":{"n_facts":97,"novel":107,"held":19,"adopted":19,"adopted_share":0.1310344827586207,"held_share":0.1310344827586207,"nestedness":0.2778461959496442,"reach":1.2989690721649485,"flow_gini":0.3787878787878788,"delivery_use":0.75,"deliveries":12,"n_agents":3,"meta_share":0.1958762886597938,"balance":0.7692307692307692},"full|578|stance":{"n_facts":91,"novel":99,"held":24,"adopted":13,"adopted_share":0.09558823529411764,"held_share":0.17647058823529413,"nestedness":0.23824706176544136,"reach":1.2307692307692308,"flow_gini":0.4444444444444444,"delivery_use":0.6666666666666666,"deliveries":12,"n_agents":3,"meta_share":0.25274725274725274,"balance":0.8235294117647058},"full|697|lenses":{"n_facts":84,"novel":90,"held":10,"adopted":12,"adopted_share":0.10714285714285714,"held_share":0.08928571428571429,"nestedness":0.2219538591489811,"reach":1.2142857142857142,"flow_gini":0.16666666666666666,"delivery_use":0.6666666666666666,"deliveries":12,"n_agents":3,"meta_share":0.20238095238095238,"balance":0.3880597014925373},"full|697|neutral":{"n_facts":45,"novel":53,"held":13,"adopted":3,"adopted_share":0.043478260869565216,"held_share":0.18840579710144928,"nestedness":0.2687708855472013,"reach":1.2444444444444445,"flow_gini":0.3333333333333333,"delivery_use":0.3333333333333333,"deliveries":12,"n_agents":3,"meta_share":0.13333333333333333,"balance":0.2564102564102564},"full|697|stance":{"n_facts":59,"novel":64,"held":5,"adopted":3,"adopted_share":0.041666666666666664,"held_share":0.06944444444444445,"nestedness":0.1707875457875458,"reach":1.1355932203389831,"flow_gini":0.3333333333333333,"delivery_use":0.3333333333333333,"deliveries":12,"n_agents":3,"meta_share":0.1016949152542373,"balance":0.26415094339622647},"full|823|lenses":{"n_facts":98,"novel":102,"held":11,"adopted":18,"adopted_share":0.13740458015267176,"held_share":0.08396946564885496,"nestedness":0.23337365249129954,"reach":1.2244897959183674,"flow_gini":0.2777777777777778,"delivery_use":0.8333333333333334,"deliveries":12,"n_agents":3,"meta_share":0.25510204081632654,"balance":0.4383561643835616},"full|823|neutral":{"n_facts":71,"novel":75,"held":16,"adopted":23,"adopted_share":0.20175438596491227,"held_share":0.14035087719298245,"nestedness":0.35937985399192296,"reach":1.380281690140845,"flow_gini":0.18055555555555555,"delivery_use":0.9166666666666666,"deliveries":12,"n_agents":3,"meta_share":0.39436619718309857,"balance":0.6976744186046512},"full|823|stance":{"n_facts":91,"novel":99,"held":23,"adopted":18,"adopted_share":0.12857142857142856,"held_share":0.16428571428571428,"nestedness":0.30197444831591175,"reach":1.2857142857142858,"flow_gini":0.34057971014492755,"delivery_use":0.6666666666666666,"deliveries":12,"n_agents":3,"meta_share":0.13186813186813187,"balance":0.5569620253164558},"full|857|lenses":{"n_facts":100,"novel":111,"held":15,"adopted":9,"adopted_share":0.06666666666666667,"held_share":0.1111111111111111,"nestedness":0.19854961344323047,"reach":1.2,"flow_gini":0.6111111111111112,"delivery_use":0.4166666666666667,"deliveries":12,"n_agents":3,"meta_share":0.73,"balance":0.5925925925925926},"full|857|neutral":{"n_facts":76,"novel":84,"held":12,"adopted":5,"adopted_share":0.04950495049504951,"held_share":0.1188118811881188,"nestedness":0.2427777777777778,"reach":1.1710526315789473,"flow_gini":0.5,"delivery_use":0.3333333333333333,"deliveries":12,"n_agents":3,"meta_share":0.5526315789473685,"balance":0.6470588235294117},"full|857|stance":{"n_facts":112,"novel":114,"held":4,"adopted":7,"adopted_share":0.056,"held_share":0.032,"nestedness":0.08523441427853193,"reach":1.0803571428571428,"flow_gini":0.6428571428571429,"delivery_use":0.3333333333333333,"deliveries":12,"n_agents":3,"meta_share":0.5625,"balance":0.5714285714285714},"full|902|lenses":{"n_facts":71,"novel":89,"held":27,"adopted":22,"adopted_share":0.15942028985507245,"held_share":0.1956521739130435,"nestedness":0.4962072905042776,"reach":1.5633802816901408,"flow_gini":0.5,"delivery_use":0.5833333333333334,"deliveries":12,"n_agents":3,"meta_share":0.7605633802816901,"balance":0.3529411764705882},"full|902|neutral":{"n_facts":91,"novel":105,"held":22,"adopted":19,"adopted_share":0.13013698630136986,"held_share":0.1506849315068493,"nestedness":0.32934378283215493,"reach":1.3626373626373627,"flow_gini":0.2971014492753623,"delivery_use":0.8333333333333334,"deliveries":12,"n_agents":3,"meta_share":0.37362637362637363,"balance":0.3508771929824561},"full|902|stance":{"n_facts":113,"novel":126,"held":10,"adopted":16,"adopted_share":0.10526315789473684,"held_share":0.06578947368421052,"nestedness":0.24607487922705315,"reach":1.2566371681415929,"flow_gini":0.32456140350877194,"delivery_use":0.75,"deliveries":12,"n_agents":3,"meta_share":0.26548672566371684,"balance":0.8674698795180723},"full|904|lenses":{"n_facts":104,"novel":108,"held":12,"adopted":17,"adopted_share":0.12408759124087591,"held_share":0.08759124087591241,"nestedness":0.2097047152194211,"reach":1.2019230769230769,"flow_gini":0.36666666666666664,"delivery_use":0.8333333333333334,"deliveries":12,"n_agents":3,"meta_share":0.2403846153846154,"balance":0.15189873417721522},"full|904|neutral":{"n_facts":63,"novel":69,"held":9,"adopted":17,"adopted_share":0.17894736842105263,"held_share":0.09473684210526316,"nestedness":0.3365335381464414,"reach":1.3650793650793651,"flow_gini":0.41228070175438597,"delivery_use":0.5,"deliveries":12,"n_agents":3,"meta_share":0.07936507936507936,"balance":0.1724137931034483},"full|904|stance":{"n_facts":86,"novel":99,"held":23,"adopted":28,"adopted_share":0.18666666666666668,"held_share":0.15333333333333332,"nestedness":0.4251151869572922,"reach":1.4767441860465116,"flow_gini":0.23737373737373738,"delivery_use":1.0,"deliveries":12,"n_agents":3,"meta_share":0.16279069767441862,"balance":0.2777777777777778},"star|171|lenses":{"n_facts":139,"novel":149,"held":13,"adopted":19,"adopted_share":0.10497237569060773,"held_share":0.0718232044198895,"nestedness":0.21341049382716049,"reach":1.20863309352518,"flow_gini":0.125,"delivery_use":1.0,"deliveries":8,"n_agents":3,"meta_share":0.3237410071942446,"balance":0.19148936170212771},"star|171|neutral":{"n_facts":94,"novel":110,"held":26,"adopted":18,"adopted_share":0.11688311688311688,"held_share":0.16883116883116883,"nestedness":0.351010101010101,"reach":1.3617021276595744,"flow_gini":0.11842105263157894,"delivery_use":0.875,"deliveries":8,"n_agents":3,"meta_share":0.5851063829787234,"balance":0.5128205128205128},"star|171|stance":{"n_facts":94,"novel":99,"held":4,"adopted":3,"adopted_share":0.02830188679245283,"held_share":0.03773584905660377,"nestedness":0.0888047138047138,"reach":1.0851063829787233,"flow_gini":0.5833333333333334,"delivery_use":0.375,"deliveries":8,"n_agents":3,"meta_share":0.26595744680851063,"balance":0.5217391304347826},"star|221|lenses":{"n_facts":81,"novel":88,"held":7,"adopted":13,"adopted_share":0.12037037037037036,"held_share":0.06481481481481481,"nestedness":0.2538919413919414,"reach":1.2469135802469136,"flow_gini":0.25,"delivery_use":0.5,"deliveries":8,"n_agents":3,"meta_share":0.2222222222222222,"balance":0.6031746031746033},"star|221|neutral":{"n_facts":86,"novel":98,"held":15,"adopted":5,"adopted_share":0.0423728813559322,"held_share":0.1271186440677966,"nestedness":0.20148148148148148,"reach":1.197674418604651,"flow_gini":0.35,"delivery_use":0.5,"deliveries":8,"n_agents":3,"meta_share":0.19767441860465115,"balance":0.8405797101449275},"star|221|stance":{"n_facts":142,"novel":151,"held":19,"adopted":10,"adopted_share":0.05555555555555555,"held_share":0.10555555555555556,"nestedness":0.14709411473000017,"reach":1.1338028169014085,"flow_gini":0.35,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.15492957746478872,"balance":0.6833333333333333},"star|229|lenses":{"n_facts":67,"novel":71,"held":16,"adopted":9,"adopted_share":0.09375,"held_share":0.16666666666666666,"nestedness":0.20544750158127767,"reach":1.1940298507462686,"flow_gini":0.19444444444444445,"delivery_use":0.75,"deliveries":8,"n_agents":3,"meta_share":0.5671641791044776,"balance":0.27586206896551724},"star|229|neutral":{"n_facts":56,"novel":62,"held":12,"adopted":11,"adopted_share":0.12941176470588237,"held_share":0.1411764705882353,"nestedness":0.30059044551798175,"reach":1.3035714285714286,"flow_gini":0.20833333333333334,"delivery_use":0.875,"deliveries":8,"n_agents":3,"meta_share":0.3392857142857143,"balance":0.21621621621621623},"star|229|stance":{"n_facts":107,"novel":117,"held":4,"adopted":4,"adopted_share":0.032,"held_share":0.032,"nestedness":0.1397086252446434,"reach":1.1308411214953271,"flow_gini":0.625,"delivery_use":0.375,"deliveries":8,"n_agents":3,"meta_share":0.5514018691588785,"balance":0.33333333333333337},"star|233|lenses":{"n_facts":61,"novel":70,"held":11,"adopted":8,"adopted_share":0.0898876404494382,"held_share":0.12359550561797752,"nestedness":0.2781524926686217,"reach":1.278688524590164,"flow_gini":0.19444444444444445,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.14754098360655737,"balance":0.5384615384615384},"star|233|neutral":{"n_facts":37,"novel":51,"held":19,"adopted":8,"adopted_share":0.10256410256410256,"held_share":0.24358974358974358,"nestedness":0.5334948624758828,"reach":1.5945945945945945,"flow_gini":0.1875,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.8918918918918919,"balance":0.0},"star|233|stance":{"n_facts":63,"novel":70,"held":12,"adopted":13,"adopted_share":0.1368421052631579,"held_share":0.12631578947368421,"nestedness":0.3145593869731801,"reach":1.3174603174603174,"flow_gini":0.2857142857142857,"delivery_use":0.75,"deliveries":8,"n_agents":3,"meta_share":0.30158730158730157,"balance":0.7272727272727273},"star|261|lenses":{"n_facts":61,"novel":69,"held":4,"adopted":6,"adopted_share":0.0759493670886076,"held_share":0.05063291139240506,"nestedness":0.25101318902710423,"reach":1.2295081967213115,"flow_gini":0.6666666666666666,"delivery_use":0.25,"deliveries":8,"n_agents":3,"meta_share":0.11475409836065574,"balance":0.37037037037037035},"star|261|neutral":{"n_facts":115,"novel":117,"held":9,"adopted":5,"adopted_share":0.03816793893129771,"held_share":0.06870229007633588,"nestedness":0.0735632183908046,"reach":1.0608695652173914,"flow_gini":0.55,"delivery_use":0.25,"deliveries":8,"n_agents":3,"meta_share":0.1565217391304348,"balance":0.41237113402061853},"star|261|stance":{"n_facts":59,"novel":66,"held":5,"adopted":10,"adopted_share":0.12345679012345678,"held_share":0.06172839506172839,"nestedness":0.3119438264738599,"reach":1.2881355932203389,"flow_gini":0.25,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.11864406779661017,"balance":0.6153846153846154},"star|434|lenses":{"n_facts":99,"novel":108,"held":1,"adopted":3,"adopted_share":0.026785714285714284,"held_share":0.008928571428571428,"nestedness":0.13259221398756282,"reach":1.121212121212121,"flow_gini":0.75,"delivery_use":0.125,"deliveries":8,"n_agents":3,"meta_share":0.4444444444444444,"balance":0.8727272727272728},"star|434|neutral":{"n_facts":96,"novel":109,"held":12,"adopted":10,"adopted_share":0.07633587786259542,"held_share":0.0916030534351145,"nestedness":0.2441860465116279,"reach":1.2395833333333333,"flow_gini":0.3,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.3229166666666667,"balance":0.8615384615384616},"star|434|stance":{"n_facts":141,"novel":151,"held":10,"adopted":9,"adopted_share":0.052941176470588235,"held_share":0.058823529411764705,"nestedness":0.15260362243120865,"reach":1.1347517730496455,"flow_gini":0.4166666666666667,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.2978723404255319,"balance":0.7272727272727273},"star|578|lenses":{"n_facts":93,"novel":105,"held":12,"adopted":9,"adopted_share":0.07142857142857142,"held_share":0.09523809523809523,"nestedness":0.21115567439096852,"reach":1.2258064516129032,"flow_gini":0.5833333333333334,"delivery_use":0.375,"deliveries":8,"n_agents":3,"meta_share":0.3118279569892473,"balance":0.75},"star|578|neutral":{"n_facts":84,"novel":95,"held":20,"adopted":19,"adopted_share":0.1417910447761194,"held_share":0.14925373134328357,"nestedness":0.34397348683062967,"reach":1.3571428571428572,"flow_gini":0.225,"delivery_use":1.0,"deliveries":8,"n_agents":3,"meta_share":0.5,"balance":0.9523809523809523},"star|578|stance":{"n_facts":92,"novel":107,"held":21,"adopted":11,"adopted_share":0.07913669064748201,"held_share":0.1510791366906475,"nestedness":0.28038410486145676,"reach":1.2826086956521738,"flow_gini":0.38636363636363635,"delivery_use":0.75,"deliveries":8,"n_agents":3,"meta_share":0.3695652173913043,"balance":0.9655172413793104},"star|697|lenses":{"n_facts":68,"novel":72,"held":4,"adopted":18,"adopted_share":0.19148936170212766,"held_share":0.0425531914893617,"nestedness":0.29756944444444444,"reach":1.3235294117647058,"flow_gini":0.19444444444444445,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.16176470588235295,"balance":0.14035087719298245},"star|697|neutral":{"n_facts":63,"novel":70,"held":9,"adopted":8,"adopted_share":0.09195402298850575,"held_share":0.10344827586206896,"nestedness":0.255050505050505,"reach":1.2380952380952381,"flow_gini":0.3125,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.42857142857142855,"balance":0.33333333333333337},"star|697|stance":{"n_facts":62,"novel":67,"held":9,"adopted":8,"adopted_share":0.09523809523809523,"held_share":0.10714285714285714,"nestedness":0.20087976539589442,"reach":1.2096774193548387,"flow_gini":0.3125,"delivery_use":0.75,"deliveries":8,"n_agents":3,"meta_share":0.20967741935483872,"balance":0.4897959183673469},"star|823|lenses":{"n_facts":92,"novel":101,"held":17,"adopted":12,"adopted_share":0.09230769230769231,"held_share":0.13076923076923078,"nestedness":0.2588894654903996,"reach":1.2282608695652173,"flow_gini":0.25,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.1956521739130435,"balance":0.2702702702702703},"star|823|neutral":{"n_facts":69,"novel":78,"held":11,"adopted":13,"adopted_share":0.12745098039215685,"held_share":0.10784313725490197,"nestedness":0.33210649000122683,"reach":1.318840579710145,"flow_gini":0.3269230769230769,"delivery_use":0.75,"deliveries":8,"n_agents":3,"meta_share":0.463768115942029,"balance":0.8648648648648649},"star|823|stance":{"n_facts":107,"novel":111,"held":14,"adopted":11,"adopted_share":0.08088235294117647,"held_share":0.10294117647058823,"nestedness":0.1333584715937657,"reach":1.1401869158878504,"flow_gini":0.3409090909090909,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.22429906542056074,"balance":0.4819277108433735},"star|857|lenses":{"n_facts":116,"novel":117,"held":2,"adopted":5,"adopted_share":0.04032258064516129,"held_share":0.016129032258064516,"nestedness":0.06240200412614206,"reach":1.0517241379310345,"flow_gini":0.35,"delivery_use":0.375,"deliveries":8,"n_agents":3,"meta_share":0.5775862068965517,"balance":0.12244897959183676},"star|857|neutral":{"n_facts":85,"novel":93,"held":15,"adopted":13,"adopted_share":0.10743801652892562,"held_share":0.12396694214876033,"nestedness":0.24185363247863248,"reach":1.2470588235294118,"flow_gini":0.32142857142857145,"delivery_use":0.75,"deliveries":8,"n_agents":3,"meta_share":0.8,"balance":0.9411764705882353},"star|857|stance":{"n_facts":121,"novel":130,"held":11,"adopted":11,"adopted_share":0.07236842105263158,"held_share":0.07236842105263158,"nestedness":0.18644688644688645,"reach":1.165289256198347,"flow_gini":0.5681818181818182,"delivery_use":0.5,"deliveries":8,"n_agents":3,"meta_share":0.35537190082644626,"balance":0.4358974358974359},"star|902|lenses":{"n_facts":104,"novel":115,"held":17,"adopted":15,"adopted_share":0.10204081632653061,"held_share":0.11564625850340136,"nestedness":0.2414356547216588,"reach":1.25,"flow_gini":0.25,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.6442307692307693,"balance":0.21621621621621623},"star|902|neutral":{"n_facts":87,"novel":102,"held":8,"adopted":16,"adopted_share":0.12698412698412698,"held_share":0.06349206349206349,"nestedness":0.33092128178335073,"reach":1.3563218390804597,"flow_gini":0.36764705882352944,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.7126436781609196,"balance":0.72},"star|902|stance":{"n_facts":112,"novel":117,"held":4,"adopted":9,"adopted_share":0.06923076923076923,"held_share":0.03076923076923077,"nestedness":0.1334407908875994,"reach":1.125,"flow_gini":0.25,"delivery_use":0.625,"deliveries":8,"n_agents":3,"meta_share":0.6339285714285714,"balance":0.975609756097561},"star|904|lenses":{"n_facts":61,"novel":72,"held":21,"adopted":23,"adopted_share":0.19827586206896552,"held_share":0.1810344827586207,"nestedness":0.5105534105534105,"reach":1.5573770491803278,"flow_gini":0.125,"delivery_use":1.0,"deliveries":8,"n_agents":3,"meta_share":0.19672131147540983,"balance":0.326530612244898},"star|904|neutral":{"n_facts":79,"novel":89,"held":16,"adopted":14,"adopted_share":0.11764705882352941,"held_share":0.13445378151260504,"nestedness":0.29678362573099415,"reach":1.3037974683544304,"flow_gini":0.2833333333333333,"delivery_use":0.75,"deliveries":8,"n_agents":3,"meta_share":0.17721518987341772,"balance":0.2153846153846154},"star|904|stance":{"n_facts":92,"novel":96,"held":11,"adopted":3,"adopted_share":0.02727272727272727,"held_share":0.1,"nestedness":0.08605151287821955,"reach":1.076086956521739,"flow_gini":0.5833333333333334,"delivery_use":0.25,"deliveries":8,"n_agents":3,"meta_share":0.17391304347826086,"balance":0.368421052631579}}};
+const PANELS = ["neutral","lenses","stance"];
+const RAMP = ["var(--p1)","var(--p2)","var(--p3)"];
+const NS = "http://www.w3.org/2000/svg";
+
+function el(t, a){const n=document.createElementNS(NS,t);
+  for(const k in a) n.setAttribute(k, a[k]); return n;}
+function txt(x,y,s,a){const t=el("text",Object.assign({x:x,y:y},a||{}));
+  t.textContent=s; return t;}
+
+/* ---------- figure 1: persona gradient, 4 small multiples ---------- */
+function gradient(){
+  const metrics = [
+    {k:"n_facts", label:"事实数",   fmt:v=>v.toFixed(0)},
+    {k:"adopted_share",  label:"采纳占比", fmt:v=>(v*100).toFixed(1)+"%"},
+    {k:"nestedness",   label:"嵌套度",   fmt:v=>v.toFixed(2)},
+    {k:"reach",  label:"事实覆盖", fmt:v=>v.toFixed(2)}
+  ];
+  const W=1000, cw=W/4, H=300, top=52, bot=66, padx=34;
+  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img",
+    "aria-label":"四个指标在 neutral、lenses、stance 三种人格设定下的走向，全连接与星型各一条线"});
+
+  metrics.forEach((m,mi)=>{
+    const x0 = mi*cw;
+    const vals=[];
+    ["full","star"].forEach(t=>PANELS.forEach(p=>vals.push(D.cells[t+"/"+p][m.k])));
+    let lo=Math.min(...vals), hi=Math.max(...vals);
+    const pad=(hi-lo)*0.42 || 1; lo-=pad; hi+=pad;
+    const px = i => x0+padx + i*((cw-2*padx)/2);
+    const py = v => H-bot - (v-lo)/(hi-lo)*(H-top-bot);
+
+    const g = el("g",{});
+    g.appendChild(el("line",{x1:x0+padx-18,y1:H-bot+.5,x2:x0+cw-padx+18,y2:H-bot+.5,
+      stroke:"var(--rule)","stroke-width":1}));
+    if(mi>0) g.appendChild(el("line",{x1:x0,y1:top-34,x2:x0,y2:H-bot+34,
+      stroke:"var(--rule-soft)","stroke-width":1}));
+
+    g.appendChild(txt(x0+padx-18, top-26, m.label, {fill:"var(--ink)",
+      "font-size":"14.5",
+      "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif',"font-weight":"600"}));
+
+    ["full","star"].forEach(t=>{
+      const pts = PANELS.map((p,i)=>[px(i), py(D.cells[t+"/"+p][m.k])]);
+      const col = t==="full" ? "var(--p3)" : "var(--p2)";
+      g.appendChild(el("path",{d:"M"+pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join("L"),
+        fill:"none", stroke:col, "stroke-width": t==="full"?2.2:1.6,
+        "stroke-dasharray": t==="full"?"none":"5 4",
+        "stroke-linejoin":"round","stroke-linecap":"round"}));
+      pts.forEach((pt,i)=>{
+        if(t==="full") g.appendChild(el("circle",{cx:pt[0],cy:pt[1],r:4.6,fill:col}));
+        else g.appendChild(el("rect",{x:pt[0]-4.2,y:pt[1]-4.2,width:8.4,height:8.4,
+          fill:"var(--surface)", stroke:col, "stroke-width":2}));
+        const v=D.cells[t+"/"+PANELS[i]][m.k];
+        g.appendChild(txt(pt[0], pt[1] + (t==="full"?-12:20), m.fmt(v),
+          {fill:t==="full"?"var(--ink)":"var(--muted)","font-size":"10.5",
+           "text-anchor":"middle","font-family":'"IBM Plex Mono",monospace'}));
+      });
+    });
+
+    PANELS.forEach((p,i)=>{
+      g.appendChild(txt(px(i), H-bot+24, p, {fill:RAMP[i],"font-size":"11",
+        "text-anchor":"middle","font-family":'"IBM Plex Mono",monospace',
+        "letter-spacing":".04em","font-weight":i===2?"600":"400"}));
+    });
+    svg.appendChild(g);
+  });
+  return svg;
+}
+
+/* ---------- figure 2: paired stance − neutral ---------- */
+function paired(){
+  const metrics=[
+    {k:"n_facts", label:"事实数",    unit:"个"},
+    {k:"novel",  label:"新事实",    unit:"个"},
+    {k:"adopted_share",  label:"采纳占比",  unit:"pp", mul:100},
+    {k:"held_share", label:"自持占比",  unit:"pp", mul:100},
+    {k:"nestedness",   label:"嵌套度",    unit:"",   mul:1},
+    {k:"reach",  label:"事实覆盖",  unit:"",   mul:1},
+    {k:"flow_gini",   label:"流量基尼",  unit:"",   mul:1},
+    {k:"delivery_use",   label:"投递利用率",unit:"pp", mul:100}
+  ];
+  const W=1000, rowH=48, top=44, bot=36;
+  const H = top + metrics.length*rowH + bot;
+  const labW=112, GUT=58, RPAD=86;
+  // per-metric standard deviation across all 72 debates, for a shared x scale per row
+  Object.values(D.per_debate).forEach(()=>{});
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img",
+    "aria-label":"stance 减 neutral 的配对差值与置信区间，全连接与星型分列"});
+
+  const colW=(W-labW-GUT-RPAD*2)/2;
+  ["full","star"].forEach((t,ti)=>{
+    const cx0 = labW + ti*(colW+RPAD+GUT);
+    svg.appendChild(txt(cx0+colW/2, 20, ti===0?"全连接":"星型",
+      {fill:"var(--ink)","font-size":"13","text-anchor":"middle","font-weight":"600",
+       "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
+
+    metrics.forEach((m,mi)=>{
+      const key=`${t}|stance-neutral|${m.k}`, v=D.paired[key];
+      if(!v) return;
+      const y = top + mi*rowH + rowH/2;
+      // scale: symmetric around 0, from the wider of the two panels
+      let span=0;
+      ["full","star"].forEach(tt=>{const w=D.paired[`${tt}|stance-neutral|${m.k}`];
+        if(w) span=Math.max(span, Math.abs(w.lo), Math.abs(w.hi));});
+      span*=1.18;
+      const sx = q => cx0 + colW/2 + (q/span)*(colW/2);
+      const col = v.excludes_zero ? "var(--sig)" : "var(--muted)";
+
+      svg.appendChild(el("line",{x1:cx0+colW/2,y1:y-16,x2:cx0+colW/2,y2:y+16,
+        stroke:"var(--rule)","stroke-width":1}));
+      svg.appendChild(el("line",{x1:sx(v.lo),y1:y,x2:sx(v.hi),y2:y,
+        stroke:col,"stroke-width":2,opacity:v.excludes_zero?.85:.45,"stroke-linecap":"round"}));
+      [v.lo,v.hi].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-4,x2:sx(q),y2:y+4,
+        stroke:col,"stroke-width":2,opacity:v.excludes_zero?.85:.45})));
+      svg.appendChild(el("circle",{cx:sx(v.delta),cy:y,r:4.5,fill:col}));
+
+      const mul=m.mul||1;
+      const s=(v.delta*mul>=0?"+":"")+(v.delta*mul).toFixed(Math.abs(v.delta*mul)>=10?1:2)+
+              (m.unit?" "+m.unit:"");
+      svg.appendChild(txt(cx0+colW+14, y+4, s,
+        {fill:v.excludes_zero?"var(--sig)":"var(--faint)","font-size":"11",
+         "font-family":'"IBM Plex Mono",monospace'}));
+      svg.appendChild(txt(cx0+colW/2, y+21, `${v.positive}/${v.n} 为正`,
+        {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle",
+         "font-family":'"IBM Plex Mono",monospace'}));
+
+      if(ti===0){
+        svg.appendChild(txt(labW-16, y+4, m.label,
+          {fill:"var(--ink)","font-size":"12.5","text-anchor":"end",
+           "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
+      }
+      if(mi<metrics.length-1 && ti===0){
+        svg.appendChild(el("line",{x1:20,y1:y+rowH/2,x2:W-20,y2:y+rowH/2,
+          stroke:"var(--rule-soft)","stroke-width":1}));
+      }
+    });
+  });
+  svg.appendChild(txt(W/2, H-10, "← stance 更低    0    stance 更高 →",
+    {fill:"var(--faint)","font-size":"10","text-anchor":"middle",
+     "font-family":'"IBM Plex Mono",monospace',"letter-spacing":".05em"}));
+  return svg;
+}
+
+/* ---------- figure 3: topology contrasts, standardised ---------- */
+function topo(){
+  const metrics=[
+    {k:"n_facts",label:"事实数"},{k:"novel",label:"新事实"},
+    {k:"adopted_share",label:"采纳占比"},{k:"held_share",label:"自持占比"},
+    {k:"nestedness",label:"嵌套度"},
+    {k:"reach",label:"事实覆盖"},{k:"flow_gini",label:"流量基尼"},
+    {k:"delivery_use",label:"投递利用率"}
+  ];
+  // pooled SD per metric across all 72 debates
+  const sd={};
+  metrics.forEach(m=>{
+    const v=Object.values(D.per_debate).map(r=>r[m.k]);
+    const mu=v.reduce((a,b)=>a+b,0)/v.length;
+    sd[m.k]=Math.sqrt(v.reduce((a,b)=>a+(b-mu)*(b-mu),0)/(v.length-1));
+  });
+  const W=1000, rowH=40, top=44, bot=30, labW=120;
+  const H=top+metrics.length*rowH+bot;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img",
+    "aria-label":"星型减全连接的标准化配对差值，每个人格一列，全部跨过零"});
+  const colW=(W-labW-70)/3;
+  let SPAN=0;
+  PANELS.forEach(p=>metrics.forEach(m=>{
+    const v=D.paired[`topology|${p}|star-full|${m.k}`]; if(!v) return; const sc=sd[m.k]||1;
+    SPAN=Math.max(SPAN, Math.abs(v.lo/sc), Math.abs(v.hi/sc));
+  }));
+  SPAN*=1.08;
+
+  PANELS.forEach((p,pi)=>{
+    const cx0=labW+pi*(colW+35);
+    svg.appendChild(txt(cx0+colW/2,20,p,
+      {fill:"var(--ink)","font-size":"12.5","text-anchor":"middle","font-weight":"600",
+       "font-family":'"IBM Plex Mono",monospace',"letter-spacing":".05em"}));
+    const sx=q=>cx0+colW/2+(q/SPAN)*(colW/2);
+    svg.appendChild(el("line",{x1:cx0+colW/2,y1:top-8,x2:cx0+colW/2,y2:H-bot+2,
+      stroke:"var(--rule)","stroke-width":1}));
+
+    metrics.forEach((m,mi)=>{
+      const v=D.paired[`topology|${p}|star-full|${m.k}`]; if(!v) return;
+      const y=top+mi*rowH+rowH/2, s=sd[m.k]||1;
+      const lo=v.lo/s, hi=v.hi/s, d=v.delta/s;
+      svg.appendChild(el("line",{x1:sx(lo),y1:y,x2:sx(hi),y2:y,
+        stroke:"var(--p2)","stroke-width":2,opacity:.5,"stroke-linecap":"round"}));
+      [lo,hi].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-3.5,x2:sx(q),y2:y+3.5,
+        stroke:"var(--p2)","stroke-width":2,opacity:.5})));
+      svg.appendChild(el("circle",{cx:sx(d),cy:y,r:4,fill:"var(--p2)"}));
+      if(pi===0){
+        svg.appendChild(txt(labW-16,y+4,m.label,
+          {fill:"var(--ink)","font-size":"12.5","text-anchor":"end",
+           "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
+        svg.appendChild(el("line",{x1:20,y1:y+rowH/2,x2:W-20,y2:y+rowH/2,
+          stroke:"var(--rule-soft)","stroke-width":1}));
+      }
+    });
+    [-1,0,1].forEach(q=>{
+      svg.appendChild(txt(sx(q),H-bot+18,q===0?"0":(q>0?"+":"")+q+"σ",
+        {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle",
+         "font-family":'"IBM Plex Mono",monospace'}));
+    });
+  });
+  return svg;
+}
+
+document.getElementById("fig-gradient").appendChild(gradient());
+document.getElementById("fig-paired").appendChild(paired());
+document.getElementById("fig-topo").appendChild(topo());
+</script>

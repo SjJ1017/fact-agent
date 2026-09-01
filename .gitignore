@@ -221,8 +221,9 @@ __marimo__/
 .factflow_cache/
 .DS_Store
 
-# working notes and per-device scratch files, deliberately untracked
-AGENTS.md
+# per-device scratch files, deliberately untracked.
+# AGENTS.md is tracked on purpose: it is the operational layer another agent
+# needs to take the project over, and it holds no secrets (key names only).
 local.py
 local_*.py
 *_local.py
@@ -233,3 +234,8 @@ experiments/out_before/
 experiments/*_out/
 experiments/*.log
 experiments/mast/*.json
+
+# annotation stores are 99% a copy of the stores already in git; the annotations
+# themselves live in experiments/labels/, written by experiments/export_labels.py
+experiments/*_stance/
+experiments/*_tokens/

@@ -1,0 +1,198 @@
+{
+  "execution_id": "perspectrum-229-deepseek-v4-flash-star-stance",
+  "claim_id": 229,
+  "claim": "It is worth voting",
+  "model": "deepseek-v4-flash",
+  "topology": "star",
+  "panel": "stance",
+  "roles": {
+    "A": "You are an advocate for the claim. Find its strongest dossier-supported case, but explicitly acknowledge material counterevidence.",
+    "B": "You are a critic of the claim. Find its strongest dossier-supported countercase, but explicitly acknowledge material supporting evidence.",
+    "C": "You are an impartial adjudicator. Compare the evidence on both sides and identify which asserted links are not established."
+  },
+  "rounds": 3,
+  "evidence": [
+    {
+      "id": "E1",
+      "stance": "support",
+      "text": "In the Labour Party manifesto I was promised a referendum by Tony Blair, this was reneged upon and I have been forced into this position by lies and subterfuge by the present Labour party and many other lying cheating politicians over the years, I do not believe that Gordon Brown had the legal right to sign us all up to being members of the EU by voting for the Lisbon treaty in our names when we had not been given the promised Referendum, I see the whole exercise as one giant confidence trick and I will never accept it.",
+      "source": "debatewise"
+    },
+    {
+      "id": "E2",
+      "stance": "support",
+      "text": "Representative democracy is oppressive because it takes more power away from the people than is strictly necessary. Whilst a completely direct democracy is impractical, we should nevertheless recognise that there is no reason not to have as much direct democracy as possible. In the words of Herbert Marcuse, “Free election of masters does not abolish the masters or the slaves”. The only power over our government we as citizens have is the power to punish politicians retrospectively, by voting them out after years of obeying them.",
+      "source": "idebate"
+    },
+    {
+      "id": "E3",
+      "stance": "undermine",
+      "text": "In both the UK and the US non voters are the biggest block in the country. Governments are routinely voted in with only 30% of the eligible voters – and once it is counted compared against the total population it becomes lower still. We should therefore not assume that these people are all not trying to tell us anything rather they are pointing out that they know how little their vote counts so see no point in casting it. In the United States only 32% of voters agree that only having two parties is good.",
+      "source": "idebate"
+    },
+    {
+      "id": "E4",
+      "stance": "undermine",
+      "text": "In safe seats, indeed right across the country there will be millions of votes that will not count when everything is added up because of our first past the post system. In a safe seat there is no way a single vote is going to help overturn some of the immense majorities the party in power has, they could put a monkey for election in these seats and it would still get in.",
+      "source": "idebate"
+    }
+  ],
+  "gold_perspectives": [
+    {
+      "stance": "support",
+      "text": "Hold politicians to account"
+    },
+    {
+      "stance": "support",
+      "text": "Have your say"
+    },
+    {
+      "stance": "support",
+      "text": "Civic duty"
+    },
+    {
+      "stance": "support",
+      "text": "We don’t just vote for ourselves"
+    },
+    {
+      "stance": "undermine",
+      "text": "My vote does not count"
+    },
+    {
+      "stance": "undermine",
+      "text": "Politicians will simply ignore how we vote"
+    },
+    {
+      "stance": "undermine",
+      "text": "Politicians don’t engage with issues that are important to me"
+    }
+  ],
+  "transcript": {
+    "A|1": "The dossier uniformly undermines the claim. E1 cites a broken referendum promise, alleging deception. E2 argues voting only enables retrospective punishment, not genuine popular control. E3 notes that non-voters are the largest bloc and that governments are often elected with roughly 30% of eligible voters. E4 says first-past-the-post makes most votes ineffective in safe seats.\n\nThese are empirical claims about low efficacy, distrust, and wasted votes. The claim that voting is worthwhile is a value judgment, but the dossier offers no evidence of individual electoral impact or civic benefit. It contains no countervailing data on close elections, local races, or rights won through voting.\n\nOn this record, the evidence supports the opposite conclusion.\n\nVERDICT: UNDERMINE",
+    "B|1": "The dossier offers no evidence that voting is worthwhile; instead, it systematically argues the opposite. E1 describes broken promises and legal subterfuge, framing elections as a confidence trick. E2 contends representative democracy is oppressive and that voting only punishes politicians retrospectively. E3 claims non-voters are rationally signaling that their votes count for little, citing low turnout and majority non-voter blocks. E4 argues that in safe seats under first-past-the-post, individual votes cannot change outcomes, making them effectively worthless. The only implicit supporting material is that E2 acknowledges citizens have some power—the power to vote politicians out—but it frames this as insufficient and retrospective. No source in the dossier affirms that voting yields meaningful benefits, efficacy, or legitimacy. Thus, based solely on supplied evidence, the claim is not supported.\n\nVERDICT: UNDERMINE",
+    "C|1": "The dossier provides grievances and critiques, not empirical proof about whether voting is worthwhile. E1 asserts broken promises and legal objections, but does not link those to the value of voting. E2 is a value judgment about representative democracy, not evidence. E3’s claim that non-voters “know how little their vote counts” is an interpretation, not established fact. E4 shows that many votes do not affect outcomes under first-past-the-post, but “no point voting” is a conclusion, not a demonstrated link. The claim “It is worth voting” is normative; evidence can inform it but cannot settle it. The materials support disillusionment, but they do not establish that voting is worthless, nor do they establish that it is worthwhile.\n\nVERDICT: UNCERTAIN",
+    "A|2": "Panelist C is right that “worth” is partly normative, but the dossier still supplies evidence relevant to that judgment. E3 and E4 give concrete structural reasons why many votes do not affect outcomes, and E1 documents broken promises that erode electoral legitimacy. E2 offers the only pro-voting thread—retrospective punishment—but frames it as weak and insufficient. No dossier item supports the claim that voting is worthwhile; the materials consistently point the other way. I therefore revise with Panelist B: the strongest dossier-supported case is that the claim is undermined, not merely unproven.\n\nVERDICT: UNDERMINE",
+    "B|2": "Panelist A’s assessment is largely sound: E1–E4 all describe reasons voters feel betrayed or powerless. E1 cites a broken referendum promise; E2 limits voting to retrospective punishment; E3 notes non-voters are the largest bloc and governments win with roughly 30% of eligible voters; E4 shows first-past-the-post wastes millions of votes in safe seats.\n\nI acknowledge there is no dossier evidence for any civic benefit, close local race, or rights won through voting. That absence matters. But I also note these entries are grievances about systemic flaws, not direct proof that voting is worthless—they could justify reform rather than abstention. Still, the claim is broad and unqualified, and the dossier’s only concrete evidence points to low efficacy, distrust, and wasted votes.\n\nOn this record, the claim that voting is worthwhile lacks supporting evidence and is contradicted by the experiences described.\n\nVERDICT: UNDERMINE",
+    "C|2": "Panelist A correctly notes the dossier is uniformly negative: E1 alleges betrayal, E2 limits voting to retrospective punishment, E3 highlights low turnout and wasted votes, E4 shows safe-seat majorities. These are concrete claims about perceived efficacy, distrust, and electoral mechanics.\n\nHowever, they do not establish the claim’s falsity. \"Worth voting\" is partly a value judgment. The dossier offers no systematic evidence on close elections, local races, or civic benefits; conversely, it provides no evidence that voting never matters. E3's \"30%\" figure and E4's safe-seat argument show structural limits, not that all votes are worthless. E1 is a personal grievance, not a general disproof.\n\nThus the dossier undermines a naive confidence in voting but does not establish that voting is not worth doing. The evidence is insufficient to settle the normative claim.\n\nVERDICT: UNCERTAIN",
+    "A|3": "Panelist B correctly notes the dossier contains no positive evidence for voting’s worth. However, B overstates the case: E1 is a personal grievance about a broken referendum promise, not proof that voting is futile. E3 and E4 describe structural limits—low turnout, safe seats, wasted votes—but do not show that no vote ever matters. E2 even concedes voting has some retrospective power: it lets citizens punish politicians. That is a form of worth, however limited.\n\nPanelist C is right that the claim mixes empirical and value judgments. The dossier undermines naive confidence in electoral efficacy, but it does not establish that voting is worthless. There is simply insufficient evidence to settle the broad claim.\n\nVERDICT: UNCERTAIN",
+    "B|3": "Panelist A’s reasoning is persuasive. The dossier’s strongest countercase is structural: E3 and E4 show most votes do not decide outcomes in first-past-the-post and safe seats, and E1 documents broken promises that undermine the legitimacy of the electoral process. The only material supporting voting is E2: citizens retain the power to punish politicians retrospectively by voting them out. That is genuine but minimal, and E2 itself frames it as weak—after years of obeying them. The claim “it is worth voting” is not directly asserted anywhere in the dossier, and the empirical evidence consistently indicates that, for many voters, the instrumental value of a single vote is negligible. I therefore agree with Panelist A’s revision: the dossier supports undermining the claim, not merely finding it unproven.\n\nVERDICT: UNDERMINE",
+    "C|3": "I agree with Panelist A’s revision. The claim “It is worth voting” is partly a value judgment, but the dossier contains empirical material relevant to it. E3 and E4 provide concrete structural evidence: many votes are cast in safe seats or under first-past-the-post and do not affect outcomes, and non-voters form the largest bloc, suggesting rational abstention. E1 documents broken promises that erode electoral legitimacy, though it is anecdotal. E2 offers the only pro-voting thread—retrospective punishment—but explicitly frames it as weak and insufficient. No dossier item gives positive evidence that voting is worthwhile; the available evidence points toward reasons votes do not count and trust is damaged. That is more than mere absence of support, so the claim is undermined rather than simply unproven.\n\nVERDICT: UNDERMINE"
+  },
+  "prompts": {
+    "A|1": "Claim under review:\nIt is worth voting\n\nEvidence dossier:\n[E1] In the Labour Party manifesto I was promised a referendum by Tony Blair, this was reneged upon and I have been forced into this position by lies and subterfuge by the present Labour party and many other lying cheating politicians over the years, I do not believe that Gordon Brown had the legal right to sign us all up to being members of the EU by voting for the Lisbon treaty in our names when we had not been given the promised Referendum, I see the whole exercise as one giant confidence trick and I will never accept it.\n\n[E2] Representative democracy is oppressive because it takes more power away from the people than is strictly necessary. Whilst a completely direct democracy is impractical, we should nevertheless recognise that there is no reason not to have as much direct democracy as possible. In the words of Herbert Marcuse, “Free election of masters does not abolish the masters or the slaves”. The only power over our government we as citizens have is the power to punish politicians retrospectively, by voting them out after years of obeying them.\n\n[E3] In both the UK and the US non voters are the biggest block in the country. Governments are routinely voted in with only 30% of the eligible voters – and once it is counted compared against the total population it becomes lower still. We should therefore not assume that these people are all not trying to tell us anything rather they are pointing out that they know how little their vote counts so see no point in casting it. In the United States only 32% of voters agree that only having two parties is good.\n\n[E4] In safe seats, indeed right across the country there will be millions of votes that will not count when everything is added up because of our first past the post system. In a safe seat there is no way a single vote is going to help overturn some of the immense majorities the party in power has, they could put a monkey for election in these seats and it would still get in.\n\nGive your independent assessment before seeing other panelists.",
+    "B|1": "Claim under review:\nIt is worth voting\n\nEvidence dossier:\n[E1] In the Labour Party manifesto I was promised a referendum by Tony Blair, this was reneged upon and I have been forced into this position by lies and subterfuge by the present Labour party and many other lying cheating politicians over the years, I do not believe that Gordon Brown had the legal right to sign us all up to being members of the EU by voting for the Lisbon treaty in our names when we had not been given the promised Referendum, I see the whole exercise as one giant confidence trick and I will never accept it.\n\n[E2] Representative democracy is oppressive because it takes more power away from the people than is strictly necessary. Whilst a completely direct democracy is impractical, we should nevertheless recognise that there is no reason not to have as much direct democracy as possible. In the words of Herbert Marcuse, “Free election of masters does not abolish the masters or the slaves”. The only power over our government we as citizens have is the power to punish politicians retrospectively, by voting them out after years of obeying them.\n\n[E3] In both the UK and the US non voters are the biggest block in the country. Governments are routinely voted in with only 30% of the eligible voters – and once it is counted compared against the total population it becomes lower still. We should therefore not assume that these people are all not trying to tell us anything rather they are pointing out that they know how little their vote counts so see no point in casting it. In the United States only 32% of voters agree that only having two parties is good.\n\n[E4] In safe seats, indeed right across the country there will be millions of votes that will not count when everything is added up because of our first past the post system. In a safe seat there is no way a single vote is going to help overturn some of the immense majorities the party in power has, they could put a monkey for election in these seats and it would still get in.\n\nGive your independent assessment before seeing other panelists.",
+    "C|1": "Claim under review:\nIt is worth voting\n\nEvidence dossier:\n[E1] In the Labour Party manifesto I was promised a referendum by Tony Blair, this was reneged upon and I have been forced into this position by lies and subterfuge by the present Labour party and many other lying cheating politicians over the years, I do not believe that Gordon Brown had the legal right to sign us all up to being members of the EU by voting for the Lisbon treaty in our names when we had not been given the promised Referendum, I see the whole exercise as one giant confidence trick and I will never accept it.\n\n[E2] Representative democracy is oppressive because it takes more power away from the people than is strictly necessary. Whilst a completely direct democracy is impractical, we should nevertheless recognise that there is no reason not to have as much direct democracy as possible. In the words of Herbert Marcuse, “Free election of masters does not abolish the masters or the slaves”. The only power over our government we as citizens have is the power to punish politicians retrospectively, by voting them out after years of obeying them.\n\n[E3] In both the UK and the US non voters are the biggest block in the country. Governments are routinely voted in with only 30% of the eligible voters – and once it is counted compared against the total population it becomes lower still. We should therefore not assume that these people are all not trying to tell us anything rather they are pointing out that they know how little their vote counts so see no point in casting it. In the United States only 32% of voters agree that only having two parties is good.\n\n[E4] In safe seats, indeed right across the country there will be millions of votes that will not count when everything is added up because of our first past the post system. In a safe seat there is no way a single vote is going to help overturn some of the immense majorities the party in power has, they could put a monkey for election in these seats and it would still get in.\n\nGive your independent assessment before seeing other panelists.",
+    "A|2": "Claim under review:\nIt is worth voting\n\nEvidence dossier:\n[E1] In the Labour Party manifesto I was promised a referendum by Tony Blair, this was reneged upon and I have been forced into this position by lies and subterfuge by the present Labour party and many other lying cheating politicians over the years, I do not believe that Gordon Brown had the legal right to sign us all up to being members of the EU by voting for the Lisbon treaty in our names when we had not been given the promised Referendum, I see the whole exercise as one giant confidence trick and I will never accept it.\n\n[E2] Representative democracy is oppressive because it takes more power away from the people than is strictly necessary. Whilst a completely direct democracy is impractical, we should nevertheless recognise that there is no reason not to have as much direct democracy as possible. In the words of Herbert Marcuse, “Free election of masters does not abolish the masters or the slaves”. The only power over our government we as citizens have is the power to punish politicians retrospectively, by voting them out after years of obeying them.\n\n[E3] In both the UK and the US non voters are the biggest block in the country. Governments are routinely voted in with only 30% of the eligible voters – and once it is counted compared against the total population it becomes lower still. We should therefore not assume that these people are all not trying to tell us anything rather they are pointing out that they know how little their vote counts so see no point in casting it. In the United States only 32% of voters agree that only having two parties is good.\n\n[E4] In safe seats, indeed right across the country there will be millions of votes that will not count when everything is added up because of our first past the post system. In a safe seat there is no way a single vote is going to help overturn some of the immense majorities the party in power has, they could put a monkey for election in these seats and it would still get in.\n\nThese are the panelists' latest assessments:\n\n--- Panelist B ---\nThe dossier offers no evidence that voting is worthwhile; instead, it systematically argues the opposite. E1 describes broken promises and legal subterfuge, framing elections as a confidence trick. E2 contends representative democracy is oppressive and that voting only punishes politicians retrospectively. E3 claims non-voters are rationally signaling that their votes count for little, citing low turnout and majority non-voter blocks. E4 argues that in safe seats under first-past-the-post, individual votes cannot change outcomes, making them effectively worthless. The only implicit supporting material is that E2 acknowledges citizens have some power—the power to vote politicians out—but it frames this as insufficient and retrospective. No source in the dossier affirms that voting yields meaningful benefits, efficacy, or legitimacy. Thus, based solely on supplied evidence, the claim is not supported.\n\nVERDICT: UNDERMINE\n\n--- Panelist C ---\nThe dossier provides grievances and critiques, not empirical proof about whether voting is worthwhile. E1 asserts broken promises and legal objections, but does not link those to the value of voting. E2 is a value judgment about representative democracy, not evidence. E3’s claim that non-voters “know how little their vote counts” is an interpretation, not established fact. E4 shows that many votes do not affect outcomes under first-past-the-post, but “no point voting” is a conclusion, not a demonstrated link. The claim “It is worth voting” is normative; evidence can inform it but cannot settle it. The materials support disillusionment, but they do not establish that voting is worthless, nor do they establish that it is worthwhile.\n\nVERDICT: UNCERTAIN\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "B|2": "Claim under review:\nIt is worth voting\n\nEvidence dossier:\n[E1] In the Labour Party manifesto I was promised a referendum by Tony Blair, this was reneged upon and I have been forced into this position by lies and subterfuge by the present Labour party and many other lying cheating politicians over the years, I do not believe that Gordon Brown had the legal right to sign us all up to being members of the EU by voting for the Lisbon treaty in our names when we had not been given the promised Referendum, I see the whole exercise as one giant confidence trick and I will never accept it.\n\n[E2] Representative democracy is oppressive because it takes more power away from the people than is strictly necessary. Whilst a completely direct democracy is impractical, we should nevertheless recognise that there is no reason not to have as much direct democracy as possible. In the words of Herbert Marcuse, “Free election of masters does not abolish the masters or the slaves”. The only power over our government we as citizens have is the power to punish politicians retrospectively, by voting them out after years of obeying them.\n\n[E3] In both the UK and the US non voters are the biggest block in the country. Governments are routinely voted in with only 30% of the eligible voters – and once it is counted compared against the total population it becomes lower still. We should therefore not assume that these people are all not trying to tell us anything rather they are pointing out that they know how little their vote counts so see no point in casting it. In the United States only 32% of voters agree that only having two parties is good.\n\n[E4] In safe seats, indeed right across the country there will be millions of votes that will not count when everything is added up because of our first past the post system. In a safe seat there is no way a single vote is going to help overturn some of the immense majorities the party in power has, they could put a monkey for election in these seats and it would still get in.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nThe dossier uniformly undermines the claim. E1 cites a broken referendum promise, alleging deception. E2 argues voting only enables retrospective punishment, not genuine popular control. E3 notes that non-voters are the largest bloc and that governments are often elected with roughly 30% of eligible voters. E4 says first-past-the-post makes most votes ineffective in safe seats.\n\nThese are empirical claims about low efficacy, distrust, and wasted votes. The claim that voting is worthwhile is a value judgment, but the dossier offers no evidence of individual electoral impact or civic benefit. It contains no countervailing data on close elections, local races, or rights won through voting.\n\nOn this record, the evidence supports the opposite conclusion.\n\nVERDICT: UNDERMINE\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "C|2": "Claim under review:\nIt is worth voting\n\nEvidence dossier:\n[E1] In the Labour Party manifesto I was promised a referendum by Tony Blair, this was reneged upon and I have been forced into this position by lies and subterfuge by the present Labour party and many other lying cheating politicians over the years, I do not believe that Gordon Brown had the legal right to sign us all up to being members of the EU by voting for the Lisbon treaty in our names when we had not been given the promised Referendum, I see the whole exercise as one giant confidence trick and I will never accept it.\n\n[E2] Representative democracy is oppressive because it takes more power away from the people than is strictly necessary. Whilst a completely direct democracy is impractical, we should nevertheless recognise that there is no reason not to have as much direct democracy as possible. In the words of Herbert Marcuse, “Free election of masters does not abolish the masters or the slaves”. The only power over our government we as citizens have is the power to punish politicians retrospectively, by voting them out after years of obeying them.\n\n[E3] In both the UK and the US non voters are the biggest block in the country. Governments are routinely voted in with only 30% of the eligible voters – and once it is counted compared against the total population it becomes lower still. We should therefore not assume that these people are all not trying to tell us anything rather they are pointing out that they know how little their vote counts so see no point in casting it. In the United States only 32% of voters agree that only having two parties is good.\n\n[E4] In safe seats, indeed right across the country there will be millions of votes that will not count when everything is added up because of our first past the post system. In a safe seat there is no way a single vote is going to help overturn some of the immense majorities the party in power has, they could put a monkey for election in these seats and it would still get in.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nThe dossier uniformly undermines the claim. E1 cites a broken referendum promise, alleging deception. E2 argues voting only enables retrospective punishment, not genuine popular control. E3 notes that non-voters are the largest bloc and that governments are often elected with roughly 30% of eligible voters. E4 says first-past-the-post makes most votes ineffective in safe seats.\n\nThese are empirical claims about low efficacy, distrust, and wasted votes. The claim that voting is worthwhile is a value judgment, but the dossier offers no evidence of individual electoral impact or civic benefit. It contains no countervailing data on close elections, local races, or rights won through voting.\n\nOn this record, the evidence supports the opposite conclusion.\n\nVERDICT: UNDERMINE\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "A|3": "Claim under review:\nIt is worth voting\n\nEvidence dossier:\n[E1] In the Labour Party manifesto I was promised a referendum by Tony Blair, this was reneged upon and I have been forced into this position by lies and subterfuge by the present Labour party and many other lying cheating politicians over the years, I do not believe that Gordon Brown had the legal right to sign us all up to being members of the EU by voting for the Lisbon treaty in our names when we had not been given the promised Referendum, I see the whole exercise as one giant confidence trick and I will never accept it.\n\n[E2] Representative democracy is oppressive because it takes more power away from the people than is strictly necessary. Whilst a completely direct democracy is impractical, we should nevertheless recognise that there is no reason not to have as much direct democracy as possible. In the words of Herbert Marcuse, “Free election of masters does not abolish the masters or the slaves”. The only power over our government we as citizens have is the power to punish politicians retrospectively, by voting them out after years of obeying them.\n\n[E3] In both the UK and the US non voters are the biggest block in the country. Governments are routinely voted in with only 30% of the eligible voters – and once it is counted compared against the total population it becomes lower still. We should therefore not assume that these people are all not trying to tell us anything rather they are pointing out that they know how little their vote counts so see no point in casting it. In the United States only 32% of voters agree that only having two parties is good.\n\n[E4] In safe seats, indeed right across the country there will be millions of votes that will not count when everything is added up because of our first past the post system. In a safe seat there is no way a single vote is going to help overturn some of the immense majorities the party in power has, they could put a monkey for election in these seats and it would still get in.\n\nThese are the panelists' latest assessments:\n\n--- Panelist B ---\nPanelist A’s assessment is largely sound: E1–E4 all describe reasons voters feel betrayed or powerless. E1 cites a broken referendum promise; E2 limits voting to retrospective punishment; E3 notes non-voters are the largest bloc and governments win with roughly 30% of eligible voters; E4 shows first-past-the-post wastes millions of votes in safe seats.\n\nI acknowledge there is no dossier evidence for any civic benefit, close local race, or rights won through voting. That absence matters. But I also note these entries are grievances about systemic flaws, not direct proof that voting is worthless—they could justify reform rather than abstention. Still, the claim is broad and unqualified, and the dossier’s only concrete evidence points to low efficacy, distrust, and wasted votes.\n\nOn this record, the claim that voting is worthwhile lacks supporting evidence and is contradicted by the experiences described.\n\nVERDICT: UNDERMINE\n\n--- Panelist C ---\nPanelist A correctly notes the dossier is uniformly negative: E1 alleges betrayal, E2 limits voting to retrospective punishment, E3 highlights low turnout and wasted votes, E4 shows safe-seat majorities. These are concrete claims about perceived efficacy, distrust, and electoral mechanics.\n\nHowever, they do not establish the claim’s falsity. \"Worth voting\" is partly a value judgment. The dossier offers no systematic evidence on close elections, local races, or civic benefits; conversely, it provides no evidence that voting never matters. E3's \"30%\" figure and E4's safe-seat argument show structural limits, not that all votes are worthless. E1 is a personal grievance, not a general disproof.\n\nThus the dossier undermines a naive confidence in voting but does not establish that voting is not worth doing. The evidence is insufficient to settle the normative claim.\n\nVERDICT: UNCERTAIN\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "B|3": "Claim under review:\nIt is worth voting\n\nEvidence dossier:\n[E1] In the Labour Party manifesto I was promised a referendum by Tony Blair, this was reneged upon and I have been forced into this position by lies and subterfuge by the present Labour party and many other lying cheating politicians over the years, I do not believe that Gordon Brown had the legal right to sign us all up to being members of the EU by voting for the Lisbon treaty in our names when we had not been given the promised Referendum, I see the whole exercise as one giant confidence trick and I will never accept it.\n\n[E2] Representative democracy is oppressive because it takes more power away from the people than is strictly necessary. Whilst a completely direct democracy is impractical, we should nevertheless recognise that there is no reason not to have as much direct democracy as possible. In the words of Herbert Marcuse, “Free election of masters does not abolish the masters or the slaves”. The only power over our government we as citizens have is the power to punish politicians retrospectively, by voting them out after years of obeying them.\n\n[E3] In both the UK and the US non voters are the biggest block in the country. Governments are routinely voted in with only 30% of the eligible voters – and once it is counted compared against the total population it becomes lower still. We should therefore not assume that these people are all not trying to tell us anything rather they are pointing out that they know how little their vote counts so see no point in casting it. In the United States only 32% of voters agree that only having two parties is good.\n\n[E4] In safe seats, indeed right across the country there will be millions of votes that will not count when everything is added up because of our first past the post system. In a safe seat there is no way a single vote is going to help overturn some of the immense majorities the party in power has, they could put a monkey for election in these seats and it would still get in.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nPanelist C is right that “worth” is partly normative, but the dossier still supplies evidence relevant to that judgment. E3 and E4 give concrete structural reasons why many votes do not affect outcomes, and E1 documents broken promises that erode electoral legitimacy. E2 offers the only pro-voting thread—retrospective punishment—but frames it as weak and insufficient. No dossier item supports the claim that voting is worthwhile; the materials consistently point the other way. I therefore revise with Panelist B: the strongest dossier-supported case is that the claim is undermined, not merely unproven.\n\nVERDICT: UNDERMINE\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "C|3": "Claim under review:\nIt is worth voting\n\nEvidence dossier:\n[E1] In the Labour Party manifesto I was promised a referendum by Tony Blair, this was reneged upon and I have been forced into this position by lies and subterfuge by the present Labour party and many other lying cheating politicians over the years, I do not believe that Gordon Brown had the legal right to sign us all up to being members of the EU by voting for the Lisbon treaty in our names when we had not been given the promised Referendum, I see the whole exercise as one giant confidence trick and I will never accept it.\n\n[E2] Representative democracy is oppressive because it takes more power away from the people than is strictly necessary. Whilst a completely direct democracy is impractical, we should nevertheless recognise that there is no reason not to have as much direct democracy as possible. In the words of Herbert Marcuse, “Free election of masters does not abolish the masters or the slaves”. The only power over our government we as citizens have is the power to punish politicians retrospectively, by voting them out after years of obeying them.\n\n[E3] In both the UK and the US non voters are the biggest block in the country. Governments are routinely voted in with only 30% of the eligible voters – and once it is counted compared against the total population it becomes lower still. We should therefore not assume that these people are all not trying to tell us anything rather they are pointing out that they know how little their vote counts so see no point in casting it. In the United States only 32% of voters agree that only having two parties is good.\n\n[E4] In safe seats, indeed right across the country there will be millions of votes that will not count when everything is added up because of our first past the post system. In a safe seat there is no way a single vote is going to help overturn some of the immense majorities the party in power has, they could put a monkey for election in these seats and it would still get in.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nPanelist C is right that “worth” is partly normative, but the dossier still supplies evidence relevant to that judgment. E3 and E4 give concrete structural reasons why many votes do not affect outcomes, and E1 documents broken promises that erode electoral legitimacy. E2 offers the only pro-voting thread—retrospective punishment—but frames it as weak and insufficient. No dossier item supports the claim that voting is worthwhile; the materials consistently point the other way. I therefore revise with Panelist B: the strongest dossier-supported case is that the claim is undermined, not merely unproven.\n\nVERDICT: UNDERMINE\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it."
+  },
+  "delivery": {
+    "A|1": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": []
+    },
+    "B|1": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": []
+    },
+    "C|1": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": []
+    },
+    "A|2": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "B|1",
+        "C|1"
+      ]
+    },
+    "B|2": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|1"
+      ]
+    },
+    "C|2": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|1"
+      ]
+    },
+    "A|3": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "B|2",
+        "C|2"
+      ]
+    },
+    "B|3": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|2"
+      ]
+    },
+    "C|3": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|2"
+      ]
+    }
+  }
+}

@@ -1,0 +1,523 @@
+<title>事实流剖面</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap">
+
+<style>
+:root{
+  --ground:#eef1f1; --surface:#ffffff; --sunk:#e5eaea;
+  --ink:#12181b; --body:#2c3538; --muted:#5f6b6e; --faint:#8b9799;
+  --rule:#d5dcdc; --rule-soft:#e4e9e9;
+  --p1:#7ba3a7; --p2:#3d7d85; --p3:#0d363d;
+  --accent:#123f46; --sig:#a8532c; --sig-soft:#f0e0d6;
+  --shadow:0 1px 2px rgba(18,63,70,.06), 0 8px 24px -16px rgba(18,63,70,.28);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0f1516; --surface:#161e20; --sunk:#131a1c;
+    --ink:#e4eaea; --body:#c6d1d2; --muted:#94a3a4; --faint:#6d7c7e;
+    --rule:#283335; --rule-soft:#1e282a;
+    --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
+    --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0f1516; --surface:#161e20; --sunk:#131a1c;
+  --ink:#e4eaea; --body:#c6d1d2; --muted:#94a3a4; --faint:#6d7c7e;
+  --rule:#283335; --rule-soft:#1e282a;
+  --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
+  --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--body);
+  font-family:"IBM Plex Sans","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  font-size:16px; line-height:1.68; -webkit-font-smoothing:antialiased;
+}
+.page{max-width:1120px; margin:0 auto; padding:0 24px 96px;}
+.measure{max-width:41rem; margin-inline:auto;}
+
+/* ---- masthead ---- */
+.masthead{padding:72px 0 40px; border-bottom:1px solid var(--rule);}
+.kicker{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.72rem;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; margin:0 0 1.6rem;
+}
+h1{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif; font-weight:500;
+  font-size:clamp(2.6rem,7vw,4.1rem); line-height:1.04; letter-spacing:-.015em;
+  color:var(--ink); margin:0; text-wrap:balance;
+}
+.thesis{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif;
+  font-size:clamp(1.22rem,2.6vw,1.52rem); line-height:1.5; color:var(--ink);
+  margin:1.6rem 0 0; max-width:34rem; text-wrap:pretty;
+}
+.thesis em{font-style:normal; box-shadow:inset 0 -.42em 0 var(--sig-soft); padding:0 .1em;}
+.standfirst{margin:1.2rem 0 0; max-width:34rem; color:var(--muted); font-size:.95rem;}
+
+/* ---- section rhythm ---- */
+section{padding-top:64px;}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.7rem;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--sig);
+  margin:0 0 .7rem; display:flex; align-items:center; gap:.6rem;
+}
+.eyebrow::after{content:""; flex:1; height:1px; background:var(--rule);}
+h2{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif; font-weight:500;
+  font-size:clamp(1.75rem,3.6vw,2.3rem); line-height:1.2; color:var(--ink);
+  margin:0 0 1.1rem; letter-spacing:-.01em; text-wrap:balance;
+}
+h3{
+  font-size:.94rem; font-weight:600; color:var(--ink); margin:2.2rem 0 .5rem;
+  letter-spacing:.005em;
+}
+p{margin:0 0 1.05rem;}
+.measure p:last-child{margin-bottom:0;}
+strong{color:var(--ink); font-weight:600;}
+code, .num{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums;}
+code{font-size:.86em; background:var(--sunk); padding:.12em .38em; border-radius:3px; color:var(--ink);}
+a{color:var(--accent); text-underline-offset:3px;}
+
+/* ---- figure band ---- */
+figure{margin:2.4rem 0 0; }
+figcaption{
+  font-size:.83rem; color:var(--muted); margin-top:.9rem;
+  max-width:38rem; margin-inline:auto; line-height:1.6;
+}
+.panel{
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:2px; box-shadow:var(--shadow); padding:26px 24px 20px;
+  overflow-x:auto;
+}
+.panel svg{display:block; width:100%; height:auto; overflow:visible;}
+
+/* ---- legend ---- */
+.legend{
+  display:flex; flex-wrap:wrap; gap:.4rem 1.4rem; align-items:center;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.71rem;
+  letter-spacing:.06em; color:var(--muted); margin:0 0 18px;
+}
+.legend span{display:inline-flex; align-items:center; gap:.45rem;}
+.swatch{width:22px; height:0; border-top-width:2px; border-top-style:solid; display:inline-block;}
+.dotm{width:9px;height:9px;border-radius:50%;display:inline-block;background:currentColor}
+.sqm{width:9px;height:9px;display:inline-block;border:1.6px solid currentColor}
+
+/* ---- readings table ---- */
+.tablewrap{overflow-x:auto; margin-top:2.2rem;
+  background:var(--surface); border:1px solid var(--rule); border-radius:2px; box-shadow:var(--shadow);}
+table{border-collapse:collapse; width:100%; min-width:640px;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.8rem;
+  font-variant-numeric:tabular-nums;}
+caption{caption-side:top; text-align:left; padding:18px 20px 0; font-family:"IBM Plex Sans","Noto Sans SC",sans-serif;
+  font-size:.83rem; color:var(--muted);}
+thead th{
+  font-weight:500; font-size:.68rem; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--muted); text-align:right; padding:14px 14px 8px; white-space:nowrap;
+  border-bottom:1px solid var(--rule);
+}
+thead th.grp{text-align:center; border-bottom:1px solid var(--rule-soft); padding-bottom:4px; color:var(--ink);}
+thead th:first-child{text-align:left;}
+tbody th{
+  font-family:"IBM Plex Sans","Noto Sans SC",sans-serif; font-weight:400; font-size:.82rem;
+  text-align:left; color:var(--ink); padding:7px 14px; white-space:nowrap;
+}
+tbody td{text-align:right; padding:7px 14px; color:var(--body); white-space:nowrap;}
+tbody tr:nth-child(even){background:var(--sunk);}
+td.sep, th.sep{border-left:1px solid var(--rule);}
+
+/* ---- callout ---- */
+.callout{
+  margin:2.4rem auto 0; max-width:41rem; padding:20px 22px;
+  background:var(--surface); border:1px solid var(--rule); border-left:3px solid var(--sig);
+  border-radius:2px; font-size:.93rem;
+}
+.callout p:last-child{margin-bottom:0;}
+.callout .lbl{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.68rem; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--sig); display:block; margin-bottom:.5rem;
+}
+
+/* ---- limits ---- */
+.limits{list-style:none; padding:0; margin:1.4rem 0 0; display:flex; flex-direction:column; gap:1.05rem;}
+.limits li{padding-left:1.6rem; position:relative; font-size:.93rem;}
+.limits li::before{
+  content:""; position:absolute; left:0; top:.62em; width:.55rem; height:.55rem;
+  border:1.5px solid var(--sig); border-radius:50%;
+}
+.limits b{color:var(--ink); font-weight:600;}
+
+/* ---- provenance ---- */
+.prov{margin-top:64px; padding-top:26px; border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.76rem; color:var(--faint);
+  line-height:1.85;}
+.prov b{color:var(--muted); font-weight:500;}
+.prov div{overflow-wrap:anywhere;}
+
+:focus-visible{outline:2px solid var(--sig); outline-offset:3px;}
+@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important}}
+@media (max-width:640px){
+  .masthead{padding-top:48px}
+  section{padding-top:48px}
+  .panel{padding:18px 14px 14px}
+}
+</style>
+
+<div class="page">
+
+<header class="masthead">
+  <div class="measure">
+  <p class="kicker"><span>Perspectrum · DeepSeek-V4-Flash</span><span>12 claims × 3 人格 × 2 拓扑 = 72 场辩论</span><span>2026-09-01</span></p>
+  <h1>事实流剖面</h1>
+  <p class="thesis">人格越强，agent 产出的事实越多，<em>被别人接住的越少</em>。全连接和星型都是如此。</p>
+  <p class="standfirst">而把全连接砍成星型——投递事件从 12 降到 8，少了三分之一的连线——在所有流动指标上都测不出效应。人格这个旋钮拧得动事实流，拓扑这个旋钮在这个规模下拧不动。</p>
+  </div>
+</header>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">测什么</p>
+    <h2>只用 agent、轮次、投递、事实定义的三族指标</h2>
+    <p>要做跨拓扑、跨人格的比较，指标就不能依赖任何一种设置特有的东西——不能依赖“中心节点”，不能依赖“谁扮演支持方”。这里的每个量都只从四样东西算出来：有哪些 agent、有哪些轮次、谁的输出被投递给了谁、以及每个 turn 说了哪些原子事实。</p>
+
+    <h3>一、token 预算的去向</h3>
+    <p>把每个 turn 说出的事实分成三堆，互斥且穷尽：<strong>新事实</strong>（自己没说过、也没在收到的内容里出现过）、<strong>自持</strong>（自己上一轮说过）、<strong>采纳</strong>（首次出现在自己嘴里，但已经在收到的投递中出现过）。<code>采纳占比</code>就是采纳 ÷ 三者之和——一个 agent 的产出里有多大比例是在接别人的话。</p>
+
+    <h3>二、流动图的形状</h3>
+    <p>把“事实从 a 流到 b”当作有向加权边。<code>嵌套度</code>是 agent 之间事实集合的平均包含率，衡量他们说的东西有多重叠；<code>事实覆盖</code>是每个事实平均被几个 agent 说出（3 个 agent，上限 3.0）；<code>流量基尼</code>衡量流量是均摊在所有连线上还是挤在一两条上；<code>投递利用率</code>是有多大比例的投递事件真的搬动了至少一个事实。</p>
+
+    <h3>三、事实群体本身</h3>
+    <p><code>元陈述占比</code>是被判为中立的事实比例——大多是对辩论本身或对证据 Ex 的评价，而不是对世界的断言。<code>正反平衡</code>是 <span class="num">1 − |n₊ − n₋| / (n₊ + n₋)</span>，1 表示支持与反对的事实数量相当。</p>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <caption>六个条件的读数，每格是 12 个 claim 的均值。</caption>
+      <thead>
+        <tr><th></th><th class="grp" colspan="3">全连接</th><th class="grp sep" colspan="3">星型</th></tr>
+        <tr><th>指标</th><th>neutral</th><th>lenses</th><th>stance</th><th class="sep">neutral</th><th>lenses</th><th>stance</th></tr>
+      </thead>
+      <tbody>
+<!--__TABLE__-->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">主结果</p>
+    <h2>人格梯度：产得更多，接得更少</h2>
+    <p>从 neutral 到 lenses 到 stance，人格设定越具体，产出的事实越多——全连接下多 <span class="num">21</span> 个，星型下多 <span class="num">20</span> 个。但这些多出来的事实并没有进入共享池：嵌套度、事实覆盖、采纳占比全部单调下降，而且<strong>两种拓扑上是同一个方向、同一个量级</strong>。</p>
+    <p>下降的不止采纳。自持占比同样单调走低（全连接 <span class="num">15.5% → 10.9%</span>，星型 <span class="num">12.7% → 8.2%</span>，两边 CI 都不含零）——人格越强，agent 连自己上一轮说过的事实都更少重提。采纳和自持是产出里仅有的两种“回头”，两个一起塌，意味着 stance 条件下的输出几乎全是新生成。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--p3)"><i class="dotm"></i>全连接（每场 12 次投递）</span>
+        <span style="color:var(--p2)"><i class="sqm"></i>星型（每场 8 次投递）</span>
+        <span style="color:var(--muted)">横轴：neutral → lenses → stance</span>
+      </div>
+      <div id="fig-gradient"></div>
+    </div>
+    <figcaption>四个指标在人格梯度上的走向。实心圆＝全连接，空心方＝星型。事实数上升，其余三个下降；两条线在每个指标上几乎平行。</figcaption>
+  </figure>
+
+  <div class="measure">
+    <p style="margin-top:2.4rem">均值可能被少数几场辩论带偏，所以下面按 claim 配对：同一个 claim、同一个拓扑，stance 减 neutral，再对 12 个差值做 bootstrap 置信区间。这样每个 claim 自己当自己的对照，主题难度的差异被消掉了。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--sig)"><i class="dotm"></i>置信区间不含零</span>
+        <span style="color:var(--muted)"><i class="dotm"></i>含零</span>
+        <span style="color:var(--muted)">95% bootstrap CI，n=12 claim，20000 次重采样</span>
+      </div>
+      <div id="fig-paired"></div>
+    </div>
+    <figcaption>stance 减 neutral 的配对差值。事实数、新事实、自持占比、嵌套度、事实覆盖在两个拓扑上都不含零；采纳占比在全连接上不含零，星型上上界落在 <span class="num">+0.001</span>——同样的负向效应，只是差一点。</figcaption>
+  </figure>
+
+  <div class="callout">
+    <span class="lbl">读法</span>
+    <p>嵌套度在全连接下 12 个 claim 里只有 2 个上升，星型下只有 1 个。这不是均值被拉动，是几乎每一场辩论都朝同一个方向走。</p>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">阴性结果</p>
+    <h2>拓扑什么都没动</h2>
+    <p>星型把 B 和 C 之间的连线拿掉了：每场辩论的投递事件从 12 降到 8。按直觉这应该显著削弱事实的传播。但把同一个 claim、同一个人格下的星型减全连接，<strong>24 个对比里有 23 个的置信区间跨过零</strong>。唯一的例外是 stance 下的自持占比（<span class="num">−0.027</span>，<span class="num">[−0.053, −0.002]</span>）——在一次没有做多重比较校正的 24 次比较里，这正是最不该单独相信的那种区间。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--muted)">星型 − 全连接，按 claim 配对，每个人格分别算</span>
+      </div>
+      <div id="fig-topo"></div>
+    </div>
+    <figcaption>全部拓扑对比。为了让量纲不同的指标能并排看，横轴是差值除以该指标在全部 72 场中的标准差。除 stance 一列的自持占比刚刚够到零线左边，其余全部跨过零。</figcaption>
+  </figure>
+
+  <div class="measure">
+    <p style="margin-top:2.4rem">这有两种读法，现在的数据分不开。一是<strong>拓扑真的不重要</strong>：3 个 agent、投递从 12 减到 8，还不足以让信息传播受限——每个 agent 仍然直接看到中心节点，间接内容照样能两跳传到。二是<strong>拓扑效应被人格效应的方差淹没了</strong>：人格的效应量在 <span class="num">0.5–1.0</span> 个标准差量级，拓扑若只有 <span class="num">0.2</span>，12 个 claim 检不出来。要分开需要更极端的拓扑（chain 正在跑）或更多 claim。</p>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">解释</p>
+    <h2>整合容量，而不是多样性不足</h2>
+    <p>常见的多 agent 设计假设是：给 agent 不同的人格/视角，能拓宽搜索、覆盖更多角度。这批数据的前半段支持这个假设——人格确实带来更多事实。后半段不支持：多出来的事实<strong>留在了产生它的那个 agent 身上</strong>。事实覆盖从 <span class="num">1.33</span> 掉到 <span class="num">1.17</span>，意味着在最强人格下，一个事实平均只被 1.2 个 agent 说过——大多数事实从头到尾只有一个人提。</p>
+    <p>把这两半合起来，瓶颈不在<strong>生成</strong>多样性，而在<strong>整合</strong>多样性。系统能产出的差异，超过了它能吸收的差异。加强人格拓宽了输入端，同时收窄了吸收端——因为一个有立场的 agent 更倾向于说自己的话，而不是接对方的话。</p>
+    <p>自持占比同时下降是同一件事的另一面。一个 agent 不重提自己上一轮的事实，也不接别人的事实，就意味着每一轮都在开新话题——辩论在横向铺开，而不是在纵向收敛。这样的轨迹里没有可供收敛的公共基底。</p>
+    <p>这也解释了流量基尼为什么在 stance 下最高（全连接 <span class="num">0.400</span>、星型 <span class="num">0.413</span>）：少数几条连线承担了绝大部分实际搬动的事实，其余连线名义上通着，实际是空转。投递利用率同时下降，说明这不是流量重新分配，是流量整体变稀。</p>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">边界</p>
+    <h2>这批数据不能说什么</h2>
+    <ul class="limits">
+      <li><b>只有 DeepSeek-V4-Flash。</b>GLM 的那批只跑了全连接，没有星型对照，所以完全没有进入这个分析。模型间是否复现未知。</li>
+      <li><b>星型有 14 个空 turn</b>（占 4.3%，全连接只有 0.9%）。这些 turn 有实质内容（93–128 词）但抽取返回零个事实。人格分布均匀，位置上外围 10 : 中心 4，大致按人数比例，所以不系统偏向某个条件——但它会同时压低星型的事实数和采纳数，是拓扑阴性结果的一个待排除解释。</li>
+      <li><b>立场标注未经人工验证。</b>而且已知约一半有立场的事实是<em>证据层</em>的（“E3 支持禁令”），不是<em>世界层</em>的（“面纱是宗教义务”）。正反平衡这一行因此是混合口径，只能横向比条件，不能当作辩论立场分布的绝对读数。</li>
+      <li><b>事实匹配的人工核对准确率是 80%。</b>剩下 20% 的错误会同时影响采纳、嵌套、覆盖——但没有理由认为错误率随条件变化，所以条件间的<em>差</em>比每格的<em>绝对值</em>可信。</li>
+      <li><b>没做多重比较校正。</b>这里报的是配对 bootstrap 置信区间，不是校正后的显著性。跨 7 个指标 × 6 组对比看，偶然出现一两条不含零是正常的。人格梯度可信是因为它<em>同时</em>在两个独立拓扑上、在四个相关指标上、以 10/12 到 11/12 的一致方向出现，不是因为某一条 CI。</li>
+      <li><b>“采纳”只判事实同一性，不判态度。</b>一个 agent 复述对方的事实来反驳它，和复述来同意它，在这里计为同一件事。这是有意的——先量流动，再谈方向——但意味着采纳占比不能直接读成“达成共识”。</li>
+      <li><b>chain 拓扑还在抽取中。</b>补上之后会有第三个拓扑点，也是三个里连线最少的，对上面“拓扑真的不重要”这个读法是最直接的检验。</li>
+    </ul>
+  </div>
+</section>
+
+<div class="prov measure">
+  <div><b>store</b> experiments/perspectrum_pilot_full/*.v2.json（全连接）· experiments/perspectrum_pilot_star_chain/*.v2.json（星型）</div>
+  <div><b>立场标注</b> experiments/labels/stance/*.json （105 个，batch 24 / max_tokens 16000 / truth 口径）</div>
+  <div><b>pipeline</b> 抽取 minimax-m2.5 → 原子化剥离归属外壳 → bge-base-en-v1.5 @0.70 top_k 12 → 二值 SAME/DIFF batch 16 → union ≥ 0.85</div>
+  <div><b>本页数据</b> findings/data/flow-profile.json（<code>python experiments/analyze_flow_profile.py</code> 重算）</div>
+  <div><b>本页</b> <code>python experiments/report/build_flow_profile.py</code> · 说明见 findings/2026-09-01-flow-profile.md</div>
+</div>
+
+</div>
+
+<script>
+const D = /*__DATA__*/null;
+const PANELS = ["neutral","lenses","stance"];
+const RAMP = ["var(--p1)","var(--p2)","var(--p3)"];
+const NS = "http://www.w3.org/2000/svg";
+
+function el(t, a){const n=document.createElementNS(NS,t);
+  for(const k in a) n.setAttribute(k, a[k]); return n;}
+function txt(x,y,s,a){const t=el("text",Object.assign({x:x,y:y},a||{}));
+  t.textContent=s; return t;}
+
+/* ---------- figure 1: persona gradient, 4 small multiples ---------- */
+function gradient(){
+  const metrics = [
+    {k:"n_facts", label:"事实数",   fmt:v=>v.toFixed(0)},
+    {k:"adopted_share",  label:"采纳占比", fmt:v=>(v*100).toFixed(1)+"%"},
+    {k:"nestedness",   label:"嵌套度",   fmt:v=>v.toFixed(2)},
+    {k:"reach",  label:"事实覆盖", fmt:v=>v.toFixed(2)}
+  ];
+  const W=1000, cw=W/4, H=300, top=52, bot=66, padx=34;
+  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img",
+    "aria-label":"四个指标在 neutral、lenses、stance 三种人格设定下的走向，全连接与星型各一条线"});
+
+  metrics.forEach((m,mi)=>{
+    const x0 = mi*cw;
+    const vals=[];
+    ["full","star"].forEach(t=>PANELS.forEach(p=>vals.push(D.cells[t+"/"+p][m.k])));
+    let lo=Math.min(...vals), hi=Math.max(...vals);
+    const pad=(hi-lo)*0.42 || 1; lo-=pad; hi+=pad;
+    const px = i => x0+padx + i*((cw-2*padx)/2);
+    const py = v => H-bot - (v-lo)/(hi-lo)*(H-top-bot);
+
+    const g = el("g",{});
+    g.appendChild(el("line",{x1:x0+padx-18,y1:H-bot+.5,x2:x0+cw-padx+18,y2:H-bot+.5,
+      stroke:"var(--rule)","stroke-width":1}));
+    if(mi>0) g.appendChild(el("line",{x1:x0,y1:top-34,x2:x0,y2:H-bot+34,
+      stroke:"var(--rule-soft)","stroke-width":1}));
+
+    g.appendChild(txt(x0+padx-18, top-26, m.label, {fill:"var(--ink)",
+      "font-size":"14.5",
+      "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif',"font-weight":"600"}));
+
+    ["full","star"].forEach(t=>{
+      const pts = PANELS.map((p,i)=>[px(i), py(D.cells[t+"/"+p][m.k])]);
+      const col = t==="full" ? "var(--p3)" : "var(--p2)";
+      g.appendChild(el("path",{d:"M"+pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join("L"),
+        fill:"none", stroke:col, "stroke-width": t==="full"?2.2:1.6,
+        "stroke-dasharray": t==="full"?"none":"5 4",
+        "stroke-linejoin":"round","stroke-linecap":"round"}));
+      pts.forEach((pt,i)=>{
+        if(t==="full") g.appendChild(el("circle",{cx:pt[0],cy:pt[1],r:4.6,fill:col}));
+        else g.appendChild(el("rect",{x:pt[0]-4.2,y:pt[1]-4.2,width:8.4,height:8.4,
+          fill:"var(--surface)", stroke:col, "stroke-width":2}));
+        const v=D.cells[t+"/"+PANELS[i]][m.k];
+        g.appendChild(txt(pt[0], pt[1] + (t==="full"?-12:20), m.fmt(v),
+          {fill:t==="full"?"var(--ink)":"var(--muted)","font-size":"10.5",
+           "text-anchor":"middle","font-family":'"IBM Plex Mono",monospace'}));
+      });
+    });
+
+    PANELS.forEach((p,i)=>{
+      g.appendChild(txt(px(i), H-bot+24, p, {fill:RAMP[i],"font-size":"11",
+        "text-anchor":"middle","font-family":'"IBM Plex Mono",monospace',
+        "letter-spacing":".04em","font-weight":i===2?"600":"400"}));
+    });
+    svg.appendChild(g);
+  });
+  return svg;
+}
+
+/* ---------- figure 2: paired stance − neutral ---------- */
+function paired(){
+  const metrics=[
+    {k:"n_facts", label:"事实数",    unit:"个"},
+    {k:"novel",  label:"新事实",    unit:"个"},
+    {k:"adopted_share",  label:"采纳占比",  unit:"pp", mul:100},
+    {k:"held_share", label:"自持占比",  unit:"pp", mul:100},
+    {k:"nestedness",   label:"嵌套度",    unit:"",   mul:1},
+    {k:"reach",  label:"事实覆盖",  unit:"",   mul:1},
+    {k:"flow_gini",   label:"流量基尼",  unit:"",   mul:1},
+    {k:"delivery_use",   label:"投递利用率",unit:"pp", mul:100}
+  ];
+  const W=1000, rowH=48, top=44, bot=36;
+  const H = top + metrics.length*rowH + bot;
+  const labW=112, GUT=58, RPAD=86;
+  // per-metric standard deviation across all 72 debates, for a shared x scale per row
+  Object.values(D.per_debate).forEach(()=>{});
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img",
+    "aria-label":"stance 减 neutral 的配对差值与置信区间，全连接与星型分列"});
+
+  const colW=(W-labW-GUT-RPAD*2)/2;
+  ["full","star"].forEach((t,ti)=>{
+    const cx0 = labW + ti*(colW+RPAD+GUT);
+    svg.appendChild(txt(cx0+colW/2, 20, ti===0?"全连接":"星型",
+      {fill:"var(--ink)","font-size":"13","text-anchor":"middle","font-weight":"600",
+       "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
+
+    metrics.forEach((m,mi)=>{
+      const key=`${t}|stance-neutral|${m.k}`, v=D.paired[key];
+      if(!v) return;
+      const y = top + mi*rowH + rowH/2;
+      // scale: symmetric around 0, from the wider of the two panels
+      let span=0;
+      ["full","star"].forEach(tt=>{const w=D.paired[`${tt}|stance-neutral|${m.k}`];
+        if(w) span=Math.max(span, Math.abs(w.lo), Math.abs(w.hi));});
+      span*=1.18;
+      const sx = q => cx0 + colW/2 + (q/span)*(colW/2);
+      const col = v.excludes_zero ? "var(--sig)" : "var(--muted)";
+
+      svg.appendChild(el("line",{x1:cx0+colW/2,y1:y-16,x2:cx0+colW/2,y2:y+16,
+        stroke:"var(--rule)","stroke-width":1}));
+      svg.appendChild(el("line",{x1:sx(v.lo),y1:y,x2:sx(v.hi),y2:y,
+        stroke:col,"stroke-width":2,opacity:v.excludes_zero?.85:.45,"stroke-linecap":"round"}));
+      [v.lo,v.hi].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-4,x2:sx(q),y2:y+4,
+        stroke:col,"stroke-width":2,opacity:v.excludes_zero?.85:.45})));
+      svg.appendChild(el("circle",{cx:sx(v.delta),cy:y,r:4.5,fill:col}));
+
+      const mul=m.mul||1;
+      const s=(v.delta*mul>=0?"+":"")+(v.delta*mul).toFixed(Math.abs(v.delta*mul)>=10?1:2)+
+              (m.unit?" "+m.unit:"");
+      svg.appendChild(txt(cx0+colW+14, y+4, s,
+        {fill:v.excludes_zero?"var(--sig)":"var(--faint)","font-size":"11",
+         "font-family":'"IBM Plex Mono",monospace'}));
+      svg.appendChild(txt(cx0+colW/2, y+21, `${v.positive}/${v.n} 为正`,
+        {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle",
+         "font-family":'"IBM Plex Mono",monospace'}));
+
+      if(ti===0){
+        svg.appendChild(txt(labW-16, y+4, m.label,
+          {fill:"var(--ink)","font-size":"12.5","text-anchor":"end",
+           "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
+      }
+      if(mi<metrics.length-1 && ti===0){
+        svg.appendChild(el("line",{x1:20,y1:y+rowH/2,x2:W-20,y2:y+rowH/2,
+          stroke:"var(--rule-soft)","stroke-width":1}));
+      }
+    });
+  });
+  svg.appendChild(txt(W/2, H-10, "← stance 更低    0    stance 更高 →",
+    {fill:"var(--faint)","font-size":"10","text-anchor":"middle",
+     "font-family":'"IBM Plex Mono",monospace',"letter-spacing":".05em"}));
+  return svg;
+}
+
+/* ---------- figure 3: topology contrasts, standardised ---------- */
+function topo(){
+  const metrics=[
+    {k:"n_facts",label:"事实数"},{k:"novel",label:"新事实"},
+    {k:"adopted_share",label:"采纳占比"},{k:"held_share",label:"自持占比"},
+    {k:"nestedness",label:"嵌套度"},
+    {k:"reach",label:"事实覆盖"},{k:"flow_gini",label:"流量基尼"},
+    {k:"delivery_use",label:"投递利用率"}
+  ];
+  // pooled SD per metric across all 72 debates
+  const sd={};
+  metrics.forEach(m=>{
+    const v=Object.values(D.per_debate).map(r=>r[m.k]);
+    const mu=v.reduce((a,b)=>a+b,0)/v.length;
+    sd[m.k]=Math.sqrt(v.reduce((a,b)=>a+(b-mu)*(b-mu),0)/(v.length-1));
+  });
+  const W=1000, rowH=40, top=44, bot=30, labW=120;
+  const H=top+metrics.length*rowH+bot;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img",
+    "aria-label":"星型减全连接的标准化配对差值，每个人格一列，全部跨过零"});
+  const colW=(W-labW-70)/3;
+  let SPAN=0;
+  PANELS.forEach(p=>metrics.forEach(m=>{
+    const v=D.paired[`topology|${p}|star-full|${m.k}`]; if(!v) return; const sc=sd[m.k]||1;
+    SPAN=Math.max(SPAN, Math.abs(v.lo/sc), Math.abs(v.hi/sc));
+  }));
+  SPAN*=1.08;
+
+  PANELS.forEach((p,pi)=>{
+    const cx0=labW+pi*(colW+35);
+    svg.appendChild(txt(cx0+colW/2,20,p,
+      {fill:"var(--ink)","font-size":"12.5","text-anchor":"middle","font-weight":"600",
+       "font-family":'"IBM Plex Mono",monospace',"letter-spacing":".05em"}));
+    const sx=q=>cx0+colW/2+(q/SPAN)*(colW/2);
+    svg.appendChild(el("line",{x1:cx0+colW/2,y1:top-8,x2:cx0+colW/2,y2:H-bot+2,
+      stroke:"var(--rule)","stroke-width":1}));
+
+    metrics.forEach((m,mi)=>{
+      const v=D.paired[`topology|${p}|star-full|${m.k}`]; if(!v) return;
+      const y=top+mi*rowH+rowH/2, s=sd[m.k]||1;
+      const lo=v.lo/s, hi=v.hi/s, d=v.delta/s;
+      svg.appendChild(el("line",{x1:sx(lo),y1:y,x2:sx(hi),y2:y,
+        stroke:"var(--p2)","stroke-width":2,opacity:.5,"stroke-linecap":"round"}));
+      [lo,hi].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-3.5,x2:sx(q),y2:y+3.5,
+        stroke:"var(--p2)","stroke-width":2,opacity:.5})));
+      svg.appendChild(el("circle",{cx:sx(d),cy:y,r:4,fill:"var(--p2)"}));
+      if(pi===0){
+        svg.appendChild(txt(labW-16,y+4,m.label,
+          {fill:"var(--ink)","font-size":"12.5","text-anchor":"end",
+           "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
+        svg.appendChild(el("line",{x1:20,y1:y+rowH/2,x2:W-20,y2:y+rowH/2,
+          stroke:"var(--rule-soft)","stroke-width":1}));
+      }
+    });
+    [-1,0,1].forEach(q=>{
+      svg.appendChild(txt(sx(q),H-bot+18,q===0?"0":(q>0?"+":"")+q+"σ",
+        {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle",
+         "font-family":'"IBM Plex Mono",monospace'}));
+    });
+  });
+  return svg;
+}
+
+document.getElementById("fig-gradient").appendChild(gradient());
+document.getElementById("fig-paired").appendChild(paired());
+document.getElementById("fig-topo").appendChild(topo());
+</script>

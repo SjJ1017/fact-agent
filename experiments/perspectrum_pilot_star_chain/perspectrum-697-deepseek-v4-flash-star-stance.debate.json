@@ -1,0 +1,198 @@
+{
+  "execution_id": "perspectrum-697-deepseek-v4-flash-star-stance",
+  "claim_id": 697,
+  "claim": "Illegal downloaders should be cut off from the internet",
+  "model": "deepseek-v4-flash",
+  "topology": "star",
+  "panel": "stance",
+  "roles": {
+    "A": "You are an advocate for the claim. Find its strongest dossier-supported case, but explicitly acknowledge material counterevidence.",
+    "B": "You are a critic of the claim. Find its strongest dossier-supported countercase, but explicitly acknowledge material supporting evidence.",
+    "C": "You are an impartial adjudicator. Compare the evidence on both sides and identify which asserted links are not established."
+  },
+  "rounds": 3,
+  "evidence": [
+    {
+      "id": "E1",
+      "stance": "support",
+      "text": "File-sharers are directly responsible for damaging the music industry. Per Sundin, CEO of Universal Music said the decline in music revenues in the past 8 years can be fully attributed to illegal file sharing. Meanwhile, growth in downloads from iTunes, the biggest legitimate digital service, came to a halt.",
+      "source": "debatewise"
+    },
+    {
+      "id": "E2",
+      "stance": "support",
+      "text": "The film industry is losing a significant amount of money. For example, the most pirated film so far this year is Watchmen, with 16.9 million people watching it for free. The precipitous decline at box offices has been blamed on illegal file-sharing.",
+      "source": "debatewise"
+    },
+    {
+      "id": "E3",
+      "stance": "undermine",
+      "text": "Stopping internet connections will not stop file sharing from happening. TalkTalk’s director of regulation, Andrew Heaney said: “Disconnecting alleged offenders will be futile given that it is relatively easy for determined file-sharers to mask their identity or their activity to avoid detection.\"",
+      "source": "debatewise"
+    },
+    {
+      "id": "E4",
+      "stance": "undermine",
+      "text": "The ISP TalkTalk believes “persuasion not coercion” is the way to stop file-sharing and encourage pushing the legal alternatives and educating people rather than the draconian method of stopping internet connections.",
+      "source": "debatewise"
+    }
+  ],
+  "gold_perspectives": [
+    {
+      "stance": "support",
+      "text": "The music and film industries are suffering due to file-sharing."
+    },
+    {
+      "stance": "support",
+      "text": "Cutting web access is the most viable way to stop pirates"
+    },
+    {
+      "stance": "support",
+      "text": "These people are breaking the law and need to be punished."
+    },
+    {
+      "stance": "support",
+      "text": "It is a big problem, too many people are file-sharing"
+    },
+    {
+      "stance": "support",
+      "text": "Internet access is a commodity not a human right."
+    },
+    {
+      "stance": "undermine",
+      "text": "File-sharing will still happen, despite these plans"
+    },
+    {
+      "stance": "undermine",
+      "text": "Infringement of human rights"
+    }
+  ],
+  "transcript": {
+    "A|1": "The strongest case for cutting off illegal downloaders rests on E1 and E2: file-sharing is directly blamed for declining music revenues and significant film-industry losses. If illegal downloading causes demonstrable economic harm, a forceful deterrent could be argued as proportionate.\n\nHowever, this claim is undermined by counterevidence. E3 states disconnecting offenders is futile because determined file-sharers can mask their identity or activity, meaning the policy would not actually stop the harm. E4 further argues that persuasion and education are more effective than coercion, presenting a value judgment that alternative measures are preferable. These points weaken the practical justification for the claim, even if the harm is real.\n\nThus, while the dossier supports the premise of damage, it does not support the specific remedy of internet disconnection as effective or appropriate.\n\nVERDICT: UNDERMINE",
+    "B|1": "E1 and E2 support the premise that illegal downloading harms music and film revenues, giving a rationale for some intervention. However, the claim is a prescriptive policy, not an empirical fact. E3 directly undermines its effectiveness: disconnection is unlikely to stop determined file-sharers who can mask activity. E4 further challenges it as a value choice, citing industry preference for persuasion, education, and legal alternatives over coercion. Thus, while harm exists, the dossier’s evidence does not support cutting off internet connections as an appropriate or effective remedy.\n\nVERDICT: UNDERMINE",
+    "C|1": "The claim is a value judgment about policy. Evidence E1 and E2 assert that file-sharing damages music and film revenues, but they do not establish that disconnection is the right remedy. E3 directly undermines the claim by stating that disconnection is futile because determined file-sharers can evade detection. E4 further undermines it by advocating persuasion and education over coercion, presenting an alternative view rather than evidence that cutting off works. No evidence in the dossier shows that disconnection reduces illegal downloading or benefits the industries. The normative claim \"should be cut off\" is not supported by the supplied empirical material; it is contradicted by expert statements on effectiveness.\n\nVERDICT: UNDERMINE",
+    "A|2": "Both prior panelists correctly separate the factual harm in E1–E2 from the policy claim. I agree that falling revenues and piracy figures do not, by themselves, prove that disconnection is the right remedy. E3 is decisive on effectiveness: determined file-sharers can mask activity, so cutting off connections is unlikely to stop the behavior. E4 adds that the ISP industry itself favors persuasion and education over coercion, which undercuts the practical and value-based rationale for the claim. No dossier evidence shows that disconnection reduces piracy or benefits music/film. I therefore revise toward the same conclusion: the claim is not supported.\n\nVERDICT: UNDERMINE",
+    "B|2": "No other panelist reasoning is supplied, so I retain my assessment. E1 and E2 support the factual premise that illegal file-sharing is blamed for revenue declines in music and film. That is material supporting evidence for the claim’s rationale.\n\nHowever, the specific remedy—cutting off internet connections—is not supported. E3 directly states that disconnecting alleged offenders is futile because determined file-sharers can mask identity or activity, so the policy would not reliably stop the harm. E4 adds that persuasion and legal alternatives are preferred over coercion, a value judgment that further weakens the case for disconnection.\n\nThe dossier therefore establishes harm but fails to establish that internet disconnection is effective or proportionate. Without evidence that the remedy achieves its goal, the claim remains unsupported.\n\nVERDICT: UNDERMINE",
+    "C|2": "I concur with Panelist A’s core reasoning. The dossier does not establish the key causal link: E1 and E2 attribute revenue declines to file-sharing, but these are industry executives’ assertions and media blame, not independent evidence. Even if harm exists, the specific remedy fails on efficacy. E3 concretely claims determined file-sharers can mask identity or activity, so disconnection would not reliably stop infringement. E4 is partly a value judgment, but its factual point—that persuasion and legal alternatives are viable—undermines the necessity of a coercive cutoff. The claim that downloaders “should” be disconnected therefore rests on an unproven causal harm and a remedy shown to be futile. The dossier supports that piracy is a concern, but not that internet disconnection is effective or proportionate.\n\nVERDICT: UNDERMINE",
+    "A|3": "E1 and E2 support only that industry executives and media blame file-sharing for revenue declines—not independent proof of causation. Even accepting that harm exists, the remedy fails on efficacy: E3 states that determined file-sharers can mask identity or activity, so disconnection would not reliably stop infringement. E4 adds that persuasion and legal alternatives are viable, undercutting the necessity of a coercive cutoff.\n\nPanelist B and Panelist C both correctly identify this missing link between harm and remedy. The claim’s normative “should” requires evidence that disconnection actually reduces piracy and is proportionate; the dossier provides none. It shows piracy is a concern, but not that cutting off internet connections is effective or justified.\n\nVERDICT: UNDERMINE",
+    "B|3": "Panelist A correctly distinguishes factual harm from the policy prescription. E1 and E2 do establish real industry losses, which materially supports the premise that illegal downloading causes damage. However, the claim is not merely that harm exists; it asserts a specific remedy. E3 directly undermines that remedy’s effectiveness: determined file-sharers can evade detection, so disconnection would not reliably stop the behavior. E4 further shows the ISP industry itself rejects coercion in favor of education and legal alternatives, indicating the remedy is neither practical nor broadly supported. No dossier evidence demonstrates that disconnection reduces piracy or recovers revenues. The normative \"should\" therefore lacks evidentiary backing, even granting the factual harm.\n\nVERDICT: UNDERMINE",
+    "C|3": "The dossier establishes that file-sharing correlates with revenue losses (E1–E2), but that is a factual harm claim, not proof that disconnection is effective or proportionate. E3 directly undercuts the policy: determined downloaders can evade detection, so cutting off identifiable users would not stop file-sharing. E4 is partly a value judgment, but it also supplies a concrete industry assessment that persuasion and education are preferred over coercion. No evidence shows disconnection reduces piracy or benefits the industries. Panelist A's reasoning is sound; I see no basis to revise.\n\nVERDICT: UNDERMINE"
+  },
+  "prompts": {
+    "A|1": "Claim under review:\nIllegal downloaders should be cut off from the internet\n\nEvidence dossier:\n[E1] File-sharers are directly responsible for damaging the music industry. Per Sundin, CEO of Universal Music said the decline in music revenues in the past 8 years can be fully attributed to illegal file sharing. Meanwhile, growth in downloads from iTunes, the biggest legitimate digital service, came to a halt.\n\n[E2] The film industry is losing a significant amount of money. For example, the most pirated film so far this year is Watchmen, with 16.9 million people watching it for free. The precipitous decline at box offices has been blamed on illegal file-sharing.\n\n[E3] Stopping internet connections will not stop file sharing from happening. TalkTalk’s director of regulation, Andrew Heaney said: “Disconnecting alleged offenders will be futile given that it is relatively easy for determined file-sharers to mask their identity or their activity to avoid detection.\"\n\n[E4] The ISP TalkTalk believes “persuasion not coercion” is the way to stop file-sharing and encourage pushing the legal alternatives and educating people rather than the draconian method of stopping internet connections.\n\nGive your independent assessment before seeing other panelists.",
+    "B|1": "Claim under review:\nIllegal downloaders should be cut off from the internet\n\nEvidence dossier:\n[E1] File-sharers are directly responsible for damaging the music industry. Per Sundin, CEO of Universal Music said the decline in music revenues in the past 8 years can be fully attributed to illegal file sharing. Meanwhile, growth in downloads from iTunes, the biggest legitimate digital service, came to a halt.\n\n[E2] The film industry is losing a significant amount of money. For example, the most pirated film so far this year is Watchmen, with 16.9 million people watching it for free. The precipitous decline at box offices has been blamed on illegal file-sharing.\n\n[E3] Stopping internet connections will not stop file sharing from happening. TalkTalk’s director of regulation, Andrew Heaney said: “Disconnecting alleged offenders will be futile given that it is relatively easy for determined file-sharers to mask their identity or their activity to avoid detection.\"\n\n[E4] The ISP TalkTalk believes “persuasion not coercion” is the way to stop file-sharing and encourage pushing the legal alternatives and educating people rather than the draconian method of stopping internet connections.\n\nGive your independent assessment before seeing other panelists.",
+    "C|1": "Claim under review:\nIllegal downloaders should be cut off from the internet\n\nEvidence dossier:\n[E1] File-sharers are directly responsible for damaging the music industry. Per Sundin, CEO of Universal Music said the decline in music revenues in the past 8 years can be fully attributed to illegal file sharing. Meanwhile, growth in downloads from iTunes, the biggest legitimate digital service, came to a halt.\n\n[E2] The film industry is losing a significant amount of money. For example, the most pirated film so far this year is Watchmen, with 16.9 million people watching it for free. The precipitous decline at box offices has been blamed on illegal file-sharing.\n\n[E3] Stopping internet connections will not stop file sharing from happening. TalkTalk’s director of regulation, Andrew Heaney said: “Disconnecting alleged offenders will be futile given that it is relatively easy for determined file-sharers to mask their identity or their activity to avoid detection.\"\n\n[E4] The ISP TalkTalk believes “persuasion not coercion” is the way to stop file-sharing and encourage pushing the legal alternatives and educating people rather than the draconian method of stopping internet connections.\n\nGive your independent assessment before seeing other panelists.",
+    "A|2": "Claim under review:\nIllegal downloaders should be cut off from the internet\n\nEvidence dossier:\n[E1] File-sharers are directly responsible for damaging the music industry. Per Sundin, CEO of Universal Music said the decline in music revenues in the past 8 years can be fully attributed to illegal file sharing. Meanwhile, growth in downloads from iTunes, the biggest legitimate digital service, came to a halt.\n\n[E2] The film industry is losing a significant amount of money. For example, the most pirated film so far this year is Watchmen, with 16.9 million people watching it for free. The precipitous decline at box offices has been blamed on illegal file-sharing.\n\n[E3] Stopping internet connections will not stop file sharing from happening. TalkTalk’s director of regulation, Andrew Heaney said: “Disconnecting alleged offenders will be futile given that it is relatively easy for determined file-sharers to mask their identity or their activity to avoid detection.\"\n\n[E4] The ISP TalkTalk believes “persuasion not coercion” is the way to stop file-sharing and encourage pushing the legal alternatives and educating people rather than the draconian method of stopping internet connections.\n\nThese are the panelists' latest assessments:\n\n--- Panelist B ---\nE1 and E2 support the premise that illegal downloading harms music and film revenues, giving a rationale for some intervention. However, the claim is a prescriptive policy, not an empirical fact. E3 directly undermines its effectiveness: disconnection is unlikely to stop determined file-sharers who can mask activity. E4 further challenges it as a value choice, citing industry preference for persuasion, education, and legal alternatives over coercion. Thus, while harm exists, the dossier’s evidence does not support cutting off internet connections as an appropriate or effective remedy.\n\nVERDICT: UNDERMINE\n\n--- Panelist C ---\nThe claim is a value judgment about policy. Evidence E1 and E2 assert that file-sharing damages music and film revenues, but they do not establish that disconnection is the right remedy. E3 directly undermines the claim by stating that disconnection is futile because determined file-sharers can evade detection. E4 further undermines it by advocating persuasion and education over coercion, presenting an alternative view rather than evidence that cutting off works. No evidence in the dossier shows that disconnection reduces illegal downloading or benefits the industries. The normative claim \"should be cut off\" is not supported by the supplied empirical material; it is contradicted by expert statements on effectiveness.\n\nVERDICT: UNDERMINE\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "B|2": "Claim under review:\nIllegal downloaders should be cut off from the internet\n\nEvidence dossier:\n[E1] File-sharers are directly responsible for damaging the music industry. Per Sundin, CEO of Universal Music said the decline in music revenues in the past 8 years can be fully attributed to illegal file sharing. Meanwhile, growth in downloads from iTunes, the biggest legitimate digital service, came to a halt.\n\n[E2] The film industry is losing a significant amount of money. For example, the most pirated film so far this year is Watchmen, with 16.9 million people watching it for free. The precipitous decline at box offices has been blamed on illegal file-sharing.\n\n[E3] Stopping internet connections will not stop file sharing from happening. TalkTalk’s director of regulation, Andrew Heaney said: “Disconnecting alleged offenders will be futile given that it is relatively easy for determined file-sharers to mask their identity or their activity to avoid detection.\"\n\n[E4] The ISP TalkTalk believes “persuasion not coercion” is the way to stop file-sharing and encourage pushing the legal alternatives and educating people rather than the draconian method of stopping internet connections.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nThe strongest case for cutting off illegal downloaders rests on E1 and E2: file-sharing is directly blamed for declining music revenues and significant film-industry losses. If illegal downloading causes demonstrable economic harm, a forceful deterrent could be argued as proportionate.\n\nHowever, this claim is undermined by counterevidence. E3 states disconnecting offenders is futile because determined file-sharers can mask their identity or activity, meaning the policy would not actually stop the harm. E4 further argues that persuasion and education are more effective than coercion, presenting a value judgment that alternative measures are preferable. These points weaken the practical justification for the claim, even if the harm is real.\n\nThus, while the dossier supports the premise of damage, it does not support the specific remedy of internet disconnection as effective or appropriate.\n\nVERDICT: UNDERMINE\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "C|2": "Claim under review:\nIllegal downloaders should be cut off from the internet\n\nEvidence dossier:\n[E1] File-sharers are directly responsible for damaging the music industry. Per Sundin, CEO of Universal Music said the decline in music revenues in the past 8 years can be fully attributed to illegal file sharing. Meanwhile, growth in downloads from iTunes, the biggest legitimate digital service, came to a halt.\n\n[E2] The film industry is losing a significant amount of money. For example, the most pirated film so far this year is Watchmen, with 16.9 million people watching it for free. The precipitous decline at box offices has been blamed on illegal file-sharing.\n\n[E3] Stopping internet connections will not stop file sharing from happening. TalkTalk’s director of regulation, Andrew Heaney said: “Disconnecting alleged offenders will be futile given that it is relatively easy for determined file-sharers to mask their identity or their activity to avoid detection.\"\n\n[E4] The ISP TalkTalk believes “persuasion not coercion” is the way to stop file-sharing and encourage pushing the legal alternatives and educating people rather than the draconian method of stopping internet connections.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nThe strongest case for cutting off illegal downloaders rests on E1 and E2: file-sharing is directly blamed for declining music revenues and significant film-industry losses. If illegal downloading causes demonstrable economic harm, a forceful deterrent could be argued as proportionate.\n\nHowever, this claim is undermined by counterevidence. E3 states disconnecting offenders is futile because determined file-sharers can mask their identity or activity, meaning the policy would not actually stop the harm. E4 further argues that persuasion and education are more effective than coercion, presenting a value judgment that alternative measures are preferable. These points weaken the practical justification for the claim, even if the harm is real.\n\nThus, while the dossier supports the premise of damage, it does not support the specific remedy of internet disconnection as effective or appropriate.\n\nVERDICT: UNDERMINE\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "A|3": "Claim under review:\nIllegal downloaders should be cut off from the internet\n\nEvidence dossier:\n[E1] File-sharers are directly responsible for damaging the music industry. Per Sundin, CEO of Universal Music said the decline in music revenues in the past 8 years can be fully attributed to illegal file sharing. Meanwhile, growth in downloads from iTunes, the biggest legitimate digital service, came to a halt.\n\n[E2] The film industry is losing a significant amount of money. For example, the most pirated film so far this year is Watchmen, with 16.9 million people watching it for free. The precipitous decline at box offices has been blamed on illegal file-sharing.\n\n[E3] Stopping internet connections will not stop file sharing from happening. TalkTalk’s director of regulation, Andrew Heaney said: “Disconnecting alleged offenders will be futile given that it is relatively easy for determined file-sharers to mask their identity or their activity to avoid detection.\"\n\n[E4] The ISP TalkTalk believes “persuasion not coercion” is the way to stop file-sharing and encourage pushing the legal alternatives and educating people rather than the draconian method of stopping internet connections.\n\nThese are the panelists' latest assessments:\n\n--- Panelist B ---\nNo other panelist reasoning is supplied, so I retain my assessment. E1 and E2 support the factual premise that illegal file-sharing is blamed for revenue declines in music and film. That is material supporting evidence for the claim’s rationale.\n\nHowever, the specific remedy—cutting off internet connections—is not supported. E3 directly states that disconnecting alleged offenders is futile because determined file-sharers can mask identity or activity, so the policy would not reliably stop the harm. E4 adds that persuasion and legal alternatives are preferred over coercion, a value judgment that further weakens the case for disconnection.\n\nThe dossier therefore establishes harm but fails to establish that internet disconnection is effective or proportionate. Without evidence that the remedy achieves its goal, the claim remains unsupported.\n\nVERDICT: UNDERMINE\n\n--- Panelist C ---\nI concur with Panelist A’s core reasoning. The dossier does not establish the key causal link: E1 and E2 attribute revenue declines to file-sharing, but these are industry executives’ assertions and media blame, not independent evidence. Even if harm exists, the specific remedy fails on efficacy. E3 concretely claims determined file-sharers can mask identity or activity, so disconnection would not reliably stop infringement. E4 is partly a value judgment, but its factual point—that persuasion and legal alternatives are viable—undermines the necessity of a coercive cutoff. The claim that downloaders “should” be disconnected therefore rests on an unproven causal harm and a remedy shown to be futile. The dossier supports that piracy is a concern, but not that internet disconnection is effective or proportionate.\n\nVERDICT: UNDERMINE\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "B|3": "Claim under review:\nIllegal downloaders should be cut off from the internet\n\nEvidence dossier:\n[E1] File-sharers are directly responsible for damaging the music industry. Per Sundin, CEO of Universal Music said the decline in music revenues in the past 8 years can be fully attributed to illegal file sharing. Meanwhile, growth in downloads from iTunes, the biggest legitimate digital service, came to a halt.\n\n[E2] The film industry is losing a significant amount of money. For example, the most pirated film so far this year is Watchmen, with 16.9 million people watching it for free. The precipitous decline at box offices has been blamed on illegal file-sharing.\n\n[E3] Stopping internet connections will not stop file sharing from happening. TalkTalk’s director of regulation, Andrew Heaney said: “Disconnecting alleged offenders will be futile given that it is relatively easy for determined file-sharers to mask their identity or their activity to avoid detection.\"\n\n[E4] The ISP TalkTalk believes “persuasion not coercion” is the way to stop file-sharing and encourage pushing the legal alternatives and educating people rather than the draconian method of stopping internet connections.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nBoth prior panelists correctly separate the factual harm in E1–E2 from the policy claim. I agree that falling revenues and piracy figures do not, by themselves, prove that disconnection is the right remedy. E3 is decisive on effectiveness: determined file-sharers can mask activity, so cutting off connections is unlikely to stop the behavior. E4 adds that the ISP industry itself favors persuasion and education over coercion, which undercuts the practical and value-based rationale for the claim. No dossier evidence shows that disconnection reduces piracy or benefits music/film. I therefore revise toward the same conclusion: the claim is not supported.\n\nVERDICT: UNDERMINE\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.",
+    "C|3": "Claim under review:\nIllegal downloaders should be cut off from the internet\n\nEvidence dossier:\n[E1] File-sharers are directly responsible for damaging the music industry. Per Sundin, CEO of Universal Music said the decline in music revenues in the past 8 years can be fully attributed to illegal file sharing. Meanwhile, growth in downloads from iTunes, the biggest legitimate digital service, came to a halt.\n\n[E2] The film industry is losing a significant amount of money. For example, the most pirated film so far this year is Watchmen, with 16.9 million people watching it for free. The precipitous decline at box offices has been blamed on illegal file-sharing.\n\n[E3] Stopping internet connections will not stop file sharing from happening. TalkTalk’s director of regulation, Andrew Heaney said: “Disconnecting alleged offenders will be futile given that it is relatively easy for determined file-sharers to mask their identity or their activity to avoid detection.\"\n\n[E4] The ISP TalkTalk believes “persuasion not coercion” is the way to stop file-sharing and encourage pushing the legal alternatives and educating people rather than the draconian method of stopping internet connections.\n\nThese are the panelists' latest assessments:\n\n--- Panelist A ---\nBoth prior panelists correctly separate the factual harm in E1–E2 from the policy claim. I agree that falling revenues and piracy figures do not, by themselves, prove that disconnection is the right remedy. E3 is decisive on effectiveness: determined file-sharers can mask activity, so cutting off connections is unlikely to stop the behavior. E4 adds that the ISP industry itself favors persuasion and education over coercion, which undercuts the practical and value-based rationale for the claim. No dossier evidence shows that disconnection reduces piracy or benefits music/film. I therefore revise toward the same conclusion: the claim is not supported.\n\nVERDICT: UNDERMINE\n\nUpdate your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it."
+  },
+  "delivery": {
+    "A|1": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": []
+    },
+    "B|1": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": []
+    },
+    "C|1": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": []
+    },
+    "A|2": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "B|1",
+        "C|1"
+      ]
+    },
+    "B|2": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|1"
+      ]
+    },
+    "C|2": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|1"
+      ]
+    },
+    "A|3": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "B|2",
+        "C|2"
+      ]
+    },
+    "B|3": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|2"
+      ]
+    },
+    "C|3": {
+      "source_ids": [
+        "claim",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "peer_turns": [
+        "A|2"
+      ]
+    }
+  }
+}
