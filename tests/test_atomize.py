@@ -130,9 +130,13 @@ def test_an_empty_extraction_is_not_cached():
             return output_format.model_validate(
                 {"facts": [{"text": "A holds.", "polarity": "affirm", "quote": "A holds."}]})
 
+    from factflow.extract import EmptyExtraction
+    import pytest as _pytest
+
     with tempfile.TemporaryDirectory() as d:
         llm = LLM(LLMConfig(model="m", cache_dir=d), backend=Flaky())
-        assert extract_facts(llm, "some text") == []
+        with _pytest.raises(EmptyExtraction):
+            extract_facts(llm, "some text")           # raises rather than returning []
         again = extract_facts(llm, "some text")       # same key: must retry, not replay
         assert [m.text for m in again] == ["A holds."]
 
@@ -160,3 +164,37 @@ def test_a_genuinely_untouched_fact_keeps_its_id():
     ms = [_m("m1", "Bosnia and Herzegovina is a country.")]
     out = atomize(FakeLLM(keep_whole={"Bosnia and Herzegovina is a country."}), ms)
     assert out[0].mention_id == "m1"
+
+
+def test_identical_claims_in_one_turn_collapse():
+    """Stripping the attribution makes 'E3 argues X' and 'E4 argues X' identical.
+    Blocking never compares two mentions from the same slot, so if atomize does
+    not collapse them here nothing downstream ever will."""
+    class Splitter(FakeLLM):
+        def _atomize(self, user, model):
+            import json as _j
+            return model.model_validate({"facts": [
+                {"fact_id": i["fact_id"], "parts": ["The veil should not be banned.",
+                                                    "The veil should not be banned."]}
+                for i in _j.loads(user)]})
+
+    out = atomize(Splitter(), [_m("m1", "E3 and E4 argue against banning the veil.")])
+    assert [m.text for m in out] == ["The veil should not be banned."]
+
+
+def test_identical_claims_in_different_turns_are_both_kept():
+    """Two agents saying the same thing is the signal, not noise - de-duplication
+    is per turn only."""
+    class Echo(FakeLLM):
+        def _atomize(self, user, model):
+            import json as _j
+            return model.model_validate({"facts": [
+                {"fact_id": i["fact_id"], "parts": ["The veil should not be banned."]}
+                for i in _j.loads(user)]})
+
+    ms = [_m("m1", "E3 argues against banning the veil.", ),
+          FactMention(mention_id="m2", text="E4 argues against banning the veil.",
+                      quote="q", provenance=Provenance(execution_id="e", agent_id="B",
+                                                       round=1, channel=Channel.OUTPUT))]
+    out = atomize(Echo(), ms)
+    assert len(out) == 2

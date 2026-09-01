@@ -41,6 +41,7 @@ from factflow.extract import extract_facts  # noqa: E402
 from factflow.llm import LLM  # noqa: E402
 from factflow.match import match  # noqa: E402
 from factflow.types import Channel, Provenance  # noqa: E402
+from token_clock import VisibleTokenCounter, annotate_store  # noqa: E402
 
 
 def slots(debate: dict) -> list[tuple[str, Provenance]]:
@@ -79,6 +80,8 @@ def main() -> int:
                     help="0.70 on bge-base loses no SAME and drops 94.9%% of the rest")
     ap.add_argument("--top-k", type=int, default=12)
     ap.add_argument("--batch-size", type=int, default=16)
+    ap.add_argument("--record-token-clock", action="store_true",
+                    help="Attach estimated visible-token positions to output fact mentions.")
     ap.add_argument("--no-atomize", action="store_true")
     a = ap.parse_args()
 
@@ -92,6 +95,7 @@ def main() -> int:
     llm.backend.client = llm.backend.client.with_options(timeout=a.timeout, max_retries=1)
 
     seen = (0, 0, 0)
+    token_counter = VisibleTokenCounter() if a.record_token_clock else None
     for i, p in enumerate(paths, 1):
         target = p.with_name(p.name.replace(".debate.json", "") + a.suffix)
         if target.exists():
@@ -129,6 +133,8 @@ def main() -> int:
         store = match(llm, mentions, blocker=blocker, threshold=a.threshold,
                       top_k=a.top_k, batch_size=a.batch_size,
                       progress=label)
+        if token_counter is not None:
+            annotate_store(store, debate, token_counter)
         store.save(str(target))
         print(f"[{i}/{len(paths)}] {label}  extract {raw} -> atomise {split} -> "
               f"{len(store.facts)} facts  (merge {1 - len(store.facts)/max(split,1):.0%})  "

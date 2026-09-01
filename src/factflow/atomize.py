@@ -190,21 +190,41 @@ def atomize(
         splits.update(part)
 
     out: list[FactMention] = []
+    # Stripping the attribution can make one turn state the same thing twice:
+    # "E3 and E4 argue against banning the veil" becomes two identical claims.
+    # Blocking never compares two mentions from the same slot - extraction was
+    # assumed to have de-duplicated within a turn - so nothing downstream would
+    # ever merge them. 3.4% of output mentions were exact within-turn repeats.
+    seen: dict[tuple, set[str]] = {}
+
+    def _keep(m: FactMention, text: str) -> bool:
+        p = m.provenance
+        slot = (p.execution_id, p.agent_id, p.round, p.channel)
+        key = " ".join(text.lower().split()).rstrip(".")
+        if key in seen.setdefault(slot, set()):
+            return False
+        seen[slot].add(key)
+        return True
+
     for i, m in enumerate(mentions):
         parts = splits.get(i)
         if not parts:
-            out.append(m)
+            if _keep(m, m.text):
+                out.append(m)
             continue
         if len(parts) == 1:
             # One part is not the same as no change: stripping an attribution
             # rewrites a single claim in place, and returning the original here
             # silently discarded every unwrap the model performed.
+            if not _keep(m, parts[0]):
+                continue
             if _same_text(parts[0], m.text):
                 out.append(m)                      # genuinely untouched: keep the id
             else:
                 out.append(_derive(m, parts[0], 1))
             continue
-        out.extend(_derive(m, p, n) for n, p in enumerate(parts, 1))
+        out.extend(_derive(m, p, n) for n, p in enumerate(parts, 1)
+                   if _keep(m, p))
     return out
 
 

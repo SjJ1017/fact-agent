@@ -122,6 +122,10 @@ class ExtractionResult(BaseModel):
     facts: list[ExtractedFact]
 
 
+class EmptyExtraction(RuntimeError):
+    """A non-empty text yielded no facts. Almost always a failed call."""
+
+
 def extract_facts(
     llm: LLM,
     text: str,
@@ -152,6 +156,16 @@ def extract_facts(
         # text was factless. Caching that would make the failure permanent.
         cache_if=lambda r: bool(r.facts),
     )
+
+    if not result.facts:
+        # Silence here is a lie: three of 324 agent turns came back empty and
+        # nothing in the logs said so, leaving those turns simply absent from
+        # every count. A caller may still choose to continue, but it has to see
+        # the failure to make that choice.
+        raise EmptyExtraction(
+            f"no facts from {len(text)} characters "
+            f"({provenance.agent_id or provenance.doc_id}|{provenance.round})"
+        )
 
     mentions: list[FactMention] = []
     seen: set[str] = set()
