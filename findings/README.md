@@ -16,6 +16,7 @@
 
 | 日期 | 发现 | 状态 |
 |---|---|---|
+| 2026-09-01 | [拓扑改变"听到的机会"，不改变"接不接"](2026-09-01-topology-moves-reception-not-uptake.md) | **采纳占比拆成结构项 × 行为项；chain n=6 初步** |
 | 2026-09-01 | [事实流剖面：full × star × 三档人格](2026-09-01-flow-profile.md) | **72 场，配对 CI；人格效应两拓扑复现，拓扑效应测不到** |
 | 2026-09-01 | [现有数据支持的 RQ 结论与新假设](2026-09-01-current-data-rq-hypotheses.md) | DeepSeek n=12、GLM n=11；探索性 |
 | 2026-09-01 | [共享实验状态与运行前检查](2026-09-01-shared-experiment-status.md) | 操作前必读；记录 canonical artifact |
