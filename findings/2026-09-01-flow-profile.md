@@ -4,7 +4,7 @@
 
 12 个 claim × 3 档人格 × 3 种拓扑 = 108 场，全部 deepseek-v4-flash。
 GLM 那批只有全连接、没有 star/chain 对照，**不进入本分析**。
-**chain 的立场标注还在跑**，元陈述占比和正反平衡两行暂缺，其余指标完整。
+**全部指标完整**（chain 立场标注 36/36，其中 4 个是 API 超时后补跑的）。
 
 ## 结论
 
@@ -21,7 +21,16 @@ GLM 那批只有全连接、没有 star/chain 对照，**不进入本分析**。
    再给立场只是把同样的东西说得更用力。
 4. **采纳一路向下，归一化后依然成立。** 采纳密度 stance−neutral：
    full −2.65 p=0.017，star −3.04 p=0.008。条件采纳率：full −4.7pp p=0.008。
-5. **人格效应要靠接触才表达。** 同一个 stance−neutral，chain 上处处更靠近零：
+5. **密度和平衡是反着走的。** `正反平衡` 画出一条和事实密度**镜像**的曲线，三个拓扑都一样：
+   neutral → lenses 往下掉，lenses → stance 弹回并超过 neutral。
+   stance−lenses 的平衡差 full +0.151 p=1.000（9/12）、star +0.221 p=1.000（11/12）、
+   chain +0.097 p=0.935；同一对比在密度上是 full −10.06 p=0.006、chain −12.96 p=0.013。
+   **lenses 用平衡换密度，stance 用密度换平衡**——不是强弱之分，是两种代价。
+   full 平衡走势 0.528 → 0.506 → 0.657，star 0.573 → 0.390 → 0.610，chain 0.574 → 0.466 → 0.563。
+6. **stance 降低元陈述占比。** 六个"stance 减别的"对比全部为负，
+   full 的 stance−lenses −0.113 p=0.000。给了立场的 agent 把注意力从元层面
+   （对辩论本身、对证据 Ex 的评价）转向 claim 本身。
+7. **人格效应要靠接触才表达。** 同一个 stance−neutral，chain 上处处更靠近零：
    事实数 +21.0 / +20.1 / **+6.8**；自持占比 −4.5 / −4.5 / **−0.7**；
    条件采纳率 −4.7 / −4.6 / **−1.2**。只有嵌套度和事实覆盖在 chain 上还留着，
    约为 full 的三分之一到一半。
@@ -44,7 +53,7 @@ GLM 那批只有全连接、没有 star/chain 对照，**不进入本分析**。
 | full store | `experiments/perspectrum_pilot_full/*deepseek-v4-flash-full-*.v2.json` (36) | ✅ |
 | star / chain store | `experiments/perspectrum_pilot_star_chain/*.v2.json` (72) | ✅ |
 | 投递结构 | 同目录同名 `.debate.json` 的 `delivery` 字段 | ✅ |
-| 立场标注 | `experiments/labels/stance/*.json` | ✅ full+star，chain 跑完补 |
+| 立场标注 | `experiments/labels/stance/*.json` (141) | ✅ 全部 |
 | token clock | `experiments/labels/token_clock/*.json` | ✅ |
 | 结果 | `findings/data/flow-profile.json`、`flow-profile-per-debate.csv` | ✅ |
 
@@ -70,7 +79,7 @@ chain   4 次投递  A→B→C，无回边       接收率 42.6% (A 什么都收
 
 ## 局限
 
-- chain 立场标注未完成；GLM 无 star/chain 对照
+- GLM 无 star/chain 对照，不进入分析
 - 抽取会漏 turn：star 14 个（4.3%，full 0.9%），chain 更多。
   同时压低接收率和事实数——star 的 lenses 格接收率 63.0% 而非 66.7% 就是这个
 - 立场标注未经人工验证，且约一半有立场的事实是证据层而非世界层
@@ -81,5 +90,4 @@ chain   4 次投递  A→B→C，无回边       接收率 42.6% (A 什么都收
 
 ## 待办
 
-- chain 立场标注跑完 → `export_labels.py` → 重跑分析 → 重发报告
 - VERDICT 在 324/324 个 turn 里可解析，还没当作结果变量用过

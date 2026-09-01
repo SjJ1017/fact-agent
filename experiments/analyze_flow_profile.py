@@ -78,7 +78,8 @@ OUT = ROOT.parent / "findings" / "data"
 PANELS = ("neutral", "lenses", "stance")
 METRICS = ("n_facts", "facts_per_k", "novel", "novel_per_k", "adopted_per_k",
            "adopted_share", "adopted_share_recv", "reception",
-           "held_share", "nestedness", "reach", "flow_gini", "delivery_use")
+           "held_share", "nestedness", "reach", "flow_gini", "delivery_use",
+           "meta_share", "balance")
 
 _TOKENIZER = None
 
@@ -258,10 +259,14 @@ def bootstrap(values: list[float], draws: int = 20_000,
 def contrast(data, keys_a, keys_b, claims) -> dict:
     out = {}
     for metric in METRICS:
-        diffs = [data[ka(c)][metric] - data[kb(c)][metric]
+        # meta_share and balance are None for a debate whose output facts all
+        # came back NEUTRAL; drop that claim from this contrast rather than the
+        # whole comparison.
+        diffs = [data[keys_a(c)][metric] - data[keys_b(c)][metric]
                  for c in claims
-                 for ka, kb in [(keys_a, keys_b)]
-                 if ka(c) in data and kb(c) in data]
+                 if keys_a(c) in data and keys_b(c) in data
+                 and data[keys_a(c)][metric] is not None
+                 and data[keys_b(c)][metric] is not None]
         if len(diffs) < 3:
             continue
         lo, hi, p_positive = bootstrap(diffs)

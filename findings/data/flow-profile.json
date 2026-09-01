@@ -178,8 +178,8 @@
    "delivery_use": 0.7083333333333334,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.35944455240269707,
+   "balance": 0.5741426383810693
   },
   "chain/lenses": {
    "n": 12,
@@ -201,8 +201,8 @@
    "delivery_use": 0.6666666666666666,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.35017694326314375,
+   "balance": 0.4661315564770563
   },
   "chain/stance": {
    "n": 12,
@@ -224,8 +224,8 @@
    "delivery_use": 0.7291666666666666,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.2902595513276889,
+   "balance": 0.5633267772273287
   }
  },
  "paired": {
@@ -342,6 +342,24 @@
    "lo": -0.04166666666666665,
    "hi": 0.19444444444444445,
    "p_positive": 0.88985,
+   "positive": 5,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "full|lenses-neutral|meta_share": {
+   "delta": 0.055782192317350605,
+   "lo": -0.044150581270097106,
+   "hi": 0.15050788390220532,
+   "p_positive": 0.86895,
+   "positive": 9,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "full|lenses-neutral|balance": {
+   "delta": -0.022251334358826046,
+   "lo": -0.14219108268921068,
+   "hi": 0.10383281798020909,
+   "p_positive": 0.3566,
    "positive": 5,
    "n": 12,
    "excludes_zero": false
@@ -463,6 +481,24 @@
    "n": 12,
    "excludes_zero": false
   },
+  "full|stance-neutral|meta_share": {
+   "delta": -0.057095428252483024,
+   "lo": -0.14859730288744988,
+   "hi": 0.028727327047429495,
+   "p_positive": 0.10085,
+   "positive": 6,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "full|stance-neutral|balance": {
+   "delta": 0.1288163937832442,
+   "lo": 0.00967892077634854,
+   "hi": 0.26599014111431124,
+   "p_positive": 0.98435,
+   "positive": 8,
+   "n": 12,
+   "excludes_zero": true
+  },
   "full|stance-lenses|n_facts": {
    "delta": -4.25,
    "lo": -13.666666666666666,
@@ -577,6 +613,24 @@
    "hi": -0.006944444444444485,
    "p_positive": 0.0125,
    "positive": 2,
+   "n": 12,
+   "excludes_zero": true
+  },
+  "full|stance-lenses|meta_share": {
+   "delta": -0.11287762056983364,
+   "lo": -0.19650736708238226,
+   "hi": -0.04956336723752334,
+   "p_positive": 0.0,
+   "positive": 1,
+   "n": 12,
+   "excludes_zero": true
+  },
+  "full|stance-lenses|balance": {
+   "delta": 0.15106772814207026,
+   "lo": 0.05756701651819518,
+   "hi": 0.2518256575392922,
+   "p_positive": 0.9996,
+   "positive": 9,
    "n": 12,
    "excludes_zero": true
   },
@@ -697,6 +751,24 @@
    "n": 12,
    "excludes_zero": false
   },
+  "star|lenses-neutral|meta_share": {
+   "delta": -0.1389954305654917,
+   "lo": -0.28088631128103725,
+   "hi": -0.01405986931180758,
+   "p_positive": 0.0131,
+   "positive": 4,
+   "n": 12,
+   "excludes_zero": true
+  },
+  "star|lenses-neutral|balance": {
+   "delta": -0.18273034169792537,
+   "lo": -0.37496292551404037,
+   "hi": 0.014490779575011195,
+   "p_positive": 0.03515,
+   "positive": 4,
+   "n": 12,
+   "excludes_zero": false
+  },
   "star|stance-neutral|n_facts": {
    "delta": 20.083333333333332,
    "lo": 2,
@@ -811,6 +883,24 @@
    "hi": 0.041666666666666664,
    "p_positive": 0.07955,
    "positive": 4,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "star|stance-neutral|meta_share": {
+   "delta": -0.1598706170803561,
+   "lo": -0.28027615236447295,
+   "hi": -0.04756583636607449,
+   "p_positive": 0.00235,
+   "positive": 1,
+   "n": 12,
+   "excludes_zero": true
+  },
+  "star|stance-neutral|balance": {
+   "delta": 0.03790322591294901,
+   "lo": -0.13108848009472807,
+   "hi": 0.215862863216497,
+   "p_positive": 0.6633,
+   "positive": 8,
    "n": 12,
    "excludes_zero": false
   },
@@ -931,6 +1021,24 @@
    "n": 12,
    "excludes_zero": false
   },
+  "star|stance-lenses|meta_share": {
+   "delta": -0.020875186514864395,
+   "lo": -0.07463246992904021,
+   "hi": 0.031078386919837202,
+   "p_positive": 0.22015,
+   "positive": 5,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "star|stance-lenses|balance": {
+   "delta": 0.22063356761087438,
+   "lo": 0.10771900760679178,
+   "hi": 0.3477123006067531,
+   "p_positive": 0.99995,
+   "positive": 11,
+   "n": 12,
+   "excludes_zero": true
+  },
   "chain|lenses-neutral|n_facts": {
    "delta": 14.5,
    "lo": -5.833333333333333,
@@ -1045,6 +1153,24 @@
    "hi": 0.10416666666666667,
    "p_positive": 0.278075,
    "positive": 2,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "chain|lenses-neutral|meta_share": {
+   "delta": -0.009267609139553318,
+   "lo": -0.08149806669854733,
+   "hi": 0.07356931060962002,
+   "p_positive": 0.3907,
+   "positive": 5,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "chain|lenses-neutral|balance": {
+   "delta": -0.10801108190401301,
+   "lo": -0.2651028016662584,
+   "hi": 0.05433245585028301,
+   "p_positive": 0.0974,
+   "positive": 3,
    "n": 12,
    "excludes_zero": false
   },
@@ -1165,6 +1291,24 @@
    "n": 12,
    "excludes_zero": false
   },
+  "chain|stance-neutral|meta_share": {
+   "delta": -0.06918500107500819,
+   "lo": -0.12962550331635336,
+   "hi": -0.010181868588769223,
+   "p_positive": 0.0096,
+   "positive": 5,
+   "n": 12,
+   "excludes_zero": true
+  },
+  "chain|stance-neutral|balance": {
+   "delta": -0.01081586115374065,
+   "lo": -0.20262145961666772,
+   "hi": 0.17978389448675064,
+   "p_positive": 0.45195,
+   "positive": 6,
+   "n": 12,
+   "excludes_zero": false
+  },
   "chain|stance-lenses|n_facts": {
    "delta": -7.666666666666667,
    "lo": -26.25,
@@ -1279,6 +1423,24 @@
    "hi": 0.22916666666666666,
    "p_positive": 0.768525,
    "positive": 5,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "chain|stance-lenses|meta_share": {
+   "delta": -0.05991739193545487,
+   "lo": -0.11725930916951002,
+   "hi": -0.00308800312595511,
+   "p_positive": 0.01895,
+   "positive": 3,
+   "n": 12,
+   "excludes_zero": true
+  },
+  "chain|stance-lenses|balance": {
+   "delta": 0.09719522075027236,
+   "lo": -0.03173575739271963,
+   "hi": 0.21191844238141577,
+   "p_positive": 0.9346,
+   "positive": 8,
    "n": 12,
    "excludes_zero": false
   },
@@ -1399,6 +1561,24 @@
    "n": 12,
    "excludes_zero": false
   },
+  "topology|neutral|star-full|meta_share": {
+   "delta": 0.1304829266538389,
+   "lo": -0.007997137928875945,
+   "hi": 0.28818083965334523,
+   "p_positive": 0.9672,
+   "positive": 7,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|neutral|star-full|balance": {
+   "delta": 0.044127189163083134,
+   "lo": -0.1808945582710714,
+   "hi": 0.20530200612348393,
+   "p_positive": 0.6882,
+   "positive": 10,
+   "n": 12,
+   "excludes_zero": false
+  },
   "topology|neutral|chain-full|n_facts": {
    "delta": 3.8333333333333335,
    "lo": -6.916666666666667,
@@ -1516,6 +1696,24 @@
    "n": 12,
    "excludes_zero": false
   },
+  "topology|neutral|chain-full|meta_share": {
+   "delta": 0.025294543547712857,
+   "lo": -0.06750280707000457,
+   "hi": 0.12010823766658782,
+   "p_positive": 0.69665,
+   "positive": 7,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|neutral|chain-full|balance": {
+   "delta": 0.04571430493642428,
+   "lo": -0.0860827169231759,
+   "hi": 0.1836597337578663,
+   "p_positive": 0.7405,
+   "positive": 7,
+   "n": 12,
+   "excludes_zero": false
+  },
   "topology|neutral|chain-star|n_facts": {
    "delta": -3,
    "lo": -17.416666666666668,
@@ -1629,6 +1827,24 @@
    "lo": -0.15625,
    "hi": 0.19791666666666666,
    "p_positive": 0.59595,
+   "positive": 6,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|neutral|chain-star|meta_share": {
+   "delta": -0.10518838310612605,
+   "lo": -0.2430935357864172,
+   "hi": 0.0026804649609369056,
+   "p_positive": 0.02945,
+   "positive": 4,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|neutral|chain-star|balance": {
+   "delta": 0.0015871157733411505,
+   "lo": -0.16816828237411566,
+   "hi": 0.17756857587716549,
+   "p_positive": 0.5061,
    "positive": 6,
    "n": 12,
    "excludes_zero": false
@@ -1750,6 +1966,24 @@
    "n": 12,
    "excludes_zero": false
   },
+  "topology|lenses|star-full|meta_share": {
+   "delta": -0.06429469622900341,
+   "lo": -0.11516495115607521,
+   "hi": -0.015937433224162856,
+   "p_positive": 0.0036,
+   "positive": 3,
+   "n": 12,
+   "excludes_zero": true
+  },
+  "topology|lenses|star-full|balance": {
+   "delta": -0.11635181817601618,
+   "lo": -0.22117238299131173,
+   "hi": -0.011038567545223607,
+   "p_positive": 0.0153,
+   "positive": 3,
+   "n": 12,
+   "excludes_zero": true
+  },
   "topology|lenses|chain-full|n_facts": {
    "delta": -6.916666666666667,
    "lo": -22.833333333333332,
@@ -1864,6 +2098,24 @@
    "hi": 0.055555555555555546,
    "p_positive": 0.195325,
    "positive": 4,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|lenses|chain-full|meta_share": {
+   "delta": -0.039755257909191065,
+   "lo": -0.11479341423609604,
+   "hi": 0.03154624776697962,
+   "p_positive": 0.1453,
+   "positive": 5,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|lenses|chain-full|balance": {
+   "delta": -0.04004544260876269,
+   "lo": -0.1558477554398617,
+   "hi": 0.0853828196482218,
+   "p_positive": 0.26195,
+   "positive": 5,
    "n": 12,
    "excludes_zero": false
   },
@@ -1984,6 +2236,24 @@
    "n": 12,
    "excludes_zero": false
   },
+  "topology|lenses|chain-star|meta_share": {
+   "delta": 0.024539438319812354,
+   "lo": -0.022385625149251454,
+   "hi": 0.06927418935859858,
+   "p_positive": 0.8532,
+   "positive": 8,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|lenses|chain-star|balance": {
+   "delta": 0.0763063755672535,
+   "lo": -0.03142771362924037,
+   "hi": 0.18364147410117423,
+   "p_positive": 0.9169,
+   "positive": 8,
+   "n": 12,
+   "excludes_zero": false
+  },
   "topology|stance|star-full|n_facts": {
    "delta": 5.916666666666667,
    "lo": -2.0833333333333335,
@@ -2098,6 +2368,24 @@
    "hi": 0.13541666666666669,
    "p_positive": 0.378075,
    "positive": 6,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|stance|star-full|meta_share": {
+   "delta": 0.027707737825965816,
+   "lo": -0.05803886067053379,
+   "hi": 0.12219546224317122,
+   "p_positive": 0.7142,
+   "positive": 6,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|stance|star-full|balance": {
+   "delta": -0.046785978707212066,
+   "lo": -0.15731036692871167,
+   "hi": 0.06681432088045954,
+   "p_positive": 0.21235,
+   "positive": 5,
    "n": 12,
    "excludes_zero": false
   },
@@ -2218,6 +2506,24 @@
    "n": 12,
    "excludes_zero": false
   },
+  "topology|stance|chain-full|meta_share": {
+   "delta": 0.013204970725187695,
+   "lo": -0.06570607682125823,
+   "hi": 0.11163404612628713,
+   "p_positive": 0.58435,
+   "positive": 4,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|stance|chain-full|balance": {
+   "delta": -0.09391795000056057,
+   "lo": -0.26841388821346673,
+   "hi": 0.058708824849350354,
+   "p_positive": 0.1301,
+   "positive": 6,
+   "n": 12,
+   "excludes_zero": false
+  },
   "topology|stance|chain-star|n_facts": {
    "delta": -16.25,
    "lo": -27.833333333333332,
@@ -2332,6 +2638,24 @@
    "hi": 0.3333333333333333,
    "p_positive": 0.95945,
    "positive": 8,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|stance|chain-star|meta_share": {
+   "delta": -0.014502767100778123,
+   "lo": -0.06671350085007019,
+   "hi": 0.035726348054947274,
+   "p_positive": 0.29825,
+   "positive": 7,
+   "n": 12,
+   "excludes_zero": false
+  },
+  "topology|stance|chain-star|balance": {
+   "delta": -0.04713197129334851,
+   "lo": -0.2451913098578213,
+   "hi": 0.12707189076552794,
+   "p_positive": 0.321,
+   "positive": 5,
    "n": 12,
    "excludes_zero": false
   }
@@ -3148,8 +3472,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.2898550724637681,
+   "balance": 0.36734693877551017
   },
   "chain|171|neutral": {
    "n_facts": 66,
@@ -3170,8 +3494,8 @@
    "delivery_use": 0.5,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.4696969696969697,
+   "balance": 0.5714285714285714
   },
   "chain|171|stance": {
    "n_facts": 67,
@@ -3192,8 +3516,8 @@
    "delivery_use": 0.5,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.2835820895522388,
+   "balance": 0.45833333333333337
   },
   "star|171|lenses": {
    "n_facts": 139,
@@ -3280,8 +3604,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.29914529914529914,
+   "balance": 0.7560975609756098
   },
   "chain|221|neutral": {
    "n_facts": 112,
@@ -3302,8 +3626,8 @@
    "delivery_use": 1.0,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.2857142857142857,
+   "balance": 0.6
   },
   "chain|221|stance": {
    "n_facts": 104,
@@ -3324,8 +3648,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.20192307692307693,
+   "balance": 0.7228915662650602
   },
   "star|221|lenses": {
    "n_facts": 81,
@@ -3412,8 +3736,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.6203703703703703,
+   "balance": 0.6829268292682926
   },
   "chain|229|neutral": {
    "n_facts": 50,
@@ -3434,8 +3758,8 @@
    "delivery_use": 1.0,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.3,
+   "balance": 0.17142857142857137
   },
   "chain|229|stance": {
    "n_facts": 84,
@@ -3456,8 +3780,8 @@
    "delivery_use": 1.0,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.36904761904761907,
+   "balance": 0.9056603773584906
   },
   "star|229|lenses": {
    "n_facts": 67,
@@ -3544,8 +3868,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.29411764705882354,
+   "balance": 0.8333333333333334
   },
   "chain|233|neutral": {
    "n_facts": 49,
@@ -3566,8 +3890,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.16326530612244897,
+   "balance": 0.6341463414634146
   },
   "chain|233|stance": {
    "n_facts": 62,
@@ -3588,8 +3912,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.20967741935483872,
+   "balance": 0.44897959183673475
   },
   "star|233|lenses": {
    "n_facts": 61,
@@ -3676,8 +4000,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.140625,
+   "balance": 0.5818181818181818
   },
   "chain|261|neutral": {
    "n_facts": 57,
@@ -3698,8 +4022,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.2807017543859649,
+   "balance": 0.6829268292682926
   },
   "chain|261|stance": {
    "n_facts": 75,
@@ -3720,8 +4044,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.21333333333333335,
+   "balance": 0.47457627118644063
   },
   "star|261|lenses": {
    "n_facts": 61,
@@ -3808,8 +4132,8 @@
    "delivery_use": 1.0,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.4175824175824176,
+   "balance": 0.679245283018868
   },
   "chain|434|neutral": {
    "n_facts": 81,
@@ -3830,8 +4154,8 @@
    "delivery_use": 0.5,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.4444444444444444,
+   "balance": 0.8444444444444444
   },
   "chain|434|stance": {
    "n_facts": 122,
@@ -3852,8 +4176,8 @@
    "delivery_use": 1.0,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.22131147540983606,
+   "balance": 0.9052631578947369
   },
   "star|434|lenses": {
    "n_facts": 99,
@@ -3940,8 +4264,8 @@
    "delivery_use": 0.5,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.4523809523809524,
+   "balance": 0.5652173913043479
   },
   "chain|578|neutral": {
    "n_facts": 72,
@@ -3962,8 +4286,8 @@
    "delivery_use": 0.5,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.5138888888888888,
+   "balance": 0.8
   },
   "chain|578|stance": {
    "n_facts": 65,
@@ -3984,8 +4308,8 @@
    "delivery_use": 1.0,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.38461538461538464,
+   "balance": 1.0
   },
   "star|578|lenses": {
    "n_facts": 93,
@@ -4072,8 +4396,8 @@
    "delivery_use": 0.25,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.25287356321839083,
+   "balance": 0.18461538461538463
   },
   "chain|697|neutral": {
    "n_facts": 57,
@@ -4094,8 +4418,8 @@
    "delivery_use": 0.25,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.22807017543859648,
+   "balance": 0.6363636363636364
   },
   "chain|697|stance": {
    "n_facts": 69,
@@ -4116,8 +4440,8 @@
    "delivery_use": 0.5,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.2318840579710145,
+   "balance": 0.37735849056603776
   },
   "star|697|lenses": {
    "n_facts": 68,
@@ -4204,8 +4528,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.19658119658119658,
+   "balance": 0.21276595744680848
   },
   "chain|823|neutral": {
    "n_facts": 72,
@@ -4226,8 +4550,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.3333333333333333,
+   "balance": 0.5
   },
   "chain|823|stance": {
    "n_facts": 68,
@@ -4248,8 +4572,8 @@
    "delivery_use": 0.5,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.07352941176470588,
+   "balance": 0.4126984126984127
   },
   "star|823|lenses": {
    "n_facts": 92,
@@ -4336,8 +4660,8 @@
    "delivery_use": 0.25,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.4264705882352941,
+   "balance": 0.3589743589743589
   },
   "chain|857|neutral": {
    "n_facts": 124,
@@ -4358,8 +4682,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.532258064516129,
+   "balance": 0.3793103448275862
   },
   "chain|857|stance": {
    "n_facts": 73,
@@ -4380,8 +4704,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.4657534246575342,
+   "balance": 0.6153846153846154
   },
   "star|857|lenses": {
    "n_facts": 116,
@@ -4468,8 +4792,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.6,
+   "balance": 0.21739130434782605
   },
   "chain|902|neutral": {
    "n_facts": 78,
@@ -4490,8 +4814,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.6794871794871795,
+   "balance": 0.8
   },
   "chain|902|stance": {
    "n_facts": 97,
@@ -4512,8 +4836,8 @@
    "delivery_use": 0.25,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.711340206185567,
+   "balance": 0.0714285714285714
   },
   "star|902|lenses": {
    "n_facts": 104,
@@ -4600,8 +4924,8 @@
    "delivery_use": 0.75,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.21212121212121213,
+   "balance": 0.15384615384615385
   },
   "chain|904|neutral": {
    "n_facts": 97,
@@ -4622,8 +4946,8 @@
    "delivery_use": 1.0,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.08247422680412371,
+   "balance": 0.2696629213483146
   },
   "chain|904|stance": {
    "n_facts": 111,
@@ -4644,8 +4968,8 @@
    "delivery_use": 1.0,
    "deliveries": 4,
    "n_agents": 3,
-   "meta_share": null,
-   "balance": null
+   "meta_share": 0.11711711711711711,
+   "balance": 0.36734693877551017
   },
   "star|904|lenses": {
    "n_facts": 61,
