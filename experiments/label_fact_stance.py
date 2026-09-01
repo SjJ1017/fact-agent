@@ -187,12 +187,24 @@ def main() -> int:
     llm.backend.client = llm.backend.client.with_options(timeout=args.timeout, max_retries=1)
     started = time.monotonic()
 
+    # A store arrives under whichever suffix the pass before it wrote. Stripping
+    # only ".tokens.json" made a ".v2.json" input look for
+    # "<name>.v2.json.debate.json", so every debate came back "missing" and the
+    # run reported success having labelled nothing.
+    store_suffixes = (".tokens.json", ".stance.json", ".store.json", ".v2.json", ".json")
+
+    def execution_id(name: str) -> str:
+        for suffix in store_suffixes:
+            if name.endswith(suffix):
+                return name[: -len(suffix)]
+        return name
+
     def process(index: int, path: Path) -> str:
-        target = args.output_dir / path.name.removesuffix(".tokens.json").replace(".v2", "")
-        target = target.with_name(target.name + ".stance.json")
+        stem = execution_id(path.name)
+        target = args.output_dir / f"{stem}.stance.json"
         if target.exists():
             return f"[stance {index}/{len(paths)}] {path.name}: done, skipping"
-        debate_path = args.debate_dir / (path.name.removesuffix(".tokens.json") + ".debate.json")
+        debate_path = args.debate_dir / f"{stem}.debate.json"
         if not debate_path.exists():
             return f"[stance {index}/{len(paths)}] {path.name}: missing debate, skipping"
         store = FactStore.load(str(path))

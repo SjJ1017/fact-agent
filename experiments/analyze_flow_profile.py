@@ -15,6 +15,13 @@ Three families:
                  delivery). Mutually exclusive and exhaustive, so `adopted` is
                  readable as "what share of this system's output is uptake".
 
+                 Counts are also reported per thousand visible output tokens,
+                 because a raw count cannot tell "said more distinct things"
+                 from "wrote more words". Tokens come from re-tokenising the
+                 transcript with bge-base-en-v1.5, which reproduces
+                 `turn_output_tokens` in the token_clock layer exactly and,
+                 unlike it, still counts a turn that yielded no facts.
+
                  `adopted_share` over all turns confounds two things that
                  topology moves in opposite directions: how often an agent takes
                  up what it hears, and how often it hears anything at all. Chain
@@ -62,8 +69,27 @@ STORE_DIRS = [ROOT / "perspectrum_pilot_full", ROOT / "perspectrum_pilot_star_ch
 OUT = ROOT.parent / "findings" / "data"
 
 PANELS = ("neutral", "lenses", "stance")
-METRICS = ("n_facts", "novel", "adopted_share", "adopted_share_recv", "reception",
+METRICS = ("n_facts", "facts_per_k", "novel", "novel_per_k", "adopted_per_k",
+           "adopted_share", "adopted_share_recv", "reception",
            "held_share", "nestedness", "reach", "flow_gini", "delivery_use")
+
+_TOKENIZER = None
+
+
+def output_tokens(debate: dict) -> int:
+    """Visible output tokens over the whole debate.
+
+    Counted off the transcript rather than the token_clock layer: the layer
+    keys its per-turn count by a fact's first mention, so a turn that produced
+    no facts contributes nothing. Star has 14 such turns and chain more, which
+    is exactly where an undercounted denominator would do the most damage.
+    """
+    global _TOKENIZER
+    if _TOKENIZER is None:
+        from transformers import AutoTokenizer
+        _TOKENIZER = AutoTokenizer.from_pretrained("BAAI/bge-base-en-v1.5")
+    return sum(len(_TOKENIZER.encode(text, add_special_tokens=False))
+               for text in debate.get("transcript", {}).values())
 
 
 def gini(values: list[float]) -> float:
@@ -147,6 +173,9 @@ def profile(store: dict, debate: dict, execution_id: str) -> dict:
             carried.append(moved)
             edge[(speaker, listener)] += moved
 
+    tokens = output_tokens(debate)
+    per_k = (lambda n: 1000 * n / tokens) if tokens else (lambda n: 0.0)
+
     attach_labels(store, execution_id, "stance")
     output_mentions = {mid for mid, m in store["mentions"].items()
                        if m["provenance"]["channel"] == "output"}
@@ -159,7 +188,11 @@ def profile(store: dict, debate: dict, execution_id: str) -> dict:
 
     return {
         "n_facts": len(spoken),
+        "facts_per_k": per_k(len(spoken)),
+        "output_tokens": tokens,
         "novel": novel,
+        "novel_per_k": per_k(novel),
+        "adopted_per_k": per_k(adopted),
         "held": held,
         "adopted": adopted,
         "adopted_share": adopted / total if total else 0.0,
@@ -287,14 +320,16 @@ def main() -> None:
             writer.writerow({"topology": topology, "claim": claim,
                              "panel": panel, **row})
 
-    head = f"{'condition':16s}{'n':>3s}{'facts':>8s}{'adopt':>8s}{'a|recv':>8s}{'recv':>7s}{'held':>7s}"
+    head = f"{'condition':16s}{'n':>3s}{'facts':>7s}{'f/kTok':>8s}{'tokens':>8s}"
+    head += f"{'adopt':>8s}{'a|recv':>8s}{'recv':>7s}{'held':>7s}"
     head += f"{'nest':>8s}{'reach':>7s}{'gini':>7s}{'d.use':>7s}{'meta':>7s}{'bal':>7s}"
     print(head)
     print("-" * len(head))
     for name, c in cells.items():
         pct = lambda v: "  —  " if v is None else f"{v:.1%}"
         num = lambda v: "  —  " if v is None else f"{v:.3f}"
-        print(f"{name:16s}{c['n']:3d}{c['n_facts']:8.1f}{pct(c['adopted_share']):>8s}"
+        print(f"{name:16s}{c['n']:3d}{c['n_facts']:7.1f}{c['facts_per_k']:8.1f}"
+              f"{c['output_tokens']:8.0f}{pct(c['adopted_share']):>8s}"
               f"{pct(c['adopted_share_recv']):>8s}{pct(c['reception']):>7s}"
               f"{pct(c['held_share']):>7s}{num(c['nestedness']):>8s}"
               f"{c['reach']:7.2f}{num(c['flow_gini']):>7s}"
