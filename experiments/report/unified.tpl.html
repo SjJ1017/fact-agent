@@ -1,0 +1,1224 @@
+<title>事实在多智能体辩论里怎么流动</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap">
+
+<style>
+:root{
+  --ground:#eef1f1; --surface:#ffffff; --sunk:#e5eaea;
+  --ink:#12181b; --body:#2c3538; --muted:#5f6b6e; --faint:#8b9799;
+  --rule:#d5dcdc; --rule-soft:#e4e9e9;
+  --p1:#7ba3a7; --p2:#3d7d85; --p3:#0d363d;
+  --accent:#123f46; --sig:#a8532c; --sig-soft:#f0e0d6;
+  --shadow:0 1px 2px rgba(18,63,70,.06), 0 8px 24px -16px rgba(18,63,70,.28);
+  --flow-sup:#2f7d6b; --flow-und:#a8532c; --flow-neu:#8b9799;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0f1516; --surface:#161e20; --sunk:#131a1c;
+    --ink:#e4eaea; --body:#c6d1d2; --muted:#94a3a4; --faint:#6d7c7e;
+    --rule:#283335; --rule-soft:#1e282a;
+    --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
+    --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+    --flow-sup:#57bda2; --flow-und:#e08a5c; --flow-neu:#7d8c8e;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0f1516; --surface:#161e20; --sunk:#131a1c;
+  --ink:#e4eaea; --body:#c6d1d2; --muted:#94a3a4; --faint:#6d7c7e;
+  --rule:#283335; --rule-soft:#1e282a;
+  --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
+  --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  --flow-sup:#57bda2; --flow-und:#e08a5c; --flow-neu:#7d8c8e;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--body);
+  font-family:"IBM Plex Sans","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  font-size:16px; line-height:1.68; -webkit-font-smoothing:antialiased;
+}
+.page{max-width:1120px; margin:0 auto; padding:0 24px 96px;}
+.measure{max-width:41rem; margin-inline:auto;}
+
+/* ---- masthead ---- */
+.masthead{padding:72px 0 40px; border-bottom:1px solid var(--rule);}
+.kicker{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.72rem;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; margin:0 0 1.6rem;
+}
+h1{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif; font-weight:500;
+  font-size:clamp(2.6rem,7vw,4.1rem); line-height:1.04; letter-spacing:-.015em;
+  color:var(--ink); margin:0; text-wrap:balance;
+}
+.thesis{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif;
+  font-size:clamp(1.22rem,2.6vw,1.52rem); line-height:1.5; color:var(--ink);
+  margin:1.6rem 0 0; max-width:34rem; text-wrap:pretty;
+}
+.thesis em{font-style:normal; box-shadow:inset 0 -.42em 0 var(--sig-soft); padding:0 .1em;}
+.standfirst{margin:1.2rem 0 0; max-width:34rem; color:var(--muted); font-size:.95rem;}
+
+/* ---- section rhythm ---- */
+section{padding-top:64px;}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.7rem;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--sig);
+  margin:0 0 .7rem; display:flex; align-items:center; gap:.6rem;
+}
+.eyebrow::after{content:""; flex:1; height:1px; background:var(--rule);}
+h2{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif; font-weight:500;
+  font-size:clamp(1.75rem,3.6vw,2.3rem); line-height:1.2; color:var(--ink);
+  margin:0 0 1.1rem; letter-spacing:-.01em; text-wrap:balance;
+}
+h3{
+  font-size:.94rem; font-weight:600; color:var(--ink); margin:2.2rem 0 .5rem;
+  letter-spacing:.005em;
+}
+p{margin:0 0 1.05rem;}
+.measure p:last-child{margin-bottom:0;}
+strong{color:var(--ink); font-weight:600;}
+code, .num{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums;}
+code{font-size:.86em; background:var(--sunk); padding:.12em .38em; border-radius:3px; color:var(--ink);}
+a{color:var(--accent); text-underline-offset:3px;}
+
+/* ---- figure band ---- */
+figure{margin:2.4rem 0 0; }
+figcaption{
+  font-size:.83rem; color:var(--muted); margin-top:.9rem;
+  max-width:38rem; margin-inline:auto; line-height:1.6;
+}
+.panel{
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:2px; box-shadow:var(--shadow); padding:26px 24px 20px;
+  overflow-x:auto;
+}
+.panel svg{display:block; width:100%; height:auto; overflow:visible;}
+
+/* ---- legend ---- */
+.legend{
+  display:flex; flex-wrap:wrap; gap:.4rem 1.4rem; align-items:center;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.71rem;
+  letter-spacing:.06em; color:var(--muted); margin:0 0 18px;
+}
+.legend span{display:inline-flex; align-items:center; gap:.45rem;}
+.seg{display:inline-flex; border:1px solid var(--rule); border-radius:2px; overflow:hidden;
+  margin:0 0 14px; background:var(--surface);}
+.seg button{
+  font-family:"IBM Plex Sans","Noto Sans SC",sans-serif; font-size:.78rem;
+  padding:.42rem .85rem; border:0; background:transparent; color:var(--muted);
+  cursor:pointer; line-height:1.4;
+}
+.seg button + button{border-left:1px solid var(--rule);}
+.seg button[aria-pressed="true"]{background:var(--sunk); color:var(--ink); font-weight:600;}
+.seg button:hover{color:var(--ink);}
+.roles{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.7rem; color:var(--faint);
+  letter-spacing:.02em;
+}
+.swatch{width:22px; height:0; border-top-width:2px; border-top-style:solid; display:inline-block;}
+.dotm{width:9px;height:9px;border-radius:50%;display:inline-block;background:currentColor}
+.sqm{width:9px;height:9px;display:inline-block;border:1.6px solid currentColor}
+.trm{width:0;height:0;display:inline-block;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:9px solid currentColor}
+
+/* ---- readings table ---- */
+.tablewrap{overflow-x:auto; margin-top:2.2rem;
+  background:var(--surface); border:1px solid var(--rule); border-radius:2px; box-shadow:var(--shadow);}
+table{border-collapse:collapse; width:100%; min-width:640px;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.8rem;
+  font-variant-numeric:tabular-nums;}
+caption{caption-side:top; text-align:left; padding:18px 20px 0; font-family:"IBM Plex Sans","Noto Sans SC",sans-serif;
+  font-size:.83rem; color:var(--muted);}
+thead th{
+  font-weight:500; font-size:.68rem; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--muted); text-align:right; padding:14px 14px 8px; white-space:nowrap;
+  border-bottom:1px solid var(--rule);
+}
+thead th.grp{text-align:center; border-bottom:1px solid var(--rule-soft); padding-bottom:4px; color:var(--ink);}
+thead th:first-child{text-align:left;}
+tbody th{
+  font-family:"IBM Plex Sans","Noto Sans SC",sans-serif; font-weight:400; font-size:.82rem;
+  text-align:left; color:var(--ink); padding:7px 14px; white-space:nowrap;
+}
+tbody td{text-align:right; padding:7px 14px; color:var(--body); white-space:nowrap;}
+tbody tr:nth-child(even){background:var(--sunk);}
+td.sep, th.sep{border-left:1px solid var(--rule);}
+
+/* ---- callout ---- */
+.callout{
+  margin:2.4rem auto 0; max-width:41rem; padding:20px 22px;
+  background:var(--surface); border:1px solid var(--rule); border-left:3px solid var(--sig);
+  border-radius:2px; font-size:.93rem;
+}
+.callout p:last-child{margin-bottom:0;}
+.callout .lbl{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.68rem; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--sig); display:block; margin-bottom:.5rem;
+}
+
+/* ---- limits ---- */
+.limits{list-style:none; padding:0; margin:1.4rem 0 0; display:flex; flex-direction:column; gap:1.05rem;}
+.limits li{padding-left:1.6rem; position:relative; font-size:.93rem;}
+.limits li::before{
+  content:""; position:absolute; left:0; top:.62em; width:.55rem; height:.55rem;
+  border:1.5px solid var(--sig); border-radius:50%;
+}
+.limits b{color:var(--ink); font-weight:600;}
+.repro{
+  background:var(--surface); border:1px solid var(--rule); border-radius:2px;
+  padding:14px 16px; overflow-x:auto; margin:1.2rem 0 0;
+}
+.repro code{background:none; padding:0; font-size:.78rem; line-height:1.9;
+  color:var(--ink); white-space:pre;}
+td.lft{text-align:left;}
+.defs{list-style:none; padding:0; margin:1.4rem 0 0; display:flex;
+  flex-direction:column; gap:1rem;}
+.defs li{padding:0; font-size:.93rem;}
+.defs b{display:block; color:var(--ink); font-weight:600; margin-bottom:.15rem;}
+.defs .form{font-family:"IBM Plex Mono",monospace; font-size:.82rem;
+  color:var(--muted); display:block; margin-top:.2rem;}
+.note{
+  margin:1.6rem auto 0; max-width:41rem; padding:14px 18px;
+  background:var(--sunk); border-radius:2px; font-size:.88rem; color:var(--muted);
+}
+.note p:last-child{margin-bottom:0;}
+.toc{margin:2.2rem auto 0; max-width:41rem; padding:20px 22px;
+  background:var(--surface); border:1px solid var(--rule); border-radius:2px;}
+.toc ol{margin:0; padding-left:1.4rem; font-size:.9rem; color:var(--body);
+  display:flex; flex-direction:column; gap:.35rem;}
+.toc a{color:var(--body); text-decoration:none; border-bottom:1px solid var(--rule);}
+.toc a:hover{color:var(--accent); border-color:var(--accent);}
+.toc strong{color:var(--ink);}
+h2 .num-h{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--sig);
+  margin-right:.55em; font-weight:400; letter-spacing:.05em;}
+
+/* ---- provenance ---- */
+.prov{margin-top:64px; padding-top:26px; border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.76rem; color:var(--faint);
+  line-height:1.85;}
+.prov b{color:var(--muted); font-weight:500;}
+.prov div{overflow-wrap:anywhere;}
+
+:focus-visible{outline:2px solid var(--sig); outline-offset:3px;}
+@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important}}
+@media (max-width:640px){
+  .masthead{padding-top:48px}
+  section{padding-top:48px}
+  .panel{padding:18px 14px 14px}
+}
+</style>
+<div class="page">
+
+<header class="masthead">
+  <div class="measure">
+  <p class="kicker"><span>Perspectrum · DeepSeek-V4-Flash</span><span>12 命题 × 3 人格 × 3 拓扑 = 108 场辩论</span><span>2026-09-02</span></p>
+  <h1>事实在多智能体辩论里怎么流动</h1>
+  <p class="thesis">让三个语言模型就同一个争议命题辩论三轮，把它们说的每句话拆成原子事实，再按内容对齐，就可以逐条追踪每一个事实从谁那里产生、有没有传到别人那里、传到之后有没有留下来。</p>
+  <p class="standfirst">这篇文章报告 108 场这样的辩论。我们改变两件事：三个 agent 之间谁能看到谁（拓扑），以及给它们什么样的角色设定（人格）。结论是，这两个旋钮作用在流程的不同环节上，而且都没有连接到辩论的最终结论。</p>
+  </div>
+
+  <div class="toc">
+    <ol>
+      <li><a href="#s1"><strong>实验是怎么做的</strong></a>：数据、agent、轮次、三种拓扑、三种人格、事后如何测量</li>
+      <li><a href="#s2"><strong>每个指标的定义</strong></a>：所有变量和统计口径，读后文之前先看这里</li>
+      <li><a href="#s3"><strong>九个条件的总读数</strong></a>：一张表放下全部结果</li>
+      <li><a href="#s4"><strong>人格改变产出什么</strong></a>：信息密度与立场平衡此消彼长</li>
+      <li><a href="#s5"><strong>拓扑改变谁能听到</strong></a>：接触机会与采纳意愿要分开测</li>
+      <li><a href="#s6"><strong>人格效应依赖接触</strong></a>：同一个人格设定在低接触结构里几乎无效</li>
+      <li><a href="#s7"><strong>采纳之后发生了什么</strong></a>：三段漏斗，以及链式结构里的第一跳门槛</li>
+      <li><a href="#s8"><strong>流动的是什么内容</strong></a>：27 张按立场分层的加权有向图</li>
+      <li><a href="#s9"><strong>结论层</strong></a>：立场早定，理由一直换</li>
+      <li><a href="#s10"><strong>六个阴性结果</strong></a>：包括最重要的一个——流动解释不了结论</li>
+      <li><a href="#s11"><strong>把结果串起来</strong></a>：一个四层的分析框架</li>
+      <li><a href="#s12"><strong>局限</strong></a>：这批数据不能说什么</li>
+      <li><a href="#s13"><strong>下一步与复现</strong></a></li>
+    </ol>
+  </div>
+</header>
+
+<section id="s1">
+  <div class="measure">
+    <p class="eyebrow">第一节</p>
+    <h2><span class="num-h">01</span>实验是怎么做的</h2>
+
+    <h3>命题与材料</h3>
+    <p>数据来自 Perspectrum 数据集里的 12 个真实争议命题，例如"公共建筑里的宗教符号必须被禁止"。每个命题配一份固定的材料卷宗，卷宗包含命题本身和四条人工整理的证据，编号 E1 到 E4。这四条证据里两条支持命题、两条反对命题。</p>
+    <p>三个 agent 看到的材料完全相同，没有任何一方拥有私有信息。这一点在后面解释很多结果时都会用到：两个 agent 说出同一件事，可能是因为一方听到了另一方，也可能只是因为它们读了同一份材料。</p>
+
+    <h3>agent、轮次与输出格式</h3>
+    <p>每场辩论有三个 agent，命名为 A、B、C，一共进行三轮。每一轮里每个 agent 输出一段不超过 180 词的评估，段落末尾必须写一行结论，格式是 <code>VERDICT: SUPPORT | UNDERMINE | UNCERTAIN</code>，分别表示"证据支持命题""证据削弱命题""无法判定"。三种拓扑三种人格各 12 个命题，一共 108 场辩论、972 个 agent 发言。</p>
+    <p>第一轮三个 agent 同时生成，彼此看不到对方的输出，提示词里明确写了"在看到其他人之前"。从第二轮开始，每个 agent 会看到上一轮某些同伴的输出，具体看到谁由拓扑决定。</p>
+
+    <h3>三种拓扑</h3>
+    <p>拓扑规定了"谁能看到谁上一轮的输出"。我们把一次"某个 agent 在某一轮收到某个同伴上一轮的输出"称为一次<strong>投递</strong>。每场辩论的全部投递都有记录，后面所有关于传播的计算都以这份记录为准，不靠推测。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend"><span style="color:var(--muted)">箭头方向 = 输出流动的方向；每场辩论第 2、3 轮各发生一次同样的投递</span></div>
+      <div id="fig-setup"></div>
+    </div>
+    <figcaption>三种拓扑。全连接每人看到另外两人；星型里 B 和 C 只能看到中心 A，彼此从不直接可见；链式是 A→B→C 的单向传递，没有回边，因此 A 全程收不到任何同伴输出。</figcaption>
+  </figure>
+
+  <div class="measure">
+    <h3>三种人格</h3>
+    <p>人格是对提示词的干预，只改变"你是谁"这一句，不改变任务、材料和输出格式。三档设定按具体程度递增：</p>
+    <ul class="defs">
+      <li><b>neutral（中立）</b>三个 agent 的角色提示词逐字相同，都是"中立的证据分析师，寻找双方最有力的相关事实"。这是唯一一个三个位置完全对称的条件，因此它是检验"位置本身有没有效应"的干净对照。</li>
+      <li><b>lenses（视角）</b>三个 agent 拿到三种不同的分析视角：A 关注因果与证据能确立什么，B 关注可行性与权衡，C 关注适用范围与不确定性。给的是切入角度，不要求站队。</li>
+      <li><b>stance（立场）</b>三个 agent 被直接指派立场：A 是命题的支持方，B 是反对方，C 是中立裁决者。<strong>这一档里 A、B、C 不可互换</strong>，读后面任何涉及具体 agent 的结果时都要记住这一点。</li>
+    </ul>
+
+    <h3>辩论结束之后才做的测量</h3>
+    <p>下面四步全部在辩论结束后离线进行，结果<strong>从不进入任何 agent 的提示词</strong>。也就是说，agent 不知道自己被这样测量，测量也不会影响辩论本身。</p>
+    <ul class="defs">
+      <li><b>抽取</b>把每一段发言拆成若干条自包含的原子命题。"自包含"的意思是脱离上下文也能读懂，代词要还原成具体指代。</li>
+      <li><b>原子化</b>把并列句拆开，并剥掉"E1 声称……""该文件认为……"这类归属外壳，只留下被断言的内容本身。这样做是因为我们关心的是关于世界的事实怎么流动，而不是关于辩论的事实怎么流动。</li>
+      <li><b>匹配</b>跨 agent、跨轮次把表达同一命题的不同说法归并成一个<strong>规范事实</strong>，并给它一个稳定的 id。之后所有"同一个事实"的判断都以这个 id 为准。</li>
+      <li><b>立场标注</b>给每个规范事实标一个立场：SUPPORT（若为真则支持命题）、UNDERMINE（若为真则削弱命题）、NEUTRAL（对命题真假不构成方向性影响，多数是对辩论过程或对某条证据本身的评价）。<strong>注意这标的是事实相对命题的方向，不是它的真假，也不是说话人的态度。</strong></li>
+    </ul>
+    <div class="note">
+      <p>辩论生成和立场标注用 DeepSeek-V4-Flash，抽取、原子化和匹配用 minimax-m2.5。另有 33 场用 GLM 生成的全连接辩论，因为没有星型和链式对照，不进入本文任何分析。</p>
+    </div>
+  </div>
+</section>
+
+<section id="s2">
+  <div class="measure">
+    <p class="eyebrow">第二节</p>
+    <h2><span class="num-h">02</span>每个指标的定义</h2>
+    <p>后文用到的每个量都在这里定义一次。这些定义有一个共同的约束：它们只能用四样东西算出来，即有哪些 agent、有哪些轮次、投递记录、以及每个 turn 说了哪些规范事实。任何依赖"谁是中心节点""谁扮演支持方"的量都不能用，因为那样就没法把三种拓扑和三种人格放在同一根坐标轴上比较。</p>
+
+    <h3>产出的组成</h3>
+    <ul class="defs">
+      <li><b>事实数</b>一场辩论里出现过的规范事实总数，只计 agent 说出的，不计只在材料卷宗里的。</li>
+      <li><b>事实密度</b>每一千个输出 token 里有多少个规范事实。<span class="form">事实数 ÷（输出 token 数 / 1000）</span>这个归一化是必须的：强人格设定下 agent 会写得更长（全连接下从平均 1348 token 涨到 1569 token），不归一化就分不清"说了更多不同的东西"和"写了更多字"。token 数由 bge-base-en-v1.5 分词器直接对发言文本计数。</li>
+      <li><b>预算三分</b>把每一次"某 agent 在某轮说出某个事实"的事件按来源分成互斥且穷尽的三类。<span class="form">新事实 = 自己以前没说过，也不在收到的投递里；自持 = 自己以前说过；采纳 = 自己以前没说过，但已在收到的投递里出现</span>三类占比加起来是 100%。</li>
+    </ul>
+
+    <h3>接触与采纳（这两个必须分开）</h3>
+    <ul class="defs">
+      <li><b>接触率</b>全部 turn 里，有多少比例的 turn 收到了至少一个事实。<span class="form">收到内容的 turn 数 ÷ 全部 turn 数（3 agent × 3 轮 = 9）</span>这是一个纯结构量，由拓扑几乎完全决定。链式结构里 A 全程收不到东西，第一轮所有人都收不到，所以链式的上限是 4/9。</li>
+      <li><b>采纳占比</b>全部产出里采纳所占的比例。<span class="form">采纳 ÷（新事实 + 自持 + 采纳）</span></li>
+      <li><b>条件采纳率</b>只在"确实收到了东西"的 turn 上算的采纳占比。<span class="form">这些 turn 的采纳 ÷ 这些 turn 的全部产出</span><strong>采纳占比同时受两件事影响：有多大机会听到，以及听到之后接多少。</strong>接触率量前者，条件采纳率量后者。拓扑变化时必须看这两个分量，不能只看它们的乘积。</li>
+    </ul>
+
+    <h3>三段传输漏斗</h3>
+    <p>上面的"采纳"只看当轮。要知道接住的东西有没有留下来，需要跟踪同一个事实的三个连续状态。下面只用第 2 轮的采纳来定义，因为它是唯一一个前后都有轮次可看的位置：</p>
+    <ul class="defs">
+      <li><b>接触</b>某个同伴在第 1 轮说了某个事实，这个事实按投递记录送到了该 agent，而该 agent 自己此前没说过它。这是"本来有机会被采纳"的分母。</li>
+      <li><b>采纳</b>该 agent 在第 2 轮说出了这个事实。</li>
+      <li><b>留存</b>同一个 agent 在第 3 轮仍然说这个事实。</li>
+    </ul>
+    <p>由此得到三个比率：<code>接触→采纳</code>（当轮吸收率）、<code>采纳→留存</code>（吸收之后守住的比例）、<code>接触→留存</code>（端到端）。把它们分开报告是必要的，因为一个低的端到端率可能来自入口窄，也可能来自守不住，这两种失败要用不同办法修。</p>
+
+    <h3>结构与内容</h3>
+    <ul class="defs">
+      <li><b>嵌套度</b>三个 agent 各自说过的事实构成三个集合，两两计算"较小集合被较大集合覆盖的比例"再取平均。0 表示三人各说各话，1 表示完全重复。</li>
+      <li><b>事实覆盖</b>每个事实平均被几个 agent 说过。三个 agent，上限是 3.0。1.2 意味着绝大多数事实只有一个人提过。</li>
+      <li><b>流量集中度</b>把"某个事实从 a 传到 b"看作有向边并累计权重，对这些边权算基尼系数。0 表示流量均摊在所有连线上，接近 1 表示挤在少数几条上。</li>
+      <li><b>元陈述占比</b>被标注为 NEUTRAL 的事实占比。这类事实多半是对辩论过程或对某条证据的评价，比如"E1 只给了观点没有给数据"。</li>
+      <li><b>正反平衡</b>衡量支持类事实和削弱类事实的数量是否接近相等。<span class="form">1 − |n₊ − n₋| / (n₊ + n₋)</span>1 表示两侧数量相当，0 表示一边倒。</li>
+    </ul>
+
+    <h3>统计口径</h3>
+    <ul class="defs">
+      <li><b>按命题配对</b>凡是比较两个条件，都是取<strong>同一个命题</strong>在两种条件下的值相减，得到 12 个差值。这样做是因为命题之间的难度差异远大于条件之间的差异，不配对的话条件效应会被命题噪声淹没。</li>
+      <li><b>bootstrap 区间</b>对这 12 个差值有放回重采样 20000 次，每次算均值，取 2.5% 和 97.5% 分位作为 95% 区间。</li>
+      <li><b>p 值的含义</b>本文报的 <code>p</code> 是这 20000 个 bootstrap 均值里落在零以上的比例。<strong>请读 p，不要读"区间是否跨零"。</strong>在 n=12 的情况下两者可以差很远：<span class="num">+5.90 [−0.74, +11.94]</span> 的区间跨零，但 96% 的重采样均值在零以上，12 个命题里有 8 个为正。把它叫作"没有效应"等于扔掉数据里的大部分信息。p=0.96 偏正的程度，和 p=0.04 偏负的程度是一样的。文中标 <span style="color:var(--sig)">★</span> 的是 95% 区间也排除零的那些，但没有任何结论只挂在这个符号上。</li>
+      <li><b>没有做多重比较校正</b>本文跨十几个指标、九个条件做比较，偶然出现极端的 p 是正常的。值得相信的是<strong>同时在多个拓扑、多个相关指标上一致出现</strong>的模式，而不是任何单独一条区间。</li>
+    </ul>
+  </div>
+</section>
+
+<section id="s3">
+  <div class="measure">
+    <p class="eyebrow">第三节</p>
+    <h2><span class="num-h">03</span>九个条件的总读数</h2>
+    <p>下表是全部主要指标在九个条件下的值，每一格是 12 个命题的平均。后面各节会逐个解释其中的模式，这里先把数放在一起，方便随时回来对照。</p>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <caption>每格 = 12 场辩论的均值。前三行是绝对量，其余是比率。"事实覆盖"上限 3.0。最后三行是第 2 轮的传输漏斗。</caption>
+      <thead>
+        <tr><th></th><th class="grp" colspan="3">全连接 · 每场 12 次投递</th><th class="grp sep" colspan="3">星型 · 8 次投递</th><th class="grp sep" colspan="3">链式 · 4 次投递</th></tr>
+        <tr><th>指标</th><th>neutral</th><th>lenses</th><th>stance</th><th class="sep">neutral</th><th>lenses</th><th>stance</th><th class="sep">neutral</th><th>lenses</th><th>stance</th></tr>
+      </thead>
+      <tbody>
+<!--__TABLE__-->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="s4">
+  <div class="measure">
+    <p class="eyebrow">第四节</p>
+    <h2><span class="num-h">04</span>人格改变产出什么</h2>
+
+    <h3>"人格越强，产出的事实越多"这个说法不成立</h3>
+    <p>不做归一化的话，全连接下 stance 条件比 neutral 多产出 21 个事实，区间是 <span class="num">[+11.3, +30.3]</span>，看起来很确定。但 stance 条件下 agent 也多写了大约 15% 的字。按每千输出 token 归一化之后，这个差变成 <span class="num">+5.90 [−0.74, +11.94]</span>，<span class="num">p=0.96</span>。方向仍然偏正，效应被砍掉了大半。</p>
+    <p>更值得注意的是形状变了。真正大的那一档是 lenses：事实密度比 neutral 高 <span class="num">+15.97 [+6.95, +23.95]</span>，<span class="num">p=0.999</span>，12 个命题里 11 个为正。而从 lenses 再走到 stance 是往回掉，<span class="num">−10.06 [−16.62, −2.45]</span>，<span class="num">p=0.006</span>。全连接下事实密度的走势是 <span class="num">53.7 → 69.7 → 59.6</span>。</p>
+    <p>换一种说法：给一个<strong>分析视角</strong>会让 agent 关注到不同的内容，因此每千 token 里装的不同事实变多；再给一个<strong>立场</strong>并不会继续增加内容，只会增加篇幅，因此密度反而下降。</p>
+
+    <h3>信息密度和立场平衡是反着走的</h3>
+    <p>正反平衡衡量支持类事实和削弱类事实的数量是否接近。它画出的曲线和事实密度正好相反，而且这个镜像关系在三种拓扑上都出现：从 neutral 到 lenses 平衡下降，从 lenses 到 stance 平衡回升并超过 neutral。</p>
+    <p>stance 减 lenses 的平衡差是全连接 <span class="num">+0.151</span>（p=1.000，9/12）、星型 <span class="num">+0.221</span>（p=1.000，11/12）、链式 <span class="num">+0.097</span>（p=0.935）。同一个对比在密度上是全连接 <span class="num">−10.06</span>（p=0.006）、链式 <span class="num">−12.96</span>（p=0.013）。</p>
+    <p>这说明两档人格设定各有代价，不是强弱之分。给视角让每个 agent 挖到不同的东西，但没有人负责让这些东西加起来不偏；指定立场让正反两边都有人说话，但每个 agent 都在重复自己那一侧。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--p3)"><i class="dotm"></i>全连接</span>
+        <span style="color:var(--p2)"><i class="sqm"></i>星型</span>
+        <span style="color:var(--p1)"><i class="trm"></i>链式</span>
+      </div>
+      <div id="fig-tradeoff"></div>
+    </div>
+    <figcaption>图 1｜信息密度与立场平衡。横轴是三档人格。左图每一千输出 token 里的事实数在 lenses 达到最高；右图的正反平衡在 lenses 落到最低。星型是唯一一个密度曲线不呈倒 U 的拓扑，但它的平衡曲线仍然是 U 形，而且幅度最大。</figcaption>
+  </figure>
+
+  <div class="measure">
+    <h3>产出预算从"回头"转向"新生"</h3>
+    <p>把每一次表述按新事实、自持、采纳三类记账，可以看到人格增强时预算怎么挪动。全连接和星型都表现出同一条梯度：人格越具体，新事实占比越高，而自持和采纳这两种"回头"的占比都下降。</p>
+    <p>全连接下 stance 减 neutral 的三项分别是新事实 <span class="num">+0.077★</span>、采纳 <span class="num">−0.032★</span>、自持 <span class="num">−0.045★</span>。星型是 <span class="num">+0.075★ / −0.030 / −0.045★</span>。这里值得强调的是：<strong>采纳和自持是产出里仅有的两种"重复已有内容"的方式，两者同时下降，意味着强人格条件下的输出几乎全是新生成的内容。</strong>也就是说，三个 agent 各自不断提出新事实，但很少有事实被多个人反复提及，因此没有形成一个可以据以收敛的共同事实集合。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--p1)"><i class="dotm"></i>新事实</span>
+        <span style="color:var(--p2)"><i class="dotm"></i>自持（自己重提）</span>
+        <span style="color:var(--p3)"><i class="dotm"></i>采纳（接别人的话）</span>
+        <span style="color:var(--muted)">每根柱合计 100%</span>
+      </div>
+      <div id="fig-budget"></div>
+    </div>
+    <figcaption>图 2｜产出预算的去向。九根柱按拓扑分三组，组内是 neutral → lenses → stance。全连接和星型里最下面那段（新事实）随人格增强而变厚；链式三根几乎齐平，这一点在第六节解释。</figcaption>
+  </figure>
+</section>
+
+<section id="s5">
+  <div class="measure">
+    <p class="eyebrow">第五节</p>
+    <h2><span class="num-h">05</span>拓扑改变谁能听到</h2>
+    <p>链式结构是 A→B→C 且没有回边，所以 A 全程收不到任何同伴输出，9 个 turn 里只有 4 个有输入，而全连接和星型都是 6 个。这个结构差异会直接压低链式的采纳占比，但它压低的是"有没有机会"，不是"愿不愿意接"。</p>
+    <p>把这两件事分开测之后，结果非常清楚。把全连接砍成链式，接触率从 <span class="num">66.7%</span> 掉到 <span class="num">42.6%</span>，差 <span class="num">−24.1pp</span>，置信区间几乎没有宽度，因为它基本上是线路的常数。同样这一刀，条件采纳率只动了 <span class="num">−5.2pp</span>，小一个数量级。</p>
+    <p>星型的情况更能说明问题。星型砍掉了 B 和 C 之间的连线，投递事件从 12 降到 8，但<strong>接触率完全没有变化</strong>（<span class="num">0.0pp</span>，p=0.5）。每个 turn 照样有人给它送东西，少的是<em>来源的多样性</em>，不是<em>有没有来源</em>。这解释了为什么星型和全连接在几乎所有指标上都测不出差别：真正起作用的线路变量是接触率，不是边的条数。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--muted)">相对全连接，按同一命题、同一人格配对</span>
+        <span style="color:var(--sig)">★ 95% 区间也排除零</span>
+      </div>
+      <div id="fig-decomp"></div>
+    </div>
+    <figcaption>图 3｜把采纳占比拆成结构项和行为项。左边是接触率，链式的三根横条又长又窄，说明效应大且几乎没有变异；右边是条件采纳率，所有横条都短，星型的三根几乎压在零线上。</figcaption>
+  </figure>
+</section>
+
+<section id="s6">
+  <div class="measure">
+    <p class="eyebrow">第六节</p>
+    <h2><span class="num-h">06</span>人格效应依赖接触</h2>
+    <p>第四节说人格改变产出，第五节说拓扑改变接触。把两者交叉起来看会发现，<strong>人格的效应大小本身取决于拓扑</strong>。做法是计算差分的差分：先在每个拓扑内算 stance 减 neutral，再把不同拓扑的这个差相减。</p>
+    <p>链式和全连接的对比结果是：事实数的交互差 <span class="num">−14.17 [−28.92, −4.50]</span>，12 个命题<strong>全部</strong>为负；归一化后的事实密度是 <span class="num">−8.59 [−18.80, −0.60]</span>，10/12 为负。具体地说，全连接下 stance 比 neutral 多 21.0 个事实，链式下只多 6.8 个；按 token 归一化，全连接是 <span class="num">+5.90</span>，链式变成 <span class="num">−2.68</span>。</p>
+    <p>星型和全连接之间几乎没有这个交互，事实数差只有 <span class="num">−0.92</span>，密度差 <span class="num">−0.49</span>，区间都很宽地跨过零。这和第五节一致：星型的接触率和全连接相同。</p>
+    <p>所以人格设定的效果不是一个脱离交互结构的固定属性。在链式结构里，每个 agent 收到的同伴内容很少，角色设定改变的主要是它自己的表述，很难改变整个团队层面的事实分布。</p>
+    <div class="note">
+      <p><strong>一个例外值得记下来。</strong>如果只看三个 agent 的事实集合有多不相似（用 Jaccard 相似度矩阵的有效独立数衡量），stance 减 neutral 在全连接、星型、链式分别是 <span class="num">+0.102★ / +0.123★ / +0.055★</span>，链式也有效。也就是说，即使连线很少，角色提示仍然能让三个 agent 说的东西更不一样；但只有在接触充分的时候，这种差异才同时表现为更少采纳和更少自持。</p>
+    </div>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend"><span style="color:var(--muted)">纵轴为零表示"人格效应在两个拓扑里一样大"；负值表示该拓扑里人格效应更弱</span></div>
+      <div id="fig-did"></div>
+    </div>
+    <figcaption>图 4｜人格效应的差分的差分。每个点是"（stance − neutral）在某拓扑" 减去 "（stance − neutral）在全连接"。链式在事实数和事实密度上明显为负，星型贴着零线。</figcaption>
+  </figure>
+</section>
+
+<section id="s7">
+  <div class="measure">
+    <p class="eyebrow">第七节</p>
+    <h2><span class="num-h">07</span>采纳之后发生了什么</h2>
+    <p>前面所有关于"采纳"的量都只看当轮：一个 agent 说出了别人说过的事实，就算一次采纳。但这不足以说明信息被整合了，因为它下一轮可能就不再提。第二节定义的三段漏斗把这件事拆开。</p>
+    <p>结果是端到端的留存率非常低：从"本来有机会采纳"到"第 3 轮仍在说"，九个条件都在 <span class="num">2%</span> 到 <span class="num">6%</span> 之间。</p>
+    <p>更重要的是三段之间的分工。stance 减 neutral 的<strong>当轮采纳率</strong>在全连接是 <span class="num">−4.62pp [−9.52, −0.14]</span>，星型是 <span class="num">−8.48pp [−14.65, −1.83]</span>，两个都排除零。但<strong>采纳之后的留存差和端到端差，在三个拓扑上全部跨零</strong>。全连接的 stance 条件甚至用更高的后续留存（<span class="num">39.0%</span> 对 neutral 的 <span class="num">28.7%</span>）抵消了更低的入口采纳，使端到端率和 neutral 基本相同。</p>
+    <p>这一条修正了一个容易下的过强结论。"stance 的采纳率低，所以它整合得更差"——这个推论不成立。stance 主要改变的是<strong>入口选择</strong>，并没有让已经接住的事实更快消失。</p>
+    <p>由此也可以给"浪费性多样性"一个更严格的定义：<strong>新增、但既没有被采纳也没有被保留、并且不改善结果的事实</strong>。只用低采纳率或高死亡率单独判定是不够的。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--p1)"><i class="dotm"></i>接触（有机会被采纳）</span>
+        <span style="color:var(--p2)"><i class="dotm"></i>第 2 轮采纳</span>
+        <span style="color:var(--p3)"><i class="dotm"></i>第 3 轮仍在说</span>
+      </div>
+      <div id="fig-funnel"></div>
+    </div>
+    <figcaption>图 5｜三段传输漏斗。每格一条从左到右收窄的带子，宽度按 √ 计数缩放，因为接触量是留存量的二十倍以上，线性缩放会让右端看不见。带子上方的数字是 12 场加总的原始计数，下方三个比率是<strong>每场先算比率再取平均</strong>——置信区间描述的是后者，所以两者不会正好相除得到。</figcaption>
+  </figure>
+
+  <div class="measure">
+    <h3>链式结构的瓶颈在第一跳，不是逐跳均匀衰减</h3>
+    <p>链式的路径是唯一确定的，所以可以直接数事实沿 A→B→C 传了几跳。为避免角色差异干扰，这里只用 neutral 条件。取 A 在第 1 轮独有、B 和 C 都没说过的 102 个事实：</p>
+    <ul class="defs">
+      <li><b>第一跳</b>其中 10 个（<span class="num">9.8%</span>）出现在 B 的第 2 轮。</li>
+      <li><b>第二跳</b>这 10 个里有 7 个又在 C 的第 3 轮首次出现。</li>
+      <li><b>合起来</b>可观察的两跳到达率是 7/102（<span class="num">6.9%</span>），但在<strong>已经通过第一跳</strong>的事实里是 7/10。</li>
+      <li><b>相邻边对照</b>B 在第 1 轮独有的 102 个事实里，有 14 个出现在 C 的第 2 轮（<span class="num">13.7%</span>）。</li>
+    </ul>
+    <p>这不是"每多一跳就固定衰减一次"的图景。更像一个很强的选择门：绝大多数事实在第一跳就消失了，而少数被 B 选中的事实很容易继续往下传。</p>
+    <p>但要注意 7/10 这个分母极小，而且三个 agent 共享同一份材料，所以严格的时间顺序只能说明"传播路径与观察相容"，不能排除 C 在第 3 轮自己独立推出了同一件事。要确认因果传输，需要给某个 agent 私有信息，或者做遮蔽消融实验。</p>
+  </div>
+</section>
+
+<section id="s8">
+  <div class="measure">
+    <p class="eyebrow">第八节</p>
+    <h2><span class="num-h">08</span>流动的是什么内容</h2>
+    <p>前面的指标都把流动压成一个数。这一节保留形状：对每个条件，把 12 个命题全部加总，得到 agent 上的<strong>加权有向图</strong>。<code>说话人 → 听者</code>这条边的权重，是听者采纳的、由说话人投递过来的事实数。然后按被采纳事实的立场拆成三层。</p>
+    <p>一次采纳的功劳在所有投递过该事实的同伴之间<strong>平分</strong>。在全连接里一个事实可能同时从两个人送到，两边都记会让总量虚高一倍；链式里只有一个来源，两种算法一致。平分之后图的总权重正好等于采纳的事实数，三层才加得起来。</p>
+    <p><strong>读图之前必须知道 A、B、C 在三档人格下不是一回事。</strong>neutral 下三个都是中立分析者，可以互换；lenses 下分别是因果证据、落地与权衡、适用范围；stance 下 A 是支持方、B 是反对方、C 是裁决者。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="seg" role="group" aria-label="选择线宽表示什么">
+        <button type="button" id="mode-uptake" aria-pressed="true">线宽 = 采纳量</button>
+        <button type="button" id="mode-taper" aria-pressed="false">线宽 = 投递 → 采纳</button>
+      </div>
+      <div class="legend">
+        <span style="color:var(--flow-sup)"><i class="dotm"></i>支持命题的事实</span>
+        <span style="color:var(--flow-und)"><i class="dotm"></i>削弱命题的事实</span>
+        <span style="color:var(--flow-neu)"><i class="dotm"></i>中立 / 元陈述</span>
+        <span id="flow-scale" style="color:var(--muted)">全 27 张图共用一把标尺，宽度与 √ 权重成正比</span>
+      </div>
+      <div id="fig-flow"></div>
+    </div>
+    <figcaption id="flow-cap">图 6｜27 张加权有向图，按拓扑（行）、人格（列组）、被采纳事实的立场（列组内）排列。每张图下面的 <span class="num">×</span> 是 lift，即这一层占流量的比例除以该立场占事实池的比例，大于 1 表示这类事实被采纳的频率高于它的丰度所能解释的。</figcaption>
+  </figure>
+
+  <div class="measure">
+    <p>原始的层总量本身没有信息量，因为削弱类事实在每个条件都最多，而它在事实池里本来就最多。所以要看 lift。</p>
+    <p><strong>削弱类事实被优先采纳，而且随人格增强。</strong>按命题计算的 lift 在 9 个条件里有 7 个大于等于 1。全连接的走势是 <span class="num">0.83 → 1.14 → 1.26</span>，最后一格的区间是 <span class="num">[1.06, 1.45]</span>，<span class="num">p=0.994</span>，8/12 个命题为正。链式是 <span class="num">0.90 → 1.23 → 1.24</span>。</p>
+    <p><strong>中立和元陈述类的事实在 stance 条件下几乎不再流动。</strong>链式的走势是 <span class="num">1.29 → 0.57 → 0.34</span>，最后一格区间 <span class="num">[0.11, 0.59]</span>，<span class="num">p=0.000</span>，12 个命题里只有 1 个大于 1。全连接是 <span class="num">1.09 → 1.04 → 0.74</span>。</p>
+    <p>这和"元陈述占比整体下降"是两件事。前者说的是<em>产出</em>里元陈述变少了，这里说的是剩下的那些<em>更不容易被别人接走</em>。</p>
+    <p>支持类事实没有规律，9 个条件从 <span class="num">0.57</span> 到 <span class="num">1.70</span> 都有，区间也很宽。</p>
+    <div class="note">
+      <p><strong>这个结果有多大成分是被指派的？</strong>stance 条件下 B 就是反对方，它产出削弱类事实是角色规定的。但注意 lift 在 neutral 条件下也有 0.83 到 1.29 的分布，而 neutral 的三个 agent 角色逐字相同。所以角色分配能解释一部分，不能解释全部。这个设计分不开两者，需要角色与位置轮转的实验。</p>
+      <p><strong>另外要注意分层的口径。</strong>这里按<em>被采纳事实的立场</em>分层，不是按采纳者对它的态度。一个 agent 复述对方的削弱性事实来反驳它，仍然计为一次削弱类流动。所以"削弱类被优先采纳"不等于"agent 被说服了"。</p>
+    </div>
+  </div>
+</section>
+
+<section id="s9">
+  <div class="measure">
+    <p class="eyebrow">第九节</p>
+    <h2><span class="num-h">09</span>结论层：立场早定，理由一直换</h2>
+    <p>每个 turn 结尾都有一行 VERDICT，972 个 turn 全部可以解析，这是这批数据里唯一的结果变量。把节点换成 <code>{SUPPORT, UNCERTAIN, UNDERMINE}</code>，同一个 agent 从这一轮到下一轮的结论转移就构成另一张流动图。</p>
+    <p>第一件事是<strong>人格设定让 agent 更少选择"无法判定"</strong>。选择 UNCERTAIN 的比例在三个拓扑上都单调下降：全连接 <span class="num">67.6% → 53.7%</span>，星型 <span class="num">74.1% → 50.0%</span>（配对差 <span class="num">−0.241</span>，p=0.001），链式 <span class="num">77.8% → 59.3%</span>（<span class="num">−0.185</span>，p=0.006）。</p>
+    <p>第二件事是<strong>虽然更少骑墙，结论却更不稳定</strong>。结论变化率从 neutral 的 <span class="num">16%</span> 涨到 lenses 的 <span class="num">25%</span> 再到 stance 的 <span class="num">35%</span>，而且两个方向几乎对称：stance 条件下 UNCERTAIN 转向 UNDERMINE 有 27 次，反方向有 24 次。变化增多了，但没有朝某个方向净漂移。</p>
+    <p>第三件事值得单独提：整个设计是两份支持证据、两份反对证据，而产出的结论里 SUPPORT 只占 <span class="num">0%</span> 到 <span class="num">16%</span>。这和事实池里削弱类占多数、以及削弱类被优先采纳，是同一个偏斜在三个层面上的表现。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend"><span style="color:var(--muted)">左列 = 这一轮的结论，右列 = 下一轮的；带宽与转移次数成正比，每格 216 次转移</span></div>
+      <div id="fig-verdict"></div>
+    </div>
+    <figcaption>图 7｜结论的轮间转移。横着走的带子是结论没变的，斜着走的是变了的。人格越强，斜带越粗，而且上下两个方向的斜带一样粗。</figcaption>
+  </figure>
+
+  <div class="measure">
+    <h3>结论稳定，但支撑它的事实一直在换</h3>
+    <p>第 1 轮的多数结论和第 3 轮的多数结论相同的场次占 <span class="num">67%</span> 到 <span class="num">92%</span>，也就是说大多数辩论并不改判。但与此同时，终局组合里 <span class="num">69%</span> 的事实是第 3 轮才首次出现的，第 1 轮就有的只占 <span class="num">17%</span>。</p>
+    <p>换句话说，<strong>立场在第一轮基本就定了，而支撑立场的理由池一直换血到最后一轮。</strong>108 场里有 105 场在第 1、3 轮都存在明确多数，其中 89 场多数结论不变；在这 89 场里，81 场（<span class="num">91%</span>）同时满足"终局事实中至少一半到第 3 轮才首次出现"。这个组合在九个条件格里都出现，不由某一个拓扑或人格单独驱动。</p>
+    <p>另外，多数事实只被说出一次。第 1 轮首次出现的事实之后还被任何人再说一次的比例是 neutral <span class="num">32.4%</span>、lenses <span class="num">26.0%</span>、stance <span class="num">23.2%</span>；第 2 轮首次出现的更低。</p>
+  </div>
+</section>
+
+<section id="s10">
+  <div class="measure">
+    <p class="eyebrow">第十节</p>
+    <h2><span class="num-h">10</span>六个阴性结果</h2>
+    <p>这一节的结果都是"没有测到效应"。它们值得单独列出来，因为其中几条推翻的是相当自然的假设，还有一条限定了前面所有结论能说到多强。</p>
+
+    <h3>一、流动解释不了结论（最重要的一条）</h3>
+    <p>最想验证的假设是：一个 agent 这一轮吸收了什么，能不能预测它的结论动不动。答案是不能。结论变了的那些转移，当轮采纳内容里削弱类占 <span class="num">53.0%</span>；结论没变的是 <span class="num">50.4%</span>。采纳的事实数反而是变了的更少（<span class="num">1.52</span> 对 <span class="num">1.80</span>）。</p>
+    <p>把 108 场按九个条件格去中心化之后再比，结论稳定和结论改变的两组在以下指标上的差全部跨零：终局晚出现事实占比 <span class="num">−0.045 [−0.105, +0.022]</span>、第 1 轮事实存活率 <span class="num">+0.022 [−0.023, +0.065]</span>、采纳占比 <span class="num">+0.014 [−0.007, +0.036]</span>、端到端传输 <span class="num">−0.010 [−0.040, +0.016]</span>。</p>
+    <p><strong>这意味着本文所有关于流动的结论都是描述性的。</strong>它们刻画了信息怎么走，没有证明这样走会让辩论变好或变坏。把它们当成设计建议之前，需要一个能把流动接到结果上的实验。</p>
+    <p>这个脱钩有两种解释，现有数据分不开：可能事实组合的更新确实是事后合理化，也可能只是 VERDICT 这个三分类太粗，测不到细微的立场移动。</p>
+
+    <h3>二、"先发言者主导终局"是口径造成的假象</h3>
+    <p>按"第一个说出某事实的人"给终局组合记账，全连接 neutral 下 A 占 <span class="num">0.46</span>、C 只占 <span class="num">0.24</span>，看起来 A 垄断了终局。逐项分解后这个差异消失：</p>
+    <ul class="defs">
+      <li><b>约一半是破平局造成的</b>第 1 轮三人并行说出同一事实时，这个口径按名字把功劳全判给 A。改成同轮平分之后，差异从 <span class="num">0.221</span> 降到 <span class="num">0.117</span>。</li>
+      <li><b>第一轮的生成本身是对称的</b>只看"A 和 C 在第 1 轮各自踩中了多少终局事实"，差异只有 <span class="num">0.023</span>。材料人人可见加上第一轮并行，"谁先开口谁踩中更多"在生成层面不成立。</li>
+      <li><b>剩下的是噪声</b>唯一的真实残余在"只有一个人说过的事实"上，但它方向不稳定：集中在第 3 轮、由 12 个命题中的 2 个拉动（去掉后反转）、在条件之间翻符号。</li>
+    </ul>
+    <p>教训是：在并行生成加共享材料的设定下，任何"谁先说"类统计都容易被破平局规则和有限的事实池伪造出效应。</p>
+
+    <h3>三、星型的中心不是中转站</h3>
+    <p>星型里 B 和 C 互不可见，唯一通道是中心 A。统计 C 在第 1 轮说过的 144 个事实，B 的处置是：<span class="num">100 个（69%）</span>从未说过；<span class="num">22 个</span>是 B 也在第 1 轮并行说了，属于两人各自从同一份材料推出的巧合；B 只在第 2 或第 3 轮说出的 22 个里，A 明确先于 B 说过的只有 <span class="num">14 个</span>，也就是每场约 1 条。B 到 C 的方向更弱。</p>
+    <p>所以 B 和 C 之间看起来的内容重叠，几乎全部来自两人读了同一份材料后各自得出相同结论，而不是信息真的经过中心 A 传了过去。星型图在结构上是连通的，但这条通道实际承载的传输量很小。</p>
+
+    <h3>四、采纳没有立场过滤</h3>
+    <p>一个自然的猜想是 agent 只接自己阵营的话。检验办法是比较"同侧采纳率"和"随机底线"：底线是投递给该 agent 的事实里本方立场占多少，如果采纳不做立场过滤，实测应该约等于底线。</p>
+    <p>实测贴着或低于底线。全连接的 B（反对方）同侧采纳 <span class="num">0.72</span> 对底线 <span class="num">0.67</span>；星型的 A、B 是 <span class="num">0.29 / 0.60</span> 对 <span class="num">0.32 / 0.61</span>；全连接的 A（支持方）同侧只有 <span class="num">0.15</span> 对底线 <span class="num">0.31</span>，方向甚至是<em>欠</em>采纳本方。</p>
+    <p>结合第四节的结果可以这样理解：立场造成的隔离发生在<strong>产出环节</strong>，即每个 agent 更多地说自己的新内容、更少复述别人；而不是发生在<strong>接收环节</strong>，因为对方的事实送到之后，它并不会因为立场相反就拒绝复述。</p>
+
+    <h3>五、取材没有立场偏倚</h3>
+    <p>每场的四份证据是两支持两反对的对称设计。看 agent 说的事实里能追溯到某份证据文档的那些，三个角色引用支持类证据的比例几乎一样：支持方 <span class="num">41%</span>、反对方 <span class="num">41%</span>、裁决者 <span class="num">38%</span>，三个都是约六成来自削弱类证据。<strong>被指派立场并不改变一个 agent 从哪份文档取材。</strong></p>
+    <p>但要注意能追溯到证据的事实本身只占 <span class="num">3%</span> 到 <span class="num">7%</span>。这个低比例几乎肯定是匹配器跨来源合并能力不足（只有 12.7% 的证据事实能和 agent 说的话归并到同一簇），不是 agent 在凭空编造。所以这个数只能当下界，成分比绝对值可信。</p>
+
+    <h3>六、采纳的事实在段落里没有特定位置</h3>
+    <p>一个可能的质量代理是：认真回应的内容出现在段落开头，敷衍带过的出现在结尾。用 token 计数器测被采纳事实在采纳者输出里的相对位置，结果是 <span class="num">0.53</span> 到 <span class="num">0.56</span>，新事实是 <span class="num">0.55</span>，自持是 <span class="num">0.50</span>，全都在中间，差异不到 <span class="num">0.05</span>。没有这个结构。</p>
+  </div>
+</section>
+
+<section id="s11">
+  <div class="measure">
+    <p class="eyebrow">第十一节</p>
+    <h2><span class="num-h">11</span>把结果串起来</h2>
+    <p>上面的结果指向一个分层的看法：不应该把"多样性有没有用"压成一个总分，因为不同的旋钮作用在不同的环节上，而每个环节可以独立地成功或失败。四个环节是：</p>
+
+    <ul class="defs">
+      <li><b>一、发现</b>团队发现了什么不同的信息？主要指标是归一化后的事实密度、事实覆盖、立场平衡。<span class="form">本文结果：lenses 显著提高密度，stance 把密度压回去但提高平衡。两者各有代价。</span></li>
+      <li><b>二、接触与采纳</b>信息有没有真的沿允许的边到达，并被复述？必须分别报告接触机会和条件采纳率。<span class="form">本文结果：拓扑主要改变接触机会（−24pp），几乎不改变条件采纳率（−5pp）。星型和全连接接触率相同，所以两者在几乎所有指标上无差别。</span></li>
+      <li><b>三、留存</b>被采纳的信息有没有留在后续推理和最终组合里？<span class="form">本文结果：端到端只有 2%–6%。stance 降低了入口采纳，但没有降低采纳后的留存，端到端与 neutral 相当。低采纳率不等于低整合。</span></li>
+      <li><b>四、效用</b>留下来的信息有证据支持吗，改善结果了吗？<span class="form">本文结果：无法回答。VERDICT 是 agent 自报立场不是质量标签，而 3%–7% 的证据溯源率只是一个严重低估的下界。</span></li>
+    </ul>
+
+    <p>这四层依次回答"看见更多吗""传过去了吗""留得住吗""有用吗"。如果把它们合成一个总分，就无法区分一个系统是在哪一层失败的，而只有知道是哪一层失败，才谈得上改进设计。</p>
+
+    <h3>对"中心化能吸收多种立场"这个假设的修订</h3>
+    <p>星型常被当作"有整合者"的结构。但本文的星型不能这样解读：它只有<strong>结构上的中心</strong> A，没有让 A 执行综合、限定、证据审计或最终裁决；stance 条件里 A 还固定是支持方。第十节第三条显示真正经过中心的跨枝干传输每场不到一条，第六节显示星型和全连接的人格交互几乎为零。</p>
+    <p>所以应该区分三件现在被混在一起的事：</p>
+    <ul class="defs">
+      <li><b>结构中心性</b>谁连接得多。</li>
+      <li><b>功能性整合</b>谁被明确要求比较冲突、保留关键限定、产出共享状态。</li>
+      <li><b>整合容量</b>该角色能处理多少异质输入而不丢失。</li>
+    </ul>
+    <p>现有结果反驳的是"中心节点自然会整合"，没有反驳"被赋予整合职能的中心能减少浪费性多样性"。这反而给出一个更干净的下一步实验。</p>
+  </div>
+</section>
+
+<section id="s12">
+  <div class="measure">
+    <p class="eyebrow">第十二节</p>
+    <h2><span class="num-h">12</span>这批数据不能说什么</h2>
+    <ul class="limits">
+      <li><b>流动解释不了结果。</b>见第十节第一条。本文所有关于接触率、采纳率、密度的结论都是描述性的，没有一个连接到辩论质量。</li>
+      <li><b>只有一个模型进入拓扑比较。</b>辩论生成和立场标注都是 DeepSeek-V4-Flash。GLM 的 33 场只有全连接、没有星型和链式对照，未进入本文。模型之间是否复现未知。</li>
+      <li><b>抽取不稳定，丢掉了约 5.5% 的语料，而且偏向连线少的拓扑。</b>有实质内容（78 到 155 词）但抽取返回零个事实的 turn 共 34 个：全连接 3/324（0.9%）、星型 14/324（4.3%）、链式 17/324（5.2%）。把这 34 段各重送 3 次，22 个三次都能抽出事实、8 个两次、3 个一次，<strong>只有 1 个稳定为空</strong>，非空时中位数是 15 条。所以这不是"那些 turn 只有元话语"，而是模型抽取本身不确定。</li>
+      <li><b>这个偏差和自变量共变，所以两类结果要分开对待。</b>丢失率四倍集中在连线更少的拓扑上，会同时压低它们的接触率和事实数。接触率的 <span class="num">−24pp</span> 比这个偏差大一个量级，站得住；<strong>但几个百分点量级的效应，比如条件采纳率上的 −5pp，不能和它分开</strong>，只应作方向性参考。人格对比不受影响，因为同一拓扑内三档人格的丢失率没有系统差异。</li>
+      <li><b>这个缺陷没有修，是有意的。</b>代码里已经加了空结果重试，但这 108 场是用不重试的版本跑的，没有重跑任何一场。抽取不确定意味着重跑一场会把它的每个 turn 都重抽、重新原子化、重新聚类，那 27 场受影响的辩论会处处不同于原来。27 个新抽样混进 81 个旧抽样，是"流程统一但抽样不统一"，而且差异正好和拓扑共变。要么整个语料一起重抽，要么一场都不动。这里选了后者，因为<strong>一个测量过的已知偏差，比一个为了追求公平而引入的、看不见的偏差可靠。</strong></li>
+      <li><b>角色和位置绑定。</b>stance 和 lenses 条件里 A、B、C 的角色是固定的，没有轮转。只有 neutral 的位置比较是干净的，而它本身也有位置效应：发言顺序固定为 A→B→C，角色相同时 A→B 和 A→C 的采纳率仍差 3 到 6 个百分点。要估计纯粹的拓扑效应，下一轮必须做角色与位置的轮转。</li>
+      <li><b>共享材料是所有"巧合"的来源。</b>三个 agent 读同一份卷宗，跨 agent 的重叠天然很高，而且和真实传输不可分。所以本文一切传输结论都以投递记录为准，"实中继"口径（要求 A 明确先于对方说过）是下界。</li>
+      <li><b>立场标注未经人工核对</b>，由模型自标。而且约一半有立场的事实是<em>证据层</em>的（"E3 支持禁令"）而不是<em>世界层</em>的（"面纱是宗教义务"）。正反平衡和第八节的三层流动图都是混合口径，只能横向比较条件。</li>
+      <li><b>采纳只判事实同一性，不判态度。</b>复述对方的事实来反驳它，和复述来同意它，计为同一件事。</li>
+      <li><b>接触率不是连续变量。</b>三个取值 <span class="num">66.7% / 66.7% / 42.6%</span> 来自三种固定接线，agent 数和轮数都没变。"接触率是起作用的线路变量"这个说法还需要一个能连续调节它的设计来检验，目前它只是对三个点的最简解释。</li>
+      <li><b>每格 12 个命题，没有做多重比较校正。</b>某些切片的有效样本更小：stance 条件下 A 到 C 采纳量为零的命题有 2 到 3 个，那里的成分对比只剩 8 到 9 个命题，区间很宽。第七节的第二跳只有 7 个事实，不适合做特征建模。</li>
+      <li><b>没有外部质量标准。</b>VERDICT 只能测方向和一致性，不能测对错。命题与证据的覆盖度这条线目前被一个工具 bug 卡住，本文没有任何"事实有用性"指标。</li>
+    </ul>
+  </div>
+</section>
+
+<section id="s13">
+  <div class="measure">
+    <p class="eyebrow">第十三节</p>
+    <h2><span class="num-h">13</span>下一步与复现</h2>
+
+    <h3>五个可以立刻做的实验</h3>
+    <ul class="defs">
+      <li><b>一、把整合职能和结构中心分开</b>固定星型图，只操纵中心 A 是否拿到"整合者"提示词（要求它比较冲突、保留限定、产出共享状态），并轮换角色与位置的绑定。主要结果应该是保留下来的平衡覆盖度和外部评审质量，不是事实总数。这个实验在现有 12 个命题上就能做，不需要新数据集。</li>
+      <li><b>二、预注册四层指标，不合成总分</b>发现、条件采纳、留存、外部效用分别报告。</li>
+      <li><b>三、加一个独立的结果变量</b>盲评最终回答的证据覆盖度、冲突处理和来源支撑。这是回答第四层的前提。</li>
+      <li><b>四、做一组私有信息遮蔽</b>用来校准"同一事实晚出现"里有多少是真传输、多少是独立重推。这是第七节第二跳结论的直接检验。</li>
+      <li><b>五、扩大命题数之后再研究"级联适应度"</b>即哪些事实属性能预测它通过第一跳。当前两跳只有 7 个事实，样本不足。</li>
+    </ul>
+
+    <h3>怎么重跑</h3>
+    <p>下面这些命令<strong>不联网、不调用任何模型、不花钱</strong>，几秒到几十秒跑完，重算出本文每一个数字和每一张图。需要 API key 的只有辩论生成、事实抽取和立场标注，那些产物已经在仓库里。</p>
+    <pre class="repro"><code>python experiments/analyze_flow_profile.py --topologies full star chain
+python experiments/analyze_stance_flow.py
+python experiments/analyze_flow_extras.py
+python experiments/analyze_effective_structure.py
+python experiments/analyze_rq_extensions.py
+python experiments/report/build_unified.py        # 生成本页</code></pre>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <caption>本文用到的每一份数据，全部在版本库里。</caption>
+      <thead><tr><th>东西</th><th style="text-align:left">位置</th><th>数量</th></tr></thead>
+      <tbody>
+        <tr><td>全连接 store</td><td class="lft"><code>experiments/perspectrum_pilot_full/*-full-*.v2.json</code></td><td>36</td></tr>
+        <tr><td>星型 / 链式 store</td><td class="lft"><code>experiments/perspectrum_pilot_star_chain/*.v2.json</code></td><td>72</td></tr>
+        <tr><td>投递记录与逐字稿</td><td class="lft">同目录同名 <code>.debate.json</code> 的 <code>delivery</code> 和 <code>transcript</code></td><td>108</td></tr>
+        <tr><td>立场标注</td><td class="lft"><code>experiments/labels/stance/*.json</code></td><td>141</td></tr>
+        <tr><td>token 位置</td><td class="lft"><code>experiments/labels/token_clock/*.json</code></td><td>141</td></tr>
+        <tr><td>流动剖面</td><td class="lft"><code>findings/data/flow-profile.json</code></td><td>—</td></tr>
+        <tr><td>立场分层流动图</td><td class="lft"><code>findings/data/stance-flow.json</code></td><td>—</td></tr>
+        <tr><td>结论 / 存活 / 溯源 / 位置</td><td class="lft"><code>findings/data/flow-extras.json</code></td><td>—</td></tr>
+        <tr><td>有效结构</td><td class="lft"><code>findings/data/effective-structure.json</code></td><td>—</td></tr>
+        <tr><td>交互与漏斗</td><td class="lft"><code>findings/data/rq-extensions.json</code></td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="measure">
+    <h3>事后管线的配置</h3>
+    <p>跨条件比较时这套配置必须一致，否则两批数据不可比。</p>
+    <pre class="repro"><code>抽取      EXTRACTION_SYSTEM + minimax-m2.5, max_tokens 8000
+原子化    拆并列句、剥离归属外壳、turn 内去重
+候选检索  bge-base-en-v1.5 @ 0.70, top_k 12
+同一性判决 二值 SAME / DIFF, batch 16
+聚类      并查集, 相似度阈值 >= 0.85
+立场标注  deepseek-v4-flash, batch 24, max_tokens 16000
+token 计数 bge-base-en-v1.5 直接对发言文本分词</code></pre>
+    <p class="standfirst" style="max-width:41rem"><code>batch-size</code> 和 <code>max_tokens</code> 会改变判决结果：同一批事实放在 12 条和 24 条的上下文里，模型看到的对照不同，已经观察到文本没变而判决改变的情况。跨条件比较时两边必须用同一套配置。<strong>跑通不等于可比。</strong></p>
+  </div>
+</section>
+
+<div class="prov measure">
+  <div><b>本文合并了三份此前的分析</b>findings/2026-09-01-flow-profile.html（流动剖面）· experiments/report/effective-structure.html（有效结构、位置核查、中继）· findings/2026-09-02-rq-review-and-new-analyses.md（交互、漏斗、级联）</div>
+  <div><b>生成方式</b><code>python experiments/report/build_unified.py</code> 由模板渲染，表格与图中的任何数字都不是手写的</div>
+  <div><b>统计</b>同命题配对，20000 次 bootstrap，95% 百分位区间；p = 重采样均值落在零以上的比例；未做多重比较校正</div>
+</div>
+
+</div>
+
+<script>
+const P = /*__PROFILE__*/null;
+const F = /*__STANCE__*/null;
+const X = /*__EXTRA__*/null;
+const R = /*__RQ__*/null;
+const D = P;
+const PANELS = ["neutral","lenses","stance"];
+const TOPOS  = P.topologies;
+const TCOL   = {full:"var(--p3)", star:"var(--p2)", chain:"var(--p1)"};
+const NS = "http://www.w3.org/2000/svg";
+const MONO = '"IBM Plex Mono",monospace';
+const SANS = '"IBM Plex Sans","Noto Sans SC",sans-serif';
+
+function el(t,a){const n=document.createElementNS(NS,t); for(const k in a) n.setAttribute(k,a[k]); return n;}
+function txt(x,y,s,a){const t=el("text",Object.assign({x:x,y:y},a||{})); t.textContent=s; return t;}
+function marker(g,topo,x,y,col){
+  if(topo==="full") g.appendChild(el("circle",{cx:x,cy:y,r:4.6,fill:col}));
+  else if(topo==="star") g.appendChild(el("rect",{x:x-4.2,y:y-4.2,width:8.4,height:8.4,
+    fill:"var(--surface)",stroke:col,"stroke-width":2}));
+  else g.appendChild(el("path",{d:`M${x},${y-5.2}L${x+4.8},${y+3.4}L${x-4.8},${y+3.4}Z`,
+    fill:"var(--surface)",stroke:col,"stroke-width":1.8,"stroke-linejoin":"round"}));
+}
+function dash(topo){return topo==="full"?"none":(topo==="star"?"5 4":"2 3");}
+// how far from 0.5 the bootstrap mass sits; drives emphasis, not a threshold
+function lean(p){return Math.min(1, Math.abs(p-0.5)/0.45);}
+
+/* ---------- figure: reception vs conditional uptake, relative to full ---------- */
+function decomp(){
+  const cols=[{m:"reception",label:"接收率",note:"结构项 · 线路直接决定"},
+              {m:"adopted_share_recv",label:"条件采纳率",note:"行为项 · 只在有输入的 turn 上算"}];
+  const rows=[];
+  PANELS.forEach(p=>TOPOS.filter(t=>t!=="full").forEach(t=>rows.push({p:p,t:t})));
+  const W=1000, rowH=40, top=64, bot=42, labW=124, GUT=48, RPAD=126;
+  const H=top+rows.length*rowH+bot, colW=(W-labW-GUT-RPAD*2)/2;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"接收率与条件采纳率相对 full 的配对差值，star 与 chain 分别列出"});
+
+  cols.forEach((c,ci)=>{
+    const cx0=labW+ci*(colW+RPAD+GUT);
+    svg.appendChild(txt(cx0+colW/2,22,c.label,{fill:"var(--ink)","font-size":"14",
+      "text-anchor":"middle","font-weight":"600","font-family":SANS}));
+    svg.appendChild(txt(cx0+colW/2,40,c.note,{fill:"var(--faint)","font-size":"10.5",
+      "text-anchor":"middle","font-family":SANS}));
+    let span=0;
+    rows.forEach(r=>{const v=D.paired[`topology|${r.p}|${r.t}-full|${c.m}`];
+      if(v) span=Math.max(span,Math.abs(v.lo),Math.abs(v.hi));});
+    span=(span||0.01)*1.15;
+    const sx=q=>cx0+colW/2+(q/span)*(colW/2);
+    svg.appendChild(el("line",{x1:cx0+colW/2,y1:top-10,x2:cx0+colW/2,y2:H-bot+4,
+      stroke:"var(--rule)","stroke-width":1}));
+
+    rows.forEach((r,ri)=>{
+      const v=D.paired[`topology|${r.p}|${r.t}-full|${c.m}`]; if(!v) return;
+      const y=top+ri*rowH+rowH/2, col=TCOL[r.t], em=lean(v.p_positive);
+      svg.appendChild(el("line",{x1:sx(v.lo),y1:y,x2:sx(v.hi),y2:y,stroke:col,
+        "stroke-width":2,opacity:0.28+0.5*em,"stroke-linecap":"round"}));
+      [v.lo,v.hi].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-4,x2:sx(q),y2:y+4,
+        stroke:col,"stroke-width":2,opacity:0.28+0.5*em})));
+      marker(svg,r.t,sx(v.delta),y,col);
+      const star=v.excludes_zero?"★ ":"";
+      svg.appendChild(txt(cx0+colW+14,y+4,
+        `${star}${(v.delta*100>=0?"+":"")}${(v.delta*100).toFixed(1)}pp  p=${v.p_positive.toFixed(3)}`,
+        {fill:v.excludes_zero?"var(--sig)":"var(--muted)","font-size":"10.5","font-family":MONO}));
+      if(ci===0){
+        svg.appendChild(txt(labW-16,y+4,`${r.t} · ${r.p}`,
+          {fill:"var(--ink)","font-size":"11.5","text-anchor":"end","font-family":MONO}));
+        if(ri<rows.length-1 && (ri+1)%2===0)
+          svg.appendChild(el("line",{x1:20,y1:y+rowH/2,x2:W-20,y2:y+rowH/2,
+            stroke:"var(--rule-soft)","stroke-width":1}));
+      }
+    });
+    svg.appendChild(txt(cx0+colW/2,H-14,"← 比 full 少        0        比 full 多 →",
+      {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle","font-family":MONO}));
+  });
+  return svg;
+}
+
+/* ---------- figure: density and balance move opposite ---------- */
+function tradeoff(){
+  const metrics=[{k:"facts_per_k",label:"事实密度 / 千 token",fmt:v=>v.toFixed(1)},
+                 {k:"balance",label:"正反平衡",fmt:v=>v.toFixed(3)}];
+  const W=1000, cw=W/2, H=300, top=54, bot=64, padx=110;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"事实密度与正反平衡在三档人格上的走向，两者方向相反"});
+  metrics.forEach((m,mi)=>{
+    const x0=mi*cw, vals=[];
+    TOPOS.forEach(t=>PANELS.forEach(p=>{const c=D.cells[t+"/"+p];
+      if(c && typeof c[m.k]==="number") vals.push(c[m.k]);}));
+    let lo=Math.min(...vals), hi=Math.max(...vals);
+    const pad=(hi-lo)*0.30||1; lo-=pad; hi+=pad;
+    const px=i=>x0+padx+i*((cw-2*padx)/2), py=v=>H-bot-(v-lo)/(hi-lo)*(H-top-bot);
+    const g=el("g",{});
+    g.appendChild(el("line",{x1:x0+padx-24,y1:H-bot+.5,x2:x0+cw-padx+24,y2:H-bot+.5,
+      stroke:"var(--rule)","stroke-width":1}));
+    if(mi>0) g.appendChild(el("line",{x1:x0,y1:top-34,x2:x0,y2:H-bot+34,
+      stroke:"var(--rule-soft)","stroke-width":1}));
+    g.appendChild(txt(x0+padx-24,top-26,m.label,{fill:"var(--ink)","font-size":"14",
+      "font-family":SANS,"font-weight":"600"}));
+    TOPOS.forEach(t=>{
+      const pts=PANELS.map((p,i)=>{const c=D.cells[t+"/"+p];
+        return (c && typeof c[m.k]==="number")?[px(i),py(c[m.k])]:null;}).filter(Boolean);
+      if(pts.length<2) return;
+      const col=TCOL[t];
+      g.appendChild(el("path",{d:"M"+pts.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join("L"),
+        fill:"none",stroke:col,"stroke-width":t==="full"?2.4:1.8,
+        "stroke-dasharray":dash(t),"stroke-linejoin":"round","stroke-linecap":"round"}));
+      pts.forEach((q,i)=>{
+        marker(g,t,q[0],q[1],col);
+        g.appendChild(txt(q[0],q[1]+(t==="full"?-13:17),
+          m.fmt(D.cells[t+"/"+PANELS[i]][m.k]),
+          {fill:t==="full"?"var(--ink)":"var(--faint)","font-size":"10",
+           "text-anchor":"middle","font-family":MONO}));
+      });
+    });
+    PANELS.forEach((p,i)=>g.appendChild(txt(px(i),H-bot+24,p,
+      {fill:"var(--muted)","font-size":"11.5","text-anchor":"middle","font-family":MONO,
+       "letter-spacing":".04em"})));
+    svg.appendChild(g);
+  });
+  return svg;
+}
+
+/* ---------- figure: 27 weighted uptake digraphs ---------- */
+/* Two readings of the same graph. "uptake" gives every edge one width, what
+   the listener actually took. "taper" widens the tail to what was offered —
+   facts the speaker delivered that the listener had not already said — so the
+   attrition along each edge is visible. Offered runs 7-10x adopted, so both
+   modes size by sqrt of weight on one scale across all 27 graphs; a linear
+   scale would leave every adopted end invisible. */
+const SC={SUPPORT:"var(--flow-sup)",UNDERMINE:"var(--flow-und)",NEUTRAL:"var(--flow-neu)"};
+const SLAB={SUPPORT:"支持",UNDERMINE:"削弱",NEUTRAL:"中立"};
+
+function flowgrid(mode){
+  const taper = mode==="taper";
+  const NODES=["A","B","C"];
+  const cells=[]; TOPOS.forEach(t=>PANELS.forEach(p=>{
+    const k=t+"/"+p; if(F.cells[k]) cells.push({t:t,p:p,k:k});}));
+
+  let maxW=0;
+  cells.forEach(c=>F.stances.forEach(s=>{
+    Object.values(F.cells[c.k].layers[s]||{}).forEach(w=>{maxW=Math.max(maxW,w);});
+    if(taper) Object.values(F.cells[c.k].offered[s]||{}).forEach(w=>{maxW=Math.max(maxW,w);});
+  }));
+  const wOf = w => w>0 ? Math.max(0.9, 9.5*Math.sqrt(w/maxW)) : 0;
+
+  const gw=104, gh=104, gapS=4, gapP=26, rowH=176, top=84, left=74;
+  const groupW=3*gw+2*gapS;
+  const W=left+3*groupW+2*gapP+16, H=top+TOPOS.length*rowH+18;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"27 张加权有向采纳图，按拓扑、人格、被采纳事实的立场排列"});
+
+  PANELS.forEach((p,pi)=>{
+    const x=left+pi*(groupW+gapP);
+    svg.appendChild(txt(x+groupW/2,22,p,{fill:"var(--ink)","font-size":"13",
+      "text-anchor":"middle","font-weight":"600","font-family":MONO,"letter-spacing":".05em"}));
+    const r=F.roles[p];
+    svg.appendChild(txt(x+groupW/2,39,`A ${r.A} · B ${r.B} · C ${r.C}`,
+      {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle","font-family":SANS}));
+    F.stances.forEach((s,si)=>svg.appendChild(txt(x+si*(gw+gapS)+gw/2,62,SLAB[s],
+      {fill:SC[s],"font-size":"10.5","text-anchor":"middle","font-family":SANS})));
+  });
+
+  TOPOS.forEach((t,ti)=>{
+    const y0=top+ti*rowH;
+    svg.appendChild(txt(left-18,y0+gh/2,t,{fill:"var(--ink)","font-size":"12.5",
+      "text-anchor":"end","font-family":MONO,"font-weight":"600"}));
+    if(ti>0) svg.appendChild(el("line",{x1:20,y1:y0-24,x2:W-16,y2:y0-24,
+      stroke:"var(--rule-soft)","stroke-width":1}));
+
+    PANELS.forEach((p,pi)=>{
+      const info=F.cells[t+"/"+p]; if(!info) return;
+      F.stances.forEach((s,si)=>{
+        const x0=left+pi*(groupW+gapP)+si*(gw+gapS);
+        const cx=x0+gw/2, R=30, col=SC[s];
+        const pos={A:[cx,y0+20], B:[cx-R,y0+20+R*1.65], C:[cx+R,y0+20+R*1.65]};
+        const g=el("g",{});
+        const got=info.layers[s]||{}, sent=info.offered[s]||{};
+        const edges = taper ? sent : got;
+
+        Object.entries(edges).forEach(([edge,w])=>{
+          const adopted=got[edge]||0;
+          const wEnd=wOf(adopted), wStart=taper?wOf(w):wEnd;
+          if(wStart<=0 && wEnd<=0) return;
+          const [a,b]=edge.split(">");
+          const [x1,y1]=pos[a], [x2,y2]=pos[b];
+          const dx=x2-x1, dy=y2-y1, len=Math.hypot(dx,dy)||1;
+          const ux=dx/len, uy=dy/len, nx=-uy, ny=ux;
+          const bend=11, r=9.5;
+          const P0=[x1+ux*r+nx*3, y1+uy*r+ny*3];
+          const P2=[x2-ux*(r+wEnd*0.9+3)+nx*3, y2-uy*(r+wEnd*0.9+3)+ny*3];
+          const PC=[(x1+x2)/2+nx*bend, (y1+y2)/2+ny*bend];
+          // ribbon: offset the quadratic by half-width, tangent-normal at each end
+          const nrm=(from,to)=>{const a1=to[0]-from[0],b1=to[1]-from[1],
+            l=Math.hypot(a1,b1)||1; return [-b1/l, a1/l];};
+          const n0=nrm(P0,PC), n2=nrm(PC,P2), nc=[nx,ny];
+          const h0=wStart/2, h2=Math.max(wEnd,0.6)/2, hc=(h0+h2)/2;
+          const op=0.30+0.5*Math.sqrt((adopted||w)/maxW);
+          g.appendChild(el("path",{d:
+            `M${(P0[0]+n0[0]*h0).toFixed(2)},${(P0[1]+n0[1]*h0).toFixed(2)}`+
+            `Q${(PC[0]+nc[0]*hc).toFixed(2)},${(PC[1]+nc[1]*hc).toFixed(2)} `+
+            `${(P2[0]+n2[0]*h2).toFixed(2)},${(P2[1]+n2[1]*h2).toFixed(2)}`+
+            `L${(P2[0]-n2[0]*h2).toFixed(2)},${(P2[1]-n2[1]*h2).toFixed(2)}`+
+            `Q${(PC[0]-nc[0]*hc).toFixed(2)},${(PC[1]-nc[1]*hc).toFixed(2)} `+
+            `${(P0[0]-n0[0]*h0).toFixed(2)},${(P0[1]-n0[1]*h0).toFixed(2)}Z`,
+            fill:col, opacity:op.toFixed(2)}));
+          // arrowhead scaled to the landing width
+          const tx=P2[0]-PC[0], ty=P2[1]-PC[1], tl=Math.hypot(tx,ty)||1;
+          const ax=tx/tl, ay=ty/tl, px=-ay, py=ax;
+          const hw=Math.max(2.6,h2*1.7), hl=hw*1.7;
+          g.appendChild(el("path",{
+            d:`M${P2[0]+ax*hl},${P2[1]+ay*hl}L${P2[0]+px*hw},${P2[1]+py*hw}`+
+              `L${P2[0]-px*hw},${P2[1]-py*hw}Z`,
+            fill:col,opacity:Math.min(1,op+0.15).toFixed(2)}));
+        });
+
+        NODES.forEach(n=>{
+          const [nx2,ny2]=pos[n];
+          g.appendChild(el("circle",{cx:nx2,cy:ny2,r:9.5,fill:"var(--surface)",
+            stroke:"var(--rule)","stroke-width":1.2}));
+          g.appendChild(txt(nx2,ny2+3.6,n,{fill:"var(--muted)","font-size":"10",
+            "text-anchor":"middle","font-family":MONO}));
+        });
+
+        const lift=info.lift[s], total=info.totals[s], off=info.offered_totals[s];
+        g.appendChild(txt(cx,y0+gh+26, taper?`${Math.round(off)} → ${Math.round(total)}`
+                                             :`${Math.round(total)}`,
+          {fill:"var(--ink)","font-size":taper?"11":"12","text-anchor":"middle",
+           "font-family":MONO}));
+        g.appendChild(txt(cx,y0+gh+40,
+          taper ? (off?`${(total/off*100).toFixed(0)}% 接住`:"—")
+                : (lift==null?"—":`×${lift.toFixed(2)}`),
+          {fill:(!taper && lift!=null && Math.abs(lift-1)>0.15)?col:"var(--faint)",
+           "font-size":"10.5","text-anchor":"middle","font-family":MONO}));
+        svg.appendChild(g);
+      });
+    });
+  });
+  return svg;
+}
+
+function renderFlow(mode){
+  const host=document.getElementById("fig-flow");
+  host.textContent="";
+  host.appendChild(flowgrid(mode));
+  const taper = mode==="taper";
+  document.getElementById("mode-uptake").setAttribute("aria-pressed", String(!taper));
+  document.getElementById("mode-taper").setAttribute("aria-pressed", String(taper));
+  document.getElementById("flow-scale").textContent = taper
+    ? "起点 = 投递给它、它还没说过的事实；终点 = 真的接住的。宽度 ∝ √权重，同一标尺"
+    : "全 27 张图同一标尺，宽度 ∝ √权重";
+  document.getElementById("flow-cap").innerHTML = taper
+    ? '27 张图：3 拓扑 × 3 人格 × 3 立场。箭头起点粗、终点细，中间收掉的就是没被接住的部分。'+
+      '下面是 <span class="num">投递 → 采纳</span> 和接住的比例。投递量是采纳量的 7–10 倍，'+
+      '所以宽度按 √ 权重给，线性标尺会让每个终点都看不见。'
+    : '27 张图：3 拓扑 × 3 人格 × 3 立场。每张图下面的 <span class="num">×</span> 是 lift——'+
+      '这一层占流量的比例，除以该立场占事实池的比例。大于 1 表示这类事实被采纳的频率'+
+      '高于它的丰度所能解释的。';
+}
+/* ---------- figure: verdict transitions, a bipartite flow per persona ---------- */
+function verdictFlow(){
+  const V=["SUPPORT","UNCERTAIN","UNDERMINE"];
+  const VL={SUPPORT:"支持",UNCERTAIN:"不确定",UNDERMINE:"削弱"};
+  const VC={SUPPORT:"var(--flow-sup)",UNCERTAIN:"var(--flow-neu)",UNDERMINE:"var(--flow-und)"};
+  const W=1000, panelW=W/3, H=310, top=66, bot=52, colGap=126;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"每档人格下判决从这一轮到下一轮的转移流"});
+  const usable=H-top-bot;
+  PANELS.forEach((p,pi)=>{
+    const mv=X.verdict.moves[p]||{}, total=Object.values(mv).reduce((a,b)=>a+b,0)||1;
+    const x0=pi*panelW+(panelW-colGap)/2;
+    const outSum={}, inSum={};
+    V.forEach(a=>{outSum[a]=V.reduce((s,b)=>s+(mv[`${a}>${b}`]||0),0);
+                  inSum[a]=V.reduce((s,b)=>s+(mv[`${b}>${a}`]||0),0);});
+    const gap=16, bars=usable-2*gap;
+    const hOf=n=>bars*(n/total);
+    const yL={}, yR={}; let cl=top, cr=top;
+    V.forEach(a=>{yL[a]=cl; cl+=hOf(outSum[a])+gap; yR[a]=cr; cr+=hOf(inSum[a])+gap;});
+    const cursorL={...yL}, cursorR={...yR};
+
+    const changed=V.reduce((s,a)=>s+V.reduce((t,b)=>t+(a!==b?(mv[`${a}>${b}`]||0):0),0),0);
+    svg.appendChild(txt(x0+colGap/2,24,p,{fill:"var(--ink)","font-size":"13",
+      "text-anchor":"middle","font-weight":"600","font-family":MONO,"letter-spacing":".05em"}));
+    svg.appendChild(txt(x0+colGap/2,42,`${changed}/${total} 变化 · ${(changed/total*100).toFixed(0)}%`,
+      {fill:"var(--faint)","font-size":"10","text-anchor":"middle","font-family":MONO}));
+
+    V.forEach(a=>V.forEach(b=>{
+      const n=mv[`${a}>${b}`]||0; if(!n) return;
+      const h=hOf(n), y1=cursorL[a], y2=cursorR[b];
+      cursorL[a]+=h; cursorR[b]+=h;
+      const xa=x0+11, xb=x0+colGap-11, mid=(xa+xb)/2;
+      svg.appendChild(el("path",{d:
+        `M${xa},${y1}C${mid},${y1} ${mid},${y2} ${xb},${y2}`+
+        `L${xb},${y2+h}C${mid},${y2+h} ${mid},${y1+h} ${xa},${y1+h}Z`,
+        fill:VC[a], opacity:(a===b?0.18:0.62).toFixed(2)}));
+    }));
+    V.forEach(a=>{
+      if(outSum[a]) svg.appendChild(el("rect",{x:x0+4,y:yL[a],width:7,
+        height:Math.max(1.5,hOf(outSum[a])),fill:VC[a]}));
+      if(inSum[a]) svg.appendChild(el("rect",{x:x0+colGap-11,y:yR[a],width:7,
+        height:Math.max(1.5,hOf(inSum[a])),fill:VC[a]}));
+      if(pi===0 && outSum[a]) svg.appendChild(txt(x0,yL[a]+hOf(outSum[a])/2+3.5,VL[a],
+        {fill:VC[a],"font-size":"10.5","text-anchor":"end","font-family":SANS}));
+    });
+    svg.appendChild(txt(x0+6,H-bot+22,"这一轮",{fill:"var(--faint)","font-size":"9.5",
+      "font-family":MONO}));
+    svg.appendChild(txt(x0+colGap-6,H-bot+22,"下一轮",{fill:"var(--faint)","font-size":"9.5",
+      "text-anchor":"end","font-family":MONO}));
+  });
+  return svg;
+}
+
+/* ---------- figure: what each topology's wiring looks like ---------- */
+function setupFig(){
+  const specs=[
+    {t:"full", label:"全连接", sub:"每人看到另外两人 · 每场 12 次投递",
+     edges:[["A","B"],["B","A"],["A","C"],["C","A"],["B","C"],["C","B"]]},
+    {t:"star", label:"星型", sub:"B、C 只看到中心 A · 8 次投递",
+     edges:[["A","B"],["B","A"],["A","C"],["C","A"]]},
+    {t:"chain", label:"链式", sub:"A→B→C，无回边 · 4 次投递",
+     edges:[["A","B"],["B","C"]]}];
+  const W=1000, panelW=W/3, H=250, cy=118, R=44;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"三种拓扑的投递结构：全连接、星型、链式"});
+  specs.forEach((s,i)=>{
+    const cx=i*panelW+panelW/2, col=TCOL[s.t];
+    const pos={A:[cx,cy-R], B:[cx-R*1.05,cy+R*0.72], C:[cx+R*1.05,cy+R*0.72]};
+    svg.appendChild(txt(cx,28,s.label,{fill:"var(--ink)","font-size":"15",
+      "text-anchor":"middle","font-weight":"600","font-family":SANS}));
+    svg.appendChild(txt(cx,47,s.sub,{fill:"var(--faint)","font-size":"10.5",
+      "text-anchor":"middle","font-family":SANS}));
+    if(i>0) svg.appendChild(el("line",{x1:i*panelW,y1:60,x2:i*panelW,y2:H-24,
+      stroke:"var(--rule-soft)","stroke-width":1}));
+    s.edges.forEach(([a,b])=>{
+      const [x1,y1]=pos[a], [x2,y2]=pos[b];
+      const dx=x2-x1, dy=y2-y1, len=Math.hypot(dx,dy)||1;
+      const ux=dx/len, uy=dy/len, nx=-uy, ny=ux, bend=9, r=17;
+      const P0=[x1+ux*r+nx*4, y1+uy*r+ny*4];
+      const P2=[x2-ux*(r+7)+nx*4, y2-uy*(r+7)+ny*4];
+      const PC=[(x1+x2)/2+nx*bend, (y1+y2)/2+ny*bend];
+      svg.appendChild(el("path",{d:`M${P0[0]},${P0[1]}Q${PC[0]},${PC[1]} ${P2[0]},${P2[1]}`,
+        fill:"none",stroke:col,"stroke-width":2,opacity:.7,"stroke-linecap":"round"}));
+      const tx=P2[0]-PC[0], ty=P2[1]-PC[1], tl=Math.hypot(tx,ty)||1;
+      const ax=tx/tl, ay=ty/tl, px=-ay, py=ax;
+      svg.appendChild(el("path",{d:`M${P2[0]+ax*7},${P2[1]+ay*7}L${P2[0]+px*4},${P2[1]+py*4}`+
+        `L${P2[0]-px*4},${P2[1]-py*4}Z`,fill:col,opacity:.85}));
+    });
+    ["A","B","C"].forEach(n=>{
+      const [x,y]=pos[n];
+      svg.appendChild(el("circle",{cx:x,cy:y,r:17,fill:"var(--surface)",
+        stroke:col,"stroke-width":1.8}));
+      svg.appendChild(txt(x,y+5,n,{fill:"var(--ink)","font-size":"14",
+        "text-anchor":"middle","font-family":MONO,"font-weight":"600"}));
+    });
+    const recv=P.cells[s.t+"/neutral"].reception;
+    svg.appendChild(txt(cx,H-16,`9 个 turn 里 ${Math.round(recv*9)} 个能收到内容（接触率 ${(recv*100).toFixed(1)}%）`,
+      {fill:"var(--muted)","font-size":"10.5","text-anchor":"middle","font-family":SANS}));
+  });
+  return svg;
+}
+
+/* ---------- figure: where the output budget goes ---------- */
+function budgetFig(){
+  const KIND=[{k:"novel",label:"新事实",col:"var(--p1)"},
+              {k:"held_share",label:"自持",col:"var(--p2)"},
+              {k:"adopted_share",label:"采纳",col:"var(--p3)"}];
+  const W=1000, H=310, top=46, bot=64, left=52, gapT=34, barW=52, gapB=10;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"九个条件下产出预算在新事实、自持、采纳三类之间的分配"});
+  const usable=H-top-bot;
+  const groupW=3*barW+2*gapB;
+  const span=(W-left-24-2*gapT)/3;
+  TOPOS.forEach((t,ti)=>{
+    const x0=left+ti*(span+gapT)+(span-groupW)/2;
+    svg.appendChild(txt(x0+groupW/2,22,
+      t==="full"?"全连接":(t==="star"?"星型":"链式"),
+      {fill:"var(--ink)","font-size":"13","text-anchor":"middle","font-weight":"600",
+       "font-family":SANS}));
+    PANELS.forEach((p,pi)=>{
+      const c=P.cells[t+"/"+p]; if(!c) return;
+      const vals={held_share:c.held_share, adopted_share:c.adopted_share};
+      vals.novel=1-vals.held_share-vals.adopted_share;
+      const x=x0+pi*(barW+gapB);
+      let y=top;
+      KIND.forEach(k=>{
+        const h=usable*vals[k.k];
+        svg.appendChild(el("rect",{x:x,y:y,width:barW,height:Math.max(1,h),fill:k.col}));
+        if(vals[k.k]>0.07)
+          svg.appendChild(txt(x+barW/2,y+h/2+4,(vals[k.k]*100).toFixed(0)+"%",
+            {fill:k.k==="novel"?"var(--ink)":"var(--surface)","font-size":"10.5",
+             "text-anchor":"middle","font-family":MONO}));
+        y+=h;
+      });
+      svg.appendChild(txt(x+barW/2,H-bot+18,p,{fill:"var(--muted)","font-size":"10.5",
+        "text-anchor":"middle","font-family":MONO}));
+    });
+  });
+  [0,0.5,1].forEach(q=>{
+    const y=top+usable*(1-q);
+    svg.appendChild(txt(left-12,y+4,(q*100).toFixed(0)+"%",{fill:"var(--faint)",
+      "font-size":"9.5","text-anchor":"end","font-family":MONO}));
+  });
+  return svg;
+}
+
+/* ---------- figure: does persona do the same thing under every wiring ---------- */
+function didFig(){
+  const metrics=[{k:"n_facts",label:"事实数",scale:1,unit:"个",fmt:v=>v.toFixed(1)},
+                 {k:"facts_per_k",label:"事实密度",scale:1,unit:"/kTok",fmt:v=>v.toFixed(1)},
+                 {k:"adopted_share_recv",label:"条件采纳率",scale:100,unit:"pp",fmt:v=>v.toFixed(1)},
+                 {k:"nestedness",label:"嵌套度",scale:1,unit:"",fmt:v=>v.toFixed(3)},
+                 {k:"balance",label:"正反平衡",scale:1,unit:"",fmt:v=>v.toFixed(3)}];
+  const pairs=[{k:"star-full",label:"星型 − 全连接",col:TCOL.star},
+               {k:"chain-full",label:"链式 − 全连接",col:TCOL.chain}];
+  const W=1000, rowH=52, top=62, bot=40, labW=120, GUT=70, RPAD=118;
+  const H=top+metrics.length*rowH+bot, colW=(W-labW-GUT-RPAD*2)/2;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"人格效应在不同拓扑下的差分的差分"});
+  pairs.forEach((pr,pi)=>{
+    const cx0=labW+pi*(colW+RPAD+GUT);
+    svg.appendChild(txt(cx0+colW/2,22,pr.label,{fill:"var(--ink)","font-size":"13.5",
+      "text-anchor":"middle","font-weight":"600","font-family":SANS}));
+    svg.appendChild(txt(cx0+colW/2,40,"（stance − neutral）之差",{fill:"var(--faint)",
+      "font-size":"10","text-anchor":"middle","font-family":SANS}));
+    svg.appendChild(el("line",{x1:cx0+colW/2,y1:top-8,x2:cx0+colW/2,y2:H-bot+4,
+      stroke:"var(--rule)","stroke-width":1}));
+    metrics.forEach((m,mi)=>{
+      let span=0;
+      pairs.forEach(q=>{const v=R.difference_in_differences[`${q.k}|stance-neutral|${m.k}`];
+        if(v) span=Math.max(span,Math.abs(v.lo),Math.abs(v.hi));});
+      span=(span||1)*1.12;
+      const sx=q=>cx0+colW/2+(q/span)*(colW/2);
+      const v=R.difference_in_differences[`${pr.k}|stance-neutral|${m.k}`]; if(!v) return;
+      const y=top+mi*rowH+rowH/2, sig=(v.lo>0||v.hi<0);
+      svg.appendChild(el("line",{x1:sx(v.lo),y1:y,x2:sx(v.hi),y2:y,stroke:pr.col,
+        "stroke-width":2,opacity:sig?.85:.42,"stroke-linecap":"round"}));
+      [v.lo,v.hi].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-4,x2:sx(q),y2:y+4,
+        stroke:pr.col,"stroke-width":2,opacity:sig?.85:.42})));
+      marker(svg,pr.k.split("-")[0],sx(v.mean),y,pr.col);
+      svg.appendChild(txt(cx0+colW+14,y+4,
+        `${sig?"★ ":""}${v.mean*m.scale>=0?"+":""}${m.fmt(v.mean*m.scale)}${m.unit}`,
+        {fill:sig?"var(--sig)":"var(--muted)","font-size":"11","font-family":MONO}));
+      svg.appendChild(txt(cx0+colW/2,y+21,`${v.n-v.positive}/${v.n} 为负`,
+        {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle","font-family":MONO}));
+      if(pi===0){
+        svg.appendChild(txt(labW-16,y+4,m.label,{fill:"var(--ink)","font-size":"12.5",
+          "text-anchor":"end","font-family":SANS}));
+        if(mi<metrics.length-1)
+          svg.appendChild(el("line",{x1:20,y1:y+rowH/2,x2:W-20,y2:y+rowH/2,
+            stroke:"var(--rule-soft)","stroke-width":1}));
+      }
+    });
+  });
+  return svg;
+}
+
+/* ---------- figure: exposed -> adopted -> retained ---------- */
+function funnelFig(){
+  const cells=[]; TOPOS.forEach(t=>PANELS.forEach(p=>{
+    const k=t+"/"+p; if(R.round2_transmission_funnel.cells[k]) cells.push({t:t,p:p,k:k});}));
+  const W=1000, colW=W/3, rowH=196, top=54, left=64;
+  const H=top+3*rowH-24;
+  let maxN=0;
+  cells.forEach(c=>{maxN=Math.max(maxN,R.round2_transmission_funnel.cells[c.k].exposed);});
+  const hOf=n=>Math.max(2,66*Math.sqrt(n/maxN));
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"每个条件下从接触到采纳到留存的三段漏斗"});
+  TOPOS.forEach((t,ti)=>{
+    const y0=top+ti*rowH;
+    svg.appendChild(txt(24,y0+30,t==="full"?"全连接":(t==="star"?"星型":"链式"),
+      {fill:"var(--ink)","font-size":"12.5","font-family":SANS,"font-weight":"600"}));
+    if(ti>0) svg.appendChild(el("line",{x1:20,y1:y0-26,x2:W-20,y2:y0-26,
+      stroke:"var(--rule-soft)","stroke-width":1}));
+    PANELS.forEach((p,pi)=>{
+      const c=R.round2_transmission_funnel.cells[t+"/"+p]; if(!c) return;
+      const x0=left+pi*colW+10, w=colW-96;
+      const stages=[{n:c.exposed,col:"var(--p1)"},{n:c.adopted,col:"var(--p2)"},
+                    {n:c.retained,col:"var(--p3)"}];
+      svg.appendChild(txt(x0,y0-4,p,{fill:"var(--muted)","font-size":"10.5",
+        "font-family":MONO}));
+      const yc=y0+40;
+      stages.forEach((st,si)=>{
+        if(si===stages.length-1) return;
+        const h1=hOf(st.n), h2=hOf(stages[si+1].n);
+        const xa=x0+si*(w/2)+16, xb=x0+(si+1)*(w/2)-16, mid=(xa+xb)/2;
+        svg.appendChild(el("path",{d:
+          `M${xa},${yc-h1/2}C${mid},${yc-h1/2} ${mid},${yc-h2/2} ${xb},${yc-h2/2}`+
+          `L${xb},${yc+h2/2}C${mid},${yc+h2/2} ${mid},${yc+h1/2} ${xa},${yc+h1/2}Z`,
+          fill:st.col,opacity:.42}));
+      });
+      stages.forEach((st,si)=>{
+        const h=hOf(st.n), x=x0+si*(w/2);
+        svg.appendChild(el("rect",{x:x,y:yc-h/2,width:16,height:h,fill:st.col}));
+        svg.appendChild(txt(x+8,yc-h/2-7,`${st.n}`,{fill:"var(--ink)","font-size":"10",
+          "text-anchor":"middle","font-family":MONO}));
+      });
+      const labs=["接触","采纳","留存"];
+      labs.forEach((l,si)=>svg.appendChild(txt(x0+si*(w/2)+8,yc+hOf(stages[0].n)/2+18,l,
+        {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle","font-family":SANS})));
+      const pr=c.per_run;
+      svg.appendChild(txt(x0,yc+hOf(stages[0].n)/2+38,
+        `${(pr.uptake.mean*100).toFixed(1)}% → ${(pr.post_adoption_retention.mean*100).toFixed(1)}%`+
+        `　端到端 ${(pr.end_to_end.mean*100).toFixed(1)}%`,
+        {fill:"var(--muted)","font-size":"10","font-family":MONO}));
+    });
+  });
+  return svg;
+}
+
+document.getElementById("fig-setup").appendChild(setupFig());
+document.getElementById("fig-tradeoff").appendChild(tradeoff());
+document.getElementById("fig-budget").appendChild(budgetFig());
+document.getElementById("fig-decomp").appendChild(decomp());
+document.getElementById("fig-did").appendChild(didFig());
+document.getElementById("fig-funnel").appendChild(funnelFig());
+document.getElementById("fig-verdict").appendChild(verdictFlow());
+renderFlow("uptake");
+document.getElementById("mode-uptake").addEventListener("click",()=>renderFlow("uptake"));
+document.getElementById("mode-taper").addEventListener("click",()=>renderFlow("taper"));
+</script>
