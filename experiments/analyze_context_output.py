@@ -1,0 +1,190 @@
+"""What an agent has in front of it, against what it chooses to say.
+
+Every metric so far counts output. But an agent's context is knowable too: the
+dossier's own facts are in it on every turn, and from round 2 the facts its
+peers said are in it as well. Treating the agent as a node with an input side
+and an output side makes a different question askable — not how much moves, but
+how the stance mix changes as it passes through.
+
+    context(a, r) = facts extracted from the evidence documents
+                  + facts said in the peer turns delivered into a|r
+    output(a, r)  = facts said in a|r
+
+Both sides carry the same SUPPORT / UNDERMINE / NEUTRAL labels, so the two mixes
+are directly comparable, and the difference is a selection: of everything this
+agent could have repeated, what did it choose. `tilt` is that difference in
+percentage points, positive when the output leans more that way than the input.
+
+The dossier is balanced by construction — two documents for the claim, two
+against — so a tilt is not inherited from the materials.
+
+    python experiments/analyze_context_output.py
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import random
+import re
+import statistics as st
+from collections import defaultdict
+from pathlib import Path
+
+from export_labels import attach_labels
+
+ROOT = Path(__file__).resolve().parent
+STORE_DIRS = [ROOT / "perspectrum_pilot_full", ROOT / "perspectrum_pilot_star_chain"]
+OUT = ROOT.parent / "findings" / "data" / "context-output.json"
+PANELS = ("neutral", "lenses", "stance")
+STANCES = ("SUPPORT", "UNDERMINE", "NEUTRAL")
+ROLE = {"neutral": {"A": "中立", "B": "中立", "C": "中立"},
+        "lenses": {"A": "因果证据", "B": "落地与权衡", "C": "范围与不确定性"},
+        "stance": {"A": "支持方", "B": "反对方", "C": "裁决者"}}
+
+
+def bootstrap(values, draws=20_000, seed=0):
+    if len(values) < 3:
+        return None
+    rng = random.Random(seed)
+    means = [st.mean(rng.choices(values, k=len(values))) for _ in range(draws)]
+    above = (sum(m > 0 for m in means) + 0.5 * sum(m == 0 for m in means)) / draws
+    means.sort()
+    return {"delta": st.mean(values), "lo": means[int(0.025 * draws)],
+            "hi": means[int(0.975 * draws)],
+            "confidence": max(above, 1 - above),
+            "positive": sum(1 for v in values if v > 0), "n": len(values)}
+
+
+def mix(fids, stance_of):
+    counts = {s: 0 for s in STANCES}
+    for fid in fids:
+        s = stance_of.get(fid)
+        if s in counts:
+            counts[s] += 1
+    total = sum(counts.values())
+    return ({s: counts[s] / total for s in STANCES} if total else None), total
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--model", default="deepseek-v4-flash")
+    ap.add_argument("--out", type=Path, default=OUT)
+    args = ap.parse_args()
+
+    rows = []
+    for directory in STORE_DIRS:
+        for path in sorted(directory.glob(f"*{args.model}*.v2.json")):
+            name = path.name[: -len(".v2.json")]
+            m = re.match(rf"perspectrum-(\d+)-{re.escape(args.model)}-(\w+?)-(\w+)$", name)
+            if not m:
+                continue
+            claim, topology, panel = m.groups()
+            debate_path = path.with_name(f"{name}.debate.json")
+            if not debate_path.exists():
+                continue
+            with path.open() as fh:
+                store = json.load(fh)
+            with debate_path.open() as fh:
+                debate = json.load(fh)
+            attach_labels(store, name, "stance")
+            stance_of = {fid: f.get("properties", {}).get("stance")
+                         for fid, f in store["facts"].items()}
+
+            said = defaultdict(set)
+            dossier = set()
+            for mid, mention in store["mentions"].items():
+                prov = mention["provenance"]
+                fid = store["mention_to_fact"].get(mid)
+                if not fid:
+                    continue
+                if prov["channel"] == "output" and prov.get("agent_id") and prov.get("round"):
+                    said[(prov["agent_id"], prov["round"])].add(fid)
+                elif prov["channel"] == "source" and prov.get("doc_id") not in (None, "claim"):
+                    dossier.add(fid)
+
+            for slot, info in debate.get("delivery", {}).items():
+                agent, rnd = slot.split("|")
+                rnd = int(rnd)
+                peers = set()
+                for peer in info.get("peer_turns", []):
+                    a, r = peer.split("|")
+                    peers |= said[(a, int(r))]
+                # The dossier is in context on every turn; peers only from r2.
+                context = dossier | peers
+                cmix, cn = mix(context, stance_of)
+                omix, on = mix(said[(agent, rnd)], stance_of)
+                if not cmix or not omix:
+                    continue
+                rows.append({
+                    "claim": claim, "topology": topology, "panel": panel,
+                    "agent": agent, "round": rnd, "role": ROLE[panel][agent],
+                    "context": cmix, "output": omix,
+                    "n_context": cn, "n_output": on,
+                    "peers_only": mix(peers, stance_of)[0] if peers else None,
+                })
+
+    # Round 1 is the only clean read of the anchoring question: context is the
+    # dossier alone. From round 2 the context is dominated by peer output,
+    # which already carries whatever tilt the previous round produced, so a
+    # tilt measured there is against a moving baseline and understates the
+    # cumulative drift.
+    def summarise(subset, key):
+        out = {}
+        for s in STANCES:
+            tilt = [r["output"][s] - r["context"][s] for r in subset]
+            stat = bootstrap(tilt)
+            out[s] = {"context": st.mean(r["context"][s] for r in subset),
+                      "output": st.mean(r["output"][s] for r in subset),
+                      "tilt": stat}
+        out["n"] = len(subset)
+        return out
+
+    result = {"model": args.model, "n_turns": len(rows), "by": {}}
+    first_round = min(r["round"] for r in rows)
+    for scope, keep in (("", lambda r: True),
+                        ("r1", lambda r: r["round"] == first_round),
+                        ("r2+", lambda r: r["round"] > first_round)):
+        for panel in PANELS:
+            sub = [r for r in rows if r["panel"] == panel and keep(r)]
+            tag = f"{scope}|" if scope else ""
+            if sub:
+                result["by"][f"{tag}{panel}"] = summarise(sub, panel)
+            for agent in "ABC":
+                s2 = [r for r in sub if r["agent"] == agent]
+                if s2:
+                    result["by"][f"{tag}{panel}/{agent}"] = summarise(s2, agent)
+    result["rows"] = rows
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.out.write_text(json.dumps(result, ensure_ascii=False, indent=1) + "\n")
+
+    print(f"{len(rows)} 个 turn\n")
+    for scope, title in (("r1", "第 1 轮：上下文只有卷宗（干净的锚定读数）"),
+                         ("r2+", "第 2–3 轮：上下文 = 卷宗 + 同伴输出"),
+                         ("", "全部轮次")):
+        print(f"■ {title}")
+        hdr = f"{'条件':14s}{'角色':11s}" + "".join(f"{s[:3]+' 入→出':>17s}" for s in STANCES)
+        print(hdr); print("-" * len(hdr))
+        tag = f"{scope}|" if scope else ""
+        for panel in PANELS:
+            for key, label in ([(f"{tag}{panel}", "全部")] +
+                               [(f"{tag}{panel}/{a}", ROLE[panel][a]) for a in "ABC"]):
+                c = result["by"].get(key)
+                if not c:
+                    continue
+                line = f"{panel if label=='全部' else '':14s}{label:11s}"
+                for st_ in STANCES:
+                    t = c[st_]["tilt"]
+                    mark = "*" if t and t["confidence"] >= 0.975 else " "
+                    line += (f"{c[st_]['context']:6.0%}→{c[st_]['output']:5.0%}"
+                             f"{mark}{t['delta']*100:+5.1f}")
+                print(line)
+            print()
+        print()
+
+    print(f"wrote {args.out}")
+
+
+if __name__ == "__main__":
+    main()
