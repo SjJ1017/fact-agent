@@ -169,6 +169,13 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
   border:1.5px solid var(--sig); border-radius:50%;
 }
 .limits b{color:var(--ink); font-weight:600;}
+.repro{
+  background:var(--surface); border:1px solid var(--rule); border-radius:2px;
+  padding:14px 16px; overflow-x:auto; margin:1.2rem 0 0;
+}
+.repro code{background:none; padding:0; font-size:.78rem; line-height:1.9;
+  color:var(--ink); white-space:pre;}
+td.lft{text-align:left;}
 
 /* ---- provenance ---- */
 .prov{margin-top:64px; padding-top:26px; border-top:1px solid var(--rule);
@@ -449,14 +456,60 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
     <p class="eyebrow">边界</p>
     <h2>这批数据不能说什么</h2>
     <ul class="limits">
+      <li><b>流动解释不了结果。</b>这页最该先读的一条。<code>VERDICT</code> 是这批数据里唯一的结果变量，而一个 agent 这一轮吸收了什么，<strong>预测不了它的判决动不动</strong>——判决变了的转移当轮采纳里削弱类占 <span class="num">53.0%</span>，没变的 <span class="num">50.4%</span>。所以上面所有关于"接收率""条件采纳率""密度"的结论都是<em>描述性</em>的：它们刻画了信息怎么走，没有证明这样走会让辩论变好或变坏。把它们当成设计建议之前，需要一个能把流动接到结果上的实验。</li>
       <li><b>只有 DeepSeek-V4-Flash。</b>GLM 那批只跑了全连接，没有 star/chain 对照，完全没有进入这个分析。模型间是否复现未知。</li>
-      <li><b>抽取会漏 turn。</b>star 有 14 个 turn（4.3%，full 只有 0.9%）有实质内容但抽取返回零个事实，chain 更多。这会同时压低接收率和事实数——star 在 lenses 那一格接收率是 63.0% 而非 66.7%，就是这个原因。</li>
-      <li><b>立场标注未经人工验证</b>，且约一半有立场的事实是<em>证据层</em>的（"E3 支持禁令"）而非<em>世界层</em>的。正反平衡是混合口径，只能横向比条件。</li>
-      <li><b>事实匹配的人工核对准确率是 80%。</b>没有理由认为错误率随条件变化，所以条件间的<em>差</em>比每格的<em>绝对值</em>可信。</li>
-      <li><b>没做多重比较校正。</b>这里报的是配对 bootstrap 的点估计、区间和 p。跨十几个指标 × 九组对比看，偶然出现极端 p 是正常的。可信的是那些<em>同时</em>在多个拓扑、多个相关指标上一致出现的模式。</li>
-      <li><b>"采纳"只判事实同一性，不判态度。</b>复述对方的事实来反驳它，和复述来同意它，计为同一件事。</li>
-      <li><b>拓扑只变了连接方式，没变 agent 数和轮数。</b>接收率的三个取值 66.7% / 66.7% / 42.6% 来自三种固定接线，不是连续变量——"接收率是起作用的变量"这个说法还需要一个能连续调接收率的设计来检验。</li>
+      <li><b>抽取会漏 turn，而且随拓扑变。</b>有实质内容（<span class="num">78–155</span> 词）但抽取返回零个事实的 turn：full <span class="num">3/324</span>（0.9%）、star <span class="num">14/324</span>（4.3%）、chain <span class="num">17/324</span>（5.2%）。这会同时压低接收率和事实数，而且<strong>正好偏向连线更少的拓扑</strong>——star 在 lenses 那一格接收率是 63.0% 而非 66.7%，就是这个原因。拓扑对比里差别最大的那一项（接收率 −24pp）远大于这个偏差，但小效应（比如条件采纳率上的 −4pp）不能排除它。</li>
+      <li><b>匹配器会漏合并，有两个独立证据。</b>人工核对的准确率是 <span class="num">80%</span>；另外，只有 <span class="num">12.7%</span> 的证据文档事实能和 agent 说的话合并到同一个簇，所以"接地率 3–7%"几乎肯定是匹配器的下限而不是 agent 在编造。没有理由认为漏合并率随条件变化，所以条件间的<em>差</em>比每格的<em>绝对值</em>可信；但凡是依赖<em>绝对水平</em>的话（接地率、事实覆盖的具体数值）都要打折。</li>
+      <li><b>立场标注未经人工验证</b>，且约一半有立场的事实是<em>证据层</em>的（"E3 支持禁令"）而非<em>世界层</em>的。正反平衡和三层流动图都是混合口径，只能横向比条件。</li>
+      <li><b>"采纳"只判事实同一性，不判态度。</b>复述对方的事实来反驳它，和复述来同意它，计为同一件事。流动图按<em>被采纳事实的立场</em>分层，不是按采纳者对它的态度——所以"削弱类被优先采纳"不等于"agent 被说服了"。</li>
+      <li><b>stance 下 A/B/C 不可互换，部分结果是被指派的。</b>A 是支持方、B 是反对方、C 是裁决者。"削弱类事实从 B 流出"里有多少是角色规定的、多少是涌现的，这个设计分不开。neutral 那一列（三个角色逐字相同）是唯一干净的对照，而它本身也有位置效应：发言顺序固定 A→B→C，A→B 和 A→C 的接住比例在角色相同时仍差 <span class="num">3–6pp</span>。</li>
+      <li><b>没做多重比较校正。</b>报的是配对 bootstrap 的点估计、区间和 p。跨十几个指标 × 九组对比看，偶然出现极端 p 是正常的。可信的是那些<em>同时</em>在多个拓扑、多个相关指标上一致出现的模式，不是任何单独一条。</li>
+      <li><b>接收率不是连续变量。</b>三个取值 <span class="num">66.7% / 66.7% / 42.6%</span> 来自三种固定接线，agent 数和轮数都没变。"接收率是起作用的线路变量"这个说法还需要一个能连续调它的设计来检验——现在它只是对三个点的最简解释。</li>
+      <li><b>12 个 claim。</b>某些切片的有效 n 更小：stance 下 A→C 采纳量为零的 claim 有 2–3 个，那里的成分对比只剩 8–9 个 claim，区间很宽。</li>
     </ul>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">复现</p>
+    <h2>数据在哪，怎么重跑</h2>
+    <p>下面三条命令<strong>不联网、不花钱</strong>，几秒到几十秒跑完，重算出本页每一个数字和每一张图。需要 API key 的只有生成辩论、抽取事实和立场标注，那些产物已经在仓库里。</p>
+    <pre class="repro"><code>python experiments/analyze_flow_profile.py --topologies full star chain
+python experiments/analyze_stance_flow.py
+python experiments/analyze_flow_extras.py
+python experiments/report/build_flow_profile.py     # 出这个页面</code></pre>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <caption>本页用到的每一份数据，全部在 git 里。</caption>
+      <thead><tr><th>东西</th><th style="text-align:left">位置</th><th>数量</th></tr></thead>
+      <tbody>
+        <tr><td>full store</td><td class="lft"><code>experiments/perspectrum_pilot_full/*-full-*.v2.json</code></td><td>36</td></tr>
+        <tr><td>star / chain store</td><td class="lft"><code>experiments/perspectrum_pilot_star_chain/*.v2.json</code></td><td>72</td></tr>
+        <tr><td>投递结构与逐字稿</td><td class="lft">同目录同名 <code>.debate.json</code> 的 <code>delivery</code> / <code>transcript</code></td><td>108</td></tr>
+        <tr><td>立场标注</td><td class="lft"><code>experiments/labels/stance/*.json</code></td><td>141</td></tr>
+        <tr><td>token clock</td><td class="lft"><code>experiments/labels/token_clock/*.json</code></td><td>141</td></tr>
+        <tr><td>剖面结果</td><td class="lft"><code>findings/data/flow-profile.json</code> · <code>flow-profile-per-debate.csv</code></td><td>—</td></tr>
+        <tr><td>流动图</td><td class="lft"><code>findings/data/stance-flow.json</code></td><td>—</td></tr>
+        <tr><td>判决 / 存活 / 接地 / 位置</td><td class="lft"><code>findings/data/flow-extras.json</code></td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="measure">
+    <h3>pipeline 配置（跨条件比较必须一致）</h3>
+    <pre class="repro"><code>抽取      EXTRACTION_SYSTEM + minimax-m2.5, max_tokens 8000
+原子化    atomize（剥离归属外壳 + turn 内去重）
+blocking  bge-base-en-v1.5 @ 0.70, top_k 12
+判决      二值 SAME/DIFF, batch 16, auto_accept 关闭
+合并      union >= 0.85（人工读边标定）
+立场      label_fact_stance.py --stance-mode truth, deepseek-v4-flash,
+          batch 24, max_tokens 16000
+token     bge-base-en-v1.5 重新分词 transcript（不用 token_clock 层，
+          那层按事实首次出现的 turn 记数，漏掉抽不出事实的 turn）</code></pre>
+    <p class="standfirst" style="max-width:41rem"><code>batch-size</code> 和 <code>max_tokens</code> 会改变判决：同一批事实放在 12 条 vs 24 条的上下文里，模型看到的对照不同，已观察到文本未变而判决改变。跨条件比较时两边必须用同一套。<strong>跑通不等于可比。</strong>更多操作层的注意事项见仓库根目录的 <code>AGENTS.md</code>。</p>
   </div>
 </section>
 

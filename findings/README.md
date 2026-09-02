@@ -1,6 +1,8 @@
 # findings/
 
 一个发现一个文件，命名 `YYYY-MM-DD-<slug>.md`。
+带图表的发现可以是 `.html`（由 `experiments/report/` 下的模板 + `findings/data/` 的
+JSON 生成，**不要手改**，改模板重跑生成器）。
 
 每个文件必须做到：**只看这一个文件，就能找到数据在哪、结果在哪、怎么重跑。**
 不要求读者先读代码或翻聊天记录。写的时候按这个顺序：
@@ -16,7 +18,7 @@
 
 | 日期 | 发现 | 状态 |
 |---|---|---|
-| 2026-09-01 | [事实流剖面：三拓扑 × 三档人格](2026-09-01-flow-profile.md) | **108 场；拓扑买接收率，人格买条件采纳率；密度倒 U** |
+| 2026-09-01 | [事实流剖面：三拓扑 × 三档人格](2026-09-01-flow-profile.html) 📊 | **108 场；拓扑买接收率，人格买条件采纳率；流动解释不了判决** |
 | 2026-09-01 | [现有数据支持的 RQ 结论与新假设](2026-09-01-current-data-rq-hypotheses.md) | DeepSeek n=12、GLM n=11；探索性 |
 | 2026-09-01 | [共享实验状态与运行前检查](2026-09-01-shared-experiment-status.md) | 操作前必读；记录 canonical artifact |
 | 2026-08-31 | [Token 对齐的 lifecycle：persona 更改 churn，多于 uptake](2026-08-31-deepseek-token-lifecycle.md) | DeepSeek、full topology，n=12 |
@@ -38,6 +40,9 @@
 | fact store | `experiments/perspectrum_pilot_*/*.v2.json` | ✅ | Perspectrum 的 105 场，36 MB |
 | 标注层 | `experiments/labels/{stance,token_clock}/` | ✅ | 只存标注本身，8.7 MB |
 | 算完的结果 | `findings/data/*.json`、`*.csv` | ✅ | 几十 KB，即使 store 丢了也对得上 |
+
+`.html` 的发现由生成器产出，源模板在 `experiments/report/`，数据在 `findings/data/`。
+重跑 `python experiments/report/build_flow_profile.py` 即可更新，别手改生成物。
 
 **标注不要以 enriched store 的形式提交。** `label_fact_stance.py` 和 `token_clock.py`
 都是"复制整个 store + 加一个字段"，两遍标注就是 75 MB 的逐字节副本。

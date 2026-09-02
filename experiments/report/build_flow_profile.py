@@ -45,7 +45,9 @@ def main() -> None:
     ap.add_argument("--stance-flow", type=Path, default=FLOW)
     ap.add_argument("--extras", type=Path, default=EXTRA)
     ap.add_argument("--template", type=Path, default=HERE / "flow-profile.tpl.html")
-    ap.add_argument("--out", type=Path, default=HERE / "flow-profile.html")
+    ap.add_argument("--out", type=Path,
+                    default=HERE.parent.parent / "findings"
+                            / "2026-09-01-flow-profile.html")
     args = ap.parse_args()
 
     with args.data.open() as fh:
