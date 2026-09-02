@@ -18,6 +18,7 @@ import os
 from pathlib import Path
 import re
 from dataclasses import dataclass
+from collections.abc import Sequence
 from typing import Optional, Any, Protocol, TypeVar
 
 from pydantic import BaseModel, ValidationError
@@ -72,7 +73,9 @@ class Backend(Protocol):
     usage: "Usage"
 
     def generate(self, *, system: str, user: str, output_format: type[T], model: str, max_tokens: int) -> T: ...
-    def chat(self, *, system: str, user: str, model: str, max_tokens: int, temperature: float) -> str: ...
+    def chat(self, *, system: str, user: str, model: str, max_tokens: int,
+             temperature: float,
+             history: Sequence[tuple[str, str]] = ()) -> str: ...
 
 
 class AnthropicBackend:
@@ -106,12 +109,13 @@ class AnthropicBackend:
             raise RuntimeError(f"model refused: {getattr(response, 'stop_details', None)}")
         return response.parsed_output
 
-    def chat(self, *, system, user, model, max_tokens, temperature):
+    def chat(self, *, system, user, model, max_tokens, temperature, history=()):
         response = self.client.messages.create(
             model=model,
             max_tokens=max_tokens,
             system=system,
-            messages=[{"role": "user", "content": user}],
+            messages=[*({"role": r, "content": c} for r, c in history),
+                      {"role": "user", "content": user}],
         )
         return "".join(b.text for b in response.content if b.type == "text")
 
@@ -234,10 +238,12 @@ class OpenAICompatBackend:
                 ]
         raise ValueError(f"schema validation failed after {self.max_repairs + 1} attempts: {last_error}")
 
-    def chat(self, *, system, user, model, max_tokens, temperature):
+    def chat(self, *, system, user, model, max_tokens, temperature, history=()):
         response = self._create(
             model=model,
-            messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
+            messages=[{"role": "system", "content": system},
+                      *({"role": r, "content": c} for r, c in history),
+                      {"role": "user", "content": user}],
             max_tokens=max_tokens,
             temperature=temperature,
         )

@@ -111,6 +111,7 @@ class LLM:
         max_tokens: int | None = None,
         temperature: float = 0.7,
         sample_id: str | None = None,
+        history: Sequence[tuple[str, str]] = (),
     ) -> str:
         """Free-text generation, used to *produce* traces rather than analyse them.
 
@@ -136,12 +137,17 @@ class LLM:
             user=user,
             temperature=temperature,
             sample_id=sample_id,
+            # History has to be in the key. Two rounds of the same agent send
+            # the same system and a similar user block; without this they
+            # collide and round 3 silently replays round 2's answer.
+            history=tuple(history),
         )
         cached = self.cache.get(key)
         if cached is not None:
             return cached
         text = self.backend.chat(
-            system=system, user=user, model=model, max_tokens=max_tokens, temperature=temperature
+            system=system, user=user, model=model, max_tokens=max_tokens,
+            temperature=temperature, history=list(history),
         )
         self.cache.put(key, text)
         return text

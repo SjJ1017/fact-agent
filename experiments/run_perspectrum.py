@@ -203,13 +203,28 @@ def dossier(case: Case) -> str:
     return f"Claim under review:\n{case.claim}\n\nEvidence dossier:\n{entries}"
 
 
-def prompt_for(case: Case, peer_text: Sequence[tuple[str, str]], role: str) -> str:
+def prompt_for(case: Case, peer_text: Sequence[tuple[str, str]], role: str,
+               has_own_prior: bool = False) -> str:
+    """The user turn for one agent in one round.
+
+    Three shapes, because the instruction has to match what is actually in
+    context. Telling an agent to answer "before seeing other panelists" while
+    its own previous assessment sits in the conversation is a contradiction the
+    model has to resolve on its own, and under --self-history that is exactly
+    what chain's agent A gets: no peers, but a prior turn of its own.
+    """
     base = dossier(case)
     if not peer_text:
-        return base + "\n\nGive your independent assessment before seeing other panelists."
+        if not has_own_prior:
+            return base + "\n\nGive your independent assessment before seeing other panelists."
+        return (base + "\n\nYou have already given an assessment above. No other panelist's "
+                "assessment is available to you.\n\nUpdate your assessment. Revise it only "
+                "when the dossier warrants it.")
     peer_block = "\n\n".join(f"--- Panelist {agent} ---\n{text}" for agent, text in peer_text)
+    own = ("Your own earlier assessment is above. " if has_own_prior else "")
     return (base + "\n\nThese are the panelists' latest assessments:\n\n" + peer_block +
-            "\n\nUpdate your assessment. Address concrete claims from the other panelists and revise "
+            "\n\n" + own +
+            "Update your assessment. Address concrete claims from the other panelists and revise "
             "your position only when the dossier or their reasoning warrants it.")
 
 
@@ -222,7 +237,25 @@ def run_case(
     rounds: int,
     max_agent_tokens: int,
     sample_tag: str,
+    self_history: bool = False,
 ) -> dict[str, Any]:
+    """One debate.
+
+    `self_history` decides whether an agent sees what it itself said last
+    round. Off, which is how the 2026-09 corpus was generated, each turn is a
+    fresh single-shot: the dossier plus whatever peers the topology delivers,
+    and nothing the agent said before. That is the Peer-Only cell of the memory
+    taxonomy, and it has a consequence worth knowing before reading any result
+    from it — chain's agent A receives no peers at all, so its three prompts
+    are byte-identical and its "rounds" are one query sampled three times.
+
+    On, the agent's own previous answer is carried as a real assistant turn,
+    which is what the reference implementation does (Du et al., ICML 2024,
+    where `agent_context` accumulates the model's own replies). Only the last
+    round is kept rather than the whole transcript: it is the minimum that lets
+    an agent restate, qualify or drop its own claim, and it keeps the context
+    from growing with the round count.
+    """
     agents = ["A", "B", "C"]
     roles = dict(zip(agents, PANEL_ROLES[panel]))
     transcript: dict[str, str] = {}
@@ -230,22 +263,33 @@ def run_case(
     delivery: dict[str, dict[str, Any]] = {}
 
     for rnd in range(1, rounds + 1):
-        requests: dict[str, tuple[str, list[tuple[str, str]]]] = {}
+        requests: dict[str, tuple[str, list[tuple[str, str]], list[tuple[str, str]]]] = {}
         for agent in agents:
             peers = [(peer, transcript[f"{peer}|{rnd - 1}"])
                      for peer in neighbours(topology, agents, agent)
                      if f"{peer}|{rnd - 1}" in transcript]
             key = f"{agent}|{rnd}"
-            user = prompt_for(case, peers, roles[agent])
+            prior = f"{agent}|{rnd - 1}"
+            history: list[tuple[str, str]] = []
+            user = prompt_for(case, peers, roles[agent],
+                              has_own_prior=self_history and prior in transcript)
             prompts[key] = user
+            if self_history and prior in transcript:
+                # The real prior exchange, so the agent's own answer arrives as
+                # an assistant turn rather than as text quoted back at it. A
+                # model treats its own turn as a commitment and a quoted one as
+                # material, and which of those we want is the whole point of
+                # the condition.
+                history = [("user", prompts[prior]), ("assistant", transcript[prior])]
             delivery[key] = {
                 "source_ids": ["claim", *[item["id"] for item in case.evidence]],
                 "peer_turns": [f"{peer}|{rnd - 1}" for peer, _ in peers],
+                "self_turn": prior if history else None,
             }
-            requests[agent] = (user, peers)
+            requests[agent] = (user, peers, history)
 
         def ask(agent: str) -> tuple[str, str]:
-            user, _ = requests[agent]
+            user, _, history = requests[agent]
             system = roles[agent] + "\n\n" + BASE_SYSTEM
             sample_base = (f"perspectrum:{sample_tag}:{case.claim_id}:{model}:{topology}:"
                            f"{panel}:{agent}:{rnd}")
@@ -254,6 +298,7 @@ def run_case(
             for attempt, cap in enumerate((max_agent_tokens, max_agent_tokens * 2,
                                            max_agent_tokens * 4), 1):
                 text = llm.chat(system=system, user=user, temperature=0.7, max_tokens=cap,
+                                history=history,
                                 sample_id=f"{sample_base}:attempt={attempt}")
                 if text.strip():
                     return agent, text
@@ -262,7 +307,12 @@ def run_case(
         for agent, text in llm.map(ask, agents, tolerate_failures=False):
             transcript[f"{agent}|{rnd}"] = text
 
-    execution_id = f"perspectrum-{case.claim_id}-{model}-{topology}-{panel}"
+    # The condition is part of the identity, not just a field. Sidecars in
+    # experiments/labels/ are keyed by execution_id, so two corpora that differ
+    # only in whether agents saw their own history would overwrite each other's
+    # stance labels and token clocks without ever colliding visibly.
+    suffix = "-mem" if self_history else ""
+    execution_id = f"perspectrum-{case.claim_id}-{model}-{topology}-{panel}{suffix}"
     return {
         "execution_id": execution_id,
         "claim_id": case.claim_id,
@@ -270,6 +320,7 @@ def run_case(
         "model": model,
         "topology": topology,
         "panel": panel,
+        "self_history": self_history,
         "roles": roles,
         "rounds": rounds,
         "evidence": list(case.evidence),
@@ -494,6 +545,10 @@ def main() -> int:
     parser.add_argument("--concurrency", type=int, default=8)
     parser.add_argument("--timeout", type=float, default=120.0)
     parser.add_argument("--trace", action="store_true", help="extract and match atomic facts after the debates")
+    parser.add_argument(
+        "--self-history", action="store_true",
+        help="每轮把该 agent 自己上一轮的回答作为 assistant turn 带上"
+             "（对齐 Du et al. 的参考实现）。默认关闭，与 2026-09 的语料一致。")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
 
@@ -538,7 +593,8 @@ def main() -> int:
         llm = LLM.opencode(model, max_concurrency=args.concurrency)
         llm.backend.client = llm.backend.client.with_options(timeout=args.timeout, max_retries=1)
         save_json(path, run_case(llm, case, model, topology, panel, args.rounds,
-                                 args.max_agent_tokens, args.outdir.name))
+                                 args.max_agent_tokens, args.outdir.name,
+                                 self_history=args.self_history))
         return path
 
     with ThreadPoolExecutor(max_workers=args.parallel) as pool:

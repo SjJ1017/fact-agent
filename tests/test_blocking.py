@@ -129,7 +129,7 @@ def test_identical_prompts_do_not_share_a_generation_cache_entry():
             self.calls = 0
             self.usage = type("U", (), {"input_tokens": 0, "output_tokens": 0, "calls": 0})()
 
-        def chat(self, *, system, user, model, max_tokens, temperature):
+        def chat(self, *, system, user, model, max_tokens, temperature, history=()):
             self.calls += 1
             return f"reply {self.calls}"
 
@@ -150,3 +150,52 @@ def test_identical_prompts_do_not_share_a_generation_cache_entry():
         # Same sample_id still caches, which is what makes a resumed run cheap.
         again = llm.chat(**kw, sample_id="A")
         assert again == a and backend.calls == 3
+
+
+def test_a_different_history_is_a_different_cache_entry():
+    """Same system and user, different prior turn, must not share a reply.
+
+    With self-history on, an agent's round-2 and round-3 calls carry the same
+    system and a user block that can be identical when no peer text changed.
+    What separates them is the assistant turn holding the agent's own previous
+    answer. If that is left out of the cache key, round 3 replays round 2 and
+    the agent looks perfectly self-consistent for free.
+    """
+    import tempfile
+
+    from factflow.llm import LLM, LLMConfig
+
+    class CountingBackend:
+        name = "counting"
+        default_model = "stub"
+
+        def __init__(self):
+            self.calls = 0
+            self.seen = []
+            self.usage = type("U", (), {"input_tokens": 0, "output_tokens": 0, "calls": 0})()
+
+        def chat(self, *, system, user, model, max_tokens, temperature, history=()):
+            self.calls += 1
+            self.seen.append(list(history))
+            return f"reply {self.calls}"
+
+        def generate(self, **kw):  # pragma: no cover - not used here
+            raise NotImplementedError
+
+    with tempfile.TemporaryDirectory() as d:
+        backend = CountingBackend()
+        llm = LLM(LLMConfig(model="stub", cache_dir=d), backend=backend)
+        kw = dict(system="same", user="same", temperature=0.7, sample_id="A")
+
+        a = llm.chat(**kw, history=[("assistant", "round one")])
+        b = llm.chat(**kw, history=[("assistant", "round two")])
+        assert a != b, "different history returned the same cached reply"
+        assert backend.calls == 2
+
+        # and the same history still caches
+        again = llm.chat(**kw, history=[("assistant", "round one")])
+        assert again == a
+        assert backend.calls == 2, "identical history should not re-call"
+
+        # history actually reaches the backend
+        assert backend.seen[0] == [("assistant", "round one")]
