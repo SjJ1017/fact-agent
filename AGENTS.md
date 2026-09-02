@@ -362,6 +362,21 @@ python experiments/report/build_flow_profile.py     # 填模板出 HTML
   `experiments/labels/`，`/tmp` 里那两份随时会没
 - `/tmp/factflow-stance-labeled-*` 的几个旧目录 — 参数与现行不一致，两套不可混用
 
+### 想看原文就用轨迹查看器（2026-09-02）
+
+`findings/trace-viewer.html`（2.9 MB，双击即开，108 场全在里面）。
+按 claim/拓扑/人格选一场，逐 turn 显示**全部原文**，第 1 轮三人并排。
+抽取到事实的片段高亮，hover 出规范文本、立场、全部出现位置，点按钮可跳转。
+
+**它最有用的地方是判断"这是传输还是巧合"**：三人读同一份材料，
+两个 turn 出现同一个事实完全可能是各自推出来的。查看器按投递记录把每一处标成
+`并行`（第 1 轮互不可见）/ `收到过`（可能是传输）/ `未收到`（独立重推）/ `自持`，
+连线也按这个用实线虚线区分。实际点几个就会看到大多数重合是巧合。
+
+span 定位命中 95.8%（9774/10198）；`quote` 对不上原文的会计入"未定位"并在页面上报出来，
+不是静默丢弃。重建：`python experiments/build_trace_view.py` 然后
+`python experiments/report/build_trace_viewer.py`。
+
 ### 报告页有两份产物，别搞混（2026-09-02）
 
 `experiments/report/build_*.py` 每次写两个文件：

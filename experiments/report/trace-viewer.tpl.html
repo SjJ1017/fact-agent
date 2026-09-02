@@ -1,0 +1,473 @@
+<title>辩论轨迹查看器</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#eef1f1; --surface:#ffffff; --sunk:#e5eaea;
+  --ink:#12181b; --body:#2c3538; --muted:#5f6b6e; --faint:#8b9799;
+  --rule:#d5dcdc; --rule-soft:#e4e9e9;
+  --p1:#7ba3a7; --p2:#3d7d85; --p3:#0d363d;
+  --accent:#123f46; --sig:#a8532c; --sig-soft:#f0e0d6;
+  --sup:#2f7d6b; --und:#a8532c; --neu:#7d8c8e;
+  --hl:#d8e9e4; --hl-active:#f3d9c6; --hl-peer:#fbeee0;
+  --shadow:0 1px 2px rgba(18,63,70,.06), 0 8px 24px -16px rgba(18,63,70,.28);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ground:#0f1516; --surface:#161e20; --sunk:#131a1c;
+  --ink:#e4eaea; --body:#c6d1d2; --muted:#94a3a4; --faint:#6d7c7e;
+  --rule:#283335; --rule-soft:#1e282a;
+  --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
+  --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
+  --sup:#57bda2; --und:#e08a5c; --neu:#7d8c8e;
+  --hl:#22403c; --hl-active:#5a3a24; --hl-peer:#3a2a1c;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --ground:#0f1516; --surface:#161e20; --sunk:#131a1c;
+  --ink:#e4eaea; --body:#c6d1d2; --muted:#94a3a4; --faint:#6d7c7e;
+  --rule:#283335; --rule-soft:#1e282a;
+  --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
+  --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
+  --sup:#57bda2; --und:#e08a5c; --neu:#7d8c8e;
+  --hl:#22403c; --hl-active:#5a3a24; --hl-peer:#3a2a1c;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--ground); color:var(--body);
+  font-family:"IBM Plex Sans","Noto Sans SC",-apple-system,sans-serif;
+  font-size:15px; line-height:1.6;}
+.wrap{max-width:1400px; margin:0 auto; padding:0 20px 80px;}
+
+/* ---- controls ---- */
+header{position:sticky; top:0; z-index:40; background:var(--ground);
+  border-bottom:1px solid var(--rule); padding:14px 0 12px;}
+h1{font-size:1.05rem; margin:0 0 10px; color:var(--ink); font-weight:600;
+  display:flex; align-items:baseline; gap:.8rem; flex-wrap:wrap;}
+h1 small{font-weight:400; font-size:.78rem; color:var(--muted);
+  font-family:"IBM Plex Mono",monospace;}
+.bar{display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center;}
+select, .tgl{font-family:"IBM Plex Sans","Noto Sans SC",sans-serif; font-size:.82rem;
+  background:var(--surface); color:var(--ink); border:1px solid var(--rule);
+  border-radius:2px; padding:.35rem .55rem;}
+select{max-width:340px;}
+.tgl{cursor:pointer; display:inline-flex; align-items:center; gap:.4rem;
+  user-select:none;}
+.tgl[aria-pressed="true"]{background:var(--sig-soft); border-color:var(--sig);
+  color:var(--sig); font-weight:600;}
+.claim{font-size:.9rem; color:var(--ink); margin:10px 0 0; font-weight:500;}
+.meta{font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--faint);
+  margin:3px 0 0;}
+
+/* ---- grid ---- */
+.rounds{position:relative; margin-top:22px;}
+.round{margin-bottom:26px;}
+.rlab{font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--sig); margin:0 0 8px;
+  display:flex; align-items:center; gap:.6rem;}
+.rlab::after{content:""; flex:1; height:1px; background:var(--rule);}
+.cols{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+@media (max-width:900px){.cols{grid-template-columns:1fr;}}
+.turn{background:var(--surface); border:1px solid var(--rule); border-radius:2px;
+  padding:12px 14px 14px; box-shadow:var(--shadow); position:relative;}
+.turn.no-input{border-style:dashed; opacity:.94;}
+.thead{display:flex; align-items:baseline; gap:.5rem; margin-bottom:8px;
+  padding-bottom:7px; border-bottom:1px solid var(--rule-soft); flex-wrap:wrap;}
+.agent{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:.95rem;
+  color:var(--ink); cursor:help; border-bottom:1px dotted var(--faint);}
+.role{font-size:.75rem; color:var(--muted);}
+.recv{font-family:"IBM Plex Mono",monospace; font-size:.66rem; color:var(--faint);
+  margin-left:auto;}
+.body-text{font-size:.87rem; line-height:1.85; white-space:pre-wrap;
+  word-break:break-word;}
+mark{background:var(--hl); color:inherit; border-radius:2px; padding:.05em 0;
+  cursor:pointer; box-decoration-break:clone; -webkit-box-decoration-break:clone;
+  transition:background .12s;}
+mark:hover{background:var(--hl-active);}
+mark.sel{background:var(--hl-active); outline:1px solid var(--sig);}
+mark.peer{background:var(--hl-peer); outline:1px dashed var(--sig);}
+mark.s-SUPPORT{box-shadow:inset 0 -2px 0 var(--sup);}
+mark.s-UNDERMINE{box-shadow:inset 0 -2px 0 var(--und);}
+mark.s-NEUTRAL{box-shadow:inset 0 -2px 0 var(--neu);}
+.verdict{display:inline-block; margin-top:6px; font-family:"IBM Plex Mono",monospace;
+  font-size:.76rem; font-weight:600; padding:.18rem .5rem; border-radius:2px;
+  letter-spacing:.04em;}
+.v-SUPPORT{background:color-mix(in srgb, var(--sup) 18%, transparent); color:var(--sup);}
+.v-UNDERMINE{background:color-mix(in srgb, var(--und) 18%, transparent); color:var(--und);}
+.v-UNCERTAIN{background:var(--sunk); color:var(--muted);}
+
+/* ---- tooltip ---- */
+#tip{position:fixed; z-index:60; max-width:420px; background:var(--surface);
+  border:1px solid var(--rule); border-left:3px solid var(--sig); border-radius:2px;
+  box-shadow:0 8px 30px -10px rgba(0,0,0,.35); padding:11px 13px; font-size:.8rem;
+  pointer-events:auto; display:none; line-height:1.55;}
+#tip .can{color:var(--ink); font-weight:500; margin-bottom:6px;}
+#tip .row{font-family:"IBM Plex Mono",monospace; font-size:.71rem; color:var(--muted);
+  margin-top:3px;}
+#tip .occ{margin-top:7px; display:flex; flex-wrap:wrap; gap:5px;}
+#tip .occ button{font-family:"IBM Plex Mono",monospace; font-size:.7rem; cursor:pointer;
+  background:var(--sunk); border:1px solid var(--rule); border-radius:2px;
+  padding:.14rem .38rem; color:var(--ink);}
+#tip .occ button:hover{background:var(--sig-soft); border-color:var(--sig);}
+#tip .occ button.first{border-color:var(--sig); color:var(--sig); font-weight:600;}
+#links{position:absolute; inset:0; pointer-events:none; z-index:5; overflow:visible;}
+.hint{font-size:.78rem; color:var(--muted); margin:14px 0 0;}
+.key{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:.74rem; color:var(--muted);
+  margin:10px 0 0; align-items:center;}
+.key i{display:inline-block; width:22px; height:9px; border-radius:2px;
+  vertical-align:-1px; margin-right:.35rem;}
+:focus-visible{outline:2px solid var(--sig); outline-offset:2px;}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>辩论轨迹查看器 <small id="stat"></small></h1>
+  <div class="bar">
+    <select id="pick"></select>
+    <button class="tgl" id="tLink" type="button" aria-pressed="false">连线：显示同一事实</button>
+    <button class="tgl" id="tStance" type="button" aria-pressed="true">立场底色</button>
+    <button class="tgl" id="tOnlyShared" type="button" aria-pressed="false">只highlight被复述过的</button>
+  </div>
+  <p class="claim" id="claim"></p>
+  <p class="meta" id="meta"></p>
+</header>
+
+<div class="key">
+  <span><i style="background:var(--hl)"></i>抽取到事实的句子</span>
+  <span><i style="background:var(--hl-active);outline:1px solid var(--sig)"></i>当前选中</span>
+  <span><i style="background:var(--hl-peer);outline:1px dashed var(--sig)"></i>同一事实的其他出现</span>
+  <span><i style="box-shadow:inset 0 -3px 0 var(--sup);background:var(--hl)"></i>支持命题</span>
+  <span><i style="box-shadow:inset 0 -3px 0 var(--und);background:var(--hl)"></i>削弱命题</span>
+  <span><i style="box-shadow:inset 0 -3px 0 var(--neu);background:var(--hl)"></i>中立 / 元陈述</span>
+</div>
+
+<div class="rounds" id="rounds"><svg id="links"></svg></div>
+<p class="hint" id="hint"></p>
+</div>
+<div id="tip" role="tooltip"></div>
+
+<script>
+const DATA = /*__TRACE__*/null;
+const TOPO_CN = {full:"全连接", star:"星型", chain:"链式"};
+const STANCE_CN = {SUPPORT:"支持命题", UNDERMINE:"削弱命题", NEUTRAL:"中立 / 元陈述"};
+
+const $ = id => document.getElementById(id);
+const state = {debate:null, links:false, stance:true, onlyShared:false, sel:null};
+
+/* ---------- picker ---------- */
+const pick = $("pick");
+DATA.debates.forEach((d,i)=>{
+  const o=document.createElement("option");
+  o.value=i;
+  o.textContent=`#${d.claim_id} · ${TOPO_CN[d.topology]} · ${d.panel} — ${d.claim.slice(0,44)}`;
+  pick.appendChild(o);
+});
+$("stat").textContent =
+  `${DATA.debates.length} 场 · ${DATA.n_spans} 个已定位片段 · ${DATA.n_unplaced} 个未定位`;
+
+/* ---------- render one debate ---------- */
+function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+
+/* Facts said in more than one turn — the only ones a link can connect, and the
+   only ones the "only shared" filter keeps. Computed per debate, not global:
+   the same canonical fact in another debate is a different object. */
+function sharedFacts(d){
+  const seen={}, multi=new Set();
+  Object.entries(d.spans).forEach(([slot,items])=>{
+    items.forEach(s=>{(seen[s.f] ||= new Set()).add(slot);});
+  });
+  Object.entries(seen).forEach(([f,slots])=>{if(slots.size>1) multi.add(f);});
+  return {bySlot:seen, multi:multi};
+}
+
+/* For each fact, every turn that said it, and *why it could be there*.
+   This is the distinction the whole corpus turns on. Three agents reading one
+   shared dossier will independently state the same proposition, so two turns
+   containing the same canonical fact is not evidence that anything moved
+   between them. Round 1 is generated in parallel with no visibility at all, so
+   a co-occurrence there is coincidence by construction. Later, the delivery
+   record says whether the speaker had actually been handed that fact before
+   saying it — if not, it is an independent re-derivation, not transmission. */
+function occurrences(d){
+  const said={};
+  d.order.forEach(slot=>(d.spans[slot]||[]).forEach(s=>{
+    (said[s.f] ||= new Set()).add(slot);
+  }));
+  const firstRound = Math.min(...d.order.map(s=>+s.split("|")[1]));
+  const occ={};
+  d.order.forEach(slot=>{
+    const rnd=+slot.split("|")[1];
+    (d.spans[slot]||[]).forEach((s,i)=>{
+      const list=(occ[s.f] ||= []);
+      if(list.some(o=>o.slot===slot)) return;      // one entry per turn
+      let how;
+      if(rnd===firstRound) how="parallel";
+      else{
+        const delivered=(d.delivery[slot]||[]).some(peer=>
+          (said[s.f]||new Set()).has(peer));
+        const mineBefore=[...(said[s.f]||[])].some(o=>{
+          const [a,r]=o.split("|"); return a===slot.split("|")[0] && +r<rnd;});
+        how = mineBefore ? "self" : (delivered ? "delivered" : "rederived");
+      }
+      list.push({slot:slot, i:i, how:how});
+    });
+  });
+  return occ;
+}
+const HOW_CN={parallel:"并行首现（本轮互不可见，属巧合）",
+              delivered:"此前收到过（可能是传输）",
+              rederived:"没收到过（独立重推）",
+              self:"自己上一轮说过"};
+const HOW_SHORT={parallel:"并行", delivered:"收到过", rederived:"未收到", self:"自持"};
+
+function render(idx){
+  const d = DATA.debates[idx];
+  state.debate = d;
+  state.sel = null;
+  const info = sharedFacts(d);
+  state.shared = info.multi;
+  state.occ = occurrences(d);
+
+  $("claim").textContent = `命题 #${d.claim_id}：${d.claim}`;
+  const unplaced = d.unplaced ? ` · 本场 ${d.unplaced} 个片段无法定位到原文` : "";
+  $("meta").textContent =
+    `${TOPO_CN[d.topology]} · ${d.panel} · ${d.order.length} 个 turn · ` +
+    `${Object.values(d.spans).reduce((a,b)=>a+b.length,0)} 个片段 · ` +
+    `${Object.keys(d.facts).length} 个规范事实（其中 ${info.multi.size} 个被多个 turn 说过）${unplaced}`;
+
+  const rounds = [...new Set(d.order.map(s=>+s.split("|")[1]))].sort((a,b)=>a-b);
+  const host = $("rounds");
+  host.querySelectorAll(".round").forEach(n=>n.remove());
+
+  rounds.forEach(r=>{
+    const wrap=document.createElement("div"); wrap.className="round";
+    const lab=document.createElement("p"); lab.className="rlab";
+    lab.textContent = r===rounds[0] ? `第 ${r} 轮 · 三人并行生成，互不可见`
+                                    : `第 ${r} 轮`;
+    wrap.appendChild(lab);
+    const cols=document.createElement("div"); cols.className="cols";
+    d.order.filter(s=>+s.split("|")[1]===r).forEach(slot=>{
+      cols.appendChild(turnCard(d, slot));
+    });
+    wrap.appendChild(cols); host.appendChild(wrap);
+  });
+  drawLinks();
+}
+
+function turnCard(d, slot){
+  const [agent, rnd] = slot.split("|");
+  const card=document.createElement("div"); card.className="turn"; card.dataset.slot=slot;
+  const peers=(d.delivery[slot]||[]);
+  if(!peers.length) card.classList.add("no-input");
+
+  const head=document.createElement("div"); head.className="thead";
+  const a=document.createElement("span"); a.className="agent"; a.textContent=agent;
+  a.dataset.role=d.roles[agent]||"";
+  a.dataset.short=d.role_short[agent]||"";
+  head.appendChild(a);
+  const role=document.createElement("span"); role.className="role";
+  role.textContent=d.role_short[agent]||"";
+  head.appendChild(role);
+  const recv=document.createElement("span"); recv.className="recv";
+  recv.textContent = peers.length ? `收到 ${peers.join(" ")}` : "无输入";
+  head.appendChild(recv);
+  card.appendChild(head);
+
+  const text=d.text[slot]||"";
+  const v=d.verdicts[slot];
+  const cut = v ? v.a : text.length;
+  const body=document.createElement("div"); body.className="body-text";
+  body.innerHTML = markup(d, slot, text.slice(0, cut));
+  card.appendChild(body);
+
+  if(v){
+    const badge=document.createElement("div");
+    badge.className=`verdict v-${v.v}`;
+    badge.textContent=`VERDICT: ${v.v}`;
+    badge.title="每个 turn 必须以这一行结尾，是这批数据里唯一的结果变量";
+    card.appendChild(badge);
+  }
+  return card;
+}
+
+function markup(d, slot, text){
+  const items=(d.spans[slot]||[]).filter(s=>s.a<text.length)
+    .sort((x,y)=>x.a-y.a);
+  let out="", at=0;
+  items.forEach((s,i)=>{
+    if(s.a<at) return;
+    const end=Math.min(s.b, text.length);
+    const shared=state.shared.has(s.f);
+    if(state.onlyShared && !shared){ return; }
+    out += esc(text.slice(at, s.a));
+    const st=(d.facts[s.f]||{}).s;
+    const cls=["mk", state.stance&&st?`s-${st}`:""].filter(Boolean).join(" ");
+    out += `<mark class="${cls}" data-f="${s.f}" data-slot="${slot}" data-i="${i}"`
+        +  `>${esc(text.slice(s.a, end))}</mark>`;
+    at=end;
+  });
+  out += esc(text.slice(at));
+  return out;
+}
+
+/* ---------- selection, tooltip ---------- */
+function clearMarks(){
+  document.querySelectorAll("mark.sel,mark.peer").forEach(m=>
+    m.classList.remove("sel","peer"));
+}
+
+function select(fid, origin){
+  clearMarks();
+  state.sel = fid;
+  document.querySelectorAll(`mark[data-f="${fid}"]`).forEach(m=>{
+    m.classList.add(m===origin ? "sel" : "peer");
+  });
+  if(!origin) document.querySelectorAll(`mark[data-f="${fid}"]`).forEach((m,i)=>{
+    if(i===0) m.classList.add("sel");
+  });
+  drawLinks();
+}
+
+function showTip(mark){
+  const d=state.debate, fid=mark.dataset.f, fact=d.facts[fid]||{};
+  const occ=state.occ[fid]||[];
+  const first=occ[0];
+  const tip=$("tip");
+  const stance = fact.s ? STANCE_CN[fact.s] : "未标注";
+  let html = `<div class="can">${esc(fact.c||"")}</div>`;
+  html += `<div class="row">规范事实 ${fid}</div>`;
+  html += `<div class="row">立场：${stance}</div>`;
+  html += `<div class="row">本处原文片段：“${esc(mark.textContent.trim().slice(0,90))}”</div>`;
+  const agents=new Set(occ.map(o=>o.slot.split("|")[0])).size;
+  html += `<div class="row">首次出现：${first?first.slot:"—"}　共 ${occ.length} 个 turn`
+       +  `${occ.length>1?"，跨 "+agents+" 个 agent":""}</div>`;
+  if(occ.length>1){
+    const moved=occ.filter(o=>o.how==="delivered").length;
+    const par=occ.filter(o=>o.how==="parallel").length;
+    const red=occ.filter(o=>o.how==="rederived").length;
+    html += `<div class="row" style="color:var(--ink)">`
+         +  (moved ? `其中 ${moved} 处是收到投递之后才说的` : `没有一处能归因于投递`)
+         +  `${par>1?`；${par} 处是第 1 轮并行说出（互不可见，只能是巧合）`:""}`
+         +  `${red?`；${red} 处此前没收到过（独立重推）`:""}</div>`;
+    html += `<div class="occ">` + occ.map((o,i)=>
+      `<button data-jump="${o.slot}" data-fid="${fid}" class="${i===0?"first":""}" `+
+      `title="${HOW_CN[o.how]}">${o.slot} <span style="opacity:.6">${HOW_SHORT[o.how]}</span>`+
+      `</button>`).join("") + `</div>`;
+  }
+  tip.innerHTML=html;
+  tip.style.display="block";
+  const r=mark.getBoundingClientRect(), t=tip.getBoundingClientRect();
+  let left=Math.min(r.left, innerWidth-t.width-14);
+  let top=r.bottom+8;
+  if(top+t.height>innerHeight-10) top=Math.max(10, r.top-t.height-8);
+  tip.style.left=Math.max(10,left)+"px"; tip.style.top=top+"px";
+}
+
+function hideTip(){ $("tip").style.display="none"; }
+
+document.addEventListener("mouseover", e=>{
+  const m=e.target.closest("mark[data-f]");
+  if(m){ showTip(m); return; }
+  const a=e.target.closest(".agent");
+  if(a){
+    const tip=$("tip");
+    tip.innerHTML = `<div class="can">${esc(a.textContent)}　${esc(a.dataset.short)}</div>`
+      + `<div class="row" style="white-space:pre-wrap">${esc(a.dataset.role)}</div>`
+      + `<div class="row" style="margin-top:6px">这段提示词只规定"你是谁"，任务、材料和输出格式三种人格下完全相同。</div>`;
+    tip.style.display="block";
+    const r=a.getBoundingClientRect(), t=tip.getBoundingClientRect();
+    tip.style.left=Math.max(10,Math.min(r.left,innerWidth-t.width-14))+"px";
+    tip.style.top=(r.bottom+8)+"px";
+  }
+});
+document.addEventListener("mouseout", e=>{
+  if(e.target.closest("mark[data-f],.agent") &&
+     !(e.relatedTarget && e.relatedTarget.closest("#tip"))) hideTip();
+});
+$("tip").addEventListener("mouseleave", hideTip);
+
+document.addEventListener("click", e=>{
+  const jump=e.target.closest("button[data-jump]");
+  if(jump){
+    const slot=jump.dataset.jump, fid=jump.dataset.fid;
+    const target=[...document.querySelectorAll(`mark[data-f="${fid}"]`)]
+      .find(m=>m.dataset.slot===slot);
+    if(target){
+      select(fid, target);
+      target.scrollIntoView({block:"center", behavior:"smooth"});
+    }
+    return;
+  }
+  const m=e.target.closest("mark[data-f]");
+  if(m){ select(m.dataset.f, m); return; }
+  if(!e.target.closest("#tip")){ clearMarks(); state.sel=null; hideTip(); drawLinks(); }
+});
+
+/* ---------- links between matched facts ---------- */
+function drawLinks(){
+  const svg=$("links");
+  svg.innerHTML="";
+  if(!state.links && !state.sel) return;
+  const host=$("rounds").getBoundingClientRect();
+  svg.setAttribute("viewBox", `0 0 ${host.width} ${host.height}`);
+  svg.setAttribute("width", host.width); svg.setAttribute("height", host.height);
+  svg.style.width=host.width+"px"; svg.style.height=host.height+"px";
+
+  const groups={};
+  document.querySelectorAll("mark[data-f]").forEach(m=>{
+    (groups[m.dataset.f] ||= []).push(m);
+  });
+  const NS="http://www.w3.org/2000/svg";
+  Object.entries(groups).forEach(([fid, marks])=>{
+    if(marks.length<2) return;
+    const focus = state.sel===fid;
+    if(!state.links && !focus) return;
+    const st=(state.debate.facts[fid]||{}).s;
+    const col = st==="SUPPORT"?"var(--sup)":st==="UNDERMINE"?"var(--und)":"var(--neu)";
+    for(let i=0;i<marks.length-1;i++){
+      const a=marks[i].getBoundingClientRect(), b=marks[i+1].getBoundingClientRect();
+      const x1=a.left-host.left+a.width/2, y1=a.bottom-host.top;
+      const x2=b.left-host.left+b.width/2, y2=b.top-host.top;
+      const dy=Math.max(24,(y2-y1)/2);
+      const path=document.createElementNS(NS,"path");
+      path.setAttribute("d",`M${x1},${y1}C${x1},${y1+dy} ${x2},${y2-dy} ${x2},${y2}`);
+      path.setAttribute("fill","none");
+      path.setAttribute("stroke",col);
+      const how=(state.occ[fid]||[]).find(o=>o.slot===marks[i+1].dataset.slot);
+      const real = how && how.how==="delivered";
+      path.setAttribute("stroke-width", focus?2.2:1);
+      path.setAttribute("opacity", focus?0.9:(real?0.34:0.16));
+      if(!real) path.setAttribute("stroke-dasharray","3 4");
+      svg.appendChild(path);
+      const dot=document.createElementNS(NS,"circle");
+      dot.setAttribute("cx",x2); dot.setAttribute("cy",y2);
+      dot.setAttribute("r", focus?3.4:2);
+      dot.setAttribute("fill",col); dot.setAttribute("opacity", focus?0.9:0.35);
+      svg.appendChild(dot);
+    }
+  });
+}
+
+/* ---------- toggles ---------- */
+function toggle(btn, key, after){
+  btn.addEventListener("click", ()=>{
+    state[key]=!state[key];
+    btn.setAttribute("aria-pressed", String(state[key]));
+    if(after) after();
+  });
+}
+toggle($("tLink"),"links",drawLinks);
+toggle($("tStance"),"stance",()=>render(+pick.value));
+toggle($("tOnlyShared"),"onlyShared",()=>render(+pick.value));
+pick.addEventListener("change", ()=>{ render(+pick.value); scrollTo({top:0}); });
+addEventListener("resize", drawLinks);
+addEventListener("scroll", ()=>{ if($("tip").style.display==="block") hideTip(); },
+  {passive:true});
+
+$("hint").textContent =
+  "点一个高亮片段可以钉住它，同一事实的其他出现会变色；悬停看规范文本、立场和全部出现位置，" +
+  "点位置按钮可跳转。悬停 agent 名字看它拿到的角色提示词原文。虚线边框的 turn 表示这一轮没有收到任何同伴输出。<b>注意</b>：三个 agent 读同一份材料，所以两个 turn 出现同一个事实不等于信息传过去了——第 1 轮是并行生成、互不可见，那里的重合只能是巧合；后面的轮次要看该事实是否真的被投递过。tooltip 和连线都按这个区分。";
+
+render(0);
+</script>

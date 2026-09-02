@@ -1,7 +1,7 @@
 """Effective-structure analysis: budget, verification of position effects,
 relay, verdicts.  All offline and deterministic; no LLM calls.
 
-Reads the 72 deepseek-v4-flash stores (12 claims x 3 personas x full|star), the
+Reads the 108 deepseek-v4-flash stores (12 claims x 3 personas x full|star|chain), the
 stance/token labels, and the delivery graphs recorded in each debate file.
 
 The first version of this analysis reported a "primacy/position effect": agent A
@@ -49,8 +49,14 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 OUT = ROOT / "findings" / "data" / "effective-structure.json"
 
-DIRS = {"full": "perspectrum_pilot_full", "star": "perspectrum_pilot_star_chain"}
-CELLS = [f"{t}/{p}" for t in ("full", "star") for p in ("neutral", "lenses", "stance")]
+DIRS = {
+    "full": HERE / "perspectrum_pilot_full",
+    "star": HERE / "perspectrum_pilot_star_chain",
+    "chain": HERE / "perspectrum_pilot_star_chain",
+}
+TOPOLOGIES = ("full", "star", "chain")
+PERSONAS = ("neutral", "lenses", "stance")
+CELLS = [f"{t}/{p}" for t in TOPOLOGIES for p in PERSONAS]
 AGENTS = ("A", "B", "C")
 SEED = 20260901
 
@@ -212,10 +218,11 @@ def compute(ex: str, r: dict, stance_lab: dict, tok: dict) -> dict:
     uniq_by_round = {a: {rr: sum(1 for fid in final if staters[fid] == {a}
                                  and fround[fid] == rr) for rr in (1, 2, 3)} for a in AGENTS}
     adopt_r1uniq = {a: [0, 0] for a in AGENTS}
-    for fid in final:
-        if len(r1_staters[fid]) != 1:
+    for fid in dist:
+        r1_sources = {a for a in AGENTS if fid in out.get((a, 1), set())}
+        if len(r1_sources) != 1:
             continue
-        a0 = next(iter(r1_staters[fid]))
+        a0 = next(iter(r1_sources))
         adopt_r1uniq[a0][1] += 1
         if len(staters[fid]) > 1:
             adopt_r1uniq[a0][0] += 1
@@ -280,8 +287,8 @@ def compute(ex: str, r: dict, stance_lab: dict, tok: dict) -> dict:
 
 def main() -> int:
     runs = load_runs()
-    if len(runs) != 72:
-        print(f"expected 72 runs, found {len(runs)}", file=__import__("sys").stderr)
+    if len(runs) != 108:
+        print(f"expected 108 runs, found {len(runs)}", file=__import__("sys").stderr)
         return 1
     stance_lab, tok = load_labels()
     R = {ex: compute(ex, r, stance_lab, tok) for ex, r in runs.items()}
@@ -331,7 +338,7 @@ def main() -> int:
 
     # ---- paired persona ----
     paired_persona: dict[str, dict] = {}
-    for topo in ("full", "star"):
+    for topo in TOPOLOGIES:
         by_claim: dict[str, dict] = defaultdict(dict)
         for r in R.values():
             if r["topo"] == topo:
@@ -348,14 +355,16 @@ def main() -> int:
     by_key: dict[tuple, dict] = {}
     for r in R.values():
         by_key.setdefault((r["claim"], r["persona"]), {})[r["topo"]] = r
-    for m in METRICS:
-        deltas = [by_key[k]["star"][m] - by_key[k]["full"][m]
-                  for k in by_key if len(by_key[k]) == 2]
-        paired_topo[m] = boot(deltas)
+    for contrast in ("star-full", "chain-full", "chain-star"):
+        lhs, rhs = contrast.split("-")
+        for m in METRICS:
+            deltas = [by_key[k][lhs][m] - by_key[k][rhs][m]
+                      for k in by_key if lhs in by_key[k] and rhs in by_key[k]]
+            paired_topo[f"{contrast}|{m}"] = boot(deltas)
 
     # ---- relay aggregate ----
     relay: dict[str, dict] = {}
-    for persona in ("neutral", "lenses", "stance"):
+    for persona in PERSONAS:
         agg: dict[str, dict] = {}
         for k in ("C_to_B", "B_to_C"):
             tot = sum(r["relay"][k]["total"] for r in R.values()
@@ -370,7 +379,7 @@ def main() -> int:
     # ---- stance-conditioned adoption ----
     side = {"A": "SUPPORT", "B": "UNDERMINE", "C": "NEUTRAL"}
     stance_adoption: dict[str, dict] = {}
-    for topo in ("full", "star"):
+    for topo in TOPOLOGIES:
         per = {a: {"n": 0, "same": 0, "ns": 0, "nu": 0} for a in AGENTS}
         for r in R.values():
             if r["topo"] != topo or r["persona"] != "stance":
@@ -400,12 +409,17 @@ def main() -> int:
         stance_adoption[topo] = {}
         for a in AGENTS:
             ns, nu = per[a]["ns"], per[a]["nu"]
+            expected_same = None
+            if ns + nu and side[a] == "SUPPORT":
+                expected_same = ns / (ns + nu)
+            elif ns + nu and side[a] == "UNDERMINE":
+                expected_same = nu / (ns + nu)
             stance_adoption[topo][a] = {
                 "side": side[a], "n": per[a]["n"],
-                "same": (per[a]["same"] / per[a]["n"]) if per[a]["n"] else None,
+                "same": (per[a]["same"] / per[a]["n"])
+                        if per[a]["n"] and side[a] != "NEUTRAL" else None,
                 "base_support": (ns / (ns + nu)) if ns + nu else None,
-                "expected_same": (ns / (ns + nu)) if side[a] == "SUPPORT"
-                                 else ((nu / (ns + nu)) if ns + nu else None),
+                "expected_same": expected_same,
             }
 
     # ---- transmission ----
