@@ -41,7 +41,8 @@ body{margin:0; background:var(--ground); color:var(--body);
 
 /* ---- controls ---- */
 header{position:sticky; top:0; z-index:40; background:var(--ground);
-  border-bottom:1px solid var(--rule); padding:14px 0 12px;}
+  border-bottom:1px solid var(--rule); padding:12px 0 10px;
+  max-height:46vh; overflow:auto;}
 h1{font-size:1.05rem; margin:0 0 10px; color:var(--ink); font-weight:600;
   display:flex; align-items:baseline; gap:.8rem; flex-wrap:wrap;}
 h1 small{font-weight:400; font-size:.78rem; color:var(--muted);
@@ -91,6 +92,14 @@ mark{background:var(--hl); color:inherit; border-radius:2px; padding:.05em 0;
 mark:hover{background:var(--hl-active);}
 mark.sel{background:var(--hl-active); outline:1px solid var(--sig);}
 mark.peer{background:var(--hl-peer); outline:1px dashed var(--sig);}
+/* Focus. With most of a turn highlighted, the useful question — where else did
+   this one fact turn up — is hard to answer while every other span is lit. On
+   click the rest drop back to plain text, so the only marked text left on the
+   page is that fact's occurrences. Click anywhere else to restore. */
+.focus mark:not(.sel):not(.peer){background:none; box-shadow:none; outline:none;
+  color:var(--muted);}
+.focus mark:not(.sel):not(.peer):hover{background:var(--hl); color:inherit;}
+.focus .turn:not(:has(mark.sel)):not(:has(mark.peer)){opacity:.62;}
 mark.s-SUPPORT{box-shadow:inset 0 -2px 0 var(--sup);}
 mark.s-UNDERMINE{box-shadow:inset 0 -2px 0 var(--und);}
 mark.s-NEUTRAL{box-shadow:inset 0 -2px 0 var(--neu);}
@@ -122,6 +131,14 @@ mark.s-NEUTRAL{box-shadow:inset 0 -2px 0 var(--neu);}
 .key i{display:inline-block; width:22px; height:11px; border-radius:2px;
   background:var(--hl); vertical-align:-2px; margin-right:.35rem;}
 :focus-visible{outline:2px solid var(--sig); outline-offset:2px;}
+/* The control block stacks on a narrow screen and a sticky header then eats
+   the whole viewport, leaving nothing to scroll. Below 760px it scrolls away
+   with the rest of the page. */
+@media (max-width:760px){
+  header{position:static;}
+  .claim{font-size:.85rem;}
+  select{max-width:100%; width:100%;}
+}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
 
@@ -343,11 +360,13 @@ function markup(d, slot, text){
 function clearMarks(){
   document.querySelectorAll("mark.sel,mark.peer").forEach(m=>
     m.classList.remove("sel","peer"));
+  document.body.classList.remove("focus");
 }
 
 function select(fid, origin){
   clearMarks();
   state.sel = fid;
+  document.body.classList.add("focus");
   document.querySelectorAll(`mark[data-f="${fid}"]`).forEach(m=>{
     m.classList.add(m===origin ? "sel" : "peer");
   });
@@ -494,7 +513,7 @@ addEventListener("scroll", ()=>{ if($("tip").style.display==="block") hideTip();
   {passive:true});
 
 $("hint").textContent =
-  "点一个高亮片段可以钉住它，同一事实的其他出现会变色；悬停看规范文本、立场和全部出现位置，" +
+  "点一个高亮片段，页面上只留下这个事实的全部出现，其余片段退回普通文字，没有它的 turn 变淡；再点空白处恢复。悬停看规范文本、立场和全部出现位置，" +
   "点位置按钮可跳转。悬停 agent 名字看它拿到的角色提示词原文。虚线边框的 turn 表示这一轮没有收到任何同伴输出。<b>注意</b>：三个 agent 读同一份材料，所以两个 turn 出现同一个事实不等于信息传过去了——第 1 轮是并行生成、互不可见，那里的重合只能是巧合；后面的轮次要看该事实是否真的被投递过。tooltip 和连线都按这个区分。";
 
 render(0);
