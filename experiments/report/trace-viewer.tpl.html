@@ -71,7 +71,7 @@ select{max-width:340px;}
 @media (max-width:900px){.cols{grid-template-columns:1fr;}}
 .turn{background:var(--surface); border:1px solid var(--rule); border-radius:2px;
   padding:12px 14px 14px; box-shadow:var(--shadow); position:relative;}
-.turn.no-input{border-style:dashed; opacity:.94;}
+.turn.no-peer{border-style:dashed;}
 .thead{display:flex; align-items:baseline; gap:.5rem; margin-bottom:8px;
   padding-bottom:7px; border-bottom:1px solid var(--rule-soft); flex-wrap:wrap;}
 .agent{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:.95rem;
@@ -126,6 +126,28 @@ mark.s-NEUTRAL{box-shadow:inset 0 -2px 0 var(--neu);}
 #tip .occ button.first{border-color:var(--sig); color:var(--sig); font-weight:600;}
 #links{position:absolute; inset:0; pointer-events:none; z-index:5; overflow:visible;}
 .hint{font-size:.78rem; color:var(--muted); margin:14px 0 0;}
+/* The dossier. Without it the transcripts are unreadable — every turn argues
+   about E1 to E4 by name — and it is also the single most important structural
+   fact about the setup: it sits in context on every turn of every round, so an
+   agent can restate any of it at any time without receiving anything. */
+.dossier{margin:16px 0 0; background:var(--surface); border:1px solid var(--rule);
+  border-radius:2px; box-shadow:var(--shadow);}
+.dossier > summary{cursor:pointer; padding:10px 14px; font-size:.84rem;
+  color:var(--ink); font-weight:600; list-style:none; display:flex;
+  align-items:center; gap:.6rem; flex-wrap:wrap;}
+.dossier > summary::-webkit-details-marker{display:none}
+.dossier > summary::before{content:"▸"; color:var(--sig); font-size:.8rem;}
+.dossier[open] > summary::before{content:"▾";}
+.dossier > summary small{font-weight:400; color:var(--faint);
+  font-family:"IBM Plex Mono",monospace; font-size:.7rem;}
+.dbody{padding:0 14px 14px; display:grid; gap:10px;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+.ev{border-left:3px solid var(--neu); padding:7px 0 7px 11px; font-size:.8rem;
+  line-height:1.66;}
+.ev.support{border-color:var(--sup);} .ev.undermine{border-color:var(--und);}
+.ev b{font-family:"IBM Plex Mono",monospace; font-size:.76rem; display:block;
+  margin-bottom:2px;}
+.ev.support b{color:var(--sup);} .ev.undermine b{color:var(--und);}
 .key{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:.74rem; color:var(--muted);
   margin:10px 0 0; align-items:center;}
 .key i{display:inline-block; width:22px; height:11px; border-radius:2px;
@@ -164,6 +186,11 @@ mark.s-NEUTRAL{box-shadow:inset 0 -2px 0 var(--neu);}
   <span><i style="background:var(--hl-active);outline:1px solid var(--sig)"></i>当前选中</span>
   <span><i style="background:var(--hl-peer);outline:1px dashed var(--sig)"></i>同一事实的其他出现</span>
 </div>
+
+<details class="dossier" id="dossier">
+  <summary>材料卷宗 <small id="dsum"></small></summary>
+  <div class="dbody" id="dbody"></div>
+</details>
 
 <div class="rounds" id="rounds"><svg id="links"></svg></div>
 <p class="hint" id="hint"></p>
@@ -214,7 +241,7 @@ function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"
 function sharedFacts(d){
   const seen={}, multi=new Set();
   Object.entries(d.spans).forEach(([slot,items])=>{
-    items.forEach(s=>{(seen[s.f] ||= new Set()).add(slot);});
+    items.forEach(s=>s.fs.forEach(g=>{(seen[g.f] ||= new Set()).add(slot);}));
   });
   Object.entries(seen).forEach(([f,slots])=>{if(slots.size>1) multi.add(f);});
   return {bySlot:seen, multi:multi};
@@ -230,27 +257,27 @@ function sharedFacts(d){
    saying it — if not, it is an independent re-derivation, not transmission. */
 function occurrences(d){
   const said={};
-  d.order.forEach(slot=>(d.spans[slot]||[]).forEach(s=>{
-    (said[s.f] ||= new Set()).add(slot);
-  }));
+  d.order.forEach(slot=>(d.spans[slot]||[]).forEach(s=>s.fs.forEach(g=>{
+    (said[g.f] ||= new Set()).add(slot);
+  })));
   const firstRound = Math.min(...d.order.map(s=>+s.split("|")[1]));
   const occ={};
   d.order.forEach(slot=>{
     const rnd=+slot.split("|")[1];
-    (d.spans[slot]||[]).forEach((s,i)=>{
-      const list=(occ[s.f] ||= []);
+    (d.spans[slot]||[]).forEach((s,i)=>s.fs.forEach(g=>{
+      const list=(occ[g.f] ||= []);
       if(list.some(o=>o.slot===slot)) return;      // one entry per turn
       let how;
       if(rnd===firstRound) how="parallel";
       else{
         const delivered=(d.delivery[slot]||[]).some(peer=>
-          (said[s.f]||new Set()).has(peer));
-        const mineBefore=[...(said[s.f]||[])].some(o=>{
+          (said[g.f]||new Set()).has(peer));
+        const mineBefore=[...(said[g.f]||[])].some(o=>{
           const [a,r]=o.split("|"); return a===slot.split("|")[0] && +r<rnd;});
         how = mineBefore ? "self" : (delivered ? "delivered" : "rederived");
       }
       list.push({slot:slot, i:i, how:how});
-    });
+    }));
   });
   return occ;
 }
@@ -281,6 +308,21 @@ function render(idx){
     `${unplaced}` +
     `${noV ? ` · ${noV} 个 turn 没写出可解析的 VERDICT` : ""}`;
 
+  // dossier
+  const EV_CN={support:"支持命题", undermine:"削弱命题"};
+  $("dsum").textContent = `命题 + ${d.evidence.length} 条证据（`
+    + d.evidence.map(e=>`${e.id} ${EV_CN[e.stance]||e.stance}`).join("、")
+    + `）· 每一轮的每个 turn 都能看到全部内容`;
+  const db=$("dbody"); db.innerHTML="";
+  const cl=document.createElement("div"); cl.className="ev";
+  cl.innerHTML=`<b>命题</b>${esc(d.claim)}`;
+  db.appendChild(cl);
+  d.evidence.forEach(e=>{
+    const n=document.createElement("div"); n.className="ev "+e.stance;
+    n.innerHTML=`<b>${e.id}　${EV_CN[e.stance]||e.stance}</b>${esc(e.text)}`;
+    db.appendChild(n);
+  });
+
   const rounds = [...new Set(d.order.map(s=>+s.split("|")[1]))].sort((a,b)=>a-b);
   const host = $("rounds");
   host.querySelectorAll(".round").forEach(n=>n.remove());
@@ -288,8 +330,9 @@ function render(idx){
   rounds.forEach(r=>{
     const wrap=document.createElement("div"); wrap.className="round";
     const lab=document.createElement("p"); lab.className="rlab";
-    lab.textContent = r===rounds[0] ? `第 ${r} 轮 · 三人并行生成，互不可见`
-                                    : `第 ${r} 轮`;
+    lab.textContent = r===rounds[0]
+      ? `第 ${r} 轮 · 三人并行生成，只看到材料卷宗，互不可见`
+      : `第 ${r} 轮 · 并行生成，各自看到材料卷宗 + 上一轮投递给自己的同伴输出`;
     wrap.appendChild(lab);
     const cols=document.createElement("div"); cols.className="cols";
     d.order.filter(s=>+s.split("|")[1]===r).forEach(slot=>{
@@ -304,7 +347,7 @@ function turnCard(d, slot){
   const [agent, rnd] = slot.split("|");
   const card=document.createElement("div"); card.className="turn"; card.dataset.slot=slot;
   const peers=(d.delivery[slot]||[]);
-  if(!peers.length) card.classList.add("no-input");
+  if(!peers.length) card.classList.add("no-peer");
 
   const head=document.createElement("div"); head.className="thead";
   const a=document.createElement("span"); a.className="agent"; a.textContent=agent;
@@ -315,7 +358,12 @@ function turnCard(d, slot){
   role.textContent=d.role_short[agent]||"";
   head.appendChild(role);
   const recv=document.createElement("span"); recv.className="recv";
-  recv.textContent = peers.length ? `收到 ${peers.join(" ")}` : "无输入";
+  const src=(d.sources&&d.sources[slot])||[];
+  recv.textContent = (src.length ? `题目 + ${src.filter(x=>x!=="claim").join(" ")}` : "")
+    + (peers.length ? `　+ ${peers.join(" ")}` : "　（本轮无同伴输入）");
+  recv.title = peers.length
+    ? "这个 turn 的上下文：完整证据卷宗，加上列出的同伴上一轮输出"
+    : "这个 turn 的上下文只有证据卷宗，没有任何同伴输出——但卷宗一直都在";
   head.appendChild(recv);
   card.appendChild(head);
 
@@ -339,16 +387,22 @@ function turnCard(d, slot){
 function markup(d, slot, text){
   const items=(d.spans[slot]||[]).filter(s=>s.a<text.length)
     .sort((x,y)=>x.a-y.a);
+  const shownFacts=new Set();
   let out="", at=0;
   items.forEach((s,i)=>{
     if(s.a<at) return;
     const end=Math.min(s.b, text.length);
-    const shared=state.shared.has(s.f);
-    if(state.onlyShared && !shared){ return; }
+    if(state.onlyShared && !s.fs.some(g=>state.shared.has(g.f))){ return; }
     out += esc(text.slice(at, s.a));
-    const st=(d.facts[s.f]||{}).s;
-    const cls=["mk", state.stance&&st?`s-${st}`:""].filter(Boolean).join(" ");
-    out += `<mark class="${cls}" data-f="${s.f}" data-slot="${slot}" data-i="${i}"`
+    // A clause can carry several atoms. The span is one element, but it holds
+    // every fact drawn from it; stance colouring uses the first, selection
+    // matches any. Keeping only one was dropping 3627 facts corpus-wide.
+    const fids=s.fs.map(g=>g.f);
+    const st=(d.facts[fids[0]]||{}).s;
+    const cls=["mk", state.stance&&st?`s-${st}`:"",
+               fids.length>1?"multi":""].filter(Boolean).join(" ");
+    out += `<mark class="${cls}" data-f="${fids[0]}" data-fs="${fids.join(" ")}"`
+        +  ` data-slot="${slot}" data-i="${i}"`
         +  `>${esc(text.slice(s.a, end))}</mark>`;
     at=end;
   });
@@ -367,41 +421,44 @@ function select(fid, origin){
   clearMarks();
   state.sel = fid;
   document.body.classList.add("focus");
-  document.querySelectorAll(`mark[data-f="${fid}"]`).forEach(m=>{
-    m.classList.add(m===origin ? "sel" : "peer");
-  });
-  if(!origin) document.querySelectorAll(`mark[data-f="${fid}"]`).forEach((m,i)=>{
-    if(i===0) m.classList.add("sel");
-  });
+  const hits=[...document.querySelectorAll("mark[data-fs]")].filter(m=>
+    m.dataset.fs.split(" ").includes(fid));
+  hits.forEach(m=>m.classList.add(m===origin ? "sel" : "peer"));
+  if(!origin && hits.length) hits[0].classList.add("sel");
   drawLinks();
 }
 
 function showTip(mark){
-  const d=state.debate, fid=mark.dataset.f, fact=d.facts[fid]||{};
-  const occ=state.occ[fid]||[];
-  const first=occ[0];
+  const d=state.debate, fids=(mark.dataset.fs||mark.dataset.f).split(" ");
   const tip=$("tip");
-  const stance = fact.s ? STANCE_CN[fact.s] : "未标注";
-  let html = `<div class="can">${esc(fact.c||"")}</div>`;
-  html += `<div class="row">规范事实 ${fid}</div>`;
-  html += `<div class="row">立场：${stance}</div>`;
-  html += `<div class="row">本处原文片段：“${esc(mark.textContent.trim().slice(0,90))}”</div>`;
-  const agents=new Set(occ.map(o=>o.slot.split("|")[0])).size;
-  html += `<div class="row">首次出现：${first?first.slot:"—"}　共 ${occ.length} 个 turn`
-       +  `${occ.length>1?"，跨 "+agents+" 个 agent":""}</div>`;
-  if(occ.length>1){
-    const moved=occ.filter(o=>o.how==="delivered").length;
-    const par=occ.filter(o=>o.how==="parallel").length;
-    const red=occ.filter(o=>o.how==="rederived").length;
-    html += `<div class="row" style="color:var(--ink)">`
-         +  (moved ? `其中 ${moved} 处是收到投递之后才说的` : `没有一处能归因于投递`)
-         +  `${par>1?`；${par} 处是第 1 轮并行说出（互不可见，只能是巧合）`:""}`
-         +  `${red?`；${red} 处此前没收到过（独立重推）`:""}</div>`;
+  let html="";
+  if(fids.length>1)
+    html += `<div class="row" style="color:var(--sig)">这一段抽出了 ${fids.length} 条事实</div>`;
+  fids.forEach((fid,k)=>{
+    const fact=d.facts[fid]||{}, occ=state.occ[fid]||[], first=occ[0];
+    const stance = fact.s ? STANCE_CN[fact.s] : "未标注";
+    if(k) html += `<hr style="border:0;border-top:1px solid var(--rule-soft);margin:8px 0">`;
+    html += `<div class="can">${esc(fact.c||"")}</div>`;
+    html += `<div class="row">${fid}　立场：${stance}</div>`;
+    const agents=new Set(occ.map(o=>o.slot.split("|")[0])).size;
+    html += `<div class="row">首次出现：${first?first.slot:"—"}　共 ${occ.length} 个 turn`
+         +  `${occ.length>1?"，跨 "+agents+" 个 agent":""}</div>`;
+    if(occ.length>1){
+      const moved=occ.filter(o=>o.how==="delivered").length;
+      const par=occ.filter(o=>o.how==="parallel").length;
+      const red=occ.filter(o=>o.how==="rederived").length;
+      html += `<div class="row" style="color:var(--ink)">`
+           +  (moved ? `其中 ${moved} 处是收到投递之后才说的` : `没有一处能归因于投递`)
+           +  `${par>1?`；${par} 处第 1 轮并行说出（互不可见，只能是巧合）`:""}`
+           +  `${red?`；${red} 处此前没收到过（独立重推）`:""}</div>`;
+    }
     html += `<div class="occ">` + occ.map((o,i)=>
       `<button data-jump="${o.slot}" data-fid="${fid}" class="${i===0?"first":""}" `+
       `title="${HOW_CN[o.how]}">${o.slot} <span style="opacity:.6">${HOW_SHORT[o.how]}</span>`+
       `</button>`).join("") + `</div>`;
-  }
+  });
+  html += `<div class="row" style="margin-top:7px;color:var(--faint)">`
+       +  `本处原文：“${esc(mark.textContent.trim().slice(0,100))}”</div>`;
   tip.innerHTML=html;
   tip.style.display="block";
   const r=mark.getBoundingClientRect(), t=tip.getBoundingClientRect();
@@ -452,6 +509,48 @@ document.addEventListener("click", e=>{
 });
 
 /* ---------- links between matched facts ---------- */
+/* An edge has to mean "this could have moved from here to there", and only the
+   delivery record can say that. Two rules follow, and the first version of this
+   function broke both by simply chaining occurrences in (round, agent) order.
+   
+   No edge inside a round. Every turn in a round is generated in parallel from
+   the previous round's deliveries, so A|2 and C|2 cannot have passed anything
+   to each other however similar they look. The old chain drew exactly that.
+   
+   Fan out from the source, do not relay through a sibling. If B|1 said a fact
+   and both A|2 and C|2 received B|1 and repeat it, that is two edges out of
+   B|1, not B|1 -> A|2 -> C|2. Chaining invented a hop that never happened and
+   attributed C's copy to A.
+   
+   So each occurrence is joined back to every earlier occurrence that was
+   actually delivered into it. A fact appearing in two turns with no delivery
+   between them gets no edge at all — that is a coincidence of the shared
+   dossier, which is most of them. Same-agent continuation across rounds is
+   drawn faintly and dotted: not transmission, but worth seeing. */
+function linkEdges(fid){
+  // Query data-fs, not data-f: a span carries every atom drawn from it and
+  // data-f is only the first, so a fact sitting second in a clause was
+  // invisible here and silently drew no edges at all.
+  const d=state.debate;
+  const marks=[...document.querySelectorAll("mark[data-fs]")].filter(m=>
+    m.dataset.fs.split(" ").includes(fid));
+  const bySlot={};
+  marks.forEach(m=>{ bySlot[m.dataset.slot] ||= m; });   // first mark per turn
+  const edges=[];
+  Object.keys(bySlot).forEach(to=>{
+    const [toAgent, toRound] = to.split("|");
+    (d.delivery[to]||[]).forEach(from=>{
+      if(bySlot[from]) edges.push({from:from, to:to, kind:"delivered"});
+    });
+    Object.keys(bySlot).forEach(from=>{
+      const [fromAgent, fromRound]=from.split("|");
+      if(fromAgent===toAgent && +fromRound === +toRound-1)
+        edges.push({from:from, to:to, kind:"self"});
+    });
+  });
+  return {edges:edges, bySlot:bySlot};
+}
+
 function drawLinks(){
   const svg=$("links");
   svg.innerHTML="";
@@ -461,38 +560,40 @@ function drawLinks(){
   svg.setAttribute("width", host.width); svg.setAttribute("height", host.height);
   svg.style.width=host.width+"px"; svg.style.height=host.height+"px";
 
-  const groups={};
-  document.querySelectorAll("mark[data-f]").forEach(m=>{
-    (groups[m.dataset.f] ||= []).push(m);
-  });
+  const facts=new Set();
+  document.querySelectorAll("mark[data-fs]").forEach(m=>
+    m.dataset.fs.split(" ").forEach(f=>facts.add(f)));
   const NS="http://www.w3.org/2000/svg";
-  Object.entries(groups).forEach(([fid, marks])=>{
-    if(marks.length<2) return;
+  facts.forEach(fid=>{
     const focus = state.sel===fid;
     if(!state.links && !focus) return;
+    const {edges, bySlot} = linkEdges(fid);
+    if(!edges.length) return;
     const st=(state.debate.facts[fid]||{}).s;
     const col = st==="SUPPORT"?"var(--sup)":st==="UNDERMINE"?"var(--und)":"var(--neu)";
-    for(let i=0;i<marks.length-1;i++){
-      const a=marks[i].getBoundingClientRect(), b=marks[i+1].getBoundingClientRect();
-      const x1=a.left-host.left+a.width/2, y1=a.bottom-host.top;
-      const x2=b.left-host.left+b.width/2, y2=b.top-host.top;
+    edges.forEach(e=>{
+      const A=bySlot[e.from].getBoundingClientRect();
+      const B=bySlot[e.to].getBoundingClientRect();
+      const x1=A.left-host.left+A.width/2, y1=A.bottom-host.top;
+      const x2=B.left-host.left+B.width/2, y2=B.top-host.top;
+      if(y2 < y1 - 4) return;                     // never draw upwards
       const dy=Math.max(24,(y2-y1)/2);
       const path=document.createElementNS(NS,"path");
       path.setAttribute("d",`M${x1},${y1}C${x1},${y1+dy} ${x2},${y2-dy} ${x2},${y2}`);
       path.setAttribute("fill","none");
       path.setAttribute("stroke",col);
-      const how=(state.occ[fid]||[]).find(o=>o.slot===marks[i+1].dataset.slot);
-      const real = how && how.how==="delivered";
-      path.setAttribute("stroke-width", focus?2.2:1);
-      path.setAttribute("opacity", focus?0.9:(real?0.34:0.16));
-      if(!real) path.setAttribute("stroke-dasharray","3 4");
+      const self = e.kind==="self";
+      path.setAttribute("stroke-width", focus?(self?1.4:2.2):(self?0.8:1.2));
+      path.setAttribute("opacity", focus?(self?0.45:0.9):(self?0.14:0.34));
+      if(self) path.setAttribute("stroke-dasharray","2 4");
       svg.appendChild(path);
       const dot=document.createElementNS(NS,"circle");
       dot.setAttribute("cx",x2); dot.setAttribute("cy",y2);
       dot.setAttribute("r", focus?3.4:2);
-      dot.setAttribute("fill",col); dot.setAttribute("opacity", focus?0.9:0.35);
+      dot.setAttribute("fill",col);
+      dot.setAttribute("opacity", focus?(self?0.5:0.9):(self?0.18:0.4));
       svg.appendChild(dot);
-    }
+    });
   });
 }
 
@@ -512,9 +613,9 @@ addEventListener("resize", drawLinks);
 addEventListener("scroll", ()=>{ if($("tip").style.display==="block") hideTip(); },
   {passive:true});
 
-$("hint").textContent =
+$("hint").innerHTML =
   "点一个高亮片段，页面上只留下这个事实的全部出现，其余片段退回普通文字，没有它的 turn 变淡；再点空白处恢复。悬停看规范文本、立场和全部出现位置，" +
-  "点位置按钮可跳转。悬停 agent 名字看它拿到的角色提示词原文。虚线边框的 turn 表示这一轮没有收到任何同伴输出。<b>注意</b>：三个 agent 读同一份材料，所以两个 turn 出现同一个事实不等于信息传过去了——第 1 轮是并行生成、互不可见，那里的重合只能是巧合；后面的轮次要看该事实是否真的被投递过。tooltip 和连线都按这个区分。";
+  "点位置按钮可跳转。悬停 agent 名字看它拿到的角色提示词原文。虚线边框的 turn 表示没有收到同伴输出——但<b>证据卷宗在每一轮的每个 turn 里都在上下文中</b>，所以「没有同伴输入」不等于「没有输入」。<b>注意</b>：三个 agent 读同一份材料，所以两个 turn 出现同一个事实不等于信息传过去了——第 1 轮是并行生成、互不可见，那里的重合只能是巧合；后面的轮次要看该事实是否真的被投递过。tooltip 和连线都按这个区分。";
 
 render(0);
 </script>

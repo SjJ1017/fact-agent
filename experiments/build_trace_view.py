@@ -114,21 +114,32 @@ def build(store_path: Path) -> dict | None:
         spans.setdefault(slot, []).append(
             {"a": where[0], "b": where[1], "f": fid, "t": mention["text"]})
 
-    # drop spans nested inside a longer one on the same slot, keep the longest
+
+    # Overlapping spans cannot both be marked in the DOM, but throwing the
+    # shorter one away throws away a *fact*. Extraction routinely draws several
+    # atoms from one sentence — "E2 concerns language and multiculturalism, not
+    # religious symbols" yields three, all quoting the same clause — and the
+    # earlier version kept the longest and silently dropped the rest, so those
+    # facts looked unextracted in the viewer. Now one region carries the list.
     for slot, items in spans.items():
-        items.sort(key=lambda s: (s["a"], -(s["b"] - s["a"])))
+        items.sort(key=lambda x: (x["a"], -(x["b"] - x["a"])))
         kept: list[dict] = []
-        for s in items:
-            if kept and s["a"] < kept[-1]["b"]:
-                if s["b"] - s["a"] > kept[-1]["b"] - kept[-1]["a"]:
-                    kept[-1] = s
+        for item in items:
+            if kept and item["a"] < kept[-1]["b"]:
+                host = kept[-1]
+                if item["f"] not in {g["f"] for g in host["fs"]}:
+                    host["fs"].append({"f": item["f"], "t": item["t"]})
+                if item["b"] > host["b"]:
+                    host["b"] = item["b"]
                 continue
-            kept.append(s)
+            kept.append({"a": item["a"], "b": item["b"],
+                         "f": item["f"], "t": item["t"],
+                         "fs": [{"f": item["f"], "t": item["t"]}]})
         spans[slot] = kept
 
     order = sorted(debate["transcript"],
                    key=lambda s: (int(s.split("|")[1]), s.split("|")[0]))
-    used = {s["f"] for items in spans.values() for s in items}
+    used = {g["f"] for items in spans.values() for s in items for g in s["fs"]}
 
     verdicts = {}
     for slot, text in debate["transcript"].items():
@@ -155,6 +166,12 @@ def build(store_path: Path) -> dict | None:
         "role_short": ROLE_SUMMARY.get(debate["panel"], {}),
         "delivery": {slot: info.get("peer_turns", [])
                      for slot, info in debate.get("delivery", {}).items()},
+        # Round 1 was labelled "no input", which is false and hid the thing
+        # that matters most for reading any of this: the dossier is in context
+        # on every single turn, all three rounds. Nobody has to receive a
+        # peer's message to restate E1.
+        "sources": {slot: info.get("source_ids", [])
+                    for slot, info in debate.get("delivery", {}).items()},
         "evidence": [{"id": e["id"], "stance": e["stance"], "text": e["text"]}
                      for e in debate.get("evidence", [])],
         "unplaced": unplaced,
