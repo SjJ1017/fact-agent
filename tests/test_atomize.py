@@ -110,13 +110,21 @@ def test_prefilter_can_be_disabled():
 
 # -- the cache guard --------------------------------------------------------
 
-def test_an_empty_extraction_is_not_cached():
-    """A call that returns nothing has failed; caching it makes the failure
-    permanent and silent, which is how a poisoned entry turned a working
-    extractor into one that reported zero facts on every later run."""
-    from factflow.extract import extract_facts
-    from factflow.llm import LLM, LLMConfig
+def test_an_empty_extraction_is_retried_and_never_cached():
+    """An empty result is a failed call, and the two defences against it are
+    linked: it must not be cached, and it must be retried. Caching would make
+    the failure permanent; not retrying deleted 5.5% of the corpus silently,
+    since 33 of 34 turns that came back empty produced facts on a second ask.
+
+    A backend that fails once and then succeeds must therefore be recovered
+    inside a single extract_facts call — which can only happen if the empty
+    result was not written to the cache."""
     import tempfile
+
+    import pytest as _pytest
+
+    from factflow.extract import EmptyExtraction, extract_facts
+    from factflow.llm import LLM, LLMConfig
 
     class Flaky:
         name = "fake"
@@ -128,17 +136,29 @@ def test_an_empty_extraction_is_not_cached():
             if Flaky.calls == 1:                      # first attempt comes back empty
                 return output_format.model_validate({"facts": []})
             return output_format.model_validate(
-                {"facts": [{"text": "A holds.", "polarity": "affirm", "quote": "A holds."}]})
-
-    from factflow.extract import EmptyExtraction
-    import pytest as _pytest
+                {"facts": [{"text": "A holds.", "polarity": "affirm",
+                            "quote": "A holds."}]})
 
     with tempfile.TemporaryDirectory() as d:
         llm = LLM(LLMConfig(model="m", cache_dir=d), backend=Flaky())
+        mentions = extract_facts(llm, "A holds.", attempts=3)
+        assert [m.text for m in mentions] == ["A holds."]
+        assert Flaky.calls == 2, "the empty result was cached, so the retry never ran"
+
+    class Always:
+        name = "fake"
+        default_model = "m"
+        calls = 0
+
+        def generate(self, *, system, user, output_format, model, max_tokens):
+            Always.calls += 1
+            return output_format.model_validate({"facts": []})
+
+    with tempfile.TemporaryDirectory() as d:
+        llm = LLM(LLMConfig(model="m", cache_dir=d), backend=Always())
         with _pytest.raises(EmptyExtraction):
-            extract_facts(llm, "some text")           # raises rather than returning []
-        again = extract_facts(llm, "some text")       # same key: must retry, not replay
-        assert [m.text for m in again] == ["A holds."]
+            extract_facts(llm, "A holds.", attempts=3)
+        assert Always.calls == 3, "a text that is genuinely factless is still tried 3x"
 
 
 def test_a_stripped_single_claim_is_not_mistaken_for_no_change():

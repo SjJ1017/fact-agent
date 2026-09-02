@@ -362,6 +362,17 @@ python experiments/report/build_flow_profile.py     # 填模板出 HTML
   `experiments/labels/`，`/tmp` 里那两份随时会没
 - `/tmp/factflow-stance-labeled-*` 的几个旧目录 — 参数与现行不一致，两套不可混用
 
+### ⚠️ 代码与数据已经不同步（2026-09-02）
+
+`extract_facts` 现在有 `attempts=3`（空结果重试），**但仓库里 108 个 store 是用
+`attempts=1` 跑出来的**。任何新的 retrace 都会得到一个和现有语料不可比的语料——
+不是因为参数不同，而是因为**抽取本身不确定**：重跑一场会把每个 turn 都重抽，
+重新原子化、重新聚类，处处都变。
+
+**所以：不要为了"修几个空 turn"去重跑局部。** 要么整个 108 场一起重跑成一个新语料，
+要么保持现状。混合抽样比不修更糟，而且偏差和拓扑共变（受影响的 27 场是
+12 star + 12 chain + 3 full）。
+
 ### 已知缺陷
 
 - **star 有 14 个空 turn**（4.3%，full 只有 0.9%）。turn 有实质内容（93–128 词）
