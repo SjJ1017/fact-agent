@@ -15,7 +15,7 @@
   --p1:#7ba3a7; --p2:#3d7d85; --p3:#0d363d;
   --accent:#123f46; --sig:#a8532c; --sig-soft:#f0e0d6;
   --sup:#2f7d6b; --und:#a8532c; --neu:#7d8c8e;
-  --mk-line:#c2ccce; --mk-hover:rgba(18,63,70,.045); --mk-sel:#f7e7db;
+  --hl:#e9f3f0; --hl-active:#f7e3d2; --hl-peer:#fdf3e9;
   --shadow:0 1px 2px rgba(18,63,70,.06), 0 8px 24px -16px rgba(18,63,70,.28);
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
@@ -25,7 +25,7 @@
   --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
   --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
   --sup:#57bda2; --und:#e08a5c; --neu:#7d8c8e;
-  --mk-line:#3b4a4c; --mk-hover:rgba(255,255,255,.05); --mk-sel:#3a2a1e;
+  --hl:#1b302d; --hl-active:#4a2f1e; --hl-peer:#2e2118;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
 }}
 :root[data-theme="dark"]{
@@ -35,7 +35,7 @@
   --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
   --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
   --sup:#57bda2; --und:#e08a5c; --neu:#7d8c8e;
-  --mk-line:#3b4a4c; --mk-hover:rgba(255,255,255,.05); --mk-sel:#3a2a1e;
+  --hl:#1b302d; --hl-active:#4a2f1e; --hl-peer:#2e2118;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box}
@@ -85,23 +85,20 @@ select{max-width:340px;}
   margin-left:auto;}
 .body-text{font-size:.87rem; line-height:1.85; white-space:pre-wrap;
   word-break:break-word;}
-/* Border, not fill. A filled highlight on this much text turns the page into
-   a block of colour and buries the words; an outline marks the same span and
-   leaves the prose readable. Stance is carried by the border colour, so with
-   the stance toggle off every span falls back to one neutral grey. Widths stay
-   at 1px and emphasis is added with box-shadow so nothing reflows on select. */
-mark{background:none; color:inherit; border:1px solid var(--mk-line);
-  border-radius:2px; padding:.02em .16em; cursor:pointer;
-  box-decoration-break:clone; -webkit-box-decoration-break:clone;
-  transition:border-color .12s, background .12s, box-shadow .12s;}
-mark:hover{background:var(--mk-hover); border-color:var(--ink);}
-mark.s-SUPPORT{border-color:var(--sup);}
-mark.s-UNDERMINE{border-color:var(--und);}
-mark.s-NEUTRAL{border-color:var(--neu);}
-mark.sel{border-color:var(--sig); background:var(--mk-sel);
-  box-shadow:0 0 0 1px var(--sig);}
-mark.peer{border-style:dashed; border-color:var(--sig);
-  box-shadow:0 0 0 1px color-mix(in srgb, var(--sig) 35%, transparent);}
+/* Filled highlight, kept light. Extraction covers most of a turn, so a
+   saturated fill turns the page into a block of colour; this tint is about
+   half way to the surface behind it, enough to see the span boundary without
+   competing with the text. Stance rides on a 2px inset line along the bottom
+   rather than on the fill, so the fill can stay one colour at one weight. */
+mark{background:var(--hl); color:inherit; border-radius:2px; padding:.05em 0;
+  cursor:pointer; box-decoration-break:clone; -webkit-box-decoration-break:clone;
+  transition:background .12s;}
+mark:hover{background:var(--hl-active);}
+mark.sel{background:var(--hl-active); outline:1px solid var(--sig);}
+mark.peer{background:var(--hl-peer); outline:1px dashed var(--sig);}
+mark.s-SUPPORT{box-shadow:inset 0 -2px 0 var(--sup);}
+mark.s-UNDERMINE{box-shadow:inset 0 -2px 0 var(--und);}
+mark.s-NEUTRAL{box-shadow:inset 0 -2px 0 var(--neu);}
 .verdict{display:inline-block; margin-top:6px; font-family:"IBM Plex Mono",monospace;
   font-size:.76rem; font-weight:600; padding:.18rem .5rem; border-radius:2px;
   letter-spacing:.04em;}
@@ -127,8 +124,8 @@ mark.peer{border-style:dashed; border-color:var(--sig);
 .hint{font-size:.78rem; color:var(--muted); margin:14px 0 0;}
 .key{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:.74rem; color:var(--muted);
   margin:10px 0 0; align-items:center;}
-.key i{display:inline-block; width:22px; height:12px; border-radius:2px;
-  border:1px solid var(--mk-line); vertical-align:-2px; margin-right:.35rem;}
+.key i{display:inline-block; width:22px; height:11px; border-radius:2px;
+  background:var(--hl); vertical-align:-2px; margin-right:.35rem;}
 :focus-visible{outline:2px solid var(--sig); outline-offset:2px;}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
@@ -140,7 +137,7 @@ mark.peer{border-style:dashed; border-color:var(--sig);
   <div class="bar">
     <select id="pick"></select>
     <button class="tgl" id="tLink" type="button" aria-pressed="false">连线：显示同一事实</button>
-    <button class="tgl" id="tStance" type="button" aria-pressed="true">边框按立场着色</button>
+    <button class="tgl" id="tStance" type="button" aria-pressed="true">立场底色</button>
     <button class="tgl" id="tOnlyShared" type="button" aria-pressed="false">只highlight被复述过的</button>
   </div>
   <p class="claim" id="claim"></p>
@@ -148,12 +145,12 @@ mark.peer{border-style:dashed; border-color:var(--sig);
 </header>
 
 <div class="key">
-  <span><i></i>抽取到事实的片段（关掉立场底色时统一灰框）</span>
-  <span><i style="border-color:var(--sup)"></i>支持命题</span>
-  <span><i style="border-color:var(--und)"></i>削弱命题</span>
-  <span><i style="border-color:var(--neu)"></i>中立 / 元陈述</span>
-  <span><i style="border-color:var(--sig);background:var(--mk-sel);box-shadow:0 0 0 1px var(--sig)"></i>当前选中</span>
-  <span><i style="border-color:var(--sig);border-style:dashed"></i>同一事实的其他出现</span>
+  <span><i></i>抽取到事实的片段</span>
+  <span><i style="box-shadow:inset 0 -3px 0 var(--sup)"></i>支持命题</span>
+  <span><i style="box-shadow:inset 0 -3px 0 var(--und)"></i>削弱命题</span>
+  <span><i style="box-shadow:inset 0 -3px 0 var(--neu)"></i>中立 / 元陈述</span>
+  <span><i style="background:var(--hl-active);outline:1px solid var(--sig)"></i>当前选中</span>
+  <span><i style="background:var(--hl-peer);outline:1px dashed var(--sig)"></i>同一事实的其他出现</span>
 </div>
 
 <div class="rounds" id="rounds"><svg id="links"></svg></div>
