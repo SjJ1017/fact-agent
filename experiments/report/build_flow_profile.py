@@ -16,6 +16,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 DATA = HERE.parent.parent / "findings" / "data" / "flow-profile.json"
+FLOW = HERE.parent.parent / "findings" / "data" / "stance-flow.json"
 
 ROWS = [
     ("output_tokens",      "输出 token",      "{:.0f}"),
@@ -40,12 +41,15 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--data", type=Path, default=DATA)
+    ap.add_argument("--stance-flow", type=Path, default=FLOW)
     ap.add_argument("--template", type=Path, default=HERE / "flow-profile.tpl.html")
     ap.add_argument("--out", type=Path, default=HERE / "flow-profile.html")
     args = ap.parse_args()
 
     with args.data.open() as fh:
         data = json.load(fh)
+    with args.stance_flow.open() as fh:
+        flow = json.load(fh)
 
     cell_names = [f"{topology}/{panel}"
                   for topology in data["topologies"]
@@ -67,6 +71,8 @@ def main() -> None:
     page = page.replace("/*__DATA__*/null",
                         json.dumps(data, ensure_ascii=False, separators=(",", ":")))
     page = page.replace("<!--__TABLE__-->", "\n".join(trs))
+    page = page.replace("/*__FLOW__*/null",
+                        json.dumps(flow, ensure_ascii=False, separators=(",", ":")))
     args.out.write_text(page)
     print(f"wrote {args.out}  ({len(page):,} bytes)")
 

@@ -11,6 +11,7 @@
   --p1:#7ba3a7; --p2:#3d7d85; --p3:#0d363d;
   --accent:#123f46; --sig:#a8532c; --sig-soft:#f0e0d6;
   --shadow:0 1px 2px rgba(18,63,70,.06), 0 8px 24px -16px rgba(18,63,70,.28);
+  --flow-sup:#2f7d6b; --flow-und:#a8532c; --flow-neu:#8b9799;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -20,6 +21,7 @@
     --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
     --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+    --flow-sup:#57bda2; --flow-und:#e08a5c; --flow-neu:#7d8c8e;
   }
 }
 :root[data-theme="dark"]{
@@ -29,6 +31,7 @@
   --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
   --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  --flow-sup:#57bda2; --flow-und:#e08a5c; --flow-neu:#7d8c8e;
 }
 
 *{box-sizing:border-box}
@@ -304,6 +307,44 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
 
 <section>
   <div class="measure">
+    <p class="eyebrow">流动图</p>
+    <h2>什么在 agent 之间流动</h2>
+    <p>前面的每个指标都把流动压成一个标量。这里把形状留住：对每个条件，把 12 个 claim 全部加起来，得到 agent 上的<strong>加权有向图</strong>——<code>说话人 → 听者</code>这条边的权重，是听者采纳的、由说话人投递过来的事实数。再按被采纳事实的立场拆成三层：支持 claim、削弱 claim、中立。</p>
+    <p>一次采纳的功劳在所有投递过该事实的 peer 之间<strong>平分</strong>。在 full 里一个事实可能同时从两个人送到，两边都记会让总量虚高一倍；在 chain 里只有一个来源，两种算法一致。平分之后图的总权重正好等于采纳的事实数，三层才加得起来。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--flow-sup)"><i class="dotm"></i>支持 claim</span>
+        <span style="color:var(--flow-und)"><i class="dotm"></i>削弱 claim</span>
+        <span style="color:var(--flow-neu)"><i class="dotm"></i>中立 / 元陈述</span>
+        <span style="color:var(--muted)">线宽 ∝ 权重，全 27 张图同一标尺</span>
+      </div>
+      <div id="fig-flow"></div>
+    </div>
+    <figcaption>27 张图：3 拓扑 × 3 人格 × 3 立场。每张图下面的 <span class="num">×</span> 是 lift——这一层占流量的比例，除以该立场占事实池的比例。大于 1 表示这类事实被采纳的频率高于它的丰度所能解释的。</figcaption>
+  </figure>
+
+  <div class="measure">
+    <p style="margin-top:2.4rem">原始层总量几乎没有信息量：削弱类事实在每个条件都最多，但它在事实池里本来就最多。所以要看 lift。</p>
+    <p><strong>削弱类被优先采纳，而且随人格加强。</strong>按 claim 算的 lift 在 9 个条件里有 7 个 ≥ 1；full 的走势是 <span class="num">0.83 → 1.14 → 1.26</span>，最后一格 <span class="num">[1.06, 1.45]</span>、<span class="num">P(lift&gt;1)=0.994</span>、8/12 个 claim 为正。chain 是 <span class="num">0.90 → 1.23 → 1.24</span>。</p>
+    <p><strong>中立/元陈述在 stance 下几乎不流动了。</strong>chain 的走势是 <span class="num">1.29 → 0.57 → 0.34</span>，最后一格 <span class="num">[0.11, 0.59]</span>、<span class="num">P(&gt;1)=0.000</span>、12 个 claim 里只有 1 个 &gt; 1。full 是 <span class="num">1.09 → 1.04 → 0.74</span>。这和元陈述占比整体下降是两回事：那说的是<em>产出</em>里元陈述变少，这说的是剩下的元陈述<em>更不容易被别人接走</em>。</p>
+    <p>支持类没有规律，9 个条件从 <span class="num">0.57</span> 到 <span class="num">1.70</span> 都有，CI 也宽。</p>
+  </div>
+
+  <div class="callout">
+    <span class="lbl">合起来</span>
+    <p>agent 之间传的东西是<strong>选择性对抗</strong>的：跨过连线的，不成比例地是削弱性材料，而且人格越强越是如此；元层面的话在 stance 条件下基本不过河。这给"整合失败"一个更具体的形状——不是什么都接不住，是只接得住反对的那一半。</p>
+  </div>
+
+  <div class="measure">
+    <p class="standfirst" style="max-width:41rem">注意聚合口径：上面正文的 lift 是<em>按 claim 算再平均</em>，图下面的 <span class="num">×</span> 是<em>把所有 claim 的流量汇总后再算</em>。两者会差（full/neutral 支持类分别是 1.49 和 1.22），因为汇总口径按 claim 的大小加权。CI 描述的是前者。</p>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
     <p class="eyebrow">交互</p>
     <h2>人格效应要靠接触才表达得出来</h2>
     <p>同一个 stance−neutral 的对比，在三个拓扑上的量级差很多：</p>
@@ -353,6 +394,7 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
 
 <script>
 const D = /*__DATA__*/null;
+const F = /*__FLOW__*/null;
 const PANELS = ["neutral","lenses","stance"];
 const TOPOS  = D.topologies;
 const TCOL   = {full:"var(--p3)", star:"var(--p2)", chain:"var(--p1)"};
@@ -571,6 +613,93 @@ function tradeoff(){
   return svg;
 }
 
+/* ---------- figure: 27 weighted uptake digraphs ---------- */
+function flowgrid(){
+  const SC={SUPPORT:"var(--flow-sup)",UNDERMINE:"var(--flow-und)",NEUTRAL:"var(--flow-neu)"};
+  const SLAB={SUPPORT:"支持",UNDERMINE:"削弱",NEUTRAL:"中立"};
+  const NODES=["A","B","C"];
+  const cells=[]; TOPOS.forEach(t=>PANELS.forEach(p=>{
+    const k=t+"/"+p; if(F.cells[k]) cells.push({t:t,p:p,k:k});}));
+
+  let maxW=0;
+  cells.forEach(c=>F.stances.forEach(s=>
+    Object.values(F.cells[c.k].layers[s]||{}).forEach(w=>{maxW=Math.max(maxW,w);})));
+
+  const gw=104, gh=104, gapS=4, gapP=26, rowH=176, top=64, left=74;
+  const groupW=3*gw+2*gapS;
+  const W=left+3*groupW+2*gapP+16, H=top+TOPOS.length*rowH+18;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"27 张加权有向采纳图，按拓扑、人格、被采纳事实的立场排列"});
+
+  PANELS.forEach((p,pi)=>{
+    const x=left+pi*(groupW+gapP);
+    svg.appendChild(txt(x+groupW/2,22,p,{fill:"var(--ink)","font-size":"13",
+      "text-anchor":"middle","font-weight":"600","font-family":MONO,"letter-spacing":".05em"}));
+    F.stances.forEach((s,si)=>svg.appendChild(txt(x+si*(gw+gapS)+gw/2,42,SLAB[s],
+      {fill:SC[s],"font-size":"10.5","text-anchor":"middle","font-family":SANS})));
+  });
+
+  TOPOS.forEach((t,ti)=>{
+    const y0=top+ti*rowH;
+    svg.appendChild(txt(left-18,y0+gh/2,t,{fill:"var(--ink)","font-size":"12.5",
+      "text-anchor":"end","font-family":MONO,"font-weight":"600"}));
+    if(ti>0) svg.appendChild(el("line",{x1:20,y1:y0-24,x2:W-16,y2:y0-24,
+      stroke:"var(--rule-soft)","stroke-width":1}));
+
+    PANELS.forEach((p,pi)=>{
+      const info=F.cells[t+"/"+p]; if(!info) return;
+      F.stances.forEach((s,si)=>{
+        const x0=left+pi*(groupW+gapP)+si*(gw+gapS);
+        const cx=x0+gw/2, R=30, col=SC[s];
+        const pos={A:[cx,y0+20], B:[cx-R,y0+20+R*1.65], C:[cx+R,y0+20+R*1.65]};
+        const g=el("g",{});
+        const layer=info.layers[s]||{};
+
+        Object.entries(layer).forEach(([edge,w])=>{
+          if(!(w>0)) return;
+          const [a,b]=edge.split(">");
+          const [x1,y1]=pos[a], [x2,y2]=pos[b];
+          const dx=x2-x1, dy=y2-y1, len=Math.hypot(dx,dy)||1;
+          const ux=dx/len, uy=dy/len, nx=-uy, ny=ux;      // unit + normal
+          const bend=11;                                   // one side per direction
+          const mx=(x1+x2)/2+nx*bend, my=(y1+y2)/2+ny*bend;
+          const r=9.5;                                     // clear the node discs
+          const sx1=x1+ux*r+nx*3, sy1=y1+uy*r+ny*3;
+          const ex=x2-ux*(r+4.5)+nx*3, ey=y2-uy*(r+4.5)+ny*3;
+          const wd=1+6.5*(w/maxW);
+          g.appendChild(el("path",{d:`M${sx1},${sy1}Q${mx},${my} ${ex},${ey}`,
+            fill:"none",stroke:col,"stroke-width":wd.toFixed(2),
+            opacity:0.32+0.5*(w/maxW),"stroke-linecap":"round"}));
+          // arrowhead along the end tangent of the quadratic
+          const tx=ex-mx, ty=ey-my, tl=Math.hypot(tx,ty)||1;
+          const ax=tx/tl, ay=ty/tl, px=-ay, py=ax, hl=5.4, hw=3.2;
+          g.appendChild(el("path",{
+            d:`M${ex+ax*hl},${ey+ay*hl}L${ex+px*hw},${ey+py*hw}L${ex-px*hw},${ey-py*hw}Z`,
+            fill:col,opacity:0.45+0.45*(w/maxW)}));
+        });
+
+        NODES.forEach(n=>{
+          const [nx2,ny2]=pos[n];
+          g.appendChild(el("circle",{cx:nx2,cy:ny2,r:9.5,fill:"var(--surface)",
+            stroke:"var(--rule)","stroke-width":1.2}));
+          g.appendChild(txt(nx2,ny2+3.6,n,{fill:"var(--muted)","font-size":"10",
+            "text-anchor":"middle","font-family":MONO}));
+        });
+
+        const lift=info.lift[s], total=info.totals[s];
+        g.appendChild(txt(cx,y0+gh+26,`${Math.round(total)}`,
+          {fill:"var(--ink)","font-size":"12","text-anchor":"middle","font-family":MONO}));
+        g.appendChild(txt(cx,y0+gh+40,lift==null?"—":`×${lift.toFixed(2)}`,
+          {fill:(lift!=null&&Math.abs(lift-1)>0.15)?col:"var(--faint)",
+           "font-size":"10.5","text-anchor":"middle","font-family":MONO}));
+        svg.appendChild(g);
+      });
+    });
+  });
+  return svg;
+}
+
+document.getElementById("fig-flow").appendChild(flowgrid());
 document.getElementById("fig-tradeoff").appendChild(tradeoff());
 document.getElementById("fig-decomp").appendChild(decomp());
 document.getElementById("fig-gradient").appendChild(gradient());
