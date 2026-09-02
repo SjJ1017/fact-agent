@@ -125,11 +125,13 @@ def main() -> None:
                     "peers_only": mix(peers, stance_of)[0] if peers else None,
                 })
 
-    # Round 1 is the only clean read of the anchoring question: context is the
-    # dossier alone. From round 2 the context is dominated by peer output,
-    # which already carries whatever tilt the previous round produced, so a
-    # tilt measured there is against a moving baseline and understates the
-    # cumulative drift.
+    # The headline is every turn, because the question is what an agent does
+    # with whatever is in front of it, and from round 2 most of that is what
+    # peers said rather than the dossier. Rounds are also reported separately,
+    # which answers a different question: whether the tilt is a one-off
+    # reaction to the materials or something the agent does on every pass. Note
+    # that the later-round baseline is peer output that already tilted, so a
+    # smaller slope there is not evidence the drift is slowing.
     def summarise(subset, key):
         out = {}
         for s in STANCES:
@@ -143,9 +145,10 @@ def main() -> None:
 
     result = {"model": args.model, "n_turns": len(rows), "by": {}}
     first_round = min(r["round"] for r in rows)
-    for scope, keep in (("", lambda r: True),
-                        ("r1", lambda r: r["round"] == first_round),
-                        ("r2+", lambda r: r["round"] > first_round)):
+    all_rounds = sorted({r["round"] for r in rows})
+    scopes = [("", lambda r: True)]
+    scopes += [(f"r{n}", (lambda n: lambda r: r["round"] == n)(n)) for n in all_rounds]
+    for scope, keep in scopes:
         for panel in PANELS:
             sub = [r for r in rows if r["panel"] == panel and keep(r)]
             tag = f"{scope}|" if scope else ""
@@ -160,9 +163,11 @@ def main() -> None:
     args.out.write_text(json.dumps(result, ensure_ascii=False, indent=1) + "\n")
 
     print(f"{len(rows)} 个 turn\n")
-    for scope, title in (("r1", "第 1 轮：上下文只有卷宗（干净的锚定读数）"),
-                         ("r2+", "第 2–3 轮：上下文 = 卷宗 + 同伴输出"),
-                         ("", "全部轮次")):
+    for scope, title in (
+            ("", "全部 turn：上下文 = 卷宗 ∪ 投递给它的同伴事实"),
+            ("r1", "只看第 1 轮（此时上下文只有卷宗）"),
+            ("r2", "只看第 2 轮"),
+            ("r3", "只看第 3 轮")):
         print(f"■ {title}")
         hdr = f"{'条件':14s}{'角色':11s}" + "".join(f"{s[:3]+' 入→出':>17s}" for s in STANCES)
         print(hdr); print("-" * len(hdr))

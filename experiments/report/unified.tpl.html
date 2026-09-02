@@ -573,9 +573,7 @@ h2 .num-h{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--sig
     <h2><span class="num-h">09b</span>每个 agent 都在丢弃支持性证据</h2>
     <p>前面所有指标都只看输出。但 agent 的<strong>输入</strong>同样是可知的：证据卷宗的事实在每一轮都在它的上下文里，从第 2 轮起还加上投递给它的同伴输出。把 agent 当成一个有输入侧和输出侧的节点，就能问一个流动指标问不出来的问题——不是有多少东西通过，而是<strong>通过的时候立场构成怎么变</strong>。</p>
     <p>两侧用的是同一套立场标注，所以两个构成可以直接相减。差值是一次<em>选择</em>：在它能重述的全部内容里，它选了说什么。</p>
-    <div class="note">
-      <p><strong>只有第 1 轮是干净的读数。</strong>那时上下文只有卷宗。从第 2 轮起，上下文主要是同伴的输出，而同伴输出本身已经带着上一轮的偏斜，所以在那里量到的倾斜是对着一个移动的基线量的，会<em>低估</em>累积漂移而不是捕捉它。下图只画第 1 轮。</p>
-    </div>
+    <p><strong>上下文不限于卷宗。</strong>第 1 轮它只有卷宗，从第 2 轮起主要是同伴说过的事实——问的是 agent 拿到<em>任何</em>正反材料时会怎么取舍，不是只问它怎么对待原始证据。下图是全部 <span class="num">918</span> 个 turn。</p>
 
     <h3>先确认偏斜不是从材料继承的</h3>
     <p>立场标注器和卷宗的设计一致：E1、E2（设计为支持）抽出的事实里 <span class="num">70%</span> 被标为 SUPPORT，E3、E4（设计为削弱）里 <span class="num">71%–78%</span> 被标为 UNDERMINE。卷宗整体是 <span class="num">SUP 40.9% / UND 44.7% / NEU 14.5%</span>，基本平衡。</p>
@@ -591,20 +589,23 @@ h2 .num-h{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--sig
       </div>
       <div id="fig-tilt"></div>
     </div>
-    <figcaption>图 8｜第 1 轮，输入构成到输出构成。每条线是一个（人格 × 角色）格，左端是卷宗里该立场的占比，右端是这些 turn 输出里的占比。支持类那一栏所有线都往下走，包括提示词逐字相同的 neutral 面板。</figcaption>
+    <figcaption>图 8｜全部 918 个 turn，输入构成到输出构成。每条线是一个（人格 × 角色）格，左端是该 turn 上下文里该立场的占比，右端是它输出里的占比。支持类那一栏所有线都往下走，包括提示词逐字相同的 neutral 面板。</figcaption>
   </figure>
 
   <div class="measure">
     <h3>三条结论</h3>
-    <p><strong>一、支持性证据被系统性丢弃，而且这是模型层面的，不是人格造成的。</strong>neutral 面板的三个 agent 提示词逐字相同、读的是平衡卷宗，仍然把 SUPPORT 从 <span class="num">39%</span> 压到 <span class="num">24%</span>（<span class="c3">−14.2pp，确信度 1.000</span>）。人格设定没有制造这个偏斜，它本来就在。</p>
-    <p><strong>二、人格能挡住这个漂移，但挡不动方向。</strong>被指派为支持方的 agent 是唯一一个 SUPPORT 下降不显著的角色（<span class="c1">−2.0pp，确信度 0.660</span>），也是唯一一个 UNDERMINE 没有上升的（<span class="num">−4.4pp</span>）。角色提示确实起作用——但它买到的是<em>持平</em>，不是把天平推向支持侧。</p>
-    <p><strong>三、裁决者和反对方一样地放大削弱。</strong>反对方 UNDERMINE <span class="num">+7.3pp</span>、裁决者 <span class="num">+9.4pp</span>，两者几乎一样，而裁决者本应是中立的。"比较双方证据"这句提示没有让它比反对方更平衡。这对把星型的中心读作"整合者"是一个直接的反证。</p>
+    <p><strong>一、支持性材料被系统性丢弃，而且这是模型层面的，不是人格造成的。</strong>neutral 面板的三个 agent 提示词逐字相同，仍然把 SUPPORT 从上下文里的 <span class="num">30%</span> 压到输出里的 <span class="num">20%</span>（<span class="c3">−9.7pp，确信度 1.000</span>）。九个（人格 × 角色）格<strong>全部</strong>的 SUPPORT 下降都达到确信度 0.975。人格设定没有制造这个偏斜，它本来就在。</p>
+    <p><strong>二、人格能减弱这个漂移，但挡不动方向。</strong>被指派为支持方的 agent 是 SUPPORT 掉得最少的角色（<span class="num">−5.7pp</span>，对比反对方 <span class="num">−7.4</span>、裁决者 <span class="num">−8.3</span>），也是唯一一个 UNDERMINE 没有上升的（<span class="num">−0.7pp</span>，确信度不足）。角色提示确实起作用——但它买到的是<em>减速</em>，不是把天平推向支持侧。</p>
+    <p><strong>三、裁决者比反对方还要更偏。</strong>UNDERMINE 上升幅度是裁决者 <span class="c3">+6.6pp</span>、反对方 <span class="c3">+5.7pp</span>，而裁决者本应是中立的。"比较双方证据"这句提示没有让它比反对方更平衡。这对把星型的中心读作"整合者"是一个直接的反证。</p>
+
+    <h3>每一轮都在发生，不是对材料的一次性反应</h3>
+    <p>按轮拆开，SUPPORT 的下降在三轮里都出现（neutral：第 1 轮 <span class="num">−14.2</span>、第 2 轮 <span class="num">−9.4</span>、第 3 轮 <span class="num">−5.5</span>，三轮的确信度都是 <span class="num">1.000</span>）。<strong>后面几轮数值更小不等于漂移在减速</strong>：第 1 轮的基线是平衡的卷宗，而第 2、3 轮的基线是同伴上一轮的输出，那已经被压过一次了。相对一个已经偏了的基线继续偏，累积效果比单看数字更大。</p>
 
     <h3>这解释了前面三个悬着的观察</h3>
     <ul class="defs">
       <li><b>结论里 SUPPORT 只占 0–16%</b>（第九节），尽管卷宗是 2 支持 2 削弱。现在知道结论层的偏斜在<em>事实层就已经形成</em>了。</li>
       <li><b>削弱类事实被优先采纳</b>（第八节，lift 1.26）。采纳只是这个更一般的倾向在传播环节上的表现，不是采纳环节独有的性质。</li>
-      <li><b>正反平衡在 stance 条件下最高</b>（第四节）。因为支持方守住了自己那一侧，另外两个角色在往下压，两边抵消之后群体层面反而更均衡——这个"平衡"是两个相反的偏斜相消，不是任何一方在追求平衡。</li>
+      <li><b>正反平衡在 stance 条件下最高</b>（第四节）。因为支持方掉得最慢、另外两个角色掉得快，群体层面反而显得更均衡——这个"平衡"是几个速度不同的同向偏斜叠出来的，不是任何一方在追求平衡。</li>
     </ul>
 
     <div class="note">
@@ -1308,13 +1309,16 @@ function tiltFig(){
   const ROLE={neutral:{"":"三人相同"},
               lenses:{A:"因果证据",B:"落地与权衡",C:"范围与不确定性"},
               stance:{A:"支持方",B:"反对方",C:"裁决者"}};
+  // All turns, not just the first. The question is what an agent does with
+  // whatever is in front of it, and from round 2 most of that is what peers
+  // said rather than the dossier.
   const rows=[
-    {k:"r1|neutral",       lab:"neutral 全部",  em:true},
-    {k:"r1|lenses",        lab:"lenses 全部",   em:true},
-    {k:"r1|stance",        lab:"stance 全部",   em:true},
-    {k:"r1|stance/A",      lab:"stance · 支持方"},
-    {k:"r1|stance/B",      lab:"stance · 反对方"},
-    {k:"r1|stance/C",      lab:"stance · 裁决者"}];
+    {k:"neutral",       lab:"neutral 全部",  em:true},
+    {k:"lenses",        lab:"lenses 全部",   em:true},
+    {k:"stance",        lab:"stance 全部",   em:true},
+    {k:"stance/A",      lab:"stance · 支持方"},
+    {k:"stance/B",      lab:"stance · 反对方"},
+    {k:"stance/C",      lab:"stance · 裁决者"}];
   const stances=["SUPPORT","UNDERMINE","NEUTRAL"];
   const W=1000, panelW=W/3, H=380, top=64, bot=76, padL=84, padR=104;
   let lo=1, hi=0;
