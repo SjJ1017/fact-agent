@@ -5,21 +5,21 @@ reporting a result.** Multiple agents are operating this workspace. Do not infer
 the state from an earlier chat message: inspect the paths and counts below
 first.
 
-## Canonical Artifacts (checked 2026-09-01)
+## Canonical Artifacts (checked 2026-09-02)
 
 | Artifact | Path | Current state |
 |---|---|---|
 | DeepSeek full debates | `experiments/perspectrum_pilot_full/*deepseek-v4-flash-full-*.debate.json` | 36 = 12 claims x 3 personas |
 | GLM full debates | `experiments/perspectrum_pilot_full/*glm-5.3-flash-full-*.debate.json` | 33 = 11 claims x 3 personas; claim 233 is absent in all three panels |
 | DeepSeek star/chain debates | `experiments/perspectrum_pilot_star_chain/*.debate.json` | 72 = 12 claims x 3 personas x 2 graphs |
-| Canonical stance labels | `/tmp/factflow-stance-all/*.stance.json` | 69 = 36 DeepSeek + 33 GLM |
-| DeepSeek token-clock copies | `/tmp/factflow-token-clock-deepseek/*.tokens.json` | 36 |
-| GLM token-clock copies | `/tmp/factflow-token-clock-glm/*.tokens.json` | 33 |
+| DeepSeek star/chain matched stores | `experiments/perspectrum_pilot_star_chain/*.v2.json` | 72/72 complete |
+| Canonical stance labels | `experiments/labels/stance/*.json` | 141 = 108 DeepSeek + 33 GLM |
+| Canonical token clocks | `experiments/labels/token_clock/*.json` | 129 = 96 DeepSeek + 33 GLM; chain is 24/36 |
 
-`/tmp/factflow-stance-all/` is the canonical stance-label directory for the
-current figures. Do **not** launch `label_fact_stance.py` merely because another
-temporary label directory is absent. The now-stopped duplicate attempt under
-`/tmp/factflow-stance-labeled-glm-deepseek-judge/` must not be used for results.
+The repository sidecars under `experiments/labels/` supersede temporary copies.
+Do **not** launch `label_fact_stance.py` merely because a `/tmp` directory is
+absent. The 12 missing token clocks are all chain runs; the current flow-profile,
+effective-structure, and RQ-extension analyses do not depend on those token clocks.
 
 ## Current Derived Results
 
@@ -47,19 +47,32 @@ versus 0.429 (neutral), paired difference +0.124, bootstrap 95% interval
 
 ## Topology Semantics
 
-The 72 completed sparse-topology traces have not yet been independently
-re-extracted, matched, token-clocked, or stance-labelled. They are raw debate
-artifacts only.
+The 72 sparse-topology traces have been extracted, matched, and stance-labelled.
+Their canonical matched stores are the `.v2.json` files above.
 
 - `star`: A is the communication hub; A receives B and C, while B and C receive
   A. It is **not** an instructor/synthesizer intervention.
 - `chain`: A receives no peer output, B receives A, C receives B.
 
-Do not rerun `run_perspectrum.py` for `perspectrum_pilot_star_chain`: all 72
-debate files already exist and the runner would only skip them. Before creating
-the post-hoc pipeline for these traces, agree on a matching protocol comparable
-with the full-topology v2 stores; otherwise topology and annotation changes are
-confounded.
+Do not rerun `run_perspectrum.py`, `retrace.py`, or stance labelling for
+`perspectrum_pilot_star_chain`: all 72 debate/store/stance artifacts exist.
+Only token clocks are incomplete (24/36 chain), and any completion must first
+check which 12 execution ids are missing rather than rerunning all 36.
+
+## 2026-09-02 Analysis Update
+
+- `experiments/analyze_effective_structure.py` now reads all 108 DeepSeek runs;
+  `experiments/report/effective-structure.html` includes chain in its table,
+  figures, statistical summaries, and limitations.
+- `adopt_r1uniq` now uses all round-1-unique facts as its denominator. The old
+  0.82/0.86 values were final-survivor-conditioned and must not be cited.
+- `experiments/analyze_rq_extensions.py` writes
+  `findings/data/rq-extensions.json` fully offline. It adds persona×topology
+  difference-in-differences, a round-2 exposure→uptake→retention funnel, strict
+  chain path counts, and condition-adjusted verdict coupling.
+- New-only report: `findings/2026-09-02-rq-review-and-new-analyses.md`.
+- No model calls were made. Existing debate conditions and label artifacts were
+  not modified.
 
 ## Required Pre-Run Check
 

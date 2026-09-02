@@ -362,6 +362,21 @@ python experiments/report/build_flow_profile.py     # 填模板出 HTML
   `experiments/labels/`，`/tmp` 里那两份随时会没
 - `/tmp/factflow-stance-labeled-*` 的几个旧目录 — 参数与现行不一致，两套不可混用
 
+### 报告页有两份产物，别搞混（2026-09-02）
+
+`experiments/report/build_*.py` 每次写两个文件：
+
+| 文件 | 用途 | 在 git |
+|---|---|---|
+| `findings/<name>.html` | **人打开的**，完整 HTML 文档 | ✅ |
+| `experiments/report/<name>.fragment.html` | **发 Artifact 的**，无 doctype/html/body | ❌ 已 ignore |
+
+原因：模板是给 Artifact 主机写的，主机发布时会自己包一层
+`<!doctype>…<head>…</head><body>`。所以直接存盘的文件没有这半边，
+**本地双击会掉进 quirks 模式、排版全乱**——之前三个页面都是这个状态。
+反过来，把完整文档交给主机会嵌套两层（实测能渲染，但靠浏览器丢弃游离标签）。
+两份分开就都不用赌。包装逻辑在 `experiments/report/wrap.py`。
+
 ### ⚠️ 代码与数据已经不同步（2026-09-02）
 
 `extract_facts` 现在有 `attempts=3`（空结果重试），**但仓库里 108 个 store 是用

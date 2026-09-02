@@ -14,11 +14,14 @@ import argparse
 import json
 from pathlib import Path
 
+from wrap import write_both
+
 HERE = Path(__file__).resolve().parent
 DATA = HERE.parent.parent / "findings" / "data" / "effective-structure.json"
 
-CELLS = ["full/neutral", "full/lenses", "full/stance",
-         "star/neutral", "star/lenses", "star/stance"]
+CELLS = [f"{topology}/{persona}"
+         for topology in ("full", "star", "chain")
+         for persona in ("neutral", "lenses", "stance")]
 ROWS = [
     ("n_facts",        "事实数",           "{:.1f}"),
     ("novel_share",    "新事实占比",       "{:.1%}"),
@@ -70,15 +73,15 @@ def main() -> None:
                 text = fmt.format(value / (row["verdict"]["runs"] or 1))
             else:
                 text = fmt.format(value)
-            cell_td.append(('<td class="sep">' if i == 3 else "<td>") + text + "</td>")
+            cell_td.append(('<td class="sep">' if i in (3, 6) else "<td>") + text + "</td>")
         trs.append(f'<tr><th scope="row">{label}</th>' + "".join(cell_td) + "</tr>")
 
     page = args.template.read_text()
     page = page.replace("/*__DATA__*/null",
                         json.dumps(data, ensure_ascii=False, separators=(",", ":")))
     page = page.replace("<!--__TABLE__-->", "\n".join(trs))
-    args.out.write_text(page)
-    print(f"wrote {args.out}  ({len(page):,} bytes)")
+    out, fragment = write_both(args.out, page)
+    print(f"wrote {out}  ({len(page):,} bytes)\n      {fragment}  (发布用片段)")
 
 
 if __name__ == "__main__":

@@ -1,9 +1,13 @@
-<title>事实流剖面</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap">
-
-<style>
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>事实流剖面</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap">
+  <style>
 :root{
   --ground:#eef1f1; --surface:#ffffff; --sunk:#e5eaea;
   --ink:#12181b; --body:#2c3538; --muted:#5f6b6e; --faint:#8b9799;
@@ -192,7 +196,8 @@ td.lft{text-align:left;}
   .panel{padding:18px 14px 14px}
 }
 </style>
-
+</head>
+<body>
 <div class="page">
 
 <header class="masthead">
@@ -492,7 +497,7 @@ python experiments/report/build_flow_profile.py     # 出这个页面</code></pr
         <tr><td>star / chain store</td><td class="lft"><code>experiments/perspectrum_pilot_star_chain/*.v2.json</code></td><td>72</td></tr>
         <tr><td>投递结构与逐字稿</td><td class="lft">同目录同名 <code>.debate.json</code> 的 <code>delivery</code> / <code>transcript</code></td><td>108</td></tr>
         <tr><td>立场标注</td><td class="lft"><code>experiments/labels/stance/*.json</code></td><td>141</td></tr>
-        <tr><td>token clock</td><td class="lft"><code>experiments/labels/token_clock/*.json</code></td><td>141</td></tr>
+        <tr><td>token clock</td><td class="lft"><code>experiments/labels/token_clock/*.json</code></td><td>129（chain 24/36；正文重分词，不依赖缺失项）</td></tr>
         <tr><td>剖面结果</td><td class="lft"><code>findings/data/flow-profile.json</code> · <code>flow-profile-per-debate.csv</code></td><td>—</td></tr>
         <tr><td>流动图</td><td class="lft"><code>findings/data/stance-flow.json</code></td><td>—</td></tr>
         <tr><td>判决 / 存活 / 接地 / 位置</td><td class="lft"><code>findings/data/flow-extras.json</code></td><td>—</td></tr>
@@ -989,3 +994,6 @@ document.getElementById("fig-decomp").appendChild(decomp());
 document.getElementById("fig-gradient").appendChild(gradient());
 document.getElementById("fig-interaction").appendChild(interaction());
 </script>
+
+</body>
+</html>

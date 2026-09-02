@@ -14,6 +14,8 @@ import argparse
 import json
 from pathlib import Path
 
+from wrap import write_both
+
 HERE = Path(__file__).resolve().parent
 DATA = HERE.parent.parent / "findings" / "data" / "flow-profile.json"
 FLOW = HERE.parent.parent / "findings" / "data" / "stance-flow.json"
@@ -81,8 +83,8 @@ def main() -> None:
                         json.dumps(flow, ensure_ascii=False, separators=(",", ":")))
     page = page.replace("/*__EXTRA__*/null",
                         json.dumps(extras, ensure_ascii=False, separators=(",", ":")))
-    args.out.write_text(page)
-    print(f"wrote {args.out}  ({len(page):,} bytes)")
+    out, fragment = write_both(args.out, page)
+    print(f"wrote {out}  ({len(page):,} bytes)\n      {fragment}  (发布用片段)")
 
 
 if __name__ == "__main__":
