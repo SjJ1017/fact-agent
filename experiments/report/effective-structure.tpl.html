@@ -1,0 +1,622 @@
+<title>有效结构：预算、位置效应核查与中继 —— 自明版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap">
+
+<style>
+:root{
+  --ground:#eef1f1; --surface:#ffffff; --sunk:#e5eaea;
+  --ink:#12181b; --body:#2c3538; --muted:#5f6b6e; --faint:#8b9799;
+  --rule:#d5dcdc; --rule-soft:#e4e9e9;
+  --p1:#7ba3a7; --p2:#3d7d85; --p3:#0d363d;
+  --accent:#123f46; --sig:#a8532c; --sig-soft:#f0e0d6;
+  --shadow:0 1px 2px rgba(18,63,70,.06), 0 8px 24px -16px rgba(18,63,70,.28);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0f1516; --surface:#161e20; --sunk:#131a1c;
+    --ink:#e4eaea; --body:#c6d1d2; --muted:#94a3a4; --faint:#6d7c7e;
+    --rule:#283335; --rule-soft:#1e282a;
+    --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
+    --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0f1516; --surface:#161e20; --sunk:#131a1c;
+  --ink:#e4eaea; --body:#c6d1d2; --muted:#94a3a4; --faint:#6d7c7e;
+  --rule:#283335; --rule-soft:#1e282a;
+  --p1:#5b878c; --p2:#5aa5ad; --p3:#a6e4e9;
+  --accent:#93dbe1; --sig:#e08a5c; --sig-soft:#33241c;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--body);
+  font-family:"IBM Plex Sans","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  font-size:16px; line-height:1.68; -webkit-font-smoothing:antialiased;
+}
+.page{max-width:1120px; margin:0 auto; padding:0 24px 96px;}
+.measure{max-width:41rem; margin-inline:auto;}
+
+/* ---- masthead ---- */
+.masthead{padding:72px 0 40px; border-bottom:1px solid var(--rule);}
+.kicker{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.72rem;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; margin:0 0 1.6rem;
+}
+h1{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif; font-weight:500;
+  font-size:clamp(2.6rem,7vw,4.1rem); line-height:1.04; letter-spacing:-.015em;
+  color:var(--ink); margin:0; text-wrap:balance;
+}
+.abstract{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif;
+  font-size:clamp(1.18rem,2.5vw,1.46rem); line-height:1.5; color:var(--ink);
+  margin:1.6rem 0 0; max-width:40rem; text-wrap:pretty;
+}
+.abstract em{font-style:normal; box-shadow:inset 0 -.42em 0 var(--sig-soft); padding:0 .1em;}
+.standfirst{margin:1.1rem 0 0; max-width:40rem; color:var(--muted); font-size:.93rem;}
+
+/* ---- section rhythm ---- */
+section{padding-top:60px;}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.7rem;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--sig);
+  margin:0 0 .7rem; display:flex; align-items:center; gap:.6rem;
+}
+.eyebrow::after{content:""; flex:1; height:1px; background:var(--rule);}
+h2{
+  font-family:"Newsreader","Noto Serif SC",Georgia,serif; font-weight:500;
+  font-size:clamp(1.75rem,3.6vw,2.3rem); line-height:1.2; color:var(--ink);
+  margin:0 0 1.1rem; letter-spacing:-.01em; text-wrap:balance;
+}
+h3{
+  font-size:.94rem; font-weight:600; color:var(--ink); margin:2.2rem 0 .5rem;
+  letter-spacing:.005em;
+}
+p{margin:0 0 1.05rem;}
+.measure p:last-child{margin-bottom:0;}
+strong{color:var(--ink); font-weight:600;}
+code, .num{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums;}
+code{font-size:.86em; background:var(--sunk); padding:.12em .38em; border-radius:3px; color:var(--ink);}
+a{color:var(--accent); text-underline-offset:3px;}
+
+/* ---- figure band ---- */
+figure{margin:2.6rem 0 0;}
+figcaption{
+  font-size:.84rem; color:var(--muted); margin-top:.9rem;
+  max-width:40rem; margin-inline:auto; line-height:1.65;
+}
+figcaption b{color:var(--ink); font-weight:600;}
+.panel{
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:2px; box-shadow:var(--shadow); padding:26px 24px 20px;
+  overflow-x:auto;
+}
+.panel svg{display:block; width:100%; height:auto; overflow:visible;}
+
+/* ---- legend ---- */
+.legend{
+  display:flex; flex-wrap:wrap; gap:.4rem 1.4rem; align-items:center;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.71rem;
+  letter-spacing:.06em; color:var(--muted); margin:0 0 16px;
+}
+.legend span{display:inline-flex; align-items:center; gap:.45rem;}
+.swatch{width:22px; height:0; border-top-width:2px; border-top-style:solid; display:inline-block;}
+.dotm{width:9px;height:9px;border-radius:50%;display:inline-block;background:currentColor}
+.sqm{width:9px;height:9px;display:inline-block;border:1.6px solid currentColor}
+.bar{width:11px;height:11px;display:inline-block}
+
+/* ---- readings table ---- */
+.tablewrap{overflow-x:auto; margin-top:2.2rem;
+  background:var(--surface); border:1px solid var(--rule); border-radius:2px; box-shadow:var(--shadow);}
+table{border-collapse:collapse; width:100%; min-width:760px;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.79rem;
+  font-variant-numeric:tabular-nums;}
+caption{caption-side:top; text-align:left; padding:18px 20px 0; font-family:"IBM Plex Sans","Noto Sans SC",sans-serif;
+  font-size:.82rem; color:var(--muted);}
+thead th{
+  font-weight:500; font-size:.66rem; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--muted); text-align:right; padding:14px 14px 8px; white-space:nowrap;
+  border-bottom:1px solid var(--rule);
+}
+thead th.grp{text-align:center; border-bottom:1px solid var(--rule-soft); padding-bottom:4px; color:var(--ink);}
+thead th:first-child{text-align:left;}
+tbody th{
+  font-family:"IBM Plex Sans","Noto Sans SC",sans-serif; font-weight:400; font-size:.8rem;
+  text-align:left; color:var(--ink); padding:7px 14px; white-space:nowrap;
+}
+tbody td{text-align:right; padding:7px 14px; color:var(--body); white-space:nowrap;}
+tbody tr:nth-child(even){background:var(--sunk);}
+td.sep, th.sep{border-left:1px solid var(--rule);}
+
+/* ---- definition list ---- */
+.defs{list-style:none; padding:0; margin:1.1rem 0 0; display:flex; flex-direction:column; gap:.85rem;}
+.defs li{padding-left:1.7rem; position:relative; font-size:.93rem;}
+.defs li::before{
+  content:""; position:absolute; left:0; top:.56em; width:.6rem; height:.6rem;
+  border:1.5px solid var(--accent); border-radius:2px;
+}
+.defs b{color:var(--ink); font-weight:600;}
+.defs .tag{display:inline-block; font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.76em; color:var(--accent); background:var(--sunk);
+  padding:.05em .45em; border-radius:3px; margin-right:.35em;}
+
+/* ---- callout ---- */
+.callout{
+  margin:2.4rem auto 0; max-width:41rem; padding:20px 22px;
+  background:var(--surface); border:1px solid var(--rule); border-left:3px solid var(--sig);
+  border-radius:2px; font-size:.93rem;
+}
+.callout p:last-child{margin-bottom:0;}
+.callout .lbl{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.68rem; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--sig); display:block; margin-bottom:.5rem;
+}
+
+/* ---- limits ---- */
+.limits{list-style:none; padding:0; margin:1.4rem 0 0; display:flex; flex-direction:column; gap:1.05rem;}
+.limits li{padding-left:1.6rem; position:relative; font-size:.93rem;}
+.limits li::before{
+  content:""; position:absolute; left:0; top:.62em; width:.55rem; height:.55rem;
+  border:1.5px solid var(--sig); border-radius:50%;
+}
+.limits b{color:var(--ink); font-weight:600;}
+
+/* ---- provenance ---- */
+.prov{margin-top:64px; padding-top:26px; border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.76rem; color:var(--faint);
+  line-height:1.85;}
+.prov b{color:var(--muted); font-weight:500;}
+.prov div{overflow-wrap:anywhere;}
+
+:focus-visible{outline:2px solid var(--sig); outline-offset:3px;}
+@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important}}
+@media (max-width:640px){
+  .masthead{padding-top:48px}
+  section{padding-top:44px}
+  .panel{padding:18px 14px 14px}
+}
+</style>
+
+<div class="page">
+
+<header class="masthead">
+  <div class="measure">
+  <p class="kicker"><span>多智能体辩论 · 事实流测量</span><span>Perspectrum · DeepSeek-V4-Flash</span><span>12 命题 × 3 人格 × 2 拓扑 = 72 场</span><span>2026-09-01</span></p>
+  <h1>有效结构：预算、位置效应核查与中继</h1>
+  <p class="abstract">把多智能体辩论的每一句话拆成<em>原子事实</em>、按内容跨发言者对齐之后，我们能测量“信息在系统里到底怎么流动”。三个结果：给 agent 越具体的人格，产出的事实越多、被别人接住的越少，且这条梯度在两种通信拓扑上同样成立；一个看起来很显著的“先发言者主导终局”效应，在分解后<em>不成立</em>——它由统计口径的破平局规则和共享材料池伪造；把网络从全连接收窄成星型后，跨枝干的表观重叠绝大多数是各自从同一份材料推出的巧合，真正的中心中继每场不到一条。</p>
+  <p class="standfirst">本页自含：§1 描述实验本身，§2 定义后面用到的每一个指标与统计口径，§3–§7 是结果（每张图都说明数据、坐标与读法），§8 是局限。所有数字只来自“每个 turn 说了哪些事实、谁把哪一轮输出投递给了谁”这两样东西。</p>
+  </div>
+</header>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">实验设置</p>
+    <h2>一场辩论长什么样</h2>
+    <p>数据来自 Perspectrum 测试集里的 <strong>12 个真实争议命题</strong>（如“公共建筑的宗教符号必须被禁止”）。每个命题配一份<strong>材料卷宗</strong>：命题本身 + <strong>4 条人工策展的证据</strong>（2 条支持、2 条反对，标注了出处）。三个 agent（A、B、C）围绕这个命题辩论 <strong>3 轮</strong>；每轮每个 agent 输出一段 ≤180 词的评估，末尾必须给一行 <code>VERDICT: SUPPORT | UNDERMINE | UNCERTAIN</code>。材料人人可见且完全相同——<strong>没有私有信息</strong>。</p>
+    <h3>轮次与可见性（“投递”）</h3>
+    <p>第 1 轮三人<strong>并行生成、互不可见</strong>（提示词要求 “before seeing other panelists”）。第 2 轮起，每个人都只看到<strong>自己收到的</strong>上一轮 peer 输出——具体是谁，由拓扑决定，并且每一轮都<strong>记录在案</strong>（称为<code>投递</code>）：</p>
+    <ul>
+      <li><strong>全连接（full）</strong>：每人看到另外两人的上一轮输出。每场 12 次投递。</li>
+      <li><strong>星型（star）</strong>：A 是中心——A 看到 B、C；B、C 只看到 A。每场 8 次投递。B 和 C 之间<strong>从不直接可见</strong>。</li>
+    </ul>
+    <h3>人格（persona）</h3>
+    <p>三种对 panel 的提示词干预，只在“你是谁”上不同：<code>neutral</code> 三人都是“中立证据分析师”（提示词逐字相同，是唯一完全对称的对照）；<code>lenses</code> 三人分别用因果证据、实施与权衡、范围与不确定性三种认知透镜；<code>stance</code> 三人分别是支持方、反对方、中立裁决者。人格 × 拓扑 = 6 个条件，每条件 12 个命题，共 72 场。</p>
+    <h3>事后测量（不回流）</h3>
+    <p>辩论结束后离线做四件事，结果从不进入 agent 的提示词：<strong>抽取</strong>（把每句话拆成自包含的原子命题）、<strong>原子化</strong>（拆分并列句、剥离“E1 声称…”这类归属外壳）、<strong>匹配</strong>（跨 agent、跨轮次把表达同一命题的说法归并成一个规范事实，id 稳定）、<strong>标注</strong>（给每个事实标立场 SUPPORT / UNDERMINE / NEUTRAL，相对命题而言）。全部分析只依赖每轮说了哪些规范事实 + 投递记录。</p>
+    <p><strong>范围。</strong>辩论与立场标注用 DeepSeek-V4-Flash；抽取/原子化/匹配用 minimax-m2.5。另有 33 场 GLM 全连接辩论，无拓扑对照，不进本页。星型有少数几个空 turn（见 §8）。</p>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">定义与统计口径</p>
+    <h2>后面用的每个数，先在这里定义</h2>
+
+    <h3>流动与结构指标</h3>
+    <ul class="defs">
+      <li><span class="tag">预算分解</span><b>新事实 / 自持 / 采纳。</b>把每个“agent 在某轮说出一个（规范）事实”的事件，按它的来源互斥且穷尽地分成三类：<b>新事实</b>＝自己以前没说过、也不在收到的投递里出现过；<b>自持</b>＝自己以前说过；<b>采纳</b>＝自己以前没说过、但已在收到的投递里出现过（即“别人说的，被我说了”）。三类占比合计 100%。</li>
+      <li><span class="tag">采纳-保留收益</span><b>被采纳的事实里，活到最终轮的占多少。</b>采纳的“回头”是否真的进入终局组合。</li>
+      <li><span class="tag">事实覆盖</span><b>每个事实平均被几个 agent 说过。</b>3 个 agent，上限 3.0。1.2 ≈ 大多数事实只有一个人提。</li>
+      <li><span class="tag">嵌套度</span><b>两两 agent 事实集合的平均包含率。</b>把 A、B、C 各自说过的全部事实看作三个集合，两两算“较小集合被较大集合覆盖的比例”后取平均。0 = 各说各话，1 = 完全重复。</li>
+      <li><span class="tag">有效独立数 n_eff</span><b>panel 实际相当于几个互相独立的发声者。</b>先算两两 Jaccard 相似度（交集 ÷ 并集），排成 3×3 矩阵，取其特征值 λ 并算参与比 n_eff = (Σλ)² / Σλ²。三人事实完全一样 → 1；完全不一样 → 3。它回答“三票赞成到底是不是三份独立证据”。</li>
+      <li><span class="tag">唯一来源回声率</span><b>被 ≥2 个 agent 说过的共识事实里，只有一个人是在它首次出现的轮次就说的比例。</b>其余是随后读到才跟上的“回声”。0 = 每条共识都多方独立推出；1 = 所有共识都只有单一源头。</li>
+      <li><span class="tag">r1→r3 存活 / 峰值保留</span>第 1 轮说过的事实里活到第 3 轮的比例；以及“终局轮活着的 ÷ 曾同时活着的峰值”——衡量系统自己淘汰自己的程度。</li>
+      <li><span class="tag">数字存活</span>第 1 轮出现过的数字字面量（如 12.3%）里，原样出现在第 3 轮输出中的比例。提取器被要求逐字抄数字，所以数字漂移 ≈ agent 自己改写的。</li>
+    </ul>
+
+    <h3>位置效应的核查口径（§4 用）</h3>
+    <p>“谁先说出某个事实”只有在<strong>不同轮次</strong>之间才谈得上先后；第 1 轮是并行的，同轮只能说“谁也是首发者”。以下四把尺子都只统计<strong>终局组合</strong>（第 3 轮还活着的事实）：</p>
+    <ul class="defs">
+      <li><span class="tag">obs credit</span><b>“第一说出者”记账，同轮按名字 A&lt;B&lt;C 破平局。</b>这是最容易算、也最容易伪造的量——同轮并行说同一件事时按名字把功劳判给 A。</li>
+      <li><span class="tag">exp credit</span><b>同轮首发者之间平分功劳。</b>与 obs 之差就是纯破平局伪影。</li>
+      <li><span class="tag">gen</span><b>不看先后，只看“该 agent 在第 1 轮（并行、互不可见）有没有说过这个事实”。</b>衡量的是生成而非传播。</li>
+      <li><span class="tag">uniq</span><b>终局组合里从头到尾只有一个人说过的“唯一性事实”，按那个人记账。</b>它没有破平局问题（只有一个人），但混着最后一轮的新生成。</li>
+    </ul>
+
+    <h3>星型中继口径（§5 用）</h3>
+    <ul class="defs">
+      <li><span class="tag">C→B（同理 B→C）</span>统计 C 在第 1 轮说过的每个事实，B 的处置：<b>从未</b>＝B 任何一轮都没说；<b>并行巧合</b>＝B 也在第 1 轮说了（两人各自从同一份材料推出，与传播无关）；<b>疑似中继</b>＝B 只在第 2/3 轮说了（星型下这是上界——B 也可能自己重新推出）；<b>实中继</b>＝疑似中继里 A 明确在 B 之前说过（星型里 B 唯一可能看见该事实的通道）。</li>
+      <li><span class="tag">沿用率</span>收到的投递事件里，真的导致了对方说出 ≥1 个新事实的比例。</li>
+    </ul>
+
+    <h3>结论层（§6 用）</h3>
+    <ul class="defs">
+      <li><span class="tag">VERDICT</span>每轮每人的结论行，648 个里全部可解析。<b>终局一致率</b>＝第 3 轮三人结论完全相同的场次占比；<b>r1 多数 = 终局多数</b>＝第 1 轮两人以上的一致结论，与第 3 轮多数结论相同的场次占比——衡量辩论到底改没改判。</li>
+      <li><span class="tag">同侧采纳</span>立场 panel 里，把“采纳”按事实的立场和采纳者的人设分组：支持方（A）采纳支持类事实、反对方（B）采纳反对类事实，称为<strong>同侧</strong>。<b>随机底线</b>＝投递给该 agent 的事实里本方立场占比——若采纳不做立场过滤，实测应约等于底线。</li>
+    </ul>
+
+    <h3>统计口径（全文通用）</h3>
+    <ul class="defs">
+      <li><span class="tag">配对差值</span>凡事提到“lenses − neutral”或“star − full”，都是<strong>同一个命题</strong>的两种条件相减（题目难度自己消掉），得到 12 个差值（星型对全连接是 36 个）。</li>
+      <li><span class="tag">bootstrap 置信区间</span>对这组差值有放回重采样 20000 次，取 2.5%–97.5% 分位作为 95% 区间。<b>* 表示区间不含零</b>，即方向在 12 个命题上稳。未做多重比较校正：值得信的是跨两个独立拓扑一致出现的模式，而不是单条区间。</li>
+      <li><span class="tag">η²</span>（§7）把 72 场按 6 个条件格分组，<b>条件格均值能解释的方差比例</b>＝组间离差平方和 ÷ 总离差平方和。0–1；接近 0 表示该指标在 n=12 采样下几乎全是噪声。</li>
+    </ul>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <caption>六个条件的读数，每格 = 12 场均值。份额与比例为占比；“事实覆盖”上限 3.0；“n_eff”上限 3.0；两行“一致率”= 12 场中达标场次 ÷ 12。“终局·首现于 rN”= 终局组合（第 3 轮还活着的事实）中首次出现在第 N 轮的比例。</caption>
+      <thead>
+        <tr><th></th><th class="grp" colspan="3">全连接</th><th class="grp sep" colspan="3">星型</th></tr>
+        <tr><th>指标</th><th>neutral</th><th>lenses</th><th>stance</th><th class="sep">neutral</th><th>lenses</th><th>stance</th></tr>
+      </thead>
+      <tbody>
+<!--__TABLE__-->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">结果一</p>
+    <h2>人格梯度：预算从“回头”流向“新生”，两种拓扑同样复现</h2>
+    <p>把每场辩论的全部表述按“新事实 / 自持 / 采纳”记账（§2 定义），六个条件的占比见图 1。从 neutral 到 stance，<strong>新事实占比单调上升、两种“回头”（自持与采纳）同时变薄</strong>——人格越具体的 agent 越倾向说自己的新话，而不是接别人的话、也不是重提自己的话。</p>
+    <p>关键在它是<span class="num">配对且跨拓扑</span>的：stance − neutral 在全连接下 <span class="num">novel +0.077*</span>、<span class="num">adopted −0.032*</span>、<span class="num">held −0.045*</span>；星型下 <span class="num">novel +0.075*</span>、<span class="num">held −0.045*</span>（* = §2 定义的 bootstrap 区间不含零）。同一方向、同一量级出现在两个独立的通信结构里，这是本条结论可信的地方。lenses 的方向一致但部分区间略弱。</p>
+    <p>同一梯度跨拓扑也抬高<strong>有效独立数 n_eff</strong>（全连接 <span class="num">+0.102*</span>，星型 <span class="num">+0.123*</span>）：立场分工让三人各说各的，事实集合在 Jaccard 意义下更不重叠。表里可见 n_eff 从 neutral 的 ≈2.78 升到 stance 的 ≈2.88–2.93（上限 3.0）。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--p3)"><i class="bar"></i>新事实</span>
+        <span style="color:var(--p2)"><i class="bar"></i>自持（自己重提）</span>
+        <span style="color:var(--p1)"><i class="bar"></i>采纳（接别人的话）</span>
+        <span style="color:var(--muted)">柱子 = 该格所有表述的去向占比，三段合计 100%</span>
+      </div>
+      <div id="fig-budget"></div>
+    </div>
+    <figcaption><b>图 1｜预算去向（堆叠柱）。</b>横轴六格：先 3 格全连接、后 3 格星型，格内按 neutral → lenses → stance。纵轴是占比。看两条：<b>①</b>人格梯度向右，深色段（新事实）变厚、两种浅色段（回头）变薄；<b>②</b>两排柱子形态几乎相同——拓扑换不换，梯度都在。柱顶数字是新事实占比。</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">结果二 · 核查</p>
+    <h2>“先发言者主导终局”不成立：一个被口径伪造出来的效应</h2>
+    <p>初版分析按“第一说出者”给终局组合里的每个事实记账（§2 的 <span class="num">obs</span>），得到全连接 neutral 下 A 占 <span class="num">0.46</span>、C 只占 <span class="num">0.24</span> 的表观差异——A 看似“垄断”了终局。逐项分解后这个差异消失，由三块拼成：</p>
+    <ul class="defs">
+      <li><b>约一半是破平局伪影。</b>第 1 轮三人并行说出同一事实时，按名字把功劳全部判给 A。<span class="num">exp</span>（同轮平分）下的差异只有 <span class="num">0.117</span>，而 obs 是 <span class="num">0.221</span>。</li>
+      <li><b>第一轮生成本身对称。</b><span class="num">gen</span>（A 与 C 在第 1 轮各自踩中的终局事实份额）之差只有 <span class="num">0.023</span>。材料人人可见 + 第一轮并行，“谁先开口谁踩中更多”在生成层面不成立。</li>
+      <li><b>剩余部分是噪声。</b>唯一的真实残余在“唯一性事实”（uniq），但它在方向上不稳定：集中在第 3 轮、由 12 个命题中的 2 个拉动（去掉后反转）、在条件间翻符号（full/stance 下 C 反超），内容多为“E1 没有提到 X”这类无证据性表述。</li>
+    </ul>
+    <p>另外，采纳也没有位置优势：A 的第 1 轮独有事实被他人采用率 <span class="num">0.82</span>，C 是 <span class="num">0.86</span>。结论：<strong>在这个共享材料的规模上，测量不到可影响他人内容的位置优势。</strong>“谁先说话”对内容流没有真实杠杆——这个核查本身就是本页的方法：任何 first-utterer 类统计，在并行生成 + 共享池下都会被破平局规则和有限事实池伪造出来。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--p3)"><i class="bar"></i>obs（同轮按名破平局）</span>
+        <span style="color:var(--p2)"><i class="bar"></i>exp（同轮平分）</span>
+        <span style="color:var(--p1)"><i class="bar"></i>gen（第 1 轮是否说过）</span>
+        <span style="color:var(--sig)"><i class="bar"></i>uniq（唯一性事实）</span>
+        <span style="color:var(--muted)">纵轴 = A 的 share − C 的 share</span>
+      </div>
+      <div id="fig-verify"></div>
+    </div>
+    <figcaption><b>图 2｜位置效应的四把尺子（A 减 C）。</b>横轴六格同图 1；每个标记高度 = 该尺子下 A 的份额减 C 的份额，0 线为无差异。读法：obs 的深色柱最高（0.22），但 exp 一档就把它削到 0.12，gen 几乎贴 0——说明表观优势来自记账规则而非行为；uniq（红）在多个条件翻负号，是不稳定噪声。四根里没有一根在所有六格持续为正。</figcaption>
+  </figure>
+
+  <div class="callout">
+    <span class="lbl">顺带修正一个相关印象</span>
+    <p>终局组合里 <span class="num">62%</span> 的事实是第 3 轮才首次出现的，第 1 轮的只占 <span class="num">22%</span>。这与 §6 的结论层稳定性并不矛盾：<strong>结论在第 1 轮就定了，事实组合却一直换血到最后一轮。</strong></p>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">结果三</p>
+    <h2>星型的中心不是中转站</h2>
+    <p>星型里 B、C 互不可见，唯一的沟通通道是中心 A。按 §2 的中继口径统计（12 场汇总，neutral）：C 第 1 轮说过 <span class="num">144</span> 个事实，B <strong>从未说过其中的 100 个（69%）</strong>；B 也在第 1 轮并行说过的 <span class="num">22</span> 个是<strong>巧合</strong>（两人各自从同一份材料推出）；B 只在第 2/3 轮说出的 <span class="num">22</span> 个里，A 明确先于 B 说过的 <span class="num">14</span> 个<strong>实中继</strong>——即每场约 1 条。B→C 方向更弱：74% 从未出现，实中继每场不足 1 条。</p>
+    <p>也就是说：<strong>跨枝干的表观重叠几乎全是共享材料下的巧合或独立重推，真正经过中心的传输是零星事件。</strong>名义图的边大多空转。这与全连接对照的行为一致——全连接下每人能收到两人，但采纳占比也只有 10% 上下（图 1）；差别在于星型把这点传输里的 B↔C 方向直接拿掉了。星型 − 全连接的配对差（36 个命题对，§2 口径）里，只有预算分解一项稳：<span class="num">novel +0.040*</span>、<span class="num">adopted −0.020*</span>、<span class="num">held −0.020*</span>——收窄视野让系统更少复用、更多新生成。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--faint)"><i class="bar"></i>对方从未说过</span>
+        <span style="color:var(--p1)"><i class="bar"></i>并行巧合（对方第 1 轮也说）</span>
+        <span style="color:var(--p2)"><i class="bar"></i>疑似中继（对方仅第 2/3 轮说）</span>
+        <span style="color:var(--p3)"><i class="bar"></i>实中继（A 明确先于对方）</span>
+        <span style="color:var(--muted)">横轴 = 3 人格 × 2 方向；柱 = 占该方向第 1 轮事实总数的比例</span>
+      </div>
+      <div id="fig-relay"></div>
+    </div>
+    <figcaption><b>图 3｜星型里一个枝干的事实，另一个枝干怎么处置。</b>C→B 表示“C 在第 1 轮说过的事实，B（无论哪轮）是否说过”，B→C 同理。柱子三段自下而上：从未 / 并行巧合 / 疑似中继；深色细条（最好看横轴下方比例）是其中 A 明确先说的实中继。读数看两端：灰色段（从未）占压倒多数；“巧合”与“中继”都很小，说明可观察的跨枝干流动几乎等于零。</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">结果四</p>
+    <h2>结论在第一轮定，事实在最后一轮换</h2>
+    <p>用每轮每人必须给出的 VERDICT（SUPPORT / UNDERMINE / UNCERTAIN，全部 648 个 turn 可解析）看结论层：第 1 轮多数结论与第 3 轮多数结论相同的场次占 <span class="num">75%–92%</span>——<strong>辩论几乎不改判</strong>。而上一节刚看到终局事实大部分是最后一轮新生成的：理由池换了，立场没变。</p>
+    <p>第 3 轮三人一致率里有一个待复制的候选交互：full/neutral <span class="num">92%</span> 一致，star/stance 只有 <span class="num">33%</span>——立场分工 + 最窄视野让 panel 停在分裂状态。这是“多样性”第一次在决策层显现的格子；但星型有空 turn 伪影（§8），先重查再引用。结论方向也值得注意：多数场次以 UNCERTAIN 收场，stance 把一部分推向 UNDERMINE——事实面的正反对称并不带来结论面的对称。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--p3)"><i class="bar"></i>终局三人结论一致率</span>
+        <span style="color:var(--p2)"><i class="bar"></i>第 1 轮多数 = 终局多数</span>
+        <span style="color:var(--muted)">每格 = 12 场中的比例</span>
+      </div>
+      <div id="fig-verdict"></div>
+    </div>
+    <figcaption><b>图 4｜结论层的稳定性（成对柱，每格 12 场）。</b>左柱（深）= 第 3 轮三人结论完全一致的比例；右柱（浅）= 第 1 轮多数结论延续到第 3 轮的比例。几乎每格右柱都高位且平稳（结论不动），而左柱在 star/stance 塌到 33%。</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">结果五 · 负结果</p>
+    <h2>采纳没有回声室过滤</h2>
+    <p>立场 panel 里逐采纳者比较“同侧采纳率”与“随机底线”（§2 定义）：底线是投递给该 agent 的事实里本方立场占多少——若 agent 只接自己人的话，实测应显著高于底线。实测贴着或低于底线：full 的 B（反对方）同侧 <span class="num">0.72</span> 对底线 <span class="num">0.67</span>；star 的 A、B <span class="num">0.29 / 0.60</span> 对 <span class="num">0.32 / 0.61</span>；full 的 A（支持方）同侧只有 <span class="num">0.15</span> 对底线 <span class="num">0.31</span>——方向甚至是<em>欠</em>采纳本方。</p>
+    <p>结合结果一：立场隔离是<strong>生产端</strong>的（各说各的、不接对方），不是<strong>接收端</strong>的过滤（对方的事实送来了照收）。反方不得不常接对方的话，可能只是因为对方是主要的投递源。样本偏小（每格 20–50 次采纳），作为方向引用。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--p3)"><i class="bar"></i>实测同侧采纳率</span>
+        <span style="color:var(--muted)"><i class="bar"></i>随机底线（投递里本方占比）</span>
+        <span style="color:var(--faint)">“n=”为采纳样本数</span>
+      </div>
+      <div id="fig-echo"></div>
+    </div>
+    <figcaption><b>图 5｜同侧采纳 vs 随机底线（立场 panel）。</b>横轴 = 拓扑 × 采纳者（A=支持方、B=反对方）；深色柱 = 该采纳者实际采纳的“本方立场”事实比例，灰横线 = 其收到的投递里本方立场占比（随机底线）。读法：若柱高于线 → 回声室过滤；这里柱贴着线或低于线 → 不做立场过滤。</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">结果六</p>
+    <h2>哪些指标真的带着信号：η²</h2>
+    <p>把 72 场的方差按 6 个条件格分组，<span class="num">η²</span>（§2 定义）回答“这个指标能被条件解释多少”。预算两兄弟最高（novel <span class="num">0.25</span>、held <span class="num">0.24</span>），n_eff <span class="num">0.15</span>；而回声率 <span class="num">0.02</span>、采纳-保留 <span class="num">0.05</span> 几乎全是命题层面的噪声。这量化了“拓扑测不出”的另一半原因：<strong>不是没效应，是指标大多趴在噪声地板里。</strong>n=12 时只有预算类指标有足够信噪——这也解释了为什么早期 12 次比较只出现一个不含零的区间。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend">
+        <span style="color:var(--sig)"><i class="bar"></i>η² = 条件格解释的方差比例</span>
+        <span style="color:var(--muted)">虚线 = 0.10（低于此线，n=12 几乎无判别力）</span>
+      </div>
+      <div id="fig-eta2"></div>
+    </div>
+    <figcaption><b>图 6｜指标可靠性（横向柱）。</b>每根 = 一个指标的 η²，从高到低。读数：柱长过虚线才值得在两两比较里当信号；报告任何“无差异”结论前，先看它的 η² 是不是本身就趴在噪声里。</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="measure">
+    <p class="eyebrow">边界</p>
+    <h2>这批数据不能说什么</h2>
+    <ul class="limits">
+      <li><b>只有一个模型进拓扑比较。</b>辩论与标注都是 DeepSeek-V4-Flash；GLM 的 33 场只有全连接、无星型对照，未进本页。</li>
+      <li><b>星型有 14 个空 turn（4.3%，全连接 0.9%）。</b>这些 turn 有实质文本但抽取返回零个事实，会同时压低星型的事实数与采纳数；star/stance 的 33% 一致率必须先用逐 turn 完整性重查。</li>
+      <li><b>共享材料是全部“巧合”的来源。</b>三人读同一份卷宗，跨 agent 重叠天然高，且与真实传输不可分——所以本页一切传输结论都以投递记录为准，实中继口径（A 必须先说）是下界。</li>
+      <li><b>立场标注未经人工核对</b>（由模型自标），接纳-回声室样本每格仅 20–50 次，方向级证据。</li>
+      <li><b>agent 位置没有轮转。</b>neutral 面板里三人提示词相同、身份可交换，位置核查在它上面成立；严格的因果结论（尤其 stance/lenses 与位置纠缠）需要角色-位置轮转的实验。</li>
+      <li><b>没有人类答案可对照。</b>VERDICT 只能测方向与一致性，不能测对错；命题-证据的覆盖（gold coverage）这条线仍被 add_gold 的 bug 卡住，本页没有一个“事实有用性”指标。</li>
+      <li><b>没做多重比较校正。</b>可信的是跨两个拓扑一致出现的模式（人格梯度、预算分解）与结构性零结果（位置、中继），不是单条区间。</li>
+      <li><b>chain 事实层未完成。</b>36 场 chain 辩论的 transcript 已在，匹配后的 store 未跑完；chain 是“位置无影响力”与“中心非中转”的最强检验（A 无前驱、C 只见 B）。</li>
+    </ul>
+  </div>
+</section>
+
+<div class="prov measure">
+  <div><b>store</b> experiments/perspectrum_pilot_full/*deepseek*.v2.json（全连接 36）· experiments/perspectrum_pilot_star_chain/*deepseek*.v2.json（星型 36）</div>
+  <div><b>投递记录</b> 同目录 *.debate.json 的 delivery 字段 · <b>立场标注</b> experiments/labels/stance/*.json（105）· <b>token clock</b> experiments/labels/token_clock/*.json（105）</div>
+  <div><b>事后管线</b> 抽取 minimax-m2.5 → 原子化（剥离归属外壳、turn 内去重）→ bge-base-en-v1.5 @0.70 top_k 12 阻塞 → 二值 SAME/DIFF（batch 16）→ union ≥ 0.85 聚类</div>
+  <div><b>本页数据</b> findings/data/effective-structure.json（<code>python experiments/analyze_effective_structure.py</code> 重算，纯离线、不联网、不花钱）</div>
+  <div><b>本页</b> <code>python experiments/report/build_effective_structure.py</code> 由模板渲染，任何表格与数字不手写</div>
+  <div><b>配对与区间</b> 同命题配对，20000 次 bootstrap，95% 百分位区间；* = 区间不含零</div>
+</div>
+
+</div>
+
+<script>
+const D = /*__DATA__*/null;
+const PANELS = ["neutral","lenses","stance"];
+const CELLS = ["full/neutral","full/lenses","full/stance","star/neutral","star/lenses","star/stance"];
+const RAMP = ["var(--p1)","var(--p2)","var(--p3)"];
+const NS = "http://www.w3.org/2000/svg";
+
+function el(t, a){const n=document.createElementNS(NS,t);
+  for(const k in a) n.setAttribute(k, a[k]); return n;}
+function txt(x,y,s,a){const t=el("text",Object.assign({x:x,y:y},a||{}));
+  t.textContent=s; return t;}
+
+/* ---------- figure 1: budget stack ---------- */
+function budget(){
+  const W=1000, H=340, top=54, bot=58, padx=30, cw=(W-2*padx)/6;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img","aria-label":"六格预算堆叠柱"});
+  const segs=[["novel_share","var(--p3)"],["held_share","var(--p2)"],["adopted_share","var(--p1)"]];
+  CELLS.forEach((cell,i)=>{
+    const c=D.cells[cell], x0=padx+i*cw, bw=cw*0.46;
+    const x=cx=>x0+cw/2-bw/2+cx;
+    let y0=H-bot;
+    segs.forEach(([k,col])=>{
+      const h=c[k]* (H-top-bot);
+      svg.appendChild(el("rect",{x:x(0),y:y0-h,width:bw,height:h,fill:col}));
+      y0-=h;
+    });
+    svg.appendChild(txt(x0+cw/2, y0-10, (c.novel_share*100).toFixed(0)+"%",
+      {fill:"var(--p3)","font-size":"10.5","text-anchor":"middle","font-family":'"IBM Plex Mono",monospace'}));
+    svg.appendChild(txt(x0+cw/2, H-bot+24, PANELS[i%3], {fill:RAMP[i%3],"font-size":"11","text-anchor":"middle",
+      "font-family":'"IBM Plex Mono",monospace',"font-weight":i%3===2?"600":"400"}));
+    if(i===0||i===3){
+      svg.appendChild(txt(x0+cw/2, H-bot+44, i===0?"全连接":"星型",
+        {fill:"var(--ink)","font-size":"12","text-anchor":"middle","font-weight":"600",
+         "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
+    }
+  });
+  return svg;
+}
+
+/* ---------- figure 2: verification bars (A - C) ---------- */
+function verify(){
+  const W=1000, H=330, top=50, bot=58, padx=30, cw=(W-2*padx)/6;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img","aria-label":"位置效应四把尺子的 A-C 差"});
+  const keys=[["obs_credit","var(--p3)"],["exp_credit","var(--p2)"],["gen","var(--p1)"],["uniq_share","var(--sig)"]];
+  const SPAN=0.32;
+  CELLS.forEach((cell,i)=>{
+    const c=D.cells[cell], x0=padx+i*cw, bw=cw*0.48;
+    keys.forEach(([k,col])=>{
+      const d=c[k].A-c[k].C;
+      const h=Math.abs(d)/SPAN*(H-top-bot);
+      const y=(H-top-bot)/2+top;
+      const y0=d>=0?y-h:y, x=x0+cw/2-bw/2;
+      svg.appendChild(el("rect",{x:x,y:y0,width:bw,height:Math.max(h,1.2),fill:col,opacity:.9}));
+      svg.appendChild(txt(x0+cw/2, y+(d>=0?-4:14), (d>=0?"+":"")+d.toFixed(2),
+        {fill:col,"font-size":"9","text-anchor":"middle","font-family":'"IBM Plex Mono",monospace'}));
+    });
+    svg.appendChild(el("line",{x1:x0,y1:(H-top-bot)/2+top,x2:x0+cw,y2:(H-top-bot)/2+top,
+      stroke:"var(--rule)","stroke-width":1}));
+    svg.appendChild(txt(x0+cw/2, H-bot+24, PANELS[i%3], {fill:RAMP[i%3],"font-size":"11","text-anchor":"middle",
+      "font-family":'"IBM Plex Mono",monospace',"font-weight":i%3===2?"600":"400"}));
+  });
+  ["full","star"].forEach((t,ti)=>{
+    svg.appendChild(txt(padx+ti*3*cw+cw*1.5, top-14, t==="full"?"全连接":"星型",
+      {fill:"var(--ink)","font-size":"12.5","font-weight":"600",
+       "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
+  });
+  return svg;
+}
+
+/* ---------- figure 3: relay ---------- */
+function relay(){
+  const W=1000, H=330, top=50, bot=60, padx=30;
+  const dirs=[];
+  ["neutral","lenses","stance"].forEach(p=>["C_to_B","B_to_C"].forEach(d=>dirs.push(p+"/"+d)));
+  const cw=(W-2*padx)/dirs.length;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img","aria-label":"星型中继分解"});
+  const segs=[["never","var(--faint)"],["coincide","var(--p1)"],["forced","var(--p2)"]];
+  const PIDX={neutral:0,lenses:1,stance:2};
+  dirs.forEach((g,i)=>{
+    const [p,dir]=g.split("/"), r=D.relay[p][dir], tot=r.total||1;
+    const x0=padx+i*cw, bw=cw*0.5, x=x0+cw/2-bw/2;
+    let y0=H-bot;
+    segs.forEach(([k,col])=>{
+      const h=r[k]/tot*(H-top-bot);
+      svg.appendChild(el("rect",{x:x,y:y0-h,width:bw,height:h,fill:col}));
+      y0-=h;
+    });
+    const va=r.via_a/tot*(H-top-bot);
+    svg.appendChild(el("rect",{x:x-3,y:H-bot-va,width:bw+6,height:2.4,fill:"var(--p3)"}));
+    svg.appendChild(txt(x0+cw/2, H-bot+22, p, {fill:RAMP[PIDX[p]],"font-size":"10.5","text-anchor":"middle",
+      "font-family":'"IBM Plex Mono",monospace'}));
+    svg.appendChild(txt(x0+cw/2, H-bot+40, dir.replace("_to_","→"),
+      {fill:"var(--muted)","font-size":"9.5","text-anchor":"middle",
+       "font-family":'"IBM Plex Mono",monospace'}));
+  });
+  return svg;
+}
+
+/* ---------- figure 4: verdicts ---------- */
+function verdicts(){
+  const W=1000, H=320, top=50, bot=56, padx=30, cw=(W-2*padx)/6;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img","aria-label":"结论一致率"});
+  CELLS.forEach((cell,i)=>{
+    const v=D.cells[cell].verdict, n=v.runs||1;
+    const x0=padx+i*cw, bw=cw*0.42;
+    [["unanimous","var(--p3)"],["r1same","var(--p2)"]].forEach(([k,col],ki)=>{
+      const h=v[k]/n*(H-top-bot);
+      svg.appendChild(el("rect",{x:x0+cw/2-bw/2+ki*bw*0.5, y:H-bot-h, width:bw*0.5, height:h, fill:col}));
+      svg.appendChild(txt(x0+cw/2+ki*bw*0.5, H-bot-h-6, Math.round(v[k]/n*100)+"%",
+        {fill:col,"font-size":"9.5","text-anchor":"middle","font-family":'"IBM Plex Mono",monospace'}));
+    });
+    svg.appendChild(txt(x0+cw/2, H-bot+24, PANELS[i%3], {fill:RAMP[i%3],"font-size":"11","text-anchor":"middle",
+      "font-family":'"IBM Plex Mono",monospace',"font-weight":i%3===2?"600":"400"}));
+  });
+  return svg;
+}
+
+/* ---------- figure 5: echo chamber ---------- */
+function echo(){
+  const W=1000, H=320, top=50, bot=56, padx=40;
+  const groups=[];
+  ["full","star"].forEach(t=>["A","B"].forEach(a=>groups.push(t+"/"+a)));
+  const cw=(W-2*padx)/groups.length;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img","aria-label":"同侧采纳与随机底线"});
+  groups.forEach((g,i)=>{
+    const sa=D.stance_adoption[g.split("/")[0]][g.split("/")[1]];
+    const x0=padx+i*cw, bw=Math.min(cw*0.4, 64), x=x0+cw/2-bw/2;
+    const obs=sa.same, exp=sa.expected_same;
+    if(obs!=null){
+      const h=obs*(H-top-bot);
+      svg.appendChild(el("rect",{x:x,y:H-bot-h,width:bw,height:h,fill:"var(--p3)"}));
+      svg.appendChild(txt(x0+cw/2, H-bot-h-6, obs.toFixed(2),
+        {fill:"var(--p3)","font-size":"9.5","text-anchor":"middle","font-family":'"IBM Plex Mono",monospace'}));
+    }
+    if(exp!=null){
+      const y=H-bot-exp*(H-top-bot);
+      svg.appendChild(el("line",{x1:x-6,y1:y,x2:x+bw+6,y2:y,stroke:"var(--muted)","stroke-width":2}));
+    }
+    svg.appendChild(txt(x0+cw/2, H-bot+24, g.split("/")[1]+"("+sa.side.slice(0,4)+")",
+      {fill:"var(--ink)","font-size":"10.5","text-anchor":"middle","font-family":'"IBM Plex Mono",monospace'}));
+    svg.appendChild(txt(x0+cw/2, H-bot+42, g.split("/")[0]==="full"?"全连接":"星型",
+      {fill:"var(--muted)","font-size":"9.5","text-anchor":"middle","font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
+    svg.appendChild(txt(x0+cw/2, H-bot+58, "n="+sa.n,
+      {fill:"var(--faint)","font-size":"9","text-anchor":"middle","font-family":'"IBM Plex Mono",monospace'}));
+  });
+  return svg;
+}
+
+/* ---------- figure 6: eta2 ---------- */
+function eta2(){
+  const rows=[["novel_share","新事实占比"],["held_share","自持占比"],["reach","事实覆盖"],
+    ["n_facts","事实数"],["n_eff","有效独立数"],["adopted_share","采纳占比"],
+    ["numeric_ret","数字存活"],["retain_adopted","采纳保留"],["echo","回声率"]];
+  const sorted=[...rows].sort((a,b)=>D.eta2[b[0]]-D.eta2[a[0]]);
+  const W=1000, H=340, top=30, bot=50, labW=150;
+  const rowH=(H-top-bot)/sorted.length;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img","aria-label":"指标可靠性 η²"});
+  const x0=labW+20, span=Math.max(...sorted.map(r=>D.eta2[r[0]]))*1.12;
+  sorted.forEach(([k,label],i)=>{
+    const y=top+i*rowH+rowH/2, v=D.eta2[k];
+    svg.appendChild(txt(labW-14, y+4, label, {fill:"var(--ink)","font-size":"11.5","text-anchor":"end",
+      "font-family":'"IBM Plex Sans","Noto Sans SC",sans-serif'}));
+    svg.appendChild(el("rect",{x:x0, y:y-7, width:v/span*(W-x0-30), height:14, fill:v>0.15?"var(--sig)":"var(--p2)"}));
+    svg.appendChild(txt(x0+v/span*(W-x0-30)+8, y+4, v.toFixed(2),
+      {fill:"var(--muted)","font-size":"9.5","font-family":'"IBM Plex Mono",monospace'}));
+  });
+  svg.appendChild(el("line",{x1:x0+0.1/span*(W-x0-30),y1:top-4,x2:x0+0.1/span*(W-x0-30),y2:H-bot,
+    stroke:"var(--rule)","stroke-dasharray":"4 3","stroke-width":1}));
+  svg.appendChild(txt(x0+0.1/span*(W-x0-30), H-bot+18, "0.10", {fill:"var(--faint)","font-size":"9",
+    "text-anchor":"middle","font-family":'"IBM Plex Mono",monospace'}));
+  return svg;
+}
+
+document.getElementById("fig-budget").appendChild(budget());
+document.getElementById("fig-verify").appendChild(verify());
+document.getElementById("fig-relay").appendChild(relay());
+document.getElementById("fig-verdict").appendChild(verdicts());
+document.getElementById("fig-echo").appendChild(echo());
+document.getElementById("fig-eta2").appendChild(eta2());
+</script>
