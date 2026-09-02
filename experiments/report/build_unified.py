@@ -66,6 +66,8 @@ def main() -> None:
     profile = load("flow-profile.json")
     stance = load("stance-flow.json")
     extras = load("flow-extras.json")
+    ctx = load("context-output.json")
+    ctx.pop("rows", None)          # 918 行明细，页面用不到
     rq = load("rq-extensions.json")
 
     funnel = rq["round2_transmission_funnel"]["cells"]
@@ -89,7 +91,7 @@ def main() -> None:
 
     page = args.template.read_text()
     for token, payload in (("PROFILE", profile), ("STANCE", stance),
-                           ("EXTRA", extras), ("RQ", rq)):
+                           ("EXTRA", extras), ("RQ", rq), ("CTX", ctx)):
         page = page.replace(f"/*__{token}__*/null",
                             json.dumps(payload, ensure_ascii=False,
                                        separators=(",", ":")))
