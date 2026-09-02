@@ -194,6 +194,13 @@ td.lft{text-align:left;}
 .toc a{color:var(--body); text-decoration:none; border-bottom:1px solid var(--rule);}
 .toc a:hover{color:var(--accent); border-color:var(--accent);}
 .toc strong{color:var(--ink);}
+.c3, .c2, .c1{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+  white-space:nowrap; border-radius:2px; padding:.05em .3em;}
+.c3{color:var(--sig); background:var(--sig-soft); font-weight:600;}
+.c2{color:var(--sig); background:transparent; border:1px solid var(--sig-soft);}
+.c1{color:var(--muted);}
+.conf-key{display:flex; flex-wrap:wrap; gap:.5rem 1.2rem; align-items:center;
+  margin:1.2rem 0 0; font-size:.86rem;}
 h2 .num-h{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--sig);
   margin-right:.55em; font-weight:400; letter-spacing:.05em;}
 
@@ -331,8 +338,16 @@ h2 .num-h{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--sig
     <ul class="defs">
       <li><b>按命题配对</b>凡是比较两个条件，都是取<strong>同一个命题</strong>在两种条件下的值相减，得到 12 个差值。这样做是因为命题之间的难度差异远大于条件之间的差异，不配对的话条件效应会被命题噪声淹没。</li>
       <li><b>bootstrap 区间</b>对这 12 个差值有放回重采样 20000 次，每次算均值，取 2.5% 和 97.5% 分位作为 95% 区间。</li>
-      <li><b>p 值的含义</b>本文报的 <code>p</code> 是这 20000 个 bootstrap 均值里落在零以上的比例。<strong>请读 p，不要读"区间是否跨零"。</strong>在 n=12 的情况下两者可以差很远：<span class="num">+5.90 [−0.74, +11.94]</span> 的区间跨零，但 96% 的重采样均值在零以上，12 个命题里有 8 个为正。把它叫作"没有效应"等于扔掉数据里的大部分信息。p=0.96 偏正的程度，和 p=0.04 偏负的程度是一样的。文中标 <span style="color:var(--sig)">★</span> 的是 95% 区间也排除零的那些，但没有任何结论只挂在这个符号上。</li>
-      <li><b>没有做多重比较校正</b>本文跨十几个指标、九个条件做比较，偶然出现极端的 p 是正常的。值得相信的是<strong>同时在多个拓扑、多个相关指标上一致出现</strong>的模式，而不是任何单独一条区间。</li>
+      <li><b>确信度，以及为什么不叫 p</b>bootstrap 给出的原始量是"20000 个重采样均值里有多大比例落在零以上"。这个量<strong>两头都表示确定</strong>：0.99 表示很确定为正，0.01 表示很确定为负，0.5 表示毫无方向。直接把它叫 p 会和常规显著性检验的 p 值读法冲突，那里是越小越显著。<br>所以本文一律报<strong>确信度</strong>，定义为 <code>max(比例, 1 − 比例)</code>，取值 0.5 到 1.0，<strong>永远是越大越确定</strong>。效应的方向看点估计前面的正负号，不用从确信度里读。</li>
+      <li><b>三档，并且都用颜色标出来</b>确信度 <span class="c3">≥ 0.975</span> 记作<strong>强</strong>，它和"95% 区间排除零"是同一件事（区间的 2.5% 分位大于零，等价于 97.5% 的重采样均值同号）。<span class="c2">0.90 – 0.975</span> 记作<strong>倾向</strong>：方向清楚，但 95% 区间仍然跨零。<span class="c1">&lt; 0.90</span> 不着色。
+        <div class="conf-key">
+          <span><span class="c3">0.975 – 1.0　强</span></span>
+          <span><span class="c2">0.90 – 0.975　倾向</span></span>
+          <span><span class="c1">&lt; 0.90　无方向证据</span></span>
+        </div>
+      </li>
+      <li><b>跨零不等于没有效应</b>这正是"倾向"这一档存在的原因。举例：<span class="num">+5.90 [−0.74, +11.94]</span> 的 95% 区间跨零，但确信度是 <span class="c2">0.96</span>，12 个命题里 8 个为正。把它叫作"没有效应"等于扔掉数据里的大部分信息。反过来，一个确信度 <span class="c1">0.62</span> 的结果就应该当作没有证据。</li>
+      <li><b>没有做多重比较校正</b>本文跨十几个指标、九个条件做比较，偶然出现很高的确信度是正常的。值得相信的是<strong>同时在多个拓扑、多个相关指标上一致出现</strong>的模式，而不是任何单独一条区间。</li>
     </ul>
   </div>
 </section>
@@ -364,13 +379,13 @@ h2 .num-h{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--sig
     <h2><span class="num-h">04</span>人格改变产出什么</h2>
 
     <h3>"人格越强，产出的事实越多"这个说法不成立</h3>
-    <p>不做归一化的话，全连接下 stance 条件比 neutral 多产出 21 个事实，区间是 <span class="num">[+11.3, +30.3]</span>，看起来很确定。但 stance 条件下 agent 也多写了大约 15% 的字。按每千输出 token 归一化之后，这个差变成 <span class="num">+5.90 [−0.74, +11.94]</span>，<span class="num">p=0.96</span>。方向仍然偏正，效应被砍掉了大半。</p>
-    <p>更值得注意的是形状变了。真正大的那一档是 lenses：事实密度比 neutral 高 <span class="num">+15.97 [+6.95, +23.95]</span>，<span class="num">p=0.999</span>，12 个命题里 11 个为正。而从 lenses 再走到 stance 是往回掉，<span class="num">−10.06 [−16.62, −2.45]</span>，<span class="num">p=0.006</span>。全连接下事实密度的走势是 <span class="num">53.7 → 69.7 → 59.6</span>。</p>
+    <p>不做归一化的话，全连接下 stance 条件比 neutral 多产出 21 个事实，区间是 <span class="num">[+11.3, +30.3]</span>，看起来很确定。但 stance 条件下 agent 也多写了大约 15% 的字。按每千输出 token 归一化之后，这个差变成 <span class="num">+5.90 [−0.74, +11.94]</span>，<span class="c2">确信度 0.960</span>。方向仍然偏正，效应被砍掉了大半。</p>
+    <p>更值得注意的是形状变了。真正大的那一档是 lenses：事实密度比 neutral 高 <span class="num">+15.97 [+6.95, +23.95]</span>，<span class="c3">确信度 0.999</span>，12 个命题里 11 个为正。而从 lenses 再走到 stance 是往回掉，<span class="num">−10.06 [−16.62, −2.45]</span>，<span class="c3">确信度 0.994</span>。全连接下事实密度的走势是 <span class="num">53.7 → 69.7 → 59.6</span>。</p>
     <p>换一种说法：给一个<strong>分析视角</strong>会让 agent 关注到不同的内容，因此每千 token 里装的不同事实变多；再给一个<strong>立场</strong>并不会继续增加内容，只会增加篇幅，因此密度反而下降。</p>
 
     <h3>信息密度和立场平衡是反着走的</h3>
     <p>正反平衡衡量支持类事实和削弱类事实的数量是否接近。它画出的曲线和事实密度正好相反，而且这个镜像关系在三种拓扑上都出现：从 neutral 到 lenses 平衡下降，从 lenses 到 stance 平衡回升并超过 neutral。</p>
-    <p>stance 减 lenses 的平衡差是全连接 <span class="num">+0.151</span>（p=1.000，9/12）、星型 <span class="num">+0.221</span>（p=1.000，11/12）、链式 <span class="num">+0.097</span>（p=0.935）。同一个对比在密度上是全连接 <span class="num">−10.06</span>（p=0.006）、链式 <span class="num">−12.96</span>（p=0.013）。</p>
+    <p>stance 减 lenses 的平衡差是全连接 <span class="num">+0.151</span>（<span class="c3">确信度 1.000</span>，9/12）、星型 <span class="num">+0.221</span>（<span class="c3">确信度 1.000</span>，11/12）、链式 <span class="num">+0.097</span>（<span class="c2">确信度 0.935</span>）。同一个对比在密度上是全连接 <span class="num">−10.06</span>（<span class="c3">确信度 0.994</span>）、链式 <span class="num">−12.96</span>（<span class="c3">确信度 0.987</span>）。</p>
     <p>这说明两档人格设定各有代价，不是强弱之分。给视角让每个 agent 挖到不同的东西，但没有人负责让这些东西加起来不偏；指定立场让正反两边都有人说话，但每个 agent 都在重复自己那一侧。</p>
   </div>
 
@@ -412,14 +427,14 @@ h2 .num-h{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--sig
     <h2><span class="num-h">05</span>拓扑改变谁能听到</h2>
     <p>链式结构是 A→B→C 且没有回边，所以 A 全程收不到任何同伴输出，9 个 turn 里只有 4 个有输入，而全连接和星型都是 6 个。这个结构差异会直接压低链式的采纳占比，但它压低的是"有没有机会"，不是"愿不愿意接"。</p>
     <p>把这两件事分开测之后，结果非常清楚。把全连接砍成链式，接触率从 <span class="num">66.7%</span> 掉到 <span class="num">42.6%</span>，差 <span class="num">−24.1pp</span>，置信区间几乎没有宽度，因为它基本上是线路的常数。同样这一刀，条件采纳率只动了 <span class="num">−5.2pp</span>，小一个数量级。</p>
-    <p>星型的情况更能说明问题。星型砍掉了 B 和 C 之间的连线，投递事件从 12 降到 8，但<strong>接触率完全没有变化</strong>（<span class="num">0.0pp</span>，p=0.5）。每个 turn 照样有人给它送东西，少的是<em>来源的多样性</em>，不是<em>有没有来源</em>。这解释了为什么星型和全连接在几乎所有指标上都测不出差别：真正起作用的线路变量是接触率，不是边的条数。</p>
+    <p>星型的情况更能说明问题。星型砍掉了 B 和 C 之间的连线，投递事件从 12 降到 8，但<strong>接触率完全没有变化</strong>（<span class="num">0.0pp</span>，<span class="c1">确信度 0.500</span>）。每个 turn 照样有人给它送东西，少的是<em>来源的多样性</em>，不是<em>有没有来源</em>。这解释了为什么星型和全连接在几乎所有指标上都测不出差别：真正起作用的线路变量是接触率，不是边的条数。</p>
   </div>
 
   <figure>
     <div class="panel">
       <div class="legend">
         <span style="color:var(--muted)">相对全连接，按同一命题、同一人格配对</span>
-        <span style="color:var(--sig)">★ 95% 区间也排除零</span>
+        <span style="color:var(--sig)"><b style="font-weight:600">★</b> 确信度 ≥ 0.975（95% 区间排除零）</span><span style="color:var(--sig)">◦ 确信度 0.90–0.975（方向清楚但区间跨零）</span><span style="color:var(--muted)">无标记 = 无方向证据</span>
       </div>
       <div id="fig-decomp"></div>
     </div>
@@ -442,7 +457,7 @@ h2 .num-h{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--sig
 
   <figure>
     <div class="panel">
-      <div class="legend"><span style="color:var(--muted)">纵轴为零表示"人格效应在两个拓扑里一样大"；负值表示该拓扑里人格效应更弱</span></div>
+      <div class="legend"><span style="color:var(--muted)">零线表示"人格效应在两个拓扑里一样大"；负值表示该拓扑里人格效应更弱</span><span style="color:var(--sig)"><b style="font-weight:600">★</b> 确信度 ≥ 0.975（95% 区间排除零）</span><span style="color:var(--sig)">◦ 确信度 0.90–0.975（方向清楚但区间跨零）</span><span style="color:var(--muted)">无标记 = 无方向证据</span></div>
       <div id="fig-did"></div>
     </div>
     <figcaption>图 4｜人格效应的差分的差分。每个点是"（stance − neutral）在某拓扑" 减去 "（stance − neutral）在全连接"。链式在事实数和事实密度上明显为负，星型贴着零线。</figcaption>
@@ -505,7 +520,7 @@ h2 .num-h{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--sig
         <span style="color:var(--flow-sup)"><i class="dotm"></i>支持命题的事实</span>
         <span style="color:var(--flow-und)"><i class="dotm"></i>削弱命题的事实</span>
         <span style="color:var(--flow-neu)"><i class="dotm"></i>中立 / 元陈述</span>
-        <span id="flow-scale" style="color:var(--muted)">全 27 张图共用一把标尺，宽度与 √ 权重成正比</span>
+        <span id="flow-scale" style="color:var(--muted)">全 27 张图共用一把标尺，宽度与 √ 权重成正比</span><span style="color:var(--faint)">图下的 × 是 lift，1.0 是基线，不是确信度</span>
       </div>
       <div id="fig-flow"></div>
     </div>
@@ -514,8 +529,8 @@ h2 .num-h{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--sig
 
   <div class="measure">
     <p>原始的层总量本身没有信息量，因为削弱类事实在每个条件都最多，而它在事实池里本来就最多。所以要看 lift。</p>
-    <p><strong>削弱类事实被优先采纳，而且随人格增强。</strong>按命题计算的 lift 在 9 个条件里有 7 个大于等于 1。全连接的走势是 <span class="num">0.83 → 1.14 → 1.26</span>，最后一格的区间是 <span class="num">[1.06, 1.45]</span>，<span class="num">p=0.994</span>，8/12 个命题为正。链式是 <span class="num">0.90 → 1.23 → 1.24</span>。</p>
-    <p><strong>中立和元陈述类的事实在 stance 条件下几乎不再流动。</strong>链式的走势是 <span class="num">1.29 → 0.57 → 0.34</span>，最后一格区间 <span class="num">[0.11, 0.59]</span>，<span class="num">p=0.000</span>，12 个命题里只有 1 个大于 1。全连接是 <span class="num">1.09 → 1.04 → 0.74</span>。</p>
+    <p><strong>削弱类事实被优先采纳，而且随人格增强。</strong>按命题计算的 lift 在 9 个条件里有 7 个大于等于 1。全连接的走势是 <span class="num">0.83 → 1.14 → 1.26</span>，最后一格的区间是 <span class="num">[1.06, 1.45]</span>，<span class="c3">确信度 0.994</span>，8/12 个命题为正。链式是 <span class="num">0.90 → 1.23 → 1.24</span>。</p>
+    <p><strong>中立和元陈述类的事实在 stance 条件下几乎不再流动。</strong>链式的走势是 <span class="num">1.29 → 0.57 → 0.34</span>，最后一格区间 <span class="num">[0.11, 0.59]</span>，<span class="c3">确信度 1.000</span>，12 个命题里只有 1 个大于 1。全连接是 <span class="num">1.09 → 1.04 → 0.74</span>。</p>
     <p>这和"元陈述占比整体下降"是两件事。前者说的是<em>产出</em>里元陈述变少了，这里说的是剩下的那些<em>更不容易被别人接走</em>。</p>
     <p>支持类事实没有规律，9 个条件从 <span class="num">0.57</span> 到 <span class="num">1.70</span> 都有，区间也很宽。</p>
     <div class="note">
@@ -530,7 +545,7 @@ h2 .num-h{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--sig
     <p class="eyebrow">第九节</p>
     <h2><span class="num-h">09</span>结论层：立场早定，理由一直换</h2>
     <p>每个 turn 结尾都有一行 VERDICT，972 个 turn 全部可以解析，这是这批数据里唯一的结果变量。把节点换成 <code>{SUPPORT, UNCERTAIN, UNDERMINE}</code>，同一个 agent 从这一轮到下一轮的结论转移就构成另一张流动图。</p>
-    <p>第一件事是<strong>人格设定让 agent 更少选择"无法判定"</strong>。选择 UNCERTAIN 的比例在三个拓扑上都单调下降：全连接 <span class="num">67.6% → 53.7%</span>，星型 <span class="num">74.1% → 50.0%</span>（配对差 <span class="num">−0.241</span>，p=0.001），链式 <span class="num">77.8% → 59.3%</span>（<span class="num">−0.185</span>，p=0.006）。</p>
+    <p>第一件事是<strong>人格设定让 agent 更少选择"无法判定"</strong>。选择 UNCERTAIN 的比例在三个拓扑上都单调下降：全连接 <span class="num">67.6% → 53.7%</span>，星型 <span class="num">74.1% → 50.0%</span>（配对差 <span class="num">−0.241</span>，<span class="c3">确信度 0.999</span>），链式 <span class="num">77.8% → 59.3%</span>（<span class="num">−0.185</span>，<span class="c3">确信度 0.994</span>）。</p>
     <p>第二件事是<strong>虽然更少骑墙，结论却更不稳定</strong>。结论变化率从 neutral 的 <span class="num">16%</span> 涨到 lenses 的 <span class="num">25%</span> 再到 stance 的 <span class="num">35%</span>，而且两个方向几乎对称：stance 条件下 UNCERTAIN 转向 UNDERMINE 有 27 次，反方向有 24 次。变化增多了，但没有朝某个方向净漂移。</p>
     <p>第三件事值得单独提：整个设计是两份支持证据、两份反对证据，而产出的结论里 SUPPORT 只占 <span class="num">0%</span> 到 <span class="num">16%</span>。这和事实池里削弱类占多数、以及削弱类被优先采纳，是同一个偏斜在三个层面上的表现。</p>
   </div>
@@ -727,6 +742,20 @@ function marker(g,topo,x,y,col){
 }
 function dash(topo){return topo==="full"?"none":(topo==="star"?"5 4":"2 3");}
 // how far from 0.5 the bootstrap mass sits; drives emphasis, not a threshold
+/* One confidence scale for every figure, matching the prose. The bootstrap
+   gives the share of resampled means above zero, which reads as certainty at
+   BOTH ends — .99 is confidently positive, .01 confidently negative. Reporting
+   that raw invites the conventional p-value reading, where small means strong,
+   and half the numbers on this page then read backwards. So everything shows
+   max(share, 1-share): always 0.5 to 1, always bigger means more certain, with
+   direction carried by the sign of the estimate. .975 is the same cut as "95%
+   interval excludes zero"; .90 marks a direction the interval cannot confirm. */
+function conf(p){return Math.max(p, 1-p);}
+function tier(p){const c=conf(p); return c>=0.975?2:(c>=0.90?1:0);}
+const TIER_COL=["var(--muted)","var(--sig)","var(--sig)"];
+const TIER_MARK=["","◦ ","★ "];
+function confLabel(p){const t=tier(p);
+  return TIER_MARK[t]+"确信度 "+conf(p).toFixed(3);}
 function lean(p){return Math.min(1, Math.abs(p-0.5)/0.45);}
 
 /* ---------- figure: reception vs conditional uptake, relative to full ---------- */
@@ -762,10 +791,14 @@ function decomp(){
       [v.lo,v.hi].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-4,x2:sx(q),y2:y+4,
         stroke:col,"stroke-width":2,opacity:0.28+0.5*em})));
       marker(svg,r.t,sx(v.delta),y,col);
-      const star=v.excludes_zero?"★ ":"";
+      const tv=tier(v.p_positive);
       svg.appendChild(txt(cx0+colW+14,y+4,
-        `${star}${(v.delta*100>=0?"+":"")}${(v.delta*100).toFixed(1)}pp  p=${v.p_positive.toFixed(3)}`,
-        {fill:v.excludes_zero?"var(--sig)":"var(--muted)","font-size":"10.5","font-family":MONO}));
+        `${TIER_MARK[tv]}${(v.delta*100>=0?"+":"")}${(v.delta*100).toFixed(1)}pp`,
+        {fill:TIER_COL[tv],"font-size":"10.5","font-family":MONO,
+         "font-weight":tv===2?"600":"400"}));
+      svg.appendChild(txt(cx0+colW+14,y+17,`确信度 ${conf(v.p_positive).toFixed(3)}`,
+        {fill:tv?TIER_COL[tv]:"var(--faint)","font-size":"9","font-family":MONO,
+         opacity:tv?0.85:0.7}));
       if(ci===0){
         svg.appendChild(txt(labW-16,y+4,`${r.t} · ${r.p}`,
           {fill:"var(--ink)","font-size":"11.5","text-anchor":"end","font-family":MONO}));
@@ -1135,15 +1168,19 @@ function didFig(){
       span=(span||1)*1.12;
       const sx=q=>cx0+colW/2+(q/span)*(colW/2);
       const v=R.difference_in_differences[`${pr.k}|stance-neutral|${m.k}`]; if(!v) return;
-      const y=top+mi*rowH+rowH/2, sig=(v.lo>0||v.hi<0);
+      // rq-extensions stores no share-above-zero, so recover the tier from the
+      // interval: excluding zero is exactly the .975 cut used everywhere else.
+      const sig=(v.lo>0||v.hi<0), tv=sig?2:0;
+      const y=top+mi*rowH+rowH/2;
       svg.appendChild(el("line",{x1:sx(v.lo),y1:y,x2:sx(v.hi),y2:y,stroke:pr.col,
         "stroke-width":2,opacity:sig?.85:.42,"stroke-linecap":"round"}));
       [v.lo,v.hi].forEach(q=>svg.appendChild(el("line",{x1:sx(q),y1:y-4,x2:sx(q),y2:y+4,
         stroke:pr.col,"stroke-width":2,opacity:sig?.85:.42})));
       marker(svg,pr.k.split("-")[0],sx(v.mean),y,pr.col);
       svg.appendChild(txt(cx0+colW+14,y+4,
-        `${sig?"★ ":""}${v.mean*m.scale>=0?"+":""}${m.fmt(v.mean*m.scale)}${m.unit}`,
-        {fill:sig?"var(--sig)":"var(--muted)","font-size":"11","font-family":MONO}));
+        `${TIER_MARK[tv]}${v.mean*m.scale>=0?"+":""}${m.fmt(v.mean*m.scale)}${m.unit}`,
+        {fill:TIER_COL[tv],"font-size":"11","font-family":MONO,
+         "font-weight":tv===2?"600":"400"}));
       svg.appendChild(txt(cx0+colW/2,y+21,`${v.n-v.positive}/${v.n} 为负`,
         {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle","font-family":MONO}));
       if(pi===0){
