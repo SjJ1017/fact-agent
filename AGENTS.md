@@ -362,6 +362,18 @@ python experiments/report/build_flow_profile.py     # 填模板出 HTML
   `experiments/labels/`，`/tmp` 里那两份随时会没
 - `/tmp/factflow-stance-labeled-*` 的几个旧目录 — 参数与现行不一致，两套不可混用
 
+### ⚠️ 重构 pipeline 前先读 fix.md（2026-09-02）
+
+`fix.md` 记录了读原文查出来的六条抽取/原子化/匹配缺陷，每条带可复现证据和影响估计。
+最要紧的三条：**省略指代没补全**（"not symbols" 和 "not religious symbols" 分成两簇）、
+**连词拆得不一致**（9.8% 的规范事实还含 and/or）、以及由此导致的
+**「新事实」里有 9.6% 是同场另一条的严格子集**——这个偏差单向虚高 novel，
+而 novel 份额正是报告主结论的落点。诊断脚本在 `experiments/diagnostics/`。
+
+**别通过放宽判决阈值来修**：判决器在拿到粒度不一致的原子时判"不同"是对的，
+放宽会把真正不同的事实错并（余弦 0.946 的 `reduce deaths from overdoses` vs
+`from impure drugs`）。要修上游。
+
 ### 想看原文就用轨迹查看器（2026-09-02）
 
 `findings/trace-viewer.html`（4.1 MB，双击即开，**全部 141 场**：deepseek 108 + glm 33）。
