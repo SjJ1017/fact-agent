@@ -53,7 +53,26 @@ GLM 那批只有全连接、没有 star/chain 对照，**不进入本分析**。
    **接住比例**（分母是真的被送到、且听者还没说过的事实，比"采纳占全部产出"更贴题）
    三拓扑都随人格下降：full 14.4% → 10.3% → 9.7%，star 15.9% → 14.3% → 9.1%，
    chain 16.5% → 16.6% → 13.7%。最低是 chain/stance 的中立层，146 → 9，只接住 6%。
-8. **人格效应要靠接触才表达。** 同一个 stance−neutral，chain 上处处更靠近零：
+8. **判决在振荡，不在收敛。** `VERDICT` 972/972 个 turn 可解析，是这批数据里唯一的
+   *结果* 变量。人格把 agent 从骑墙上推下来——UNCERTAIN 比例三个拓扑单调下降
+   （full 67.6% → 53.7%，star 74.1% → 50.0% [−0.241, p=0.001]，
+   chain 77.8% → 59.3% [−0.185, p=0.006]），但推下来之后不停在原地：
+   判决变化率 16% → 25% → 35%，且进出对称（stance 下 UNCERTAIN→UNDERMINE 27 次，
+   反向 24 次）。**2 支持 2 削弱的设计，产出判决里 SUPPORT 只占 0–16%。**
+9. **事实流动和判决移动脱钩（重要阴性）。** 判决变了的转移，当轮采纳里削弱类占 53.0%；
+   没变的 50.4%。采纳事实数反而是变了的更少（1.52 vs 1.80）。
+   **agent 改主意跟它这轮接了谁的话没有可测关系。**
+10. **事实活不过一轮。** 轮 1 首现的事实之后还被说到的比例：
+   neutral 32.4% / lenses 26.0% / stance 23.2%（轮 2 首现更低：19.0/17.7/14.4%）。
+   配对 full −0.110 [−0.169,−0.055] 11/12，star −0.124 [−0.190,−0.049]，
+   chain −0.030 p=0.322——又是同一个交互。
+11. **两个阴性：取材无立场偏倚，采纳位置无结构。**
+   4 份证据是 2 支持 2 削弱，三个角色引用支持类证据的比例几乎一样
+   （支持方 41% / 反对方 41% / 裁决者 38%），都是约六成来自削弱类证据。
+   **被指派立场不改变从哪份文档取材。** 但接地率只有 3–7%，多半是匹配器问题，
+   只能当下界，成分比绝对值可信。
+   token 位置：采纳 0.53–0.56，新事实 0.55，自持 0.50，全在中间，无"开头认真/结尾敷衍"结构。
+12. **人格效应要靠接触才表达。** 同一个 stance−neutral，chain 上处处更靠近零：
    事实数 +21.0 / +20.1 / **+6.8**；自持占比 −4.5 / −4.5 / **−0.7**；
    条件采纳率 −4.7 / −4.6 / **−1.2**。只有嵌套度和事实覆盖在 chain 上还留着，
    约为 full 的三分之一到一半。
@@ -80,12 +99,14 @@ GLM 那批只有全连接、没有 star/chain 对照，**不进入本分析**。
 | token clock | `experiments/labels/token_clock/*.json` | ✅ |
 | 结果 | `findings/data/flow-profile.json`、`flow-profile-per-debate.csv` | ✅ |
 | 流动图 | `findings/data/stance-flow.json` | ✅ |
+| 判决/存活/接地/位置 | `findings/data/flow-extras.json` | ✅ |
 
 ## 怎么复现
 
 ```bash
 python experiments/analyze_flow_profile.py --topologies full star chain
 python experiments/analyze_stance_flow.py
+python experiments/analyze_flow_extras.py
 python experiments/report/build_flow_profile.py
 ```
 

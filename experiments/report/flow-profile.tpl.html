@@ -366,6 +366,49 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
 
 <section>
   <div class="measure">
+    <p class="eyebrow">同一套图，别的东西</p>
+    <h2>判决在振荡，不在收敛</h2>
+    <p>每个 turn 都以一句 <code>VERDICT</code> 结尾，<strong>972 个 turn 全部可解析</strong>，一个都没漏。这是这批数据里唯一的<em>结果</em>变量，之前从没用过。把它当作节点集换成 <code>{SUPPORT, UNCERTAIN, UNDERMINE}</code> 的流动图，边就是同一个 agent 从这一轮到下一轮的判决转移。</p>
+    <p>两件事：<strong>人格把 agent 从骑墙上推下来</strong>——UNCERTAIN 的比例在三个拓扑上都单调下降（full <span class="num">67.6% → 53.7%</span>，star <span class="num">74.1% → 50.0%</span>，chain <span class="num">77.8% → 59.3%</span>；star <span class="num">−0.241</span> p=0.001，chain <span class="num">−0.185</span> p=0.006）。但推下来之后<strong>不停在原地</strong>：判决变化率从 <span class="num">16%</span> 涨到 <span class="num">25%</span> 再到 <span class="num">35%</span>，而且进出几乎对称（stance 下 UNCERTAIN→UNDERMINE 27 次，反向 24 次）。</p>
+    <p>还有一件事值得单说：<strong>整个设计是 2 份支持证据、2 份削弱证据，产出的判决里 SUPPORT 只占 0–16%。</strong>这和事实池里削弱类占多数、以及削弱类被优先采纳，是同一个偏斜的三种表现。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend"><span style="color:var(--muted)">左列 = 这一轮的判决，右列 = 下一轮的；带宽 ∝ 转移次数，每格 216 次转移</span></div>
+      <div id="fig-verdict"></div>
+    </div>
+    <figcaption>横着走的是没变的，斜着走的是变了的。人格越强，斜线越粗，而且上下两个方向的斜线一样粗——没有净漂移。</figcaption>
+  </figure>
+
+  <div class="callout">
+    <span class="lbl">一个阴性结果，而且重要</span>
+    <p>最想验证的假设是：<strong>这一轮吸收了什么，能不能预测判决动不动。</strong>不能。判决变了的那些转移，当轮采纳内容里削弱类占 <span class="num">53.0%</span>；没变的是 <span class="num">50.4%</span>。采纳的事实数反而是变了的更少（<span class="num">1.52</span> vs <span class="num">1.80</span>）。<strong>事实流动和判决移动是脱钩的</strong>——agent 改主意跟它这一轮接了谁的话没有可测的关系。</p>
+  </div>
+
+  <div class="measure" style="margin-top:2.6rem">
+    <h3 style="margin-top:0">事实活不过一轮</h3>
+    <p>把嵌套度按"事实什么时候首次出现"拆开，问题就从"整合有没有失败"变成"在哪一轮失败"。轮 1 说出的事实，之后还被任何人再说一次的比例：neutral <span class="num">32.4%</span>、lenses <span class="num">26.0%</span>、stance <span class="num">23.2%</span>。轮 2 首现的更低（<span class="num">19.0% / 17.7% / 14.4%</span>）。</p>
+    <p>配对后 full <span class="num">−0.110</span> [−0.169, −0.055]（12 个 claim 里 11 个下降），star <span class="num">−0.124</span> [−0.190, −0.049]，chain <span class="num">−0.030</span> p=0.322——又是那个交互：chain 里接触少，人格改不动什么。</p>
+  </div>
+
+  <figure>
+    <div class="panel">
+      <div class="legend"><span style="color:var(--muted)">每一档人格：轮 1 首现的事实分成"后面还有人说"和"就此消失"，轮 2 同理</span></div>
+      <div id="fig-survival"></div>
+    </div>
+    <figcaption>四分之三的事实说完就没了，人格越强越是如此。这是嵌套度下降在时间轴上的样子。</figcaption>
+  </figure>
+
+  <div class="measure" style="margin-top:2.6rem">
+    <h3 style="margin-top:0">两个真的没有信号的</h3>
+    <p><strong>取材没有立场偏倚。</strong>每场 4 份证据是 2 支持 2 削弱的干净设计。看 agent 说的事实里能追溯到某份证据的那些，三个角色引用支持类证据的比例几乎一样：支持方 <span class="num">41%</span>、反对方 <span class="num">41%</span>、裁决者 <span class="num">38%</span>——<strong>被指派立场并不改变一个 agent 从哪份文档取材</strong>，三个都是约六成来自削弱类证据。但注意接地率本身只有 <span class="num">3–7%</span>（能匹配到证据文档的事实比例），这多半是匹配器的问题而不是 agent 在编造，所以这个数只能当下界，成分比绝对值可信。</p>
+    <p><strong>采纳的事实不在段首也不在段尾。</strong>token clock 一直躺在那里没人用过。被采纳的事实出现在采纳者输出的相对位置是 <span class="num">0.53–0.56</span>，新事实 <span class="num">0.55</span>，自持 <span class="num">0.50</span>——全在中间，差异不到 <span class="num">0.05</span>。没有"开头认真回应 / 结尾敷衍带一句"的结构。</p>
+  </div>
+</section>
+
+<section>
+  <div class="measure">
     <p class="eyebrow">交互</p>
     <h2>人格效应要靠接触才表达得出来</h2>
     <p>同一个 stance−neutral 的对比，在三个拓扑上的量级差很多：</p>
@@ -416,6 +459,7 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
 <script>
 const D = /*__DATA__*/null;
 const F = /*__FLOW__*/null;
+const X = /*__EXTRA__*/null;
 const PANELS = ["neutral","lenses","stance"];
 const TOPOS  = D.topologies;
 const TCOL   = {full:"var(--p3)", star:"var(--p2)", chain:"var(--p1)"};
@@ -770,6 +814,103 @@ function renderFlow(mode){
       '这一层占流量的比例，除以该立场占事实池的比例。大于 1 表示这类事实被采纳的频率'+
       '高于它的丰度所能解释的。';
 }
+/* ---------- figure: verdict transitions, a bipartite flow per persona ---------- */
+function verdictFlow(){
+  const V=["SUPPORT","UNCERTAIN","UNDERMINE"];
+  const VL={SUPPORT:"支持",UNCERTAIN:"不确定",UNDERMINE:"削弱"};
+  const VC={SUPPORT:"var(--flow-sup)",UNCERTAIN:"var(--flow-neu)",UNDERMINE:"var(--flow-und)"};
+  const W=1000, panelW=W/3, H=310, top=66, bot=52, colGap=126;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"每档人格下判决从这一轮到下一轮的转移流"});
+  const usable=H-top-bot;
+  PANELS.forEach((p,pi)=>{
+    const mv=X.verdict.moves[p]||{}, total=Object.values(mv).reduce((a,b)=>a+b,0)||1;
+    const x0=pi*panelW+(panelW-colGap)/2;
+    const outSum={}, inSum={};
+    V.forEach(a=>{outSum[a]=V.reduce((s,b)=>s+(mv[`${a}>${b}`]||0),0);
+                  inSum[a]=V.reduce((s,b)=>s+(mv[`${b}>${a}`]||0),0);});
+    const gap=16, bars=usable-2*gap;
+    const hOf=n=>bars*(n/total);
+    const yL={}, yR={}; let cl=top, cr=top;
+    V.forEach(a=>{yL[a]=cl; cl+=hOf(outSum[a])+gap; yR[a]=cr; cr+=hOf(inSum[a])+gap;});
+    const cursorL={...yL}, cursorR={...yR};
+
+    const changed=V.reduce((s,a)=>s+V.reduce((t,b)=>t+(a!==b?(mv[`${a}>${b}`]||0):0),0),0);
+    svg.appendChild(txt(x0+colGap/2,24,p,{fill:"var(--ink)","font-size":"13",
+      "text-anchor":"middle","font-weight":"600","font-family":MONO,"letter-spacing":".05em"}));
+    svg.appendChild(txt(x0+colGap/2,42,`${changed}/${total} 变化 · ${(changed/total*100).toFixed(0)}%`,
+      {fill:"var(--faint)","font-size":"10","text-anchor":"middle","font-family":MONO}));
+
+    V.forEach(a=>V.forEach(b=>{
+      const n=mv[`${a}>${b}`]||0; if(!n) return;
+      const h=hOf(n), y1=cursorL[a], y2=cursorR[b];
+      cursorL[a]+=h; cursorR[b]+=h;
+      const xa=x0+11, xb=x0+colGap-11, mid=(xa+xb)/2;
+      svg.appendChild(el("path",{d:
+        `M${xa},${y1}C${mid},${y1} ${mid},${y2} ${xb},${y2}`+
+        `L${xb},${y2+h}C${mid},${y2+h} ${mid},${y1+h} ${xa},${y1+h}Z`,
+        fill:VC[a], opacity:(a===b?0.18:0.62).toFixed(2)}));
+    }));
+    V.forEach(a=>{
+      if(outSum[a]) svg.appendChild(el("rect",{x:x0+4,y:yL[a],width:7,
+        height:Math.max(1.5,hOf(outSum[a])),fill:VC[a]}));
+      if(inSum[a]) svg.appendChild(el("rect",{x:x0+colGap-11,y:yR[a],width:7,
+        height:Math.max(1.5,hOf(inSum[a])),fill:VC[a]}));
+      if(pi===0 && outSum[a]) svg.appendChild(txt(x0,yL[a]+hOf(outSum[a])/2+3.5,VL[a],
+        {fill:VC[a],"font-size":"10.5","text-anchor":"end","font-family":SANS}));
+    });
+    svg.appendChild(txt(x0+6,H-bot+22,"这一轮",{fill:"var(--faint)","font-size":"9.5",
+      "font-family":MONO}));
+    svg.appendChild(txt(x0+colGap-6,H-bot+22,"下一轮",{fill:"var(--faint)","font-size":"9.5",
+      "text-anchor":"end","font-family":MONO}));
+  });
+  return svg;
+}
+
+/* ---------- figure: does a fact get said again ---------- */
+function survivalFlow(){
+  const W=1000, panelW=W/3, H=270, top=64, bot=44, barW=34, gap=118;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
+    "aria-label":"每档人格下，各轮首次出现的事实之后是否再被说到"});
+  let maxN=0;
+  PANELS.forEach(p=>Object.values(X.survival[p]).forEach(([k,n])=>{maxN=Math.max(maxN,n);}));
+  const usable=H-top-bot;
+  PANELS.forEach((p,pi)=>{
+    const x0=pi*panelW+(panelW-gap-barW)/2;
+    svg.appendChild(txt(x0+(gap+barW)/2,24,p,{fill:"var(--ink)","font-size":"13",
+      "text-anchor":"middle","font-weight":"600","font-family":MONO,"letter-spacing":".05em"}));
+    ["1","2"].forEach((r,ri)=>{
+      const cell=X.survival[p][r]; if(!cell) return;
+      const [alive,n]=cell, h=usable*0.44*(n/maxN);
+      const y=top+ri*(usable*0.5);
+      svg.appendChild(el("rect",{x:x0,y:y,width:barW,height:Math.max(2,h),
+        fill:"var(--p2)",opacity:0.3}));
+      svg.appendChild(txt(x0-6,y+h/2+3.5,`轮${r}`,{fill:"var(--muted)","font-size":"10.5",
+        "text-anchor":"end","font-family":MONO}));
+      const hs=h*(alive/n), xb=x0+gap;
+      // survived
+      svg.appendChild(el("path",{d:
+        `M${x0+barW},${y}C${x0+barW+50},${y} ${xb-50},${y} ${xb},${y}`+
+        `L${xb},${y+hs}C${xb-50},${y+hs} ${x0+barW+50},${y+hs} ${x0+barW},${y+hs}Z`,
+        fill:"var(--p3)",opacity:0.55}));
+      // gone
+      svg.appendChild(el("path",{d:
+        `M${x0+barW},${y+hs}C${x0+barW+50},${y+hs} ${xb-50},${y+hs+14} ${xb},${y+hs+14}`+
+        `L${xb},${y+h+14}C${xb-50},${y+h+14} ${x0+barW+50},${y+h} ${x0+barW},${y+h}Z`,
+        fill:"var(--rule)",opacity:0.85}));
+      svg.appendChild(txt(xb+6,y+hs/2+3.5,`${(alive/n*100).toFixed(0)}% 再被说到`,
+        {fill:"var(--p3)","font-size":"10","font-family":MONO}));
+      svg.appendChild(txt(xb+6,y+hs+14+(h-hs)/2+3.5,`${(100-alive/n*100).toFixed(0)}% 消失`,
+        {fill:"var(--faint)","font-size":"10","font-family":MONO}));
+      svg.appendChild(txt(x0+barW/2,y-6,`${n}`,{fill:"var(--faint)","font-size":"9.5",
+        "text-anchor":"middle","font-family":MONO}));
+    });
+  });
+  return svg;
+}
+
+document.getElementById("fig-verdict").appendChild(verdictFlow());
+document.getElementById("fig-survival").appendChild(survivalFlow());
 document.getElementById("mode-uptake").addEventListener("click",()=>renderFlow("uptake"));
 document.getElementById("mode-taper").addEventListener("click",()=>renderFlow("taper"));
 
