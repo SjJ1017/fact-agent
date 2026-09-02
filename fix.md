@@ -225,12 +225,55 @@ prompt 里含被投递同伴原文: 576 / 648  ← 对照，证明检测方法�
 降低采纳后的留存"——在没有记忆的前提下，"采纳后的留存"只能是重新投递或重新推导，
 所以那一句应该改成"第 3 轮再次出现的概率"，而不是"守住"。
 
+**和现有做法的对照（2026-09-02 查证）。**
+
+被抄得最多的参考实现 Du et al.（ICML 2024，`composable-models/llm_multiagent_debate`）
+是这样构造上下文的：
+
+```python
+for round in range(rounds):
+    for i, agent_context in enumerate(agent_contexts):
+        if round != 0:
+            other = agent_contexts[:i] + agent_contexts[i+1:]
+            agent_context.append(construct_message(other, question, 2*round-1))
+        completion = openai.ChatCompletion.create(...)
+        agent_context.append(assistant_message)   # ← 自己的回答留在自己的上下文里
+```
+
+`agent_context` 是一个**累积的对话**：自己历轮的回答全都在里面，peers 只塞最新一轮。
+所以标准做法是「自己全历史 + 同伴最新一轮」，而本实验是「无自己历史 + 同伴最新一轮」。
+
+综述（arXiv 2607.26212）说 94.7% 的方法用 short-term memory，即
+"restricts M(t) to the current debate, typically only the messages exchanged within
+the ongoing interaction"——指的是本场对话的消息，包含自己发出的那些。
+
+**好消息：这个设定在文献里有名字。** arXiv 2603.20215 *Multi-Agent Debate with
+Memory Masking* 把记忆可见性拆成四格：Full / **Peer-Only** / Self-Only / No Memory。
+**本实验就是 Peer-Only 那一格**，是一个被研究过的消融条件，不是实现错误。
+
+（这条来自对该文的自动摘要，具体结论未逐句核对；四格的划分是可查的，
+"peer memory 比 self memory 更重要"这个结论引用前要自己读原文。）
+
+**这对论文定位的影响。**
+
+1. 不能笼统说"多智能体辩论"，要说清是 **peer-only memory** 设定。
+2. 现有结果仍然干净地回答：跨轮 recurrence、peer uptake、接触率 vs 条件采纳率、
+   立场倾斜。这些都不依赖自我记忆。
+3. 不能回答：修改、限定、明确删除、可见上下文中的遗忘——这四种都要求
+   "上一轮的东西还在眼前"。
+4. **peer-only 反而是 full memory 的天然对照组**：它直接测出"多少跨轮重合来自
+   模型先验而非记忆"。这个量在 full memory 设计里测不出来，
+   所以两套并列比"修好再跑一套"更有价值。
+
 **修法。**
 
 1. **最小改动**：把这些指标改名，正文改写。`held` → `重采样重合`，
    `retention` → `再现`。不需要重跑数据。
-2. **要真正测记忆**：prompt 里加入该 agent 自己的历史（这是多数 multi-agent
-   框架的默认行为，本实验反而是个特例）。这需要重新生成全部辩论。
+2. **要真正测记忆**：prompt 里加入该 agent 自己的上一轮 assessment。
+   最小集合是「卷宗 + 自己上一轮 + 拓扑允许的 peers 上一轮」，
+   不必塞全部历史，也能控住 context 长度。这需要重新生成全部辩论，
+   而且应当作为**新条件**并列存放，不是替换现有语料
+   （见 `AGENTS.md` 的「别给部分数据打补丁」）。
 3. 在没有 (2) 之前，任何关于"整合""保留""收敛"的机制性断言都不成立——
    系统里没有能承载它们的状态。
 
