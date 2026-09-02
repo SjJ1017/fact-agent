@@ -117,6 +117,13 @@ mark.s-NEUTRAL{box-shadow:inset 0 -2px 0 var(--neu);}
   box-shadow:0 8px 30px -10px rgba(0,0,0,.35); padding:11px 13px; font-size:.8rem;
   pointer-events:auto; display:none; line-height:1.55;}
 #tip .can{color:var(--ink); font-weight:500; margin-bottom:6px;}
+#tip .can.pickable{cursor:pointer; border-radius:2px; padding:.15rem .3rem;
+  margin:-.15rem -.3rem 6px; border:1px solid transparent;}
+#tip .can.pickable:hover{background:var(--sunk); border-color:var(--rule);}
+#tip .can.pickable.on{background:var(--sig-soft); border-color:var(--sig);}
+#tip .pin{font-family:"IBM Plex Mono",monospace; font-size:.62rem; color:var(--sig);
+  font-weight:600; letter-spacing:.06em;}
+mark.multi{border-bottom:2px dotted var(--faint);}
 #tip .row{font-family:"IBM Plex Mono",monospace; font-size:.71rem; color:var(--muted);
   margin-top:3px;}
 #tip .occ{margin-top:7px; display:flex; flex-wrap:wrap; gap:5px;}
@@ -467,7 +474,13 @@ function showTip(mark){
     const fact=d.facts[fid]||{}, occ=state.occ[fid]||[], first=occ[0];
     const stance = fact.s ? STANCE_CN[fact.s] : "未标注";
     if(k) html += `<hr style="border:0;border-top:1px solid var(--rule-soft);margin:8px 0">`;
-    html += `<div class="can">${esc(fact.c||"")}</div>`;
+    // Several atoms can share one clause, and clicking the span can only pick
+    // one of them. Each canonical line is therefore a control that selects
+    // that fact, so the smaller atoms inside a long clause are reachable.
+    const on = state.sel===fid;
+    html += `<div class="can pickable${on?" on":""}" data-pick="${fid}" `
+         +  `role="button" tabindex="0" title="选中这条事实">`
+         +  `${esc(fact.c||"")}${on?' <span class="pin">已选中</span>':""}</div>`;
     html += `<div class="row">${fid}　立场：${stance}</div>`;
     const agents=new Set(occ.map(o=>o.slot.split("|")[0])).size;
     html += `<div class="row">首次出现：${first?first.slot:"—"}　共 ${occ.length} 个 turn`
@@ -532,8 +545,25 @@ document.addEventListener("click", e=>{
     }
     return;
   }
+  const pickEl=e.target.closest("[data-pick]");
+  if(pickEl){
+    const fid=pickEl.dataset.pick;
+    const host=[...document.querySelectorAll("mark[data-fs]")]
+      .find(x=>x.dataset.fs.split(" ").includes(fid));
+    select(fid, host);
+    if(host) showTip(host);
+    return;
+  }
   const m=e.target.closest("mark[data-f]");
-  if(m){ select(m.dataset.f, m); return; }
+  if(m){
+    // Repeated clicks on a clause holding several atoms walk through them,
+    // so the shorter ones are not permanently shadowed by the first.
+    const fids=(m.dataset.fs||m.dataset.f).split(" ");
+    const at=fids.indexOf(state.sel);
+    select(fids.length>1 ? fids[(at+1)%fids.length] : fids[0], m);
+    showTip(m);
+    return;
+  }
   if(!e.target.closest("#tip")){ clearMarks(); state.sel=null; hideTip(); drawLinks(); }
 });
 
@@ -670,6 +700,7 @@ addEventListener("scroll", ()=>{ if($("tip").style.display==="block") hideTip();
 
 $("hint").innerHTML =
   "点一个高亮片段，页面上只留下这个事实的全部出现，其余片段退回普通文字，没有它的 turn 变淡；再点空白处恢复。悬停看规范文本、立场和全部出现位置，" +
+  "<b>一段话里有多条事实时</b>（虚线下划线），反复点这段会依次切换，或在悬浮框里直接点想要的那一条。" +
   "点位置按钮可跳转。悬停 agent 名字看它拿到的角色提示词原文。虚线边框的 turn 表示没有收到同伴输出——但<b>证据卷宗在每一轮的每个 turn 里都在上下文中</b>，所以「没有同伴输入」不等于「没有输入」。<b>注意</b>：三个 agent 读同一份材料，所以两个 turn 出现同一个事实不等于信息传过去了——第 1 轮是并行生成、互不可见，那里的重合只能是巧合；后面的轮次要看该事实是否真的被投递过。tooltip 和连线都按这个区分。";
 
 render(0);
