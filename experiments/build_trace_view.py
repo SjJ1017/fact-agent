@@ -95,6 +95,32 @@ def build(store_path: Path) -> dict | None:
 
     stance_of = {fid: f.get("properties", {}).get("stance")
                  for fid, f in store["facts"].items()}
+    # Which evidence documents a fact's cluster also touches. A cluster holding
+    # both a source mention from E2 and an output mention is a fact the agent
+    # took from the dossier rather than introduced, and the viewer can draw
+    # that edge. Only 12.7% of source facts merge with anything an agent said,
+    # so this is a floor: absence of an edge is not evidence of novelty.
+    doc_of = {mid: m["provenance"].get("doc_id")
+              for mid, m in store["mentions"].items()
+              if m["provenance"]["channel"] == "source"}
+    # Two different links from a document to a fact, and they mean different
+    # things. `src` is a cluster that holds both a mention from Ex and an
+    # output mention — the fact was taken from that document. `ev` is a fact
+    # whose text names Ex — the agent is talking *about* the document. The
+    # first is what we would like to measure and it only fires 4.4% of the
+    # time; the second is lexical and fires far more often, and it is what
+    # actually moves between agents.
+    ev_re = re.compile(r"\bE([1-4])\b")
+    src_of = {}
+    ev_of = {}
+    for fid, fact in store["facts"].items():
+        named = sorted({"E" + m for m in ev_re.findall(fact["canonical_text"])})
+        if named:
+            ev_of[fid] = named
+        docs = sorted({doc_of[m] for m in fact["mention_ids"]
+                       if m in doc_of and doc_of[m] not in (None, "claim")})
+        if docs:
+            src_of[fid] = docs
     canonical = {fid: f["canonical_text"] for fid, f in store["facts"].items()}
 
     # spans, grouped by the slot they sit in
@@ -160,7 +186,9 @@ def build(store_path: Path) -> dict | None:
         "text": debate["transcript"],
         "spans": spans,
         "verdicts": verdicts,
-        "facts": {fid: {"c": canonical[fid], "s": stance_of.get(fid)}
+        "facts": {fid: {"c": canonical[fid], "s": stance_of.get(fid),
+                        **({"src": src_of[fid]} if fid in src_of else {}),
+                        **({"ev": ev_of[fid]} if fid in ev_of else {})}
                   for fid in used},
         "roles": debate["roles"],
         "role_short": ROLE_SUMMARY.get(debate["panel"], {}),

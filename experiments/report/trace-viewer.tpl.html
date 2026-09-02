@@ -61,7 +61,8 @@ select{max-width:340px;}
   margin:3px 0 0;}
 
 /* ---- grid ---- */
-.rounds{position:relative; margin-top:22px;}
+.stage{position:relative;}
+.rounds{margin-top:22px;}
 .round{margin-bottom:26px;}
 .rlab{font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.14em;
   text-transform:uppercase; color:var(--sig); margin:0 0 8px;
@@ -125,6 +126,7 @@ mark.s-NEUTRAL{box-shadow:inset 0 -2px 0 var(--neu);}
 #tip .occ button:hover{background:var(--sig-soft); border-color:var(--sig);}
 #tip .occ button.first{border-color:var(--sig); color:var(--sig); font-weight:600;}
 #links{position:absolute; inset:0; pointer-events:none; z-index:5; overflow:visible;}
+.ev[data-ev]{scroll-margin-top:120px;}
 .hint{font-size:.78rem; color:var(--muted); margin:14px 0 0;}
 /* The dossier. Without it the transcripts are unreadable — every turn argues
    about E1 to E4 by name — and it is also the single most important structural
@@ -140,14 +142,34 @@ mark.s-NEUTRAL{box-shadow:inset 0 -2px 0 var(--neu);}
 .dossier[open] > summary::before{content:"▾";}
 .dossier > summary small{font-weight:400; color:var(--faint);
   font-family:"IBM Plex Mono",monospace; font-size:.7rem;}
-.dbody{padding:0 14px 14px; display:grid; gap:10px;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
-.ev{border-left:3px solid var(--neu); padding:7px 0 7px 11px; font-size:.8rem;
-  line-height:1.66;}
-.ev.support{border-color:var(--sup);} .ev.undermine{border-color:var(--und);}
-.ev b{font-family:"IBM Plex Mono",monospace; font-size:.76rem; display:block;
-  margin-bottom:2px;}
+.dbody{padding:0 14px 14px;}
+/* Claim on its own full-width band, then the four documents in four columns
+   with the two that support the claim on the left and the two that undermine
+   it on the right. The split is the design of the dossier — every debate is
+   2 for, 2 against — so the layout should show it rather than leave it to be
+   read off four coloured rules. */
+.claimbox{border:1px solid var(--rule); border-left:3px solid var(--accent);
+  border-radius:2px; padding:9px 12px; margin-bottom:12px; background:var(--sunk);}
+.claimbox b{font-family:"IBM Plex Mono",monospace; font-size:.7rem; color:var(--muted);
+  letter-spacing:.1em; text-transform:uppercase; display:block; margin-bottom:3px;}
+.claimbox span{font-size:.92rem; color:var(--ink); font-weight:500;}
+.evgrid{display:grid; grid-template-columns:repeat(4,1fr); gap:0 12px;
+  align-items:start;}
+.sidelab{grid-column:span 2; font-family:"IBM Plex Mono",monospace; font-size:.72rem;
+  letter-spacing:.08em; padding-bottom:5px; margin-bottom:8px;
+  border-bottom:2px solid currentColor;}
+.sidelab.support{color:var(--sup);} .sidelab.undermine{color:var(--und);}
+.evgrid > .sidelab.undermine, .evgrid > .ev.right{padding-left:14px;
+  border-left:1px solid var(--rule);}
+.ev{padding:0 0 6px; font-size:.79rem; line-height:1.62;}
+.ev b{font-family:"IBM Plex Mono",monospace; font-size:.74rem; display:block;
+  margin-bottom:3px;}
 .ev.support b{color:var(--sup);} .ev.undermine b{color:var(--und);}
+@media (max-width:820px){
+  .evgrid{grid-template-columns:repeat(2,1fr);}
+  .sidelab{grid-column:span 1;}
+  .evgrid > .sidelab.undermine, .evgrid > .ev.right{padding-left:0; border-left:0;}
+}
 .key{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:.74rem; color:var(--muted);
   margin:10px 0 0; align-items:center;}
 .key i{display:inline-block; width:22px; height:11px; border-radius:2px;
@@ -187,12 +209,15 @@ mark.s-NEUTRAL{box-shadow:inset 0 -2px 0 var(--neu);}
   <span><i style="background:var(--hl-peer);outline:1px dashed var(--sig)"></i>同一事实的其他出现</span>
 </div>
 
+<div class="stage" id="stage">
+<svg id="links"></svg>
 <details class="dossier" id="dossier">
   <summary>材料卷宗 <small id="dsum"></small></summary>
   <div class="dbody" id="dbody"></div>
 </details>
 
-<div class="rounds" id="rounds"><svg id="links"></svg></div>
+<div class="rounds" id="rounds"></div>
+</div>
 <p class="hint" id="hint"></p>
 </div>
 <div id="tip" role="tooltip"></div>
@@ -310,18 +335,22 @@ function render(idx){
 
   // dossier
   const EV_CN={support:"支持命题", undermine:"削弱命题"};
-  $("dsum").textContent = `命题 + ${d.evidence.length} 条证据（`
-    + d.evidence.map(e=>`${e.id} ${EV_CN[e.stance]||e.stance}`).join("、")
-    + `）· 每一轮的每个 turn 都能看到全部内容`;
+  const nsup=d.evidence.filter(e=>e.stance==="support").length;
+  $("dsum").textContent = `命题 + ${d.evidence.length} 条证据（${nsup} 支持、`
+    + `${d.evidence.length-nsup} 削弱）· 每一轮的每个 turn 都能看到全部内容`;
   const db=$("dbody"); db.innerHTML="";
-  const cl=document.createElement("div"); cl.className="ev";
-  cl.innerHTML=`<b>命题</b>${esc(d.claim)}`;
-  db.appendChild(cl);
-  d.evidence.forEach(e=>{
-    const n=document.createElement("div"); n.className="ev "+e.stance;
-    n.innerHTML=`<b>${e.id}　${EV_CN[e.stance]||e.stance}</b>${esc(e.text)}`;
-    db.appendChild(n);
-  });
+  db.innerHTML = `<div class="claimbox"><b>命题</b><span>${esc(d.claim)}</span></div>`;
+  const sup=d.evidence.filter(e=>e.stance==="support");
+  const und=d.evidence.filter(e=>e.stance!=="support");
+  const grid=document.createElement("div"); grid.className="evgrid";
+  grid.innerHTML =
+    `<div class="sidelab support">支持命题</div>`+
+    `<div class="sidelab undermine">削弱命题</div>`+
+    sup.map(e=>`<div class="ev support" data-ev="${e.id}"><b>${e.id}</b>`+
+      `${esc(e.text)}</div>`).join("")+
+    und.map((e,i)=>`<div class="ev undermine${i===0?" right":""}" data-ev="${e.id}">`+
+      `<b>${e.id}</b>${esc(e.text)}</div>`).join("");
+  db.appendChild(grid);
 
   const rounds = [...new Set(d.order.map(s=>+s.split("|")[1]))].sort((a,b)=>a-b);
   const host = $("rounds");
@@ -555,7 +584,7 @@ function drawLinks(){
   const svg=$("links");
   svg.innerHTML="";
   if(!state.links && !state.sel) return;
-  const host=$("rounds").getBoundingClientRect();
+  const host=$("stage").getBoundingClientRect();
   svg.setAttribute("viewBox", `0 0 ${host.width} ${host.height}`);
   svg.setAttribute("width", host.width); svg.setAttribute("height", host.height);
   svg.style.width=host.width+"px"; svg.style.height=host.height+"px";
@@ -571,6 +600,32 @@ function drawLinks(){
     if(!edges.length) return;
     const st=(state.debate.facts[fid]||{}).s;
     const col = st==="SUPPORT"?"var(--sup)":st==="UNDERMINE"?"var(--und)":"var(--neu)";
+    // Edges out of the dossier. `src` means the fact's cluster actually holds
+    // a mention from that document; `ev` means the fact only names it. Both
+    // are drawn, differently, because the first is what we want to measure and
+    // it fires for 4.4% of facts while the second fires for 27%.
+    const fact=state.debate.facts[fid]||{};
+    const firstSlot=(state.occ[fid]||[])[0];
+    if(firstSlot && bySlot[firstSlot.slot] && $("dossier").open){
+      const from=(fact.src||[]).map(x=>[x,true])
+        .concat((fact.ev||[]).filter(x=>!(fact.src||[]).includes(x)).map(x=>[x,false]));
+      from.forEach(([doc, solid])=>{
+        const card=document.querySelector(`.ev[data-ev="${doc}"]`);
+        if(!card) return;
+        const A=card.getBoundingClientRect(), B=bySlot[firstSlot.slot].getBoundingClientRect();
+        const x1=A.left-host.left+A.width/2, y1=A.bottom-host.top;
+        const x2=B.left-host.left+B.width/2, y2=B.top-host.top;
+        if(y2<y1) return;
+        const dy=Math.max(28,(y2-y1)/2);
+        const path=document.createElementNS(NS,"path");
+        path.setAttribute("d",`M${x1},${y1}C${x1},${y1+dy} ${x2},${y2-dy} ${x2},${y2}`);
+        path.setAttribute("fill","none"); path.setAttribute("stroke",col);
+        path.setAttribute("stroke-width", focus?(solid?2:1.3):(solid?1.2:0.7));
+        path.setAttribute("opacity", focus?(solid?0.75:0.4):(solid?0.28:0.12));
+        if(!solid) path.setAttribute("stroke-dasharray","1 5");
+        svg.appendChild(path);
+      });
+    }
     edges.forEach(e=>{
       const A=bySlot[e.from].getBoundingClientRect();
       const B=bySlot[e.to].getBoundingClientRect();
