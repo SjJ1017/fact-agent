@@ -107,6 +107,20 @@ figcaption{
   letter-spacing:.06em; color:var(--muted); margin:0 0 18px;
 }
 .legend span{display:inline-flex; align-items:center; gap:.45rem;}
+.seg{display:inline-flex; border:1px solid var(--rule); border-radius:2px; overflow:hidden;
+  margin:0 0 14px; background:var(--surface);}
+.seg button{
+  font-family:"IBM Plex Sans","Noto Sans SC",sans-serif; font-size:.78rem;
+  padding:.42rem .85rem; border:0; background:transparent; color:var(--muted);
+  cursor:pointer; line-height:1.4;
+}
+.seg button + button{border-left:1px solid var(--rule);}
+.seg button[aria-pressed="true"]{background:var(--sunk); color:var(--ink); font-weight:600;}
+.seg button:hover{color:var(--ink);}
+.roles{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.7rem; color:var(--faint);
+  letter-spacing:.02em;
+}
 .swatch{width:22px; height:0; border-top-width:2px; border-top-style:solid; display:inline-block;}
 .dotm{width:9px;height:9px;border-radius:50%;display:inline-block;background:currentColor}
 .sqm{width:9px;height:9px;display:inline-block;border:1.6px solid currentColor}
@@ -311,19 +325,25 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
     <h2>什么在 agent 之间流动</h2>
     <p>前面的每个指标都把流动压成一个标量。这里把形状留住：对每个条件，把 12 个 claim 全部加起来，得到 agent 上的<strong>加权有向图</strong>——<code>说话人 → 听者</code>这条边的权重，是听者采纳的、由说话人投递过来的事实数。再按被采纳事实的立场拆成三层：支持 claim、削弱 claim、中立。</p>
     <p>一次采纳的功劳在所有投递过该事实的 peer 之间<strong>平分</strong>。在 full 里一个事实可能同时从两个人送到，两边都记会让总量虚高一倍；在 chain 里只有一个来源，两种算法一致。平分之后图的总权重正好等于采纳的事实数，三层才加得起来。</p>
+    <p><strong>A、B、C 在三档人格下不是一回事，读图前先看列头的角色。</strong>neutral 下三个都是中立分析者，可以互换；lenses 下分别是因果证据 / 落地与权衡 / 适用范围；<code>stance</code> 下 <strong>A 是支持方、B 是反对方、C 是裁决者</strong>——所以那一列里"削弱类事实从 B 流出"有一部分是被指派的，不是涌现的。角色文本在全部 108 场里逐字一致。</p>
+    <p>两种读法可以切换。<strong>线宽 = 采纳量</strong>只画接住的部分；<strong>线宽 = 投递 → 采纳</strong>把箭头起点加宽到<em>被投递过来、且听者还没说过</em>的事实量，中间收掉的就是流失。投递量是采纳量的 <span class="num">7–10</span> 倍，所以两种模式都按 <span class="num">√</span> 权重给宽度、共用一把标尺——线性标尺会让每个终点都看不见。</p>
   </div>
 
   <figure>
     <div class="panel">
+      <div class="seg" role="group" aria-label="选择线宽表示什么">
+        <button type="button" id="mode-uptake" aria-pressed="true">线宽 = 采纳量</button>
+        <button type="button" id="mode-taper" aria-pressed="false">线宽 = 投递 → 采纳</button>
+      </div>
       <div class="legend">
         <span style="color:var(--flow-sup)"><i class="dotm"></i>支持 claim</span>
         <span style="color:var(--flow-und)"><i class="dotm"></i>削弱 claim</span>
         <span style="color:var(--flow-neu)"><i class="dotm"></i>中立 / 元陈述</span>
-        <span style="color:var(--muted)">线宽 ∝ 权重，全 27 张图同一标尺</span>
+        <span id="flow-scale" style="color:var(--muted)">全 27 张图同一标尺，宽度 ∝ √权重</span>
       </div>
       <div id="fig-flow"></div>
     </div>
-    <figcaption>27 张图：3 拓扑 × 3 人格 × 3 立场。每张图下面的 <span class="num">×</span> 是 lift——这一层占流量的比例，除以该立场占事实池的比例。大于 1 表示这类事实被采纳的频率高于它的丰度所能解释的。</figcaption>
+    <figcaption id="flow-cap">27 张图：3 拓扑 × 3 人格 × 3 立场。每张图下面的 <span class="num">×</span> 是 lift——这一层占流量的比例，除以该立场占事实池的比例。大于 1 表示这类事实被采纳的频率高于它的丰度所能解释的。</figcaption>
   </figure>
 
   <div class="measure">
@@ -331,6 +351,7 @@ td.sep, th.sep{border-left:1px solid var(--rule);}
     <p><strong>削弱类被优先采纳，而且随人格加强。</strong>按 claim 算的 lift 在 9 个条件里有 7 个 ≥ 1；full 的走势是 <span class="num">0.83 → 1.14 → 1.26</span>，最后一格 <span class="num">[1.06, 1.45]</span>、<span class="num">P(lift&gt;1)=0.994</span>、8/12 个 claim 为正。chain 是 <span class="num">0.90 → 1.23 → 1.24</span>。</p>
     <p><strong>中立/元陈述在 stance 下几乎不流动了。</strong>chain 的走势是 <span class="num">1.29 → 0.57 → 0.34</span>，最后一格 <span class="num">[0.11, 0.59]</span>、<span class="num">P(&gt;1)=0.000</span>、12 个 claim 里只有 1 个 &gt; 1。full 是 <span class="num">1.09 → 1.04 → 0.74</span>。这和元陈述占比整体下降是两回事：那说的是<em>产出</em>里元陈述变少，这说的是剩下的元陈述<em>更不容易被别人接走</em>。</p>
     <p>支持类没有规律，9 个条件从 <span class="num">0.57</span> 到 <span class="num">1.70</span> 都有，CI 也宽。</p>
+    <p>切到<strong>投递 → 采纳</strong>那一版，接住的比例本身也是个干净的量——它的分母是<em>真的被送到、且听者还没说过</em>的事实，比"采纳占全部产出的比例"更贴题。三个拓扑上都随人格下降：full <span class="num">14.4% → 10.3% → 9.7%</span>，star <span class="num">15.9% → 14.3% → 9.1%</span>，chain <span class="num">16.5% → 16.6% → 13.7%</span>。最低的一格是 chain/stance 的中立层，<span class="num">146 → 9</span>，只接住 <span class="num">6%</span>。</p>
   </div>
 
   <div class="callout">
@@ -614,18 +635,29 @@ function tradeoff(){
 }
 
 /* ---------- figure: 27 weighted uptake digraphs ---------- */
-function flowgrid(){
-  const SC={SUPPORT:"var(--flow-sup)",UNDERMINE:"var(--flow-und)",NEUTRAL:"var(--flow-neu)"};
-  const SLAB={SUPPORT:"支持",UNDERMINE:"削弱",NEUTRAL:"中立"};
+/* Two readings of the same graph. "uptake" gives every edge one width, what
+   the listener actually took. "taper" widens the tail to what was offered —
+   facts the speaker delivered that the listener had not already said — so the
+   attrition along each edge is visible. Offered runs 7-10x adopted, so both
+   modes size by sqrt of weight on one scale across all 27 graphs; a linear
+   scale would leave every adopted end invisible. */
+const SC={SUPPORT:"var(--flow-sup)",UNDERMINE:"var(--flow-und)",NEUTRAL:"var(--flow-neu)"};
+const SLAB={SUPPORT:"支持",UNDERMINE:"削弱",NEUTRAL:"中立"};
+
+function flowgrid(mode){
+  const taper = mode==="taper";
   const NODES=["A","B","C"];
   const cells=[]; TOPOS.forEach(t=>PANELS.forEach(p=>{
     const k=t+"/"+p; if(F.cells[k]) cells.push({t:t,p:p,k:k});}));
 
   let maxW=0;
-  cells.forEach(c=>F.stances.forEach(s=>
-    Object.values(F.cells[c.k].layers[s]||{}).forEach(w=>{maxW=Math.max(maxW,w);})));
+  cells.forEach(c=>F.stances.forEach(s=>{
+    Object.values(F.cells[c.k].layers[s]||{}).forEach(w=>{maxW=Math.max(maxW,w);});
+    if(taper) Object.values(F.cells[c.k].offered[s]||{}).forEach(w=>{maxW=Math.max(maxW,w);});
+  }));
+  const wOf = w => w>0 ? Math.max(0.9, 9.5*Math.sqrt(w/maxW)) : 0;
 
-  const gw=104, gh=104, gapS=4, gapP=26, rowH=176, top=64, left=74;
+  const gw=104, gh=104, gapS=4, gapP=26, rowH=176, top=84, left=74;
   const groupW=3*gw+2*gapS;
   const W=left+3*groupW+2*gapP+16, H=top+TOPOS.length*rowH+18;
   const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img",
@@ -635,7 +667,10 @@ function flowgrid(){
     const x=left+pi*(groupW+gapP);
     svg.appendChild(txt(x+groupW/2,22,p,{fill:"var(--ink)","font-size":"13",
       "text-anchor":"middle","font-weight":"600","font-family":MONO,"letter-spacing":".05em"}));
-    F.stances.forEach((s,si)=>svg.appendChild(txt(x+si*(gw+gapS)+gw/2,42,SLAB[s],
+    const r=F.roles[p];
+    svg.appendChild(txt(x+groupW/2,39,`A ${r.A} · B ${r.B} · C ${r.C}`,
+      {fill:"var(--faint)","font-size":"9.5","text-anchor":"middle","font-family":SANS}));
+    F.stances.forEach((s,si)=>svg.appendChild(txt(x+si*(gw+gapS)+gw/2,62,SLAB[s],
       {fill:SC[s],"font-size":"10.5","text-anchor":"middle","font-family":SANS})));
   });
 
@@ -653,29 +688,43 @@ function flowgrid(){
         const cx=x0+gw/2, R=30, col=SC[s];
         const pos={A:[cx,y0+20], B:[cx-R,y0+20+R*1.65], C:[cx+R,y0+20+R*1.65]};
         const g=el("g",{});
-        const layer=info.layers[s]||{};
+        const got=info.layers[s]||{}, sent=info.offered[s]||{};
+        const edges = taper ? sent : got;
 
-        Object.entries(layer).forEach(([edge,w])=>{
-          if(!(w>0)) return;
+        Object.entries(edges).forEach(([edge,w])=>{
+          const adopted=got[edge]||0;
+          const wEnd=wOf(adopted), wStart=taper?wOf(w):wEnd;
+          if(wStart<=0 && wEnd<=0) return;
           const [a,b]=edge.split(">");
           const [x1,y1]=pos[a], [x2,y2]=pos[b];
           const dx=x2-x1, dy=y2-y1, len=Math.hypot(dx,dy)||1;
-          const ux=dx/len, uy=dy/len, nx=-uy, ny=ux;      // unit + normal
-          const bend=11;                                   // one side per direction
-          const mx=(x1+x2)/2+nx*bend, my=(y1+y2)/2+ny*bend;
-          const r=9.5;                                     // clear the node discs
-          const sx1=x1+ux*r+nx*3, sy1=y1+uy*r+ny*3;
-          const ex=x2-ux*(r+4.5)+nx*3, ey=y2-uy*(r+4.5)+ny*3;
-          const wd=1+6.5*(w/maxW);
-          g.appendChild(el("path",{d:`M${sx1},${sy1}Q${mx},${my} ${ex},${ey}`,
-            fill:"none",stroke:col,"stroke-width":wd.toFixed(2),
-            opacity:0.32+0.5*(w/maxW),"stroke-linecap":"round"}));
-          // arrowhead along the end tangent of the quadratic
-          const tx=ex-mx, ty=ey-my, tl=Math.hypot(tx,ty)||1;
-          const ax=tx/tl, ay=ty/tl, px=-ay, py=ax, hl=5.4, hw=3.2;
+          const ux=dx/len, uy=dy/len, nx=-uy, ny=ux;
+          const bend=11, r=9.5;
+          const P0=[x1+ux*r+nx*3, y1+uy*r+ny*3];
+          const P2=[x2-ux*(r+wEnd*0.9+3)+nx*3, y2-uy*(r+wEnd*0.9+3)+ny*3];
+          const PC=[(x1+x2)/2+nx*bend, (y1+y2)/2+ny*bend];
+          // ribbon: offset the quadratic by half-width, tangent-normal at each end
+          const nrm=(from,to)=>{const a1=to[0]-from[0],b1=to[1]-from[1],
+            l=Math.hypot(a1,b1)||1; return [-b1/l, a1/l];};
+          const n0=nrm(P0,PC), n2=nrm(PC,P2), nc=[nx,ny];
+          const h0=wStart/2, h2=Math.max(wEnd,0.6)/2, hc=(h0+h2)/2;
+          const op=0.30+0.5*Math.sqrt((adopted||w)/maxW);
+          g.appendChild(el("path",{d:
+            `M${(P0[0]+n0[0]*h0).toFixed(2)},${(P0[1]+n0[1]*h0).toFixed(2)}`+
+            `Q${(PC[0]+nc[0]*hc).toFixed(2)},${(PC[1]+nc[1]*hc).toFixed(2)} `+
+            `${(P2[0]+n2[0]*h2).toFixed(2)},${(P2[1]+n2[1]*h2).toFixed(2)}`+
+            `L${(P2[0]-n2[0]*h2).toFixed(2)},${(P2[1]-n2[1]*h2).toFixed(2)}`+
+            `Q${(PC[0]-nc[0]*hc).toFixed(2)},${(PC[1]-nc[1]*hc).toFixed(2)} `+
+            `${(P0[0]-n0[0]*h0).toFixed(2)},${(P0[1]-n0[1]*h0).toFixed(2)}Z`,
+            fill:col, opacity:op.toFixed(2)}));
+          // arrowhead scaled to the landing width
+          const tx=P2[0]-PC[0], ty=P2[1]-PC[1], tl=Math.hypot(tx,ty)||1;
+          const ax=tx/tl, ay=ty/tl, px=-ay, py=ax;
+          const hw=Math.max(2.6,h2*1.7), hl=hw*1.7;
           g.appendChild(el("path",{
-            d:`M${ex+ax*hl},${ey+ay*hl}L${ex+px*hw},${ey+py*hw}L${ex-px*hw},${ey-py*hw}Z`,
-            fill:col,opacity:0.45+0.45*(w/maxW)}));
+            d:`M${P2[0]+ax*hl},${P2[1]+ay*hl}L${P2[0]+px*hw},${P2[1]+py*hw}`+
+              `L${P2[0]-px*hw},${P2[1]-py*hw}Z`,
+            fill:col,opacity:Math.min(1,op+0.15).toFixed(2)}));
         });
 
         NODES.forEach(n=>{
@@ -686,11 +735,15 @@ function flowgrid(){
             "text-anchor":"middle","font-family":MONO}));
         });
 
-        const lift=info.lift[s], total=info.totals[s];
-        g.appendChild(txt(cx,y0+gh+26,`${Math.round(total)}`,
-          {fill:"var(--ink)","font-size":"12","text-anchor":"middle","font-family":MONO}));
-        g.appendChild(txt(cx,y0+gh+40,lift==null?"—":`×${lift.toFixed(2)}`,
-          {fill:(lift!=null&&Math.abs(lift-1)>0.15)?col:"var(--faint)",
+        const lift=info.lift[s], total=info.totals[s], off=info.offered_totals[s];
+        g.appendChild(txt(cx,y0+gh+26, taper?`${Math.round(off)} → ${Math.round(total)}`
+                                             :`${Math.round(total)}`,
+          {fill:"var(--ink)","font-size":taper?"11":"12","text-anchor":"middle",
+           "font-family":MONO}));
+        g.appendChild(txt(cx,y0+gh+40,
+          taper ? (off?`${(total/off*100).toFixed(0)}% 接住`:"—")
+                : (lift==null?"—":`×${lift.toFixed(2)}`),
+          {fill:(!taper && lift!=null && Math.abs(lift-1)>0.15)?col:"var(--faint)",
            "font-size":"10.5","text-anchor":"middle","font-family":MONO}));
         svg.appendChild(g);
       });
@@ -699,7 +752,28 @@ function flowgrid(){
   return svg;
 }
 
-document.getElementById("fig-flow").appendChild(flowgrid());
+function renderFlow(mode){
+  const host=document.getElementById("fig-flow");
+  host.textContent="";
+  host.appendChild(flowgrid(mode));
+  const taper = mode==="taper";
+  document.getElementById("mode-uptake").setAttribute("aria-pressed", String(!taper));
+  document.getElementById("mode-taper").setAttribute("aria-pressed", String(taper));
+  document.getElementById("flow-scale").textContent = taper
+    ? "起点 = 投递给它、它还没说过的事实；终点 = 真的接住的。宽度 ∝ √权重，同一标尺"
+    : "全 27 张图同一标尺，宽度 ∝ √权重";
+  document.getElementById("flow-cap").innerHTML = taper
+    ? '27 张图：3 拓扑 × 3 人格 × 3 立场。箭头起点粗、终点细，中间收掉的就是没被接住的部分。'+
+      '下面是 <span class="num">投递 → 采纳</span> 和接住的比例。投递量是采纳量的 7–10 倍，'+
+      '所以宽度按 √ 权重给，线性标尺会让每个终点都看不见。'
+    : '27 张图：3 拓扑 × 3 人格 × 3 立场。每张图下面的 <span class="num">×</span> 是 lift——'+
+      '这一层占流量的比例，除以该立场占事实池的比例。大于 1 表示这类事实被采纳的频率'+
+      '高于它的丰度所能解释的。';
+}
+document.getElementById("mode-uptake").addEventListener("click",()=>renderFlow("uptake"));
+document.getElementById("mode-taper").addEventListener("click",()=>renderFlow("taper"));
+
+renderFlow("uptake");
 document.getElementById("fig-tradeoff").appendChild(tradeoff());
 document.getElementById("fig-decomp").appendChild(decomp());
 document.getElementById("fig-gradient").appendChild(gradient());

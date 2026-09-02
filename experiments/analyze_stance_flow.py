@@ -41,6 +41,15 @@ OUT = ROOT.parent / "findings" / "data"
 PANELS = ("neutral", "lenses", "stance")
 STANCES = ("SUPPORT", "UNDERMINE", "NEUTRAL")
 
+# Identical across all 108 debates; checked, not assumed. Under `stance` the
+# node letters are not interchangeable — A argues for, B argues against — so a
+# flow graph is unreadable without them.
+ROLES = {
+    "neutral": {"A": "中立分析者", "B": "中立分析者", "C": "中立分析者"},
+    "lenses":  {"A": "因果证据", "B": "落地与权衡", "C": "适用范围与不确定性"},
+    "stance":  {"A": "支持方", "B": "反对方", "C": "裁决者"},
+}
+
 
 def spoken_stance_mix(store: dict) -> dict[str, int]:
     """Stance counts over every fact any agent said, the pool uptake draws on."""
@@ -54,7 +63,14 @@ def spoken_stance_mix(store: dict) -> dict[str, int]:
 
 
 def uptake_edges(store: dict, debate: dict, execution_id: str):
-    """Yield (speaker, listener, stance, credit) for every adoption."""
+    """Yield (speaker, listener, stance, credit, taken) for every fact offered.
+
+    `taken` is True when the listener went on to say it. A fact the listener had
+    already said before that round was never on offer, so it is skipped: the
+    denominator has to be what could have been adopted, not what was sent.
+    Credit is split the same way on both sides, which makes taken/offered a
+    per-edge uptake rate rather than two differently-normalised counts.
+    """
     attach_labels(store, execution_id, "stance")
     stance_of = {fid: f.get("properties", {}).get("stance")
                  for fid, f in store["facts"].items()}
@@ -84,11 +100,13 @@ def uptake_edges(store: dict, debate: dict, execution_id: str):
             *[said[(listener, r)] for r in rounds if r < rnd]
         ) if rnd > rounds[0] else set()
         for fid, speakers in by_fact.items():
-            if fid not in said[(listener, rnd)] or fid in earlier:
+            if fid in earlier:
                 continue
             credit = 1.0 / len(speakers)
+            taken = fid in said[(listener, rnd)]
+            stance = stance_of.get(fid) or "UNLABELLED"
             for speaker in speakers:
-                yield speaker, listener, stance_of.get(fid) or "UNLABELLED", credit
+                yield speaker, listener, stance, credit, taken
 
 
 def _summarise(values: list[float], draws: int = 20_000, seed: int = 0) -> dict:
@@ -117,6 +135,8 @@ def main() -> None:
         lambda: defaultdict(lambda: defaultdict(float)))
     claims: dict[str, set[str]] = defaultdict(set)
     pool: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    offers: dict[str, dict[str, dict[str, float]]] = defaultdict(
+        lambda: defaultdict(lambda: defaultdict(float)))
     # per-claim lift, so the pooled number can be checked against its spread
     per_claim: dict[str, dict[str, list[float]]] = defaultdict(
         lambda: defaultdict(list))
@@ -144,9 +164,12 @@ def main() -> None:
             for stance, count in spoken_stance_mix(store).items():
                 pool[cell][stance] += count
             here: dict[str, float] = defaultdict(float)
-            for speaker, listener, stance, credit in uptake_edges(store, debate, name):
-                graphs[cell][stance][f"{speaker}>{listener}"] += credit
-                here[stance] += credit
+            for speaker, listener, stance, credit, taken in uptake_edges(
+                    store, debate, name):
+                offers[cell][stance][f"{speaker}>{listener}"] += credit
+                if taken:
+                    graphs[cell][stance][f"{speaker}>{listener}"] += credit
+                    here[stance] += credit
             said_here = spoken_stance_mix(store)
             flow_here = sum(here.get(s, 0.0) for s in STANCES) or 0.0
             pool_here = sum(said_here.get(s, 0) for s in STANCES) or 0
@@ -158,6 +181,7 @@ def main() -> None:
                             / (said_here[stance] / pool_here))
 
     result = {
+        "roles": ROLES,
         "model": args.model,
         "topologies": list(args.topologies),
         "stances": list(STANCES),
@@ -171,6 +195,7 @@ def main() -> None:
             if cell not in graphs:
                 continue
             layers = {s: dict(graphs[cell].get(s, {})) for s in STANCES}
+            offered = {s: dict(offers[cell].get(s, {})) for s in STANCES}
             totals = {s: round(sum(layers[s].values()), 2) for s in STANCES}
             flow_all = sum(totals.values()) or 1
             said = {s: pool[cell].get(s, 0) for s in STANCES}
@@ -178,6 +203,9 @@ def main() -> None:
             result["cells"][cell] = {
                 "claims": len(claims[cell]),
                 "layers": layers,
+                "offered": offered,
+                "offered_totals": {s: round(sum(offered[s].values()), 2)
+                                   for s in STANCES},
                 "totals": totals,
                 "spoken": said,
                 "flow_share": {s: totals[s] / flow_all for s in STANCES},

@@ -1,4 +1,21 @@
 {
+ "roles": {
+  "neutral": {
+   "A": "中立分析者",
+   "B": "中立分析者",
+   "C": "中立分析者"
+  },
+  "lenses": {
+   "A": "因果证据",
+   "B": "落地与权衡",
+   "C": "适用范围与不确定性"
+  },
+  "stance": {
+   "A": "支持方",
+   "B": "反对方",
+   "C": "裁决者"
+  }
+ },
  "model": "deepseek-v4-flash",
  "topologies": [
   "full",
@@ -39,6 +56,37 @@
      "A>B": 5.0,
      "A>C": 10.5
     }
+   },
+   "offered": {
+    "SUPPORT": {
+     "B>A": 27.0,
+     "C>A": 42.0,
+     "C>B": 47.5,
+     "B>C": 29.5,
+     "A>B": 40.5,
+     "A>C": 45.5
+    },
+    "UNDERMINE": {
+     "B>A": 92.5,
+     "C>A": 113.5,
+     "C>B": 112.5,
+     "B>C": 86.5,
+     "A>B": 89.5,
+     "A>C": 90.5
+    },
+    "NEUTRAL": {
+     "B>A": 73.5,
+     "C>A": 63.5,
+     "C>B": 66.0,
+     "B>C": 73.0,
+     "A>B": 66.0,
+     "A>C": 68.0
+    }
+   },
+   "offered_totals": {
+    "SUPPORT": 232.0,
+    "UNDERMINE": 585.0,
+    "NEUTRAL": 410.0
    },
    "totals": {
     "SUPPORT": 40.0,
@@ -121,6 +169,37 @@
      "A>B": 3.0
     }
    },
+   "offered": {
+    "SUPPORT": {
+     "B>A": 46.0,
+     "C>A": 51.0,
+     "A>B": 60.0,
+     "C>B": 51.0,
+     "A>C": 59.0,
+     "B>C": 48.0
+    },
+    "UNDERMINE": {
+     "B>A": 121.5,
+     "C>A": 123.5,
+     "A>B": 134.0,
+     "C>B": 121.0,
+     "A>C": 131.5,
+     "B>C": 121.5
+    },
+    "NEUTRAL": {
+     "B>A": 105.0,
+     "C>A": 124.0,
+     "A>B": 77.5,
+     "C>B": 121.5,
+     "A>C": 78.0,
+     "B>C": 99.0
+    }
+   },
+   "offered_totals": {
+    "SUPPORT": 315.0,
+    "UNDERMINE": 753.0,
+    "NEUTRAL": 605.0
+   },
    "totals": {
     "SUPPORT": 19.0,
     "UNDERMINE": 86.0,
@@ -202,6 +281,37 @@
      "C>A": 2.5
     }
    },
+   "offered": {
+    "SUPPORT": {
+     "B>A": 61.5,
+     "C>A": 62.5,
+     "A>B": 78.0,
+     "C>B": 65.0,
+     "A>C": 80.5,
+     "B>C": 69.5
+    },
+    "UNDERMINE": {
+     "B>A": 121.5,
+     "C>A": 144.5,
+     "A>B": 122.5,
+     "C>B": 149.5,
+     "A>C": 122.0,
+     "B>C": 126.0
+    },
+    "NEUTRAL": {
+     "B>A": 66.0,
+     "C>A": 78.0,
+     "A>B": 77.5,
+     "C>B": 76.5,
+     "A>C": 80.0,
+     "B>C": 66.0
+    }
+   },
+   "offered_totals": {
+    "SUPPORT": 417.0,
+    "UNDERMINE": 786.0,
+    "NEUTRAL": 444.0
+   },
    "totals": {
     "SUPPORT": 26.0,
     "UNDERMINE": 96.0,
@@ -276,6 +386,31 @@
      "A>C": 21.0,
      "C>A": 11.5
     }
+   },
+   "offered": {
+    "SUPPORT": {
+     "B>A": 50.0,
+     "C>A": 34.0,
+     "A>B": 32.0,
+     "A>C": 40.0
+    },
+    "UNDERMINE": {
+     "B>A": 96.5,
+     "C>A": 73.5,
+     "A>B": 80.0,
+     "A>C": 82.0
+    },
+    "NEUTRAL": {
+     "B>A": 103.5,
+     "C>A": 93.5,
+     "A>B": 101.0,
+     "A>C": 97.0
+    }
+   },
+   "offered_totals": {
+    "SUPPORT": 156.0,
+    "UNDERMINE": 332.0,
+    "NEUTRAL": 395.0
    },
    "totals": {
     "SUPPORT": 22.0,
@@ -352,6 +487,31 @@
      "A>C": 6.0
     }
    },
+   "offered": {
+    "SUPPORT": {
+     "A>B": 36.0,
+     "A>C": 38.0,
+     "B>A": 35.5,
+     "C>A": 35.5
+    },
+    "UNDERMINE": {
+     "B>A": 108.0,
+     "C>A": 126.0,
+     "A>B": 137.0,
+     "A>C": 127.0
+    },
+    "NEUTRAL": {
+     "B>A": 82.5,
+     "C>A": 85.5,
+     "A>B": 83.0,
+     "A>C": 88.0
+    }
+   },
+   "offered_totals": {
+    "SUPPORT": 145.0,
+    "UNDERMINE": 498.0,
+    "NEUTRAL": 339.0
+   },
    "totals": {
     "SUPPORT": 24.0,
     "UNDERMINE": 80.0,
@@ -427,6 +587,31 @@
      "C>A": 4.0
     }
    },
+   "offered": {
+    "SUPPORT": {
+     "B>A": 53.5,
+     "C>A": 60.5,
+     "A>B": 72.0,
+     "A>C": 87.0
+    },
+    "UNDERMINE": {
+     "B>A": 120.0,
+     "C>A": 141.0,
+     "A>B": 107.0,
+     "A>C": 122.0
+    },
+    "NEUTRAL": {
+     "B>A": 76.0,
+     "C>A": 83.0,
+     "A>B": 95.0,
+     "A>C": 99.0
+    }
+   },
+   "offered_totals": {
+    "SUPPORT": 273.0,
+    "UNDERMINE": 490.0,
+    "NEUTRAL": 353.0
+   },
    "totals": {
     "SUPPORT": 22.0,
     "UNDERMINE": 48.0,
@@ -494,6 +679,25 @@
      "B>C": 18.0,
      "A>B": 10.0
     }
+   },
+   "offered": {
+    "SUPPORT": {
+     "A>B": 42.0,
+     "B>C": 31.0
+    },
+    "UNDERMINE": {
+     "A>B": 99.0,
+     "B>C": 107.0
+    },
+    "NEUTRAL": {
+     "A>B": 100.0,
+     "B>C": 76.0
+    }
+   },
+   "offered_totals": {
+    "SUPPORT": 73.0,
+    "UNDERMINE": 206.0,
+    "NEUTRAL": 176.0
    },
    "totals": {
     "SUPPORT": 7.0,
@@ -564,6 +768,25 @@
      "B>C": 9.0
     }
    },
+   "offered": {
+    "SUPPORT": {
+     "A>B": 32.0,
+     "B>C": 41.0
+    },
+    "UNDERMINE": {
+     "A>B": 103.0,
+     "B>C": 132.0
+    },
+    "NEUTRAL": {
+     "A>B": 56.0,
+     "B>C": 105.0
+    }
+   },
+   "offered_totals": {
+    "SUPPORT": 73.0,
+    "UNDERMINE": 235.0,
+    "NEUTRAL": 161.0
+   },
    "totals": {
     "SUPPORT": 13.0,
     "UNDERMINE": 43.0,
@@ -632,6 +855,25 @@
      "B>C": 5.0,
      "A>B": 4.0
     }
+   },
+   "offered": {
+    "SUPPORT": {
+     "A>B": 77.0,
+     "B>C": 65.0
+    },
+    "UNDERMINE": {
+     "A>B": 107.0,
+     "B>C": 158.0
+    },
+    "NEUTRAL": {
+     "A>B": 73.0,
+     "B>C": 73.0
+    }
+   },
+   "offered_totals": {
+    "SUPPORT": 142.0,
+    "UNDERMINE": 265.0,
+    "NEUTRAL": 146.0
    },
    "totals": {
     "SUPPORT": 19.0,
