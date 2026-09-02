@@ -140,6 +140,7 @@ def build(store_path: Path) -> dict | None:
 
     return {
         "id": name,
+        "model": debate.get("model", "?"),
         "claim_id": debate["claim_id"],
         "claim": debate["claim"],
         "topology": debate["topology"],
@@ -163,25 +164,33 @@ def build(store_path: Path) -> dict | None:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--model", default="deepseek-v4-flash")
+    # Every trace, not just the model the reports analyse. The 33 GLM debates
+    # have no star/chain counterpart so they are excluded from every cross-
+    # topology number, but they are real runs and this page is for looking at
+    # runs, not for comparing conditions.
+    ap.add_argument("--model", default="", help="留空 = 渲染全部模型")
     ap.add_argument("--out", type=Path, default=OUT)
     args = ap.parse_args()
 
     debates = []
     for directory in STORE_DIRS:
-        for path in sorted(directory.glob(f"*{args.model}*.v2.json")):
+        pattern = f"*{args.model}*.v2.json" if args.model else "*.v2.json"
+        for path in sorted(directory.glob(pattern)):
             view = build(path)
             if view:
                 debates.append(view)
 
     total_spans = sum(len(s) for d in debates for s in d["spans"].values())
     total_unplaced = sum(d["unplaced"] for d in debates)
-    payload = {"model": args.model, "debates": debates,
+    payload = {"model": args.model or "all", "debates": debates,
                "n_spans": total_spans, "n_unplaced": total_unplaced}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(payload, ensure_ascii=False,
                                    separators=(",", ":")))
     size = args.out.stat().st_size
+    from collections import Counter
+    by_model = Counter(d["model"] for d in debates)
+    print("按模型：" + "　".join(f"{k} {v}" for k, v in sorted(by_model.items())))
     print(f"{len(debates)} 场 · {total_spans} 个已定位 span · "
           f"{total_unplaced} 个未定位 "
           f"({total_spans / (total_spans + total_unplaced):.1%} 命中)")

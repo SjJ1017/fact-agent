@@ -129,6 +129,7 @@ mark.s-NEUTRAL{box-shadow:inset 0 -2px 0 var(--neu);}
 <header>
   <h1>辩论轨迹查看器 <small id="stat"></small></h1>
   <div class="bar">
+    <select id="fModel"></select>
     <select id="pick"></select>
     <button class="tgl" id="tLink" type="button" aria-pressed="false">连线：显示同一事实</button>
     <button class="tgl" id="tStance" type="button" aria-pressed="true">立场底色</button>
@@ -161,15 +162,31 @@ const $ = id => document.getElementById(id);
 const state = {debate:null, links:false, stance:true, onlyShared:false, sel:null};
 
 /* ---------- picker ---------- */
-const pick = $("pick");
-DATA.debates.forEach((d,i)=>{
-  const o=document.createElement("option");
-  o.value=i;
-  o.textContent=`#${d.claim_id} · ${TOPO_CN[d.topology]} · ${d.panel} — ${d.claim.slice(0,44)}`;
-  pick.appendChild(o);
+const pick = $("pick"), fModel = $("fModel");
+const MODELS = [...new Set(DATA.debates.map(d=>d.model))].sort();
+[["", `全部模型（${DATA.debates.length} 场）`]].concat(
+  MODELS.map(m=>[m, `${m}（${DATA.debates.filter(d=>d.model===m).length} 场）`])
+).forEach(([v,label])=>{
+  const o=document.createElement("option"); o.value=v; o.textContent=label;
+  fModel.appendChild(o);
 });
+function fillPicker(){
+  const only=fModel.value;
+  pick.innerHTML="";
+  DATA.debates.forEach((d,i)=>{
+    if(only && d.model!==only) return;
+    const o=document.createElement("option");
+    o.value=i;
+    o.textContent=`#${d.claim_id} · ${d.model} · ${TOPO_CN[d.topology]} · ${d.panel}`
+      + ` — ${d.claim.slice(0,40)}`;
+    pick.appendChild(o);
+  });
+}
+fillPicker();
+fModel.addEventListener("change", ()=>{ fillPicker(); render(+pick.value); scrollTo({top:0}); });
 $("stat").textContent =
-  `${DATA.debates.length} 场 · ${DATA.n_spans} 个已定位片段 · ${DATA.n_unplaced} 个未定位`;
+  `${DATA.debates.length} 场 · ${DATA.n_spans} 个已定位片段 · ${DATA.n_unplaced} 个未定位`
+  + `（命中 ${(100*DATA.n_spans/(DATA.n_spans+DATA.n_unplaced)).toFixed(1)}%）`;
 
 /* ---------- render one debate ---------- */
 function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
@@ -236,10 +253,16 @@ function render(idx){
 
   $("claim").textContent = `命题 #${d.claim_id}：${d.claim}`;
   const unplaced = d.unplaced ? ` · 本场 ${d.unplaced} 个片段无法定位到原文` : "";
+  // A missing VERDICT badge is a property of the run, not of this renderer:
+  // DeepSeek ends every one of its 972 turns with a parseable line and GLM
+  // only 79.5% of its 297. Saying so per debate stops it reading as a bug.
+  const noV = d.order.length - Object.keys(d.verdicts).length;
   $("meta").textContent =
-    `${TOPO_CN[d.topology]} · ${d.panel} · ${d.order.length} 个 turn · ` +
+    `${d.model} · ${TOPO_CN[d.topology]} · ${d.panel} · ${d.order.length} 个 turn · ` +
     `${Object.values(d.spans).reduce((a,b)=>a+b.length,0)} 个片段 · ` +
-    `${Object.keys(d.facts).length} 个规范事实（其中 ${info.multi.size} 个被多个 turn 说过）${unplaced}`;
+    `${Object.keys(d.facts).length} 个规范事实（其中 ${info.multi.size} 个被多个 turn 说过）` +
+    `${unplaced}` +
+    `${noV ? ` · ${noV} 个 turn 没写出可解析的 VERDICT` : ""}`;
 
   const rounds = [...new Set(d.order.map(s=>+s.split("|")[1]))].sort((a,b)=>a-b);
   const host = $("rounds");
