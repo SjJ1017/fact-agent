@@ -200,6 +200,16 @@ def build(store_path: Path) -> dict | None:
         # peer's message to restate E1.
         "sources": {slot: info.get("source_ids", [])
                     for slot, info in debate.get("delivery", {}).items()},
+        # Present only under self-last memory. The viewer has to distinguish
+        # "this agent said it again having seen itself say it" from "this agent
+        # produced it again with no record of having done so", and those look
+        # identical without this.
+        "self_prior": {slot: info["self_turn"]
+                       for slot, info in debate.get("delivery", {}).items()
+                       if info.get("self_turn")},
+        "memory": "self-last" if any(
+            info.get("self_turn") for info in debate.get("delivery", {}).values()
+        ) else "peer-only",
         "evidence": [{"id": e["id"], "stance": e["stance"], "text": e["text"]}
                      for e in debate.get("evidence", [])],
         "unplaced": unplaced,

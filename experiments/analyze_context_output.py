@@ -8,6 +8,8 @@ how the stance mix changes as it passes through.
 
     context(a, r) = facts extracted from the evidence documents
                   + facts said in the peer turns delivered into a|r
+                  + facts the agent itself said last round, when the run was
+                    generated with self-last memory (delivery.self_turn)
     output(a, r)  = facts said in a|r
 
 Both sides carry the same SUPPORT / UNDERMINE / NEUTRAL labels, so the two mixes
@@ -111,8 +113,18 @@ def main() -> None:
                 for peer in info.get("peer_turns", []):
                     a, r = peer.split("|")
                     peers |= said[(a, int(r))]
-                # The dossier is in context on every turn; peers only from r2.
-                context = dossier | peers
+                # Under peer-only memory `self_turn` is absent and context is
+                # the dossier plus peers. Under self-last it is present, the
+                # agent's own previous answer is genuinely in front of it, and
+                # leaving it out would count facts the agent could see as
+                # facts it could not — inflating every tilt by whatever the
+                # agent had already said.
+                own = set()
+                self_turn = info.get("self_turn")
+                if self_turn:
+                    a, r = self_turn.split("|")
+                    own = said[(a, int(r))]
+                context = dossier | peers | own
                 cmix, cn = mix(context, stance_of)
                 omix, on = mix(said[(agent, rnd)], stance_of)
                 if not cmix or not omix:
@@ -123,6 +135,8 @@ def main() -> None:
                     "context": cmix, "output": omix,
                     "n_context": cn, "n_output": on,
                     "peers_only": mix(peers, stance_of)[0] if peers else None,
+                    "own_prior": mix(own, stance_of)[0] if own else None,
+                    "memory": "self-last" if self_turn else "peer-only",
                 })
 
     # The headline is every turn, because the question is what an agent does
@@ -164,7 +178,7 @@ def main() -> None:
 
     print(f"{len(rows)} 个 turn\n")
     for scope, title in (
-            ("", "全部 turn：上下文 = 卷宗 ∪ 投递给它的同伴事实"),
+            ("", "全部 turn：上下文 = 卷宗 ∪ 同伴投递 ∪ 自己上一轮（若该条件有记忆）"),
             ("r1", "只看第 1 轮（此时上下文只有卷宗）"),
             ("r2", "只看第 2 轮"),
             ("r3", "只看第 3 轮")):

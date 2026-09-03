@@ -203,6 +203,18 @@ def dossier(case: Case) -> str:
     return f"Claim under review:\n{case.claim}\n\nEvidence dossier:\n{entries}"
 
 
+def history_prompt(case: Case) -> str:
+    """The user turn placed in front of an agent's own previous answer.
+
+    It carries the dossier and nothing else. It must not be the real prior
+    prompt, which would smuggle the previous round's peer output in with it,
+    and it must not claim the answer was given "before seeing other panelists",
+    which is false from round 2 on. A backend also cannot start its message
+    list with an assistant turn, so something has to sit here.
+    """
+    return dossier(case) + "\n\nGive your assessment of the claim."
+
+
 def prompt_for(case: Case, peer_text: Sequence[tuple[str, str]], role: str,
                has_own_prior: bool = False) -> str:
     """The user turn for one agent in one round.
@@ -275,12 +287,19 @@ def run_case(
                               has_own_prior=self_history and prior in transcript)
             prompts[key] = user
             if self_history and prior in transcript:
-                # The real prior exchange, so the agent's own answer arrives as
-                # an assistant turn rather than as text quoted back at it. A
-                # model treats its own turn as a commitment and a quoted one as
-                # material, and which of those we want is the whole point of
-                # the condition.
-                history = [("user", prompts[prior]), ("assistant", transcript[prior])]
+                # The agent's own answer as an assistant turn, so the model
+                # treats it as its own commitment rather than as material
+                # quoted back at it.
+                #
+                # The user turn in front of it is rebuilt WITHOUT peers. Using
+                # the real prior prompt looks more faithful and is not: round
+                # 3's prior prompt carries round 1's peer output, so peers
+                # would be visible across two rounds while the agent's own
+                # history spans one — an asymmetric rolling window, and not the
+                # cumulative context of Du et al. either. A neutral restatement
+                # keeps the window symmetric at exactly one round each side.
+                history = [("user", history_prompt(case)),
+                           ("assistant", transcript[prior])]
             delivery[key] = {
                 "source_ids": ["claim", *[item["id"] for item in case.evidence]],
                 "peer_turns": [f"{peer}|{rnd - 1}" for peer, _ in peers],
@@ -311,7 +330,7 @@ def run_case(
     # experiments/labels/ are keyed by execution_id, so two corpora that differ
     # only in whether agents saw their own history would overwrite each other's
     # stance labels and token clocks without ever colliding visibly.
-    suffix = "-mem" if self_history else ""
+    suffix = "-self-last" if self_history else ""
     execution_id = f"perspectrum-{case.claim_id}-{model}-{topology}-{panel}{suffix}"
     return {
         "execution_id": execution_id,
@@ -546,9 +565,10 @@ def main() -> int:
     parser.add_argument("--timeout", type=float, default=120.0)
     parser.add_argument("--trace", action="store_true", help="extract and match atomic facts after the debates")
     parser.add_argument(
-        "--self-history", action="store_true",
-        help="每轮把该 agent 自己上一轮的回答作为 assistant turn 带上"
-             "（对齐 Du et al. 的参考实现）。默认关闭，与 2026-09 的语料一致。")
+        "--memory", choices=("self-last", "peer-only"), default="self-last",
+        help="self-last（默认）：每轮给 agent 自己上一轮的回答 + 拓扑允许的 peers "
+             "上一轮回答，这是主流做法。peer-only：只给 peers，agent 看不到自己的"
+             "历史——2026-09 那批语料是这么跑的，复现它必须显式指定。")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
 
@@ -575,6 +595,9 @@ def main() -> int:
         "evidence_per_side": args.evidence_per_side, "min_evidence_per_side": args.min_evidence_per_side,
         "evidence_chars": args.evidence_chars,
         "max_agent_tokens": args.max_agent_tokens, "trace_max_tokens": args.trace_max_tokens,
+        # Which memory condition produced this directory. Two corpora that
+        # differ only in this are otherwise indistinguishable from the manifest.
+        "memory": args.memory,
     }
     save_json(args.outdir / "manifest.json", manifest)
 
@@ -587,14 +610,20 @@ def main() -> int:
 
     def run_one(job: tuple[str, str, str, Case]) -> Path:
         model, topology, panel, case = job
-        path = args.outdir / f"perspectrum-{case.claim_id}-{model}-{topology}-{panel}.debate.json"
+        # The condition belongs in the filename. Without it a self-last run
+        # finds the peer-only file already there and returns it untouched, so
+        # the "new experiment" is the old one; with --overwrite it destroys the
+        # old one instead. Neither failure announces itself.
+        mem = "" if args.memory == "peer-only" else f"-{args.memory}"
+        path = (args.outdir /
+                f"perspectrum-{case.claim_id}-{model}-{topology}-{panel}{mem}.debate.json")
         if path.exists() and not args.overwrite:
             return path
         llm = LLM.opencode(model, max_concurrency=args.concurrency)
         llm.backend.client = llm.backend.client.with_options(timeout=args.timeout, max_retries=1)
         save_json(path, run_case(llm, case, model, topology, panel, args.rounds,
                                  args.max_agent_tokens, args.outdir.name,
-                                 self_history=args.self_history))
+                                 self_history=(args.memory == "self-last")))
         return path
 
     with ThreadPoolExecutor(max_workers=args.parallel) as pool:
