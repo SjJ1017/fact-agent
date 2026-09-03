@@ -88,8 +88,14 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--model", default="deepseek-v4-flash")
-    ap.add_argument("--out", type=Path, default=OUT)
+    ap.add_argument("--memory", default="peer-only",
+                    choices=("peer-only", "self-last", "cumulative"),
+                    help="只分析这一种记忆条件；混着平均没有意义")
+    ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
+    if args.out is None:
+        tag = "" if args.memory == "peer-only" else f"-{args.memory}"
+        args.out = Path(str(OUT).format(memory=tag))
 
     verdict_level = defaultdict(Counter)
     verdict_moves = defaultdict(lambda: defaultdict(int))
@@ -105,10 +111,14 @@ def main() -> None:
     for directory in STORE_DIRS:
         for path in sorted(directory.glob(f"*{args.model}*.v2.json")):
             name = path.name[: -len(".v2.json")]
-            m = re.match(rf"perspectrum-(\d+)-{re.escape(args.model)}-(\w+?)-(\w+)$", name)
+            m = re.match(
+                rf"perspectrum-(\d+)-{re.escape(args.model)}-(\w+?)-(neutral|lenses|stance)"
+                rf"(?:-(cumulative|self-last))?$", name)
             if not m:
                 continue
-            claim, topology, panel = m.groups()
+            claim, topology, panel, mem = m.groups()
+            if (mem or "peer-only") != args.memory:
+                continue
             debate_path = path.with_name(f"{name}.debate.json")
             if not debate_path.exists():
                 continue

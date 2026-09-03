@@ -47,7 +47,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
-OUT = ROOT / "findings" / "data" / "effective-structure.json"
+OUT_TMPL = ROOT / "findings" / "data" / "effective-structure{memory}.json"
 
 DIRS = {
     "full": HERE / "perspectrum_pilot_full",
@@ -81,12 +81,28 @@ def boot(deltas: list[float], n: int = 20000) -> dict:
     }
 
 
-def load_runs() -> dict[str, dict]:
+PANELS_RE = re.compile(
+    r"^perspectrum-(\d+)-deepseek-v4-flash-(\w+?)-(neutral|lenses|stance)"
+    r"(?:-(cumulative|self-last))?$")
+
+
+def load_runs(memory: str = "peer-only") -> dict[str, dict]:
+    """One memory condition's runs, with the persona parsed rather than guessed.
+
+    The glob matches every condition, and the persona used to be taken as the
+    last hyphen-separated segment of the filename — which for a cumulative run
+    is "cumulative", so the run would be filed under a persona that does not
+    exist and the three real ones would each lose a third of their data.
+    """
     runs: dict[str, dict] = {}
     for topo, d in DIRS.items():
         for p in sorted(Path(d).glob(f"perspectrum-*-deepseek-v4-flash-{topo}-*.v2.json")):
             ex = p.name.rsplit(".v2.json", 1)[0]
-            runs[ex] = {"store": json.loads(p.read_text()), "topo": topo}
+            m = PANELS_RE.match(ex)
+            if not m or (m.group(4) or "peer-only") != memory:
+                continue
+            runs[ex] = {"store": json.loads(p.read_text()), "topo": topo,
+                        "persona": m.group(3), "memory": memory}
         for ex in [e for e, r in runs.items() if r["topo"] == topo]:
             dbf = Path(d) / f"{ex}.debate.json"
             if dbf.exists():
@@ -108,7 +124,7 @@ def load_labels() -> tuple[dict, dict]:
 def compute(ex: str, r: dict, stance_lab: dict, tok: dict) -> dict:
     s, d = r["store"], r.get("debate") or {}
     claim = ex.split("-")[1]
-    topo, persona = r["topo"], ex.split("-")[-1]
+    topo, persona = r["topo"], r["persona"]
     facts = s["facts"]
 
     out: dict[tuple, set] = defaultdict(set)
@@ -287,10 +303,22 @@ def compute(ex: str, r: dict, stance_lab: dict, tok: dict) -> dict:
 
 
 def main() -> int:
-    runs = load_runs()
-    if len(runs) != 108:
-        print(f"expected 108 runs, found {len(runs)}", file=__import__("sys").stderr)
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--memory", default="peer-only",
+                    choices=("peer-only", "self-last", "cumulative"))
+    args = ap.parse_args()
+    runs = load_runs(args.memory)
+    # A count check, not a count requirement. Hard-coding 108 made the script
+    # exit as soon as a second condition existed in the same directory, and it
+    # would also have hidden a partial run of the first.
+    expected = 12 * 3 * 3
+    if not runs:
+        print(f"no runs found for --memory {args.memory}", file=__import__("sys").stderr)
         return 1
+    if len(runs) != expected:
+        print(f"[warn] --memory {args.memory}: {len(runs)} runs, expected {expected}",
+              file=__import__("sys").stderr)
     stance_lab, tok = load_labels()
     R = {ex: compute(ex, r, stance_lab, tok) for ex, r in runs.items()}
 
@@ -466,8 +494,10 @@ def main() -> int:
         for r in R.values()
     }
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps({
+    tag = "" if args.memory == "peer-only" else f"-{args.memory}"
+    out = Path(str(OUT_TMPL).format(memory=tag))
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps({
         "generated": "2026-09-01", "model": "deepseek-v4-flash",
         "n_runs": len(R), "n_claims": 12,
         "cells": cells, "paired_persona": paired_persona,
@@ -478,7 +508,7 @@ def main() -> int:
         "relay": relay, "stance_adoption": stance_adoption,
         "transmission": transmission, "eta2": eta2, "per_debate": per_debate,
     }, ensure_ascii=False, indent=1))
-    print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
+    print(f"wrote {out}  ({out.stat().st_size:,} bytes)")
     return 0
 
 

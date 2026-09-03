@@ -86,15 +86,20 @@ def uptake_edges(store: dict, debate: dict, execution_id: str):
     if not rounds:
         return
 
-    sources: dict[tuple[str, int], dict[str, list[str]]] = defaultdict(
-        lambda: defaultdict(list))
+    # A set, not a list. Credit is split evenly among the peers who could have
+    # supplied the fact, so a peer that restated it in two visible rounds must
+    # still count once — with a list, B saying it in B1 and B2 while C says it
+    # once hands B two thirds of the credit and C one third, which is a
+    # property of how often B repeated itself, not of who it came from.
+    sources: dict[tuple[str, int], dict[str, set[str]]] = defaultdict(
+        lambda: defaultdict(set))
     for slot, info in debate.get("delivery", {}).items():
         listener, rnd = slot.split("|")
         # uptake 边问的是"听者本可以接走什么"，所以用窗口而不是投递事件。
         for peer in info.get("visible_peer_turns", info.get("peer_turns", [])):
             speaker, peer_round = peer.split("|")
             for fid in said[(speaker, int(peer_round))]:
-                sources[(listener, int(rnd))][fid].append(speaker)
+                sources[(listener, int(rnd))][fid].add(speaker)
 
     for (listener, rnd), by_fact in sources.items():
         earlier = set().union(
@@ -106,7 +111,7 @@ def uptake_edges(store: dict, debate: dict, execution_id: str):
             credit = 1.0 / len(speakers)
             taken = fid in said[(listener, rnd)]
             stance = stance_of.get(fid) or "UNLABELLED"
-            for speaker in speakers:
+            for speaker in sorted(speakers):
                 yield speaker, listener, stance, credit, taken
 
 
@@ -127,9 +132,14 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--model", default="deepseek-v4-flash")
+    ap.add_argument("--memory", default="peer-only",
+                    choices=("peer-only", "self-last", "cumulative"))
     ap.add_argument("--topologies", nargs="+", default=["full", "star", "chain"])
-    ap.add_argument("--out", type=Path, default=OUT)
+    ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
+    if args.out is None:
+        tag = "" if args.memory == "peer-only" else f"-{args.memory}"
+        args.out = Path(str(OUT).format(memory=tag))
 
     # cell -> stance -> "A>B" -> weight
     graphs: dict[str, dict[str, dict[str, float]]] = defaultdict(
@@ -146,10 +156,13 @@ def main() -> None:
         for path in sorted(directory.glob(f"*{args.model}*.v2.json")):
             name = path.name[: -len(".v2.json")]
             match = re.match(
-                rf"perspectrum-(\d+)-{re.escape(args.model)}-(\w+?)-(\w+)$", name)
+                rf"perspectrum-(\d+)-{re.escape(args.model)}-(\w+?)-(neutral|lenses|stance)"
+                rf"(?:-(cumulative|self-last))?$", name)
             if not match:
                 continue
-            claim, topology, panel = match.groups()
+            claim, topology, panel, mem = match.groups()
+            if (mem or "peer-only") != args.memory:
+                continue
             if topology not in args.topologies:
                 continue
             debate_path = path.with_name(f"{name}.debate.json")
