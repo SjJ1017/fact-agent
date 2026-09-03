@@ -14,6 +14,7 @@ import glob
 import json
 import pickle
 import random
+import re
 import sys
 import types
 from pathlib import Path
@@ -24,6 +25,7 @@ from factflow.tasks import Case, Item  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 DELIB_SRC = ROOT / "data" / "delib_collab_src"
+CLINICAL_SRC = ROOT / "data" / "clinicalbench_src"
 
 LOADERS: dict[str, Callable[..., list[Case]]] = {}
 
@@ -40,6 +42,31 @@ def load_cases(spec, n: int, seed: int) -> list[Case]:
         raise ValueError(
             f"unknown loader {spec.loader!r}; have {sorted(LOADERS)}")
     return LOADERS[spec.loader](n=n, seed=seed, **spec.loader_args)
+
+
+def _read_json_records(path: Path) -> list[dict[str, Any]]:
+    """Read an object, array, or JSONL file, tolerating the official demo's bad escapes.
+
+    ClinicalLab's English example is nominally JSON but contains LaTeX-style
+    ``\%`` and ``\#`` escapes, which JSON does not define.  The full licensed
+    release may not have that defect, so strict parsing is attempted first and
+    the narrow repair is only a fallback.
+    """
+    raw = path.read_text(encoding="utf-8")
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        repaired = re.sub(r"\\([%#])", r"\1", raw)
+        try:
+            data = json.loads(repaired)
+        except json.JSONDecodeError:
+            data = [json.loads(re.sub(r"\\([%#])", r"\1", line))
+                    for line in raw.splitlines() if line.strip()]
+    if isinstance(data, dict):
+        return [data]
+    if isinstance(data, list) and all(isinstance(x, dict) for x in data):
+        return data
+    raise ValueError(f"{path}: expected a JSON object, array of objects, or JSONL")
 
 
 # --------------------------------------------------------------------------
@@ -109,6 +136,147 @@ def load_mmlu_pro(n: int, seed: int, categories: str | list[str] = "",
             items=(),
             meta={"gold": row["answer"], "category": row["category"],
                   "n_options": len(row["options"]), "source": "mmlu-pro"}))
+    return cases
+
+
+# --------------------------------------------------------------------------
+# ClinicalBench -- multi-department, text-only clinical records
+
+
+CLINICAL_TASKS: dict[str, tuple[str, str]] = {
+    "department_guide": (
+        "Which clinical department should receive this patient first? Explain the evidence that determines the routing.",
+        "clinical_department",
+    ),
+    "preliminary_diagnosis": (
+        "Give the preliminary diagnoses supported by the presenting history and examination, before settling the final diagnosis.",
+        "preliminary_diagnosis",
+    ),
+    "diagnostic_basis": (
+        "Identify the case evidence that supports the leading diagnosis. Distinguish direct observations from inferences.",
+        "diagnostic_basis",
+    ),
+    "differential_diagnosis": (
+        "Construct the differential diagnosis and explain which observations support or weaken each alternative.",
+        "differential_diagnosis",
+    ),
+    "final_diagnosis": (
+        "Determine the principal diagnosis and justify it by integrating the history, examination, imaging, endoscopy, and laboratory evidence.",
+        "principal_diagnosis",
+    ),
+    "treatment_principle": (
+        "State the immediate treatment principles warranted by the case and tie each recommendation to a finding or risk.",
+        "therapeutic_principle",
+    ),
+    "treatment_plan": (
+        "Propose a concrete treatment plan, including urgent management, monitoring, and procedural steps, grounded in the case evidence.",
+        "treatment_plan",
+    ),
+    "imaging_diagnosis": (
+        "Provide an integrated imaging and endoscopic diagnosis from the textual reports, separating decisive findings from incidental findings.",
+        "_imaging_gold",
+    ),
+}
+
+
+def _clinical_items(row: dict[str, Any]) -> tuple[Item, ...]:
+    """Keep source departments separate and exclude all gold answer fields."""
+    items: list[Item] = []
+    summary = str(row.get("clinical_case_summary") or "").strip()
+    # The public example repeats every auxiliary report in the summary.  Keep
+    # only the intake portion, then use the structured report fields below;
+    # otherwise each observation enters the system twice under two source ids.
+    intake = re.split(r"Auxiliary Examination", summary, maxsplit=1,
+                      flags=re.IGNORECASE)[0].strip()
+    if intake:
+        items.append(Item("history-exam", intake, tags=("history", "examination")))
+
+    for name, report in (row.get("imageological_examination") or {}).items():
+        if not isinstance(report, dict):
+            continue
+        text = "\n".join(
+            f"{label}: {report[key]}" for key, label in
+            (("findings", "Findings"), ("impression", "Impression"))
+            if report.get(key))
+        if text:
+            clean = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+            items.append(Item(f"imaging-{clean}", f"{name.replace('_', ' ')}\n{text}",
+                              tags=("imaging", "endoscopy" if "endosc" in name else "radiology")))
+
+    for name, report in (row.get("laboratory_examination") or {}).items():
+        if not isinstance(report, dict):
+            continue
+        # `abnormal` is a lossy duplicate of `result`; retaining both would
+        # manufacture re-emphasis before any agent has spoken.
+        text = str(report.get("result") or report.get("abnormal") or "").strip()
+        if text:
+            clean = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+            items.append(Item(f"laboratory-{clean}",
+                              f"{name.replace('_', ' ')}\n{text}",
+                              tags=("laboratory",)))
+
+    pathology = str(row.get("pathological_examination") or "").strip()
+    if pathology and pathology.lower().rstrip(".") not in {"none", "not available", "n/a"}:
+        items.append(Item("pathology", pathology, tags=("pathology", "laboratory")))
+    return tuple(items)
+
+
+def _imaging_gold(row: dict[str, Any]) -> str:
+    parts = []
+    for name, report in (row.get("imageological_examination") or {}).items():
+        if isinstance(report, dict) and report.get("impression"):
+            parts.append(f"{name.replace('_', ' ')}: {report['impression']}")
+    return "\n".join(parts)
+
+
+@loader("clinicalbench")
+def load_clinicalbench(n: int, seed: int,
+                       path: str = "data/clinicalbench_src/data_examples/data_example_en.json",
+                       tasks: str | list[str] = "all", **_: Any) -> list[Case]:
+    """Expand each ClinicalBench record into its eight published task types.
+
+    ``n`` counts source records, not expanded task cases: ``-n 1`` with
+    ``tasks: all`` returns eight cases from the one official public example.
+    The full benchmark uses the same fields but requires a data-use
+    application; pointing ``path`` at that JSON is the only change needed.
+    """
+    source = Path(path)
+    if not source.is_absolute():
+        source = ROOT / source
+    if not source.exists():
+        raise FileNotFoundError(
+            f"ClinicalBench data not found at {source}. Clone the official "
+            "ClinicalLab repository or set loader_args.path to an approved copy.")
+
+    wanted = list(CLINICAL_TASKS) if tasks == "all" else (
+        [x.strip() for x in tasks.split(",") if x.strip()]
+        if isinstance(tasks, str) else list(tasks))
+    unknown = sorted(set(wanted) - set(CLINICAL_TASKS))
+    if unknown:
+        raise ValueError(
+            f"unknown ClinicalBench tasks {unknown}; have {sorted(CLINICAL_TASKS)}")
+
+    rows = _read_json_records(source)
+    random.Random(seed).shuffle(rows)
+    cases: list[Case] = []
+    for row in rows[:n]:
+        uid = str(row.get("clinical_case_uid") or row.get("id") or len(cases))
+        items = _clinical_items(row)
+        if not items:
+            raise ValueError(f"ClinicalBench record {uid} contains no observable case data")
+        for task_name in wanted:
+            question, gold_key = CLINICAL_TASKS[task_name]
+            gold = _imaging_gold(row) if gold_key == "_imaging_gold" else row.get(gold_key)
+            cases.append(Case(
+                id=f"clinical-{uid[:12]}-{task_name}",
+                question=question,
+                public="De-identified ClinicalBench case conference. All imaging inputs are textual reports, not raw images.",
+                items=items,
+                meta={"gold": gold, "task_type": task_name,
+                      "clinical_department": row.get("clinical_department"),
+                      "question_is_source": False,
+                      "source": "clinicalbench", "source_path": str(source)},
+            ))
     return cases
 
 
@@ -194,15 +362,40 @@ def load_task_allocation(n: int, seed: int, **_: Any) -> list[Case]:
                 items.append(Item(iid, f"{cfg['name']}'s records show {amt} unit(s) of the shared {res}.",
                                   tags=("public", res)))
                 held[ell].append(iid)
+            # Each agent knows only its own row of the value matrix; the paper's
+            # own agent gets partners' efficiencies solely through deliberation
+            # (prompts/task_allocation: "partner_preferences ... Partners'
+            # efficiency values").  Leaving these out left the panel asked to
+            # maximise a value it was never shown.
+            row = g.value_matrix[src_index[agent]]
+            for task_idx, task in enumerate(g.tasks):
+                eff = round(float(row[task_idx]), 3)
+                if eff <= 0:
+                    continue
+                iid = f"{ell}-eff-{task_idx}"
+                items.append(Item(iid, f"{cfg['name']} would complete \"{task}\" "
+                                       f"at an efficiency of {eff}.",
+                                  tags=("efficiency", task)))
+                held[ell].append(iid)
 
         roster = "\n".join(
             f"- {g.agents_config[a]['name']} ({g.agents_config[a]['role']}), referred to as {ell}"
             for a, ell in zip(agents, labels))
+        # The requirements are the same whoever does the task -- the reference
+        # implementation reads agent_0's row and calls it the task's
+        # requirement -- so listing them per member tripled the prompt with
+        # three identical copies.  Assert rather than assume, and drop the
+        # zero entries the way the reference formatter does.
+        ref = g.agents[0]
+        for t in g.tasks:
+            rows = [g.task_requirements[t][a] for a in g.agents]
+            if any(r != rows[0] for r in rows[1:]):
+                raise ValueError(
+                    f"{name}: task {t!r} has per-member requirements; the "
+                    "shared-requirement rendering below would hide that")
         reqs = "\n".join(
             f"- {t}: " + ", ".join(
-                f"{g.agents_config[a]['name']} would need "
-                + ", ".join(f"{v} {r}" for r, v in g.task_requirements[t][a].items())
-                for a in agents)
+                f"{v:g} {r}" for r, v in g.task_requirements[t][ref].items() if v)
             for t in g.tasks)
         cases.append(Case(
             id=f"talloc-{name}", question=(
