@@ -69,6 +69,23 @@ def _read_json_records(path: Path) -> list[dict[str, Any]]:
     raise ValueError(f"{path}: expected a JSON object, array of objects, or JSONL")
 
 
+def _nonempty(value: Any) -> bool:
+    """An unobserved field is present but empty, not absent."""
+    if value is None or value == "" or value == {} or value == []:
+        return False
+    return True
+
+
+def _flatten(value: Any) -> str:
+    """Readable text for a nested profile field, so a prompt is not a dict repr."""
+    if isinstance(value, dict):
+        return "; ".join(f"{k.lower()} {_flatten(v)}" for k, v in value.items()
+                         if _nonempty(v))
+    if isinstance(value, (list, tuple)):
+        return ", ".join(_flatten(v) for v in value if _nonempty(v))
+    return str(value)
+
+
 # --------------------------------------------------------------------------
 # PerspectruM
 
@@ -426,6 +443,7 @@ def load_menu_design(n: int, seed: int, semantic: bool = True, **_: Any) -> list
         n_ag = len(getattr(g, "personas", ()) or (0, 0))
         labels = [chr(ord("A") + i) for i in range(2)]
         items, held = [], {ell: [] for ell in labels}
+        seen_ids: set[str] = set()
         for i, ell in enumerate(labels):
             for ing, amt in (getattr(g, f"agent_{i}_obs", {}) or {}).items():
                 if not amt:
@@ -435,14 +453,26 @@ def load_menu_design(n: int, seed: int, semantic: bool = True, **_: Any) -> list
                                   tags=("pantry", ing)))
                 held[ell].append(iid)
             if semantic:
+                # One item per (guest, field), and only fields this agent
+                # actually observed.  The asymmetry in this variant is
+                # field-level -- one agent has a guest's cultural preferences
+                # and not their health goals, the other the reverse, with the
+                # unobserved field present but empty.  Rendering a fixed
+                # shortlist of fields dropped exactly the ones that differ and
+                # left both agents with identical guest knowledge, which is
+                # the property the task is built on.
                 for j, prof in enumerate(getattr(g, f"agent_{i}_value_obs_l2", []) or []):
-                    bits = ", ".join(f"{k}: {v}" for k, v in prof.items()
-                                     if k in ("Name", "Nationality", "Age", "Occupation",
-                                              "Recent Status", "Dietary Restriction"))
-                    iid = f"{ell}-guest{j}"
-                    items.append(Item(iid, f"What is known about guest {j + 1}: {bits}",
-                                      tags=("guest", str(j))))
-                    held[ell].append(iid)
+                    who = prof.get("Name") or f"guest {j + 1}"
+                    for field, val in prof.items():
+                        if field == "Name" or not _nonempty(val):
+                            continue
+                        iid = f"guest{j}-{field.replace(' ', '_')}"
+                        if iid not in seen_ids:
+                            seen_ids.add(iid)
+                            items.append(Item(
+                                iid, f"{who}'s {field.lower()}: {_flatten(val)}",
+                                tags=("guest", str(j), field)))
+                        held[ell].append(iid)
             else:
                 for dish, val in (getattr(g, f"nl_agent_{i}_values", {}) or {}).items():
                     iid = f"{ell}-val-{dish.replace(' ', '_')}"

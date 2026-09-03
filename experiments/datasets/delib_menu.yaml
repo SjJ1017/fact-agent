@@ -37,14 +37,21 @@ personas:
   lenses:
     - You are a supply analyst. Focus on what the pantry can actually cover once both counts are pooled, and on dishes that cannot be made.
     - You are a guest analyst. Focus on what the guests want and on preferences the other person may not know about.
+  # Manufactured, and flagged as such: this task gives both people partial
+  # knowledge of BOTH guests, not one guest each, so "argue for your guest" is
+  # a role the data cannot support. Opposition is created by assigning seats.
   stance:
-    - You are advocating for the guest you know best. Argue for dishes that suit them, while acknowledging what the other guest needs.
-    - You are advocating for the guest you know best. Argue for dishes that suit them, while acknowledging what the other guest needs.
+    - You are Proposer 1. Put forward the menu you think best and defend it. Concede only to an argument you cannot answer.
+    - You are Proposer 2. Put forward the strongest menu that differs from Proposer 1's, so the pair does not settle before the alternatives have been put. Concede only to an argument you cannot answer.
 
 disclosure:
   mode: dataset
 
 notes: |
+  Asymmetry here is field-level and small: the two observers differ on only a
+  few profile fields per case (3 of 24 in the first game), plus their separate
+  pantry counts. Do not describe this task as strongly asymmetric.
+
   Two agents: topology is degenerate here. The true stock of an ingredient is
   the SUM of the two counts (verified 23/23), which the shared frame states,
   so an agent quoting its own count is telling the truth about its share and
