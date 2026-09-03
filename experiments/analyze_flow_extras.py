@@ -94,8 +94,8 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
     if args.out is None:
-        tag = "" if args.memory == "peer-only" else f"-{args.memory}"
-        args.out = Path(str(OUT).format(memory=tag))
+        args.out = OUT
+    tag = "" if args.memory == "peer-only" else f"-{args.memory}"
 
     verdict_level = defaultdict(Counter)
     verdict_moves = defaultdict(lambda: defaultdict(int))
@@ -247,11 +247,20 @@ def main() -> None:
                 if stat:
                     contrasts[f"{topology}|{a}-{b}|{key}"] = stat
 
+    if not move_rows:
+        raise SystemExit(
+            f"--memory {args.memory} 没有可分析的数据。可能是：\n"
+            f"  · 该条件的 .v2.json 还没生成\n"
+            f"  · 或者生成了但还没做立场标注"
+            f"（experiments/labels/stance/ 里要有对应 execution_id 的文件）\n"
+            f"检查：ls experiments/perspectrum_pilot_*/*{args.model}*"
+            + ("" if args.memory == "peer-only" else f"-{args.memory}") + ".v2.json")
     changed = [r for r in move_rows if r["changed"]]
     same = [r for r in move_rows if not r["changed"]]
     picked = lambda rows, k: [r[k] for r in rows if r[k] is not None]
 
     result = {
+        "memory": args.memory,
         "verdict": {
             "level": {cell: {v: verdict_level[cell][v] for v in VERDICTS}
                       for cell in verdict_level},
@@ -276,8 +285,9 @@ def main() -> None:
         "contrasts": contrasts,
     }
     args.out.mkdir(parents=True, exist_ok=True)
-    (args.out / "flow-extras.json").write_text(
-        json.dumps(result, ensure_ascii=False, indent=1) + "\n")
+    output_path = args.out / f"flow-extras{tag}.json"
+    output_path.write_text(
+        json.dumps(result, ensure_ascii=False, indent=1, sort_keys=True) + "\n")
 
     print("VERDICT level")
     for cell, counts in result["verdict"]["level"].items():
@@ -301,7 +311,7 @@ def main() -> None:
             print(f"  {key:38s} {stat['delta']:+7.3f} "
                   f"[{stat['lo']:+.3f}, {stat['hi']:+.3f}] p={stat['p_positive']:.3f} "
                   f"{stat['positive']}/{stat['n']}")
-    print(f"\nwrote {args.out / 'flow-extras.json'}")
+    print(f"\nwrote {output_path}")
 
 
 if __name__ == "__main__":

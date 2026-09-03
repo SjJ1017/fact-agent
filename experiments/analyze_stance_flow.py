@@ -138,8 +138,8 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
     if args.out is None:
-        tag = "" if args.memory == "peer-only" else f"-{args.memory}"
-        args.out = Path(str(OUT).format(memory=tag))
+        args.out = OUT
+    tag = "" if args.memory == "peer-only" else f"-{args.memory}"
 
     # cell -> stance -> "A>B" -> weight
     graphs: dict[str, dict[str, dict[str, float]]] = defaultdict(
@@ -197,6 +197,7 @@ def main() -> None:
     result = {
         "roles": ROLES,
         "model": args.model,
+        "memory": args.memory,
         "topologies": list(args.topologies),
         "stances": list(STANCES),
         "note": "edge weight = adopted facts, credit split evenly among the "
@@ -234,8 +235,9 @@ def main() -> None:
             }
 
     args.out.mkdir(parents=True, exist_ok=True)
-    (args.out / "stance-flow.json").write_text(
-        json.dumps(result, ensure_ascii=False, indent=1) + "\n")
+    output_path = args.out / f"stance-flow{tag}.json"
+    output_path.write_text(
+        json.dumps(result, ensure_ascii=False, indent=1, sort_keys=True) + "\n")
 
     edges = sorted({e for c in result["cells"].values()
                     for layer in c["layers"].values() for e in layer})
@@ -257,7 +259,7 @@ def main() -> None:
               + "".join(f"{info['totals'][s]:6.0f} {info['flow_share'][s]:3.0%}"
                         for s in STANCES)
               + "".join(f"{lift(s):>10s}" for s in STANCES))
-    print(f"\nwrote {args.out / 'stance-flow.json'}")
+    print(f"\nwrote {output_path}")
 
 
 if __name__ == "__main__":

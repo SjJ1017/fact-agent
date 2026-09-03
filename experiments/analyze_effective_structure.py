@@ -222,13 +222,13 @@ def compute(ex: str, r: dict, stance_lab: dict, tok: dict) -> dict:
     # ---- origin decomposition (no first-utterer claim; the verification) ----
     obs = {a: 0 for a in AGENTS}
     exp = {a: 0.0 for a in AGENTS}
-    for fid in final:
+    for fid in sorted(final):          # sorted: set order is hash-randomised per process
         r0 = fround[fid]
         s0 = set(a for a in AGENTS if fid in out.get((a, r0), set()))
         if not s0:
             continue
         obs[min((r0, a) for a in s0)[1]] += 1      # alphabetical tie-break (the artifact)
-        for a in s0:
+        for a in sorted(s0):
             exp[a] += 1.0 / len(s0)                 # uniform among same-round staters
     gen = {a: sum(1 for fid in final if a in r1_staters[fid]) for a in AGENTS}
     uniq = {a: sum(1 for fid in final if staters[fid] == {a}) for a in AGENTS}
@@ -498,6 +498,7 @@ def main() -> int:
     out = Path(str(OUT_TMPL).format(memory=tag))
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps({
+        "memory": args.memory,
         "generated": "2026-09-01", "model": "deepseek-v4-flash",
         "n_runs": len(R), "n_claims": 12,
         "cells": cells, "paired_persona": paired_persona,
@@ -507,7 +508,7 @@ def main() -> int:
                         for m, v in paired_topo.items()},
         "relay": relay, "stance_adoption": stance_adoption,
         "transmission": transmission, "eta2": eta2, "per_debate": per_debate,
-    }, ensure_ascii=False, indent=1))
+    }, ensure_ascii=False, indent=1, sort_keys=True))
     print(f"wrote {out}  ({out.stat().st_size:,} bytes)")
     return 0
 

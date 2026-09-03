@@ -1,21 +1,358 @@
 {
- "verdict": {
-  "level": {
+ "contrasts": {
+  "chain|lenses-neutral|round1_survival": {
+   "delta": -0.025338202717349313,
+   "hi": 0.08093573865940872,
+   "lo": -0.1222773030571553,
+   "n": 12,
+   "p_positive": 0.31195,
+   "positive": 5
+  },
+  "chain|lenses-neutral|uncertain_share": {
+   "delta": -0.07407407407407407,
+   "hi": 0.1111111111111111,
+   "lo": -0.25925925925925924,
+   "n": 12,
+   "p_positive": 0.21345,
+   "positive": 2
+  },
+  "chain|stance-neutral|round1_survival": {
+   "delta": -0.02959667664014387,
+   "hi": 0.12293012382504863,
+   "lo": -0.15476549344135485,
+   "n": 12,
+   "p_positive": 0.32235,
+   "positive": 5
+  },
+  "chain|stance-neutral|uncertain_share": {
+   "delta": -0.18518518518518517,
+   "hi": -0.03703703703703704,
+   "lo": -0.33333333333333337,
+   "n": 12,
+   "p_positive": 0.005975,
+   "positive": 1
+  },
+  "full|lenses-neutral|round1_survival": {
+   "delta": -0.08104197471192427,
+   "hi": 0.016018672608177253,
+   "lo": -0.17329555815087452,
+   "n": 12,
+   "p_positive": 0.0497,
+   "positive": 3
+  },
+  "full|lenses-neutral|uncertain_share": {
+   "delta": 0.027777777777777776,
+   "hi": 0.25,
+   "lo": -0.16666666666666666,
+   "n": 12,
+   "p_positive": 0.584375,
+   "positive": 3
+  },
+  "full|stance-neutral|round1_survival": {
+   "delta": -0.10993527181848678,
+   "hi": -0.05510044407567175,
+   "lo": -0.16926283047748672,
+   "n": 12,
+   "p_positive": 5e-05,
+   "positive": 1
+  },
+  "full|stance-neutral|uncertain_share": {
+   "delta": -0.1388888888888889,
+   "hi": 0.0833333333333333,
+   "lo": -0.33333333333333337,
+   "n": 12,
+   "p_positive": 0.0952,
+   "positive": 2
+  },
+  "star|lenses-neutral|round1_survival": {
+   "delta": -0.07907290053723487,
+   "hi": 0.00610539566896304,
+   "lo": -0.16079066845947232,
+   "n": 12,
+   "p_positive": 0.03555,
+   "positive": 4
+  },
+  "star|lenses-neutral|uncertain_share": {
+   "delta": -0.04629629629629631,
+   "hi": 0.16666666666666666,
+   "lo": -0.28703703703703703,
+   "n": 12,
+   "p_positive": 0.35315,
+   "positive": 4
+  },
+  "star|stance-neutral|round1_survival": {
+   "delta": -0.12392345124737421,
+   "hi": -0.04923425272215595,
+   "lo": -0.1903915460432735,
+   "n": 12,
+   "p_positive": 0.0011,
+   "positive": 1
+  },
+  "star|stance-neutral|uncertain_share": {
+   "delta": -0.24074074074074076,
+   "hi": -0.08333333333333334,
+   "lo": -0.42592592592592593,
+   "n": 12,
+   "p_positive": 0.0005,
+   "positive": 2
+  }
+ },
+ "grounding": {
+  "by_role": {
+   "lenses/A": 0.06840891621829362,
+   "lenses/B": 0.062360801781737196,
+   "lenses/C": 0.04820143884892086,
+   "neutral/A": 0.09122203098106713,
+   "neutral/B": 0.09813874788494077,
+   "neutral/C": 0.08752166377816291,
+   "stance/A": 0.08409090909090909,
+   "stance/B": 0.09384384384384384,
+   "stance/C": 0.0630841121495327
+  },
+  "ex_flow": {
+   "chain/lenses": {
+    "E1>A": 12.0,
+    "E1>B": 8.0,
+    "E1>C": 3.0,
+    "E2>A": 11.5,
+    "E2>B": 9.5,
+    "E2>C": 4.5,
+    "E3>A": 7.0,
+    "E3>B": 4.0,
+    "E3>C": 5.0,
+    "E4>A": 11.5,
+    "E4>B": 12.5,
+    "E4>C": 11.5
+   },
+   "chain/neutral": {
+    "E1>A": 13.0,
+    "E1>B": 9.0,
+    "E1>C": 10.0,
+    "E2>A": 12.5,
+    "E2>B": 14.5,
+    "E2>C": 10.5,
+    "E3>A": 8.0,
+    "E3>B": 4.0,
+    "E3>C": 6.0,
+    "E4>A": 10.5,
+    "E4>B": 12.5,
+    "E4>C": 12.5
+   },
+   "chain/stance": {
+    "E1>A": 14.0,
+    "E1>B": 11.0,
+    "E1>C": 5.0,
+    "E2>A": 9.0,
+    "E2>B": 8.0,
+    "E2>C": 9.0,
+    "E3>A": 6.0,
+    "E3>B": 6.0,
+    "E3>C": 7.0,
+    "E4>A": 18.0,
+    "E4>B": 18.0,
+    "E4>C": 14.0
+   },
    "full/lenses": {
-    "SUPPORT": 0,
-    "UNCERTAIN": 76,
-    "UNDERMINE": 32
+    "E1>A": 9.0,
+    "E1>B": 6.0,
+    "E1>C": 6.0,
+    "E2>A": 4.0,
+    "E2>B": 3.0,
+    "E2>C": 3.0,
+    "E3>A": 6.0,
+    "E3>B": 4.0,
+    "E3>C": 4.0,
+    "E4>A": 10.0,
+    "E4>B": 10.0,
+    "E4>C": 9.0
    },
    "full/neutral": {
-    "SUPPORT": 8,
-    "UNCERTAIN": 73,
-    "UNDERMINE": 27
+    "E1>A": 11.0,
+    "E1>B": 13.0,
+    "E1>C": 9.0,
+    "E2>A": 10.5,
+    "E2>B": 7.5,
+    "E2>C": 6.5,
+    "E3>A": 5.0,
+    "E3>B": 6.0,
+    "E3>C": 7.0,
+    "E4>A": 9.5,
+    "E4>B": 10.5,
+    "E4>C": 11.5
    },
    "full/stance": {
-    "SUPPORT": 6,
-    "UNCERTAIN": 58,
-    "UNDERMINE": 44
+    "E1>A": 7.0,
+    "E1>B": 8.0,
+    "E1>C": 6.0,
+    "E2>A": 5.0,
+    "E2>B": 6.0,
+    "E2>C": 4.0,
+    "E3>A": 6.0,
+    "E3>B": 6.0,
+    "E3>C": 5.0,
+    "E4>A": 14.0,
+    "E4>B": 18.0,
+    "E4>C": 12.0
    },
+   "star/lenses": {
+    "E1>A": 10.0,
+    "E1>B": 10.0,
+    "E1>C": 8.0,
+    "E2>A": 2.0,
+    "E2>B": 3.0,
+    "E2>C": 4.0,
+    "E3>A": 2.0,
+    "E3>B": 5.0,
+    "E3>C": 2.0,
+    "E4>A": 4.0,
+    "E4>B": 9.0,
+    "E4>C": 7.0
+   },
+   "star/neutral": {
+    "E1>A": 5.0,
+    "E1>B": 12.0,
+    "E1>C": 9.0,
+    "E2>A": 7.0,
+    "E2>B": 7.0,
+    "E2>C": 7.0,
+    "E3>A": 2.0,
+    "E3>B": 4.0,
+    "E3>C": 2.0,
+    "E4>A": 12.0,
+    "E4>B": 16.0,
+    "E4>C": 10.0
+   },
+   "star/stance": {
+    "E1>A": 9.0,
+    "E1>B": 13.0,
+    "E1>C": 4.0,
+    "E2>A": 2.0,
+    "E2>B": 5.0,
+    "E2>C": 3.0,
+    "E3>A": 8.0,
+    "E3>B": 11.0,
+    "E3>C": 5.0,
+    "E4>A": 13.0,
+    "E4>B": 15.0,
+    "E4>C": 7.0
+   }
+  },
+  "n": {
+   "chain/lenses": 1089,
+   "chain/neutral": 915,
+   "chain/stance": 997,
+   "full/lenses": 1172,
+   "full/neutral": 869,
+   "full/stance": 1121,
+   "star/lenses": 1042,
+   "star/neutral": 951,
+   "star/stance": 1192
+  },
+  "rate": {
+   "chain/lenses": 0.04591368227731864,
+   "chain/neutral": 0.06666666666666667,
+   "chain/stance": 0.06118355065195587,
+   "full/lenses": 0.030716723549488054,
+   "full/neutral": 0.04948216340621404,
+   "full/stance": 0.04192685102586976,
+   "star/lenses": 0.028790786948176585,
+   "star/neutral": 0.046267087276550996,
+   "star/stance": 0.0436241610738255
+  }
+ },
+ "memory": "peer-only",
+ "position": {
+  "lenses": {
+   "adopted": {
+    "mean": 0.5605936883454831,
+    "n": 390
+   },
+   "held": {
+    "mean": 0.5146604383582094,
+    "n": 420
+   },
+   "novel": {
+    "mean": 0.5528776074014947,
+    "n": 3648
+   }
+  },
+  "neutral": {
+   "adopted": {
+    "mean": 0.5631970909872991,
+    "n": 392
+   },
+   "held": {
+    "mean": 0.49825480324808225,
+    "n": 516
+   },
+   "novel": {
+    "mean": 0.5502304905999493,
+    "n": 3106
+   }
+  },
+  "stance": {
+   "adopted": {
+    "mean": 0.5339368530913531,
+    "n": 337
+   },
+   "held": {
+    "mean": 0.5027174826860775,
+    "n": 429
+   },
+   "novel": {
+    "mean": 0.5532785097318333,
+    "n": 3599
+   }
+  }
+ },
+ "survival": {
+  "lenses": {
+   "1": [
+    320,
+    1229
+   ],
+   "2": [
+    191,
+    1079
+   ],
+   "3": [
+    0,
+    995
+   ]
+  },
+  "neutral": {
+   "1": [
+    345,
+    1065
+   ],
+   "2": [
+    165,
+    870
+   ],
+   "3": [
+    0,
+    800
+   ]
+  },
+  "stance": {
+   "1": [
+    280,
+    1209
+   ],
+   "2": [
+    168,
+    1170
+   ],
+   "3": [
+    0,
+    931
+   ]
+  }
+ },
+ "verdict": {
+  "adopted_when_changed": 1.5185185185185186,
+  "adopted_when_same": 1.7962962962962963,
+  "level": {
    "chain/lenses": {
     "SUPPORT": 2,
     "UNCERTAIN": 76,
@@ -30,6 +367,21 @@
     "SUPPORT": 9,
     "UNCERTAIN": 64,
     "UNDERMINE": 35
+   },
+   "full/lenses": {
+    "SUPPORT": 0,
+    "UNCERTAIN": 76,
+    "UNDERMINE": 32
+   },
+   "full/neutral": {
+    "SUPPORT": 8,
+    "UNCERTAIN": 73,
+    "UNDERMINE": 27
+   },
+   "full/stance": {
+    "SUPPORT": 6,
+    "UNCERTAIN": 58,
+    "UNDERMINE": 44
    },
    "star/lenses": {
     "SUPPORT": 1,
@@ -48,389 +400,38 @@
    }
   },
   "moves": {
+   "lenses": {
+    "SUPPORT>UNCERTAIN": 2,
+    "UNCERTAIN>SUPPORT": 2,
+    "UNCERTAIN>UNCERTAIN": 125,
+    "UNCERTAIN>UNDERMINE": 27,
+    "UNDERMINE>UNCERTAIN": 22,
+    "UNDERMINE>UNDERMINE": 38
+   },
    "neutral": {
+    "SUPPORT>SUPPORT": 5,
+    "SUPPORT>UNCERTAIN": 3,
+    "UNCERTAIN>SUPPORT": 7,
     "UNCERTAIN>UNCERTAIN": 141,
     "UNCERTAIN>UNDERMINE": 14,
     "UNDERMINE>UNCERTAIN": 10,
-    "UNDERMINE>UNDERMINE": 36,
-    "SUPPORT>SUPPORT": 5,
-    "UNCERTAIN>SUPPORT": 7,
-    "SUPPORT>UNCERTAIN": 3
-   },
-   "lenses": {
-    "UNCERTAIN>UNDERMINE": 27,
-    "UNDERMINE>UNDERMINE": 38,
-    "UNDERMINE>UNCERTAIN": 22,
-    "UNCERTAIN>UNCERTAIN": 125,
-    "UNCERTAIN>SUPPORT": 2,
-    "SUPPORT>UNCERTAIN": 2
+    "UNDERMINE>UNDERMINE": 36
    },
    "stance": {
-    "UNDERMINE>UNDERMINE": 48,
-    "UNCERTAIN>UNCERTAIN": 84,
-    "UNDERMINE>UNCERTAIN": 24,
     "SUPPORT>SUPPORT": 9,
     "SUPPORT>UNCERTAIN": 11,
-    "UNCERTAIN>UNDERMINE": 27,
     "SUPPORT>UNDERMINE": 3,
     "UNCERTAIN>SUPPORT": 9,
-    "UNDERMINE>SUPPORT": 1
+    "UNCERTAIN>UNCERTAIN": 84,
+    "UNCERTAIN>UNDERMINE": 27,
+    "UNDERMINE>SUPPORT": 1,
+    "UNDERMINE>UNCERTAIN": 24,
+    "UNDERMINE>UNDERMINE": 48
    }
   },
-  "n_transitions": 648,
   "n_changed": 162,
+  "n_transitions": 648,
   "undermine_share_when_changed": 0.5300536881419234,
-  "undermine_share_when_same": 0.5039586630221071,
-  "adopted_when_changed": 1.5185185185185186,
-  "adopted_when_same": 1.7962962962962963
- },
- "survival": {
-  "neutral": {
-   "1": [
-    345,
-    1065
-   ],
-   "2": [
-    165,
-    870
-   ],
-   "3": [
-    0,
-    800
-   ]
-  },
-  "lenses": {
-   "1": [
-    320,
-    1229
-   ],
-   "2": [
-    191,
-    1079
-   ],
-   "3": [
-    0,
-    995
-   ]
-  },
-  "stance": {
-   "1": [
-    280,
-    1209
-   ],
-   "2": [
-    168,
-    1170
-   ],
-   "3": [
-    0,
-    931
-   ]
-  }
- },
- "grounding": {
-  "rate": {
-   "full/lenses": 0.030716723549488054,
-   "full/neutral": 0.04948216340621404,
-   "full/stance": 0.04192685102586976,
-   "chain/lenses": 0.04591368227731864,
-   "chain/neutral": 0.06666666666666667,
-   "chain/stance": 0.06118355065195587,
-   "star/lenses": 0.028790786948176585,
-   "star/neutral": 0.046267087276550996,
-   "star/stance": 0.0436241610738255
-  },
-  "n": {
-   "full/lenses": 1172,
-   "full/neutral": 869,
-   "full/stance": 1121,
-   "chain/lenses": 1089,
-   "chain/neutral": 915,
-   "chain/stance": 997,
-   "star/lenses": 1042,
-   "star/neutral": 951,
-   "star/stance": 1192
-  },
-  "by_role": {
-   "lenses/A": 0.06840891621829362,
-   "lenses/B": 0.062360801781737196,
-   "lenses/C": 0.04820143884892086,
-   "neutral/B": 0.09813874788494077,
-   "neutral/C": 0.08752166377816291,
-   "neutral/A": 0.09122203098106713,
-   "stance/B": 0.09384384384384384,
-   "stance/C": 0.0630841121495327,
-   "stance/A": 0.08409090909090909
-  },
-  "ex_flow": {
-   "full/neutral": {
-    "E4>B": 10.5,
-    "E4>C": 11.5,
-    "E4>A": 9.5,
-    "E2>B": 7.5,
-    "E2>A": 10.5,
-    "E1>B": 13.0,
-    "E1>A": 11.0,
-    "E1>C": 9.0,
-    "E3>B": 6.0,
-    "E3>C": 7.0,
-    "E3>A": 5.0,
-    "E2>C": 6.5
-   },
-   "full/stance": {
-    "E4>B": 18.0,
-    "E4>C": 12.0,
-    "E4>A": 14.0,
-    "E2>B": 6.0,
-    "E2>A": 5.0,
-    "E2>C": 4.0,
-    "E1>B": 8.0,
-    "E3>B": 6.0,
-    "E3>C": 5.0,
-    "E3>A": 6.0,
-    "E1>C": 6.0,
-    "E1>A": 7.0
-   },
-   "full/lenses": {
-    "E2>B": 3.0,
-    "E1>C": 6.0,
-    "E1>A": 9.0,
-    "E3>B": 4.0,
-    "E3>C": 4.0,
-    "E3>A": 6.0,
-    "E4>B": 10.0,
-    "E4>C": 9.0,
-    "E4>A": 10.0,
-    "E2>C": 3.0,
-    "E2>A": 4.0,
-    "E1>B": 6.0
-   },
-   "chain/lenses": {
-    "E4>C": 11.5,
-    "E4>B": 12.5,
-    "E1>B": 8.0,
-    "E1>A": 12.0,
-    "E2>B": 9.5,
-    "E2>C": 4.5,
-    "E2>A": 11.5,
-    "E3>B": 4.0,
-    "E3>C": 5.0,
-    "E3>A": 7.0,
-    "E4>A": 11.5,
-    "E1>C": 3.0
-   },
-   "chain/neutral": {
-    "E4>B": 12.5,
-    "E4>C": 12.5,
-    "E4>A": 10.5,
-    "E1>B": 9.0,
-    "E1>C": 10.0,
-    "E1>A": 13.0,
-    "E2>B": 14.5,
-    "E2>C": 10.5,
-    "E2>A": 12.5,
-    "E3>B": 4.0,
-    "E3>A": 8.0,
-    "E3>C": 6.0
-   },
-   "chain/stance": {
-    "E1>B": 11.0,
-    "E1>A": 14.0,
-    "E4>A": 18.0,
-    "E4>B": 18.0,
-    "E4>C": 14.0,
-    "E1>C": 5.0,
-    "E2>B": 8.0,
-    "E2>C": 9.0,
-    "E2>A": 9.0,
-    "E3>B": 6.0,
-    "E3>C": 7.0,
-    "E3>A": 6.0
-   },
-   "star/lenses": {
-    "E4>B": 9.0,
-    "E4>C": 7.0,
-    "E4>A": 4.0,
-    "E1>B": 10.0,
-    "E1>A": 10.0,
-    "E1>C": 8.0,
-    "E3>B": 5.0,
-    "E3>C": 2.0,
-    "E3>A": 2.0,
-    "E2>B": 3.0,
-    "E2>C": 4.0,
-    "E2>A": 2.0
-   },
-   "star/neutral": {
-    "E4>B": 16.0,
-    "E1>B": 12.0,
-    "E1>C": 9.0,
-    "E2>B": 7.0,
-    "E2>C": 7.0,
-    "E2>A": 7.0,
-    "E4>A": 12.0,
-    "E3>B": 4.0,
-    "E3>C": 2.0,
-    "E3>A": 2.0,
-    "E4>C": 10.0,
-    "E1>A": 5.0
-   },
-   "star/stance": {
-    "E4>B": 15.0,
-    "E4>A": 13.0,
-    "E1>B": 13.0,
-    "E1>C": 4.0,
-    "E1>A": 9.0,
-    "E2>C": 3.0,
-    "E2>B": 5.0,
-    "E4>C": 7.0,
-    "E2>A": 2.0,
-    "E3>B": 11.0,
-    "E3>C": 5.0,
-    "E3>A": 8.0
-   }
-  }
- },
- "position": {
-  "neutral": {
-   "novel": {
-    "mean": 0.5502304905999493,
-    "n": 3106
-   },
-   "adopted": {
-    "mean": 0.5631970909872991,
-    "n": 392
-   },
-   "held": {
-    "mean": 0.49825480324808225,
-    "n": 516
-   }
-  },
-  "lenses": {
-   "novel": {
-    "mean": 0.5528776074014947,
-    "n": 3648
-   },
-   "adopted": {
-    "mean": 0.5605936883454831,
-    "n": 390
-   },
-   "held": {
-    "mean": 0.5146604383582094,
-    "n": 420
-   }
-  },
-  "stance": {
-   "novel": {
-    "mean": 0.5532785097318333,
-    "n": 3599
-   },
-   "adopted": {
-    "mean": 0.5339368530913531,
-    "n": 337
-   },
-   "held": {
-    "mean": 0.5027174826860775,
-    "n": 429
-   }
-  }
- },
- "contrasts": {
-  "full|stance-neutral|uncertain_share": {
-   "delta": -0.1388888888888889,
-   "lo": -0.33333333333333337,
-   "hi": 0.0833333333333333,
-   "p_positive": 0.0952,
-   "positive": 2,
-   "n": 12
-  },
-  "full|lenses-neutral|uncertain_share": {
-   "delta": 0.027777777777777776,
-   "lo": -0.16666666666666666,
-   "hi": 0.25,
-   "p_positive": 0.584375,
-   "positive": 3,
-   "n": 12
-  },
-  "star|stance-neutral|uncertain_share": {
-   "delta": -0.24074074074074076,
-   "lo": -0.42592592592592593,
-   "hi": -0.08333333333333334,
-   "p_positive": 0.0005,
-   "positive": 2,
-   "n": 12
-  },
-  "star|lenses-neutral|uncertain_share": {
-   "delta": -0.04629629629629631,
-   "lo": -0.28703703703703703,
-   "hi": 0.16666666666666666,
-   "p_positive": 0.35315,
-   "positive": 4,
-   "n": 12
-  },
-  "chain|stance-neutral|uncertain_share": {
-   "delta": -0.18518518518518517,
-   "lo": -0.33333333333333337,
-   "hi": -0.03703703703703704,
-   "p_positive": 0.005975,
-   "positive": 1,
-   "n": 12
-  },
-  "chain|lenses-neutral|uncertain_share": {
-   "delta": -0.07407407407407407,
-   "lo": -0.25925925925925924,
-   "hi": 0.1111111111111111,
-   "p_positive": 0.21345,
-   "positive": 2,
-   "n": 12
-  },
-  "full|stance-neutral|round1_survival": {
-   "delta": -0.10993527181848678,
-   "lo": -0.16926283047748672,
-   "hi": -0.05510044407567175,
-   "p_positive": 5e-05,
-   "positive": 1,
-   "n": 12
-  },
-  "full|lenses-neutral|round1_survival": {
-   "delta": -0.08104197471192427,
-   "lo": -0.17329555815087452,
-   "hi": 0.016018672608177253,
-   "p_positive": 0.0497,
-   "positive": 3,
-   "n": 12
-  },
-  "star|stance-neutral|round1_survival": {
-   "delta": -0.12392345124737421,
-   "lo": -0.1903915460432735,
-   "hi": -0.04923425272215595,
-   "p_positive": 0.0011,
-   "positive": 1,
-   "n": 12
-  },
-  "star|lenses-neutral|round1_survival": {
-   "delta": -0.07907290053723487,
-   "lo": -0.16079066845947232,
-   "hi": 0.00610539566896304,
-   "p_positive": 0.03555,
-   "positive": 4,
-   "n": 12
-  },
-  "chain|stance-neutral|round1_survival": {
-   "delta": -0.02959667664014387,
-   "lo": -0.15476549344135485,
-   "hi": 0.12293012382504863,
-   "p_positive": 0.32235,
-   "positive": 5,
-   "n": 12
-  },
-  "chain|lenses-neutral|round1_survival": {
-   "delta": -0.025338202717349313,
-   "lo": -0.1222773030571553,
-   "hi": 0.08093573865940872,
-   "p_positive": 0.31195,
-   "positive": 5,
-   "n": 12
-  }
+  "undermine_share_when_same": 0.5039586630221071
  }
 }

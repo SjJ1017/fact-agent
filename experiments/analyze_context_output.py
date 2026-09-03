@@ -181,7 +181,16 @@ def main() -> None:
         out["n"] = len(subset)
         return out
 
-    result = {"model": args.model, "n_turns": len(rows), "by": {}}
+    result = {"model": args.model, "memory": args.memory,
+              "n_turns": len(rows), "by": {}}
+    if not rows:
+        raise SystemExit(
+            f"--memory {args.memory} 没有可分析的数据。可能是：\n"
+            f"  · 该条件的 .v2.json 还没生成\n"
+            f"  · 或者生成了但还没做立场标注"
+            f"（experiments/labels/stance/ 里要有对应 execution_id 的文件）\n"
+            f"检查：ls experiments/perspectrum_pilot_*/*{args.model}*"
+            + ("" if args.memory == "peer-only" else f"-{args.memory}") + ".v2.json")
     first_round = min(r["round"] for r in rows)
     all_rounds = sorted({r["round"] for r in rows})
     scopes = [("", lambda r: True)]
@@ -198,7 +207,7 @@ def main() -> None:
                     result["by"][f"{tag}{panel}/{agent}"] = summarise(s2, agent)
     result["rows"] = rows
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(result, ensure_ascii=False, indent=1) + "\n")
+    args.out.write_text(json.dumps(result, ensure_ascii=False, indent=1, sort_keys=True) + "\n")
 
     print(f"{len(rows)} 个 turn\n")
     for scope, title in (

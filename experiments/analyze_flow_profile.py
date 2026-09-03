@@ -356,7 +356,7 @@ def main() -> None:
         "per_debate": {f"{t}|{c}|{p}": r for (t, c, p), r in data.items()},
     }
     (args.out / f"flow-profile{tag}.json").write_text(
-        json.dumps(result, ensure_ascii=False, indent=1) + "\n")
+        json.dumps(result, ensure_ascii=False, indent=1, sort_keys=True) + "\n")
 
     with (args.out / f"flow-profile{tag}-per-debate.csv").open("w", newline="") as fh:
         fields = ["topology", "claim", "panel"] + list(next(iter(data.values())))
