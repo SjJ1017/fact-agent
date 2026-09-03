@@ -202,7 +202,7 @@ mark.multi{border-bottom:2px dotted var(--faint);}
   <div class="bar">
     <select id="fModel"></select>
     <select id="pick"></select>
-    <button class="tgl" id="tLink" type="button" aria-pressed="false">连线：显示同一事实</button>
+    <button class="tgl" id="tLink" type="button" aria-pressed="true">连线：选中事实</button>
     <button class="tgl" id="tStance" type="button" aria-pressed="true">立场底色</button>
     <button class="tgl" id="tOnlyShared" type="button" aria-pressed="false">只highlight被复述过的</button>
   </div>
@@ -239,7 +239,7 @@ const STANCE_CN = {SUPPORT:"支持命题", UNDERMINE:"削弱命题", NEUTRAL:"�
 const HAS_STANCE = DATA.stance !== false;
 
 const $ = id => document.getElementById(id);
-const state = {debate:null, links:false, stance:HAS_STANCE, onlyShared:false, sel:null};
+const state = {debate:null, links:true, stance:HAS_STANCE, onlyShared:false, sel:null};
 if(!HAS_STANCE){
   $("tStance").style.display = "none";
   document.querySelectorAll(".stance-key").forEach(x=>x.style.display="none");
@@ -633,19 +633,16 @@ function linkEdges(fid){
 function drawLinks(){
   const svg=$("links");
   svg.innerHTML="";
-  if(!state.links && !state.sel) return;
+  if(!state.links || !state.sel) return;
   const host=$("stage").getBoundingClientRect();
   svg.setAttribute("viewBox", `0 0 ${host.width} ${host.height}`);
   svg.setAttribute("width", host.width); svg.setAttribute("height", host.height);
   svg.style.width=host.width+"px"; svg.style.height=host.height+"px";
 
-  const facts=new Set();
-  document.querySelectorAll("mark[data-fs]").forEach(m=>
-    m.dataset.fs.split(" ").forEach(f=>facts.add(f)));
+  const facts=new Set([state.sel]);
   const NS="http://www.w3.org/2000/svg";
   facts.forEach(fid=>{
-    const focus = state.sel===fid;
-    if(!state.links && !focus) return;
+    const focus = true;
     const {edges, bySlot} = linkEdges(fid);
     if(!edges.length) return;
     const st=(state.debate.facts[fid]||{}).s;
