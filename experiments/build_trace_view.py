@@ -17,6 +17,11 @@ are reported per debate rather than dropped silently, because an unplaced span
 is exactly the kind of thing this viewer exists to make visible.
 
     python experiments/build_trace_view.py
+    python experiments/build_trace_view.py \
+        --store-dir experiments/clinicalbench_pilot \
+        --suffix .store.json \
+        --no-stance \
+        --out findings/data/clinicalbench-trace-view.json
 """
 
 from __future__ import annotations
@@ -34,7 +39,10 @@ OUT = ROOT.parent / "findings" / "data" / "trace-view.json"
 
 FOLD = str.maketrans({"‘": "'", "’": "'", "“": '"', "”": '"',
                       "–": "-", "—": "-", "…": ".", " ": " "})
-VERDICT_RE = re.compile(r"VERDICT\s*[:：]\s*([A-Za-z_ ]+)")
+FINAL_RE = re.compile(
+    r"^((?:FINAL(?: ANSWER| DIAGNOSIS)?|VERDICT|ANSWER))\s*[:：]\s*(.+)$",
+    flags=re.IGNORECASE | re.MULTILINE,
+)
 
 ROLE_SUMMARY = {
     "neutral": {"A": "中立证据分析师", "B": "中立证据分析师", "C": "中立证据分析师"},
@@ -82,8 +90,20 @@ def locate(text: str, quote: str) -> tuple[int, int] | None:
     return None
 
 
-def build(store_path: Path) -> dict | None:
-    name = store_path.name[: -len(".v2.json")]
+def short_role(prompt: str) -> str:
+    first = (prompt or "").strip().split(".", 1)[0]
+    first = re.sub(r"^You are an?\s+", "", first, flags=re.IGNORECASE)
+    return first[:56] + ("…" if len(first) > 56 else "")
+
+
+def run_name(store_path: Path, suffix: str) -> str:
+    if not store_path.name.endswith(suffix):
+        raise ValueError(f"{store_path} does not end with {suffix}")
+    return store_path.name[: -len(suffix)]
+
+
+def build(store_path: Path, suffix: str = ".v2.json", use_stance: bool = True) -> dict | None:
+    name = run_name(store_path, suffix)
     debate_path = store_path.with_name(f"{name}.debate.json")
     if not debate_path.exists():
         return None
@@ -91,10 +111,14 @@ def build(store_path: Path) -> dict | None:
         store = json.load(fh)
     with debate_path.open() as fh:
         debate = json.load(fh)
-    attach_labels(store, name, "stance")
+    if use_stance:
+        attach_labels(store, name, "stance")
 
-    stance_of = {fid: f.get("properties", {}).get("stance")
-                 for fid, f in store["facts"].items()}
+    stance_of = (
+        {fid: f.get("properties", {}).get("stance")
+         for fid, f in store["facts"].items()}
+        if use_stance else {}
+    )
     # Which evidence documents a fact's cluster also touches. A cluster holding
     # both a source mention from E2 and an output mention is a fact the agent
     # took from the dossier rather than introduced, and the viewer can draw
@@ -169,16 +193,24 @@ def build(store_path: Path) -> dict | None:
 
     verdicts = {}
     for slot, text in debate["transcript"].items():
-        hit = VERDICT_RE.search(text)
+        hit = None
+        for hit in FINAL_RE.finditer(text):
+            pass
         if hit:
             at = hit.start()
             verdicts[slot] = {"a": at, "b": len(text),
-                              "v": hit.group(1).strip().upper()}
+                              "l": hit.group(1).strip().upper(),
+                              "v": hit.group(2).strip().upper()}
+
+    role_short = ROLE_SUMMARY.get(debate.get("panel"), {})
+    if not role_short:
+        role_short = {agent: short_role(prompt)
+                      for agent, prompt in debate.get("roles", {}).items()}
 
     return {
         "id": name,
         "model": debate.get("model", "?"),
-        "claim_id": debate["claim_id"],
+        "claim_id": debate.get("claim_id", debate.get("case_id", name)),
         "claim": debate["claim"],
         "topology": debate["topology"],
         "panel": debate["panel"],
@@ -191,7 +223,7 @@ def build(store_path: Path) -> dict | None:
                         **({"ev": ev_of[fid]} if fid in ev_of else {})}
                   for fid in used},
         "roles": debate["roles"],
-        "role_short": ROLE_SUMMARY.get(debate["panel"], {}),
+        "role_short": role_short,
         "delivery": {slot: info.get("peer_turns", [])
                      for slot, info in debate.get("delivery", {}).items()},
         # Round 1 was labelled "no input", which is false and hid the thing
@@ -215,7 +247,7 @@ def build(store_path: Path) -> dict | None:
         # prior: round 1 never does, under any condition.
         "memory": debate.get("memory",
                              "self-last" if debate.get("self_history") else "peer-only"),
-        "evidence": [{"id": e["id"], "stance": e["stance"], "text": e["text"]}
+        "evidence": [{"id": e["id"], "stance": e.get("stance"), "text": e["text"]}
                      for e in debate.get("evidence", [])],
         "unplaced": unplaced,
     }
@@ -228,21 +260,28 @@ def main() -> None:
     # have no star/chain counterpart so they are excluded from every cross-
     # topology number, but they are real runs and this page is for looking at
     # runs, not for comparing conditions.
+    ap.add_argument("--store-dir", type=Path, action="append", default=None,
+                    help="directory containing matched store/debate files; repeatable")
+    ap.add_argument("--suffix", default=".v2.json",
+                    help="store filename suffix to strip before .debate.json lookup")
     ap.add_argument("--model", default="", help="留空 = 渲染全部模型")
+    ap.add_argument("--no-stance", action="store_true",
+                    help="do not attach stance labels; use for clinicalbench")
     ap.add_argument("--out", type=Path, default=OUT)
     args = ap.parse_args()
 
     debates = []
-    for directory in STORE_DIRS:
-        pattern = f"*{args.model}*.v2.json" if args.model else "*.v2.json"
+    for directory in args.store_dir or STORE_DIRS:
+        pattern = f"*{args.model}*{args.suffix}" if args.model else f"*{args.suffix}"
         for path in sorted(directory.glob(pattern)):
-            view = build(path)
+            view = build(path, suffix=args.suffix, use_stance=not args.no_stance)
             if view:
                 debates.append(view)
 
     total_spans = sum(len(s) for d in debates for s in d["spans"].values())
     total_unplaced = sum(d["unplaced"] for d in debates)
-    payload = {"model": args.model or "all", "debates": debates,
+    payload = {"model": args.model or "all", "stance": not args.no_stance,
+               "debates": debates,
                "n_spans": total_spans, "n_unplaced": total_unplaced}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(payload, ensure_ascii=False,
