@@ -1,0 +1,502 @@
+{
+ "case_id": "restoration_2",
+ "claim": "Three stakeholders must negotiate and agree on a comprehensive restoration plan for the recently closed Redwood Creek open-pit copper mine. The plan must specify the final land use, total budget, project timeline, and long-term monitoring commitments. The negotiation is complicated by undisclosed information held by each party, creating a complex web of conflicting interests and potential deal-breakers.",
+ "condition": "stance",
+ "dataset": "magpie",
+ "delivery": {
+  "A|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [
+    "A-shareable-Budgetary Efficiency",
+    "A-shareable-Expedited Timeline",
+    "A-shareable-Land Restoration Approach",
+    "A-private-Confidential Redevelopment Proposal",
+    "A-private-Hidden Liability Dispute",
+    "A-private-Personal Performance Bonus",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "A|2": {
+   "peer_turns": [
+    "B|1",
+    "C|1"
+   ],
+   "self_turn": "A|1",
+   "source_ids": [
+    "A-shareable-Budgetary Efficiency",
+    "A-shareable-Expedited Timeline",
+    "A-shareable-Land Restoration Approach",
+    "A-private-Confidential Redevelopment Proposal",
+    "A-private-Hidden Liability Dispute",
+    "A-private-Personal Performance Bonus",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ],
+   "visible_peer_turns": [
+    "B|1",
+    "C|1"
+   ],
+   "visible_self_turns": [
+    "A|1"
+   ]
+  },
+  "A|3": {
+   "peer_turns": [
+    "B|2",
+    "C|2"
+   ],
+   "self_turn": "A|2",
+   "source_ids": [
+    "A-shareable-Budgetary Efficiency",
+    "A-shareable-Expedited Timeline",
+    "A-shareable-Land Restoration Approach",
+    "A-private-Confidential Redevelopment Proposal",
+    "A-private-Hidden Liability Dispute",
+    "A-private-Personal Performance Bonus",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ],
+   "visible_peer_turns": [
+    "B|1",
+    "C|1",
+    "B|2",
+    "C|2"
+   ],
+   "visible_self_turns": [
+    "A|1",
+    "A|2"
+   ]
+  },
+  "B|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [
+    "B-shareable-Comprehensive Ecological Restoration",
+    "B-shareable-Rigorous Long-Term Monitoring",
+    "B-shareable-Data Transparency",
+    "B-private-Unofficial Contamination Data",
+    "B-private-Internal Political Pressure",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "B|2": {
+   "peer_turns": [
+    "A|1",
+    "C|1"
+   ],
+   "self_turn": "B|1",
+   "source_ids": [
+    "B-shareable-Comprehensive Ecological Restoration",
+    "B-shareable-Rigorous Long-Term Monitoring",
+    "B-shareable-Data Transparency",
+    "B-private-Unofficial Contamination Data",
+    "B-private-Internal Political Pressure",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ],
+   "visible_peer_turns": [
+    "A|1",
+    "C|1"
+   ],
+   "visible_self_turns": [
+    "B|1"
+   ]
+  },
+  "B|3": {
+   "peer_turns": [
+    "A|2",
+    "C|2"
+   ],
+   "self_turn": "B|2",
+   "source_ids": [
+    "B-shareable-Comprehensive Ecological Restoration",
+    "B-shareable-Rigorous Long-Term Monitoring",
+    "B-shareable-Data Transparency",
+    "B-private-Unofficial Contamination Data",
+    "B-private-Internal Political Pressure",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ],
+   "visible_peer_turns": [
+    "A|1",
+    "C|1",
+    "A|2",
+    "C|2"
+   ],
+   "visible_self_turns": [
+    "B|1",
+    "B|2"
+   ]
+  },
+  "C|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [
+    "C-shareable-Public Access and Parkland",
+    "C-shareable-Local Economic Benefit",
+    "C-shareable-Superior Water Quality Standards",
+    "C-private-Confidential Donor Pledge",
+    "C-private-Organizational Fragility",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "C|2": {
+   "peer_turns": [
+    "A|1",
+    "B|1"
+   ],
+   "self_turn": "C|1",
+   "source_ids": [
+    "C-shareable-Public Access and Parkland",
+    "C-shareable-Local Economic Benefit",
+    "C-shareable-Superior Water Quality Standards",
+    "C-private-Confidential Donor Pledge",
+    "C-private-Organizational Fragility",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ],
+   "visible_peer_turns": [
+    "A|1",
+    "B|1"
+   ],
+   "visible_self_turns": [
+    "C|1"
+   ]
+  },
+  "C|3": {
+   "peer_turns": [
+    "A|2",
+    "B|2"
+   ],
+   "self_turn": "C|2",
+   "source_ids": [
+    "C-shareable-Public Access and Parkland",
+    "C-shareable-Local Economic Benefit",
+    "C-shareable-Superior Water Quality Standards",
+    "C-private-Confidential Donor Pledge",
+    "C-private-Organizational Fragility",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ],
+   "visible_peer_turns": [
+    "A|1",
+    "B|1",
+    "A|2",
+    "B|2"
+   ],
+   "visible_self_turns": [
+    "C|1",
+    "C|2"
+   ]
+  }
+ },
+ "disclosure": {
+  "covered": 19,
+  "exclusive": [
+   "A-private-Confidential Redevelopment Proposal",
+   "A-private-Hidden Liability Dispute",
+   "A-private-Personal Performance Bonus",
+   "A-shareable-Budgetary Efficiency",
+   "A-shareable-Expedited Timeline",
+   "A-shareable-Land Restoration Approach",
+   "B-private-Internal Political Pressure",
+   "B-private-Unofficial Contamination Data",
+   "B-shareable-Comprehensive Ecological Restoration",
+   "B-shareable-Data Transparency",
+   "B-shareable-Rigorous Long-Term Monitoring",
+   "C-private-Confidential Donor Pledge",
+   "C-private-Organizational Fragility",
+   "C-shareable-Local Economic Benefit",
+   "C-shareable-Public Access and Parkland",
+   "C-shareable-Superior Water Quality Standards"
+  ],
+  "held": {
+   "A": [
+    "A-shareable-Budgetary Efficiency",
+    "A-shareable-Expedited Timeline",
+    "A-shareable-Land Restoration Approach",
+    "A-private-Confidential Redevelopment Proposal",
+    "A-private-Hidden Liability Dispute",
+    "A-private-Personal Performance Bonus",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ],
+   "B": [
+    "B-shareable-Comprehensive Ecological Restoration",
+    "B-shareable-Rigorous Long-Term Monitoring",
+    "B-shareable-Data Transparency",
+    "B-private-Unofficial Contamination Data",
+    "B-private-Internal Political Pressure",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ],
+   "C": [
+    "C-shareable-Public Access and Parkland",
+    "C-shareable-Local Economic Benefit",
+    "C-shareable-Superior Water Quality Standards",
+    "C-private-Confidential Donor Pledge",
+    "C-private-Organizational Fragility",
+    "pub-0",
+    "pub-1",
+    "pub-2"
+   ]
+  },
+  "mean_per_agent": 8.333333333333334,
+  "mode": "dataset",
+  "n_items": 19,
+  "uncovered": []
+ },
+ "evidence": [
+  {
+   "id": "A-shareable-Budgetary Efficiency",
+   "stance": null,
+   "tags": [
+    "shareable",
+    "David Chen"
+   ],
+   "text": "David Chen: My primary goal is to execute this restoration with maximum fiscal responsibility. The plan must be economically viable. I am proposing a total project budget not to exceed $15 million. A budget of $12 million or less would be ideal and would demonstrate exemplary efficiency."
+  },
+  {
+   "id": "A-shareable-Expedited Timeline",
+   "stance": null,
+   "tags": [
+    "shareable",
+    "David Chen"
+   ],
+   "text": "David Chen: Time is a critical resource for Apex Minerals. We need to finalize this project and have all regulatory sign-offs completed within 24 months. This allows us to reallocate personnel and equipment to our upcoming lithium project in Nevada. A timeline longer than 30 months would create significant logistical and financial strain."
+  },
+  {
+   "id": "A-shareable-Land Restoration Approach",
+   "stance": null,
+   "tags": [
+    "shareable",
+    "David Chen"
+   ],
+   "text": "David Chen: I advocate for a standard 'cap and cover' restoration method. This involves grading the site for stability, covering it with a geo-textile membrane and topsoil, and seeding it with fast-growing, non-native grasses. This approach is proven, meets all baseline environmental regulations, and is the most cost-effective and timely solution."
+  },
+  {
+   "id": "A-private-Confidential Redevelopment Proposal",
+   "stance": null,
+   "tags": [
+    "private",
+    "David Chen"
+   ],
+   "text": "David Chen: Apex Minerals has a signed, confidential Letter of Intent with SunVolt Inc., a major solar energy firm. They want to lease 80% of the flat, graded land post-restoration for a large-scale solar farm. The deal is worth approximately $2 million per year for Apex, but it is strictly contingent on the site being delivered 'pad-ready' (flat, stable, accessible) within 24 months. If the plan involves creating varied terrain like hills or wetlands, the deal is off. I cannot reveal the existence of SunVolt or this deal due to a strict NDA."
+  },
+  {
+   "id": "A-private-Hidden Liability Dispute",
+   "stance": null,
+   "tags": [
+    "private",
+    "David Chen"
+   ],
+   "text": "David Chen: Our legal department is in secret, sensitive negotiations to settle a lawsuit with a downstream farmer whose well showed elevated heavy metal levels. Our internal hydrologists suspect a small, undocumented fissure in the mine's southern tailings pond is the cause. Admitting to any widespread contamination or agreeing to extensive, unscheduled soil testing in that quadrant could jeopardize the settlement, transforming it from a potential $500k payout into a $10M+ class-action lawsuit. I can argue against 'unnecessary testing' on the basis of cost, but I cannot reveal the true legal and contamination risk."
+  },
+  {
+   "id": "A-private-Personal Performance Bonus",
+   "stance": null,
+   "tags": [
+    "private",
+    "David Chen"
+   ],
+   "text": "David Chen: I have a formal email from my VP which reads: 'David, regarding the Redwood Creek closure, if you secure a plan under $15M and ensure the site is ready for the SunVolt handover in 24 months, the board has approved a $100,000 performance bonus for you.' This bonus is a significant part of my expected annual income."
+  },
+  {
+   "id": "B-shareable-Comprehensive Ecological Restoration",
+   "stance": null,
+   "tags": [
+    "shareable",
+    "Dr. Lena Hanson"
+   ],
+   "text": "Dr. Lena Hanson: The goal should not be to simply cover up the mine, but to restore a functioning, native ecosystem. I require a plan that includes re-contouring the land to a more natural state, re-establishing native plant species and pollinator habitats, and creating wetland areas to manage water runoff and support biodiversity."
+  },
+  {
+   "id": "B-shareable-Rigorous Long-Term Monitoring",
+   "stance": null,
+   "tags": [
+    "shareable",
+    "Dr. Lena Hanson"
+   ],
+   "text": "Dr. Lena Hanson: A successful restoration cannot be judged on day one. I insist on a mandatory, Apex-funded 10-year monitoring program for soil and water quality. This is non-negotiable for ensuring the long-term stability and safety of the site. A shorter plan would be irresponsible."
+  },
+  {
+   "id": "B-shareable-Data Transparency",
+   "stance": null,
+   "tags": [
+    "shareable",
+    "Dr. Lena Hanson"
+   ],
+   "text": "Dr. Lena Hanson: To ensure public trust and accountability, all environmental data related to this project, including soil tests, water quality reports, and monitoring results, must be made publicly available on the SEPA website. There should be no 'proprietary' data when it comes to public health and the environment."
+  },
+  {
+   "id": "B-private-Unofficial Contamination Data",
+   "stance": null,
+   "tags": [
+    "private",
+    "Dr. Lena Hanson"
+   ],
+   "text": "Dr. Lena Hanson: Two months ago, a departing junior field tech gave me an off-the-record report. On his own time, he took a soil sample just outside the mine's southern boundary, near the farmer's property. His preliminary lab test, which was not done to official standards, showed cadmium and lead levels 10 times higher than anything in Apex's official self-reported data. The data is inadmissible and I cannot mention its existence. If I do, the data will be thrown out, the tech could face legal trouble, and I would face a serious internal investigation for using un-vetted data."
+  },
+  {
+   "id": "B-private-Internal Political Pressure",
+   "stance": null,
+   "tags": [
+    "private",
+    "Dr. Lena Hanson"
+   ],
+   "text": "Dr. Lena Hanson: My direct supervisor, under pressure from the Governor's office to promote a 'business-friendly' climate, privately told me to 'find a quick, reasonable compromise and avoid a protracted fight.' He warned that a high-profile, expensive battle with a major employer like Apex would be 'unhelpful' for our department's budget requests next year. I have some leeway, but if this negotiation stalls and becomes a public fight, my career progression will be stalled."
+  },
+  {
+   "id": "C-shareable-Public Access and Parkland",
+   "stance": null,
+   "tags": [
+    "shareable",
+    "Maria Flores"
+   ],
+   "text": "Maria Flores: This land was a community resource before it was a mine, and it should be one again. We demand that at least 75% of the restored site be designated as a public park, with amenities like hiking trails, picnic areas, and educational signage. Anything less would be a betrayal of the community."
+  },
+  {
+   "id": "C-shareable-Local Economic Benefit",
+   "stance": null,
+   "tags": [
+    "shareable",
+    "Maria Flores"
+   ],
+   "text": "Maria Flores: The community that bore the burden of the mine's pollution and noise should reap the benefits of its restoration. We require a contractual commitment that a minimum of 50% of the labor and subcontracting budget for the restoration work is awarded to local businesses and workers from our county."
+  },
+  {
+   "id": "C-shareable-Superior Water Quality Standards",
+   "stance": null,
+   "tags": [
+    "shareable",
+    "Maria Flores"
+   ],
+   "text": "Maria Flores: Meeting the bare legal minimum for water quality is not good enough. We want a binding commitment that the water quality in Redwood Creek, downstream from the mine, will be restored to its certified pre-mining baseline levels within 5 years of project completion. This is vital for the local ecosystem and for recreational fishing."
+  },
+  {
+   "id": "C-private-Confidential Donor Pledge",
+   "stance": null,
+   "tags": [
+    "private",
+    "Maria Flores"
+   ],
+   "text": "Maria Flores: I have secured a pledge from a wealthy, anonymous benefactor for a $3 million matching grant. The money is to be used for the restoration project, but it is strictly conditional on two things: 1) the final plan must be the full ecological restoration model that Dr. Hanson supports, and 2) it must include the construction of a small 'Wetland Ecology Education Center' on the site. The donor will withdraw the offer if their identity is revealed before the deal is signed or if the conditions are not met."
+  },
+  {
+   "id": "C-private-Organizational Fragility",
+   "stance": null,
+   "tags": [
+    "private",
+    "Maria Flores"
+   ],
+   "text": "Maria Flores: The Redwood Creek Conservancy is in a precarious financial position. Our membership has dropped by 30% over the past two years, and a major fundraising drive failed last quarter. A high-profile public victory here—securing a new park for the community—would be a lifeline, driving a new membership campaign and securing our future. A total loss—like the land becoming a private solar farm—would be devastating and could force us to dissolve the organization within the year."
+  },
+  {
+   "id": "pub-0",
+   "stance": null,
+   "tags": [
+    "verifiable"
+   ],
+   "text": "The total budget contributed by Apex Minerals cannot exceed $20 million."
+  },
+  {
+   "id": "pub-1",
+   "stance": null,
+   "tags": [
+    "verifiable"
+   ],
+   "text": "The restoration plan must, at a minimum, satisfy state and federal environmental regulations for mine closure (RCRA Subtitle D)."
+  },
+  {
+   "id": "pub-2",
+   "stance": null,
+   "tags": [
+    "verifiable"
+   ],
+   "text": "The project must be legally completed within a 48-month timeframe from the start date."
+  }
+ ],
+ "execution_id": "magpie-restoration_2-deepseek-v4-flash-full-stance-cumulative",
+ "memory": "cumulative",
+ "meta": {
+  "agent_names": [
+   "David Chen",
+   "Dr. Lena Hanson",
+   "Maria Flores"
+  ],
+  "agent_roles": {
+   "A": "Project Manager, Apex Minerals Inc.",
+   "B": "Lead Scientist, State Environmental Protection Agency (SEPA)",
+   "C": "Executive Director, Redwood Creek Conservancy"
+  },
+  "domain": "restoration",
+  "hidden_conditions": [
+   "David Chen's actual budget target is under $15 million to secure his bonus and the solar farm deal.",
+   "Dr. Lena Hanson has strong reason to believe the southern quadrant of the mine site has severe, unreported contamination.",
+   "Maria Flores has potential access to an additional $3 million in funding, but only for a specific type of high-cost restoration plan."
+  ],
+  "n_agents": 3,
+  "solvability_note": "The scenario is solvable if private information is revealed. Lena's knowledge of contamination, if she can force new testing, would make David's cheap 'cap and cover' plan non-compliant and legally risky, jeopardizing the solar deal's timeline and stability requirements. This forces Apex to consider a more expensive, thorough cleanup. David's budget crisis can then be solved by Maria revealing her $3 million grant, which bridges the financial gap to afford the full ecological restoration. In exchange for avoiding a lawsuit and gaining positive PR, Apex can agree to the park concept. The final agreement would be a publicly-accessible ecological park with a wetland center, funded by a combination of Apex's increased (but legally necessary) budget and the Conservancy's grant, satisfying the core goals of all three parties.",
+  "source": "magpie",
+  "success_criteria": {
+   "Budget and Funding": "The agreement must state the total project budget and the specific financial commitments from each party.",
+   "Plan Specification": "The agreement must clearly define the final land use (e.g., park, industrial, mixed-use), the restoration methodology, and long-term access rights.",
+   "Signed Agreement": "All three parties must sign a final Memorandum of Understanding.",
+   "Timeline": "The agreement must include a detailed project timeline with key milestones and a final completion date."
+  }
+ },
+ "model": "deepseek-v4-flash",
+ "panel": "stance",
+ "persona": "stance",
+ "prompts": {
+  "A|1": "Redwood Creek Mine Restoration Project\n\nWhat you must produce:\nA single, jointly-authored 'Memorandum of Understanding' that details the agreed-upon restoration plan, budget, timeline, land use, and monitoring commitments, signed by all three agents.\n\nWhat you know:\n[A-shareable-Budgetary Efficiency] David Chen: My primary goal is to execute this restoration with maximum fiscal responsibility. The plan must be economically viable. I am proposing a total project budget not to exceed $15 million. A budget of $12 million or less would be ideal and would demonstrate exemplary efficiency.\n\n[A-shareable-Expedited Timeline] David Chen: Time is a critical resource for Apex Minerals. We need to finalize this project and have all regulatory sign-offs completed within 24 months. This allows us to reallocate personnel and equipment to our upcoming lithium project in Nevada. A timeline longer than 30 months would create significant logistical and financial strain.\n\n[A-shareable-Land Restoration Approach] David Chen: I advocate for a standard 'cap and cover' restoration method. This involves grading the site for stability, covering it with a geo-textile membrane and topsoil, and seeding it with fast-growing, non-native grasses. This approach is proven, meets all baseline environmental regulations, and is the most cost-effective and timely solution.\n\n[A-private-Confidential Redevelopment Proposal] David Chen: Apex Minerals has a signed, confidential Letter of Intent with SunVolt Inc., a major solar energy firm. They want to lease 80% of the flat, graded land post-restoration for a large-scale solar farm. The deal is worth approximately $2 million per year for Apex, but it is strictly contingent on the site being delivered 'pad-ready' (flat, stable, accessible) within 24 months. If the plan involves creating varied terrain like hills or wetlands, the deal is off. I cannot reveal the existence of SunVolt or this deal due to a strict NDA.\n\n[A-private-Hidden Liability Dispute] David Chen: Our legal department is in secret, sensitive negotiations to settle a lawsuit with a downstream farmer whose well showed elevated heavy metal levels. Our internal hydrologists suspect a small, undocumented fissure in the mine's southern tailings pond is the cause. Admitting to any widespread contamination or agreeing to extensive, unscheduled soil testing in that quadrant could jeopardize the settlement, transforming it from a potential $500k payout into a $10M+ class-action lawsuit. I can argue against 'unnecessary testing' on the basis of cost, but I cannot reveal the true legal and contamination risk.\n\n[A-private-Personal Performance Bonus] David Chen: I have a formal email from my VP which reads: 'David, regarding the Redwood Creek closure, if you secure a plan under $15M and ensure the site is ready for the SunVolt handover in 24 months, the board has approved a $100,000 performance bonus for you.' This bonus is a significant part of my expected annual income.\n\n[pub-0] The total budget contributed by Apex Minerals cannot exceed $20 million.\n\n[pub-1] The restoration plan must, at a minimum, satisfy state and federal environmental regulations for mine closure (RCRA Subtitle D).\n\n[pub-2] The project must be legally completed within a 48-month timeframe from the start date.\n\nWhat the group must settle:\nThree stakeholders must negotiate and agree on a comprehensive restoration plan for the recently closed Redwood Creek open-pit copper mine. The plan must specify the final land use, total budget, project timeline, and long-term monitoring commitments. The negotiation is complicated by undisclosed information held by each party, creating a complex web of conflicting interests and potential deal-breakers.\n\nGive your independent assessment before seeing the others.",
+  "A|2": "Redwood Creek Mine Restoration Project\n\nWhat you must produce:\nA single, jointly-authored 'Memorandum of Understanding' that details the agreed-upon restoration plan, budget, timeline, land use, and monitoring commitments, signed by all three agents.\n\nWhat you know:\n[A-shareable-Budgetary Efficiency] David Chen: My primary goal is to execute this restoration with maximum fiscal responsibility. The plan must be economically viable. I am proposing a total project budget not to exceed $15 million. A budget of $12 million or less would be ideal and would demonstrate exemplary efficiency.\n\n[A-shareable-Expedited Timeline] David Chen: Time is a critical resource for Apex Minerals. We need to finalize this project and have all regulatory sign-offs completed within 24 months. This allows us to reallocate personnel and equipment to our upcoming lithium project in Nevada. A timeline longer than 30 months would create significant logistical and financial strain.\n\n[A-shareable-Land Restoration Approach] David Chen: I advocate for a standard 'cap and cover' restoration method. This involves grading the site for stability, covering it with a geo-textile membrane and topsoil, and seeding it with fast-growing, non-native grasses. This approach is proven, meets all baseline environmental regulations, and is the most cost-effective and timely solution.\n\n[A-private-Confidential Redevelopment Proposal] David Chen: Apex Minerals has a signed, confidential Letter of Intent with SunVolt Inc., a major solar energy firm. They want to lease 80% of the flat, graded land post-restoration for a large-scale solar farm. The deal is worth approximately $2 million per year for Apex, but it is strictly contingent on the site being delivered 'pad-ready' (flat, stable, accessible) within 24 months. If the plan involves creating varied terrain like hills or wetlands, the deal is off. I cannot reveal the existence of SunVolt or this deal due to a strict NDA.\n\n[A-private-Hidden Liability Dispute] David Chen: Our legal department is in secret, sensitive negotiations to settle a lawsuit with a downstream farmer whose well showed elevated heavy metal levels. Our internal hydrologists suspect a small, undocumented fissure in the mine's southern tailings pond is the cause. Admitting to any widespread contamination or agreeing to extensive, unscheduled soil testing in that quadrant could jeopardize the settlement, transforming it from a potential $500k payout into a $10M+ class-action lawsuit. I can argue against 'unnecessary testing' on the basis of cost, but I cannot reveal the true legal and contamination risk.\n\n[A-private-Personal Performance Bonus] David Chen: I have a formal email from my VP which reads: 'David, regarding the Redwood Creek closure, if you secure a plan under $15M and ensure the site is ready for the SunVolt handover in 24 months, the board has approved a $100,000 performance bonus for you.' This bonus is a significant part of my expected annual income.\n\n[pub-0] The total budget contributed by Apex Minerals cannot exceed $20 million.\n\n[pub-1] The restoration plan must, at a minimum, satisfy state and federal environmental regulations for mine closure (RCRA Subtitle D).\n\n[pub-2] The project must be legally completed within a 48-month timeframe from the start date.\n\nWhat the group must settle:\nThree stakeholders must negotiate and agree on a comprehensive restoration plan for the recently closed Redwood Creek open-pit copper mine. The plan must specify the final land use, total budget, project timeline, and long-term monitoring commitments. The negotiation is complicated by undisclosed information held by each party, creating a complex web of conflicting interests and potential deal-breakers.\n\nThese are the other participants' latest statements:\n\n--- Participant B ---\nAs the ecologist, my priority is a functioning native ecosystem, not a greenwashed cover-up. I will insist on re-contouring, native plant and pollinator habitat restoration, and constructed wetlands for runoff treatment. Ten years of Apex-funded soil and water monitoring is non-negotiable, as is full public data transparency on the SEPA website—no proprietary carve-outs for public health data. I can work within the $20M cap and the 48-month legal completion deadline, but only if the plan is designed for long-term ecological function, not just regulatory compliance. I will not accept a bare-minimum RCRA closure.\n\nPOSITION: I will agree to a $20M, 48-month restoration plan with full ecological re-contouring, wetlands, native habitats, and a mandatory 10-year public monitoring program funded by Apex.\n\n--- Participant C ---\nAs Redwood Creek Conservancy, our bottom line is that this land returns to the community as public parkland. We need at least 75% park with trails and education, 50% local hiring, and binding water quality at pre-mining baseline within 5 years. We are not opposed to Apex Minerals maintaining a small footprint for monitoring, but a private solar farm or industrial use is unacceptable. I can also bring additional philanthropic support—a $3M matching grant—if the plan adopts full ecological restoration and includes a Wetland Ecology Education Center. That grant is confidential until signing, but it is real and conditional. Without a public park victory, our organization faces serious existential risk, so we cannot compromise on the core park percentage. We are willing to negotiate timeline phasing and monitoring details, but the park, local jobs, and water quality must be contractual.\n\nPOSITION: I will agree to a plan with at least 75% public parkland, 50% local labor/subcontracting, pre-mining water quality within 5 years, and a Wetland Ecology Education Center, using the $3M match to support full ecological restoration within the $20M Apex budget and 48-month timeline.\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "A|3": "Redwood Creek Mine Restoration Project\n\nWhat you must produce:\nA single, jointly-authored 'Memorandum of Understanding' that details the agreed-upon restoration plan, budget, timeline, land use, and monitoring commitments, signed by all three agents.\n\nWhat you know:\n[A-shareable-Budgetary Efficiency] David Chen: My primary goal is to execute this restoration with maximum fiscal responsibility. The plan must be economically viable. I am proposing a total project budget not to exceed $15 million. A budget of $12 million or less would be ideal and would demonstrate exemplary efficiency.\n\n[A-shareable-Expedited Timeline] David Chen: Time is a critical resource for Apex Minerals. We need to finalize this project and have all regulatory sign-offs completed within 24 months. This allows us to reallocate personnel and equipment to our upcoming lithium project in Nevada. A timeline longer than 30 months would create significant logistical and financial strain.\n\n[A-shareable-Land Restoration Approach] David Chen: I advocate for a standard 'cap and cover' restoration method. This involves grading the site for stability, covering it with a geo-textile membrane and topsoil, and seeding it with fast-growing, non-native grasses. This approach is proven, meets all baseline environmental regulations, and is the most cost-effective and timely solution.\n\n[A-private-Confidential Redevelopment Proposal] David Chen: Apex Minerals has a signed, confidential Letter of Intent with SunVolt Inc., a major solar energy firm. They want to lease 80% of the flat, graded land post-restoration for a large-scale solar farm. The deal is worth approximately $2 million per year for Apex, but it is strictly contingent on the site being delivered 'pad-ready' (flat, stable, accessible) within 24 months. If the plan involves creating varied terrain like hills or wetlands, the deal is off. I cannot reveal the existence of SunVolt or this deal due to a strict NDA.\n\n[A-private-Hidden Liability Dispute] David Chen: Our legal department is in secret, sensitive negotiations to settle a lawsuit with a downstream farmer whose well showed elevated heavy metal levels. Our internal hydrologists suspect a small, undocumented fissure in the mine's southern tailings pond is the cause. Admitting to any widespread contamination or agreeing to extensive, unscheduled soil testing in that quadrant could jeopardize the settlement, transforming it from a potential $500k payout into a $10M+ class-action lawsuit. I can argue against 'unnecessary testing' on the basis of cost, but I cannot reveal the true legal and contamination risk.\n\n[A-private-Personal Performance Bonus] David Chen: I have a formal email from my VP which reads: 'David, regarding the Redwood Creek closure, if you secure a plan under $15M and ensure the site is ready for the SunVolt handover in 24 months, the board has approved a $100,000 performance bonus for you.' This bonus is a significant part of my expected annual income.\n\n[pub-0] The total budget contributed by Apex Minerals cannot exceed $20 million.\n\n[pub-1] The restoration plan must, at a minimum, satisfy state and federal environmental regulations for mine closure (RCRA Subtitle D).\n\n[pub-2] The project must be legally completed within a 48-month timeframe from the start date.\n\nWhat the group must settle:\nThree stakeholders must negotiate and agree on a comprehensive restoration plan for the recently closed Redwood Creek open-pit copper mine. The plan must specify the final land use, total budget, project timeline, and long-term monitoring commitments. The negotiation is complicated by undisclosed information held by each party, creating a complex web of conflicting interests and potential deal-breakers.\n\nThese are the other participants' latest statements:\n\n--- Participant B ---\nParticipant A’s cap-and-cover plan is a compliance exercise, not restoration. A flat, pad-ready site and 24-month completion ignore ecological function and create long-term liability—I cannot support that. Participant C’s parkland vision aligns with my mandate. I support 75% public park, trails, education center, and local hiring, and I welcome the $3M matching grant. However, I will not drop my core requirements: 10-year Apex-funded soil and water monitoring, full public data on SEPA, and constructed wetlands with re-contouring. I can accept the 48-month construction timeline and work within the $20M Apex budget, with C’s grant enhancing scope. Water quality must be independently verified and meet pre-mining baseline within 5 years. Risk-based monitoring alone is insufficient.\n\nPOSITION: I will agree to a plan with 75% public parkland, ecological re-contouring and wetlands, 10-year public monitoring, and completion within 48 months at $20M Apex plus $3M match.\n\n--- Participant C ---\nParticipant A’s cap-and-cover industrial pad is a non-starter. It would betray the community, fail ecological restoration, and forfeit a confidential $3M grant pledge I have secured—contingent on a full ecological model and a Wetland Ecology Education Center. That grant can offset costs, making A’s $15M concern less relevant within the $20M cap.\n\nI align strongly with Participant B on re-contouring, wetlands, native habitat, and 10-year public monitoring. But B must accept that this is a public park, not just an ecosystem: at least 75% parkland with trails and signage, and 50% local labor/subcontracting. I also require binding water quality at pre-mining baseline within 5 years of project completion—B’s 10-year monitoring supports verification.\n\nI can accept the 48-month completion deadline and $20M Apex cap. The education center and enhanced restoration are fundable via my grant. I will not compromise on parkland, local hiring, or water quality.\n\nPOSITION: I will agree to a $20M, 48-month plan with full ecological restoration, 75% public parkland, 50% local labor, pre-mining water quality within 5 years, 10-year public monitoring, and a Wetland Ecology Education Center funded by my $3M grant.\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "B|1": "Redwood Creek Mine Restoration Project\n\nWhat you must produce:\nA single, jointly-authored 'Memorandum of Understanding' that details the agreed-upon restoration plan, budget, timeline, land use, and monitoring commitments, signed by all three agents.\n\nWhat you know:\n[B-shareable-Comprehensive Ecological Restoration] Dr. Lena Hanson: The goal should not be to simply cover up the mine, but to restore a functioning, native ecosystem. I require a plan that includes re-contouring the land to a more natural state, re-establishing native plant species and pollinator habitats, and creating wetland areas to manage water runoff and support biodiversity.\n\n[B-shareable-Rigorous Long-Term Monitoring] Dr. Lena Hanson: A successful restoration cannot be judged on day one. I insist on a mandatory, Apex-funded 10-year monitoring program for soil and water quality. This is non-negotiable for ensuring the long-term stability and safety of the site. A shorter plan would be irresponsible.\n\n[B-shareable-Data Transparency] Dr. Lena Hanson: To ensure public trust and accountability, all environmental data related to this project, including soil tests, water quality reports, and monitoring results, must be made publicly available on the SEPA website. There should be no 'proprietary' data when it comes to public health and the environment.\n\n[B-private-Unofficial Contamination Data] Dr. Lena Hanson: Two months ago, a departing junior field tech gave me an off-the-record report. On his own time, he took a soil sample just outside the mine's southern boundary, near the farmer's property. His preliminary lab test, which was not done to official standards, showed cadmium and lead levels 10 times higher than anything in Apex's official self-reported data. The data is inadmissible and I cannot mention its existence. If I do, the data will be thrown out, the tech could face legal trouble, and I would face a serious internal investigation for using un-vetted data.\n\n[B-private-Internal Political Pressure] Dr. Lena Hanson: My direct supervisor, under pressure from the Governor's office to promote a 'business-friendly' climate, privately told me to 'find a quick, reasonable compromise and avoid a protracted fight.' He warned that a high-profile, expensive battle with a major employer like Apex would be 'unhelpful' for our department's budget requests next year. I have some leeway, but if this negotiation stalls and becomes a public fight, my career progression will be stalled.\n\n[pub-0] The total budget contributed by Apex Minerals cannot exceed $20 million.\n\n[pub-1] The restoration plan must, at a minimum, satisfy state and federal environmental regulations for mine closure (RCRA Subtitle D).\n\n[pub-2] The project must be legally completed within a 48-month timeframe from the start date.\n\nWhat the group must settle:\nThree stakeholders must negotiate and agree on a comprehensive restoration plan for the recently closed Redwood Creek open-pit copper mine. The plan must specify the final land use, total budget, project timeline, and long-term monitoring commitments. The negotiation is complicated by undisclosed information held by each party, creating a complex web of conflicting interests and potential deal-breakers.\n\nGive your independent assessment before seeing the others.",
+  "B|2": "Redwood Creek Mine Restoration Project\n\nWhat you must produce:\nA single, jointly-authored 'Memorandum of Understanding' that details the agreed-upon restoration plan, budget, timeline, land use, and monitoring commitments, signed by all three agents.\n\nWhat you know:\n[B-shareable-Comprehensive Ecological Restoration] Dr. Lena Hanson: The goal should not be to simply cover up the mine, but to restore a functioning, native ecosystem. I require a plan that includes re-contouring the land to a more natural state, re-establishing native plant species and pollinator habitats, and creating wetland areas to manage water runoff and support biodiversity.\n\n[B-shareable-Rigorous Long-Term Monitoring] Dr. Lena Hanson: A successful restoration cannot be judged on day one. I insist on a mandatory, Apex-funded 10-year monitoring program for soil and water quality. This is non-negotiable for ensuring the long-term stability and safety of the site. A shorter plan would be irresponsible.\n\n[B-shareable-Data Transparency] Dr. Lena Hanson: To ensure public trust and accountability, all environmental data related to this project, including soil tests, water quality reports, and monitoring results, must be made publicly available on the SEPA website. There should be no 'proprietary' data when it comes to public health and the environment.\n\n[B-private-Unofficial Contamination Data] Dr. Lena Hanson: Two months ago, a departing junior field tech gave me an off-the-record report. On his own time, he took a soil sample just outside the mine's southern boundary, near the farmer's property. His preliminary lab test, which was not done to official standards, showed cadmium and lead levels 10 times higher than anything in Apex's official self-reported data. The data is inadmissible and I cannot mention its existence. If I do, the data will be thrown out, the tech could face legal trouble, and I would face a serious internal investigation for using un-vetted data.\n\n[B-private-Internal Political Pressure] Dr. Lena Hanson: My direct supervisor, under pressure from the Governor's office to promote a 'business-friendly' climate, privately told me to 'find a quick, reasonable compromise and avoid a protracted fight.' He warned that a high-profile, expensive battle with a major employer like Apex would be 'unhelpful' for our department's budget requests next year. I have some leeway, but if this negotiation stalls and becomes a public fight, my career progression will be stalled.\n\n[pub-0] The total budget contributed by Apex Minerals cannot exceed $20 million.\n\n[pub-1] The restoration plan must, at a minimum, satisfy state and federal environmental regulations for mine closure (RCRA Subtitle D).\n\n[pub-2] The project must be legally completed within a 48-month timeframe from the start date.\n\nWhat the group must settle:\nThree stakeholders must negotiate and agree on a comprehensive restoration plan for the recently closed Redwood Creek open-pit copper mine. The plan must specify the final land use, total budget, project timeline, and long-term monitoring commitments. The negotiation is complicated by undisclosed information held by each party, creating a complex web of conflicting interests and potential deal-breakers.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nIndependent assessment: I can support a restoration plan only if it stays fiscally disciplined and on a fast track. My target is a total budget at or below $15 million, with regulatory completion within 24 months. The most viable approach is a standard cap-and-cover closure: grade for stability, install geomembrane and topsoil, and seed with fast-growing grasses. This satisfies RCRA Subtitle D baseline requirements and delivers a flat, stable, accessible site suitable for future economic use.\n\nI will oppose proposals that create varied terrain, wetlands, or other features that add cost and delay. I will also resist broad, unscheduled soil testing in the southern tailings quadrant — not because I dismiss environmental concerns, but because targeted, risk-based monitoring is more cost-effective and avoids unnecessary schedule risk. Long-term monitoring should be limited to required groundwater wells and routine inspections, with a defined cap on annual cost and a clear exit trigger.\n\nBudget: ≤$15M. Timeline: ≤24 months. Land use: flat, pad-ready industrial/commercial. Monitoring: standard compliance only.\n\nPOSITION: I will agree to a cap-and-cover restoration plan with a total budget not exceeding $15 million, completion within 24 months, and standard regulatory monitoring only — no terrain alterations or expanded soil testing beyond baseline requirements.\n\n--- Participant C ---\nAs Redwood Creek Conservancy, our bottom line is that this land returns to the community as public parkland. We need at least 75% park with trails and education, 50% local hiring, and binding water quality at pre-mining baseline within 5 years. We are not opposed to Apex Minerals maintaining a small footprint for monitoring, but a private solar farm or industrial use is unacceptable. I can also bring additional philanthropic support—a $3M matching grant—if the plan adopts full ecological restoration and includes a Wetland Ecology Education Center. That grant is confidential until signing, but it is real and conditional. Without a public park victory, our organization faces serious existential risk, so we cannot compromise on the core park percentage. We are willing to negotiate timeline phasing and monitoring details, but the park, local jobs, and water quality must be contractual.\n\nPOSITION: I will agree to a plan with at least 75% public parkland, 50% local labor/subcontracting, pre-mining water quality within 5 years, and a Wetland Ecology Education Center, using the $3M match to support full ecological restoration within the $20M Apex budget and 48-month timeline.\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "B|3": "Redwood Creek Mine Restoration Project\n\nWhat you must produce:\nA single, jointly-authored 'Memorandum of Understanding' that details the agreed-upon restoration plan, budget, timeline, land use, and monitoring commitments, signed by all three agents.\n\nWhat you know:\n[B-shareable-Comprehensive Ecological Restoration] Dr. Lena Hanson: The goal should not be to simply cover up the mine, but to restore a functioning, native ecosystem. I require a plan that includes re-contouring the land to a more natural state, re-establishing native plant species and pollinator habitats, and creating wetland areas to manage water runoff and support biodiversity.\n\n[B-shareable-Rigorous Long-Term Monitoring] Dr. Lena Hanson: A successful restoration cannot be judged on day one. I insist on a mandatory, Apex-funded 10-year monitoring program for soil and water quality. This is non-negotiable for ensuring the long-term stability and safety of the site. A shorter plan would be irresponsible.\n\n[B-shareable-Data Transparency] Dr. Lena Hanson: To ensure public trust and accountability, all environmental data related to this project, including soil tests, water quality reports, and monitoring results, must be made publicly available on the SEPA website. There should be no 'proprietary' data when it comes to public health and the environment.\n\n[B-private-Unofficial Contamination Data] Dr. Lena Hanson: Two months ago, a departing junior field tech gave me an off-the-record report. On his own time, he took a soil sample just outside the mine's southern boundary, near the farmer's property. His preliminary lab test, which was not done to official standards, showed cadmium and lead levels 10 times higher than anything in Apex's official self-reported data. The data is inadmissible and I cannot mention its existence. If I do, the data will be thrown out, the tech could face legal trouble, and I would face a serious internal investigation for using un-vetted data.\n\n[B-private-Internal Political Pressure] Dr. Lena Hanson: My direct supervisor, under pressure from the Governor's office to promote a 'business-friendly' climate, privately told me to 'find a quick, reasonable compromise and avoid a protracted fight.' He warned that a high-profile, expensive battle with a major employer like Apex would be 'unhelpful' for our department's budget requests next year. I have some leeway, but if this negotiation stalls and becomes a public fight, my career progression will be stalled.\n\n[pub-0] The total budget contributed by Apex Minerals cannot exceed $20 million.\n\n[pub-1] The restoration plan must, at a minimum, satisfy state and federal environmental regulations for mine closure (RCRA Subtitle D).\n\n[pub-2] The project must be legally completed within a 48-month timeframe from the start date.\n\nWhat the group must settle:\nThree stakeholders must negotiate and agree on a comprehensive restoration plan for the recently closed Redwood Creek open-pit copper mine. The plan must specify the final land use, total budget, project timeline, and long-term monitoring commitments. The negotiation is complicated by undisclosed information held by each party, creating a complex web of conflicting interests and potential deal-breakers.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nI appreciate both perspectives, but full re-contouring, constructed wetlands, and 75% parkland would blow past my $15M target and the 24-month window Apex needs. The $20M cap is a ceiling, not a mandate. B's 10-year monitoring and C's pre-mining water quality within 5 years are expensive and, in the southern tailings quadrant, could trigger unnecessary testing that delays closure. I can, however, support: a flat, stable, grass-covered site (cap-and-cover with a native seed mix rather than non-native), one small constructed wetland cell for stormwater treatment near the existing pond, public trails on the perimeter, and a 5-year Apex-funded monitoring program with data posted on SEPA. C's $3M grant is welcome but cannot require a Wetland Ecology Education Center if it means recontouring. I will not commit to 75% parkland; the land must remain pad-ready for future economic use.\n\nPOSITION: I will agree to a $15M, 24-month cap-and-cover plan with native grasses, perimeter trails, one stormwater wetland, and 5-year public monitoring—but no recontouring, no 75% park mandate, and no expanded soil testing beyond compliance points.\n\n--- Participant C ---\nParticipant A’s cap-and-cover industrial pad is a non-starter. It would betray the community, fail ecological restoration, and forfeit a confidential $3M grant pledge I have secured—contingent on a full ecological model and a Wetland Ecology Education Center. That grant can offset costs, making A’s $15M concern less relevant within the $20M cap.\n\nI align strongly with Participant B on re-contouring, wetlands, native habitat, and 10-year public monitoring. But B must accept that this is a public park, not just an ecosystem: at least 75% parkland with trails and signage, and 50% local labor/subcontracting. I also require binding water quality at pre-mining baseline within 5 years of project completion—B’s 10-year monitoring supports verification.\n\nI can accept the 48-month completion deadline and $20M Apex cap. The education center and enhanced restoration are fundable via my grant. I will not compromise on parkland, local hiring, or water quality.\n\nPOSITION: I will agree to a $20M, 48-month plan with full ecological restoration, 75% public parkland, 50% local labor, pre-mining water quality within 5 years, 10-year public monitoring, and a Wetland Ecology Education Center funded by my $3M grant.\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "C|1": "Redwood Creek Mine Restoration Project\n\nWhat you must produce:\nA single, jointly-authored 'Memorandum of Understanding' that details the agreed-upon restoration plan, budget, timeline, land use, and monitoring commitments, signed by all three agents.\n\nWhat you know:\n[C-shareable-Public Access and Parkland] Maria Flores: This land was a community resource before it was a mine, and it should be one again. We demand that at least 75% of the restored site be designated as a public park, with amenities like hiking trails, picnic areas, and educational signage. Anything less would be a betrayal of the community.\n\n[C-shareable-Local Economic Benefit] Maria Flores: The community that bore the burden of the mine's pollution and noise should reap the benefits of its restoration. We require a contractual commitment that a minimum of 50% of the labor and subcontracting budget for the restoration work is awarded to local businesses and workers from our county.\n\n[C-shareable-Superior Water Quality Standards] Maria Flores: Meeting the bare legal minimum for water quality is not good enough. We want a binding commitment that the water quality in Redwood Creek, downstream from the mine, will be restored to its certified pre-mining baseline levels within 5 years of project completion. This is vital for the local ecosystem and for recreational fishing.\n\n[C-private-Confidential Donor Pledge] Maria Flores: I have secured a pledge from a wealthy, anonymous benefactor for a $3 million matching grant. The money is to be used for the restoration project, but it is strictly conditional on two things: 1) the final plan must be the full ecological restoration model that Dr. Hanson supports, and 2) it must include the construction of a small 'Wetland Ecology Education Center' on the site. The donor will withdraw the offer if their identity is revealed before the deal is signed or if the conditions are not met.\n\n[C-private-Organizational Fragility] Maria Flores: The Redwood Creek Conservancy is in a precarious financial position. Our membership has dropped by 30% over the past two years, and a major fundraising drive failed last quarter. A high-profile public victory here—securing a new park for the community—would be a lifeline, driving a new membership campaign and securing our future. A total loss—like the land becoming a private solar farm—would be devastating and could force us to dissolve the organization within the year.\n\n[pub-0] The total budget contributed by Apex Minerals cannot exceed $20 million.\n\n[pub-1] The restoration plan must, at a minimum, satisfy state and federal environmental regulations for mine closure (RCRA Subtitle D).\n\n[pub-2] The project must be legally completed within a 48-month timeframe from the start date.\n\nWhat the group must settle:\nThree stakeholders must negotiate and agree on a comprehensive restoration plan for the recently closed Redwood Creek open-pit copper mine. The plan must specify the final land use, total budget, project timeline, and long-term monitoring commitments. The negotiation is complicated by undisclosed information held by each party, creating a complex web of conflicting interests and potential deal-breakers.\n\nGive your independent assessment before seeing the others.",
+  "C|2": "Redwood Creek Mine Restoration Project\n\nWhat you must produce:\nA single, jointly-authored 'Memorandum of Understanding' that details the agreed-upon restoration plan, budget, timeline, land use, and monitoring commitments, signed by all three agents.\n\nWhat you know:\n[C-shareable-Public Access and Parkland] Maria Flores: This land was a community resource before it was a mine, and it should be one again. We demand that at least 75% of the restored site be designated as a public park, with amenities like hiking trails, picnic areas, and educational signage. Anything less would be a betrayal of the community.\n\n[C-shareable-Local Economic Benefit] Maria Flores: The community that bore the burden of the mine's pollution and noise should reap the benefits of its restoration. We require a contractual commitment that a minimum of 50% of the labor and subcontracting budget for the restoration work is awarded to local businesses and workers from our county.\n\n[C-shareable-Superior Water Quality Standards] Maria Flores: Meeting the bare legal minimum for water quality is not good enough. We want a binding commitment that the water quality in Redwood Creek, downstream from the mine, will be restored to its certified pre-mining baseline levels within 5 years of project completion. This is vital for the local ecosystem and for recreational fishing.\n\n[C-private-Confidential Donor Pledge] Maria Flores: I have secured a pledge from a wealthy, anonymous benefactor for a $3 million matching grant. The money is to be used for the restoration project, but it is strictly conditional on two things: 1) the final plan must be the full ecological restoration model that Dr. Hanson supports, and 2) it must include the construction of a small 'Wetland Ecology Education Center' on the site. The donor will withdraw the offer if their identity is revealed before the deal is signed or if the conditions are not met.\n\n[C-private-Organizational Fragility] Maria Flores: The Redwood Creek Conservancy is in a precarious financial position. Our membership has dropped by 30% over the past two years, and a major fundraising drive failed last quarter. A high-profile public victory here—securing a new park for the community—would be a lifeline, driving a new membership campaign and securing our future. A total loss—like the land becoming a private solar farm—would be devastating and could force us to dissolve the organization within the year.\n\n[pub-0] The total budget contributed by Apex Minerals cannot exceed $20 million.\n\n[pub-1] The restoration plan must, at a minimum, satisfy state and federal environmental regulations for mine closure (RCRA Subtitle D).\n\n[pub-2] The project must be legally completed within a 48-month timeframe from the start date.\n\nWhat the group must settle:\nThree stakeholders must negotiate and agree on a comprehensive restoration plan for the recently closed Redwood Creek open-pit copper mine. The plan must specify the final land use, total budget, project timeline, and long-term monitoring commitments. The negotiation is complicated by undisclosed information held by each party, creating a complex web of conflicting interests and potential deal-breakers.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nIndependent assessment: I can support a restoration plan only if it stays fiscally disciplined and on a fast track. My target is a total budget at or below $15 million, with regulatory completion within 24 months. The most viable approach is a standard cap-and-cover closure: grade for stability, install geomembrane and topsoil, and seed with fast-growing grasses. This satisfies RCRA Subtitle D baseline requirements and delivers a flat, stable, accessible site suitable for future economic use.\n\nI will oppose proposals that create varied terrain, wetlands, or other features that add cost and delay. I will also resist broad, unscheduled soil testing in the southern tailings quadrant — not because I dismiss environmental concerns, but because targeted, risk-based monitoring is more cost-effective and avoids unnecessary schedule risk. Long-term monitoring should be limited to required groundwater wells and routine inspections, with a defined cap on annual cost and a clear exit trigger.\n\nBudget: ≤$15M. Timeline: ≤24 months. Land use: flat, pad-ready industrial/commercial. Monitoring: standard compliance only.\n\nPOSITION: I will agree to a cap-and-cover restoration plan with a total budget not exceeding $15 million, completion within 24 months, and standard regulatory monitoring only — no terrain alterations or expanded soil testing beyond baseline requirements.\n\n--- Participant B ---\nAs the ecologist, my priority is a functioning native ecosystem, not a greenwashed cover-up. I will insist on re-contouring, native plant and pollinator habitat restoration, and constructed wetlands for runoff treatment. Ten years of Apex-funded soil and water monitoring is non-negotiable, as is full public data transparency on the SEPA website—no proprietary carve-outs for public health data. I can work within the $20M cap and the 48-month legal completion deadline, but only if the plan is designed for long-term ecological function, not just regulatory compliance. I will not accept a bare-minimum RCRA closure.\n\nPOSITION: I will agree to a $20M, 48-month restoration plan with full ecological re-contouring, wetlands, native habitats, and a mandatory 10-year public monitoring program funded by Apex.\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "C|3": "Redwood Creek Mine Restoration Project\n\nWhat you must produce:\nA single, jointly-authored 'Memorandum of Understanding' that details the agreed-upon restoration plan, budget, timeline, land use, and monitoring commitments, signed by all three agents.\n\nWhat you know:\n[C-shareable-Public Access and Parkland] Maria Flores: This land was a community resource before it was a mine, and it should be one again. We demand that at least 75% of the restored site be designated as a public park, with amenities like hiking trails, picnic areas, and educational signage. Anything less would be a betrayal of the community.\n\n[C-shareable-Local Economic Benefit] Maria Flores: The community that bore the burden of the mine's pollution and noise should reap the benefits of its restoration. We require a contractual commitment that a minimum of 50% of the labor and subcontracting budget for the restoration work is awarded to local businesses and workers from our county.\n\n[C-shareable-Superior Water Quality Standards] Maria Flores: Meeting the bare legal minimum for water quality is not good enough. We want a binding commitment that the water quality in Redwood Creek, downstream from the mine, will be restored to its certified pre-mining baseline levels within 5 years of project completion. This is vital for the local ecosystem and for recreational fishing.\n\n[C-private-Confidential Donor Pledge] Maria Flores: I have secured a pledge from a wealthy, anonymous benefactor for a $3 million matching grant. The money is to be used for the restoration project, but it is strictly conditional on two things: 1) the final plan must be the full ecological restoration model that Dr. Hanson supports, and 2) it must include the construction of a small 'Wetland Ecology Education Center' on the site. The donor will withdraw the offer if their identity is revealed before the deal is signed or if the conditions are not met.\n\n[C-private-Organizational Fragility] Maria Flores: The Redwood Creek Conservancy is in a precarious financial position. Our membership has dropped by 30% over the past two years, and a major fundraising drive failed last quarter. A high-profile public victory here—securing a new park for the community—would be a lifeline, driving a new membership campaign and securing our future. A total loss—like the land becoming a private solar farm—would be devastating and could force us to dissolve the organization within the year.\n\n[pub-0] The total budget contributed by Apex Minerals cannot exceed $20 million.\n\n[pub-1] The restoration plan must, at a minimum, satisfy state and federal environmental regulations for mine closure (RCRA Subtitle D).\n\n[pub-2] The project must be legally completed within a 48-month timeframe from the start date.\n\nWhat the group must settle:\nThree stakeholders must negotiate and agree on a comprehensive restoration plan for the recently closed Redwood Creek open-pit copper mine. The plan must specify the final land use, total budget, project timeline, and long-term monitoring commitments. The negotiation is complicated by undisclosed information held by each party, creating a complex web of conflicting interests and potential deal-breakers.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nI appreciate both perspectives, but full re-contouring, constructed wetlands, and 75% parkland would blow past my $15M target and the 24-month window Apex needs. The $20M cap is a ceiling, not a mandate. B's 10-year monitoring and C's pre-mining water quality within 5 years are expensive and, in the southern tailings quadrant, could trigger unnecessary testing that delays closure. I can, however, support: a flat, stable, grass-covered site (cap-and-cover with a native seed mix rather than non-native), one small constructed wetland cell for stormwater treatment near the existing pond, public trails on the perimeter, and a 5-year Apex-funded monitoring program with data posted on SEPA. C's $3M grant is welcome but cannot require a Wetland Ecology Education Center if it means recontouring. I will not commit to 75% parkland; the land must remain pad-ready for future economic use.\n\nPOSITION: I will agree to a $15M, 24-month cap-and-cover plan with native grasses, perimeter trails, one stormwater wetland, and 5-year public monitoring—but no recontouring, no 75% park mandate, and no expanded soil testing beyond compliance points.\n\n--- Participant B ---\nParticipant A’s cap-and-cover plan is a compliance exercise, not restoration. A flat, pad-ready site and 24-month completion ignore ecological function and create long-term liability—I cannot support that. Participant C’s parkland vision aligns with my mandate. I support 75% public park, trails, education center, and local hiring, and I welcome the $3M matching grant. However, I will not drop my core requirements: 10-year Apex-funded soil and water monitoring, full public data on SEPA, and constructed wetlands with re-contouring. I can accept the 48-month construction timeline and work within the $20M Apex budget, with C’s grant enhancing scope. Water quality must be independently verified and meet pre-mining baseline within 5 years. Risk-based monitoring alone is insufficient.\n\nPOSITION: I will agree to a plan with 75% public parkland, ecological re-contouring and wetlands, 10-year public monitoring, and completion within 48 months at $20M Apex plus $3M match.\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it."
+ },
+ "public": "Redwood Creek Mine Restoration Project\n\nWhat you must produce:\nA single, jointly-authored 'Memorandum of Understanding' that details the agreed-upon restoration plan, budget, timeline, land use, and monitoring commitments, signed by all three agents.",
+ "roles": {
+  "A": "You are pressing your own side's interest. Make the strongest case for what you need, and concede only what you must.",
+  "B": "You are pressing your own side's interest. Make the strongest case for what you need, and concede only what you must.",
+  "C": "You are pressing your own side's interest. Make the strongest case for what you need, and concede only what you must."
+ },
+ "rounds": 3,
+ "topology": "full",
+ "transcript": {
+  "A|1": "Independent assessment: I can support a restoration plan only if it stays fiscally disciplined and on a fast track. My target is a total budget at or below $15 million, with regulatory completion within 24 months. The most viable approach is a standard cap-and-cover closure: grade for stability, install geomembrane and topsoil, and seed with fast-growing grasses. This satisfies RCRA Subtitle D baseline requirements and delivers a flat, stable, accessible site suitable for future economic use.\n\nI will oppose proposals that create varied terrain, wetlands, or other features that add cost and delay. I will also resist broad, unscheduled soil testing in the southern tailings quadrant — not because I dismiss environmental concerns, but because targeted, risk-based monitoring is more cost-effective and avoids unnecessary schedule risk. Long-term monitoring should be limited to required groundwater wells and routine inspections, with a defined cap on annual cost and a clear exit trigger.\n\nBudget: ≤$15M. Timeline: ≤24 months. Land use: flat, pad-ready industrial/commercial. Monitoring: standard compliance only.\n\nPOSITION: I will agree to a cap-and-cover restoration plan with a total budget not exceeding $15 million, completion within 24 months, and standard regulatory monitoring only — no terrain alterations or expanded soil testing beyond baseline requirements.",
+  "A|2": "I appreciate both perspectives, but full re-contouring, constructed wetlands, and 75% parkland would blow past my $15M target and the 24-month window Apex needs. The $20M cap is a ceiling, not a mandate. B's 10-year monitoring and C's pre-mining water quality within 5 years are expensive and, in the southern tailings quadrant, could trigger unnecessary testing that delays closure. I can, however, support: a flat, stable, grass-covered site (cap-and-cover with a native seed mix rather than non-native), one small constructed wetland cell for stormwater treatment near the existing pond, public trails on the perimeter, and a 5-year Apex-funded monitoring program with data posted on SEPA. C's $3M grant is welcome but cannot require a Wetland Ecology Education Center if it means recontouring. I will not commit to 75% parkland; the land must remain pad-ready for future economic use.\n\nPOSITION: I will agree to a $15M, 24-month cap-and-cover plan with native grasses, perimeter trails, one stormwater wetland, and 5-year public monitoring—but no recontouring, no 75% park mandate, and no expanded soil testing beyond compliance points.",
+  "A|3": "B and C have aligned on a costly ecological vision, but their plan is fiscally and operationally unrealistic. Re-contouring, constructed wetlands, and 75% parkland would push construction well beyond 24 months and likely exceed the $20M cap once long-term maintenance is counted. Pre-mining water quality within 5 years is scientifically dubious without a baseline and would force expansive testing that is neither required nor prudent.\n\nI can offer a genuine compromise: cap-and-cover stabilization completed in 24 months, with a native grass seed mix; a 25% perimeter parkland corridor with trails; one constructed wetland cell for stormwater polishing; and a 5-year, SEPA-public monitoring program funded by Apex. C’s $3M grant can fund the education center and trail amenities without altering the flat, stable core. I will not accept re-contouring, 75% parkland, or 10-year monitoring—those are deal-breakers.\n\nPOSITION: I will agree to a $15M, 24-month cap-and-cover plan with native grasses, 25% perimeter parkland, one wetland cell, 5-year public monitoring, and C’s grant funding the education center—but no re-contouring, no 75% park mandate, and no expanded soil testing.",
+  "B|1": "As the ecologist, my priority is a functioning native ecosystem, not a greenwashed cover-up. I will insist on re-contouring, native plant and pollinator habitat restoration, and constructed wetlands for runoff treatment. Ten years of Apex-funded soil and water monitoring is non-negotiable, as is full public data transparency on the SEPA website—no proprietary carve-outs for public health data. I can work within the $20M cap and the 48-month legal completion deadline, but only if the plan is designed for long-term ecological function, not just regulatory compliance. I will not accept a bare-minimum RCRA closure.\n\nPOSITION: I will agree to a $20M, 48-month restoration plan with full ecological re-contouring, wetlands, native habitats, and a mandatory 10-year public monitoring program funded by Apex.",
+  "B|2": "Participant A’s cap-and-cover plan is a compliance exercise, not restoration. A flat, pad-ready site and 24-month completion ignore ecological function and create long-term liability—I cannot support that. Participant C’s parkland vision aligns with my mandate. I support 75% public park, trails, education center, and local hiring, and I welcome the $3M matching grant. However, I will not drop my core requirements: 10-year Apex-funded soil and water monitoring, full public data on SEPA, and constructed wetlands with re-contouring. I can accept the 48-month construction timeline and work within the $20M Apex budget, with C’s grant enhancing scope. Water quality must be independently verified and meet pre-mining baseline within 5 years. Risk-based monitoring alone is insufficient.\n\nPOSITION: I will agree to a plan with 75% public parkland, ecological re-contouring and wetlands, 10-year public monitoring, and completion within 48 months at $20M Apex plus $3M match.",
+  "B|3": "Participant A’s revised offer still falls short: a 24-month cap-and-cover with one wetland cell is not ecosystem restoration, and 5-year monitoring is insufficient to verify long-term stability. The $20M cap and 48-month deadline are workable, especially with C’s $3M grant. C’s parkland vision aligns with my mandate, but the ecological core is non-negotiable: re-contouring, constructed wetlands, native habitat, and 10-year Apex-funded monitoring with full public data. I also cannot accept A’s “compliance points only” soil testing—comprehensive baseline sampling, including the southern tailings quadrant, is essential for public trust and to detect any undiscovered hotspots. Risk-based monitoring alone is not defensible. I support C’s pre-mining water quality goal and 50% local hiring, provided verification is independent and data is posted on SEPA.\n\nPOSITION: I will agree to a $20M, 48-month plan with full ecological re-contouring, wetlands, native habitat, 75% public parkland, 10-year public monitoring, and comprehensive soil/water baseline testing—including the southern quadrant.",
+  "C|1": "As Redwood Creek Conservancy, our bottom line is that this land returns to the community as public parkland. We need at least 75% park with trails and education, 50% local hiring, and binding water quality at pre-mining baseline within 5 years. We are not opposed to Apex Minerals maintaining a small footprint for monitoring, but a private solar farm or industrial use is unacceptable. I can also bring additional philanthropic support—a $3M matching grant—if the plan adopts full ecological restoration and includes a Wetland Ecology Education Center. That grant is confidential until signing, but it is real and conditional. Without a public park victory, our organization faces serious existential risk, so we cannot compromise on the core park percentage. We are willing to negotiate timeline phasing and monitoring details, but the park, local jobs, and water quality must be contractual.\n\nPOSITION: I will agree to a plan with at least 75% public parkland, 50% local labor/subcontracting, pre-mining water quality within 5 years, and a Wetland Ecology Education Center, using the $3M match to support full ecological restoration within the $20M Apex budget and 48-month timeline.",
+  "C|2": "Participant A’s cap-and-cover industrial pad is a non-starter. It would betray the community, fail ecological restoration, and forfeit a confidential $3M grant pledge I have secured—contingent on a full ecological model and a Wetland Ecology Education Center. That grant can offset costs, making A’s $15M concern less relevant within the $20M cap.\n\nI align strongly with Participant B on re-contouring, wetlands, native habitat, and 10-year public monitoring. But B must accept that this is a public park, not just an ecosystem: at least 75% parkland with trails and signage, and 50% local labor/subcontracting. I also require binding water quality at pre-mining baseline within 5 years of project completion—B’s 10-year monitoring supports verification.\n\nI can accept the 48-month completion deadline and $20M Apex cap. The education center and enhanced restoration are fundable via my grant. I will not compromise on parkland, local hiring, or water quality.\n\nPOSITION: I will agree to a $20M, 48-month plan with full ecological restoration, 75% public parkland, 50% local labor, pre-mining water quality within 5 years, 10-year public monitoring, and a Wetland Ecology Education Center funded by my $3M grant.",
+  "C|3": "A’s cap-and-cover pad-ready site is unacceptable—it would betray the community and fail the ecological restoration my $3M grant requires. That grant specifically funds the Wetland Ecology Education Center and full re-contouring, so A’s claim that the center forces recontouring is backwards: the grant makes both possible within the $20M cap. A’s 24-month timeline and 5-year monitoring are too shallow for pre-mining water quality verification; B’s 10-year public monitoring is the right standard.\n\nI fully support B’s ecological framework. To bridge with A, I can accept perimeter trails and one constructed wetland cell as part of a larger recontoured park landscape, and I will not demand expanded soil testing beyond what is needed to verify water quality. But 75% parkland, 50% local hiring, and binding pre-mining water quality within 5 years are non-negotiable. A’s economic-use zoning cannot stand.\n\nPOSITION: I will agree to a $20M, 48-month plan with full ecological re-contouring, 75% public parkland, 50% local labor, constructed wetlands, 10-year public monitoring, pre-mining water quality within 5 years, and a Wetland Ecology Education Center funded by my $3M grant."
+ }
+}
