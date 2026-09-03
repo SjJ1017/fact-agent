@@ -207,6 +207,10 @@ def build(store_path: Path) -> dict | None:
         "self_prior": {slot: info["self_turn"]
                        for slot, info in debate.get("delivery", {}).items()
                        if info.get("self_turn")},
+        "visible": {slot: {"peers": info.get("visible_peer_turns",
+                                             info.get("peer_turns", [])),
+                           "self": info.get("visible_self_turns", [])}
+                    for slot, info in debate.get("delivery", {}).items()},
         # Run-level, not inferred from whether some turn happens to have a
         # prior: round 1 never does, under any condition.
         "memory": debate.get("memory",

@@ -37,7 +37,7 @@ from export_labels import attach_labels
 
 ROOT = Path(__file__).resolve().parent
 STORE_DIRS = [ROOT / "perspectrum_pilot_full", ROOT / "perspectrum_pilot_star_chain"]
-OUT = ROOT.parent / "findings" / "data" / "context-output.json"
+OUT = ROOT.parent / "findings" / "data" / "context-output{memory}.json"
 PANELS = ("neutral", "lenses", "stance")
 STANCES = ("SUPPORT", "UNDERMINE", "NEUTRAL")
 ROLE = {"neutral": {"A": "中立", "B": "中立", "C": "中立"},
@@ -74,8 +74,13 @@ def main() -> None:
     ap.add_argument("--model", default="deepseek-v4-flash")
     ap.add_argument("--memory", default="peer-only",
                     choices=("peer-only", "self-last", "cumulative"))
-    ap.add_argument("--out", type=Path, default=OUT)
+    # Default output carries the condition. Three analyses writing one path
+    # means the last one silently replaces the other two.
+    ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
+    if args.out is None:
+        tag = "" if args.memory == "peer-only" else f"-{args.memory}"
+        args.out = Path(str(OUT).format(memory=tag))
 
     rows = []
     for directory in STORE_DIRS:
@@ -115,8 +120,14 @@ def main() -> None:
             for slot, info in debate.get("delivery", {}).items():
                 agent, rnd = slot.split("|")
                 rnd = int(rnd)
+                # visible_*, not peer_turns. A delivery event is what arrived
+                # this round; the context window is what the model can still
+                # read. Under cumulative those differ — full's A|3 is handed B2
+                # and C2 but the older user turns still hold B1 and C1 — and
+                # using the delivery would count facts the agent can see as
+                # facts it cannot.
                 peers = set()
-                for peer in info.get("peer_turns", []):
+                for peer in info.get("visible_peer_turns", info.get("peer_turns", [])):
                     a, r = peer.split("|")
                     peers |= said[(a, int(r))]
                 # Under peer-only memory `self_turn` is absent and context is
@@ -126,10 +137,12 @@ def main() -> None:
                 # facts it could not — inflating every tilt by whatever the
                 # agent had already said.
                 own = set()
-                self_turn = info.get("self_turn")
-                if self_turn:
-                    a, r = self_turn.split("|")
-                    own = said[(a, int(r))]
+                self_visible = info.get("visible_self_turns")
+                if self_visible is None:
+                    self_visible = [info["self_turn"]] if info.get("self_turn") else []
+                for turn in self_visible:
+                    a, r = turn.split("|")
+                    own |= said[(a, int(r))]
                 context = dossier | peers | own
                 cmix, cn = mix(context, stance_of)
                 omix, on = mix(said[(agent, rnd)], stance_of)

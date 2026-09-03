@@ -296,8 +296,13 @@ def main() -> None:
     ap.add_argument("--memory", default="peer-only",
                     choices=("peer-only", "self-last", "cumulative"),
                     help="只分析这一种记忆条件的辩论；把不同条件混在一起平均是没有意义的")
-    ap.add_argument("--out", type=Path, default=OUT)
+    ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
+    if args.out is None:
+        args.out = OUT
+    # Written files carry the condition too, or analysing peer-only then
+    # cumulative leaves one file that claims to be both.
+    tag = "" if args.memory == "peer-only" else f"-{args.memory}"
     topologies = tuple(args.topologies)
 
     data = collect(args.model, topologies, args)
@@ -342,10 +347,10 @@ def main() -> None:
         "cells": cells, "paired": paired,
         "per_debate": {f"{t}|{c}|{p}": r for (t, c, p), r in data.items()},
     }
-    (args.out / "flow-profile.json").write_text(
+    (args.out / f"flow-profile{tag}.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=1) + "\n")
 
-    with (args.out / "flow-profile-per-debate.csv").open("w", newline="") as fh:
+    with (args.out / f"flow-profile{tag}-per-debate.csv").open("w", newline="") as fh:
         fields = ["topology", "claim", "panel"] + list(next(iter(data.values())))
         writer = csv.DictWriter(fh, fieldnames=fields)
         writer.writeheader()
@@ -380,7 +385,7 @@ def main() -> None:
         print(f" {mark}{key:46s} {stat['delta']:+9.3f} "
               f"[{stat['lo']:+.3f}, {stat['hi']:+.3f}]  "
               f"p={stat['p_positive']:.3f}  {stat['positive']}/{stat['n']}")
-    print(f"\nwrote {args.out / 'flow-profile.json'} and flow-profile-per-debate.csv")
+    print(f"\nwrote {args.out / f'flow-profile{tag}.json'} 和 per-debate.csv")
 
 
 if __name__ == "__main__":

@@ -293,15 +293,20 @@ def run_case(
             key = f"{agent}|{rnd}"
             prior = f"{agent}|{rnd - 1}"
             history: list[tuple[str, str]] = list(threads[agent])
-            user = prompt_for(case, peers, roles[agent],
-                              has_own_prior=bool(history))
+            # From the condition, not from whether `history` happens to be
+            # filled yet: under self-last the assistant turn is appended after
+            # this line, so reading `history` here told chain's agent A to
+            # answer "before seeing other panelists" while its own previous
+            # answer was about to be put in front of it.
+            has_own_prior = memory != "peer-only" and prior in transcript
+            user = prompt_for(case, peers, roles[agent], has_own_prior=has_own_prior)
             prompts[key] = user
             if memory == "cumulative":
                 # Whatever was actually said, in order. Peers therefore stay
                 # visible across every round they were delivered in, which is
                 # the standard behaviour rather than a leak.
                 threads[agent] = history + [("user", user)]
-            elif memory == "self-last" and prior in transcript:
+            elif memory == "self-last" and has_own_prior:
                 # The agent's own answer as an assistant turn, so the model
                 # treats it as its own commitment rather than as material
                 # quoted back at it.
@@ -316,10 +321,29 @@ def run_case(
                 history = [("user", history_prompt(case)),
                            ("assistant", transcript[prior])]
                 threads[agent] = []
+            # Two different things that a single field used to conflate. A
+            # delivery event is what arrived this round; visibility is what is
+            # actually in the context window. Under cumulative they differ by a
+            # lot — full's A|3 is handed B2 and C2 but can still read B1 and C1
+            # in the older user turns — and treating the delivery as the
+            # context makes anything adopted a round late look novel.
+            fresh = [f"{peer}|{rnd - 1}" for peer, _ in peers]
+            if memory == "cumulative":
+                vis_peers = [t for r in range(1, rnd)
+                             for t in (f"{n}|{r}" for n in
+                                       neighbours(topology, agents, agent))
+                             if t in transcript]
+                vis_self = [f"{agent}|{r}" for r in range(1, rnd)
+                            if f"{agent}|{r}" in transcript]
+            else:
+                vis_peers = list(fresh)
+                vis_self = [prior] if has_own_prior else []
             delivery[key] = {
                 "source_ids": ["claim", *[item["id"] for item in case.evidence]],
-                "peer_turns": [f"{peer}|{rnd - 1}" for peer, _ in peers],
-                "self_turn": prior if prior in transcript and memory != "peer-only" else None,
+                "peer_turns": fresh,
+                "self_turn": prior if has_own_prior else None,
+                "visible_peer_turns": vis_peers,
+                "visible_self_turns": vis_self,
             }
             requests[agent] = (user, peers, history)
 
