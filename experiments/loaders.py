@@ -172,11 +172,17 @@ def load_task_allocation(n: int, seed: int, **_: Any) -> list[Case]:
     """
     cases = []
     for name, g in _games("task_allocation/games", n, seed):
-        agents = list(g.agents)
+        # Canonical order, workers before the leader, so that a persona written
+        # for position C is always the leader.  The files happen to store them
+        # that way already, but a config that silently binds the adjudicator
+        # persona to a worker is not a failure anything downstream would show.
+        agents = sorted(g.agents,
+                        key=lambda a: (g.agents_config[a]["role"] == "Leader", a))
         labels = [chr(ord("A") + i) for i in range(len(agents))]
         items, held = [], {ell: [] for ell in labels}
-        for i, (agent, ell) in enumerate(zip(agents, labels)):
-            obs = getattr(g, f"agent_{i}_obs")
+        src_index = {a: i for i, a in enumerate(g.agents)}
+        for agent, ell in zip(agents, labels):
+            obs = getattr(g, f"agent_{src_index[agent]}_obs")
             cfg = g.agents_config[agent]
             for res, amt in obs.get("private_resources", {}).items():
                 iid = f"{ell}-priv-{res}"

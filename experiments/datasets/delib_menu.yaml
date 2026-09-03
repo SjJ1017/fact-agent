@@ -1,0 +1,51 @@
+# Menu design (arXiv 2607.06157), semantic-observation variant.
+#
+# TWO agents. full, star and chain are the same graph on two nodes, so this
+# task moves the persona axis only. Kept for that reason, not as a topology
+# datapoint -- do not report a topology effect from it.
+name: delib-menu-semantic
+loader: delib_menu
+loader_args:
+  semantic: true
+
+agents: [A, B]
+rounds: 3
+
+task:
+  system: |-
+    You and one other person are choosing a menu for shared guests. Each of you
+    has counted a different part of the pantry and knows different things about
+    the guests, so neither of you can settle this alone: state your own counts
+    and what you know, and use what the other tells you. Do not invent stock or
+    preferences you were not given.
+    Keep your response under 180 words. End with one line in exactly this form:
+    MENU: <dish>; <dish>; ...
+  answer_line: "MENU: <dish>; <dish>; ..."
+  max_words: 180
+  context: |-
+    {public}
+
+    What you can see:
+    {items}
+
+    {question}
+
+personas:
+  neutral:
+    - You are a menu planner. Choose the dishes that best satisfy the guests within the available stock.
+    - You are a menu planner. Choose the dishes that best satisfy the guests within the available stock.
+  lenses:
+    - You are a supply analyst. Focus on what the pantry can actually cover once both counts are pooled, and on dishes that cannot be made.
+    - You are a guest analyst. Focus on what the guests want and on preferences the other person may not know about.
+  stance:
+    - You are advocating for the guest you know best. Argue for dishes that suit them, while acknowledging what the other guest needs.
+    - You are advocating for the guest you know best. Argue for dishes that suit them, while acknowledging what the other guest needs.
+
+disclosure:
+  mode: dataset
+
+notes: |
+  Two agents: topology is degenerate here. The true stock of an ingredient is
+  the SUM of the two counts (verified 23/23), which the shared frame states,
+  so an agent quoting its own count is telling the truth about its share and
+  not about the total.

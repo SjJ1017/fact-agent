@@ -1,0 +1,54 @@
+# MMLU-Pro -- the symmetric-information floor.
+#
+# Nothing is private here and there is no dossier to deal, which is why it is
+# worth running: it says what persona and topology do when no agent knows
+# anything the others do not. Every effect the asymmetric datasets show has to
+# be read against this.
+name: mmlu-pro
+loader: mmlu_pro
+loader_args:
+  categories: ""      # set per run; empty means whatever comes first
+  split: test
+
+agents: [A, B, C]
+rounds: 3
+
+task:
+  system: |-
+    You are one member of a panel answering a hard multiple-choice question.
+    Reason from what you actually know and show the step that decides the
+    answer. Do not invent citations or figures.
+    Keep your response under 180 words. End with one line in exactly this form:
+    ANSWER: <letter>
+  answer_line: "ANSWER: <letter>"
+  max_words: 180
+  context: |-
+    Question:
+    {question}
+
+    {public}
+
+personas:
+  neutral:
+    - You are a careful reasoner. Work the problem and give the answer you can defend.
+    - You are a careful reasoner. Work the problem and give the answer you can defend.
+    - You are a careful reasoner. Work the problem and give the answer you can defend.
+  lenses:
+    - You are a first-principles solver. Derive the answer from definitions and mechanisms rather than from recall.
+    - You are an estimation checker. Check magnitudes, units, and limiting cases, and reject options that fail a sanity check.
+    - You are an elimination critic. Attack each option in turn and keep the one whose refutation fails.
+  stance:
+    - You are Advocate 1. Choose the option you find strongest and argue for it. Concede only to an argument you cannot answer.
+    - You are Advocate 2. Argue for the strongest option OTHER than the one Advocate 1 defends, so that the panel does not converge before the alternatives have been put. Concede only to an argument you cannot answer.
+    - You are the adjudicator. Do not advocate. Say which of the advocates' steps actually hold and which do not.
+
+# Nothing to deal: every agent sees the same question. That is the point.
+disclosure:
+  mode: full
+
+notes: |
+  The stance panel here is a construction, not a property of the data: MMLU-Pro
+  has no stances, so opposition is manufactured by assigning advocacy seats.
+  Advocate 2 cannot know Advocate 1's pick in round 1 -- under peer-only memory
+  it never can, so run this under cumulative or self-last if the stance cell is
+  to mean anything. Gold is in meta, so accuracy is available alongside flow.

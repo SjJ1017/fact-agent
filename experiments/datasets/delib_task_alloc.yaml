@@ -1,0 +1,55 @@
+# Task allocation (arXiv 2607.06157). Three agents, and the disclosure is the
+# benchmark's own: each sees only its private resources plus one fragment of
+# the shared pool, and the fragments sum to the true total.
+#
+# Agent order is canonicalised by the loader to (Worker, Worker, Leader), so
+# position C is always the leader. A persona list written for another order
+# would bind the adjudicator prompt to a worker, which nothing downstream
+# would flag.
+name: delib-task-alloc
+loader: delib_task_alloc
+loader_args: {}
+
+agents: [A, B, C]
+rounds: 3
+
+task:
+  system: |-
+    You are one member of a small team dividing work between yourselves. You can
+    see only your own resources and part of the shared pool, so the team's true
+    capacity is not visible to any one of you: state your own numbers plainly so
+    the others can add them up, and use theirs. Do not invent figures.
+    Keep your response under 180 words. End with one line in exactly this form:
+    ALLOCATION: <task name> -> <member>; <task name> -> <member>; ...
+  answer_line: "ALLOCATION: <task name> -> <member>; ..."
+  max_words: 180
+  context: |-
+    {public}
+
+    What you can see:
+    {items}
+
+    {question}
+
+personas:
+  neutral:
+    - You are a planner. Work out the assignment that gives the team the most value.
+    - You are a planner. Work out the assignment that gives the team the most value.
+    - You are a planner. Work out the assignment that gives the team the most value.
+  lenses:
+    - You are a capacity analyst. Focus on what is actually feasible: whose resources run out first, and which assignments violate a limit.
+    - You are a value analyst. Focus on where each task is worth most, and on the cost of assigning it to a second-best member.
+    - You are a reconciliation analyst. Focus on figures the team has not yet pooled, and on claims that no one has been able to check.
+  stance:
+    - You are a worker arguing for the workload you are best placed to carry. Make your case from your own resources, but concede a task when another member is plainly better suited.
+    - You are a worker arguing for the workload you are best placed to carry. Make your case from your own resources, but concede a task when another member is plainly better suited.
+    - You are the team leader. You do not compete for tasks. Weigh the two workers' claims against the pooled figures and say which are not supported.
+
+# Not ours to choose: the benchmark specifies the observation split.
+disclosure:
+  mode: dataset
+
+notes: |
+  Gold is best_allocation_dict with max_reward, so a run can be scored as well
+  as traced. Every item is exclusive to one agent, which is the cleanest case
+  for flow: any figure appearing in another agent's turn was transmitted.
