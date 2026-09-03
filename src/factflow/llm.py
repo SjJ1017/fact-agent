@@ -149,7 +149,15 @@ class LLM:
             system=system, user=user, model=model, max_tokens=max_tokens,
             temperature=temperature, history=list(history),
         )
-        self.cache.put(key, text)
+        # Never persist a degenerate generation. The gateway returns an empty
+        # completion when it is unhappy -- an exhausted weekly quota does it
+        # silently, before it starts returning 429 -- and the sample_id here is
+        # deterministic, so one such reply poisons that exact turn forever:
+        # every later run replays the empty string from disk without calling
+        # the model, and the failure looks like the prompt rather than the
+        # cache. `parse` already guards this with cache_if; chat did not.
+        if text.strip():
+            self.cache.put(key, text)
         return text
 
     def map(self, fn: Callable[..., T], items: Sequence, tolerate_failures: bool = True) -> list[T]:

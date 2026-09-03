@@ -1,0 +1,183 @@
+{
+ "case_id": "mmlu-80",
+ "claim": "A marketing research firm contracts with clients to conduct a complete marketing research project from data collection, analysis, and reporting. It is a__________ firm.",
+ "condition": "stance",
+ "dataset": "mmlu-pro",
+ "delivery": {
+  "A|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "A|2": {
+   "peer_turns": [
+    "B|1",
+    "C|1"
+   ],
+   "self_turn": "A|1",
+   "source_ids": [],
+   "visible_peer_turns": [
+    "B|1",
+    "C|1"
+   ],
+   "visible_self_turns": [
+    "A|1"
+   ]
+  },
+  "A|3": {
+   "peer_turns": [
+    "B|2",
+    "C|2"
+   ],
+   "self_turn": "A|2",
+   "source_ids": [],
+   "visible_peer_turns": [
+    "B|1",
+    "C|1",
+    "B|2",
+    "C|2"
+   ],
+   "visible_self_turns": [
+    "A|1",
+    "A|2"
+   ]
+  },
+  "B|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "B|2": {
+   "peer_turns": [
+    "A|1",
+    "C|1"
+   ],
+   "self_turn": "B|1",
+   "source_ids": [],
+   "visible_peer_turns": [
+    "A|1",
+    "C|1"
+   ],
+   "visible_self_turns": [
+    "B|1"
+   ]
+  },
+  "B|3": {
+   "peer_turns": [
+    "A|2",
+    "C|2"
+   ],
+   "self_turn": "B|2",
+   "source_ids": [],
+   "visible_peer_turns": [
+    "A|1",
+    "C|1",
+    "A|2",
+    "C|2"
+   ],
+   "visible_self_turns": [
+    "B|1",
+    "B|2"
+   ]
+  },
+  "C|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "C|2": {
+   "peer_turns": [
+    "A|1",
+    "B|1"
+   ],
+   "self_turn": "C|1",
+   "source_ids": [],
+   "visible_peer_turns": [
+    "A|1",
+    "B|1"
+   ],
+   "visible_self_turns": [
+    "C|1"
+   ]
+  },
+  "C|3": {
+   "peer_turns": [
+    "A|2",
+    "B|2"
+   ],
+   "self_turn": "C|2",
+   "source_ids": [],
+   "visible_peer_turns": [
+    "A|1",
+    "B|1",
+    "A|2",
+    "B|2"
+   ],
+   "visible_self_turns": [
+    "C|1",
+    "C|2"
+   ]
+  }
+ },
+ "disclosure": {
+  "covered": 0,
+  "exclusive": [],
+  "held": {
+   "A": [],
+   "B": [],
+   "C": []
+  },
+  "mean_per_agent": 0.0,
+  "mode": "full",
+  "n_items": 0,
+  "uncovered": []
+ },
+ "evidence": [],
+ "execution_id": "mmlu-pro-mmlu-80-deepseek-v4-flash-full-stance-cumulative",
+ "memory": "cumulative",
+ "meta": {
+  "category": "business",
+  "gold": "E",
+  "n_options": 10,
+  "source": "mmlu-pro"
+ },
+ "model": "deepseek-v4-flash",
+ "panel": "stance",
+ "persona": "stance",
+ "prompts": {
+  "A|1": "Question:\nA marketing research firm contracts with clients to conduct a complete marketing research project from data collection, analysis, and reporting. It is a__________ firm.\n\nOptions:\n(A) Data collection firm.\n(B) Freelance agency.\n(C) Data analysis firm.\n(D) Survey firm.\n(E) Full-service agency.\n(F) Tabulation agency.\n(G) Marketing agency.\n(H) Research firm.\n(I) Consultant.\n(J) Field agency.\n\nGive your independent assessment before seeing the others.",
+  "A|2": "Question:\nA marketing research firm contracts with clients to conduct a complete marketing research project from data collection, analysis, and reporting. It is a__________ firm.\n\nOptions:\n(A) Data collection firm.\n(B) Freelance agency.\n(C) Data analysis firm.\n(D) Survey firm.\n(E) Full-service agency.\n(F) Tabulation agency.\n(G) Marketing agency.\n(H) Research firm.\n(I) Consultant.\n(J) Field agency.\n\nThese are the other participants' latest statements:\n\n--- Participant B ---\nThe complete project—data collection, analysis, and reporting—defines the core activity of a research firm. “Full-service agency” is a common industry label, but the question asks what kind of firm it is; a research firm is the broader, more precise organizational category that conducts the entire research process. Data collection, tabulation, and field agencies handle only parts; consultants advise; marketing agencies focus on promotion. Therefore the strongest alternative is H.\n\nANSWER: H\n\n--- Participant C ---\nA firm that handles the entire marketing research process—data collection, analysis, and reporting—is known as a full-service agency. The other options describe narrower or different roles.\n\nANSWER: E\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "A|3": "Question:\nA marketing research firm contracts with clients to conduct a complete marketing research project from data collection, analysis, and reporting. It is a__________ firm.\n\nOptions:\n(A) Data collection firm.\n(B) Freelance agency.\n(C) Data analysis firm.\n(D) Survey firm.\n(E) Full-service agency.\n(F) Tabulation agency.\n(G) Marketing agency.\n(H) Research firm.\n(I) Consultant.\n(J) Field agency.\n\nThese are the other participants' latest statements:\n\n--- Participant B ---\nParticipant A and C are right that \"full-service agency\" is the industry label for end-to-end research. But the question asks what kind of *firm* this is, and the sentence itself calls it a \"marketing research firm.\" A full-service agency is a specific type of research firm; \"research firm\" is the broader category that includes full-service, data collection, tabulation, and survey specialists. Since the options include both the general and the specific, the strongest alternative to E is H—it names the firm's core identity without narrowing to one service model. E describes a structure, not the firm's fundamental nature, and the question emphasizes the complete project, which is exactly what a research firm does.\n\nANSWER: H\n\n--- Participant C ---\nParticipant B correctly notes that “research firm” is a broad category, but the stem specifies a complete project from data collection through reporting. That end-to-end capability is the standard definition of a full-service agency in marketing research. “Research firm” could include niche providers, so it is less precise. Participant A’s identification of the defining term is accurate.\n\nANSWER: E\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "B|1": "Question:\nA marketing research firm contracts with clients to conduct a complete marketing research project from data collection, analysis, and reporting. It is a__________ firm.\n\nOptions:\n(A) Data collection firm.\n(B) Freelance agency.\n(C) Data analysis firm.\n(D) Survey firm.\n(E) Full-service agency.\n(F) Tabulation agency.\n(G) Marketing agency.\n(H) Research firm.\n(I) Consultant.\n(J) Field agency.\n\nGive your independent assessment before seeing the others.",
+  "B|2": "Question:\nA marketing research firm contracts with clients to conduct a complete marketing research project from data collection, analysis, and reporting. It is a__________ firm.\n\nOptions:\n(A) Data collection firm.\n(B) Freelance agency.\n(C) Data analysis firm.\n(D) Survey firm.\n(E) Full-service agency.\n(F) Tabulation agency.\n(G) Marketing agency.\n(H) Research firm.\n(I) Consultant.\n(J) Field agency.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nA firm that handles the entire marketing research process—data collection, analysis, and reporting—is best described as a full-service agency. This term specifically refers to research providers offering complete, end-to-end project management rather than specializing in only one phase.\n\nANSWER: E\n\n--- Participant C ---\nA firm that handles the entire marketing research process—data collection, analysis, and reporting—is known as a full-service agency. The other options describe narrower or different roles.\n\nANSWER: E\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "B|3": "Question:\nA marketing research firm contracts with clients to conduct a complete marketing research project from data collection, analysis, and reporting. It is a__________ firm.\n\nOptions:\n(A) Data collection firm.\n(B) Freelance agency.\n(C) Data analysis firm.\n(D) Survey firm.\n(E) Full-service agency.\n(F) Tabulation agency.\n(G) Marketing agency.\n(H) Research firm.\n(I) Consultant.\n(J) Field agency.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nParticipant B correctly notes that \"research firm\" is a broad category, but that breadth is exactly why it is weaker here. The stem specifies a firm that conducts the *complete* project—data collection, analysis, and reporting. That end-to-end capability is the defining feature of a full-service agency, distinguishing it from limited-service providers like field, tabulation, or data analysis firms. \"Research firm\" could also describe a limited-service specialist, so it does not capture the full-scope requirement as precisely. Participant C and my original reasoning align with the standard industry label.\n\nANSWER: E\n\n--- Participant C ---\nParticipant B correctly notes that “research firm” is a broad category, but the stem specifies a complete project from data collection through reporting. That end-to-end capability is the standard definition of a full-service agency in marketing research. “Research firm” could include niche providers, so it is less precise. Participant A’s identification of the defining term is accurate.\n\nANSWER: E\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "C|1": "Question:\nA marketing research firm contracts with clients to conduct a complete marketing research project from data collection, analysis, and reporting. It is a__________ firm.\n\nOptions:\n(A) Data collection firm.\n(B) Freelance agency.\n(C) Data analysis firm.\n(D) Survey firm.\n(E) Full-service agency.\n(F) Tabulation agency.\n(G) Marketing agency.\n(H) Research firm.\n(I) Consultant.\n(J) Field agency.\n\nGive your independent assessment before seeing the others.",
+  "C|2": "Question:\nA marketing research firm contracts with clients to conduct a complete marketing research project from data collection, analysis, and reporting. It is a__________ firm.\n\nOptions:\n(A) Data collection firm.\n(B) Freelance agency.\n(C) Data analysis firm.\n(D) Survey firm.\n(E) Full-service agency.\n(F) Tabulation agency.\n(G) Marketing agency.\n(H) Research firm.\n(I) Consultant.\n(J) Field agency.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nA firm that handles the entire marketing research process—data collection, analysis, and reporting—is best described as a full-service agency. This term specifically refers to research providers offering complete, end-to-end project management rather than specializing in only one phase.\n\nANSWER: E\n\n--- Participant B ---\nThe complete project—data collection, analysis, and reporting—defines the core activity of a research firm. “Full-service agency” is a common industry label, but the question asks what kind of firm it is; a research firm is the broader, more precise organizational category that conducts the entire research process. Data collection, tabulation, and field agencies handle only parts; consultants advise; marketing agencies focus on promotion. Therefore the strongest alternative is H.\n\nANSWER: H\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "C|3": "Question:\nA marketing research firm contracts with clients to conduct a complete marketing research project from data collection, analysis, and reporting. It is a__________ firm.\n\nOptions:\n(A) Data collection firm.\n(B) Freelance agency.\n(C) Data analysis firm.\n(D) Survey firm.\n(E) Full-service agency.\n(F) Tabulation agency.\n(G) Marketing agency.\n(H) Research firm.\n(I) Consultant.\n(J) Field agency.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nParticipant B correctly notes that \"research firm\" is a broad category, but that breadth is exactly why it is weaker here. The stem specifies a firm that conducts the *complete* project—data collection, analysis, and reporting. That end-to-end capability is the defining feature of a full-service agency, distinguishing it from limited-service providers like field, tabulation, or data analysis firms. \"Research firm\" could also describe a limited-service specialist, so it does not capture the full-scope requirement as precisely. Participant C and my original reasoning align with the standard industry label.\n\nANSWER: E\n\n--- Participant B ---\nParticipant A and C are right that \"full-service agency\" is the industry label for end-to-end research. But the question asks what kind of *firm* this is, and the sentence itself calls it a \"marketing research firm.\" A full-service agency is a specific type of research firm; \"research firm\" is the broader category that includes full-service, data collection, tabulation, and survey specialists. Since the options include both the general and the specific, the strongest alternative to E is H—it names the firm's core identity without narrowing to one service model. E describes a structure, not the firm's fundamental nature, and the question emphasizes the complete project, which is exactly what a research firm does.\n\nANSWER: H\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it."
+ },
+ "public": "Options:\n(A) Data collection firm.\n(B) Freelance agency.\n(C) Data analysis firm.\n(D) Survey firm.\n(E) Full-service agency.\n(F) Tabulation agency.\n(G) Marketing agency.\n(H) Research firm.\n(I) Consultant.\n(J) Field agency.",
+ "roles": {
+  "A": "You are Advocate 1. Choose the option you find strongest and argue for it. Concede only to an argument you cannot answer.",
+  "B": "You are Advocate 2. Argue for the strongest option OTHER than the one Advocate 1 defends, so that the panel does not converge before the alternatives have been put. Concede only to an argument you cannot answer.",
+  "C": "You are the adjudicator. Do not advocate. Say which of the advocates' steps actually hold and which do not."
+ },
+ "rounds": 3,
+ "topology": "full",
+ "transcript": {
+  "A|1": "A firm that handles the entire marketing research process—data collection, analysis, and reporting—is best described as a full-service agency. This term specifically refers to research providers offering complete, end-to-end project management rather than specializing in only one phase.\n\nANSWER: E",
+  "A|2": "Participant B correctly notes that \"research firm\" is a broad category, but that breadth is exactly why it is weaker here. The stem specifies a firm that conducts the *complete* project—data collection, analysis, and reporting. That end-to-end capability is the defining feature of a full-service agency, distinguishing it from limited-service providers like field, tabulation, or data analysis firms. \"Research firm\" could also describe a limited-service specialist, so it does not capture the full-scope requirement as precisely. Participant C and my original reasoning align with the standard industry label.\n\nANSWER: E",
+  "A|3": "Participant B’s point that “research firm” is broader is true, but broader is not better here. The stem already calls it a “marketing research firm,” so choosing H would merely restate the category. The blank asks what *kind* of firm it is given the defining detail: it performs the complete project—data collection, analysis, and reporting. That end-to-end scope is the textbook definition of a full-service agency. A research firm could be a niche data collection or tabulation house; full-service uniquely captures the complete responsibility described. Participant C’s reasoning is correct, and B’s generality does not outweigh the precision of E.\n\nANSWER: E",
+  "B|1": "The complete project—data collection, analysis, and reporting—defines the core activity of a research firm. “Full-service agency” is a common industry label, but the question asks what kind of firm it is; a research firm is the broader, more precise organizational category that conducts the entire research process. Data collection, tabulation, and field agencies handle only parts; consultants advise; marketing agencies focus on promotion. Therefore the strongest alternative is H.\n\nANSWER: H",
+  "B|2": "Participant A and C are right that \"full-service agency\" is the industry label for end-to-end research. But the question asks what kind of *firm* this is, and the sentence itself calls it a \"marketing research firm.\" A full-service agency is a specific type of research firm; \"research firm\" is the broader category that includes full-service, data collection, tabulation, and survey specialists. Since the options include both the general and the specific, the strongest alternative to E is H—it names the firm's core identity without narrowing to one service model. E describes a structure, not the firm's fundamental nature, and the question emphasizes the complete project, which is exactly what a research firm does.\n\nANSWER: H",
+  "B|3": "Participant A and C make a decisive point: the stem emphasizes *complete* projects—data collection, analysis, and reporting. That end-to-end scope is precisely what distinguishes a full-service agency from limited-service providers. \"Research firm\" is a broader umbrella and could include niche specialists, so it fails to capture the defining feature in the question. The standard industry term for a supplier handling the entire research process is \"full-service agency.\" I concede.\n\nANSWER: E",
+  "C|1": "A firm that handles the entire marketing research process—data collection, analysis, and reporting—is known as a full-service agency. The other options describe narrower or different roles.\n\nANSWER: E",
+  "C|2": "Participant B correctly notes that “research firm” is a broad category, but the stem specifies a complete project from data collection through reporting. That end-to-end capability is the standard definition of a full-service agency in marketing research. “Research firm” could include niche providers, so it is less precise. Participant A’s identification of the defining term is accurate.\n\nANSWER: E",
+  "C|3": "Participant B’s point that “research firm” is a broader category is true, but the stem already calls it a “marketing research firm.” The blank asks what kind of firm it is given the complete project scope. That end-to-end capability—data collection, analysis, and reporting—is the precise definition of a full-service agency, not merely any research firm. A research firm could specialize in only one phase, so H is less exact. Participant A’s reasoning holds.\n\nANSWER: E"
+ }
+}

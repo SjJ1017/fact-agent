@@ -1,0 +1,965 @@
+{
+ "case_id": "talloc-game_0021",
+ "claim": "Assign every task to exactly one team member so that the team's total value is as high as possible without exceeding anyone's resources.",
+ "condition": "lenses",
+ "dataset": "delib-task-alloc",
+ "delivery": {
+  "A|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [
+    "A-priv-Time",
+    "A-priv-Mental energy",
+    "A-priv-Physical energy",
+    "A-priv-Multitasking capacity",
+    "A-pub-Ingredients budget",
+    "A-pub-Serving capacity",
+    "A-pub-Kitchen equipment time",
+    "A-pub-Sanitation supplies",
+    "A-eff-0",
+    "A-eff-1",
+    "A-eff-2",
+    "A-eff-3",
+    "A-eff-4",
+    "A-eff-5",
+    "A-eff-6",
+    "A-eff-7",
+    "A-eff-8",
+    "A-eff-9"
+   ],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "A|2": {
+   "peer_turns": [
+    "B|1",
+    "C|1"
+   ],
+   "self_turn": "A|1",
+   "source_ids": [
+    "A-priv-Time",
+    "A-priv-Mental energy",
+    "A-priv-Physical energy",
+    "A-priv-Multitasking capacity",
+    "A-pub-Ingredients budget",
+    "A-pub-Serving capacity",
+    "A-pub-Kitchen equipment time",
+    "A-pub-Sanitation supplies",
+    "A-eff-0",
+    "A-eff-1",
+    "A-eff-2",
+    "A-eff-3",
+    "A-eff-4",
+    "A-eff-5",
+    "A-eff-6",
+    "A-eff-7",
+    "A-eff-8",
+    "A-eff-9"
+   ],
+   "visible_peer_turns": [
+    "B|1",
+    "C|1"
+   ],
+   "visible_self_turns": [
+    "A|1"
+   ]
+  },
+  "A|3": {
+   "peer_turns": [
+    "B|2",
+    "C|2"
+   ],
+   "self_turn": "A|2",
+   "source_ids": [
+    "A-priv-Time",
+    "A-priv-Mental energy",
+    "A-priv-Physical energy",
+    "A-priv-Multitasking capacity",
+    "A-pub-Ingredients budget",
+    "A-pub-Serving capacity",
+    "A-pub-Kitchen equipment time",
+    "A-pub-Sanitation supplies",
+    "A-eff-0",
+    "A-eff-1",
+    "A-eff-2",
+    "A-eff-3",
+    "A-eff-4",
+    "A-eff-5",
+    "A-eff-6",
+    "A-eff-7",
+    "A-eff-8",
+    "A-eff-9"
+   ],
+   "visible_peer_turns": [
+    "B|1",
+    "C|1",
+    "B|2",
+    "C|2"
+   ],
+   "visible_self_turns": [
+    "A|1",
+    "A|2"
+   ]
+  },
+  "B|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [
+    "B-priv-Time",
+    "B-priv-Mental energy",
+    "B-priv-Physical energy",
+    "B-priv-Multitasking capacity",
+    "B-pub-Ingredients budget",
+    "B-pub-Serving capacity",
+    "B-pub-Kitchen equipment time",
+    "B-pub-Sanitation supplies",
+    "B-eff-0",
+    "B-eff-1",
+    "B-eff-2",
+    "B-eff-3",
+    "B-eff-4",
+    "B-eff-5",
+    "B-eff-6",
+    "B-eff-7",
+    "B-eff-8",
+    "B-eff-9"
+   ],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "B|2": {
+   "peer_turns": [
+    "A|1",
+    "C|1"
+   ],
+   "self_turn": "B|1",
+   "source_ids": [
+    "B-priv-Time",
+    "B-priv-Mental energy",
+    "B-priv-Physical energy",
+    "B-priv-Multitasking capacity",
+    "B-pub-Ingredients budget",
+    "B-pub-Serving capacity",
+    "B-pub-Kitchen equipment time",
+    "B-pub-Sanitation supplies",
+    "B-eff-0",
+    "B-eff-1",
+    "B-eff-2",
+    "B-eff-3",
+    "B-eff-4",
+    "B-eff-5",
+    "B-eff-6",
+    "B-eff-7",
+    "B-eff-8",
+    "B-eff-9"
+   ],
+   "visible_peer_turns": [
+    "A|1",
+    "C|1"
+   ],
+   "visible_self_turns": [
+    "B|1"
+   ]
+  },
+  "B|3": {
+   "peer_turns": [
+    "A|2",
+    "C|2"
+   ],
+   "self_turn": "B|2",
+   "source_ids": [
+    "B-priv-Time",
+    "B-priv-Mental energy",
+    "B-priv-Physical energy",
+    "B-priv-Multitasking capacity",
+    "B-pub-Ingredients budget",
+    "B-pub-Serving capacity",
+    "B-pub-Kitchen equipment time",
+    "B-pub-Sanitation supplies",
+    "B-eff-0",
+    "B-eff-1",
+    "B-eff-2",
+    "B-eff-3",
+    "B-eff-4",
+    "B-eff-5",
+    "B-eff-6",
+    "B-eff-7",
+    "B-eff-8",
+    "B-eff-9"
+   ],
+   "visible_peer_turns": [
+    "A|1",
+    "C|1",
+    "A|2",
+    "C|2"
+   ],
+   "visible_self_turns": [
+    "B|1",
+    "B|2"
+   ]
+  },
+  "C|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [
+    "C-priv-Time",
+    "C-priv-Mental energy",
+    "C-priv-Physical energy",
+    "C-priv-Multitasking capacity",
+    "C-pub-Ingredients budget",
+    "C-pub-Serving capacity",
+    "C-pub-Kitchen equipment time",
+    "C-pub-Sanitation supplies",
+    "C-eff-0",
+    "C-eff-1",
+    "C-eff-2",
+    "C-eff-3",
+    "C-eff-4",
+    "C-eff-5",
+    "C-eff-6",
+    "C-eff-7",
+    "C-eff-8",
+    "C-eff-9"
+   ],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "C|2": {
+   "peer_turns": [
+    "A|1",
+    "B|1"
+   ],
+   "self_turn": "C|1",
+   "source_ids": [
+    "C-priv-Time",
+    "C-priv-Mental energy",
+    "C-priv-Physical energy",
+    "C-priv-Multitasking capacity",
+    "C-pub-Ingredients budget",
+    "C-pub-Serving capacity",
+    "C-pub-Kitchen equipment time",
+    "C-pub-Sanitation supplies",
+    "C-eff-0",
+    "C-eff-1",
+    "C-eff-2",
+    "C-eff-3",
+    "C-eff-4",
+    "C-eff-5",
+    "C-eff-6",
+    "C-eff-7",
+    "C-eff-8",
+    "C-eff-9"
+   ],
+   "visible_peer_turns": [
+    "A|1",
+    "B|1"
+   ],
+   "visible_self_turns": [
+    "C|1"
+   ]
+  },
+  "C|3": {
+   "peer_turns": [
+    "A|2",
+    "B|2"
+   ],
+   "self_turn": "C|2",
+   "source_ids": [
+    "C-priv-Time",
+    "C-priv-Mental energy",
+    "C-priv-Physical energy",
+    "C-priv-Multitasking capacity",
+    "C-pub-Ingredients budget",
+    "C-pub-Serving capacity",
+    "C-pub-Kitchen equipment time",
+    "C-pub-Sanitation supplies",
+    "C-eff-0",
+    "C-eff-1",
+    "C-eff-2",
+    "C-eff-3",
+    "C-eff-4",
+    "C-eff-5",
+    "C-eff-6",
+    "C-eff-7",
+    "C-eff-8",
+    "C-eff-9"
+   ],
+   "visible_peer_turns": [
+    "A|1",
+    "B|1",
+    "A|2",
+    "B|2"
+   ],
+   "visible_self_turns": [
+    "C|1",
+    "C|2"
+   ]
+  }
+ },
+ "disclosure": {
+  "covered": 54,
+  "exclusive": [
+   "A-eff-0",
+   "A-eff-1",
+   "A-eff-2",
+   "A-eff-3",
+   "A-eff-4",
+   "A-eff-5",
+   "A-eff-6",
+   "A-eff-7",
+   "A-eff-8",
+   "A-eff-9",
+   "A-priv-Mental energy",
+   "A-priv-Multitasking capacity",
+   "A-priv-Physical energy",
+   "A-priv-Time",
+   "A-pub-Ingredients budget",
+   "A-pub-Kitchen equipment time",
+   "A-pub-Sanitation supplies",
+   "A-pub-Serving capacity",
+   "B-eff-0",
+   "B-eff-1",
+   "B-eff-2",
+   "B-eff-3",
+   "B-eff-4",
+   "B-eff-5",
+   "B-eff-6",
+   "B-eff-7",
+   "B-eff-8",
+   "B-eff-9",
+   "B-priv-Mental energy",
+   "B-priv-Multitasking capacity",
+   "B-priv-Physical energy",
+   "B-priv-Time",
+   "B-pub-Ingredients budget",
+   "B-pub-Kitchen equipment time",
+   "B-pub-Sanitation supplies",
+   "B-pub-Serving capacity",
+   "C-eff-0",
+   "C-eff-1",
+   "C-eff-2",
+   "C-eff-3",
+   "C-eff-4",
+   "C-eff-5",
+   "C-eff-6",
+   "C-eff-7",
+   "C-eff-8",
+   "C-eff-9",
+   "C-priv-Mental energy",
+   "C-priv-Multitasking capacity",
+   "C-priv-Physical energy",
+   "C-priv-Time",
+   "C-pub-Ingredients budget",
+   "C-pub-Kitchen equipment time",
+   "C-pub-Sanitation supplies",
+   "C-pub-Serving capacity"
+  ],
+  "held": {
+   "A": [
+    "A-priv-Time",
+    "A-priv-Mental energy",
+    "A-priv-Physical energy",
+    "A-priv-Multitasking capacity",
+    "A-pub-Ingredients budget",
+    "A-pub-Serving capacity",
+    "A-pub-Kitchen equipment time",
+    "A-pub-Sanitation supplies",
+    "A-eff-0",
+    "A-eff-1",
+    "A-eff-2",
+    "A-eff-3",
+    "A-eff-4",
+    "A-eff-5",
+    "A-eff-6",
+    "A-eff-7",
+    "A-eff-8",
+    "A-eff-9"
+   ],
+   "B": [
+    "B-priv-Time",
+    "B-priv-Mental energy",
+    "B-priv-Physical energy",
+    "B-priv-Multitasking capacity",
+    "B-pub-Ingredients budget",
+    "B-pub-Serving capacity",
+    "B-pub-Kitchen equipment time",
+    "B-pub-Sanitation supplies",
+    "B-eff-0",
+    "B-eff-1",
+    "B-eff-2",
+    "B-eff-3",
+    "B-eff-4",
+    "B-eff-5",
+    "B-eff-6",
+    "B-eff-7",
+    "B-eff-8",
+    "B-eff-9"
+   ],
+   "C": [
+    "C-priv-Time",
+    "C-priv-Mental energy",
+    "C-priv-Physical energy",
+    "C-priv-Multitasking capacity",
+    "C-pub-Ingredients budget",
+    "C-pub-Serving capacity",
+    "C-pub-Kitchen equipment time",
+    "C-pub-Sanitation supplies",
+    "C-eff-0",
+    "C-eff-1",
+    "C-eff-2",
+    "C-eff-3",
+    "C-eff-4",
+    "C-eff-5",
+    "C-eff-6",
+    "C-eff-7",
+    "C-eff-8",
+    "C-eff-9"
+   ]
+  },
+  "mean_per_agent": 18.0,
+  "mode": "dataset",
+  "n_items": 54,
+  "uncovered": []
+ },
+ "evidence": [
+  {
+   "id": "A-priv-Time",
+   "stance": null,
+   "tags": [
+    "private",
+    "Time"
+   ],
+   "text": "Counter service specialist (throughput + labeling) privately holds 4.0 unit(s) of Time."
+  },
+  {
+   "id": "A-priv-Mental energy",
+   "stance": null,
+   "tags": [
+    "private",
+    "Mental energy"
+   ],
+   "text": "Counter service specialist (throughput + labeling) privately holds 4.0 unit(s) of Mental energy."
+  },
+  {
+   "id": "A-priv-Physical energy",
+   "stance": null,
+   "tags": [
+    "private",
+    "Physical energy"
+   ],
+   "text": "Counter service specialist (throughput + labeling) privately holds 4.6 unit(s) of Physical energy."
+  },
+  {
+   "id": "A-priv-Multitasking capacity",
+   "stance": null,
+   "tags": [
+    "private",
+    "Multitasking capacity"
+   ],
+   "text": "Counter service specialist (throughput + labeling) privately holds 4.2 unit(s) of Multitasking capacity."
+  },
+  {
+   "id": "A-pub-Ingredients budget",
+   "stance": null,
+   "tags": [
+    "public",
+    "Ingredients budget"
+   ],
+   "text": "Counter service specialist (throughput + labeling)'s records show 63 unit(s) of the shared Ingredients budget."
+  },
+  {
+   "id": "A-pub-Serving capacity",
+   "stance": null,
+   "tags": [
+    "public",
+    "Serving capacity"
+   ],
+   "text": "Counter service specialist (throughput + labeling)'s records show 2 unit(s) of the shared Serving capacity."
+  },
+  {
+   "id": "A-pub-Kitchen equipment time",
+   "stance": null,
+   "tags": [
+    "public",
+    "Kitchen equipment time"
+   ],
+   "text": "Counter service specialist (throughput + labeling)'s records show 1 unit(s) of the shared Kitchen equipment time."
+  },
+  {
+   "id": "A-pub-Sanitation supplies",
+   "stance": null,
+   "tags": [
+    "public",
+    "Sanitation supplies"
+   ],
+   "text": "Counter service specialist (throughput + labeling)'s records show 1 unit(s) of the shared Sanitation supplies."
+  },
+  {
+   "id": "A-eff-0",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Assemble grab-and-go items (sandwiches/salads)"
+   ],
+   "text": "Counter service specialist (throughput + labeling) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 10.32."
+  },
+  {
+   "id": "A-eff-1",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Peak-hour counter serving and packaging"
+   ],
+   "text": "Counter service specialist (throughput + labeling) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 22.8."
+  },
+  {
+   "id": "A-eff-2",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Prep proteins batch (trim/marinate/portion)"
+   ],
+   "text": "Counter service specialist (throughput + labeling) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 9.1."
+  },
+  {
+   "id": "A-eff-3",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Update menu board and allergen tags"
+   ],
+   "text": "Counter service specialist (throughput + labeling) would complete \"Update menu board and allergen tags\" at an efficiency of 4.08."
+  },
+  {
+   "id": "A-eff-4",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Deep clean critical stations (grill/prep area)"
+   ],
+   "text": "Counter service specialist (throughput + labeling) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 4.08."
+  },
+  {
+   "id": "A-eff-5",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Cook staple base batch (rice/noodles/soup)"
+   ],
+   "text": "Counter service specialist (throughput + labeling) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 9.92."
+  },
+  {
+   "id": "A-eff-6",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Restock condiments/utensils/packaging"
+   ],
+   "text": "Counter service specialist (throughput + labeling) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 4.4."
+  },
+  {
+   "id": "A-eff-7",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "End-of-shift closing checklist"
+   ],
+   "text": "Counter service specialist (throughput + labeling) would complete \"End-of-shift closing checklist\" at an efficiency of 5.4."
+  },
+  {
+   "id": "A-eff-8",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Receive delivery and verify items"
+   ],
+   "text": "Counter service specialist (throughput + labeling) would complete \"Receive delivery and verify items\" at an efficiency of 7.56."
+  },
+  {
+   "id": "A-eff-9",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Temperature log and food safety check"
+   ],
+   "text": "Counter service specialist (throughput + labeling) would complete \"Temperature log and food safety check\" at an efficiency of 6.84."
+  },
+  {
+   "id": "B-priv-Time",
+   "stance": null,
+   "tags": [
+    "private",
+    "Time"
+   ],
+   "text": "Fast line cook (high stamina) privately holds 6.8 unit(s) of Time."
+  },
+  {
+   "id": "B-priv-Mental energy",
+   "stance": null,
+   "tags": [
+    "private",
+    "Mental energy"
+   ],
+   "text": "Fast line cook (high stamina) privately holds 4.6 unit(s) of Mental energy."
+  },
+  {
+   "id": "B-priv-Physical energy",
+   "stance": null,
+   "tags": [
+    "private",
+    "Physical energy"
+   ],
+   "text": "Fast line cook (high stamina) privately holds 4.4 unit(s) of Physical energy."
+  },
+  {
+   "id": "B-priv-Multitasking capacity",
+   "stance": null,
+   "tags": [
+    "private",
+    "Multitasking capacity"
+   ],
+   "text": "Fast line cook (high stamina) privately holds 0.8 unit(s) of Multitasking capacity."
+  },
+  {
+   "id": "B-pub-Ingredients budget",
+   "stance": null,
+   "tags": [
+    "public",
+    "Ingredients budget"
+   ],
+   "text": "Fast line cook (high stamina)'s records show 43 unit(s) of the shared Ingredients budget."
+  },
+  {
+   "id": "B-pub-Serving capacity",
+   "stance": null,
+   "tags": [
+    "public",
+    "Serving capacity"
+   ],
+   "text": "Fast line cook (high stamina)'s records show 2 unit(s) of the shared Serving capacity."
+  },
+  {
+   "id": "B-pub-Kitchen equipment time",
+   "stance": null,
+   "tags": [
+    "public",
+    "Kitchen equipment time"
+   ],
+   "text": "Fast line cook (high stamina)'s records show 2 unit(s) of the shared Kitchen equipment time."
+  },
+  {
+   "id": "B-pub-Sanitation supplies",
+   "stance": null,
+   "tags": [
+    "public",
+    "Sanitation supplies"
+   ],
+   "text": "Fast line cook (high stamina)'s records show 2 unit(s) of the shared Sanitation supplies."
+  },
+  {
+   "id": "B-eff-0",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Assemble grab-and-go items (sandwiches/salads)"
+   ],
+   "text": "Fast line cook (high stamina) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 8.6."
+  },
+  {
+   "id": "B-eff-1",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Peak-hour counter serving and packaging"
+   ],
+   "text": "Fast line cook (high stamina) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 16.72."
+  },
+  {
+   "id": "B-eff-2",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Prep proteins batch (trim/marinate/portion)"
+   ],
+   "text": "Fast line cook (high stamina) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 14.3."
+  },
+  {
+   "id": "B-eff-3",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Update menu board and allergen tags"
+   ],
+   "text": "Fast line cook (high stamina) would complete \"Update menu board and allergen tags\" at an efficiency of 2.04."
+  },
+  {
+   "id": "B-eff-4",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Deep clean critical stations (grill/prep area)"
+   ],
+   "text": "Fast line cook (high stamina) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 8.16."
+  },
+  {
+   "id": "B-eff-5",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Cook staple base batch (rice/noodles/soup)"
+   ],
+   "text": "Fast line cook (high stamina) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 16.12."
+  },
+  {
+   "id": "B-eff-6",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Restock condiments/utensils/packaging"
+   ],
+   "text": "Fast line cook (high stamina) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 3.6."
+  },
+  {
+   "id": "B-eff-7",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "End-of-shift closing checklist"
+   ],
+   "text": "Fast line cook (high stamina) would complete \"End-of-shift closing checklist\" at an efficiency of 4.32."
+  },
+  {
+   "id": "B-eff-8",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Receive delivery and verify items"
+   ],
+   "text": "Fast line cook (high stamina) would complete \"Receive delivery and verify items\" at an efficiency of 7.56."
+  },
+  {
+   "id": "B-eff-9",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Temperature log and food safety check"
+   ],
+   "text": "Fast line cook (high stamina) would complete \"Temperature log and food safety check\" at an efficiency of 5.32."
+  },
+  {
+   "id": "C-priv-Time",
+   "stance": null,
+   "tags": [
+    "private",
+    "Time"
+   ],
+   "text": "Food safety stickler (QC mindset) privately holds 5.2 unit(s) of Time."
+  },
+  {
+   "id": "C-priv-Mental energy",
+   "stance": null,
+   "tags": [
+    "private",
+    "Mental energy"
+   ],
+   "text": "Food safety stickler (QC mindset) privately holds 4.8 unit(s) of Mental energy."
+  },
+  {
+   "id": "C-priv-Physical energy",
+   "stance": null,
+   "tags": [
+    "private",
+    "Physical energy"
+   ],
+   "text": "Food safety stickler (QC mindset) privately holds 3.4 unit(s) of Physical energy."
+  },
+  {
+   "id": "C-priv-Multitasking capacity",
+   "stance": null,
+   "tags": [
+    "private",
+    "Multitasking capacity"
+   ],
+   "text": "Food safety stickler (QC mindset) privately holds 2.4 unit(s) of Multitasking capacity."
+  },
+  {
+   "id": "C-pub-Ingredients budget",
+   "stance": null,
+   "tags": [
+    "public",
+    "Ingredients budget"
+   ],
+   "text": "Food safety stickler (QC mindset)'s records show 159 unit(s) of the shared Ingredients budget."
+  },
+  {
+   "id": "C-pub-Serving capacity",
+   "stance": null,
+   "tags": [
+    "public",
+    "Serving capacity"
+   ],
+   "text": "Food safety stickler (QC mindset)'s records show 5 unit(s) of the shared Serving capacity."
+  },
+  {
+   "id": "C-pub-Kitchen equipment time",
+   "stance": null,
+   "tags": [
+    "public",
+    "Kitchen equipment time"
+   ],
+   "text": "Food safety stickler (QC mindset)'s records show 4 unit(s) of the shared Kitchen equipment time."
+  },
+  {
+   "id": "C-pub-Sanitation supplies",
+   "stance": null,
+   "tags": [
+    "public",
+    "Sanitation supplies"
+   ],
+   "text": "Food safety stickler (QC mindset)'s records show 3 unit(s) of the shared Sanitation supplies."
+  },
+  {
+   "id": "C-eff-0",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Assemble grab-and-go items (sandwiches/salads)"
+   ],
+   "text": "Food safety stickler (QC mindset) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 9.46."
+  },
+  {
+   "id": "C-eff-1",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Peak-hour counter serving and packaging"
+   ],
+   "text": "Food safety stickler (QC mindset) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 13.68."
+  },
+  {
+   "id": "C-eff-2",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Prep proteins batch (trim/marinate/portion)"
+   ],
+   "text": "Food safety stickler (QC mindset) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 16.9."
+  },
+  {
+   "id": "C-eff-3",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Update menu board and allergen tags"
+   ],
+   "text": "Food safety stickler (QC mindset) would complete \"Update menu board and allergen tags\" at an efficiency of 3.74."
+  },
+  {
+   "id": "C-eff-4",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Deep clean critical stations (grill/prep area)"
+   ],
+   "text": "Food safety stickler (QC mindset) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 8.84."
+  },
+  {
+   "id": "C-eff-5",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Cook staple base batch (rice/noodles/soup)"
+   ],
+   "text": "Food safety stickler (QC mindset) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 12.4."
+  },
+  {
+   "id": "C-eff-6",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Restock condiments/utensils/packaging"
+   ],
+   "text": "Food safety stickler (QC mindset) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 4.0."
+  },
+  {
+   "id": "C-eff-7",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "End-of-shift closing checklist"
+   ],
+   "text": "Food safety stickler (QC mindset) would complete \"End-of-shift closing checklist\" at an efficiency of 6.48."
+  },
+  {
+   "id": "C-eff-8",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Receive delivery and verify items"
+   ],
+   "text": "Food safety stickler (QC mindset) would complete \"Receive delivery and verify items\" at an efficiency of 11.76."
+  },
+  {
+   "id": "C-eff-9",
+   "stance": null,
+   "tags": [
+    "efficiency",
+    "Temperature log and food safety check"
+   ],
+   "text": "Food safety stickler (QC mindset) would complete \"Temperature log and food safety check\" at an efficiency of 11.4."
+  }
+ ],
+ "execution_id": "delib-task-alloc-talloc-game_0021-deepseek-v4-flash-full-lenses-cumulative",
+ "memory": "cumulative",
+ "meta": {
+  "gold": {
+   "Assemble grab-and-go items (sandwiches/salads)": "agent_1",
+   "Cook staple base batch (rice/noodles/soup)": "agent_1",
+   "Peak-hour counter serving and packaging": "agent_0",
+   "Prep proteins batch (trim/marinate/portion)": "agent_2",
+   "Receive delivery and verify items": "agent_2",
+   "Restock condiments/utensils/packaging": "agent_0",
+   "Temperature log and food safety check": "agent_1"
+  },
+  "max_reward": 85.9,
+  "roles_from_data": {
+   "A": "Worker",
+   "B": "Worker",
+   "C": "Leader"
+  },
+  "source": "delib-task-alloc"
+ },
+ "model": "deepseek-v4-flash",
+ "panel": "lenses",
+ "persona": "lenses",
+ "prompts": {
+  "A|1": "Each member can see only their own private resources and a fragment of the shared pool; the shared total is the sum of those fragments.\n\nTeam:\n- Counter service specialist (throughput + labeling) (Worker), referred to as A\n- Fast line cook (high stamina) (Worker), referred to as B\n- Food safety stickler (QC mindset) (Leader), referred to as C\n\nTasks and what each member would need:\n- Assemble grab-and-go items (sandwiches/salads): 2 Time, 1 Mental energy, 2 Physical energy, 60 Ingredients budget, 2 Serving capacity\n- Peak-hour counter serving and packaging: 3 Time, 3 Mental energy, 3 Multitasking capacity, 5 Serving capacity, 1 Sanitation supplies\n- Prep proteins batch (trim/marinate/portion): 3 Time, 2 Mental energy, 2 Physical energy, 120 Ingredients budget, 2 Kitchen equipment time, 2 Sanitation supplies\n- Update menu board and allergen tags: 1 Time, 1 Mental energy, 1 Sanitation supplies\n- Deep clean critical stations (grill/prep area): 3 Time, 1 Mental energy, 3 Physical energy, 3 Sanitation supplies\n- Cook staple base batch (rice/noodles/soup): 3 Time, 1 Mental energy, 2 Physical energy, 80 Ingredients budget, 3 Kitchen equipment time\n- Restock condiments/utensils/packaging: 1 Time, 1 Physical energy, 1 Sanitation supplies\n- End-of-shift closing checklist: 2 Time, 2 Mental energy, 1 Sanitation supplies\n- Receive delivery and verify items: 2 Time, 2 Mental energy, 1 Physical energy\n- Temperature log and food safety check: 1 Time, 2 Mental energy, 1 Sanitation supplies\n\nWhat you can see:\n[A-priv-Time] Counter service specialist (throughput + labeling) privately holds 4.0 unit(s) of Time.\n\n[A-priv-Mental energy] Counter service specialist (throughput + labeling) privately holds 4.0 unit(s) of Mental energy.\n\n[A-priv-Physical energy] Counter service specialist (throughput + labeling) privately holds 4.6 unit(s) of Physical energy.\n\n[A-priv-Multitasking capacity] Counter service specialist (throughput + labeling) privately holds 4.2 unit(s) of Multitasking capacity.\n\n[A-pub-Ingredients budget] Counter service specialist (throughput + labeling)'s records show 63 unit(s) of the shared Ingredients budget.\n\n[A-pub-Serving capacity] Counter service specialist (throughput + labeling)'s records show 2 unit(s) of the shared Serving capacity.\n\n[A-pub-Kitchen equipment time] Counter service specialist (throughput + labeling)'s records show 1 unit(s) of the shared Kitchen equipment time.\n\n[A-pub-Sanitation supplies] Counter service specialist (throughput + labeling)'s records show 1 unit(s) of the shared Sanitation supplies.\n\n[A-eff-0] Counter service specialist (throughput + labeling) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 10.32.\n\n[A-eff-1] Counter service specialist (throughput + labeling) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 22.8.\n\n[A-eff-2] Counter service specialist (throughput + labeling) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 9.1.\n\n[A-eff-3] Counter service specialist (throughput + labeling) would complete \"Update menu board and allergen tags\" at an efficiency of 4.08.\n\n[A-eff-4] Counter service specialist (throughput + labeling) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 4.08.\n\n[A-eff-5] Counter service specialist (throughput + labeling) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 9.92.\n\n[A-eff-6] Counter service specialist (throughput + labeling) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 4.4.\n\n[A-eff-7] Counter service specialist (throughput + labeling) would complete \"End-of-shift closing checklist\" at an efficiency of 5.4.\n\n[A-eff-8] Counter service specialist (throughput + labeling) would complete \"Receive delivery and verify items\" at an efficiency of 7.56.\n\n[A-eff-9] Counter service specialist (throughput + labeling) would complete \"Temperature log and food safety check\" at an efficiency of 6.84.\n\nAssign every task to exactly one team member so that the team's total value is as high as possible without exceeding anyone's resources.\n\nGive your independent assessment before seeing the others.",
+  "A|2": "Each member can see only their own private resources and a fragment of the shared pool; the shared total is the sum of those fragments.\n\nTeam:\n- Counter service specialist (throughput + labeling) (Worker), referred to as A\n- Fast line cook (high stamina) (Worker), referred to as B\n- Food safety stickler (QC mindset) (Leader), referred to as C\n\nTasks and what each member would need:\n- Assemble grab-and-go items (sandwiches/salads): 2 Time, 1 Mental energy, 2 Physical energy, 60 Ingredients budget, 2 Serving capacity\n- Peak-hour counter serving and packaging: 3 Time, 3 Mental energy, 3 Multitasking capacity, 5 Serving capacity, 1 Sanitation supplies\n- Prep proteins batch (trim/marinate/portion): 3 Time, 2 Mental energy, 2 Physical energy, 120 Ingredients budget, 2 Kitchen equipment time, 2 Sanitation supplies\n- Update menu board and allergen tags: 1 Time, 1 Mental energy, 1 Sanitation supplies\n- Deep clean critical stations (grill/prep area): 3 Time, 1 Mental energy, 3 Physical energy, 3 Sanitation supplies\n- Cook staple base batch (rice/noodles/soup): 3 Time, 1 Mental energy, 2 Physical energy, 80 Ingredients budget, 3 Kitchen equipment time\n- Restock condiments/utensils/packaging: 1 Time, 1 Physical energy, 1 Sanitation supplies\n- End-of-shift closing checklist: 2 Time, 2 Mental energy, 1 Sanitation supplies\n- Receive delivery and verify items: 2 Time, 2 Mental energy, 1 Physical energy\n- Temperature log and food safety check: 1 Time, 2 Mental energy, 1 Sanitation supplies\n\nWhat you can see:\n[A-priv-Time] Counter service specialist (throughput + labeling) privately holds 4.0 unit(s) of Time.\n\n[A-priv-Mental energy] Counter service specialist (throughput + labeling) privately holds 4.0 unit(s) of Mental energy.\n\n[A-priv-Physical energy] Counter service specialist (throughput + labeling) privately holds 4.6 unit(s) of Physical energy.\n\n[A-priv-Multitasking capacity] Counter service specialist (throughput + labeling) privately holds 4.2 unit(s) of Multitasking capacity.\n\n[A-pub-Ingredients budget] Counter service specialist (throughput + labeling)'s records show 63 unit(s) of the shared Ingredients budget.\n\n[A-pub-Serving capacity] Counter service specialist (throughput + labeling)'s records show 2 unit(s) of the shared Serving capacity.\n\n[A-pub-Kitchen equipment time] Counter service specialist (throughput + labeling)'s records show 1 unit(s) of the shared Kitchen equipment time.\n\n[A-pub-Sanitation supplies] Counter service specialist (throughput + labeling)'s records show 1 unit(s) of the shared Sanitation supplies.\n\n[A-eff-0] Counter service specialist (throughput + labeling) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 10.32.\n\n[A-eff-1] Counter service specialist (throughput + labeling) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 22.8.\n\n[A-eff-2] Counter service specialist (throughput + labeling) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 9.1.\n\n[A-eff-3] Counter service specialist (throughput + labeling) would complete \"Update menu board and allergen tags\" at an efficiency of 4.08.\n\n[A-eff-4] Counter service specialist (throughput + labeling) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 4.08.\n\n[A-eff-5] Counter service specialist (throughput + labeling) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 9.92.\n\n[A-eff-6] Counter service specialist (throughput + labeling) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 4.4.\n\n[A-eff-7] Counter service specialist (throughput + labeling) would complete \"End-of-shift closing checklist\" at an efficiency of 5.4.\n\n[A-eff-8] Counter service specialist (throughput + labeling) would complete \"Receive delivery and verify items\" at an efficiency of 7.56.\n\n[A-eff-9] Counter service specialist (throughput + labeling) would complete \"Temperature log and food safety check\" at an efficiency of 6.84.\n\nAssign every task to exactly one team member so that the team's total value is as high as possible without exceeding anyone's resources.\n\nThese are the other participants' latest statements:\n\n--- Participant B ---\nB sees: Time 6.8, Mental 4.6, Physical 4.4, Multitasking 0.8; shared fragments: Ingredients 43, Serving 2, Equipment 2, Sanitation 2.  \nB cannot take Peak-hour (needs 3 Multitasking). Highest-value feasible B set is Prep proteins + Cook staple: efficiency 14.3 + 16.12 = 30.42, using 6 Time, 3 Mental, 4 Physical. This uses B’s 2 Equipment and 2 Sanitation; team must supply 157 Ingredients and 3 Equipment beyond B’s fragments.  \nAssign counter/labeling tasks to A, QC/sanitation/verification to C. A/C must confirm their resources cover remaining shared needs.\n\nALLOCATION: Assemble grab-and-go items -> A; Peak-hour counter serving and packaging -> A; Prep proteins batch -> B; Update menu board and allergen tags -> A; Deep clean critical stations -> C; Cook staple base batch -> B; Restock condiments/utensils/packaging -> A; End-of-shift closing checklist -> C; Receive delivery and verify items -> C; Temperature log and food safety check -> C\n\n--- Participant C ---\nI only see C. C private: Time 5.2, Mental 4.8, Physical 3.4, Multitasking 2.4. Shared fragments seen: Ingredients 159, Serving 5, Equipment 4, Sanitation 3.\n\nC cannot take Peak-hour counter serving (needs Multitasking 3 > 2.4). Based on C’s private capacities, the highest-value feasible bundle is Prep proteins + Restock + Temperature log = 16.9 + 4.0 + 11.4 = 32.3. It uses Time 5, Mental 4, Physical 3, and shared Ingredients 120, Equipment 2, Sanitation 4. My Sanitation fragment is only 3, so total shared Sanitation must be at least 4; please confirm from other fragments.\n\nOther tasks remain unassigned until A and B share their private resources and shared fragments.\n\nALLOCATION: Prep proteins batch (trim/marinate/portion) -> C; Restock condiments/utensils/packaging -> C; Temperature log and food safety check -> C\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "A|3": "Each member can see only their own private resources and a fragment of the shared pool; the shared total is the sum of those fragments.\n\nTeam:\n- Counter service specialist (throughput + labeling) (Worker), referred to as A\n- Fast line cook (high stamina) (Worker), referred to as B\n- Food safety stickler (QC mindset) (Leader), referred to as C\n\nTasks and what each member would need:\n- Assemble grab-and-go items (sandwiches/salads): 2 Time, 1 Mental energy, 2 Physical energy, 60 Ingredients budget, 2 Serving capacity\n- Peak-hour counter serving and packaging: 3 Time, 3 Mental energy, 3 Multitasking capacity, 5 Serving capacity, 1 Sanitation supplies\n- Prep proteins batch (trim/marinate/portion): 3 Time, 2 Mental energy, 2 Physical energy, 120 Ingredients budget, 2 Kitchen equipment time, 2 Sanitation supplies\n- Update menu board and allergen tags: 1 Time, 1 Mental energy, 1 Sanitation supplies\n- Deep clean critical stations (grill/prep area): 3 Time, 1 Mental energy, 3 Physical energy, 3 Sanitation supplies\n- Cook staple base batch (rice/noodles/soup): 3 Time, 1 Mental energy, 2 Physical energy, 80 Ingredients budget, 3 Kitchen equipment time\n- Restock condiments/utensils/packaging: 1 Time, 1 Physical energy, 1 Sanitation supplies\n- End-of-shift closing checklist: 2 Time, 2 Mental energy, 1 Sanitation supplies\n- Receive delivery and verify items: 2 Time, 2 Mental energy, 1 Physical energy\n- Temperature log and food safety check: 1 Time, 2 Mental energy, 1 Sanitation supplies\n\nWhat you can see:\n[A-priv-Time] Counter service specialist (throughput + labeling) privately holds 4.0 unit(s) of Time.\n\n[A-priv-Mental energy] Counter service specialist (throughput + labeling) privately holds 4.0 unit(s) of Mental energy.\n\n[A-priv-Physical energy] Counter service specialist (throughput + labeling) privately holds 4.6 unit(s) of Physical energy.\n\n[A-priv-Multitasking capacity] Counter service specialist (throughput + labeling) privately holds 4.2 unit(s) of Multitasking capacity.\n\n[A-pub-Ingredients budget] Counter service specialist (throughput + labeling)'s records show 63 unit(s) of the shared Ingredients budget.\n\n[A-pub-Serving capacity] Counter service specialist (throughput + labeling)'s records show 2 unit(s) of the shared Serving capacity.\n\n[A-pub-Kitchen equipment time] Counter service specialist (throughput + labeling)'s records show 1 unit(s) of the shared Kitchen equipment time.\n\n[A-pub-Sanitation supplies] Counter service specialist (throughput + labeling)'s records show 1 unit(s) of the shared Sanitation supplies.\n\n[A-eff-0] Counter service specialist (throughput + labeling) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 10.32.\n\n[A-eff-1] Counter service specialist (throughput + labeling) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 22.8.\n\n[A-eff-2] Counter service specialist (throughput + labeling) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 9.1.\n\n[A-eff-3] Counter service specialist (throughput + labeling) would complete \"Update menu board and allergen tags\" at an efficiency of 4.08.\n\n[A-eff-4] Counter service specialist (throughput + labeling) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 4.08.\n\n[A-eff-5] Counter service specialist (throughput + labeling) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 9.92.\n\n[A-eff-6] Counter service specialist (throughput + labeling) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 4.4.\n\n[A-eff-7] Counter service specialist (throughput + labeling) would complete \"End-of-shift closing checklist\" at an efficiency of 5.4.\n\n[A-eff-8] Counter service specialist (throughput + labeling) would complete \"Receive delivery and verify items\" at an efficiency of 7.56.\n\n[A-eff-9] Counter service specialist (throughput + labeling) would complete \"Temperature log and food safety check\" at an efficiency of 6.84.\n\nAssign every task to exactly one team member so that the team's total value is as high as possible without exceeding anyone's resources.\n\nThese are the other participants' latest statements:\n\n--- Participant B ---\nAfter summing all stated figures: total Time = 16.0, Mental = 13.4, Physical = 12.4, Sanitation = 6.0. All 10 tasks require 21 Time, 15 Mental, 14 Physical, 10 Sanitation. So assigning every task is impossible without exceeding resources. A’s allocation overloads B: Assemble + Prep proteins + Deep clean + Cook staple uses 11 Time > B’s 6.8. C’s bundle fits C but leaves many tasks unassigned. No full feasible allocation exists from the stated numbers.\n\nALLOCATION: (no feasible assignment)\n\n--- Participant C ---\nA’s and B’s allocations are both infeasible. Shared sanitation totals 6 (C 3 + A 1 + B 2), but the full task set requires 10 sanitation units: Peak 1, Prep 2, Update 1, Deep clean 3, Restock 1, End-of-shift 1, Temp log 1. So no assignment of all tasks can satisfy resources. A’s plan also leaves C needing 11 Time and 9 Mental for remaining tasks; B’s plan similarly overloads C. The binding constraint is shared sanitation, not private capacity. The team must increase sanitation supply or drop at least 4 sanitation units of tasks before any full allocation is feasible.\n\nALLOCATION: (infeasible) -> none\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "B|1": "Each member can see only their own private resources and a fragment of the shared pool; the shared total is the sum of those fragments.\n\nTeam:\n- Counter service specialist (throughput + labeling) (Worker), referred to as A\n- Fast line cook (high stamina) (Worker), referred to as B\n- Food safety stickler (QC mindset) (Leader), referred to as C\n\nTasks and what each member would need:\n- Assemble grab-and-go items (sandwiches/salads): 2 Time, 1 Mental energy, 2 Physical energy, 60 Ingredients budget, 2 Serving capacity\n- Peak-hour counter serving and packaging: 3 Time, 3 Mental energy, 3 Multitasking capacity, 5 Serving capacity, 1 Sanitation supplies\n- Prep proteins batch (trim/marinate/portion): 3 Time, 2 Mental energy, 2 Physical energy, 120 Ingredients budget, 2 Kitchen equipment time, 2 Sanitation supplies\n- Update menu board and allergen tags: 1 Time, 1 Mental energy, 1 Sanitation supplies\n- Deep clean critical stations (grill/prep area): 3 Time, 1 Mental energy, 3 Physical energy, 3 Sanitation supplies\n- Cook staple base batch (rice/noodles/soup): 3 Time, 1 Mental energy, 2 Physical energy, 80 Ingredients budget, 3 Kitchen equipment time\n- Restock condiments/utensils/packaging: 1 Time, 1 Physical energy, 1 Sanitation supplies\n- End-of-shift closing checklist: 2 Time, 2 Mental energy, 1 Sanitation supplies\n- Receive delivery and verify items: 2 Time, 2 Mental energy, 1 Physical energy\n- Temperature log and food safety check: 1 Time, 2 Mental energy, 1 Sanitation supplies\n\nWhat you can see:\n[B-priv-Time] Fast line cook (high stamina) privately holds 6.8 unit(s) of Time.\n\n[B-priv-Mental energy] Fast line cook (high stamina) privately holds 4.6 unit(s) of Mental energy.\n\n[B-priv-Physical energy] Fast line cook (high stamina) privately holds 4.4 unit(s) of Physical energy.\n\n[B-priv-Multitasking capacity] Fast line cook (high stamina) privately holds 0.8 unit(s) of Multitasking capacity.\n\n[B-pub-Ingredients budget] Fast line cook (high stamina)'s records show 43 unit(s) of the shared Ingredients budget.\n\n[B-pub-Serving capacity] Fast line cook (high stamina)'s records show 2 unit(s) of the shared Serving capacity.\n\n[B-pub-Kitchen equipment time] Fast line cook (high stamina)'s records show 2 unit(s) of the shared Kitchen equipment time.\n\n[B-pub-Sanitation supplies] Fast line cook (high stamina)'s records show 2 unit(s) of the shared Sanitation supplies.\n\n[B-eff-0] Fast line cook (high stamina) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 8.6.\n\n[B-eff-1] Fast line cook (high stamina) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 16.72.\n\n[B-eff-2] Fast line cook (high stamina) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 14.3.\n\n[B-eff-3] Fast line cook (high stamina) would complete \"Update menu board and allergen tags\" at an efficiency of 2.04.\n\n[B-eff-4] Fast line cook (high stamina) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 8.16.\n\n[B-eff-5] Fast line cook (high stamina) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 16.12.\n\n[B-eff-6] Fast line cook (high stamina) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 3.6.\n\n[B-eff-7] Fast line cook (high stamina) would complete \"End-of-shift closing checklist\" at an efficiency of 4.32.\n\n[B-eff-8] Fast line cook (high stamina) would complete \"Receive delivery and verify items\" at an efficiency of 7.56.\n\n[B-eff-9] Fast line cook (high stamina) would complete \"Temperature log and food safety check\" at an efficiency of 5.32.\n\nAssign every task to exactly one team member so that the team's total value is as high as possible without exceeding anyone's resources.\n\nGive your independent assessment before seeing the others.",
+  "B|2": "Each member can see only their own private resources and a fragment of the shared pool; the shared total is the sum of those fragments.\n\nTeam:\n- Counter service specialist (throughput + labeling) (Worker), referred to as A\n- Fast line cook (high stamina) (Worker), referred to as B\n- Food safety stickler (QC mindset) (Leader), referred to as C\n\nTasks and what each member would need:\n- Assemble grab-and-go items (sandwiches/salads): 2 Time, 1 Mental energy, 2 Physical energy, 60 Ingredients budget, 2 Serving capacity\n- Peak-hour counter serving and packaging: 3 Time, 3 Mental energy, 3 Multitasking capacity, 5 Serving capacity, 1 Sanitation supplies\n- Prep proteins batch (trim/marinate/portion): 3 Time, 2 Mental energy, 2 Physical energy, 120 Ingredients budget, 2 Kitchen equipment time, 2 Sanitation supplies\n- Update menu board and allergen tags: 1 Time, 1 Mental energy, 1 Sanitation supplies\n- Deep clean critical stations (grill/prep area): 3 Time, 1 Mental energy, 3 Physical energy, 3 Sanitation supplies\n- Cook staple base batch (rice/noodles/soup): 3 Time, 1 Mental energy, 2 Physical energy, 80 Ingredients budget, 3 Kitchen equipment time\n- Restock condiments/utensils/packaging: 1 Time, 1 Physical energy, 1 Sanitation supplies\n- End-of-shift closing checklist: 2 Time, 2 Mental energy, 1 Sanitation supplies\n- Receive delivery and verify items: 2 Time, 2 Mental energy, 1 Physical energy\n- Temperature log and food safety check: 1 Time, 2 Mental energy, 1 Sanitation supplies\n\nWhat you can see:\n[B-priv-Time] Fast line cook (high stamina) privately holds 6.8 unit(s) of Time.\n\n[B-priv-Mental energy] Fast line cook (high stamina) privately holds 4.6 unit(s) of Mental energy.\n\n[B-priv-Physical energy] Fast line cook (high stamina) privately holds 4.4 unit(s) of Physical energy.\n\n[B-priv-Multitasking capacity] Fast line cook (high stamina) privately holds 0.8 unit(s) of Multitasking capacity.\n\n[B-pub-Ingredients budget] Fast line cook (high stamina)'s records show 43 unit(s) of the shared Ingredients budget.\n\n[B-pub-Serving capacity] Fast line cook (high stamina)'s records show 2 unit(s) of the shared Serving capacity.\n\n[B-pub-Kitchen equipment time] Fast line cook (high stamina)'s records show 2 unit(s) of the shared Kitchen equipment time.\n\n[B-pub-Sanitation supplies] Fast line cook (high stamina)'s records show 2 unit(s) of the shared Sanitation supplies.\n\n[B-eff-0] Fast line cook (high stamina) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 8.6.\n\n[B-eff-1] Fast line cook (high stamina) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 16.72.\n\n[B-eff-2] Fast line cook (high stamina) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 14.3.\n\n[B-eff-3] Fast line cook (high stamina) would complete \"Update menu board and allergen tags\" at an efficiency of 2.04.\n\n[B-eff-4] Fast line cook (high stamina) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 8.16.\n\n[B-eff-5] Fast line cook (high stamina) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 16.12.\n\n[B-eff-6] Fast line cook (high stamina) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 3.6.\n\n[B-eff-7] Fast line cook (high stamina) would complete \"End-of-shift closing checklist\" at an efficiency of 4.32.\n\n[B-eff-8] Fast line cook (high stamina) would complete \"Receive delivery and verify items\" at an efficiency of 7.56.\n\n[B-eff-9] Fast line cook (high stamina) would complete \"Temperature log and food safety check\" at an efficiency of 5.32.\n\nAssign every task to exactly one team member so that the team's total value is as high as possible without exceeding anyone's resources.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nMy private limits: Time 4.0, Mental 4.0, Physical 4.6, Multitasking 4.2. Shared fragments I see: Ingredients 63, Serving 2, Kitchen equip 1, Sanitation 1.\n\nBest use of me is Peak-hour counter serving/packaging (efficiency 22.8) plus Restock condiments/utensils/packaging (4.4) = 27.2. That uses 4 Time, 3 Mental, 3 Multitasking, 1 Physical, and needs 5 Serving + 2 Sanitation from the shared pool. My fragments only show 2 Serving and 1 Sanitation, so I need at least 3 Serving and 1 Sanitation from B/C. I cannot take any additional task without exceeding Time.\n\nTentatively assign heavy cooking/cleaning to B and QC/paperwork to C, pending their capacity confirmation.\n\nALLOCATION: Assemble grab-and-go items -> B; Peak-hour counter serving and packaging -> A; Prep proteins batch -> B; Update menu board and allergen tags -> C; Deep clean critical stations -> B; Cook staple base batch -> B; Restock condiments/utensils/packaging -> A; End-of-shift closing checklist -> C; Receive delivery and verify items -> C; Temperature log and food safety check -> C\n\n--- Participant C ---\nI only see C. C private: Time 5.2, Mental 4.8, Physical 3.4, Multitasking 2.4. Shared fragments seen: Ingredients 159, Serving 5, Equipment 4, Sanitation 3.\n\nC cannot take Peak-hour counter serving (needs Multitasking 3 > 2.4). Based on C’s private capacities, the highest-value feasible bundle is Prep proteins + Restock + Temperature log = 16.9 + 4.0 + 11.4 = 32.3. It uses Time 5, Mental 4, Physical 3, and shared Ingredients 120, Equipment 2, Sanitation 4. My Sanitation fragment is only 3, so total shared Sanitation must be at least 4; please confirm from other fragments.\n\nOther tasks remain unassigned until A and B share their private resources and shared fragments.\n\nALLOCATION: Prep proteins batch (trim/marinate/portion) -> C; Restock condiments/utensils/packaging -> C; Temperature log and food safety check -> C\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "B|3": "Each member can see only their own private resources and a fragment of the shared pool; the shared total is the sum of those fragments.\n\nTeam:\n- Counter service specialist (throughput + labeling) (Worker), referred to as A\n- Fast line cook (high stamina) (Worker), referred to as B\n- Food safety stickler (QC mindset) (Leader), referred to as C\n\nTasks and what each member would need:\n- Assemble grab-and-go items (sandwiches/salads): 2 Time, 1 Mental energy, 2 Physical energy, 60 Ingredients budget, 2 Serving capacity\n- Peak-hour counter serving and packaging: 3 Time, 3 Mental energy, 3 Multitasking capacity, 5 Serving capacity, 1 Sanitation supplies\n- Prep proteins batch (trim/marinate/portion): 3 Time, 2 Mental energy, 2 Physical energy, 120 Ingredients budget, 2 Kitchen equipment time, 2 Sanitation supplies\n- Update menu board and allergen tags: 1 Time, 1 Mental energy, 1 Sanitation supplies\n- Deep clean critical stations (grill/prep area): 3 Time, 1 Mental energy, 3 Physical energy, 3 Sanitation supplies\n- Cook staple base batch (rice/noodles/soup): 3 Time, 1 Mental energy, 2 Physical energy, 80 Ingredients budget, 3 Kitchen equipment time\n- Restock condiments/utensils/packaging: 1 Time, 1 Physical energy, 1 Sanitation supplies\n- End-of-shift closing checklist: 2 Time, 2 Mental energy, 1 Sanitation supplies\n- Receive delivery and verify items: 2 Time, 2 Mental energy, 1 Physical energy\n- Temperature log and food safety check: 1 Time, 2 Mental energy, 1 Sanitation supplies\n\nWhat you can see:\n[B-priv-Time] Fast line cook (high stamina) privately holds 6.8 unit(s) of Time.\n\n[B-priv-Mental energy] Fast line cook (high stamina) privately holds 4.6 unit(s) of Mental energy.\n\n[B-priv-Physical energy] Fast line cook (high stamina) privately holds 4.4 unit(s) of Physical energy.\n\n[B-priv-Multitasking capacity] Fast line cook (high stamina) privately holds 0.8 unit(s) of Multitasking capacity.\n\n[B-pub-Ingredients budget] Fast line cook (high stamina)'s records show 43 unit(s) of the shared Ingredients budget.\n\n[B-pub-Serving capacity] Fast line cook (high stamina)'s records show 2 unit(s) of the shared Serving capacity.\n\n[B-pub-Kitchen equipment time] Fast line cook (high stamina)'s records show 2 unit(s) of the shared Kitchen equipment time.\n\n[B-pub-Sanitation supplies] Fast line cook (high stamina)'s records show 2 unit(s) of the shared Sanitation supplies.\n\n[B-eff-0] Fast line cook (high stamina) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 8.6.\n\n[B-eff-1] Fast line cook (high stamina) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 16.72.\n\n[B-eff-2] Fast line cook (high stamina) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 14.3.\n\n[B-eff-3] Fast line cook (high stamina) would complete \"Update menu board and allergen tags\" at an efficiency of 2.04.\n\n[B-eff-4] Fast line cook (high stamina) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 8.16.\n\n[B-eff-5] Fast line cook (high stamina) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 16.12.\n\n[B-eff-6] Fast line cook (high stamina) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 3.6.\n\n[B-eff-7] Fast line cook (high stamina) would complete \"End-of-shift closing checklist\" at an efficiency of 4.32.\n\n[B-eff-8] Fast line cook (high stamina) would complete \"Receive delivery and verify items\" at an efficiency of 7.56.\n\n[B-eff-9] Fast line cook (high stamina) would complete \"Temperature log and food safety check\" at an efficiency of 5.32.\n\nAssign every task to exactly one team member so that the team's total value is as high as possible without exceeding anyone's resources.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nSumming shared fragments: Sanitation = 1+2+3 = 6. Total sanitation required across all tasks is 10 (Peak 1, Prep 2, Update 1, Deep clean 3, Restock 1, Closing 1, Temp 1). So no full assignment can avoid exceeding the shared sanitation supply. B’s allocation also fails because A would need 7 Time vs 4 available. C’s bundle uses 4 sanitation, leaving only 2 for the remaining tasks that need 6. Therefore no feasible allocation exists for all tasks.\n\nALLOCATION: No feasible allocation\n\n--- Participant C ---\nA’s and B’s allocations are both infeasible. Shared sanitation totals 6 (C 3 + A 1 + B 2), but the full task set requires 10 sanitation units: Peak 1, Prep 2, Update 1, Deep clean 3, Restock 1, End-of-shift 1, Temp log 1. So no assignment of all tasks can satisfy resources. A’s plan also leaves C needing 11 Time and 9 Mental for remaining tasks; B’s plan similarly overloads C. The binding constraint is shared sanitation, not private capacity. The team must increase sanitation supply or drop at least 4 sanitation units of tasks before any full allocation is feasible.\n\nALLOCATION: (infeasible) -> none\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "C|1": "Each member can see only their own private resources and a fragment of the shared pool; the shared total is the sum of those fragments.\n\nTeam:\n- Counter service specialist (throughput + labeling) (Worker), referred to as A\n- Fast line cook (high stamina) (Worker), referred to as B\n- Food safety stickler (QC mindset) (Leader), referred to as C\n\nTasks and what each member would need:\n- Assemble grab-and-go items (sandwiches/salads): 2 Time, 1 Mental energy, 2 Physical energy, 60 Ingredients budget, 2 Serving capacity\n- Peak-hour counter serving and packaging: 3 Time, 3 Mental energy, 3 Multitasking capacity, 5 Serving capacity, 1 Sanitation supplies\n- Prep proteins batch (trim/marinate/portion): 3 Time, 2 Mental energy, 2 Physical energy, 120 Ingredients budget, 2 Kitchen equipment time, 2 Sanitation supplies\n- Update menu board and allergen tags: 1 Time, 1 Mental energy, 1 Sanitation supplies\n- Deep clean critical stations (grill/prep area): 3 Time, 1 Mental energy, 3 Physical energy, 3 Sanitation supplies\n- Cook staple base batch (rice/noodles/soup): 3 Time, 1 Mental energy, 2 Physical energy, 80 Ingredients budget, 3 Kitchen equipment time\n- Restock condiments/utensils/packaging: 1 Time, 1 Physical energy, 1 Sanitation supplies\n- End-of-shift closing checklist: 2 Time, 2 Mental energy, 1 Sanitation supplies\n- Receive delivery and verify items: 2 Time, 2 Mental energy, 1 Physical energy\n- Temperature log and food safety check: 1 Time, 2 Mental energy, 1 Sanitation supplies\n\nWhat you can see:\n[C-priv-Time] Food safety stickler (QC mindset) privately holds 5.2 unit(s) of Time.\n\n[C-priv-Mental energy] Food safety stickler (QC mindset) privately holds 4.8 unit(s) of Mental energy.\n\n[C-priv-Physical energy] Food safety stickler (QC mindset) privately holds 3.4 unit(s) of Physical energy.\n\n[C-priv-Multitasking capacity] Food safety stickler (QC mindset) privately holds 2.4 unit(s) of Multitasking capacity.\n\n[C-pub-Ingredients budget] Food safety stickler (QC mindset)'s records show 159 unit(s) of the shared Ingredients budget.\n\n[C-pub-Serving capacity] Food safety stickler (QC mindset)'s records show 5 unit(s) of the shared Serving capacity.\n\n[C-pub-Kitchen equipment time] Food safety stickler (QC mindset)'s records show 4 unit(s) of the shared Kitchen equipment time.\n\n[C-pub-Sanitation supplies] Food safety stickler (QC mindset)'s records show 3 unit(s) of the shared Sanitation supplies.\n\n[C-eff-0] Food safety stickler (QC mindset) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 9.46.\n\n[C-eff-1] Food safety stickler (QC mindset) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 13.68.\n\n[C-eff-2] Food safety stickler (QC mindset) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 16.9.\n\n[C-eff-3] Food safety stickler (QC mindset) would complete \"Update menu board and allergen tags\" at an efficiency of 3.74.\n\n[C-eff-4] Food safety stickler (QC mindset) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 8.84.\n\n[C-eff-5] Food safety stickler (QC mindset) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 12.4.\n\n[C-eff-6] Food safety stickler (QC mindset) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 4.0.\n\n[C-eff-7] Food safety stickler (QC mindset) would complete \"End-of-shift closing checklist\" at an efficiency of 6.48.\n\n[C-eff-8] Food safety stickler (QC mindset) would complete \"Receive delivery and verify items\" at an efficiency of 11.76.\n\n[C-eff-9] Food safety stickler (QC mindset) would complete \"Temperature log and food safety check\" at an efficiency of 11.4.\n\nAssign every task to exactly one team member so that the team's total value is as high as possible without exceeding anyone's resources.\n\nGive your independent assessment before seeing the others.",
+  "C|2": "Each member can see only their own private resources and a fragment of the shared pool; the shared total is the sum of those fragments.\n\nTeam:\n- Counter service specialist (throughput + labeling) (Worker), referred to as A\n- Fast line cook (high stamina) (Worker), referred to as B\n- Food safety stickler (QC mindset) (Leader), referred to as C\n\nTasks and what each member would need:\n- Assemble grab-and-go items (sandwiches/salads): 2 Time, 1 Mental energy, 2 Physical energy, 60 Ingredients budget, 2 Serving capacity\n- Peak-hour counter serving and packaging: 3 Time, 3 Mental energy, 3 Multitasking capacity, 5 Serving capacity, 1 Sanitation supplies\n- Prep proteins batch (trim/marinate/portion): 3 Time, 2 Mental energy, 2 Physical energy, 120 Ingredients budget, 2 Kitchen equipment time, 2 Sanitation supplies\n- Update menu board and allergen tags: 1 Time, 1 Mental energy, 1 Sanitation supplies\n- Deep clean critical stations (grill/prep area): 3 Time, 1 Mental energy, 3 Physical energy, 3 Sanitation supplies\n- Cook staple base batch (rice/noodles/soup): 3 Time, 1 Mental energy, 2 Physical energy, 80 Ingredients budget, 3 Kitchen equipment time\n- Restock condiments/utensils/packaging: 1 Time, 1 Physical energy, 1 Sanitation supplies\n- End-of-shift closing checklist: 2 Time, 2 Mental energy, 1 Sanitation supplies\n- Receive delivery and verify items: 2 Time, 2 Mental energy, 1 Physical energy\n- Temperature log and food safety check: 1 Time, 2 Mental energy, 1 Sanitation supplies\n\nWhat you can see:\n[C-priv-Time] Food safety stickler (QC mindset) privately holds 5.2 unit(s) of Time.\n\n[C-priv-Mental energy] Food safety stickler (QC mindset) privately holds 4.8 unit(s) of Mental energy.\n\n[C-priv-Physical energy] Food safety stickler (QC mindset) privately holds 3.4 unit(s) of Physical energy.\n\n[C-priv-Multitasking capacity] Food safety stickler (QC mindset) privately holds 2.4 unit(s) of Multitasking capacity.\n\n[C-pub-Ingredients budget] Food safety stickler (QC mindset)'s records show 159 unit(s) of the shared Ingredients budget.\n\n[C-pub-Serving capacity] Food safety stickler (QC mindset)'s records show 5 unit(s) of the shared Serving capacity.\n\n[C-pub-Kitchen equipment time] Food safety stickler (QC mindset)'s records show 4 unit(s) of the shared Kitchen equipment time.\n\n[C-pub-Sanitation supplies] Food safety stickler (QC mindset)'s records show 3 unit(s) of the shared Sanitation supplies.\n\n[C-eff-0] Food safety stickler (QC mindset) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 9.46.\n\n[C-eff-1] Food safety stickler (QC mindset) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 13.68.\n\n[C-eff-2] Food safety stickler (QC mindset) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 16.9.\n\n[C-eff-3] Food safety stickler (QC mindset) would complete \"Update menu board and allergen tags\" at an efficiency of 3.74.\n\n[C-eff-4] Food safety stickler (QC mindset) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 8.84.\n\n[C-eff-5] Food safety stickler (QC mindset) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 12.4.\n\n[C-eff-6] Food safety stickler (QC mindset) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 4.0.\n\n[C-eff-7] Food safety stickler (QC mindset) would complete \"End-of-shift closing checklist\" at an efficiency of 6.48.\n\n[C-eff-8] Food safety stickler (QC mindset) would complete \"Receive delivery and verify items\" at an efficiency of 11.76.\n\n[C-eff-9] Food safety stickler (QC mindset) would complete \"Temperature log and food safety check\" at an efficiency of 11.4.\n\nAssign every task to exactly one team member so that the team's total value is as high as possible without exceeding anyone's resources.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nMy private limits: Time 4.0, Mental 4.0, Physical 4.6, Multitasking 4.2. Shared fragments I see: Ingredients 63, Serving 2, Kitchen equip 1, Sanitation 1.\n\nBest use of me is Peak-hour counter serving/packaging (efficiency 22.8) plus Restock condiments/utensils/packaging (4.4) = 27.2. That uses 4 Time, 3 Mental, 3 Multitasking, 1 Physical, and needs 5 Serving + 2 Sanitation from the shared pool. My fragments only show 2 Serving and 1 Sanitation, so I need at least 3 Serving and 1 Sanitation from B/C. I cannot take any additional task without exceeding Time.\n\nTentatively assign heavy cooking/cleaning to B and QC/paperwork to C, pending their capacity confirmation.\n\nALLOCATION: Assemble grab-and-go items -> B; Peak-hour counter serving and packaging -> A; Prep proteins batch -> B; Update menu board and allergen tags -> C; Deep clean critical stations -> B; Cook staple base batch -> B; Restock condiments/utensils/packaging -> A; End-of-shift closing checklist -> C; Receive delivery and verify items -> C; Temperature log and food safety check -> C\n\n--- Participant B ---\nB sees: Time 6.8, Mental 4.6, Physical 4.4, Multitasking 0.8; shared fragments: Ingredients 43, Serving 2, Equipment 2, Sanitation 2.  \nB cannot take Peak-hour (needs 3 Multitasking). Highest-value feasible B set is Prep proteins + Cook staple: efficiency 14.3 + 16.12 = 30.42, using 6 Time, 3 Mental, 4 Physical. This uses B’s 2 Equipment and 2 Sanitation; team must supply 157 Ingredients and 3 Equipment beyond B’s fragments.  \nAssign counter/labeling tasks to A, QC/sanitation/verification to C. A/C must confirm their resources cover remaining shared needs.\n\nALLOCATION: Assemble grab-and-go items -> A; Peak-hour counter serving and packaging -> A; Prep proteins batch -> B; Update menu board and allergen tags -> A; Deep clean critical stations -> C; Cook staple base batch -> B; Restock condiments/utensils/packaging -> A; End-of-shift closing checklist -> C; Receive delivery and verify items -> C; Temperature log and food safety check -> C\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it.",
+  "C|3": "Each member can see only their own private resources and a fragment of the shared pool; the shared total is the sum of those fragments.\n\nTeam:\n- Counter service specialist (throughput + labeling) (Worker), referred to as A\n- Fast line cook (high stamina) (Worker), referred to as B\n- Food safety stickler (QC mindset) (Leader), referred to as C\n\nTasks and what each member would need:\n- Assemble grab-and-go items (sandwiches/salads): 2 Time, 1 Mental energy, 2 Physical energy, 60 Ingredients budget, 2 Serving capacity\n- Peak-hour counter serving and packaging: 3 Time, 3 Mental energy, 3 Multitasking capacity, 5 Serving capacity, 1 Sanitation supplies\n- Prep proteins batch (trim/marinate/portion): 3 Time, 2 Mental energy, 2 Physical energy, 120 Ingredients budget, 2 Kitchen equipment time, 2 Sanitation supplies\n- Update menu board and allergen tags: 1 Time, 1 Mental energy, 1 Sanitation supplies\n- Deep clean critical stations (grill/prep area): 3 Time, 1 Mental energy, 3 Physical energy, 3 Sanitation supplies\n- Cook staple base batch (rice/noodles/soup): 3 Time, 1 Mental energy, 2 Physical energy, 80 Ingredients budget, 3 Kitchen equipment time\n- Restock condiments/utensils/packaging: 1 Time, 1 Physical energy, 1 Sanitation supplies\n- End-of-shift closing checklist: 2 Time, 2 Mental energy, 1 Sanitation supplies\n- Receive delivery and verify items: 2 Time, 2 Mental energy, 1 Physical energy\n- Temperature log and food safety check: 1 Time, 2 Mental energy, 1 Sanitation supplies\n\nWhat you can see:\n[C-priv-Time] Food safety stickler (QC mindset) privately holds 5.2 unit(s) of Time.\n\n[C-priv-Mental energy] Food safety stickler (QC mindset) privately holds 4.8 unit(s) of Mental energy.\n\n[C-priv-Physical energy] Food safety stickler (QC mindset) privately holds 3.4 unit(s) of Physical energy.\n\n[C-priv-Multitasking capacity] Food safety stickler (QC mindset) privately holds 2.4 unit(s) of Multitasking capacity.\n\n[C-pub-Ingredients budget] Food safety stickler (QC mindset)'s records show 159 unit(s) of the shared Ingredients budget.\n\n[C-pub-Serving capacity] Food safety stickler (QC mindset)'s records show 5 unit(s) of the shared Serving capacity.\n\n[C-pub-Kitchen equipment time] Food safety stickler (QC mindset)'s records show 4 unit(s) of the shared Kitchen equipment time.\n\n[C-pub-Sanitation supplies] Food safety stickler (QC mindset)'s records show 3 unit(s) of the shared Sanitation supplies.\n\n[C-eff-0] Food safety stickler (QC mindset) would complete \"Assemble grab-and-go items (sandwiches/salads)\" at an efficiency of 9.46.\n\n[C-eff-1] Food safety stickler (QC mindset) would complete \"Peak-hour counter serving and packaging\" at an efficiency of 13.68.\n\n[C-eff-2] Food safety stickler (QC mindset) would complete \"Prep proteins batch (trim/marinate/portion)\" at an efficiency of 16.9.\n\n[C-eff-3] Food safety stickler (QC mindset) would complete \"Update menu board and allergen tags\" at an efficiency of 3.74.\n\n[C-eff-4] Food safety stickler (QC mindset) would complete \"Deep clean critical stations (grill/prep area)\" at an efficiency of 8.84.\n\n[C-eff-5] Food safety stickler (QC mindset) would complete \"Cook staple base batch (rice/noodles/soup)\" at an efficiency of 12.4.\n\n[C-eff-6] Food safety stickler (QC mindset) would complete \"Restock condiments/utensils/packaging\" at an efficiency of 4.0.\n\n[C-eff-7] Food safety stickler (QC mindset) would complete \"End-of-shift closing checklist\" at an efficiency of 6.48.\n\n[C-eff-8] Food safety stickler (QC mindset) would complete \"Receive delivery and verify items\" at an efficiency of 11.76.\n\n[C-eff-9] Food safety stickler (QC mindset) would complete \"Temperature log and food safety check\" at an efficiency of 11.4.\n\nAssign every task to exactly one team member so that the team's total value is as high as possible without exceeding anyone's resources.\n\nThese are the other participants' latest statements:\n\n--- Participant A ---\nSumming shared fragments: Sanitation = 1+2+3 = 6. Total sanitation required across all tasks is 10 (Peak 1, Prep 2, Update 1, Deep clean 3, Restock 1, Closing 1, Temp 1). So no full assignment can avoid exceeding the shared sanitation supply. B’s allocation also fails because A would need 7 Time vs 4 available. C’s bundle uses 4 sanitation, leaving only 2 for the remaining tasks that need 6. Therefore no feasible allocation exists for all tasks.\n\nALLOCATION: No feasible allocation\n\n--- Participant B ---\nAfter summing all stated figures: total Time = 16.0, Mental = 13.4, Physical = 12.4, Sanitation = 6.0. All 10 tasks require 21 Time, 15 Mental, 14 Physical, 10 Sanitation. So assigning every task is impossible without exceeding resources. A’s allocation overloads B: Assemble + Prep proteins + Deep clean + Cook staple uses 11 Time > B’s 6.8. C’s bundle fits C but leaves many tasks unassigned. No full feasible allocation exists from the stated numbers.\n\nALLOCATION: (no feasible assignment)\n\nYour own earlier assessment is above. Update your assessment. Address concrete claims from the others and revise your position only when the information warrants it."
+ },
+ "public": "Each member can see only their own private resources and a fragment of the shared pool; the shared total is the sum of those fragments.\n\nTeam:\n- Counter service specialist (throughput + labeling) (Worker), referred to as A\n- Fast line cook (high stamina) (Worker), referred to as B\n- Food safety stickler (QC mindset) (Leader), referred to as C\n\nTasks and what each member would need:\n- Assemble grab-and-go items (sandwiches/salads): 2 Time, 1 Mental energy, 2 Physical energy, 60 Ingredients budget, 2 Serving capacity\n- Peak-hour counter serving and packaging: 3 Time, 3 Mental energy, 3 Multitasking capacity, 5 Serving capacity, 1 Sanitation supplies\n- Prep proteins batch (trim/marinate/portion): 3 Time, 2 Mental energy, 2 Physical energy, 120 Ingredients budget, 2 Kitchen equipment time, 2 Sanitation supplies\n- Update menu board and allergen tags: 1 Time, 1 Mental energy, 1 Sanitation supplies\n- Deep clean critical stations (grill/prep area): 3 Time, 1 Mental energy, 3 Physical energy, 3 Sanitation supplies\n- Cook staple base batch (rice/noodles/soup): 3 Time, 1 Mental energy, 2 Physical energy, 80 Ingredients budget, 3 Kitchen equipment time\n- Restock condiments/utensils/packaging: 1 Time, 1 Physical energy, 1 Sanitation supplies\n- End-of-shift closing checklist: 2 Time, 2 Mental energy, 1 Sanitation supplies\n- Receive delivery and verify items: 2 Time, 2 Mental energy, 1 Physical energy\n- Temperature log and food safety check: 1 Time, 2 Mental energy, 1 Sanitation supplies",
+ "roles": {
+  "A": "You are a capacity analyst. Focus on what is actually feasible: whose resources run out first, and which assignments violate a limit.",
+  "B": "You are a value analyst. Focus on where each task is worth most, and on the cost of assigning it to a second-best member.",
+  "C": "You are a reconciliation analyst. Focus on figures the team has not yet pooled, and on claims that no one has been able to check."
+ },
+ "rounds": 3,
+ "topology": "full",
+ "transcript": {
+  "A|1": "My private limits: Time 4.0, Mental 4.0, Physical 4.6, Multitasking 4.2. Shared fragments I see: Ingredients 63, Serving 2, Kitchen equip 1, Sanitation 1.\n\nBest use of me is Peak-hour counter serving/packaging (efficiency 22.8) plus Restock condiments/utensils/packaging (4.4) = 27.2. That uses 4 Time, 3 Mental, 3 Multitasking, 1 Physical, and needs 5 Serving + 2 Sanitation from the shared pool. My fragments only show 2 Serving and 1 Sanitation, so I need at least 3 Serving and 1 Sanitation from B/C. I cannot take any additional task without exceeding Time.\n\nTentatively assign heavy cooking/cleaning to B and QC/paperwork to C, pending their capacity confirmation.\n\nALLOCATION: Assemble grab-and-go items -> B; Peak-hour counter serving and packaging -> A; Prep proteins batch -> B; Update menu board and allergen tags -> C; Deep clean critical stations -> B; Cook staple base batch -> B; Restock condiments/utensils/packaging -> A; End-of-shift closing checklist -> C; Receive delivery and verify items -> C; Temperature log and food safety check -> C",
+  "A|2": "Summing shared fragments: Sanitation = 1+2+3 = 6. Total sanitation required across all tasks is 10 (Peak 1, Prep 2, Update 1, Deep clean 3, Restock 1, Closing 1, Temp 1). So no full assignment can avoid exceeding the shared sanitation supply. B’s allocation also fails because A would need 7 Time vs 4 available. C’s bundle uses 4 sanitation, leaving only 2 for the remaining tasks that need 6. Therefore no feasible allocation exists for all tasks.\n\nALLOCATION: No feasible allocation",
+  "A|3": "I confirm the others’ totals: Time 16.0 vs 21 required, Mental 13.4 vs 15, Physical 12.4 vs 14, Sanitation 6 vs 10. Ingredients, Serving, Equipment, and Multitasking are sufficient, but Time, Mental, Physical, and Sanitation are all binding. No assignment of all ten tasks can fit the team’s stated resources. I agree with B and C that the full set is infeasible; my earlier proposed A bundle also exceeded B’s capacity. Since every task must be assigned and no feasible full allocation exists, the correct result is none.\n\nALLOCATION: none",
+  "B|1": "B sees: Time 6.8, Mental 4.6, Physical 4.4, Multitasking 0.8; shared fragments: Ingredients 43, Serving 2, Equipment 2, Sanitation 2.  \nB cannot take Peak-hour (needs 3 Multitasking). Highest-value feasible B set is Prep proteins + Cook staple: efficiency 14.3 + 16.12 = 30.42, using 6 Time, 3 Mental, 4 Physical. This uses B’s 2 Equipment and 2 Sanitation; team must supply 157 Ingredients and 3 Equipment beyond B’s fragments.  \nAssign counter/labeling tasks to A, QC/sanitation/verification to C. A/C must confirm their resources cover remaining shared needs.\n\nALLOCATION: Assemble grab-and-go items -> A; Peak-hour counter serving and packaging -> A; Prep proteins batch -> B; Update menu board and allergen tags -> A; Deep clean critical stations -> C; Cook staple base batch -> B; Restock condiments/utensils/packaging -> A; End-of-shift closing checklist -> C; Receive delivery and verify items -> C; Temperature log and food safety check -> C",
+  "B|2": "After summing all stated figures: total Time = 16.0, Mental = 13.4, Physical = 12.4, Sanitation = 6.0. All 10 tasks require 21 Time, 15 Mental, 14 Physical, 10 Sanitation. So assigning every task is impossible without exceeding resources. A’s allocation overloads B: Assemble + Prep proteins + Deep clean + Cook staple uses 11 Time > B’s 6.8. C’s bundle fits C but leaves many tasks unassigned. No full feasible allocation exists from the stated numbers.\n\nALLOCATION: (no feasible assignment)",
+  "B|3": "I agree with A and C: no full allocation is feasible. Shared sanitation totals 6 (A1 + B2 + C3), but all tasks require 10 sanitation units. Additionally, total Time is 16 (A4 + B6.8 + C5.2) < 21 required, and total Mental energy is 13.4 < 15 required. Therefore any assignment of every task exceeds at least one shared or private resource.\n\nALLOCATION: No feasible assignment",
+  "C|1": "I only see C. C private: Time 5.2, Mental 4.8, Physical 3.4, Multitasking 2.4. Shared fragments seen: Ingredients 159, Serving 5, Equipment 4, Sanitation 3.\n\nC cannot take Peak-hour counter serving (needs Multitasking 3 > 2.4). Based on C’s private capacities, the highest-value feasible bundle is Prep proteins + Restock + Temperature log = 16.9 + 4.0 + 11.4 = 32.3. It uses Time 5, Mental 4, Physical 3, and shared Ingredients 120, Equipment 2, Sanitation 4. My Sanitation fragment is only 3, so total shared Sanitation must be at least 4; please confirm from other fragments.\n\nOther tasks remain unassigned until A and B share their private resources and shared fragments.\n\nALLOCATION: Prep proteins batch (trim/marinate/portion) -> C; Restock condiments/utensils/packaging -> C; Temperature log and food safety check -> C",
+  "C|2": "A’s and B’s allocations are both infeasible. Shared sanitation totals 6 (C 3 + A 1 + B 2), but the full task set requires 10 sanitation units: Peak 1, Prep 2, Update 1, Deep clean 3, Restock 1, End-of-shift 1, Temp log 1. So no assignment of all tasks can satisfy resources. A’s plan also leaves C needing 11 Time and 9 Mental for remaining tasks; B’s plan similarly overloads C. The binding constraint is shared sanitation, not private capacity. The team must increase sanitation supply or drop at least 4 sanitation units of tasks before any full allocation is feasible.\n\nALLOCATION: (infeasible) -> none",
+  "C|3": "I confirm A’s and B’s sums. Total available: Time 16.0, Mental 13.4, Physical 12.4, Sanitation 6.0. All ten tasks require 21 Time, 15 Mental, 14 Physical, 10 Sanitation. Ingredients, serving, equipment, and multitasking are sufficient, but those four constraints are binding. My earlier C-only bundle (Prep proteins, Restock, Temperature log) fits C’s private limits but cannot cover the remaining tasks. No assignment of all tasks can satisfy the team’s resources. We must either drop tasks or increase shared sanitation/time before any feasible plan exists.\n\nALLOCATION: No feasible allocation"
+ }
+}
