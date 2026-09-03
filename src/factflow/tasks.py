@@ -122,6 +122,9 @@ def deal(case: Case, agents: Sequence[str], spec: dict[str, Any],
     """Decide which items each agent is given.
 
     Modes:
+      dataset     the deal is already in the data -- the task defines which
+                  agent observes what, and inventing a different split would
+                  be studying a different task
       full        every agent gets every item (what the 2026-09 corpus did)
       partition   disjoint and covering -- the union is the full item set
       sample      independent per (item, agent) with probability p
@@ -132,7 +135,18 @@ def deal(case: Case, agents: Sequence[str], spec: dict[str, Any],
     """
     mode = spec.get("mode", "full")
     rng = random.Random(f"{seed}|{case.id}")
-    if mode == "full":
+    if mode == "dataset":
+        held = case.meta.get("held")
+        if not held:
+            raise ValueError(
+                f"case {case.id}: disclosure mode 'dataset' but the loader "
+                "recorded no meta['held']")
+        if set(held) != set(agents):
+            raise ValueError(
+                f"case {case.id}: meta['held'] covers {sorted(held)}, "
+                f"runner has agents {list(agents)}")
+        dealt = {a: [i for i in case.items if i.id in set(held[a])] for a in agents}
+    elif mode == "full":
         dealt = {a: list(case.items) for a in agents}
     elif mode == "partition":
         dealt = _round_robin(case.items, agents, rng)
