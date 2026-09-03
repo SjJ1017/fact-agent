@@ -410,20 +410,29 @@ def load_task_allocation(n: int, seed: int, **_: Any) -> list[Case]:
                 raise ValueError(
                     f"{name}: task {t!r} has per-member requirements; the "
                     "shared-requirement rendering below would hide that")
-        reqs = "\n".join(
-            f"- {t}: " + ", ".join(
-                f"{v:g} {r}" for r, v in g.task_requirements[t][ref].items() if v)
-            for t in g.tasks)
+        # Requirements are facts the panel reasons over, not framing: "peak-hour
+        # serving needs 3 Time and 5 Serving capacity" can be transmitted,
+        # misquoted or dropped like any other. Only `claim`, `evidence` and the
+        # turns are extracted, so anything left in `public` is invisible to the
+        # measurement. They are common ground, so every agent holds them.
+        for t in g.tasks:
+            need = ", ".join(f"{v:g} {r}"
+                             for r, v in g.task_requirements[t][ref].items() if v)
+            iid = f"req-{g.tasks.index(t)}"
+            items.append(Item(iid, f"Doing \"{t}\" requires {need}.",
+                              tags=("requirement", t)))
+            for lab in labels:
+                held[lab].append(iid)
         cases.append(Case(
             id=f"talloc-{name}", question=(
                 "Assign every task to exactly one team member so that the team's "
                 "total value is as high as possible without exceeding anyone's resources."),
             public=("Each member can see only their own private resources and a "
                     "fragment of the shared pool; the shared total is the sum of "
-                    "those fragments.\n\n"
-                    f"Team:\n{roster}\n\nTasks and what each member would need:\n{reqs}"),
+                    f"those fragments.\n\nTeam:\n{roster}"),
             items=tuple(items),
             meta={"held": held, "source": "delib-task-alloc",
+                  "question_is_source": False,
                   "gold": getattr(g, "best_allocation_dict", None),
                   "max_reward": float(getattr(g, "max_reward", 0.0)),
                   "roles_from_data": {ell: g.agents_config[a]["role"]
@@ -492,6 +501,7 @@ def load_menu_design(n: int, seed: int, semantic: bool = True, **_: Any) -> list
                     + "\n".join(f"- {d}" for d in dishes)),
             items=tuple(items),
             meta={"held": held, "source": "delib-menu",
+                  "question_is_source": False,
                   "variant": "semantic" if semantic else "numerical",
                   "gold": getattr(g, "best_menu", None),
                   "max_reward": float(getattr(g, "max_reward", 0.0)),
