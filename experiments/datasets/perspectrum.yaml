@@ -32,6 +32,23 @@ task:
     Evidence dossier:
     {items}
 
+  # The frozen corpus's exact wording. Changing any of these stops this config
+  # from reproducing the runs every published number came from.
+  turn:
+    first: Give your independent assessment before seeing other panelists.
+    no_peers: |-
+      You have already given an assessment above. No other panelist's assessment is available to you.
+
+      Update your assessment. Revise it only when the dossier warrants it.
+    with_peers: |-
+      These are the panelists' latest assessments:
+
+      {peers}
+
+      {own}Update your assessment. Address concrete claims from the other panelists and revise your position only when the dossier or their reasoning warrants it.
+    peer_header: "--- Panelist {agent} ---"
+    own_prefix: "Your own earlier assessment is above. "
+
 personas:
   neutral:
     - You are a neutral evidence analyst. Seek the strongest relevant facts on both sides.

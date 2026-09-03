@@ -6,16 +6,18 @@ config, not a second runner.  `experiments/run_qa.py` and
 builders and two output shapes for what is the same experiment; this is the
 one description both of them should have read.
 
-The persona ladder is deliberately fixed rather than free-form.  The study
-manipulates persona and topology, so persona has to mean the same thing in
-every dataset or the cross-dataset comparison measures wording instead:
+The original persona ladder is still the default for the PerspectruM corpus:
 
     neutral   three identical agents -- the homogeneous control
     lenses    functionally differentiated, no position on the answer
     stance    committed opposing positions
 
-A dataset may phrase all three however its task requires, but it must supply
-all three, and they must stay in that order of increasing differentiation.
+It is not a universal ontology.  A clinical case needs generic/specialist
+roles and may cross those with full/partitioned disclosure; an asymmetric game
+may get its roles and private observations directly from the data.  Specs can
+therefore define named ``conditions`` that independently select a persona
+profile and a disclosure policy.  Old specs without conditions retain the
+three-condition ladder for backwards compatibility.
 """
 
 from __future__ import annotations
@@ -30,6 +32,12 @@ LADDER = ("neutral", "lenses", "stance")
 
 
 @dataclass(frozen=True)
+class ConditionSpec:
+    persona: str
+    disclosure: dict[str, Any] | None = None
+
+
+@dataclass(frozen=True)
 class TaskSpec:
     """Everything about a dataset-task that the runner would otherwise hard-code."""
 
@@ -41,7 +49,9 @@ class TaskSpec:
     answer_line: str
     max_words: int
     context_template: str
+    turn: dict[str, str]
     personas: dict[str, tuple[str, ...]]
+    conditions: dict[str, ConditionSpec]
     disclosure: dict[str, Any]
     rounds: int
     notes: str = ""
@@ -50,8 +60,39 @@ class TaskSpec:
     def n_agents(self) -> int:
         return len(self.agents)
 
-    def roles(self, persona: str) -> dict[str, str]:
-        return dict(zip(self.agents, self.personas[persona]))
+    @property
+    def condition_names(self) -> tuple[str, ...]:
+        if self.conditions:
+            return tuple(self.conditions)
+        default = tuple(p for p in LADDER if p in self.personas)
+        return default or tuple(self.personas)
+
+    def persona_for(self, condition: str) -> str:
+        if condition in self.conditions:
+            return self.conditions[condition].persona
+        if condition in self.personas:
+            return condition
+        raise KeyError(
+            f"unknown condition {condition!r}; have {list(self.condition_names)}")
+
+    def roles(self, condition: str) -> dict[str, str]:
+        return dict(zip(self.agents, self.personas[self.persona_for(condition)]))
+
+    def disclosure_for(self, condition: str) -> dict[str, Any]:
+        """Resolve the information policy independently of the role profile."""
+        if condition in self.conditions:
+            override = self.conditions[condition].disclosure
+            if override is not None:
+                return dict(override)
+
+        spec_d = dict(self.disclosure)
+        if spec_d.get("mode") != "role_aligned":
+            return spec_d
+        persona = self.persona_for(condition)
+        aff = spec_d.get("affinity", {}).get(persona)
+        if aff is None:
+            return {"mode": spec_d.get("fallback", "full")}
+        return {"mode": "role_aligned", "affinity": aff}
 
 
 def _require(data: dict[str, Any], key: str, where: str) -> Any:
@@ -66,13 +107,10 @@ def load_spec(path: Path) -> TaskSpec:
     agents = tuple(data.get("agents") or ["A", "B", "C"])
 
     personas_raw = _require(data, "personas", where)
-    missing = [p for p in LADDER if p not in personas_raw]
-    if missing:
-        raise ValueError(
-            f"{where}: personas must define all of {LADDER}; missing {missing}. "
-            "The persona ladder is the study's independent variable and has to "
-            "be comparable across datasets.")
+    if not personas_raw:
+        raise ValueError(f"{where}: personas must define at least one role profile")
     context_template: str
+    turn: dict[str, str]
     personas: dict[str, tuple[str, ...]] = {}
     for name, prompts in personas_raw.items():
         if len(prompts) != len(agents):
@@ -80,6 +118,20 @@ def load_spec(path: Path) -> TaskSpec:
                 f"{where}: persona {name!r} has {len(prompts)} prompts for "
                 f"{len(agents)} agents")
         personas[name] = tuple(prompts)
+
+    conditions: dict[str, ConditionSpec] = {}
+    for name, raw in (data.get("conditions") or {}).items():
+        raw = raw or {}
+        persona = raw.get("persona", name)
+        if persona not in personas:
+            raise ValueError(
+                f"{where}: condition {name!r} names unknown persona {persona!r}; "
+                f"have {sorted(personas)}")
+        disclosure_override = raw.get("disclosure")
+        if disclosure_override is not None and not isinstance(disclosure_override, dict):
+            raise ValueError(
+                f"{where}: condition {name!r} disclosure must be a mapping")
+        conditions[name] = ConditionSpec(persona, disclosure_override)
 
     task = _require(data, "task", where)
     disclosure = data.get("disclosure") or {"mode": "full"}
@@ -100,7 +152,9 @@ def load_spec(path: Path) -> TaskSpec:
         answer_line=_require(task, "answer_line", f"{where}:task"),
         max_words=int(task.get("max_words", 180)),
         context_template=_require(task, "context", f"{where}:task"),
+        turn=task.get("turn") or {},
         personas=personas,
+        conditions=conditions,
         disclosure=disclosure,
         rounds=int(data.get("rounds", 3)),
         notes=data.get("notes", ""),
@@ -116,13 +170,7 @@ def affinity_for(spec: TaskSpec, persona: str) -> dict[str, Any]:
     falls back to symmetric disclosure rather than silently reusing another
     persona's affinity.
     """
-    spec_d = dict(spec.disclosure)
-    if spec_d.get("mode") != "role_aligned":
-        return spec_d
-    aff = spec_d.get("affinity", {}).get(persona)
-    if aff is None:
-        return {"mode": spec_d.get("fallback", "full")}
-    return {"mode": "role_aligned", "affinity": aff}
+    return spec.disclosure_for(persona)
 
 
 def render_context(spec: TaskSpec, case: "Any", items: "Any") -> str:
