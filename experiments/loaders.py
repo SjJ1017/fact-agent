@@ -497,3 +497,90 @@ def load_menu_design(n: int, seed: int, semantic: bool = True, **_: Any) -> list
                   "max_reward": float(getattr(g, "max_reward", 0.0)),
                   "n_agents_in_data": n_ag}))
     return cases
+
+
+# --------------------------------------------------------------------------
+# MAGPIE -- role-defined agents, each holding information the others need
+
+
+MAGPIE_SRC = ROOT / "data" / "magpie_src"
+
+
+@loader("magpie")
+def load_magpie(n: int, seed: int, domains: str | list[str] = "",
+                min_agents: int = 3, max_agents: int = 99, **_: Any) -> list[Case]:
+    """Multi-party negotiations where the private information is the point.
+
+    Each scenario states which facts are public, which belong to one named
+    party, and -- in solvability_note -- what has to come out for the task to
+    be solvable at all.  That last field turns "did the information reach the
+    decision" into an outcome rather than a description of traffic, which is
+    what makes this dataset worth running for a flow question.
+    """
+    want = ([d.strip() for d in domains.split(",") if d.strip()]
+            if isinstance(domains, str) else list(domains))
+    files = sorted(glob.glob(str(MAGPIE_SRC / "finaldata" / "*.json")))
+    if not files:
+        raise FileNotFoundError(
+            f"no scenarios under {MAGPIE_SRC / 'finaldata'}; clone "
+            "https://github.com/gurusha01/magpie into data/magpie_src")
+    if want:
+        files = [f for f in files
+                 if Path(f).stem.rsplit("_", 1)[0] in want]
+    random.Random(seed).shuffle(files)
+
+    cases: list[Case] = []
+    for f in files:
+        d = json.loads(Path(f).read_text())
+        agent_rows = d.get("agents") or []
+        if not (min_agents <= len(agent_rows) <= max_agents):
+            continue
+        labels = [chr(ord("A") + i) for i in range(len(agent_rows))]
+        names = [a.get("name", lab) for a, lab in zip(agent_rows, labels)]
+        items, held = [], {lab: [] for lab in labels}
+
+        for row, lab in zip(agent_rows, labels):
+            who = row.get("name", lab)
+            for kind, bag in (("shareable", row.get("shareable_preferences") or {}),
+                              ("private", row.get("private_preferences") or {})):
+                for key, val in bag.items():
+                    text = val.get("description") or val.get("value") if isinstance(val, dict) else val
+                    if not text:
+                        continue
+                    iid = f"{lab}-{kind}-{key}"
+                    items.append(Item(iid, f"{who}: {text}", tags=(kind, who)))
+                    held[lab].append(iid)
+
+        cons = d.get("constraints") or {}
+        for k, text in enumerate(cons.get("verifiable") or []):
+            iid = f"pub-{k}"
+            items.append(Item(iid, str(text), tags=("verifiable",)))
+            for lab in labels:
+                held[lab].append(iid)
+        # constraints.hidden is NOT anybody's private brief. The generator spec
+        # calls it "hidden numeric/boolean conditions" at the scenario level:
+        # conditions a valid agreement has to satisfy but that no party is
+        # told. Only 22 of 744 name an owner at all, so dealing the rest to
+        # everyone would have turned 97% of the scenario's hidden conditions
+        # into common knowledge and erased the property the dataset exists to
+        # test. They are kept for scoring instead.
+        hidden = [str(t) for t in (cons.get("hidden") or [])]
+
+        cases.append(Case(
+            id=Path(f).stem,
+            question=d.get("task", ""),
+            public=(f"{d.get('scenario', '')}\n\nWhat you must produce:\n"
+                    f"{d.get('deliverable', '')}"),
+            items=tuple(items),
+            meta={"held": held, "source": "magpie",
+                  "domain": Path(f).stem.rsplit("_", 1)[0],
+                  "n_agents": len(agent_rows),
+                  "agent_names": names,
+                  "agent_roles": {lab: row.get("role", "")
+                                  for row, lab in zip(agent_rows, labels)},
+                  "success_criteria": d.get("success_criteria"),
+                  "hidden_conditions": hidden,
+                  "solvability_note": d.get("solvability_note")}))
+        if len(cases) >= n:
+            break
+    return cases
