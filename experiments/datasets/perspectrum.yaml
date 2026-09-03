@@ -1,0 +1,62 @@
+# PerspectruM -- the 2026-09 corpus, restated as a config.
+#
+# This file exists first as a regression test: the generic runner driving it
+# must produce prompts byte-identical to run_perspectrum.py, which generated
+# every published number.  If it does not, the refactor has silently changed
+# the experiment.
+name: perspectrum
+loader: perspectrum
+loader_args:
+  split: dev
+  max_evidence_per_side: 2
+  min_evidence_per_side: 2
+  evidence_chars: 700
+
+agents: [A, B, C]
+rounds: 3
+
+task:
+  system: |-
+    You are one member of an evidence review panel assessing a contested public
+    claim. Work only from the supplied dossier. State concrete empirical claims
+    and distinguish evidence from value judgments. Do not invent sources,
+    statistics, or quotations.
+    Keep your response under 180 words. End with one line in exactly this form:
+    VERDICT: SUPPORT | UNDERMINE | UNCERTAIN
+  answer_line: "VERDICT: SUPPORT | UNDERMINE | UNCERTAIN"
+  max_words: 180
+  context: |-
+    Claim under review:
+    {question}
+
+    Evidence dossier:
+    {items}
+
+personas:
+  neutral:
+    - You are a neutral evidence analyst. Seek the strongest relevant facts on both sides.
+    - You are a neutral evidence analyst. Seek the strongest relevant facts on both sides.
+    - You are a neutral evidence analyst. Seek the strongest relevant facts on both sides.
+  lenses:
+    - You are a causal-evidence analyst. Focus on mechanisms, causal links, and what the evidence can actually establish.
+    - You are an implementation and trade-off analyst. Focus on feasibility, unintended consequences, scope, and affected populations.
+    - You are a scope and uncertainty analyst. Focus on exceptions, missing conditions, external validity, and overgeneralization.
+  stance:
+    - You are an advocate for the claim. Find its strongest dossier-supported case, but explicitly acknowledge material counterevidence.
+    - You are a critic of the claim. Find its strongest dossier-supported countercase, but explicitly acknowledge material supporting evidence.
+    - You are an impartial adjudicator. Compare the evidence on both sides and identify which asserted links are not established.
+  functional:
+    - You are an evidence curator. Surface the concrete facts in the dossier that the panel must not omit.
+    - You are a falsification critic. Test every proposed conclusion against counterevidence and identify unsupported leaps.
+    - You are a synthesis analyst. Preserve relevant support and counterevidence, resolving contradictions only when the dossier warrants it.
+
+# The published corpus gave every agent the whole dossier.  That symmetry is
+# why transmission is not identifiable in it (fix.md defect five); it is kept
+# here so this config reproduces that corpus, not improved on.
+disclosure:
+  mode: full
+
+notes: |
+  Reproduces experiments/run_perspectrum.py exactly. Do not "fix" anything
+  here -- change it and it stops being the control the new datasets are
+  compared against.
