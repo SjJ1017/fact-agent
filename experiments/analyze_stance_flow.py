@@ -90,7 +90,8 @@ def uptake_edges(store: dict, debate: dict, execution_id: str):
         lambda: defaultdict(list))
     for slot, info in debate.get("delivery", {}).items():
         listener, rnd = slot.split("|")
-        for peer in info.get("peer_turns", []):
+        # uptake 边问的是"听者本可以接走什么"，所以用窗口而不是投递事件。
+        for peer in info.get("visible_peer_turns", info.get("peer_turns", [])):
             speaker, peer_round = peer.split("|")
             for fid in said[(speaker, int(peer_round))]:
                 sources[(listener, int(rnd))][fid].append(speaker)

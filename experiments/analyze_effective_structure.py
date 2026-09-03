@@ -130,7 +130,8 @@ def compute(ex: str, r: dict, stance_lab: dict, tok: dict) -> dict:
         a, rr = key.split("|")
         rr = int(rr)
         df: set = set()
-        for pt in info.get("peer_turns", []):
+        # 中继口径问的是"这个 agent 本可以读到什么"。
+        for pt in info.get("visible_peer_turns", info.get("peer_turns", [])):
             pa, prr = pt.split("|")
             df |= out.get((pa, int(prr)), set())
         delivered[(a, rr)] = df

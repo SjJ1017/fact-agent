@@ -77,7 +77,8 @@ def received(said, debate):
     got = defaultdict(set)
     for slot, info in debate.get("delivery", {}).items():
         listener, rnd = slot.split("|")
-        for peer in info.get("peer_turns", []):
+        # 漏斗的 exposed 一段是"本可以被采纳"，那是窗口不是到达。
+        for peer in info.get("visible_peer_turns", info.get("peer_turns", [])):
             speaker, peer_round = peer.split("|")
             got[(listener, int(rnd))] |= said[(speaker, int(peer_round))]
     return got

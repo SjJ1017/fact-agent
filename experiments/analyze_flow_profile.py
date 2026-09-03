@@ -127,10 +127,14 @@ def profile(store: dict, debate: dict, execution_id: str) -> dict:
     if not rounds or not agents:
         return {}
 
+    # What the turn could still read, not what arrived in it. Under cumulative
+    # a fact B said in round 1 is in A's window at round 3; scoring against the
+    # delivery would call A's late use of it novel, which inflates novel and
+    # deflates adopted, adopted_share_recv and reception all at once.
     received: dict[tuple[str, int], set[str]] = defaultdict(set)
     for slot, info in debate.get("delivery", {}).items():
         listener, rnd = slot.split("|")
-        for peer in info.get("peer_turns", []):
+        for peer in info.get("visible_peer_turns", info.get("peer_turns", [])):
             speaker, peer_round = peer.split("|")
             received[(listener, int(rnd))] |= said[(speaker, int(peer_round))]
 
@@ -175,6 +179,10 @@ def profile(store: dict, debate: dict, execution_id: str) -> dict:
         before = set().union(
             *[said[(listener, r)] for r in rounds if r < rnd]
         ) if rnd > rounds[0] else set()
+        # peer_turns here, deliberately: delivery_use asks what fraction of
+        # delivery events moved something, so its unit is the event, not the
+        # window. Switching this to visibility would count one arrival again in
+        # every later round.
         for peer in info.get("peer_turns", []):
             speaker, peer_round = peer.split("|")
             moved = len((said[(speaker, int(peer_round))] & said[(listener, rnd)]) - before)
