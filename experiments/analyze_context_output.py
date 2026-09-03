@@ -72,6 +72,8 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--model", default="deepseek-v4-flash")
+    ap.add_argument("--memory", default="peer-only",
+                    choices=("peer-only", "self-last", "cumulative"))
     ap.add_argument("--out", type=Path, default=OUT)
     args = ap.parse_args()
 
@@ -79,10 +81,14 @@ def main() -> None:
     for directory in STORE_DIRS:
         for path in sorted(directory.glob(f"*{args.model}*.v2.json")):
             name = path.name[: -len(".v2.json")]
-            m = re.match(rf"perspectrum-(\d+)-{re.escape(args.model)}-(\w+?)-(\w+)$", name)
+            m = re.match(
+                rf"perspectrum-(\d+)-{re.escape(args.model)}-(\w+?)-(neutral|lenses|stance)"
+                rf"(?:-(cumulative|self-last))?$", name)
             if not m:
                 continue
-            claim, topology, panel = m.groups()
+            claim, topology, panel, mem = m.groups()
+            if (mem or "peer-only") != args.memory:
+                continue
             debate_path = path.with_name(f"{name}.debate.json")
             if not debate_path.exists():
                 continue
@@ -136,7 +142,12 @@ def main() -> None:
                     "n_context": cn, "n_output": on,
                     "peers_only": mix(peers, stance_of)[0] if peers else None,
                     "own_prior": mix(own, stance_of)[0] if own else None,
-                    "memory": "self-last" if self_turn else "peer-only",
+                    # The run's condition, not this turn's. Round 1 has no
+                    # prior turn under any setting, so inferring from self_turn
+                    # would label every first round peer-only.
+                    "memory": debate.get("memory",
+                                         "self-last" if debate.get("self_history")
+                                         else "peer-only"),
                 })
 
     # The headline is every turn, because the question is what an agent does

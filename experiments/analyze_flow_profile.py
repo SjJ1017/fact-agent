@@ -219,15 +219,24 @@ def profile(store: dict, debate: dict, execution_id: str) -> dict:
     }
 
 
-def collect(model: str, topologies: tuple[str, ...]) -> dict[tuple[str, str, str], dict]:
+def collect(model: str, topologies: tuple[str, ...], args) -> dict[tuple[str, str, str], dict]:
     out: dict[tuple[str, str, str], dict] = {}
     for directory in STORE_DIRS:
         for path in sorted(directory.glob(f"*{model}*.v2.json")):
             name = path.name[: -len(".v2.json")]
-            match = re.match(rf"perspectrum-(\d+)-{re.escape(model)}-(\w+?)-(\w+)$", name)
+            # The memory condition is part of the name now. Without it in the
+            # pattern a self-last or cumulative run matches nothing and is
+            # skipped in silence — generated, stored, and absent from every
+            # report. Runs of different conditions must not be pooled, so the
+            # condition is carried through rather than stripped.
+            match = re.match(
+                rf"perspectrum-(\d+)-{re.escape(model)}-(\w+?)-(neutral|lenses|stance)"
+                rf"(?:-(cumulative|self-last))?$", name)
             if not match:
                 continue
-            claim, topology, panel = match.groups()
+            claim, topology, panel, memory = match.groups()
+            if (memory or "peer-only") != args.memory:
+                continue
             if topology not in topologies:
                 continue
             debate_path = path.with_name(f"{name}.debate.json")
@@ -284,11 +293,14 @@ def main() -> None:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--model", default="deepseek-v4-flash")
     ap.add_argument("--topologies", nargs="+", default=["full", "star"])
+    ap.add_argument("--memory", default="peer-only",
+                    choices=("peer-only", "self-last", "cumulative"),
+                    help="只分析这一种记忆条件的辩论；把不同条件混在一起平均是没有意义的")
     ap.add_argument("--out", type=Path, default=OUT)
     args = ap.parse_args()
     topologies = tuple(args.topologies)
 
-    data = collect(args.model, topologies)
+    data = collect(args.model, topologies, args)
     if not data:
         raise SystemExit("no debates matched; check --model and --topologies")
     claims = sorted({c for _, c, _ in data})
@@ -325,7 +337,8 @@ def main() -> None:
 
     args.out.mkdir(parents=True, exist_ok=True)
     result = {
-        "model": args.model, "topologies": list(topologies), "claims": claims,
+        "model": args.model, "memory": args.memory,
+        "topologies": list(topologies), "claims": claims,
         "cells": cells, "paired": paired,
         "per_debate": {f"{t}|{c}|{p}": r for (t, c, p), r in data.items()},
     }

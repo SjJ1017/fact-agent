@@ -249,29 +249,39 @@ def run_case(
     rounds: int,
     max_agent_tokens: int,
     sample_tag: str,
-    self_history: bool = False,
+    memory: str = "self-last",
 ) -> dict[str, Any]:
     """One debate.
 
-    `self_history` decides whether an agent sees what it itself said last
-    round. Off, which is how the 2026-09 corpus was generated, each turn is a
-    fresh single-shot: the dossier plus whatever peers the topology delivers,
-    and nothing the agent said before. That is the Peer-Only cell of the memory
-    taxonomy, and it has a consequence worth knowing before reading any result
-    from it — chain's agent A receives no peers at all, so its three prompts
-    are byte-identical and its "rounds" are one query sampled three times.
+    `memory` picks what an agent carries between rounds. The three settings
+    are different experiments, not degrees of correctness:
 
-    On, the agent's own previous answer is carried as a real assistant turn,
-    which is what the reference implementation does (Du et al., ICML 2024,
-    where `agent_context` accumulates the model's own replies). Only the last
-    round is kept rather than the whole transcript: it is the minimum that lets
-    an agent restate, qualify or drop its own claim, and it keeps the context
-    from growing with the round count.
+    cumulative  The real growing conversation, which is what the reference
+                implementation does (Du et al., ICML 2024: `agent_context`
+                accumulates every user and assistant message). The agent sees
+                all of its own past answers and, through the old user turns,
+                every peer message ever delivered to it. Context grows with
+                the round count. This is the standard baseline.
+
+    self-last   A controlled one-round window: the dossier, peers' last round,
+                and the agent's own last answer — nothing older on either side.
+                Cheaper and symmetric, but the assistant turn sits behind a
+                rebuilt user turn that no longer holds the peer text the answer
+                was replying to, so the message list is not a faithful
+                transcript. Read it as an intervention, not as "the standard
+                workflow with a shorter window".
+
+    peer-only   No self-history at all, which is how the 2026-09 corpus was
+                generated. Worth knowing before reading any result from it:
+                chain's agent A receives no peers either, so its three prompts
+                are byte-identical and its "rounds" are one query sampled three
+                times.
     """
     agents = ["A", "B", "C"]
     roles = dict(zip(agents, PANEL_ROLES[panel]))
     transcript: dict[str, str] = {}
     prompts: dict[str, str] = {}
+    threads: dict[str, list[tuple[str, str]]] = {a: [] for a in ["A", "B", "C"]}
     delivery: dict[str, dict[str, Any]] = {}
 
     for rnd in range(1, rounds + 1):
@@ -282,11 +292,16 @@ def run_case(
                      if f"{peer}|{rnd - 1}" in transcript]
             key = f"{agent}|{rnd}"
             prior = f"{agent}|{rnd - 1}"
-            history: list[tuple[str, str]] = []
+            history: list[tuple[str, str]] = list(threads[agent])
             user = prompt_for(case, peers, roles[agent],
-                              has_own_prior=self_history and prior in transcript)
+                              has_own_prior=bool(history))
             prompts[key] = user
-            if self_history and prior in transcript:
+            if memory == "cumulative":
+                # Whatever was actually said, in order. Peers therefore stay
+                # visible across every round they were delivered in, which is
+                # the standard behaviour rather than a leak.
+                threads[agent] = history + [("user", user)]
+            elif memory == "self-last" and prior in transcript:
                 # The agent's own answer as an assistant turn, so the model
                 # treats it as its own commitment rather than as material
                 # quoted back at it.
@@ -300,10 +315,11 @@ def run_case(
                 # keeps the window symmetric at exactly one round each side.
                 history = [("user", history_prompt(case)),
                            ("assistant", transcript[prior])]
+                threads[agent] = []
             delivery[key] = {
                 "source_ids": ["claim", *[item["id"] for item in case.evidence]],
                 "peer_turns": [f"{peer}|{rnd - 1}" for peer, _ in peers],
-                "self_turn": prior if history else None,
+                "self_turn": prior if prior in transcript and memory != "peer-only" else None,
             }
             requests[agent] = (user, peers, history)
 
@@ -325,12 +341,14 @@ def run_case(
 
         for agent, text in llm.map(ask, agents, tolerate_failures=False):
             transcript[f"{agent}|{rnd}"] = text
+            if memory == "cumulative":
+                threads[agent] = threads[agent] + [("assistant", text)]
 
     # The condition is part of the identity, not just a field. Sidecars in
     # experiments/labels/ are keyed by execution_id, so two corpora that differ
     # only in whether agents saw their own history would overwrite each other's
     # stance labels and token clocks without ever colliding visibly.
-    suffix = "-self-last" if self_history else ""
+    suffix = "" if memory == "peer-only" else f"-{memory}"
     execution_id = f"perspectrum-{case.claim_id}-{model}-{topology}-{panel}{suffix}"
     return {
         "execution_id": execution_id,
@@ -339,7 +357,7 @@ def run_case(
         "model": model,
         "topology": topology,
         "panel": panel,
-        "self_history": self_history,
+        "memory": memory,
         "roles": roles,
         "rounds": rounds,
         "evidence": list(case.evidence),
@@ -523,7 +541,10 @@ def summarize(outdir: Path) -> dict[str, Any]:
         run = _load_json(debate_path)
         store = FactStore.load(str(store_path))
         view = build_view(store, run["execution_id"], roles=run["roles"])
-        key = f"{run['model']}|{run['topology']}|{run['panel']}"
+        # Memory belongs in the key. A directory holding both conditions would
+        # otherwise average them into one row and call it a configuration.
+        mem = run.get("memory", "self-last" if run.get("self_history") else "peer-only")
+        key = f"{run['model']}|{run['topology']}|{run['panel']}|{mem}"
         metrics = signature(view)
         rows.append((key, metrics))
         trajectories[key].append(trajectory(view))
@@ -565,10 +586,12 @@ def main() -> int:
     parser.add_argument("--timeout", type=float, default=120.0)
     parser.add_argument("--trace", action="store_true", help="extract and match atomic facts after the debates")
     parser.add_argument(
-        "--memory", choices=("self-last", "peer-only"), default="self-last",
-        help="self-last（默认）：每轮给 agent 自己上一轮的回答 + 拓扑允许的 peers "
-             "上一轮回答，这是主流做法。peer-only：只给 peers，agent 看不到自己的"
-             "历史——2026-09 那批语料是这么跑的，复现它必须显式指定。")
+        "--memory", choices=("cumulative", "self-last", "peer-only"),
+        default="cumulative",
+        help="cumulative（默认）：真实累积对话，agent 看到自己全部历史回答和历轮 "
+             "peer 消息，与 Du et al. 的参考实现一致。self-last：只保留自己上一轮 + "
+             "peers 上一轮的受控窗口。peer-only：完全没有自我历史，2026-09 那批语料"
+             "是这么跑的，复现它必须显式指定。")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
 
@@ -595,8 +618,9 @@ def main() -> int:
         "evidence_per_side": args.evidence_per_side, "min_evidence_per_side": args.min_evidence_per_side,
         "evidence_chars": args.evidence_chars,
         "max_agent_tokens": args.max_agent_tokens, "trace_max_tokens": args.trace_max_tokens,
-        # Which memory condition produced this directory. Two corpora that
-        # differ only in this are otherwise indistinguishable from the manifest.
+        # The condition this invocation ran. A directory can end up holding
+        # more than one, so this records what was just written, not what is
+        # in the directory — the per-debate JSON is the authority for that.
         "memory": args.memory,
     }
     save_json(args.outdir / "manifest.json", manifest)
@@ -623,7 +647,7 @@ def main() -> int:
         llm.backend.client = llm.backend.client.with_options(timeout=args.timeout, max_retries=1)
         save_json(path, run_case(llm, case, model, topology, panel, args.rounds,
                                  args.max_agent_tokens, args.outdir.name,
-                                 self_history=(args.memory == "self-last")))
+                                 memory=args.memory))
         return path
 
     with ThreadPoolExecutor(max_workers=args.parallel) as pool:
