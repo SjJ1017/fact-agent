@@ -101,6 +101,33 @@ GPU 3 是 Turing 架构，**不支持 bf16**，所以只放 2GB 级的 reranker�
 不要往上塞 LLM。GPU 4 的 46GB 放得下 bf16 的 14B（约 30GB），27B/32B 要
 `--4bit`，脚本按模型名自动加。
 
+## 看进度
+
+每批打一行,带已用时间、预计剩余和速率,flush 过所以重定向到日志也能实时看:
+
+```
+>>> Qwen/Qwen3-14B  [llm]  152 对
+  载入权重…（首次会先下载，几十 GB 时这一步最久）
+  显存占用 29.4 GB
+    打分 16/152     12s 已用     102s 剩余    1.3 对/秒
+    打分 32/152     24s 已用      90s 剩余    1.3 对/秒
+```
+
+`run.sh` 另外打 `[第几个/共几个]`、每个模型的用时和总用时。要静默加 `--quiet`。
+
+首次跑某个模型时,最久的一步是下载而不是推理。想先看下载进度可以单独拉:
+
+```
+python -c "from huggingface_hub import snapshot_download; snapshot_download('Qwen/Qwen3-14B')"
+```
+
+后台跑建议:
+
+```
+nohup ./run.sh > run.log 2>&1 &
+tail -f run.log
+```
+
 ## LLM 走的是 logit 不是生成
 
 默认不解码,只做一次前向,比较首个回答 token 上 `SAME` 与 `DIFFERENT` 的

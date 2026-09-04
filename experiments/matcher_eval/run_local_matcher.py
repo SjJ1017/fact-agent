@@ -39,6 +39,29 @@ SYSTEM = (
 USER = "A: {a}\nB: {b}"
 
 
+class Progress:
+    """One line per batch, flushed, with an ETA.
+
+    A 14B over 152 pairs is minutes of silence otherwise, and a first run also
+    spends much longer than that downloading; without this there is no way to
+    tell a slow model from a hung one.
+    """
+
+    def __init__(self, total: int, label: str, quiet: bool = False):
+        self.total, self.label, self.quiet = total, label, quiet
+        self.t0 = time.time()
+
+    def __call__(self, done: int) -> None:
+        if self.quiet:
+            return
+        el = time.time() - self.t0
+        rate = done / el if el else 0
+        eta = (self.total - done) / rate if rate else 0
+        print(f"    {self.label} {done}/{self.total}  "
+              f"{el:5.0f}s 已用  {eta:5.0f}s 剩余  {rate:5.1f} 对/秒",
+              flush=True)
+
+
 def detect_kind(model: str) -> str:
     low = model.lower()
     if "rerank" in low or "cross-encoder" in low or "nli-" in low:
@@ -87,22 +110,26 @@ def sweep(rows, scores):
 # --------------------------------------------------------------------------
 
 
-def run_biencoder(rows, model, batch, **_):
+def run_biencoder(rows, model, batch, quiet=False, **_):
     from sentence_transformers import SentenceTransformer
+    print("  载入模型…", flush=True)
     m = SentenceTransformer(model, device=os.environ.get("FF_DEVICE", "cuda"))
+    print("  编码中…", flush=True)
     a = m.encode([r["a"] for r in rows], normalize_embeddings=True,
-                 batch_size=batch, show_progress_bar=False)
+                 batch_size=batch, show_progress_bar=not quiet)
     b = m.encode([r["b"] for r in rows], normalize_embeddings=True,
-                 batch_size=batch, show_progress_bar=False)
+                 batch_size=batch, show_progress_bar=not quiet)
     return [float((x * y).sum()) for x, y in zip(a, b)]
 
 
-def run_reranker(rows, model, batch, **_):
+def run_reranker(rows, model, batch, quiet=False, **_):
     from sentence_transformers import CrossEncoder
+    print("  载入模型…", flush=True)
     m = CrossEncoder(model, device=os.environ.get("FF_DEVICE", "cuda"))
+    print("  打分中…", flush=True)
     return [float(s) for s in m.predict([(r["a"], r["b"]) for r in rows],
                                         batch_size=batch,
-                                        show_progress_bar=False)]
+                                        show_progress_bar=not quiet)]
 
 
 def _answer_token_ids(tok):
@@ -120,10 +147,11 @@ def _answer_token_ids(tok):
 
 
 def run_llm(rows, model, batch, dtype="bfloat16", load_4bit=False,
-            generate=False, **_):
+            generate=False, quiet=False, **_):
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
+    print("  载入权重…（首次会先下载，几十 GB 时这一步最久）", flush=True)
     tok = AutoTokenizer.from_pretrained(model, padding_side="left")
     if tok.pad_token_id is None:
         tok.pad_token = tok.eos_token
@@ -136,6 +164,9 @@ def run_llm(rows, model, batch, dtype="bfloat16", load_4bit=False,
             bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True)}
     net = AutoModelForCausalLM.from_pretrained(model, **kw)
     net.eval()
+    if torch.cuda.is_available():
+        print(f"  显存占用 {torch.cuda.memory_allocated() / 2**30:.1f} GB",
+              flush=True)
 
     prompts = [tok.apply_chat_template(
         [{"role": "system", "content": SYSTEM},
@@ -144,6 +175,7 @@ def run_llm(rows, model, batch, dtype="bfloat16", load_4bit=False,
 
     if generate:
         out = []
+        tick = Progress(len(prompts), "生成", quiet)
         for i in range(0, len(prompts), batch):
             enc = tok(prompts[i:i + batch], return_tensors="pt",
                       padding=True, add_special_tokens=False).to(net.device)
@@ -155,6 +187,7 @@ def run_llm(rows, model, batch, dtype="bfloat16", load_4bit=False,
                                   skip_special_tokens=True)
                 out.append("SAME" if "same" in text.strip().lower()[:8]
                            else "DIFFERENT")
+            tick(len(out))
         return out, None
 
     ids = _answer_token_ids(tok)
@@ -163,6 +196,7 @@ def run_llm(rows, model, batch, dtype="bfloat16", load_4bit=False,
             f"{model}: could not isolate first tokens for SAME/DIFFERENT; "
             "rerun with --generate")
     margins = []
+    tick = Progress(len(prompts), "打分", quiet)
     for i in range(0, len(prompts), batch):
         enc = tok(prompts[i:i + batch], return_tensors="pt", padding=True,
                   add_special_tokens=False).to(net.device)
@@ -172,6 +206,7 @@ def run_llm(rows, model, batch, dtype="bfloat16", load_4bit=False,
         s = torch.logsumexp(lp[:, ids["SAME"]], dim=-1)
         d = torch.logsumexp(lp[:, ids["DIFFERENT"]], dim=-1)
         margins += (s - d).tolist()
+        tick(len(margins))
     return margins, "margin"
 
 
@@ -192,14 +227,17 @@ def main() -> int:
                     help="decode a word instead of reading the first-token logits")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
+    ap.add_argument("--quiet", action="store_true", help="不打进度")
     ap.add_argument("--out", type=Path, default=None)
     a = ap.parse_args()
 
     kind = a.kind or detect_kind(a.model)
     rows = load(a.limit, a.contested)
     t0 = time.time()
+    print(f"\n>>> {a.model}  [{kind}]  {len(rows)} 对", flush=True)
     res = RUNNERS[kind](rows, a.model, a.batch, dtype=a.dtype,
-                        load_4bit=a.load_4bit, generate=a.generate)
+                        load_4bit=a.load_4bit, generate=a.generate,
+                        quiet=a.quiet)
     secs = time.time() - t0
 
     if kind == "llm" and a.generate:

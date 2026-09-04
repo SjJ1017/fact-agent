@@ -93,7 +93,12 @@ nvidia-smi --query-gpu=index,name,memory.used,memory.total,utilization.gpu \
 echo
 
 mkdir -p "$HERE/results"
+T_ALL=$SECONDS
+N=${#MODELS[@]}
+i=0
 for m in "${MODELS[@]}"; do
+  i=$((i + 1))
+  T_ONE=$SECONDS
   extra=()
   case "$m" in
     *27b*|*27B*|*32b*|*32B*|*24B*|*24b*|*70b*|*70B*) extra+=(--4bit) ;;
@@ -106,16 +111,18 @@ from run_local_matcher import detect_kind;print(detect_kind('$m'))")"
     dev="$GPU_SMALL"
   fi
   echo "======================================================================"
-  echo ">>> $m   [$kind → GPU $dev] ${extra[*]:-}"
+  echo "[$i/$N] $m   [$kind → GPU $dev] ${extra[*]:-}   $(date +%H:%M:%S)"
   # keep = 全部 152 对；drop = 去掉 26 对有争议的，保守估计
   for c in keep drop; do
     CUDA_VISIBLE_DEVICES="$dev" \
       "$PY" "$HERE/run_local_matcher.py" --model "$m" --contested "$c" "${extra[@]}" \
       || { echo "!!! $m ($c) 失败，跳过"; break; }
   done
+  echo "[$i/$N] $m 用时 $((SECONDS - T_ONE))s"
 done
 
 echo
+echo "全部完成，总用时 $((SECONDS - T_ALL))s"
 echo "======================================================================"
 "$PY" - "$HERE/results" <<'PYEOF'
 import json, sys, glob
