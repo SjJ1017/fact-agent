@@ -117,58 +117,94 @@ def calibrate(a) -> int:
     ab = margins(tok, net, ids, [(r["a"], r["b"]) for r in rows], a.batch, "A⊨B")
     ba = margins(tok, net, ids, [(r["b"], r["a"]) for r in rows], a.batch, "B⊨A")
 
-    # One classifier f(x, y) -> entails or not, fitted once on the 2N
-    # directional labels and applied both ways.  Equivalence is f(a,b) and
-    # f(b,a); it is not something the model is asked, so f's cutoff belongs on
-    # entailment labels rather than on the equivalence label it induces.
+    # Fit on one half, report on the other.  Sweeping a threshold on the same
+    # pairs it is then scored against reports the best achievable number, not
+    # the one production will see; every earlier calibration here carried that
+    # caveat in a print statement instead of doing something about it.
+    import collections
+    import random as _rnd
+    import statistics as _st
+
     g_ab, g_ba = directional_gold(rows, not a.strict_entail)
-    labels = list(g_ab) + list(g_ba)
-    marg = list(ab) + list(ba)
-    lo, hi = max(min(marg), a.margin_floor), max(marg)
+    idx = list(range(len(rows)))
+    by_rel = collections.defaultdict(list)
+    for i, r in enumerate(rows):
+        by_rel[r.get("relation") or ("equivalent" if r["gold"] == "SAME"
+                                     else "different")].append(i)
+    rng = _rnd.Random(a.split_seed)
+    test: set[int] = set()
+    for rel, group in sorted(by_rel.items()):
+        g = list(group)
+        rng.shuffle(g)
+        test.update(g[:max(1, round(len(g) * a.holdout))])
+    train = [i for i in idx if i not in test]
+    test = sorted(test)
+
+    def pooled(ix):
+        return ([g_ab[i] for i in ix] + [g_ba[i] for i in ix],
+                [ab[i] for i in ix] + [ba[i] for i in ix])
+
+    lab_tr, mar_tr = pooled(train)
+    lo, hi = max(min(mar_tr), a.margin_floor), max(mar_tr)
     grid = [lo + (hi - lo) * i / 200 for i in range(201)] if hi > lo else [lo]
     t, best_f1 = lo, -1.0
     for cand in grid:
-        f1 = binary_scores(labels, marg, cand)["f1"]
+        f1 = binary_scores(lab_tr, mar_tr, cand)["f1"]
         if f1 > best_f1:
             best_f1, t = f1, cand
-    fstat = binary_scores(labels, marg, t)
 
-    import collections
-    import statistics as _st
+    lab_te, mar_te = pooled(test)
+    f_tr = binary_scores(lab_tr, mar_tr, t)
+    f_te = binary_scores(lab_te, mar_te, t)
+
+    def induced(ix):
+        sub = [rows[i] for i in ix]
+        pred = ["SAME" if (ab[i] >= t and ba[i] >= t) else "DIFFERENT"
+                for i in ix]
+        return score(sub, pred), pred
+
+    eq_tr, _ = induced(train)
+    eq_te, _ = induced(test)
     cells = [(x >= t, y >= t) for x, y in zip(ab, ba)]
-    eq = ["SAME" if c == (True, True) else "DIFFERENT" for c in cells]
-    s_ = score(rows, eq)
-    gap = _st.mean(x - y for x, y in zip(ab, ba))
     tally = collections.Counter(
         "equivalent" if c == (True, True) else
         "a_entails_b" if c[0] else "b_entails_a" if c[1] else "neither"
         for c in cells)
+    gap = _st.mean(x - y for x, y in zip(ab, ba))
 
     out.write_text(json.dumps(
         {"model": a.model, "pairs": str(a.pairs or "pairs.jsonl"),
          "policy": a.policy, "contested": a.contested,
          "threshold": t, "threshold_ab": t, "threshold_ba": t,
          "strict_entail": a.strict_entail, "margin_floor": a.margin_floor,
-         "f_entail": fstat, "induced_equivalence": s_,
+         "holdout": a.holdout, "split_seed": a.split_seed,
+         "n_train": len(train), "n_test": len(test),
+         "f_entail_train": f_tr, "f_entail_holdout": f_te,
+         "induced_equivalence_train": eq_tr,
+         "induced_equivalence_holdout": eq_te,
          "cells": dict(tally),
          "position_bias_mean_ab_minus_ba": round(gap, 3),
-         "ab_range": [round(min(ab), 3), round(max(ab), 3)],
-         "ba_range": [round(min(ba), 3), round(max(ba), 3)],
          "margins": [{"id": r["id"], "gold": r["gold"],
                       "relation": r.get("relation"),
+                      "split": "test" if i in set(test) else "train",
                       "ab": round(x, 3), "ba": round(y, 3)}
-                     for r, x, y in zip(rows, ab, ba)]},
+                     for i, (r, x, y) in enumerate(zip(rows, ab, ba))]},
         ensure_ascii=False, indent=1))
-    print(f"\n f 的阈值 {t:.4f}，在 {len(labels)} 个方向标注上拟合")
-    print(f" f 本身：准确 {fstat['acc']:.3f}  精确 {fstat['precision']:.3f}  "
-          f"召回 {fstat['recall']:.3f}  F1 {fstat['f1']:.3f}")
-    print(f" 推出的等价：F1 {s_['f1']:.3f}  精确 {s_['same_precision']:.3f}  "
-          f"召回 {s_['same_recall']:.3f}")
-    print(f" 四象限 {dict(tally)}   位置偏差 {gap:+.2f}")
+
+    print(f"\n 阈值 {t:.4f}，在 {len(train)} 对（{len(lab_tr)} 个方向标注）上拟合")
+    print(f"\n{'':18}{'训练':>22}{'留出':>22}")
+    print(f" {'f 准确':<16}{f_tr['acc']:>22.3f}{f_te['acc']:>22.3f}")
+    print(f" {'f 精确':<16}{f_tr['precision']:>22.3f}{f_te['precision']:>22.3f}")
+    print(f" {'f 召回':<16}{f_tr['recall']:>22.3f}{f_te['recall']:>22.3f}")
+    print(f" {'f F1':<16}{f_tr['f1']:>22.3f}{f_te['f1']:>22.3f}")
+    print(f" {'等价 F1':<16}{eq_tr['f1']:>22.3f}{eq_te['f1']:>22.3f}")
+    print(f" {'等价 精确':<15}{eq_tr['same_precision']:>22.3f}"
+          f"{eq_te['same_precision']:>22.3f}")
+    print(f"\n 留出集 {len(test)} 对，是可以报的数；训练那列是乐观上界。")
+    print(f" 四象限（全集）{dict(tally)}   位置偏差 {gap:+.2f}")
     if abs(t - lo) < 1e-9:
         print("! 阈值贴在搜索下界上，等于没有约束", file=sys.stderr)
     print(f"写入 {out}")
-    print("注意这是在评测集上拟合的，是乐观上界；真要报数需要独立的调阈子集。")
     return 0
 
 
@@ -186,9 +222,13 @@ def match_dir(a) -> int:
         print("! 有一个方向的阈值为负，那一遍等于恒真：两遍法退化成单向判断",
               file=sys.stderr)
 
-    files = sorted(a.indir.glob(f"*{a.suffix}"))
+    files = sorted(f for d in a.indir for f in d.glob(f"*{a.suffix}"))
     if not files:
-        raise SystemExit(f"{a.indir} 下没有 *{a.suffix}")
+        raise SystemExit(
+            "这些目录下没有 *" + a.suffix + "：" +
+            ", ".join(str(d) for d in a.indir))
+    if len(a.indir) > 1:
+        print(f"{len(a.indir)} 个目录，共 {len(files)} 个文件")
     tok, net, ids = build(a.model, a.dtype, a.load_4bit)
     blk = SbertBlocker(model_name=a.embed)
 
@@ -253,7 +293,8 @@ def match_dir(a) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("indir", type=Path, nargs="?")
+    ap.add_argument("indir", type=Path, nargs="*",
+                    help="一个或多个目录；perspectrum 的语料按拓扑分在两个目录里")
     ap.add_argument("--calibrate", action="store_true")
     ap.add_argument("--model", default="Qwen/Qwen3-14B")
     ap.add_argument("--dtype", default="bfloat16")
@@ -278,6 +319,9 @@ def main() -> int:
     ap.add_argument("--policy", default="file",
                     choices=["file", "strict", "near", "entail"])
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
+    ap.add_argument("--holdout", type=float, default=0.4,
+                    help="留出比例。阈值只在训练那半拟合，报的数来自留出那半")
+    ap.add_argument("--split-seed", type=int, default=0)
     ap.add_argument("--strict-entail", action="store_true",
                     help="拟合 f 时不把 near_match 当作双向蕴含")
     ap.add_argument("--margin-floor", type=float, default=0.0,
