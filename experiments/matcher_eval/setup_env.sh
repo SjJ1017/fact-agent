@@ -46,8 +46,7 @@ if [[ ! -f "$HDR" ]]; then
   echo "   两条路：" >&2
   echo "     sudo apt install python3-dev      # 需要 root" >&2
   echo "     BASE_PY=~/miniconda3/bin/python3 ./setup_env.sh   # conda 自带头文件" >&2
-  echo "   要跳过这个检查：SKIP_HEADER_CHECK=1 ./setup_env.sh" >&2
-  [[ -z "${SKIP_HEADER_CHECK:-}" ]] && exit 1
+  echo "   下面会自动卸掉 triton 绕过它（这个评测不需要融合内核）。" >&2
 fi
 echo "Python.h    $HDR"
 
@@ -60,6 +59,16 @@ echo ">>> torch ($TORCH_INDEX)"
 
 echo ">>> 其余依赖"
 "$PY" -m pip install -r "$HERE/requirements.txt"
+
+# Without Python.h, triton's shim build fails the first time a model reaches
+# for a fused kernel.  Uninstalling it is the fix that needs no root: torch and
+# transformers handle a genuinely absent triton, and nothing in this eval wants
+# a fused kernel anyway.  (Blocking the import is NOT equivalent -- find_spec
+# then raises instead of returning None, and has_triton() dies with it.)
+if [[ ! -f "$HDR" || -n "${DROP_TRITON:-}" ]]; then
+  echo ">>> 卸载 triton（缺 Python.h 或显式要求）"
+  "$PY" -m pip uninstall -y triton 2>/dev/null || true
+fi
 
 echo
 echo ">>> 自检"

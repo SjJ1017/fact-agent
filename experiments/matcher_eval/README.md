@@ -236,35 +236,35 @@ TORCH_INDEX=cu121 ./setup_env.sh
 ## triton / gcc 编译失败
 
 ```
-subprocess.CalledProcessError: Command '['/usr/bin/gcc', '.../triton/backends/nvidia/driver.c', ...]'
-returned non-zero exit status 1
+driver.c:9:10: fatal error: Python.h: No such file or directory
 ```
 
-Triton 首次被用到时会用 gcc 现场编译一个 CUDA 驱动 shim。**这个报错本身不说
-gcc 为什么失败**,只说返回 1。先把真实原因打出来:
+triton 首次被用到时会用 gcc 编译一个 CUDA shim,需要 `Python.h`。系统装了
+python3.12 但没装 `python3.12-dev` 就没有这个头文件。报错本身只说 gcc 返回 1,
+`./run.sh --triton` 会复现那条编译命令并打出真正的原因。
+
+三条路,按省事排序:
 
 ```
-./run.sh --triton
+$VENV/bin/pip uninstall -y triton          # 不需要 root，最快
 ```
 
-它会检查 `Python.h` 在不在(缺就是没装 `python3.12-dev`)、gcc 版本、
-`libcuda.so.1` 在不在链接路径上、`TMPDIR` 是不是 `noexec`,然后**复现那条
-gcc 命令并打印编译器的 stderr**。
-
-不过这个评测本来就不需要 triton —— 几百条短 prompt 各做一次前向,瓶颈不在
-kernel 上。所以脚本直接把 triton 的 import 屏蔽了:关掉 `torch.compile` 不够,
-transformers 会自己去找融合内核,只有让 import 失败才能把所有调用者赶回
-非 triton 路径。要放开:`FF_ALLOW_TRITON=1`。
-
-同时设的还有:
-
 ```
-TORCH_COMPILE_DISABLE=1  TORCHDYNAMO_DISABLE=1
-TORCHINDUCTOR_DISABLE=1  DISABLE_KERNEL_MAPPING=1
-FF_ATTN=eager
+VENV_DIR=.../venv-matcher2 BASE_PY=~/miniconda3/bin/python3 ./setup_env.sh
 ```
 
-如果 scratch 是 noexec,把 TMPDIR 指回本地盘:`TMPDIR=/tmp ./run.sh`。
+```
+sudo apt install python3.12-dev            # 有 root 时最干净
+```
+
+`setup_env.sh` 现在会在建 venv 前检查 `Python.h`,缺了就自动卸掉 triton。
+`DROP_TRITON=1` 可以强制卸。
+
+**卸载和屏蔽 import 不是一回事。** 早先的 `FF_BLOCK_TRITON` 在 `find_spec` 里
+抛 `ImportError`,而 `importlib.util.find_spec("triton")` 会把异常抛出去而不是
+返回 `None`,于是 torch 的 `has_triton()` 探测直接崩掉,连带模型加载失败。
+真正卸掉是干净的"不存在",torch 和 transformers 会正常回退。
+`FF_BLOCK_TRITON` 保留但默认关闭。
 
 ## CUDA 编号和 nvidia-smi 对不上
 
