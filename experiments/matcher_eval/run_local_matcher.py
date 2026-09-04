@@ -90,7 +90,7 @@ def detect_kind(model: str) -> str:
     return "llm"
 
 
-def load(limit, contested, difficulty=None):
+def load(limit, contested, difficulty=None, drop_pre_atomization=False):
     rows = [json.loads(l) for l in PAIRS.read_text().splitlines() if l.strip()]
     if contested == "drop":
         rows = [r for r in rows if not r["contested"]]
@@ -99,6 +99,8 @@ def load(limit, contested, difficulty=None):
     if difficulty:
         want = set(difficulty)
         rows = [r for r in rows if r.get("difficulty") in want]
+    if drop_pre_atomization:
+        rows = [r for r in rows if not r.get("pre_atomization")]
     return rows[:limit] if limit else rows
 
 
@@ -445,8 +447,122 @@ def run_cot(rows, model, batch, dtype="bfloat16", load_4bit=False,
     return preds, notes
 
 
+# Two directional entailment questions instead of one identity question.
+#
+# Each question is crisp on its own: "poodle" entails "dog", "dog" does not
+# entail "poodle", and the model never has to know what this project counts as
+# one fact.  That policy moves out of the prompt and into ENTAIL_POLICY below,
+# where it can be changed per analysis instead of being tuned by rewording.
+#
+# The direction is also worth keeping.  A one-way pair is a generalisation, not
+# a coincidence, and an edge that says "B is a weaker form of A" is a different
+# thing in the fact graph from "B repeats A".
+ENTAIL_SYSTEM = """\
+You judge logical entailment between two statements.
+
+Question: if A is true, must B also be true?
+
+Answer YES only when B follows necessarily from A. Answer NO when B could be
+false while A is true, when B adds information A does not contain, or when the
+two concern different subjects.
+
+Do not consider whether either statement is actually true, and do not consider
+whether they are about the same topic. Judge entailment only.
+
+Reply with exactly one word: YES or NO."""
+
+ENTAIL_USER = "A: {a}\nB: {b}"
+
+# What the two directions mean.  Both ways is equivalence, which is the
+# definition this project uses for one fact.
+ENTAIL_POLICY = {
+    (True, True): "SAME",        # equivalent
+    (True, False): "DIFFERENT",  # a is stronger; b is a generalisation of a
+    (False, True): "DIFFERENT",  # b is stronger
+    (False, False): "DIFFERENT",  # unrelated, or contradictory
+}
+ENTAIL_LABEL = {
+    (True, True): "equivalent",
+    (True, False): "a_entails_b",
+    (False, True): "b_entails_a",
+    (False, False): "neither",
+}
+
+
+def _yes_no_ids(tok):
+    out = {"YES": set(), "NO": set()}
+    for word in out:
+        for v in (word, " " + word, word.capitalize(), word.lower(),
+                  " " + word.capitalize(), " " + word.lower()):
+            ids = tok.encode(v, add_special_tokens=False)
+            if ids:
+                out[word].add(ids[0])
+    both = out["YES"] & out["NO"]
+    return {k: sorted(v - both) for k, v in out.items()}
+
+
+def run_entail(rows, model, batch, dtype="bfloat16", load_4bit=False,
+               quiet=False, **_):
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    print("  载入权重…（首次会先下载）", flush=True)
+    tok = AutoTokenizer.from_pretrained(model, padding_side="left")
+    if tok.pad_token_id is None:
+        tok.pad_token = tok.eos_token
+    dev = os.environ.get("FF_DEVICE", "cuda")
+    kw = {"dtype": getattr(torch, dtype), "device_map": dev,
+          "attn_implementation": os.environ.get("FF_ATTN", "eager")}
+    if load_4bit:
+        from transformers import BitsAndBytesConfig
+        kw = {"device_map": dev,
+              "attn_implementation": os.environ.get("FF_ATTN", "eager"),
+              "quantization_config": BitsAndBytesConfig(
+                  load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16,
+                  bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True)}
+    net = AutoModelForCausalLM.from_pretrained(model, **kw)
+    net.eval()
+    if torch.cuda.is_available():
+        print(f"  显存占用 {torch.cuda.memory_allocated() / 2**30:.1f} GB", flush=True)
+
+    ids = _yes_no_ids(tok)
+    if not ids["YES"] or not ids["NO"]:
+        raise SystemExit(f"{model}: 无法分离 YES / NO 的首 token")
+
+    def margins(pairs, label):
+        prompts = [chat_prompt(tok, ENTAIL_SYSTEM, ENTAIL_USER.format(a=x, b=y))
+                   for x, y in pairs]
+        out = []
+        tick = Progress(len(prompts), label, quiet)
+        i, bs = 0, batch
+        while i < len(prompts):
+            try:
+                enc = tok(prompts[i:i + bs], return_tensors="pt", padding=True,
+                          add_special_tokens=False).to(net.device)
+                with torch.no_grad():
+                    logits = net(**enc).logits[:, -1, :].float()
+            except torch.OutOfMemoryError:
+                torch.cuda.empty_cache()
+                if bs == 1:
+                    raise
+                bs = max(1, bs // 2)
+                print(f"    显存不足，batch 降到 {bs}", flush=True)
+                continue
+            lp = torch.log_softmax(logits, dim=-1)
+            y = torch.logsumexp(lp[:, ids["YES"]], dim=-1)
+            n = torch.logsumexp(lp[:, ids["NO"]], dim=-1)
+            out += (y - n).tolist()
+            i += bs
+            tick(len(out))
+        return out
+
+    ab = margins([(r["a"], r["b"]) for r in rows], "A⊨B")
+    ba = margins([(r["b"], r["a"]) for r in rows], "B⊨A")
+    return ab, ba
+
+
 RUNNERS = {"biencoder": run_biencoder, "reranker": run_reranker,
-           "llm": run_llm, "cot": run_cot}
+           "llm": run_llm, "cot": run_cot, "entail": run_entail}
 
 
 def main() -> int:
@@ -459,15 +575,19 @@ def main() -> int:
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--4bit", dest="load_4bit", action="store_true",
                     help="needed for anything over ~20B on a 46GB card")
-    ap.add_argument("--mode", default="logit", choices=["logit", "oneword", "cot"],
+    ap.add_argument("--mode", default="logit",
+                    choices=["logit", "oneword", "cot", "entail"],
                     help="logit=读首 token 概率(最快); oneword=解码一个词; "
-                         "cot=先写一句差别再判(最慢，质量最好)")
+                         "cot=先写一句差别再判; entail=两遍单向蕴含，"
+                         "等价性由 ENTAIL_POLICY 决定而不是靠 prompt 措辞")
     ap.add_argument("--max-new-tokens", type=int, default=48,
                     help="cot 模式每对生成上限")
     ap.add_argument("--generate", action="store_true",
                     help="等同 --mode oneword（保留旧写法）")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
+    ap.add_argument("--atomized-only", action="store_true",
+                    help="去掉抽取器会拆开的那几条：管线不会产生那种输入")
     ap.add_argument("--difficulty", nargs="+",
                     choices=["trivial", "easy", "medium", "hard"],
                     help="只跑这些难度带，默认全部")
@@ -477,9 +597,9 @@ def main() -> int:
 
     kind = a.kind or detect_kind(a.model)
     mode = "oneword" if a.generate else a.mode
-    if kind == "llm" and mode == "cot":
-        kind = "cot"
-    rows = load(a.limit, a.contested, a.difficulty)
+    if kind == "llm" and mode in ("cot", "entail"):
+        kind = mode
+    rows = load(a.limit, a.contested, a.difficulty, a.atomized_only)
     t0 = time.time()
     label = f"{'llm' if kind == 'cot' else kind}"
     if kind in ("llm", "cot"):
@@ -491,7 +611,37 @@ def main() -> int:
     secs = time.time() - t0
 
     notes = None
-    if kind == "cot":
+    if kind == "entail":
+        ab, ba = res
+        # The two thresholds have to be swept jointly, not one at a time: the
+        # decision is their conjunction, so the best cut for A|=B depends on
+        # where B|=A is cut.  Sweeping each against the final label separately
+        # optimises a proxy and lands off the joint optimum.
+        import collections
+
+        def grid(v):
+            lo, hi = min(v), max(v)
+            return [lo + (hi - lo) * i / 24 for i in range(25)]
+
+        best_ab = best_ba = 0.0
+        best_f1 = -1.0
+        for ta in grid(ab):
+            for tb in grid(ba):
+                pr = [ENTAIL_POLICY[(x >= ta, y >= tb)] for x, y in zip(ab, ba)]
+                f1 = score(rows, pr)["f1"]
+                if f1 > best_f1:
+                    best_f1, best_ab, best_ba = f1, ta, tb
+        cells = [(x >= best_ab, y >= best_ba) for x, y in zip(ab, ba)]
+        preds = [ENTAIL_POLICY[c] for c in cells]
+        notes = [ENTAIL_LABEL[c] for c in cells]
+        best = score(rows, preds)
+        best["threshold_ab"] = round(best_ab, 4)
+        best["threshold_ba"] = round(best_ba, 4)
+        curve = None
+        print(f"\n  方向阈值  A⊨B {best_ab:.3f}   B⊨A {best_ba:.3f}")
+        tally = collections.Counter(notes)
+        print("  四象限：" + "   ".join(f"{k} {v}" for k, v in tally.most_common()))
+    elif kind == "cot":
         preds, notes = res
         curve, best = None, score(rows, preds)
     elif kind == "llm" and mode == "oneword":
@@ -526,9 +676,12 @@ def main() -> int:
         if notes:
             k = rows.index(r)
             if notes[k]:
-                print(f"      模型写的差别: {notes[k][:86]}")
+                print(f"      {'方向' if kind == 'entail' else '模型写的差别'}: "
+                      f"{notes[k][:86]}")
 
     tag = "-".join(a.difficulty) if a.difficulty else "all"
+    if a.atomized_only:
+        tag += "-atomized"
     out = a.out or (HERE / "results" /
                     f"{a.model.replace('/', '__')}.{mode}.{a.contested}.{tag}.json")
     out.parent.mkdir(parents=True, exist_ok=True)

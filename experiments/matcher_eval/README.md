@@ -18,6 +18,30 @@ gold 分布 SAME 46 / DIFFERENT 106。领域:临床 74、perspectrum 34、
 **101 对是我标的,不是人工金标准。** 先抽查再拿它下结论,尤其是
 `contested` 那 26 对。
 
+## pre_atomization 标记
+
+5 条探针的其中一边会被抽取器拆开,也就是说**管线永远不会把那种输入交给
+匹配器**。最典型的是 `probe-specificity-drop`:
+
+```
+A: Scott Derrickson is an American director.   ← 抽取器拆成两条
+B: Scott Derrickson is a director.
+```
+
+真实流程里 A 先变成「是美国人」+「是导演」,然后「是导演」与 B 精确命中。
+在这条上判 DIFFERENT 不是模型的错,是题目本身不会出现。
+
+这 5 条带 `pre_atomization: true`,同时存了 `atoms_a` / `atoms_b`(抽取器的实
+际输出)。`--atomized-only` 去掉它们:
+
+```
+python run_local_matcher.py --model X --atomized-only
+```
+
+判据不是我的判断,是拿 minimax-m2.5 跑真实抽取器得到的:两边任一被拆成多条
+就算。规则本身在 `extract.py` 里已经写了并且生效——「American director」确实
+被拆开——所以这不是抽取的缺陷,是探针集混进了未原子化的句子。
+
 ## contested 标记
 
 标 `contested: true` 的是认真读也可能判反的:一边给了具体数值另一边只说
@@ -127,13 +151,50 @@ Qwen__Qwen3-14B.cot.keep.hard.json
 cot 的结果文件里每条还多存一个 `note` 字段,是模型自己写的那句"差别在哪",
 错判时也会打出来 —— 用来看它是判断错了还是理解错了。
 
+## entail：两遍单向蕴含
+
+```
+MODE=entail ./run.sh Qwen/Qwen3-14B
+```
+
+不问"这两条是不是同一个事实",改问两个方向的蕴含:
+
+```
+A 为真时 B 是否必然为真？   ->  YES / NO
+B 为真时 A 是否必然为真？   ->  YES / NO
+```
+
+每一问单独看都没有歧义:「贵宾犬 ⊨ 狗」是 YES,「狗 ⊨ 贵宾犬」是 NO,模型
+不需要知道这个项目把什么算作一条事实。**那个判断移到了代码里**
+(`ENTAIL_POLICY`),两个方向都成立才是 SAME。要改口径就改那一行,不用重写
+prompt 措辞再重测一遍。
+
+输出多了一个四象限统计,方向本身是有用的信息:
+
+```
+四象限：equivalent 39   a_entails_b 26   b_entails_a 11   neither 65
+```
+
+`a_entails_b` 是泛化关系,不是巧合。事实图里「B 是 A 的弱化形式」和「B 重复了
+A」是两种不同的边。
+
+成本是两次前向,约 2 倍时间,仍比托管快数倍。两个方向的阈值是**联合扫描**
+的(25×25 网格),因为判定是二者的合取,分别扫会落在联合最优之外。
+
 ## 三种推理模式
 
 | mode | 做法 | 速度 | 何时用 |
 |---|---|---|---|
 | `logit` | 读首个回答 token 上 SAME/DIFFERENT 的概率差 | 最快 | 扫模型 |
 | `oneword` | 解码一个词 | 中 | 看模型自由行为 |
-| `cot` | 先写一句"差别在哪"再判,固定格式 | 最慢 | 定稿选型 |
+| `cot` | 先写一句"差别在哪"再判,固定格式 | 慢 | 实测更差，见下 |
+| `entail` | 两遍单向蕴含，等价性由代码合成 | 2x logit | 消除 prompt 歧义 |
+
+**cot 实测比 logit 差**,而且两个模型一致(Qwen3-14B 0.926→0.864,
+phi-4 0.914→0.876),掉的都是召回(0.887→0.811,0.906→0.830),精确率基本不动。
+原因是那个 prompt 要求模型先用八个词写出差别再判 —— 先要求它去**找**差别,
+自然更容易判 DIFFERENT。生产判决器的 schema 也是 diff 在前,但那是为了给隐藏
+推理的模型一个受控的思考长度;对不推理的本地模型只剩下偏向。
 
 `cot` 的 prompt 里写死了几条规则,其中数值容差是按实际需求定的:
 
