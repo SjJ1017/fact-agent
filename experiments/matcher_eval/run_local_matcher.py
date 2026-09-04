@@ -219,6 +219,27 @@ def run_reranker(rows, model, batch, quiet=False, **_):
     return [float(v) for v in np.minimum(entail(ab), entail(ba))]
 
 
+def chat_prompt(tok, system: str, user: str) -> str:
+    """Chat template with thinking suppressed where the model has it.
+
+    Qwen3's default template ends at `assistant\n` and the model then emits
+    `<think>` itself, so the first generated token is the opening of a
+    reasoning block and the SAME/DIFFERENT logits at that position are noise.
+    Measured: Qwen3-14B scored 0.505 accuracy, calling nearly everything SAME,
+    including random pairs at cosine 0.2.  `enable_thinking=False` pre-fills an
+    empty think block so the next token is the answer.  Models without the
+    argument ignore it.
+    """
+    msgs = [{"role": "system", "content": system},
+            {"role": "user", "content": user}]
+    try:
+        return tok.apply_chat_template(msgs, add_generation_prompt=True,
+                                       tokenize=False, enable_thinking=False)
+    except TypeError:
+        return tok.apply_chat_template(msgs, add_generation_prompt=True,
+                                       tokenize=False)
+
+
 def _answer_token_ids(tok):
     """First-token ids for SAME and DIFFERENT, in the shapes a chat model emits."""
     out = {"SAME": set(), "DIFFERENT": set()}
@@ -262,10 +283,8 @@ def run_llm(rows, model, batch, dtype="bfloat16", load_4bit=False,
         print(f"  显存占用 {torch.cuda.memory_allocated() / 2**30:.1f} GB",
               flush=True)
 
-    prompts = [tok.apply_chat_template(
-        [{"role": "system", "content": SYSTEM},
-         {"role": "user", "content": USER.format(a=r["a"], b=r["b"])}],
-        add_generation_prompt=True, tokenize=False) for r in rows]
+    prompts = [chat_prompt(tok, SYSTEM, USER.format(a=r["a"], b=r["b"]))
+               for r in rows]
 
     if generate:
         out = []
@@ -394,10 +413,8 @@ def run_cot(rows, model, batch, dtype="bfloat16", load_4bit=False,
     if torch.cuda.is_available():
         print(f"  显存占用 {torch.cuda.memory_allocated() / 2**30:.1f} GB", flush=True)
 
-    prompts = [tok.apply_chat_template(
-        [{"role": "system", "content": COT_SYSTEM},
-         {"role": "user", "content": COT_USER.format(a=r["a"], b=r["b"])}],
-        add_generation_prompt=True, tokenize=False) for r in rows]
+    prompts = [chat_prompt(tok, COT_SYSTEM, COT_USER.format(a=r["a"], b=r["b"]))
+               for r in rows]
 
     preds, notes = [], []
     tick = Progress(len(prompts), "解码", quiet)
