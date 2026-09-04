@@ -30,7 +30,8 @@ sys.path.insert(0, str(ROOT / "experiments"))
 
 from factflow.llm import LLM  # noqa: E402
 from factflow.match import IDENTITY_SYSTEM, IdentityResult  # noqa: E402
-from run_local_matcher import SYSTEM as ONEWORD_SYSTEM, USER, load, score  # noqa: E402
+from run_local_matcher import (SYSTEM as ONEWORD_SYSTEM, USER, breakdown,  # noqa: E402
+                               load, score)
 from run_perspectrum import load_opencode_key  # noqa: E402
 
 
@@ -103,6 +104,8 @@ def main() -> int:
     print(f"  准确率 {best['acc']:.3f}   SAME 精确率 {best['same_precision']:.3f}   "
           f"SAME 召回 {best['same_recall']:.3f}   F1 {best['f1']:.3f}")
     print(f"  TP {best['tp']}  FP {best['fp']}  FN {best['fn']}  TN {best['tn']}")
+
+    breakdown(rows, preds)
 
     wrong = [(r, p) for r, p in zip(rows, preds)
              if (p == "SAME") != (r["gold"] == "SAME")]

@@ -94,6 +94,32 @@ def score(rows, pred) -> dict:
             "tp": tp, "fp": fp, "fn": fn, "tn": tn}
 
 
+def breakdown(rows, preds) -> None:
+    """Per-source scores.
+
+    The four sources are different tasks wearing one label.  probe-* are
+    hand-built minimal pairs that isolate one distinction each -- a dropped
+    qualifier, a hypernym -- so a model that reads relatedness rather than
+    identity fails almost all of them while doing fine on prose.  Reporting
+    only the pooled number hides which of those two a candidate is.
+    """
+    import collections
+    groups = collections.defaultdict(list)
+    for r, p in zip(rows, preds):
+        groups[r["id"].split("-")[0]].append((r, p))
+    print(f"\n  {'来源':<10}{'n':>5}{'准确':>8}{'精确':>8}{'召回':>8}{'F1':>8}"
+          f"{'SAME占比':>10}")
+    for name in ("probe", "clin", "near", "merge"):
+        g = groups.get(name)
+        if not g:
+            continue
+        sub = score([r for r, _ in g], [p for _, p in g])
+        share = sum(1 for r, _ in g if r["gold"] == "SAME") / len(g)
+        print(f"  {name:<10}{sub['n']:>5}{sub['acc']:>8.3f}"
+              f"{sub['same_precision']:>8.3f}{sub['same_recall']:>8.3f}"
+              f"{sub['f1']:>8.3f}{share:>10.0%}")
+
+
 def sweep(rows, scores):
     best, curve = None, []
     lo, hi = min(scores), max(scores)
@@ -125,35 +151,40 @@ def run_biencoder(rows, model, batch, quiet=False, **_):
 def run_reranker(rows, model, batch, quiet=False, **_):
     """Cross-encoder score per pair.
 
-    A reranker emits one number; an NLI model emits three (contradiction /
-    entailment / neutral) and `float(...)` on that row raises "only
-    0-dimensional arrays can be converted to Python scalars".  For the NLI
-    case the usable signal is the entailment probability -- one-directional,
-    so it will over-fire on "A is a poodle" / "A is a dog", which is exactly
-    the failure the probe set is there to catch.
+    A reranker emits one number.  An NLI model emits three (contradiction /
+    entailment / neutral), and float() on that row is what raised "only
+    0-dimensional arrays can be converted to Python scalars".  For NLI both
+    directions are scored and the smaller entailment probability kept, so the
+    score is bidirectional entailment.
     """
     import numpy as np
     from sentence_transformers import CrossEncoder
     print("  载入模型…", flush=True)
     m = CrossEncoder(model, device=os.environ.get("FF_DEVICE", "cuda"))
+
+    def predict(pairs):
+        return np.asarray(m.predict(pairs, batch_size=batch,
+                                    show_progress_bar=not quiet))
+
     print("  打分中…", flush=True)
-    raw = np.asarray(m.predict([(r["a"], r["b"]) for r in rows],
-                               batch_size=batch, show_progress_bar=not quiet))
-    if raw.ndim == 1:
-        return [float(v) for v in raw]
+    ab = predict([(r["a"], r["b"]) for r in rows])
+    if ab.ndim == 1:
+        return [float(v) for v in ab]
 
     labels = getattr(getattr(m, "config", None), "id2label", None) or {}
-    idx = next((i for i, n in labels.items()
-                if "entail" in str(n).lower()), None)
+    idx = next((i for i, n in labels.items() if "entail" in str(n).lower()), None)
     if idx is None:
-        idx = 1 if raw.shape[1] == 3 else raw.shape[1] - 1
-        print(f"  ! 模型输出 {raw.shape[1]} 类且没有 id2label，按第 {idx} 列当 entailment",
+        idx = 1 if ab.shape[1] == 3 else ab.shape[1] - 1
+        print(f"  ! {ab.shape[1]} 类输出且无 id2label，按第 {idx} 列当 entailment",
               flush=True)
-    else:
-        print(f"  {raw.shape[1]} 类 NLI，用 '{labels[idx]}' 列（单向蕴含，非等价）",
-              flush=True)
-    e = np.exp(raw - raw.max(axis=1, keepdims=True))
-    return [float(v) for v in (e / e.sum(axis=1, keepdims=True))[:, int(idx)]]
+
+    def entail(raw):
+        e = np.exp(raw - raw.max(axis=1, keepdims=True))
+        return (e / e.sum(axis=1, keepdims=True))[:, int(idx)]
+
+    print("  反向打分中…", flush=True)
+    ba = predict([(r["b"], r["a"]) for r in rows])
+    return [float(v) for v in np.minimum(entail(ab), entail(ba))]
 
 
 def _answer_token_ids(tok):
@@ -413,6 +444,8 @@ def main() -> int:
     print(f"  准确率 {best['acc']:.3f}   SAME 精确率 {best['same_precision']:.3f}   "
           f"SAME 召回 {best['same_recall']:.3f}   F1 {best['f1']:.3f}")
     print(f"  TP {best['tp']}  FP {best['fp']}  FN {best['fn']}  TN {best['tn']}")
+
+    breakdown(rows, preds)
 
     wrong = [(r, p) for r, p in zip(rows, preds)
              if (p == "SAME") != (r["gold"] == "SAME")]
