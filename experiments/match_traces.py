@@ -121,61 +121,51 @@ def calibrate(a) -> int:
     # threshold that accepts pairs the model rejected: the first fit put the
     # reverse cutoff under -8, which made the second pass vacuous and turned
     # the two-pass design back into a one-directional test at twice the cost.
-    def grid(v, floor):
-        lo, hi = max(min(v), floor), max(v)
-        if hi <= lo:
-            return [lo]
-        return [lo + (hi - lo) * i / 24 for i in range(25)]
+    # One threshold, not two.  Both passes ask the same question with the two
+    # statements swapped -- same model, same template, same decision -- so they
+    # share a boundary.  Fitting one cutoff per direction added a free
+    # parameter that bought nothing and caused the degeneracy: the sweep could
+    # push one direction below every observed margin, switching it off at no
+    # cost to F1, and report that as a threshold.
+    both = [min(x, y) for x, y in zip(ab, ba)]
+    lo, hi = max(min(both), a.margin_floor), max(both)
+    grid = [lo + (hi - lo) * i / 80 for i in range(81)] if hi > lo else [lo]
+    curve, best = [], None
+    for t in grid:
+        pred = ["SAME" if m >= t else "DIFFERENT" for m in both]
+        sc = score(rows, pred)
+        curve.append({"threshold": round(t, 4), "f1": round(sc["f1"], 4),
+                      "precision": round(sc["same_precision"], 4),
+                      "recall": round(sc["same_recall"], 4)})
+        if best is None or sc["f1"] > best[0]["f1"]:
+            best = (sc, t)
+    s_, t = best
 
-    best = None
-    for ta in grid(ab, a.margin_floor):
-        for tb in grid(ba, a.margin_floor):
-            pred = ["SAME" if (x >= ta and y >= tb) else "DIFFERENT"
-                    for x, y in zip(ab, ba)]
-            s = score(rows, pred)
-            if best is None or s["f1"] > best[0]["f1"]:
-                best = (s, ta, tb)
-    s, ta, tb = best
-    frac = sum(1 for x, y in zip(ab, ba) if x >= ta and y >= tb and min(x, y) < 0)
-    if frac:
-        print(f"! {frac} 对被判等价但至少一个方向的 margin 为负", file=sys.stderr)
+    # Position bias: the same question in the two slot orders.  A large gap
+    # means the model is reading the order, not only the content.
+    import statistics as _st
+    gap = _st.mean(x - y for x, y in zip(ab, ba))
 
-    # A conjunction with one scalar objective is degenerate whenever one
-    # direction already separates the classes: any cutoff below the other
-    # direction's minimum gives identical predictions, so F1 is flat there and
-    # the sweep returns an arbitrary point in that range.  A threshold sitting
-    # exactly at the bottom of its grid is that, not a decision.
-    for nm, th, v in (("A⊨B", ta, ab), ("B⊨A", tb, ba)):
-        floor_hit = abs(th - max(min(v), a.margin_floor)) < 1e-9
-        if floor_hit:
-            print(f"! {nm} 的阈值贴在搜索下界上，这个方向实际没有约束力",
-                  file=sys.stderr)
-    # F1 as the reverse cutoff moves, so the flat region is visible offline
-    def sweep_one(fix_ab):
-        out = []
-        lo, hi = max(min(ba), a.margin_floor), max(ba)
-        for i in range(21):
-            t = lo + (hi - lo) * i / 20 if hi > lo else lo
-            pred = ["SAME" if (x >= fix_ab and y >= t) else "DIFFERENT"
-                    for x, y in zip(ab, ba)]
-            out.append({"threshold_ba": round(t, 4),
-                        "f1": round(score(rows, pred)["f1"], 4)})
-        return out
     out.write_text(json.dumps(
         {"model": a.model, "pairs": str(a.pairs or "pairs.jsonl"),
          "policy": a.policy, "contested": a.contested,
-         "threshold_ab": ta, "threshold_ba": tb, "fit": s,
-         "margin_floor": a.margin_floor,
+         "threshold": t, "threshold_ab": t, "threshold_ba": t,
+         "fit": s_, "margin_floor": a.margin_floor,
          "ab_range": [round(min(ab), 3), round(max(ab), 3)],
          "ba_range": [round(min(ba), 3), round(max(ba), 3)],
-         "ba_curve_at_best_ab": sweep_one(ta),
+         "position_bias_mean_ab_minus_ba": round(gap, 3),
+         "curve": curve,
          "margins": [{"id": r["id"], "gold": r["gold"],
                       "ab": round(x, 3), "ba": round(y, 3)}
                      for r, x, y in zip(rows, ab, ba)]},
         ensure_ascii=False, indent=1))
-    print(f"\n阈值 A⊨B {ta:.4f}   B⊨A {tb:.4f}")
-    print(f"拟合于 {s['n']} 对：F1 {s['f1']:.3f}  精确 {s['same_precision']:.3f}  "
-          f"召回 {s['same_recall']:.3f}  准确 {s['acc']:.3f}")
+    print(f"\n阈值 {t:.4f}（两个方向共用）")
+    print(f"拟合于 {s_['n']} 对：F1 {s_['f1']:.3f}  精确 {s_['same_precision']:.3f}  "
+          f"召回 {s_['same_recall']:.3f}  准确 {s_['acc']:.3f}")
+    print(f"位置偏差 mean(ab-ba) = {gap:+.2f}"
+          + ("（明显，模型在读顺序）" if abs(gap) > 1.0 else "（不大）"))
+    if abs(t - lo) < 1e-9:
+        print("! 阈值贴在搜索下界上，等于没有约束", file=sys.stderr)
     print(f"写入 {out}")
     print("注意这是在评测集上拟合的，是乐观上界；真要报数需要独立的调阈子集。")
     return 0
@@ -186,7 +176,7 @@ def match_dir(a) -> int:
     if not cfile.exists():
         raise SystemExit(f"没有 {cfile}，先跑 --match-calibrate")
     cal = json.loads(cfile.read_text())
-    ta, tb = cal["threshold_ab"], cal["threshold_ba"]
+    ta = tb = cal.get("threshold", cal["threshold_ab"])
     if cal["model"] != a.model:
         print(f"! 阈值是用 {cal['model']} 拟合的，现在跑的是 {a.model}", file=sys.stderr)
     print(f"阈值 A⊨B {ta:.4f}  B⊨A {tb:.4f}  (来自 {cfile.name}，"

@@ -642,32 +642,36 @@ def main() -> int:
     notes = None
     if kind == "entail":
         ab, ba = res
-        # The two thresholds have to be swept jointly, not one at a time: the
-        # decision is their conjunction, so the best cut for A|=B depends on
-        # where B|=A is cut.  Sweeping each against the final label separately
-        # optimises a proxy and lands off the joint optimum.
+        # One threshold shared by both directions.  The two passes ask the same
+        # question with the statements swapped -- same model, same template --
+        # so they share a boundary, and giving each its own cutoff added a free
+        # parameter that only enabled degeneracy: with a conjunction, any cutoff
+        # below a direction's minimum margin switches that direction off at no
+        # cost to F1, and the sweep then reports the switch as a threshold.
+        # On idrbench it did exactly that, at -9.33, so "two-pass entailment"
+        # was one pass and every pair that was not EQUIVALENT came out labelled
+        # B_ENTAILS_A regardless of content.
         import collections
+        import statistics as _st
 
-        def grid(v):
-            lo, hi = min(v), max(v)
-            return [lo + (hi - lo) * i / 24 for i in range(25)]
-
-        best_ab = best_ba = 0.0
-        best_f1 = -1.0
-        for ta in grid(ab):
-            for tb in grid(ba):
-                pr = [ENTAIL_POLICY[(x >= ta, y >= tb)] for x, y in zip(ab, ba)]
-                f1 = score(rows, pr)["f1"]
-                if f1 > best_f1:
-                    best_f1, best_ab, best_ba = f1, ta, tb
-        cells = [(x >= best_ab, y >= best_ba) for x, y in zip(ab, ba)]
+        both = [min(x, y) for x, y in zip(ab, ba)]
+        lo, hi = min(both), max(both)
+        grid = [lo + (hi - lo) * i / 80 for i in range(81)] if hi > lo else [lo]
+        best_t, best_f1 = lo, -1.0
+        for t in grid:
+            f1 = score(rows, ["SAME" if m >= t else "DIFFERENT"
+                              for m in both])["f1"]
+            if f1 > best_f1:
+                best_f1, best_t = f1, t
+        cells = [(x >= best_t, y >= best_t) for x, y in zip(ab, ba)]
         preds = [ENTAIL_POLICY[c] for c in cells]
         notes = [ENTAIL_LABEL[c] for c in cells]
         best = score(rows, preds)
-        best["threshold_ab"] = round(best_ab, 4)
-        best["threshold_ba"] = round(best_ba, 4)
+        best["threshold"] = round(best_t, 4)
         curve = None
-        print(f"\n  方向阈值  A⊨B {best_ab:.3f}   B⊨A {best_ba:.3f}")
+        gap = _st.mean(x - y for x, y in zip(ab, ba))
+        print(f"\n  阈值 {best_t:.3f}（两向共用）   "
+              f"位置偏差 mean(ab-ba) {gap:+.2f}")
         tally = collections.Counter(notes)
         print("  四象限：" + "   ".join(f"{k} {v}" for k, v in tally.most_common()))
     elif kind == "cot":
