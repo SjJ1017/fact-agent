@@ -127,6 +127,9 @@ fi
 # 拟合 entail 的两个阈值。多余参数传给 match_traces.py。
 if [[ "${1:-}" == "--match-calibrate" ]]; then
   shift
+  # 这几个 exec 绕开了下面循环里的 CUDA_VISIBLE_DEVICES，得自己设，
+  # 否则 device_map="cuda" 会挑 0 号卡而不是 GPU=。
+  export CUDA_VISIBLE_DEVICES="$GPU"
   exec "$PY" "$HERE/../match_traces.py" --calibrate \
     --pairs "$HERE/pairs_idrbench.jsonl" "$@"
 fi
@@ -135,6 +138,8 @@ fi
 if [[ "${1:-}" == "--match" ]]; then
   shift
   [[ -z "${1:-}" ]] && { echo "用法: ./run.sh --match <目录> [选项]" >&2; exit 1; }
+  export CUDA_VISIBLE_DEVICES="$GPU"
+  echo "GPU $GPU" >&2
   exec "$PY" "$HERE/../match_traces.py" "$@"
 fi
 
