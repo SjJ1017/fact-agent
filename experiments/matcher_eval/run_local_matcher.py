@@ -481,7 +481,10 @@ def main() -> int:
         kind = "cot"
     rows = load(a.limit, a.contested, a.difficulty)
     t0 = time.time()
-    print(f"\n>>> {a.model}  [{kind}]  {len(rows)} 对", flush=True)
+    label = f"{'llm' if kind == 'cot' else kind}"
+    if kind in ("llm", "cot"):
+        label += f"/{mode}"
+    print(f"\n>>> {a.model}  [{label}]  {len(rows)} 对", flush=True)
     res = RUNNERS[kind](rows, a.model, a.batch, dtype=a.dtype,
                         load_4bit=a.load_4bit, generate=(mode == "oneword"),
                         quiet=a.quiet, max_new_tokens=a.max_new_tokens)
@@ -500,7 +503,7 @@ def main() -> int:
         preds = ["SAME" if v >= best["threshold"] else "DIFFERENT" for v in scores]
 
     shown = "llm" if kind == "cot" else kind
-    print(f"\n{a.model}   [{shown}/{mode}{', 4bit' if a.load_4bit else ''}]"
+    print(f"\n{a.model}   [{label}{', 4bit' if a.load_4bit else ''}]"
           f"   contested={a.contested}")
     print(f"  n={best['n']}   {secs:.0f}s   {secs / max(1, best['n']) * 1000:.0f} ms/对")
     if "threshold" in best:
