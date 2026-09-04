@@ -7,6 +7,8 @@
 #   ./run.sh --check                  只查 GPU 和 wheel 是否匹配，不加载模型
 #   ./run.sh --triton                 诊断 triton/gcc 编译失败的真实原因
 #   ./run.sh --rescore                gold 改了之后重算已有结果，不调模型
+#   ./run.sh --match-calibrate        拟合 entail 的两个阈值
+#   ./run.sh --match <目录>            匹配已原子化的 trace，写 .store.json
 #   MODE=cot ./run.sh                 LLM 用短 CoT 解码（慢，质量最好）
 #   MODE=cot ./run.sh Qwen/Qwen3-14B  只跑一个模型的 cot
 #   MODE=entail POLICY=entail ./run.sh Qwen/Qwen3-14B microsoft/phi-4
@@ -120,6 +122,20 @@ if [[ "${1:-}" == "--list" ]]; then
   echo "  ./run.sh google/gemma-3-27b-it"
   echo "  ./run.sh mistralai/Mistral-Small-3.1-24B-Instruct-2503"
   exit 0
+fi
+
+# 拟合 entail 的两个阈值。多余参数传给 match_traces.py。
+if [[ "${1:-}" == "--match-calibrate" ]]; then
+  shift
+  exec "$PY" "$HERE/../match_traces.py" --calibrate \
+    --pairs "$HERE/pairs_idrbench.jsonl" "$@"
+fi
+
+# 对一个目录里已原子化的 trace 做匹配，写出 .store.json。
+if [[ "${1:-}" == "--match" ]]; then
+  shift
+  [[ -z "${1:-}" ]] && { echo "用法: ./run.sh --match <目录> [选项]" >&2; exit 1; }
+  exec "$PY" "$HERE/../match_traces.py" "$@"
 fi
 
 # 用当前 gold 重算已保存的结果，不调模型。多余的参数原样传给 rescore.py。

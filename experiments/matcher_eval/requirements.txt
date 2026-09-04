@@ -9,3 +9,6 @@ safetensors>=0.4
 bitsandbytes>=0.43
 # 30GB 的权重走多线程下载，慢的时候差几倍
 hf_transfer>=0.1.6
+# match_local.py 还要用 factflow 本体（类型、blocking、聚类）
+pydantic>=2.0
+scikit-learn>=1.3
