@@ -192,7 +192,13 @@ from run_local_matcher import detect_kind;print(detect_kind('$m'))")"
     fi
     CUDA_VISIBLE_DEVICES="$GPU" \
       "$PY" "$HERE/run_local_matcher.py" --model "$m" --contested "$c" "${extra[@]}" \
-      || { echo "!!! $m ($c) 失败，跳过"; break; }
+      || { echo "!!! $m ($c) 失败，跳过"
+           if [[ -z "${TRITON_DIAGNOSED:-}" ]]; then
+             echo "--- 顺带诊断 triton/gcc（只做一次）---"
+             FF_ALLOW_TRITON=1 "$PY" "$HERE/check_triton.py" 2>&1 | sed 's/^/    /'
+             TRITON_DIAGNOSED=1
+           fi
+           break; }
   done
   echo "[$i/$N] $m 用时 $((SECONDS - T_ONE))s"
 done

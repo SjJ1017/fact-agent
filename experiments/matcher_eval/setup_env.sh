@@ -35,6 +35,22 @@ echo "torch wheel $TORCH_INDEX"
 df -h "$SCRATCH_ROOT" | tail -1 | sed 's/^/磁盘        /'
 echo
 
+# Triton compiles a CUDA shim against Python.h the first time a model touches
+# a fused kernel.  A system python without its -dev package has no headers, and
+# the failure surfaces much later as "gcc returned non-zero exit status 1" with
+# no mention of a missing header.  Check now, while the fix is still cheap.
+HDR="$("$BASE_PY" -c 'import sysconfig,os;print(os.path.join(sysconfig.get_paths()["include"],"Python.h"))')"
+if [[ ! -f "$HDR" ]]; then
+  echo "!! $BASE_PY 没有 Python.h（找的是 $HDR）" >&2
+  echo "   triton 需要它编译 CUDA shim，缺了会在跑模型时才报 gcc 失败。" >&2
+  echo "   两条路：" >&2
+  echo "     sudo apt install python3-dev      # 需要 root" >&2
+  echo "     BASE_PY=~/miniconda3/bin/python3 ./setup_env.sh   # conda 自带头文件" >&2
+  echo "   要跳过这个检查：SKIP_HEADER_CHECK=1 ./setup_env.sh" >&2
+  [[ -z "${SKIP_HEADER_CHECK:-}" ]] && exit 1
+fi
+echo "Python.h    $HDR"
+
 "$BASE_PY" -m venv "$VENV_DIR"
 PY="$VENV_DIR/bin/python"
 "$PY" -m pip install -q --upgrade pip wheel
