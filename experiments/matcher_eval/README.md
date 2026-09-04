@@ -89,6 +89,26 @@ python baseline_hosted.py --model minimax-m2.5 --protocol oneword
 两种协议不同:生产是批量 JSON、先写一句差别再判;oneword 是本地脚本用的
 单词输出。跨协议比 F1 会混进协议差异。
 
+## gold 改了之后不用重跑
+
+```
+python rescore.py                 # 全部重算
+python rescore.py --only-changed  # 只列分数变了的
+python rescore.py --policy entail # 换口径重算
+```
+
+结果文件存了逐条 `id` / `gold` / `pred`，所以标签修正只是重算，不调模型。
+输出新旧 F1、差值、翻转了几条，并逐条列出改动的 gold 以及**模型本来是不是对的**
+——这一栏最有用：如果模型早就答对而 gold 错了，纠正后它的分数会涨；反过来说明
+之前的 gold 在迁就这个模型。
+
+**做不到的一件事**：重新拟合阈值。原始分数没存，所以打分模型（biencoder /
+reranker / logit）报的是「它当时选的阈值、按现在的标签评」，偏保守。
+`oneword` / `cot` / `entail` 没有阈值，重算是精确的。
+
+要让阈值也能离线重算，得在 predictions 里加存原始分数——一行的事，但会让所有
+已有结果文件失去这个字段，所以没动。
+
 ## 跳过已跑过的
 
 默认跳过。判据是结果文件是否存在(同 模型/模式/contested/难度):
