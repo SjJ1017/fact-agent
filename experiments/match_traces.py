@@ -139,11 +139,39 @@ def calibrate(a) -> int:
     frac = sum(1 for x, y in zip(ab, ba) if x >= ta and y >= tb and min(x, y) < 0)
     if frac:
         print(f"! {frac} 对被判等价但至少一个方向的 margin 为负", file=sys.stderr)
+
+    # A conjunction with one scalar objective is degenerate whenever one
+    # direction already separates the classes: any cutoff below the other
+    # direction's minimum gives identical predictions, so F1 is flat there and
+    # the sweep returns an arbitrary point in that range.  A threshold sitting
+    # exactly at the bottom of its grid is that, not a decision.
+    for nm, th, v in (("A⊨B", ta, ab), ("B⊨A", tb, ba)):
+        floor_hit = abs(th - max(min(v), a.margin_floor)) < 1e-9
+        if floor_hit:
+            print(f"! {nm} 的阈值贴在搜索下界上，这个方向实际没有约束力",
+                  file=sys.stderr)
+    # F1 as the reverse cutoff moves, so the flat region is visible offline
+    def sweep_one(fix_ab):
+        out = []
+        lo, hi = max(min(ba), a.margin_floor), max(ba)
+        for i in range(21):
+            t = lo + (hi - lo) * i / 20 if hi > lo else lo
+            pred = ["SAME" if (x >= fix_ab and y >= t) else "DIFFERENT"
+                    for x, y in zip(ab, ba)]
+            out.append({"threshold_ba": round(t, 4),
+                        "f1": round(score(rows, pred)["f1"], 4)})
+        return out
     out.write_text(json.dumps(
         {"model": a.model, "pairs": str(a.pairs or "pairs.jsonl"),
          "policy": a.policy, "contested": a.contested,
          "threshold_ab": ta, "threshold_ba": tb, "fit": s,
-         "margin_floor": a.margin_floor},
+         "margin_floor": a.margin_floor,
+         "ab_range": [round(min(ab), 3), round(max(ab), 3)],
+         "ba_range": [round(min(ba), 3), round(max(ba), 3)],
+         "ba_curve_at_best_ab": sweep_one(ta),
+         "margins": [{"id": r["id"], "gold": r["gold"],
+                      "ab": round(x, 3), "ba": round(y, 3)}
+                     for r, x, y in zip(rows, ab, ba)]},
         ensure_ascii=False, indent=1))
     print(f"\n阈值 A⊨B {ta:.4f}   B⊨A {tb:.4f}")
     print(f"拟合于 {s['n']} 对：F1 {s['f1']:.3f}  精确 {s['same_precision']:.3f}  "
