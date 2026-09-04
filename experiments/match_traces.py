@@ -39,7 +39,16 @@ from factflow.types import CanonicalFact, FactMention, Relation  # noqa: E402
 from run_local_matcher import (ENTAIL_SYSTEM, ENTAIL_USER, Progress,  # noqa: E402
                                _yes_no_ids, chat_prompt, load, score)
 
-CAL = HERE / "matcher_eval" / "entail_thresholds.json"
+CAL_DIR = HERE / "matcher_eval"
+CAL = CAL_DIR / "entail_thresholds.json"
+
+
+def cal_path(name) -> Path:
+    """A bare name lands next to the oracle; a path is used as given."""
+    if name is None:
+        return CAL
+    q = Path(name)
+    return q if q.parent != Path(".") else CAL_DIR / q
 
 
 def build(model: str, dtype: str, load_4bit: bool):
@@ -101,6 +110,7 @@ def margins(tok, net, ids, pairs, batch, label, quiet=False):
 
 
 def calibrate(a) -> int:
+    out = cal_path(a.cal)
     rows = load(None, a.contested, None, False, a.pairs, a.policy)
     tok, net, ids = build(a.model, a.dtype, a.load_4bit)
     ab = margins(tok, net, ids, [(r["a"], r["b"]) for r in rows], a.batch, "A⊨B")
@@ -129,7 +139,7 @@ def calibrate(a) -> int:
     frac = sum(1 for x, y in zip(ab, ba) if x >= ta and y >= tb and min(x, y) < 0)
     if frac:
         print(f"! {frac} 对被判等价但至少一个方向的 margin 为负", file=sys.stderr)
-    CAL.write_text(json.dumps(
+    out.write_text(json.dumps(
         {"model": a.model, "pairs": str(a.pairs or "pairs.jsonl"),
          "policy": a.policy, "contested": a.contested,
          "threshold_ab": ta, "threshold_ba": tb, "fit": s,
@@ -138,19 +148,24 @@ def calibrate(a) -> int:
     print(f"\n阈值 A⊨B {ta:.4f}   B⊨A {tb:.4f}")
     print(f"拟合于 {s['n']} 对：F1 {s['f1']:.3f}  精确 {s['same_precision']:.3f}  "
           f"召回 {s['same_recall']:.3f}  准确 {s['acc']:.3f}")
-    print(f"写入 {CAL}")
+    print(f"写入 {out}")
     print("注意这是在评测集上拟合的，是乐观上界；真要报数需要独立的调阈子集。")
     return 0
 
 
 def match_dir(a) -> int:
-    if not CAL.exists():
-        raise SystemExit(f"没有 {CAL}，先跑 --match-calibrate")
-    cal = json.loads(CAL.read_text())
+    cfile = cal_path(a.cal)
+    if not cfile.exists():
+        raise SystemExit(f"没有 {cfile}，先跑 --match-calibrate")
+    cal = json.loads(cfile.read_text())
     ta, tb = cal["threshold_ab"], cal["threshold_ba"]
     if cal["model"] != a.model:
         print(f"! 阈值是用 {cal['model']} 拟合的，现在跑的是 {a.model}", file=sys.stderr)
-    print(f"阈值 A⊨B {ta:.4f}  B⊨A {tb:.4f}  (拟合于 {cal['pairs']})")
+    print(f"阈值 A⊨B {ta:.4f}  B⊨A {tb:.4f}  (来自 {cfile.name}，"
+          f"policy={cal.get('policy')}，floor={cal.get('margin_floor', '未记录')})")
+    if tb < 0 or ta < 0:
+        print("! 有一个方向的阈值为负，那一遍等于恒真：两遍法退化成单向判断",
+              file=sys.stderr)
 
     files = sorted(a.indir.glob(f"*{a.suffix}"))
     if not files:
@@ -231,6 +246,9 @@ def main() -> int:
     ap.add_argument("--top-k", type=int, default=12)
     ap.add_argument("--union-min", type=float, default=0.85,
                     help="低于此相似度的 SAME 边只信它自己那一对，不用来串簇")
+    ap.add_argument("--cal", default=None,
+                    help="阈值文件。裸文件名放在 matcher_eval/ 下。"
+                         "换配置时给不同的名字，避免覆盖上一次的结果")
     ap.add_argument("--redo", action="store_true")
     ap.add_argument("--quiet", action="store_true")
     # 只在 --calibrate 时用
