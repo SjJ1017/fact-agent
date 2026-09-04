@@ -92,6 +92,24 @@ nvidia-smi --query-gpu=index,name,memory.used,memory.total,utilization.gpu \
            --format=csv,noheader 2>/dev/null | sed 's/^/  /' || true
 echo
 
+# 装好的 wheel 未必带每块卡的内核。不先查的话，报错会在第一次 kernel
+# launch 时才出现（no kernel image available），那时模型权重都已经装载完了。
+echo "--- GPU 兼容性 ---"
+"$PY" "$HERE/check_gpu.py" || exit 1
+for g in "$GPU_SMALL" "$GPU_LARGE"; do
+  if ! CUDA_VISIBLE_DEVICES="$g" "$PY" -c "
+import torch,sys
+try:
+    torch.zeros(8, device='cuda').sum().item()
+except Exception as e:
+    sys.exit(str(e)[:120])
+" 2>/dev/null; then
+    echo "!! GPU $g 跑不了当前 torch。改 GPU_SMALL / GPU_LARGE，或换 torch wheel" >&2
+    exit 1
+  fi
+done
+echo
+
 mkdir -p "$HERE/results"
 T_ALL=$SECONDS
 N=${#MODELS[@]}

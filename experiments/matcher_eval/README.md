@@ -87,6 +87,42 @@ GPU_LARGE=4                          # LLM 跑这块
 | `XDG_CACHE_HOME` | `$SCRATCH_ROOT/xdg` | 兜底 |
 | `TMPDIR` | `$SCRATCH_ROOT/tmp` | 分片下载的临时文件和权重同量级 |
 
+## no kernel image is available for execution on the device
+
+装好的 torch wheel 里**没有该卡架构的编译内核**。它在第一次 kernel launch 时才
+报,那时 `torch.cuda.is_available()` 早已返回 True、权重也装完了,所以看起来像
+运行时故障,其实是装环境时就注定的。
+
+先查:
+
+```
+python check_gpu.py
+```
+
+它打出 wheel 编译支持的架构列表、每块卡的算力,并在每块卡上实际跑一次
+kernel,最后给出建议的 `GPU_SMALL` / `GPU_LARGE`。`run.sh` 开跑前会自动做这件事。
+
+这台机器上最可能出问题的是 **GPU 3(2080 Ti,sm_75,Turing)**:新版 torch 的
+wheel 正在陆续去掉 Turing。两条路:
+
+**一,不用那块卡。** 把小模型也放到 GPU 4——reranker 只要 2GB,和 LLM 分时跑
+互不影响:
+
+```
+GPU_SMALL=4 ./run.sh
+```
+
+**二,换带 sm_75 的旧 wheel。** cu121 的 torch 2.4/2.5 仍带 Turing:
+
+```
+TORCH_INDEX=cu121 ./setup_env.sh
+```
+
+代价是那套 wheel 对 GPU 4(Ada,sm_89)也支持,但对 GPU 1/2 的 Blackwell
+(sm_120)完全不支持。只跑 3 和 4 的话没问题。
+
+推荐第一条:少一个变量,而且 reranker 在 46GB 卡上一样是秒级。
+
 ## 两块卡怎么分
 
 | GPU | 卡 | 状态 | 用途 |
