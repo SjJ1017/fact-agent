@@ -64,19 +64,42 @@ python run_local_matcher.py --kind llm --model Qwen/Qwen3-14B-Instruct --dtype b
 ./run.sh --list                      # 只看清单
 ```
 
-`run.sh` 顶部有两行需要按机器改:
+`run.sh` 顶部有三行按机器改，其余全部由它们派生:
 
 ```
-export HF_HOME=/data/$USER/hf        # 权重下载到哪。14B bf16 约 30GB，别放家目录
-export CUDA_VISIBLE_DEVICES=4        # 用哪块卡
+SCRATCH_ROOT=/scratch/uses/jiajun    # 一切缓存的根
+GPU_SMALL=3                          # biencoder / reranker 跑这块
+GPU_LARGE=4                          # LLM 跑这块
 ```
 
-其余缓存变量(`HF_HUB_CACHE` / `TRANSFORMERS_CACHE` /
-`SENTENCE_TRANSFORMERS_HOME` / `HF_DATASETS_CACHE`)都由脚本从 `HF_HOME` 派生,
-不用单独设。结果写进 `results/<模型名>.<keep|drop>.json`,最后自动打一张汇总表。
+`SCRATCH_ROOT` 不存在时脚本直接退出并说明，不会默默建一个错路径。
 
-依赖:`torch`、`transformers`、`sentence-transformers`;用 `--4bit` 还需要
-`bitsandbytes` 和 `accelerate`。
+派生出来的环境变量:
+
+| 变量 | 值 | 不设的后果 |
+|---|---|---|
+| `HF_HOME` | `$SCRATCH_ROOT/hf-datasets` | 权重进家目录，14B 一个就 30GB |
+| `HF_HUB_CACHE` / `TRANSFORMERS_CACHE` | `$HF_HOME/hub` | 旧版库仍读这两个 |
+| `HF_DATASETS_CACHE` | `$HF_HOME/datasets` | |
+| `SENTENCE_TRANSFORMERS_HOME` | `$HF_HOME/sentence-transformers` | ST 自己另有一套缓存 |
+| `TORCH_HOME` | `$SCRATCH_ROOT/torch` | torch.hub 权重 |
+| `TRITON_CACHE_DIR` | `$SCRATCH_ROOT/triton` | 编译内核，会长到几个 GB |
+| `XDG_CACHE_HOME` | `$SCRATCH_ROOT/xdg` | 兜底 |
+| `TMPDIR` | `$SCRATCH_ROOT/tmp` | 分片下载的临时文件和权重同量级 |
+
+## 两块卡怎么分
+
+| GPU | 卡 | 状态 | 用途 |
+|---|---|---|---|
+| 0 | RTX 6000 Ada 46GB | 占用 20GB | 不用 |
+| 1 | RTX PRO 6000 96GB | 满载 100% | 不用 |
+| 2 | RTX PRO 6000 96GB | 显存空但利用率 100% | 不用（有东西在跑） |
+| **3** | **2080 Ti 11GB** | **空闲** | **biencoder / reranker** |
+| **4** | **RTX 6000 Ada 46GB** | **空闲** | **LLM** |
+
+GPU 3 是 Turing 架构，**不支持 bf16**，所以只放 2GB 级的 reranker（走 fp32），
+不要往上塞 LLM。GPU 4 的 46GB 放得下 bf16 的 14B（约 30GB），27B/32B 要
+`--4bit`，脚本按模型名自动加。
 
 ## LLM 走的是 logit 不是生成
 
