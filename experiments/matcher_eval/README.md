@@ -59,10 +59,16 @@ python run_local_matcher.py --kind llm --model Qwen/Qwen3-14B-Instruct --dtype b
 ## 在服务器上跑
 
 ```
+./setup_env.sh                       # 建 venv，跑一次
+./run.sh --check                     # 查 GPU 和 wheel 是否匹配
 ./run.sh                             # 跑推荐的一组
 ./run.sh BAAI/bge-reranker-v2-m3     # 只跑指定的（可给多个）
 ./run.sh --list                      # 只看清单
 ```
+
+**都不用 source 任何东西。** `run.sh` 自己解析 `setup_env.sh` 建的解释器
+(`$SCRATCH_ROOT/venv-matcher/bin/python`),找不到就报错并告诉你先跑
+`setup_env.sh`。要用别的解释器就 `PYTHON=/path/to/python ./run.sh`。
 
 `run.sh` 顶部有三行按机器改，其余全部由它们派生:
 
@@ -93,10 +99,10 @@ GPU_LARGE=4                          # LLM 跑这块
 报,那时 `torch.cuda.is_available()` 早已返回 True、权重也装完了,所以看起来像
 运行时故障,其实是装环境时就注定的。
 
-先查:
+先查(不需要激活 venv,脚本自己找解释器):
 
 ```
-python check_gpu.py
+./run.sh --check
 ```
 
 它打出 wheel 编译支持的架构列表、每块卡的算力,并在每块卡上实际跑一次

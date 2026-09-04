@@ -4,6 +4,9 @@
 #   ./run.sh                          跑推荐的一组候选
 #   ./run.sh BAAI/bge-reranker-v2-m3  只跑指定模型（可给多个）
 #   ./run.sh --list                   只列出推荐清单，不下载不运行
+#   ./run.sh --check                  只查 GPU 和 wheel 是否匹配，不加载模型
+#
+# 都不需要先 source venv：脚本自己解析 setup_env.sh 建的解释器。
 #
 # 模型类型自动识别，小模型走 GPU_SMALL、LLM 走 GPU_LARGE。
 set -euo pipefail
@@ -79,6 +82,14 @@ if [[ "${1:-}" == "--list" ]]; then
   echo "  ./run.sh google/gemma-3-27b-it"
   echo "  ./run.sh mistralai/Mistral-Small-3.1-24B-Instruct-2503"
   exit 0
+fi
+
+# 只做 GPU 检查然后退出。不用先激活 venv —— 上面已经解析好解释器了。
+if [[ "${1:-}" == "--check" ]]; then
+  echo "python  $PY"
+  echo "HF_HOME $HF_HOME"
+  echo
+  exec "$PY" "$HERE/check_gpu.py"
 fi
 
 MODELS=("$@")
