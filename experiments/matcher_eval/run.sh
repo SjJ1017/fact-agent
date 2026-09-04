@@ -8,6 +8,8 @@
 #   ./run.sh --triton                 诊断 triton/gcc 编译失败的真实原因
 #   MODE=cot ./run.sh                 LLM 用短 CoT 解码（慢，质量最好）
 #   MODE=cot ./run.sh Qwen/Qwen3-14B  只跑一个模型的 cot
+#   MODE=entail POLICY=entail ./run.sh Qwen/Qwen3-14B microsoft/phi-4
+#   PAIRS=experiments/matcher_eval/pairs_idrbench.jsonl ./run.sh
 #   REDO=1 ./run.sh                   重跑所有（默认跳过已完成的）
 #   ./run.sh --from Qwen/Qwen3-8B     从清单里这个开始，跳过前面的
 #
@@ -31,6 +33,12 @@ MODE="${MODE:-logit}"
 
 # 已经跑过的（同 模型/模式/contested/难度）默认跳过。REDO=1 强制重跑。
 SKIP_DONE="${SKIP_DONE:-1}"
+
+# 哪些关系算同一条: strict / near(默认) / entail
+POLICY="${POLICY:-near}"
+# 用哪个 oracle 文件。默认 pairs.jsonl（辩论+临床，422 对）；
+# pairs_idrbench.jsonl 是科学论文域的 377 对。
+PAIRS="${PAIRS:-}"
 # =========================================================================
 
 if [[ ! -d "$SCRATCH_ROOT" ]]; then
@@ -137,7 +145,7 @@ fi
 
 echo "HF_HOME      = $HF_HOME"
 echo "TMPDIR       = $TMPDIR"
-echo "GPU $GPU   LLM 模式 = $MODE"
+echo "GPU $GPU   LLM 模式 = $MODE   口径 = $POLICY   集合 = ${PAIRS:-pairs.jsonl}"
 df -h "$SCRATCH_ROOT" 2>/dev/null | tail -1 | sed 's/^/  磁盘 /' || true
 nvidia-smi --query-gpu=index,name,memory.used,memory.total,utilization.gpu \
            --format=csv,noheader 2>/dev/null | sed 's/^/  /' || true
@@ -186,12 +194,17 @@ from run_local_matcher import detect_kind;print(detect_kind('$m'))")"
   for c in keep drop; do
     safe="${m//\//__}"
     mm="$MODE"; [[ "$kind" != "llm" ]] && mm="logit"
-    if [[ "$SKIP_DONE" == "1" && -f "$HERE/results/${safe}.${mm}.${c}.all.json" ]]; then
+    dtag="all"
+    [[ -n "$PAIRS" ]] && dtag="$(basename "$PAIRS" .jsonl | sed 's/^pairs_//').all"
+    [[ "$POLICY" != "near" ]] && dtag="${dtag}.${POLICY}"
+    if [[ "$SKIP_DONE" == "1" && -f "$HERE/results/${safe}.${mm}.${c}.${dtag}.json" ]]; then
       echo "    $c: 已有结果，跳过（REDO=1 强制重跑）"
       continue
     fi
+    args=(--model "$m" --contested "$c" --policy "$POLICY")
+    [[ -n "$PAIRS" ]] && args+=(--pairs "$PAIRS")
     CUDA_VISIBLE_DEVICES="$GPU" \
-      "$PY" "$HERE/run_local_matcher.py" --model "$m" --contested "$c" "${extra[@]}" \
+      "$PY" "$HERE/run_local_matcher.py" "${args[@]}" "${extra[@]}" \
       || { echo "!!! $m ($c) 失败，跳过"
            if [[ -z "${TRITON_DIAGNOSED:-}" ]]; then
              echo "--- 顺带诊断 triton/gcc（只做一次）---"
