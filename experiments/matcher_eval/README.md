@@ -240,27 +240,31 @@ subprocess.CalledProcessError: Command '['/usr/bin/gcc', '.../triton/backends/nv
 returned non-zero exit status 1
 ```
 
-Triton 首次使用时会用 gcc 现场编译一个 CUDA 驱动 shim。失败的常见原因:缺
-CUDA 头文件、gcc 版本不合、或者 `TMPDIR` 指向的分区挂了 `noexec`(编出来的
-`.so` 加载不了)。
+Triton 首次被用到时会用 gcc 现场编译一个 CUDA 驱动 shim。**这个报错本身不说
+gcc 为什么失败**,只说返回 1。先把真实原因打出来:
 
-这个评测不需要融合内核 —— 四百条短 prompt 各做一次前向,瓶颈不在这里。
-`run.sh` 已经把这条路关掉:
+```
+./run.sh --triton
+```
+
+它会检查 `Python.h` 在不在(缺就是没装 `python3.12-dev`)、gcc 版本、
+`libcuda.so.1` 在不在链接路径上、`TMPDIR` 是不是 `noexec`,然后**复现那条
+gcc 命令并打印编译器的 stderr**。
+
+不过这个评测本来就不需要 triton —— 几百条短 prompt 各做一次前向,瓶颈不在
+kernel 上。所以脚本直接把 triton 的 import 屏蔽了:关掉 `torch.compile` 不够,
+transformers 会自己去找融合内核,只有让 import 失败才能把所有调用者赶回
+非 triton 路径。要放开:`FF_ALLOW_TRITON=1`。
+
+同时设的还有:
 
 ```
 TORCH_COMPILE_DISABLE=1  TORCHDYNAMO_DISABLE=1
 TORCHINDUCTOR_DISABLE=1  DISABLE_KERNEL_MAPPING=1
-FF_ATTN=eager                       # 注意力用 eager，不走 flash/triton
+FF_ATTN=eager
 ```
 
-手动跑单个模型时要自己带上,至少 `FF_ATTN=eager`。想试别的注意力实现:
-`FF_ATTN=sdpa`(纯 PyTorch,不用 triton)。
-
-如果 scratch 确实是 noexec,把 `TMPDIR` 指回本地盘:
-
-```
-TMPDIR=/tmp ./run.sh
-```
+如果 scratch 是 noexec,把 TMPDIR 指回本地盘:`TMPDIR=/tmp ./run.sh`。
 
 ## CUDA 编号和 nvidia-smi 对不上
 

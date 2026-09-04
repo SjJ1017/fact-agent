@@ -5,6 +5,7 @@
 #   ./run.sh BAAI/bge-reranker-v2-m3  只跑指定模型（可给多个）
 #   ./run.sh --list                   只列出推荐清单，不下载不运行
 #   ./run.sh --check                  只查 GPU 和 wheel 是否匹配，不加载模型
+#   ./run.sh --triton                 诊断 triton/gcc 编译失败的真实原因
 #   MODE=cot ./run.sh                 LLM 用短 CoT 解码（慢，质量最好）
 #   MODE=cot ./run.sh Qwen/Qwen3-14B  只跑一个模型的 cot
 #   REDO=1 ./run.sh                   重跑所有（默认跳过已完成的）
@@ -105,6 +106,11 @@ if [[ "${1:-}" == "--list" ]]; then
   echo "  ./run.sh google/gemma-3-27b-it"
   echo "  ./run.sh mistralai/Mistral-Small-3.1-24B-Instruct-2503"
   exit 0
+fi
+
+# 诊断 triton 的 gcc 编译为什么失败。
+if [[ "${1:-}" == "--triton" ]]; then
+  exec env FF_ALLOW_TRITON=1 "$PY" "$HERE/check_triton.py"
 fi
 
 # 只做 GPU 检查然后退出。不用先激活 venv —— 上面已经解析好解释器了。

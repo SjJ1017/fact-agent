@@ -19,11 +19,30 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import sys
 import time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 PAIRS = HERE / "pairs.jsonl"
+
+# Triton JIT-compiles a CUDA driver shim with gcc the first time anything
+# touches it, and that build fails on the target box.  Disabling torch.compile
+# was not enough -- transformers reaches for fused kernels on its own -- so the
+# import itself is blocked, which is what actually forces every caller onto a
+# non-Triton path.  Nothing here wants a fused kernel: the work is one forward
+# pass over a few hundred short prompts.  FF_ALLOW_TRITON=1 restores it.
+if not os.environ.get("FF_ALLOW_TRITON"):
+    import importlib.abc
+
+    class _NoTriton(importlib.abc.MetaPathFinder):
+        def find_spec(self, name, path=None, target=None):
+            if name == "triton" or name.startswith("triton."):
+                raise ImportError(
+                    f"{name} blocked; set FF_ALLOW_TRITON=1 to allow it")
+            return None
+
+    sys.meta_path.insert(0, _NoTriton())
 
 # The production judge's wording, so a local model is measured on the same
 # task and not on a friendlier one.
