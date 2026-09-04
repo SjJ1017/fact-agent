@@ -150,6 +150,21 @@ fi
 
 echo "HF_HOME      = $HF_HOME"
 echo "TMPDIR       = $TMPDIR"
+# PAIRS 可以写成仓库根相对、脚本目录相对、或纯文件名。写死一种就会在
+# 从别的目录调用时报 FileNotFoundError，而文件其实就在旁边。
+if [[ -n "$PAIRS" && ! -f "$PAIRS" ]]; then
+  for cand in "$HERE/$PAIRS" "$HERE/$(basename "$PAIRS")" \
+              "$HERE/../../$PAIRS"; do
+    if [[ -f "$cand" ]]; then PAIRS="$cand"; break; fi
+  done
+fi
+if [[ -n "$PAIRS" && ! -f "$PAIRS" ]]; then
+  echo "找不到 oracle 文件: $PAIRS" >&2
+  echo "$HERE 下现有的:" >&2
+  ls "$HERE"/pairs*.jsonl 2>/dev/null | sed 's|.*/|  |' >&2
+  exit 1
+fi
+
 echo "GPU $GPU   模式 = $MODE   口径 = $POLICY   集合 = ${PAIRS:-pairs.jsonl}   跑: $CONTESTED"
 df -h "$SCRATCH_ROOT" 2>/dev/null | tail -1 | sed 's/^/  磁盘 /' || true
 nvidia-smi --query-gpu=index,name,memory.used,memory.total,utilization.gpu \
