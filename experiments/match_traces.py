@@ -106,23 +106,34 @@ def calibrate(a) -> int:
     ab = margins(tok, net, ids, [(r["a"], r["b"]) for r in rows], a.batch, "A⊨B")
     ba = margins(tok, net, ids, [(r["b"], r["a"]) for r in rows], a.batch, "B⊨A")
 
-    def grid(v):
-        lo, hi = min(v), max(v)
+    # The margin is log P(YES) - log P(NO), so 0 is the point where the model
+    # stops saying yes.  Sweeping below it lets the joint optimum drift to a
+    # threshold that accepts pairs the model rejected: the first fit put the
+    # reverse cutoff under -8, which made the second pass vacuous and turned
+    # the two-pass design back into a one-directional test at twice the cost.
+    def grid(v, floor):
+        lo, hi = max(min(v), floor), max(v)
+        if hi <= lo:
+            return [lo]
         return [lo + (hi - lo) * i / 24 for i in range(25)]
 
     best = None
-    for ta in grid(ab):
-        for tb in grid(ba):
+    for ta in grid(ab, a.margin_floor):
+        for tb in grid(ba, a.margin_floor):
             pred = ["SAME" if (x >= ta and y >= tb) else "DIFFERENT"
                     for x, y in zip(ab, ba)]
             s = score(rows, pred)
             if best is None or s["f1"] > best[0]["f1"]:
                 best = (s, ta, tb)
     s, ta, tb = best
+    frac = sum(1 for x, y in zip(ab, ba) if x >= ta and y >= tb and min(x, y) < 0)
+    if frac:
+        print(f"! {frac} 对被判等价但至少一个方向的 margin 为负", file=sys.stderr)
     CAL.write_text(json.dumps(
         {"model": a.model, "pairs": str(a.pairs or "pairs.jsonl"),
          "policy": a.policy, "contested": a.contested,
-         "threshold_ab": ta, "threshold_ba": tb, "fit": s},
+         "threshold_ab": ta, "threshold_ba": tb, "fit": s,
+         "margin_floor": a.margin_floor},
         ensure_ascii=False, indent=1))
     print(f"\n阈值 A⊨B {ta:.4f}   B⊨A {tb:.4f}")
     print(f"拟合于 {s['n']} 对：F1 {s['f1']:.3f}  精确 {s['same_precision']:.3f}  "
@@ -227,6 +238,9 @@ def main() -> int:
     ap.add_argument("--policy", default="file",
                     choices=["file", "strict", "near", "entail"])
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
+    ap.add_argument("--margin-floor", type=float, default=0.0,
+                    help="阈值搜索的下界。margin 是 log P(YES)-log P(NO)，"
+                         "0 以下等于接受模型说 NO 的对；设 -inf 可关闭")
     a = ap.parse_args()
 
     if a.calibrate:
