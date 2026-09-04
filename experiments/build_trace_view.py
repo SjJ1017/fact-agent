@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from collections import defaultdict
 from pathlib import Path
 
 from export_labels import attach_labels
@@ -102,6 +103,83 @@ def run_name(store_path: Path, suffix: str) -> str:
     return store_path.name[: -len(suffix)]
 
 
+def build_links(debate: dict, spans: dict[str, list[dict]],
+                source_docs: dict[str, list[str]]) -> dict[str, list[dict]]:
+    """Build drawable fact edges from recorded visibility and source ownership.
+
+    The browser should not infer flow from DOM order. In particular, a peer
+    restating a fact the receiver already said is persistence, not uptake; and
+    a source document cannot connect directly to an agent that was not dealt it.
+    Only placed spans are included because every endpoint must exist in the UI.
+    """
+    said = {
+        slot: {group["f"] for span in items for group in span["fs"]}
+        for slot, items in spans.items()
+    }
+    agents = list(debate.get("roles", {}))
+    rounds = sorted({int(slot.split("|")[1]) for slot in debate["transcript"]})
+    delivery = debate.get("delivery", {})
+    evidence_ids = {item["id"] for item in debate.get("evidence", [])}
+    links: dict[str, list[dict]] = defaultdict(list)
+    seen: set[tuple[str, str, str, str]] = set()
+
+    def add(fact_id: str, kind: str, source: str, target: str) -> None:
+        key = fact_id, kind, source, target
+        if key not in seen:
+            seen.add(key)
+            links[fact_id].append(
+                {"kind": kind, "from": source, "to": target})
+
+    # A source edge is an activation path, not a generic lexical association.
+    # Draw it only when this agent held the source document and first expressed
+    # the fact. With legacy traces that lack per-turn source_ids, fall back to
+    # the full evidence set rather than deleting every source edge.
+    for agent in agents:
+        expressed_before: set[str] = set()
+        for rnd in rounds:
+            slot = f"{agent}|{rnd}"
+            current = said.get(slot, set())
+            info = delivery.get(slot, {})
+            held = set(info.get("source_ids", evidence_ids))
+            for fact_id in current - expressed_before:
+                for doc_id in source_docs.get(fact_id, []):
+                    if doc_id in held:
+                        add(fact_id, "origin", doc_id, slot)
+            expressed_before |= current
+
+    # Same-agent continuation is distinct from peer uptake.
+    for agent in agents:
+        for previous, current in zip(rounds, rounds[1:]):
+            source, target = f"{agent}|{previous}", f"{agent}|{current}"
+            for fact_id in said.get(source, set()) & said.get(target, set()):
+                add(fact_id, "persistence", source, target)
+
+    # A peer edge is possible uptake only when the fact is new to the receiver
+    # and an earlier visible peer turn expressed it. Keep at most the latest
+    # matching turn per source agent under cumulative memory.
+    for receiver in agents:
+        expressed_before: set[str] = set()
+        for rnd in rounds:
+            target = f"{receiver}|{rnd}"
+            new_facts = said.get(target, set()) - expressed_before
+            info = delivery.get(target, {})
+            visible = info.get("visible_peer_turns", info.get("peer_turns", []))
+            by_agent: dict[str, list[tuple[int, str]]] = defaultdict(list)
+            for source in visible:
+                source_agent, source_round = source.split("|", 1)
+                if int(source_round) < rnd:
+                    by_agent[source_agent].append((int(source_round), source))
+            for fact_id in new_facts:
+                for candidates in by_agent.values():
+                    matching = [item for item in candidates
+                                if fact_id in said.get(item[1], set())]
+                    if matching:
+                        add(fact_id, "transmission", max(matching)[1], target)
+            expressed_before |= said.get(target, set())
+
+    return {fact_id: edges for fact_id, edges in links.items()}
+
+
 def build(store_path: Path, suffix: str = ".v2.json", use_stance: bool = True) -> dict | None:
     name = run_name(store_path, suffix)
     debate_path = store_path.with_name(f"{name}.debate.json")
@@ -127,20 +205,8 @@ def build(store_path: Path, suffix: str = ".v2.json", use_stance: bool = True) -
     doc_of = {mid: m["provenance"].get("doc_id")
               for mid, m in store["mentions"].items()
               if m["provenance"]["channel"] == "source"}
-    # Two different links from a document to a fact, and they mean different
-    # things. `src` is a cluster that holds both a mention from Ex and an
-    # output mention — the fact was taken from that document. `ev` is a fact
-    # whose text names Ex — the agent is talking *about* the document. The
-    # first is what we would like to measure and it only fires 4.4% of the
-    # time; the second is lexical and fires far more often, and it is what
-    # actually moves between agents.
-    ev_re = re.compile(r"\bE([1-4])\b")
     src_of = {}
-    ev_of = {}
     for fid, fact in store["facts"].items():
-        named = sorted({"E" + m for m in ev_re.findall(fact["canonical_text"])})
-        if named:
-            ev_of[fid] = named
         docs = sorted({doc_of[m] for m in fact["mention_ids"]
                        if m in doc_of and doc_of[m] not in (None, "claim")})
         if docs:
@@ -190,6 +256,7 @@ def build(store_path: Path, suffix: str = ".v2.json", use_stance: bool = True) -
     order = sorted(debate["transcript"],
                    key=lambda s: (int(s.split("|")[1]), s.split("|")[0]))
     used = {g["f"] for items in spans.values() for s in items for g in s["fs"]}
+    links = build_links(debate, spans, src_of)
 
     verdicts = {}
     for slot, text in debate["transcript"].items():
@@ -219,9 +286,9 @@ def build(store_path: Path, suffix: str = ".v2.json", use_stance: bool = True) -
         "spans": spans,
         "verdicts": verdicts,
         "facts": {fid: {"c": canonical[fid], "s": stance_of.get(fid),
-                        **({"src": src_of[fid]} if fid in src_of else {}),
-                        **({"ev": ev_of[fid]} if fid in ev_of else {})}
+                        **({"src": src_of[fid]} if fid in src_of else {})}
                   for fid in used},
+        "links": {fid: links.get(fid, []) for fid in used},
         "roles": debate["roles"],
         "role_short": role_short,
         "delivery": {slot: info.get("peer_turns", [])

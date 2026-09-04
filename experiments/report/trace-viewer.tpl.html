@@ -278,7 +278,37 @@ function md(s){
   return esc(s)
     .replace(/`([^`\n]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^\n*](?:[^\n]*?[^\n*])?)\*\*/g, "<strong>$1</strong>")
-    .replace(/__([^\n_](?:[^\n]*?[^\n_])?)__/g, "<strong>$1</strong>");
+    .replace(/__([^\n_](?:[^\n]*?[^\n_])?)__/g, "<strong>$1</strong>")
+    .replace(/\*\*/g, "").replace(/__/g, "");
+}
+
+/* Parse inline Markdown against the complete turn before fact marks split it.
+   Calling md() on each slice loses delimiters whenever **bold text** crosses a
+   fact boundary, which is why literal asterisks leaked into the rendered page. */
+function inlineStyles(text){
+  const styles=Array.from({length:text.length},()=>({strong:false,code:false,hidden:false}));
+  function apply(re,key,marker){
+    let hit;
+    while((hit=re.exec(text))){
+      const bodyStart=hit.index+marker.length;
+      const bodyEnd=bodyStart+hit[1].length;
+      for(let i=hit.index;i<bodyStart;i++) styles[i].hidden=true;
+      for(let i=bodyStart;i<bodyEnd;i++) styles[i][key]=true;
+      for(let i=bodyEnd;i<bodyEnd+marker.length;i++) styles[i].hidden=true;
+    }
+  }
+  apply(/\*\*([^\n]+?)\*\*/g,"strong","**");
+  apply(/__([^\n]+?)__/g,"strong","__");
+  apply(/`([^`\n]+)`/g,"code","`");
+  // Model output occasionally leaves an unmatched bold delimiter. It is
+  // formatting debris, not content, so do not expose it to the reader.
+  ["**","__"].forEach(marker=>{
+    let at=0;
+    while((at=text.indexOf(marker,at))>=0){
+      styles[at].hidden=true; styles[at+1].hidden=true; at+=2;
+    }
+  });
+  return styles;
 }
 
 /* Facts said in more than one turn — the only ones a link can connect, and the
@@ -443,27 +473,42 @@ function turnCard(d, slot){
 
 function markup(d, slot, text){
   const items=(d.spans[slot]||[]).filter(s=>s.a<text.length)
-    .sort((x,y)=>x.a-y.a);
-  const shownFacts=new Set();
-  let out="", at=0;
-  items.forEach((s,i)=>{
-    if(s.a<at) return;
-    const end=Math.min(s.b, text.length);
-    if(state.onlyShared && !s.fs.some(g=>state.shared.has(g.f))){ return; }
-    out += md(text.slice(at, s.a));
-    // A clause can carry several atoms. The span is one element, but it holds
-    // every fact drawn from it; stance colouring uses the first, selection
-    // matches any. Keeping only one was dropping 3627 facts corpus-wide.
-    const fids=s.fs.map(g=>g.f);
-    const st=(d.facts[fids[0]]||{}).s;
-    const cls=["mk", HAS_STANCE&&state.stance&&st?`s-${st}`:"",
-               fids.length>1?"multi":""].filter(Boolean).join(" ");
-    out += `<mark class="${cls}" data-f="${fids[0]}" data-fs="${fids.join(" ")}"`
-        +  ` data-slot="${slot}" data-i="${i}"`
-        +  `>${md(text.slice(s.a, end))}</mark>`;
-    at=end;
-  });
-  out += md(text.slice(at));
+    .sort((x,y)=>x.a-y.a)
+    .map((s,i)=>({...s,b:Math.min(s.b,text.length),i:i}))
+    .filter(s=>!state.onlyShared || s.fs.some(g=>state.shared.has(g.f)));
+  const styles=inlineStyles(text);
+  let out="", itemAt=0, active={span:null,strong:false,code:false};
+
+  function close(){
+    if(active.code) out+="</code>";
+    if(active.strong) out+="</strong>";
+    if(active.span) out+="</mark>";
+  }
+  function open(span,style){
+    if(span){
+      const fids=span.fs.map(g=>g.f);
+      const stance=(d.facts[fids[0]]||{}).s;
+      const cls=["mk",HAS_STANCE&&state.stance&&stance?`s-${stance}`:"",
+                 fids.length>1?"multi":""].filter(Boolean).join(" ");
+      out+=`<mark class="${cls}" data-f="${fids[0]}" data-fs="${fids.join(" ")}"`
+        + ` data-slot="${slot}" data-i="${span.i}">`;
+    }
+    if(style.strong) out+="<strong>";
+    if(style.code) out+="<code>";
+  }
+
+  for(let i=0;i<text.length;i++){
+    while(itemAt<items.length && items[itemAt].b<=i) itemAt++;
+    const candidate=items[itemAt];
+    const span=candidate && candidate.a<=i && i<candidate.b ? candidate : null;
+    const style=styles[i]||{strong:false,code:false,hidden:false};
+    if(span!==active.span || style.strong!==active.strong || style.code!==active.code){
+      close(); open(span,style);
+      active={span:span,strong:style.strong,code:style.code};
+    }
+    if(!style.hidden) out+=esc(text[i]);
+  }
+  close();
   return out;
 }
 
@@ -588,45 +633,18 @@ document.addEventListener("click", e=>{
 });
 
 /* ---------- links between matched facts ---------- */
-/* An edge has to mean "this could have moved from here to there", and only the
-   delivery record can say that. Two rules follow, and the first version of this
-   function broke both by simply chaining occurrences in (round, agent) order.
-   
-   No edge inside a round. Every turn in a round is generated in parallel from
-   the previous round's deliveries, so A|2 and C|2 cannot have passed anything
-   to each other however similar they look. The old chain drew exactly that.
-   
-   Fan out from the source, do not relay through a sibling. If B|1 said a fact
-   and both A|2 and C|2 received B|1 and repeat it, that is two edges out of
-   B|1, not B|1 -> A|2 -> C|2. Chaining invented a hop that never happened and
-   attributed C's copy to A.
-   
-   So each occurrence is joined back to every earlier occurrence that was
-   actually delivered into it. A fact appearing in two turns with no delivery
-   between them gets no edge at all — that is a coincidence of the shared
-   dossier, which is most of them. Same-agent continuation across rounds is
-   drawn faintly and dotted: not transmission, but worth seeing. */
+/* Edges are computed from saved source ownership and visibility in Python.
+   Keeping that logic out of the DOM prevents two previous false matches:
+   drawing peer uptake when the receiver had already stated the fact, and
+   drawing a source document directly to an agent that was never dealt it. */
 function linkEdges(fid){
-  // Query data-fs, not data-f: a span carries every atom drawn from it and
-  // data-f is only the first, so a fact sitting second in a clause was
-  // invisible here and silently drew no edges at all.
   const d=state.debate;
   const marks=[...document.querySelectorAll("mark[data-fs]")].filter(m=>
     m.dataset.fs.split(" ").includes(fid));
   const bySlot={};
   marks.forEach(m=>{ bySlot[m.dataset.slot] ||= m; });   // first mark per turn
-  const edges=[];
-  Object.keys(bySlot).forEach(to=>{
-    const [toAgent, toRound] = to.split("|");
-    (d.delivery[to]||[]).forEach(from=>{
-      if(bySlot[from]) edges.push({from:from, to:to, kind:"delivered"});
-    });
-    Object.keys(bySlot).forEach(from=>{
-      const [fromAgent, fromRound]=from.split("|");
-      if(fromAgent===toAgent && +fromRound === +toRound-1)
-        edges.push({from:from, to:to, kind:"self"});
-    });
-  });
+  const edges=(d.links?.[fid]||[]).filter(e=>
+    e.kind==="origin" ? !!bySlot[e.to] : !!bySlot[e.from] && !!bySlot[e.to]);
   return {edges:edges, bySlot:bySlot};
 }
 
@@ -648,19 +666,13 @@ function drawLinks(){
     const st=(state.debate.facts[fid]||{}).s;
     const col = !HAS_STANCE ? "var(--accent)" :
       st==="SUPPORT"?"var(--sup)":st==="UNDERMINE"?"var(--und)":"var(--neu)";
-    // Edges out of the dossier. `src` means the fact's cluster actually holds
-    // a mention from that document; `ev` means the fact only names it. Both
-    // are drawn, differently, because the first is what we want to measure and
-    // it fires for 4.4% of facts while the second fires for 27%.
-    const fact=state.debate.facts[fid]||{};
-    const firstSlot=(state.occ[fid]||[])[0];
-    if(firstSlot && bySlot[firstSlot.slot] && $("dossier").open){
-      const from=(fact.src||[]).map(x=>[x,true])
-        .concat((fact.ev||[]).filter(x=>!(fact.src||[]).includes(x)).map(x=>[x,false]));
-      from.forEach(([doc, solid])=>{
-        const card=document.querySelector(`.ev[data-ev="${doc}"]`);
+    const originEdges=edges.filter(e=>e.kind==="origin");
+    if($("dossier").open){
+      originEdges.forEach(e=>{
+        const card=[...document.querySelectorAll('.ev[data-ev]')]
+          .find(el=>el.dataset.ev===e.from);
         if(!card) return;
-        const A=card.getBoundingClientRect(), B=bySlot[firstSlot.slot].getBoundingClientRect();
+        const A=card.getBoundingClientRect(), B=bySlot[e.to].getBoundingClientRect();
         const x1=A.left-host.left+A.width/2, y1=A.bottom-host.top;
         const x2=B.left-host.left+B.width/2, y2=B.top-host.top;
         if(y2<y1) return;
@@ -668,13 +680,12 @@ function drawLinks(){
         const path=document.createElementNS(NS,"path");
         path.setAttribute("d",`M${x1},${y1}C${x1},${y1+dy} ${x2},${y2-dy} ${x2},${y2}`);
         path.setAttribute("fill","none"); path.setAttribute("stroke",col);
-        path.setAttribute("stroke-width", focus?(solid?2:1.3):(solid?1.2:0.7));
-        path.setAttribute("opacity", focus?(solid?0.75:0.4):(solid?0.28:0.12));
-        if(!solid) path.setAttribute("stroke-dasharray","1 5");
+        path.setAttribute("stroke-width",2);
+        path.setAttribute("opacity",0.75);
         svg.appendChild(path);
       });
     }
-    edges.forEach(e=>{
+    edges.filter(e=>e.kind!=="origin").forEach(e=>{
       const A=bySlot[e.from].getBoundingClientRect();
       const B=bySlot[e.to].getBoundingClientRect();
       const x1=A.left-host.left+A.width/2, y1=A.bottom-host.top;
@@ -685,7 +696,7 @@ function drawLinks(){
       path.setAttribute("d",`M${x1},${y1}C${x1},${y1+dy} ${x2},${y2-dy} ${x2},${y2}`);
       path.setAttribute("fill","none");
       path.setAttribute("stroke",col);
-      const self = e.kind==="self";
+      const self = e.kind==="persistence";
       path.setAttribute("stroke-width", focus?(self?1.4:2.2):(self?0.8:1.2));
       path.setAttribute("opacity", focus?(self?0.45:0.9):(self?0.14:0.34));
       if(self) path.setAttribute("stroke-dasharray","2 4");
