@@ -123,13 +123,37 @@ def run_biencoder(rows, model, batch, quiet=False, **_):
 
 
 def run_reranker(rows, model, batch, quiet=False, **_):
+    """Cross-encoder score per pair.
+
+    A reranker emits one number; an NLI model emits three (contradiction /
+    entailment / neutral) and `float(...)` on that row raises "only
+    0-dimensional arrays can be converted to Python scalars".  For the NLI
+    case the usable signal is the entailment probability -- one-directional,
+    so it will over-fire on "A is a poodle" / "A is a dog", which is exactly
+    the failure the probe set is there to catch.
+    """
+    import numpy as np
     from sentence_transformers import CrossEncoder
     print("  载入模型…", flush=True)
     m = CrossEncoder(model, device=os.environ.get("FF_DEVICE", "cuda"))
     print("  打分中…", flush=True)
-    return [float(s) for s in m.predict([(r["a"], r["b"]) for r in rows],
-                                        batch_size=batch,
-                                        show_progress_bar=not quiet)]
+    raw = np.asarray(m.predict([(r["a"], r["b"]) for r in rows],
+                               batch_size=batch, show_progress_bar=not quiet))
+    if raw.ndim == 1:
+        return [float(v) for v in raw]
+
+    labels = getattr(getattr(m, "config", None), "id2label", None) or {}
+    idx = next((i for i, n in labels.items()
+                if "entail" in str(n).lower()), None)
+    if idx is None:
+        idx = 1 if raw.shape[1] == 3 else raw.shape[1] - 1
+        print(f"  ! 模型输出 {raw.shape[1]} 类且没有 id2label，按第 {idx} 列当 entailment",
+              flush=True)
+    else:
+        print(f"  {raw.shape[1]} 类 NLI，用 '{labels[idx]}' 列（单向蕴含，非等价）",
+              flush=True)
+    e = np.exp(raw - raw.max(axis=1, keepdims=True))
+    return [float(v) for v in (e / e.sum(axis=1, keepdims=True))[:, int(idx)]]
 
 
 def _answer_token_ids(tok):
@@ -197,20 +221,140 @@ def run_llm(rows, model, batch, dtype="bfloat16", load_4bit=False,
             "rerun with --generate")
     margins = []
     tick = Progress(len(prompts), "打分", quiet)
-    for i in range(0, len(prompts), batch):
-        enc = tok(prompts[i:i + batch], return_tensors="pt", padding=True,
-                  add_special_tokens=False).to(net.device)
-        with torch.no_grad():
-            logits = net(**enc).logits[:, -1, :].float()
+    i, bs = 0, batch
+    while i < len(prompts):
+        try:
+            enc = tok(prompts[i:i + bs], return_tensors="pt", padding=True,
+                      add_special_tokens=False).to(net.device)
+            with torch.no_grad():
+                logits = net(**enc).logits[:, -1, :].float()
+        except torch.OutOfMemoryError:
+            # The peak is batch x sequence x vocab for the logits alone, which
+            # for a 150k vocab is gigabytes before the model has done anything.
+            torch.cuda.empty_cache()
+            if bs == 1:
+                raise
+            bs = max(1, bs // 2)
+            print(f"    显存不足，batch 降到 {bs}", flush=True)
+            continue
         lp = torch.log_softmax(logits, dim=-1)
-        s = torch.logsumexp(lp[:, ids["SAME"]], dim=-1)
-        d = torch.logsumexp(lp[:, ids["DIFFERENT"]], dim=-1)
-        margins += (s - d).tolist()
+        sm = torch.logsumexp(lp[:, ids["SAME"]], dim=-1)
+        df = torch.logsumexp(lp[:, ids["DIFFERENT"]], dim=-1)
+        margins += (sm - df).tolist()
+        i += bs
         tick(len(margins))
     return margins, "margin"
 
 
-RUNNERS = {"biencoder": run_biencoder, "reranker": run_reranker, "llm": run_llm}
+# A decoding prompt, for when latency does not matter.  Three things the
+# one-word prompt leaves to chance:
+#
+#   * the rules are spelled out, including the numeric tolerance -- production
+#     wants "12.3%" and "roughly 12%" recorded as one fact, and a bare
+#     instruction to compare "the same proposition" says the opposite;
+#   * the model must name the single difference before ruling, which is the
+#     trick the hosted judge's schema uses: a dozen tokens of deliberation at
+#     a length we choose, instead of an unbounded hidden budget;
+#   * the answer sits on its own final line, so parsing does not depend on the
+#     model stopping in the right place.
+COT_SYSTEM = """\
+You decide whether two atomic facts state the same thing.
+
+SAME: they assert the same thing about the same subject. Paraphrase, word
+order, synonyms, name variants and abbreviations, added or dropped hedges, and
+a scope worded more or less precisely are all SAME. Numbers that agree to the
+precision either side states are SAME: "12.3%" and "roughly 12%" are SAME,
+"41.5" and "elevated" are SAME when both describe the same measurement.
+If both would be recorded as one row in a table of who-claimed-what, they are
+SAME.
+
+DIFFERENT: they assert different things, contradict each other, or concern
+different subjects. A qualifier that changes WHICH cases the claim covers
+makes them DIFFERENT ("reduces mortality in patients over 65" vs "reduces
+mortality"). A different entity, measurement, or document id makes them
+DIFFERENT. A claim that merely follows from the other is DIFFERENT.
+
+Answer in exactly this form and nothing else:
+
+DIFF: <the single difference between a and b, at most eight words, or "none">
+ANSWER: <SAME or DIFFERENT>"""
+
+COT_USER = "a: {a}\nb: {b}"
+
+
+def _parse_cot(text: str) -> tuple[str, str]:
+    """The ANSWER line, and the note the model wrote before it."""
+    diff, ans = "", ""
+    for line in text.splitlines():
+        low = line.strip().lower()
+        if low.startswith("diff:"):
+            diff = line.split(":", 1)[1].strip()
+        elif low.startswith("answer:"):
+            ans = line.split(":", 1)[1].strip().upper()
+    if not ans:  # the model ignored the format; fall back to the last mention
+        tail = text.strip().upper()
+        i_s, i_d = tail.rfind("SAME"), tail.rfind("DIFFERENT")
+        ans = "SAME" if i_s > i_d else "DIFFERENT"
+    return ("SAME" if ans.startswith("SAME") else "DIFFERENT"), diff
+
+
+def run_cot(rows, model, batch, dtype="bfloat16", load_4bit=False,
+            quiet=False, max_new_tokens=48, **_):
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    print("  载入权重…（首次会先下载）", flush=True)
+    tok = AutoTokenizer.from_pretrained(model, padding_side="left")
+    if tok.pad_token_id is None:
+        tok.pad_token = tok.eos_token
+    dev = os.environ.get("FF_DEVICE", "cuda")
+    kw = {"dtype": getattr(torch, dtype), "device_map": dev}
+    if load_4bit:
+        from transformers import BitsAndBytesConfig
+        kw = {"device_map": dev, "quantization_config": BitsAndBytesConfig(
+            load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16,
+            bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True)}
+    net = AutoModelForCausalLM.from_pretrained(model, **kw)
+    net.eval()
+    if torch.cuda.is_available():
+        print(f"  显存占用 {torch.cuda.memory_allocated() / 2**30:.1f} GB", flush=True)
+
+    prompts = [tok.apply_chat_template(
+        [{"role": "system", "content": COT_SYSTEM},
+         {"role": "user", "content": COT_USER.format(a=r["a"], b=r["b"])}],
+        add_generation_prompt=True, tokenize=False) for r in rows]
+
+    preds, notes = [], []
+    tick = Progress(len(prompts), "解码", quiet)
+    i, bs = 0, batch
+    while i < len(prompts):
+        try:
+            enc = tok(prompts[i:i + bs], return_tensors="pt", padding=True,
+                      add_special_tokens=False).to(net.device)
+            with torch.no_grad():
+                gen = net.generate(**enc, max_new_tokens=max_new_tokens,
+                                   do_sample=False,
+                                   pad_token_id=tok.pad_token_id)
+        except torch.OutOfMemoryError:
+            torch.cuda.empty_cache()
+            if bs == 1:
+                raise
+            bs = max(1, bs // 2)
+            print(f"    显存不足，batch 降到 {bs}", flush=True)
+            continue
+        for seq in gen:
+            text = tok.decode(seq[enc["input_ids"].shape[-1]:],
+                              skip_special_tokens=True)
+            ans, diff = _parse_cot(text)
+            preds.append(ans)
+            notes.append(diff)
+        i += bs
+        tick(len(preds))
+    return preds, notes
+
+
+RUNNERS = {"biencoder": run_biencoder, "reranker": run_reranker,
+           "llm": run_llm, "cot": run_cot}
 
 
 def main() -> int:
@@ -223,8 +367,13 @@ def main() -> int:
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--4bit", dest="load_4bit", action="store_true",
                     help="needed for anything over ~20B on a 46GB card")
+    ap.add_argument("--mode", default="logit", choices=["logit", "oneword", "cot"],
+                    help="logit=读首 token 概率(最快); oneword=解码一个词; "
+                         "cot=先写一句差别再判(最慢，质量最好)")
+    ap.add_argument("--max-new-tokens", type=int, default=48,
+                    help="cot 模式每对生成上限")
     ap.add_argument("--generate", action="store_true",
-                    help="decode a word instead of reading the first-token logits")
+                    help="等同 --mode oneword（保留旧写法）")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
     ap.add_argument("--quiet", action="store_true", help="不打进度")
@@ -232,15 +381,22 @@ def main() -> int:
     a = ap.parse_args()
 
     kind = a.kind or detect_kind(a.model)
+    mode = "oneword" if a.generate else a.mode
+    if kind == "llm" and mode == "cot":
+        kind = "cot"
     rows = load(a.limit, a.contested)
     t0 = time.time()
     print(f"\n>>> {a.model}  [{kind}]  {len(rows)} 对", flush=True)
     res = RUNNERS[kind](rows, a.model, a.batch, dtype=a.dtype,
-                        load_4bit=a.load_4bit, generate=a.generate,
-                        quiet=a.quiet)
+                        load_4bit=a.load_4bit, generate=(mode == "oneword"),
+                        quiet=a.quiet, max_new_tokens=a.max_new_tokens)
     secs = time.time() - t0
 
-    if kind == "llm" and a.generate:
+    notes = None
+    if kind == "cot":
+        preds, notes = res
+        curve, best = None, score(rows, preds)
+    elif kind == "llm" and mode == "oneword":
         preds, curve = res[0], None
         best = score(rows, preds)
     else:
@@ -248,8 +404,9 @@ def main() -> int:
         best, curve = sweep(rows, scores)
         preds = ["SAME" if v >= best["threshold"] else "DIFFERENT" for v in scores]
 
-    print(f"\n{a.model}   [{kind}{', 4bit' if a.load_4bit else ''}"
-          f"{', generate' if a.generate else ''}]   contested={a.contested}")
+    shown = "llm" if kind == "cot" else kind
+    print(f"\n{a.model}   [{shown}/{mode}{', 4bit' if a.load_4bit else ''}]"
+          f"   contested={a.contested}")
     print(f"  n={best['n']}   {secs:.0f}s   {secs / max(1, best['n']) * 1000:.0f} ms/对")
     if "threshold" in best:
         print(f"  最佳阈值 {best['threshold']}   (在本集合上拟合，是乐观上界)")
@@ -266,18 +423,24 @@ def main() -> int:
               f"{'  有争议' if r['contested'] else ''}")
         print(f"      A: {r['a'][:86]}")
         print(f"      B: {r['b'][:86]}")
+        if notes:
+            k = rows.index(r)
+            if notes[k]:
+                print(f"      模型写的差别: {notes[k][:86]}")
 
     out = a.out or (HERE / "results" /
-                    f"{a.model.replace('/', '__')}.{a.contested}.json")
+                    f"{a.model.replace('/', '__')}.{mode}.{a.contested}.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(
-        {"model": a.model, "kind": kind, "contested": a.contested,
-         "four_bit": a.load_4bit, "generate": a.generate,
+        {"model": a.model, "kind": shown, "contested": a.contested,
+         "four_bit": a.load_4bit, "mode": mode,
          "seconds": secs, "best": best, "curve": curve,
          "gpu": os.environ.get("CUDA_VISIBLE_DEVICES", "?"),
          "predictions": [{"id": r["id"], "gold": r["gold"], "pred": p,
-                          "contested": r["contested"]}
-                         for r, p in zip(rows, preds)]},
+                          "contested": r["contested"],
+                          **({"note": n} if notes else {})}
+                         for r, p, n in zip(rows, preds,
+                                            notes or [None] * len(preds))]},
         ensure_ascii=False, indent=1, sort_keys=True))
     print(f"\n  写入 {out}")
     return 0

@@ -36,13 +36,56 @@ gold 分布 SAME 46 / DIFFERENT 106。领域:临床 74、perspectrum 34、
 
 ## 基线
 
+要超过的是**生产判决器在同一个集合上的成绩**,不是标定集里那个 0.967
+(那是 30 对同域临床配对,比这个集合容易得多):
+
+```
+minimax-m2.5  (hosted, 生产协议, 152 对)
+  准确率 0.849  SAME 精确率 0.702  召回 0.870  F1 0.777   211s
+  错 23 条，其中 12 条是 contested
+  错判方向: DIFFERENT→SAME 17 条，SAME→DIFFERENT 6 条
+```
+
+它**偏向合并**,这解释了语料里那 24 组错误合并的来源。
+
+下限:
+
 ```
 bge-base-en-v1.5 (biencoder, 最佳阈值 0.813)
   准确率 0.605  SAME 精确率 0.424  召回 0.848  F1 0.565
 ```
 
-单靠双编码器不够:它把"药物降低 65 岁以上患者死亡率"判成等同于"药物降低
-死亡率"。这条基线的意义是给候选模型一个必须显著超过的下限。
+自己复现 hosted 基线:
+
+```
+python baseline_hosted.py --model minimax-m2.5 --protocol production
+python baseline_hosted.py --model minimax-m2.5 --protocol oneword
+```
+
+两种协议不同:生产是批量 JSON、先写一句差别再判;oneword 是本地脚本用的
+单词输出。跨协议比 F1 会混进协议差异。
+
+## 三种推理模式
+
+| mode | 做法 | 速度 | 何时用 |
+|---|---|---|---|
+| `logit` | 读首个回答 token 上 SAME/DIFFERENT 的概率差 | 最快 | 扫模型 |
+| `oneword` | 解码一个词 | 中 | 看模型自由行为 |
+| `cot` | 先写一句"差别在哪"再判,固定格式 | 最慢 | 定稿选型 |
+
+`cot` 的 prompt 里写死了几条规则,其中数值容差是按实际需求定的:
+
+- `12.3%` 和 `roughly 12%` 判 SAME;`41.5` 和 `elevated` 描述同一测量时判 SAME
+- 名称变体、缩写、增删的模糊限定都算 SAME
+- 改变**覆盖哪些情况**的限定词算 DIFFERENT
+- 输出固定为 `DIFF: <≤8 词>` 换行 `ANSWER: SAME|DIFFERENT`
+
+模型写的那句差别会存进结果文件,错判时一并打出来。
+
+**注意 gold 和这条规则有冲突。** `probe-precision-loss-compatible`
+(`12.3%` vs `roughly 12%`)在仓库原有的探针里标的是 DIFFERENT,而 cot 的
+prompt 要求判 SAME。这类配对需要先定清楚要哪种语义,再改 gold 或改 prompt,
+不能两边各行其是。
 
 ## 跑法
 
