@@ -6,6 +6,7 @@
 #   ./run.sh --list                   只列出推荐清单，不下载不运行
 #   ./run.sh --check                  只查 GPU 和 wheel 是否匹配，不加载模型
 #   ./run.sh --triton                 诊断 triton/gcc 编译失败的真实原因
+#   ./run.sh --rescore                gold 改了之后重算已有结果，不调模型
 #   MODE=cot ./run.sh                 LLM 用短 CoT 解码（慢，质量最好）
 #   MODE=cot ./run.sh Qwen/Qwen3-14B  只跑一个模型的 cot
 #   MODE=entail POLICY=entail ./run.sh Qwen/Qwen3-14B microsoft/phi-4
@@ -119,6 +120,12 @@ if [[ "${1:-}" == "--list" ]]; then
   echo "  ./run.sh google/gemma-3-27b-it"
   echo "  ./run.sh mistralai/Mistral-Small-3.1-24B-Instruct-2503"
   exit 0
+fi
+
+# 用当前 gold 重算已保存的结果，不调模型。多余的参数原样传给 rescore.py。
+if [[ "${1:-}" == "--rescore" ]]; then
+  shift
+  exec "$PY" "$HERE/rescore.py" "$@"
 fi
 
 # 诊断 triton 的 gcc 编译为什么失败。

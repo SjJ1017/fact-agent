@@ -92,10 +92,12 @@ python baseline_hosted.py --model minimax-m2.5 --protocol oneword
 ## gold 改了之后不用重跑
 
 ```
-python rescore.py                 # 全部重算
-python rescore.py --only-changed  # 只列分数变了的
-python rescore.py --policy entail # 换口径重算
+./run.sh --rescore                 # 全部重算
+./run.sh --rescore --only-changed  # 只列分数变了的
+./run.sh --rescore --policy entail # 换口径重算
 ```
+
+和 `--check` / `--triton` 一样，不用先 source 任何东西。
 
 结果文件存了逐条 `id` / `gold` / `pred`，所以标签修正只是重算，不调模型。
 输出新旧 F1、差值、翻转了几条，并逐条列出改动的 gold 以及**模型本来是不是对的**
