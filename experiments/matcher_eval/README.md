@@ -55,3 +55,40 @@ python run_local_matcher.py --kind llm --model Qwen/Qwen3-14B-Instruct --dtype b
 `biencoder` 和 `reranker` 输出分数,脚本扫 41 个阈值取最佳 F1,并把整条曲线写进
 `--out`;阈值是拟合出来的,所以那个 F1 是乐观上界,真要用得留独立的调阈子集。
 `llm` 走约束输出,只取首词,没有阈值可调。
+
+## 在服务器上跑
+
+```
+./run.sh                             # 跑推荐的一组
+./run.sh BAAI/bge-reranker-v2-m3     # 只跑指定的（可给多个）
+./run.sh --list                      # 只看清单
+```
+
+`run.sh` 顶部有两行需要按机器改:
+
+```
+export HF_HOME=/data/$USER/hf        # 权重下载到哪。14B bf16 约 30GB，别放家目录
+export CUDA_VISIBLE_DEVICES=4        # 用哪块卡
+```
+
+其余缓存变量(`HF_HUB_CACHE` / `TRANSFORMERS_CACHE` /
+`SENTENCE_TRANSFORMERS_HOME` / `HF_DATASETS_CACHE`)都由脚本从 `HF_HOME` 派生,
+不用单独设。结果写进 `results/<模型名>.<keep|drop>.json`,最后自动打一张汇总表。
+
+依赖:`torch`、`transformers`、`sentence-transformers`;用 `--4bit` 还需要
+`bitsandbytes` 和 `accelerate`。
+
+## LLM 走的是 logit 不是生成
+
+默认不解码,只做一次前向,比较首个回答 token 上 `SAME` 与 `DIFFERENT` 的
+log 概率之和,取差值作为分数。三个好处:一次前向而不是解码循环,快得多;
+模型不可能跑偏格式(今天 `deepseek-v4-pro` 就是在别的任务上返回空);
+得到的是连续分数,所以和 reranker 一样能扫阈值、能看校准。
+
+要看模型自由生成的行为就加 `--generate`,那条路径没有阈值。
+
+## 阈值是拟合出来的
+
+`biencoder` / `reranker` / logit 模式的 F1 都来自在本集合上扫 81 个阈值取最优,
+**是乐观上界**。真要选型定阈值,得另留一个调阈子集,否则会高估。
+`--generate` 模式没有这个问题。

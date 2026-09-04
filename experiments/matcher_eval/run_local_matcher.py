@@ -1,29 +1,32 @@
 """Score a local model on the atomic-fact SAME/DIFFERENT decision.
 
-Usage
-  # cross-encoder / reranker (no generation, needs a threshold sweep)
-  python run_local_matcher.py --kind reranker --model BAAI/bge-reranker-v2-m3
-  # bi-encoder cosine, the current pipeline's blocker as a baseline
-  python run_local_matcher.py --kind biencoder --model BAAI/bge-base-en-v1.5
-  # instruct LLM, constrained to one word
-  python run_local_matcher.py --kind llm --model Qwen/Qwen3-14B-Instruct --dtype bfloat16
+Three model families, auto-detected from the name unless --kind says otherwise:
 
-Everything runs on one GPU.  --limit trims the set for a smoke test; --contested
-drop|keep|only controls the 26 pairs where a careful reader could disagree.
+  biencoder  sentence embeddings, cosine.  The current blocker; the floor.
+  reranker   cross-encoder over the pair.  Small, fast, needs a threshold.
+  llm        instruct model.  By default it does NOT generate: it reads the
+             logits of the first answer token and compares SAME against
+             DIFFERENT.  That is one forward pass instead of a decode loop,
+             it cannot wander off format, and it yields a margin, so the same
+             threshold sweep applies as for the scoring models.
+
+Everything below runs in one process on one GPU.  See run.sh for the wrapper
+that sets the caches and pins the device.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 PAIRS = HERE / "pairs.jsonl"
 
-# The wording the production judge uses, so a local model is measured on the
-# same task and not on a friendlier one.
+# The production judge's wording, so a local model is measured on the same
+# task and not on a friendlier one.
 SYSTEM = (
     "You compare two atomic factual statements drawn from a discussion.\n"
     "Answer SAME if they assert the same proposition about the same entities, "
@@ -36,7 +39,17 @@ SYSTEM = (
 USER = "A: {a}\nB: {b}"
 
 
-def load(limit: int | None, contested: str) -> list[dict]:
+def detect_kind(model: str) -> str:
+    low = model.lower()
+    if "rerank" in low or "cross-encoder" in low or "nli-" in low:
+        return "reranker"
+    if any(t in low for t in ("bge-base", "bge-large", "bge-small", "gte-",
+                              "e5-", "all-minilm", "all-mpnet", "sentence-t")):
+        return "biencoder"
+    return "llm"
+
+
+def load(limit, contested):
     rows = [json.loads(l) for l in PAIRS.read_text().splitlines() if l.strip()]
     if contested == "drop":
         rows = [r for r in rows if not r["contested"]]
@@ -58,48 +71,12 @@ def score(rows, pred) -> dict:
             "tp": tp, "fp": fp, "fn": fn, "tn": tn}
 
 
-def run_biencoder(rows, model, device):
-    from sentence_transformers import SentenceTransformer
-    m = SentenceTransformer(model, device=device)
-    a = m.encode([r["a"] for r in rows], normalize_embeddings=True)
-    b = m.encode([r["b"] for r in rows], normalize_embeddings=True)
-    return [float((x * y).sum()) for x, y in zip(a, b)]
-
-
-def run_reranker(rows, model, device):
-    from sentence_transformers import CrossEncoder
-    m = CrossEncoder(model, device=device)
-    return [float(s) for s in m.predict([(r["a"], r["b"]) for r in rows])]
-
-
-def run_llm(rows, model, device, dtype, max_new_tokens=4):
-    import torch
-    from transformers import AutoModelForCausalLM, AutoTokenizer
-    tok = AutoTokenizer.from_pretrained(model)
-    net = AutoModelForCausalLM.from_pretrained(
-        model, torch_dtype=getattr(torch, dtype), device_map=device)
-    net.eval()
-    out = []
-    for r in rows:
-        msgs = [{"role": "system", "content": SYSTEM},
-                {"role": "user", "content": USER.format(a=r["a"], b=r["b"])}]
-        ids = tok.apply_chat_template(msgs, add_generation_prompt=True,
-                                      return_tensors="pt").to(net.device)
-        with torch.no_grad():
-            gen = net.generate(ids, max_new_tokens=max_new_tokens,
-                               do_sample=False,
-                               pad_token_id=tok.eos_token_id)
-        text = tok.decode(gen[0][ids.shape[-1]:], skip_special_tokens=True)
-        out.append("SAME" if "same" in text.strip().lower()[:8] else "DIFFERENT")
-    return out
-
-
 def sweep(rows, scores):
-    """Best threshold, and the curve, for a model that returns a number."""
     best, curve = None, []
     lo, hi = min(scores), max(scores)
-    for i in range(41):
-        t = lo + (hi - lo) * i / 40
+    span = (hi - lo) or 1.0
+    for i in range(81):
+        t = lo + span * i / 80
         s = score(rows, ["SAME" if v >= t else "DIFFERENT" for v in scores])
         curve.append({"threshold": round(t, 4), **s})
         if best is None or s["f1"] > best["f1"]:
@@ -107,57 +84,163 @@ def sweep(rows, scores):
     return best, curve
 
 
+# --------------------------------------------------------------------------
+
+
+def run_biencoder(rows, model, batch, **_):
+    from sentence_transformers import SentenceTransformer
+    m = SentenceTransformer(model, device=os.environ.get("FF_DEVICE", "cuda"))
+    a = m.encode([r["a"] for r in rows], normalize_embeddings=True,
+                 batch_size=batch, show_progress_bar=False)
+    b = m.encode([r["b"] for r in rows], normalize_embeddings=True,
+                 batch_size=batch, show_progress_bar=False)
+    return [float((x * y).sum()) for x, y in zip(a, b)]
+
+
+def run_reranker(rows, model, batch, **_):
+    from sentence_transformers import CrossEncoder
+    m = CrossEncoder(model, device=os.environ.get("FF_DEVICE", "cuda"))
+    return [float(s) for s in m.predict([(r["a"], r["b"]) for r in rows],
+                                        batch_size=batch,
+                                        show_progress_bar=False)]
+
+
+def _answer_token_ids(tok):
+    """First-token ids for SAME and DIFFERENT, in the shapes a chat model emits."""
+    out = {"SAME": set(), "DIFFERENT": set()}
+    for word in out:
+        for variant in (word, " " + word, word.capitalize(), word.lower(),
+                        " " + word.capitalize(), " " + word.lower()):
+            ids = tok.encode(variant, add_special_tokens=False)
+            if ids:
+                out[word].add(ids[0])
+    # a token claimed by both words is useless as evidence for either
+    both = out["SAME"] & out["DIFFERENT"]
+    return {k: sorted(v - both) for k, v in out.items()}
+
+
+def run_llm(rows, model, batch, dtype="bfloat16", load_4bit=False,
+            generate=False, **_):
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    tok = AutoTokenizer.from_pretrained(model, padding_side="left")
+    if tok.pad_token_id is None:
+        tok.pad_token = tok.eos_token
+    kw = {"dtype": getattr(torch, dtype), "device_map": "cuda"}
+    if load_4bit:
+        from transformers import BitsAndBytesConfig
+        kw = {"device_map": "cuda", "quantization_config": BitsAndBytesConfig(
+            load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16,
+            bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True)}
+    net = AutoModelForCausalLM.from_pretrained(model, **kw)
+    net.eval()
+
+    prompts = [tok.apply_chat_template(
+        [{"role": "system", "content": SYSTEM},
+         {"role": "user", "content": USER.format(a=r["a"], b=r["b"])}],
+        add_generation_prompt=True, tokenize=False) for r in rows]
+
+    if generate:
+        out = []
+        for i in range(0, len(prompts), batch):
+            enc = tok(prompts[i:i + batch], return_tensors="pt",
+                      padding=True, add_special_tokens=False).to(net.device)
+            with torch.no_grad():
+                gen = net.generate(**enc, max_new_tokens=4, do_sample=False,
+                                   pad_token_id=tok.pad_token_id)
+            for j, seq in enumerate(gen):
+                text = tok.decode(seq[enc["input_ids"].shape[-1]:],
+                                  skip_special_tokens=True)
+                out.append("SAME" if "same" in text.strip().lower()[:8]
+                           else "DIFFERENT")
+        return out, None
+
+    ids = _answer_token_ids(tok)
+    if not ids["SAME"] or not ids["DIFFERENT"]:
+        raise SystemExit(
+            f"{model}: could not isolate first tokens for SAME/DIFFERENT; "
+            "rerun with --generate")
+    margins = []
+    for i in range(0, len(prompts), batch):
+        enc = tok(prompts[i:i + batch], return_tensors="pt", padding=True,
+                  add_special_tokens=False).to(net.device)
+        with torch.no_grad():
+            logits = net(**enc).logits[:, -1, :].float()
+        lp = torch.log_softmax(logits, dim=-1)
+        s = torch.logsumexp(lp[:, ids["SAME"]], dim=-1)
+        d = torch.logsumexp(lp[:, ids["DIFFERENT"]], dim=-1)
+        margins += (s - d).tolist()
+    return margins, "margin"
+
+
+RUNNERS = {"biencoder": run_biencoder, "reranker": run_reranker, "llm": run_llm}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--model", required=True)
-    ap.add_argument("--kind", required=True, choices=["biencoder", "reranker", "llm"])
-    ap.add_argument("--device", default="cuda")
+    ap.add_argument("--kind", choices=["biencoder", "reranker", "llm"],
+                    help="default: guessed from the model name")
     ap.add_argument("--dtype", default="bfloat16")
+    ap.add_argument("--batch", type=int, default=16)
+    ap.add_argument("--4bit", dest="load_4bit", action="store_true",
+                    help="needed for anything over ~20B on a 46GB card")
+    ap.add_argument("--generate", action="store_true",
+                    help="decode a word instead of reading the first-token logits")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
     ap.add_argument("--out", type=Path, default=None)
     a = ap.parse_args()
 
+    kind = a.kind or detect_kind(a.model)
     rows = load(a.limit, a.contested)
     t0 = time.time()
-    if a.kind == "llm":
-        pred = run_llm(rows, a.model, a.device, a.dtype)
-        result = {"best": score(rows, pred), "curve": None}
-        preds = pred
-    else:
-        fn = run_biencoder if a.kind == "biencoder" else run_reranker
-        scores = fn(rows, a.model, a.device)
-        best, curve = sweep(rows, scores)
-        result = {"best": best, "curve": curve}
-        preds = ["SAME" if v >= best["threshold"] else "DIFFERENT" for v in scores]
+    res = RUNNERS[kind](rows, a.model, a.batch, dtype=a.dtype,
+                        load_4bit=a.load_4bit, generate=a.generate)
     secs = time.time() - t0
 
-    b = result["best"]
-    print(f"\n{a.model}  ({a.kind}, {a.contested} contested)")
-    print(f"  n={b['n']}  {secs:.0f}s  {secs / max(1, b['n']) * 1000:.0f} ms/对")
-    if "threshold" in b:
-        print(f"  最佳阈值 {b['threshold']}")
-    print(f"  准确率 {b['acc']:.3f}   SAME 精确率 {b['same_precision']:.3f}   "
-          f"SAME 召回 {b['same_recall']:.3f}   F1 {b['f1']:.3f}")
-    print(f"  TP {b['tp']}  FP {b['fp']}  FN {b['fn']}  TN {b['tn']}")
+    if kind == "llm" and a.generate:
+        preds, curve = res[0], None
+        best = score(rows, preds)
+    else:
+        scores = res[0] if isinstance(res, tuple) else res
+        best, curve = sweep(rows, scores)
+        preds = ["SAME" if v >= best["threshold"] else "DIFFERENT" for v in scores]
 
-    wrong = [(r, p) for r, p in zip(rows, preds) if (p == "SAME") != (r["gold"] == "SAME")]
-    print(f"\n  错判 {len(wrong)} 条，前 8 条：")
-    for r, p in wrong[:8]:
+    print(f"\n{a.model}   [{kind}{', 4bit' if a.load_4bit else ''}"
+          f"{', generate' if a.generate else ''}]   contested={a.contested}")
+    print(f"  n={best['n']}   {secs:.0f}s   {secs / max(1, best['n']) * 1000:.0f} ms/对")
+    if "threshold" in best:
+        print(f"  最佳阈值 {best['threshold']}   (在本集合上拟合，是乐观上界)")
+    print(f"  准确率 {best['acc']:.3f}   SAME 精确率 {best['same_precision']:.3f}   "
+          f"SAME 召回 {best['same_recall']:.3f}   F1 {best['f1']:.3f}")
+    print(f"  TP {best['tp']}  FP {best['fp']}  FN {best['fn']}  TN {best['tn']}")
+
+    wrong = [(r, p) for r, p in zip(rows, preds)
+             if (p == "SAME") != (r["gold"] == "SAME")]
+    print(f"\n  错判 {len(wrong)} 条"
+          f"（其中有争议 {sum(1 for r, _ in wrong if r['contested'])} 条），前 6 条：")
+    for r, p in wrong[:6]:
         print(f"   [{r['id']}] gold={r['gold']} pred={p}"
-              f"{' (有争议)' if r['contested'] else ''}")
-        print(f"      A: {r['a'][:88]}")
-        print(f"      B: {r['b'][:88]}")
+              f"{'  有争议' if r['contested'] else ''}")
+        print(f"      A: {r['a'][:86]}")
+        print(f"      B: {r['b'][:86]}")
 
-    if a.out:
-        a.out.write_text(json.dumps(
-            {"model": a.model, "kind": a.kind, "contested": a.contested,
-             "seconds": secs, **result,
-             "predictions": [{"id": r["id"], "gold": r["gold"], "pred": p}
-                             for r, p in zip(rows, preds)]},
-            ensure_ascii=False, indent=1, sort_keys=True))
-        print(f"\n  写入 {a.out}")
+    out = a.out or (HERE / "results" /
+                    f"{a.model.replace('/', '__')}.{a.contested}.json")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(
+        {"model": a.model, "kind": kind, "contested": a.contested,
+         "four_bit": a.load_4bit, "generate": a.generate,
+         "seconds": secs, "best": best, "curve": curve,
+         "gpu": os.environ.get("CUDA_VISIBLE_DEVICES", "?"),
+         "predictions": [{"id": r["id"], "gold": r["gold"], "pred": p,
+                          "contested": r["contested"]}
+                         for r, p in zip(rows, preds)]},
+        ensure_ascii=False, indent=1, sort_keys=True))
+    print(f"\n  写入 {out}")
     return 0
 
 
