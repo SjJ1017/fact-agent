@@ -607,11 +607,12 @@ def main() -> int:
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--pairs", type=Path, default=None,
                     help="换一个 oracle 文件，默认 pairs.jsonl")
-    ap.add_argument("--policy", default="near",
+    ap.add_argument("--policy", default="file",
                     choices=["file", "strict", "near", "entail"],
-                    help="哪些关系算同一条: strict=只要严格等价; "
-                         "near=再加近似匹配(默认，等同文件里的二值 gold); "
-                         "entail=再加单向蕴含; file=原样用文件里的 gold")
+                    help="哪些关系算同一条。file(默认)=原样用文件里的二值 "
+                         "gold；strict=只要严格等价；near=再加近似匹配；"
+                         "entail=再加单向蕴含。注意 near 并不等同文件里的 "
+                         "gold —— relation 标注比二值标签细，两者有出入")
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
     ap.add_argument("--atomized-only", action="store_true",
                     help="去掉抽取器会拆开的那几条：管线不会产生那种输入")
@@ -710,7 +711,7 @@ def main() -> int:
     tag = "-".join(a.difficulty) if a.difficulty else "all"
     if a.pairs:
         tag = f"{a.pairs.stem.replace('pairs_', '')}.{tag}"
-    if a.policy != "near":
+    if a.policy != "file":
         tag = f"{tag}.{a.policy}"
     if a.atomized_only:
         tag += "-atomized"
@@ -719,7 +720,7 @@ def main() -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(
         {"model": a.model, "kind": shown, "contested": a.contested,
-         "four_bit": a.load_4bit, "mode": mode,
+         "four_bit": a.load_4bit, "mode": mode, "policy": a.policy,
          "seconds": secs, "best": best, "curve": curve,
          "gpu": os.environ.get("CUDA_VISIBLE_DEVICES", "?"),
          "predictions": [{"id": r["id"], "gold": r["gold"], "pred": p,

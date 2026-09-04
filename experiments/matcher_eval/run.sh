@@ -36,8 +36,8 @@ MODE="${MODE:-logit}"
 # 已经跑过的（同 模型/模式/contested/难度）默认跳过。REDO=1 强制重跑。
 SKIP_DONE="${SKIP_DONE:-1}"
 
-# 哪些关系算同一条: strict / near(默认) / entail
-POLICY="${POLICY:-near}"
+# 哪些关系算同一条: file(默认，用文件里的二值 gold) / strict / near / entail
+POLICY="${POLICY:-file}"
 
 # 每个模型默认跑两遍：keep=全集，drop=去掉有争议的标注。两者排名一致才说明
 # 结论不依赖那批标签。只要一个就 CONTESTED=keep，时间减半。
@@ -223,7 +223,7 @@ from run_local_matcher import detect_kind;print(detect_kind('$m'))")"
     mm="$MODE"; [[ "$kind" != "llm" ]] && mm="logit"
     dtag="all"
     [[ -n "$PAIRS" ]] && dtag="$(basename "$PAIRS" .jsonl | sed 's/^pairs_//').all"
-    [[ "$POLICY" != "near" ]] && dtag="${dtag}.${POLICY}"
+    [[ "$POLICY" != "file" ]] && dtag="${dtag}.${POLICY}"
     if [[ "$SKIP_DONE" == "1" && -f "$HERE/results/${safe}.${mm}.${c}.${dtag}.json" ]]; then
       echo "    $c: 已有结果，跳过（REDO=1 强制重跑）"
       continue

@@ -92,24 +92,23 @@ python baseline_hosted.py --model minimax-m2.5 --protocol oneword
 ## gold 改了之后不用重跑
 
 ```
-./run.sh --rescore                 # 全部重算
-./run.sh --rescore --only-changed  # 只列分数变了的
-./run.sh --rescore --policy entail # 换口径重算
+./run.sh --rescore --set idrbench --diff
 ```
 
-和 `--check` / `--triton` 一样，不用先 source 任何东西。
+读 `results/` 里存的逐条预测，按当前 gold 重算，输出和 run.sh 结尾一样的表。
+`--set main|idrbench|all` 选集合，`--diff` 额外列新旧对比。
 
-结果文件存了逐条 `id` / `gold` / `pred`，所以标签修正只是重算，不调模型。
-输出新旧 F1、差值、翻转了几条，并逐条列出改动的 gold 以及**模型本来是不是对的**
-——这一栏最有用：如果模型早就答对而 gold 错了，纠正后它的分数会涨；反过来说明
-之前的 gold 在迁就这个模型。
+**默认 `--policy auto`**：每个结果按它当初跑时用的口径比，所以差异只来自真正的
+标注修正。显式指定 `--policy entail` 之类是**换口径重算**，那会把所有
+relation 与二值 gold 不一致的对一起翻，看起来像几十条 gold 变了，其实一条都
+没改。
 
-**做不到的一件事**：重新拟合阈值。原始分数没存，所以打分模型（biencoder /
-reranker / logit）报的是「它当时选的阈值、按现在的标签评」，偏保守。
+`--policy` 的默认值在所有脚本里都是 `file`，即原样用文件里的二值 gold。
+**`near` 不等同于 `file`**：relation 标注比二值标签细，两者在主集合 7 处、
+idrbench 2 处有出入。之前把 `near` 当默认，导致跑出来的 gold 与文件不符。
+
+做不到的是重新拟合阈值：原始分数没存，打分模型按它当时选的阈值评，偏保守；
 `oneword` / `cot` / `entail` 没有阈值，重算是精确的。
-
-要让阈值也能离线重算，得在 predictions 里加存原始分数——一行的事，但会让所有
-已有结果文件失去这个字段，所以没动。
 
 ## 跳过已跑过的
 

@@ -86,7 +86,7 @@ def main() -> int:
     ap.add_argument("--batch", type=int, default=16, help="production 协议的批大小")
     ap.add_argument("--pairs", type=Path, default=None,
                     help="换一个 oracle 文件，默认 pairs.jsonl")
-    ap.add_argument("--policy", default="near",
+    ap.add_argument("--policy", default="file",
                     choices=["file", "strict", "near", "entail"])
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
     ap.add_argument("--difficulty", nargs="+",
@@ -131,7 +131,7 @@ def main() -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(
         {"model": f"{a.model} (hosted)", "kind": f"hosted/{a.protocol}",
-         "contested": a.contested, "seconds": secs, "best": best, "curve": None,
+         "contested": a.contested, "policy": a.policy, "seconds": secs, "best": best, "curve": None,
          "predictions": [{"id": r["id"], "gold": r["gold"], "pred": p,
                           "contested": r["contested"]}
                          for r, p in zip(rows, preds)]},
