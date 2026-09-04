@@ -172,6 +172,26 @@ TORCH_INDEX=cu121 ./setup_env.sh
 
 推荐第一条:少一个变量,而且 reranker 在 46GB 卡上一样是秒级。
 
+## CUDA 编号和 nvidia-smi 对不上
+
+CUDA 运行时默认按 `FASTEST_FIRST` 枚举设备,所以 `CUDA_VISIBLE_DEVICES=4`
+指的是**CUDA 自己排序里的第 4 块**,不是 nvidia-smi 显示的第 4 块。症状是
+OOM 信息里报出的显存总量对不上你以为在用的卡:
+
+```
+GPU 0 has a total capacity of 10.57 GiB      # 这是 2080 Ti，不是 46GB 的 Ada
+```
+
+`run.sh` 和 `setup_env.sh` 都设了 `CUDA_DEVICE_ORDER=PCI_BUS_ID`,设了之后编号
+与 nvidia-smi 一致。`./run.sh --check` 和开跑前的检查都会打出每个选定编号
+**实际拿到的是哪块卡**,不用猜。
+
+手动跑单个模型时记得自己带上:
+
+```
+CUDA_DEVICE_ORDER=PCI_BUS_ID CUDA_VISIBLE_DEVICES=4 python run_local_matcher.py ...
+```
+
 ## 两块卡怎么分
 
 | GPU | 卡 | 状态 | 用途 |

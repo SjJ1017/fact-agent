@@ -18,6 +18,7 @@ VENV_DIR="${VENV_DIR:-$SCRATCH_ROOT/venv-matcher}"
 # pip 的缓存同样能长到几个 GB。
 export PIP_CACHE_DIR="${PIP_CACHE_DIR:-$SCRATCH_ROOT/pip-cache}"
 export TMPDIR="${TMPDIR:-$SCRATCH_ROOT/tmp}"
+export CUDA_DEVICE_ORDER=PCI_BUS_ID
 mkdir -p "$PIP_CACHE_DIR" "$TMPDIR"
 
 # 驱动 580.95 / CUDA 13.0 向下兼容 cu12x 的 wheel。

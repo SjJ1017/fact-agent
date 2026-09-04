@@ -85,12 +85,14 @@ def main() -> int:
                     choices=["production", "oneword"])
     ap.add_argument("--batch", type=int, default=16, help="production 协议的批大小")
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
+    ap.add_argument("--difficulty", nargs="+",
+                    choices=["trivial", "easy", "medium", "hard"])
     ap.add_argument("--limit", type=int, default=None)
     a = ap.parse_args()
 
     load_opencode_key()
     llm = LLM.opencode(a.model, max_concurrency=1)
-    rows = load(a.limit, a.contested)
+    rows = load(a.limit, a.contested, a.difficulty)
 
     print(f">>> {a.model}  [{a.protocol}]  {len(rows)} 对", flush=True)
     t0 = time.time()

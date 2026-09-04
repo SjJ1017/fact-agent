@@ -36,6 +36,12 @@ export HF_HOME="${HF_HOME:-$SCRATCH_ROOT/hf-datasets}"
 
 # 下面这些是旧版库仍在读的变量名，以及几个默认会写进家目录的缓存。
 # 不设的话权重和临时文件会散落到 ~，几个模型就能把家目录分区塞满。
+# CUDA 默认按 FASTEST_FIRST 枚举设备，编号和 nvidia-smi 不一致：不设这个，
+# CUDA_VISIBLE_DEVICES=4 指的是 CUDA 自己排序里的第 4 块，可能是任意一块卡。
+# 症状是 OOM 报出的显存总量对不上你以为在用的那块。
+export CUDA_DEVICE_ORDER=PCI_BUS_ID
+export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+
 export HF_HUB_CACHE="$HF_HOME/hub"
 export TRANSFORMERS_CACHE="$HF_HOME/hub"
 export HF_DATASETS_CACHE="$HF_HOME/datasets"
@@ -114,7 +120,9 @@ try:
     torch.zeros(8, device='cuda').sum().item()
 except Exception as e:
     sys.exit(str(e)[:120])
-" 2>/dev/null; then
+p = torch.cuda.get_device_properties(0)
+print(f'  GPU $g -> {p.name}  {p.total_memory/2**30:.0f}GB')
+"; then
     echo "!! GPU $g 跑不了当前 torch。改 GPU_SMALL / GPU_LARGE，或换 torch wheel" >&2
     exit 1
   fi

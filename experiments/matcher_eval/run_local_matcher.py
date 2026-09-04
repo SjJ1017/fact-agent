@@ -72,12 +72,15 @@ def detect_kind(model: str) -> str:
     return "llm"
 
 
-def load(limit, contested):
+def load(limit, contested, difficulty=None):
     rows = [json.loads(l) for l in PAIRS.read_text().splitlines() if l.strip()]
     if contested == "drop":
         rows = [r for r in rows if not r["contested"]]
     elif contested == "only":
         rows = [r for r in rows if r["contested"]]
+    if difficulty:
+        want = set(difficulty)
+        rows = [r for r in rows if r.get("difficulty") in want]
     return rows[:limit] if limit else rows
 
 
@@ -95,29 +98,40 @@ def score(rows, pred) -> dict:
 
 
 def breakdown(rows, preds) -> None:
-    """Per-source scores.
+    """Scores by difficulty band and by source.
 
-    The four sources are different tasks wearing one label.  probe-* are
-    hand-built minimal pairs that isolate one distinction each -- a dropped
-    qualifier, a hypernym -- so a model that reads relatedness rather than
-    identity fails almost all of them while doing fine on prose.  Reporting
-    only the pooled number hides which of those two a candidate is.
+    Difficulty is the bge cosine band and nothing else, so it is reproducible
+    and independent of who labelled the pair.  Source says where the pair came
+    from.  They are not the same cut: the probes are constructed minimal pairs
+    that land all over the cosine range, and the trivial band holds two
+    DIFFERENT pairs at cosine 0.98 that exist to catch a model doing nothing
+    but thresholding similarity.
     """
     import collections
-    groups = collections.defaultdict(list)
-    for r, p in zip(rows, preds):
-        groups[r["id"].split("-")[0]].append((r, p))
-    print(f"\n  {'来源':<10}{'n':>5}{'准确':>8}{'精确':>8}{'召回':>8}{'F1':>8}"
-          f"{'SAME占比':>10}")
-    for name in ("probe", "clin", "near", "merge"):
-        g = groups.get(name)
-        if not g:
-            continue
-        sub = score([r for r, _ in g], [p for _, p in g])
-        share = sum(1 for r, _ in g if r["gold"] == "SAME") / len(g)
-        print(f"  {name:<10}{sub['n']:>5}{sub['acc']:>8.3f}"
-              f"{sub['same_precision']:>8.3f}{sub['same_recall']:>8.3f}"
-              f"{sub['f1']:>8.3f}{share:>10.0%}")
+
+    def table(key, order, title):
+        groups = collections.defaultdict(list)
+        for r, p in zip(rows, preds):
+            groups[r.get(key, "?")].append((r, p))
+        names = [n for n in order if n in groups] + \
+                [n for n in sorted(groups) if n not in order]
+        if len(names) < 2:
+            return
+        print(f"\n  {title:<10}{'n':>5}{'准确':>8}{'精确':>8}{'召回':>8}"
+              f"{'F1':>8}{'SAME占比':>10}")
+        for n in names:
+            g = groups[n]
+            sub = score([r for r, _ in g], [p for _, p in g])
+            share = sum(1 for r, _ in g if r["gold"] == "SAME") / len(g)
+            prec = f"{sub['same_precision']:>8.3f}" if share else f"{'-':>8}"
+            rec = f"{sub['same_recall']:>8.3f}" if share else f"{'-':>8}"
+            f1 = f"{sub['f1']:>8.3f}" if share else f"{'-':>8}"
+            print(f"  {n:<10}{sub['n']:>5}{sub['acc']:>8.3f}{prec}{rec}{f1}"
+                  f"{share:>10.0%}")
+
+    table("difficulty", ["trivial", "easy", "medium", "hard"], "难度")
+    table("source", ["probe", "clin", "near", "merge", "trivial", "easy",
+                     "medium"], "来源")
 
 
 def sweep(rows, scores):
@@ -407,6 +421,9 @@ def main() -> int:
                     help="等同 --mode oneword（保留旧写法）")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
+    ap.add_argument("--difficulty", nargs="+",
+                    choices=["trivial", "easy", "medium", "hard"],
+                    help="只跑这些难度带，默认全部")
     ap.add_argument("--quiet", action="store_true", help="不打进度")
     ap.add_argument("--out", type=Path, default=None)
     a = ap.parse_args()
@@ -415,7 +432,7 @@ def main() -> int:
     mode = "oneword" if a.generate else a.mode
     if kind == "llm" and mode == "cot":
         kind = "cot"
-    rows = load(a.limit, a.contested)
+    rows = load(a.limit, a.contested, a.difficulty)
     t0 = time.time()
     print(f"\n>>> {a.model}  [{kind}]  {len(rows)} 对", flush=True)
     res = RUNNERS[kind](rows, a.model, a.batch, dtype=a.dtype,
@@ -461,8 +478,9 @@ def main() -> int:
             if notes[k]:
                 print(f"      模型写的差别: {notes[k][:86]}")
 
+    tag = "-".join(a.difficulty) if a.difficulty else "all"
     out = a.out or (HERE / "results" /
-                    f"{a.model.replace('/', '__')}.{mode}.{a.contested}.json")
+                    f"{a.model.replace('/', '__')}.{mode}.{a.contested}.{tag}.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(
         {"model": a.model, "kind": shown, "contested": a.contested,
