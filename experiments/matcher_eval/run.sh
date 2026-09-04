@@ -5,6 +5,8 @@
 #   ./run.sh BAAI/bge-reranker-v2-m3  只跑指定模型（可给多个）
 #   ./run.sh --list                   只列出推荐清单，不下载不运行
 #   ./run.sh --check                  只查 GPU 和 wheel 是否匹配，不加载模型
+#   MODE=cot ./run.sh                 LLM 用短 CoT 解码（慢，质量最好）
+#   MODE=cot ./run.sh Qwen/Qwen3-14B  只跑一个模型的 cot
 #
 # 都不需要先 source venv：脚本自己解析 setup_env.sh 建的解释器。
 #
@@ -22,6 +24,10 @@ GPU_SMALL="${GPU_SMALL:-3}"
 # LLM 跑哪块卡。GPU 4 是 RTX 6000 Ada，46GB 全空。
 # GPU 0 只剩 25GB，GPU 1 满载，GPU 2 显存空但利用率 100%。
 GPU_LARGE="${GPU_LARGE:-4}"
+
+# LLM 的推理方式。logit 最快，cot 最慢质量最好（先写一句差别再判）。
+# 只影响 LLM；reranker / biencoder 没有这个维度。
+MODE="${MODE:-logit}"
 # =========================================================================
 
 if [[ ! -d "$SCRATCH_ROOT" ]]; then
@@ -103,7 +109,7 @@ MODELS=("$@")
 
 echo "HF_HOME      = $HF_HOME"
 echo "TMPDIR       = $TMPDIR"
-echo "小模型 → GPU $GPU_SMALL   LLM → GPU $GPU_LARGE"
+echo "小模型 → GPU $GPU_SMALL   LLM → GPU $GPU_LARGE   LLM 模式 = $MODE"
 df -h "$SCRATCH_ROOT" 2>/dev/null | tail -1 | sed 's/^/  磁盘 /' || true
 nvidia-smi --query-gpu=index,name,memory.used,memory.total,utilization.gpu \
            --format=csv,noheader 2>/dev/null | sed 's/^/  /' || true
@@ -144,11 +150,14 @@ for m in "${MODELS[@]}"; do
 from run_local_matcher import detect_kind;print(detect_kind('$m'))")"
   if [[ "$kind" == "llm" ]]; then
     dev="$GPU_LARGE"
+    extra+=(--mode "$MODE")
   else
-    dev="$GPU_SMALL"
+    dev="$GPU_SMALL"   # reranker / biencoder 没有 mode
   fi
   echo "======================================================================"
   echo "[$i/$N] $m   [$kind → GPU $dev] ${extra[*]:-}   $(date +%H:%M:%S)"
+  [[ "$kind" == "llm" && "$MODE" == "cot" ]] && \
+    echo "      cot 模式：每对要解码，比 logit 慢一个量级"
   # keep = 全部 152 对；drop = 去掉 26 对有争议的，保守估计
   for c in keep drop; do
     CUDA_VISIBLE_DEVICES="$dev" \
@@ -167,13 +176,14 @@ from pathlib import Path
 rows = []
 for f in sorted(glob.glob(str(Path(sys.argv[1]) / "*.json"))):
     d = json.load(open(f)); b = d["best"]
-    rows.append((d["model"], d["kind"], d["contested"], b["f1"],
+    rows.append((d["model"], f'{d["kind"]}/{d.get("mode", "-")}',
+                 d["contested"], b["f1"],
                  b["same_precision"], b["same_recall"], b["acc"],
                  d["seconds"] / max(1, b["n"]) * 1000))
 if not rows:
     sys.exit("没有结果文件")
-print(f'{"模型":<44}{"类型":<11}{"集合":<6}{"F1":>7}{"精确":>7}{"召回":>7}{"准确":>7}{"ms/对":>8}')
+print(f'{"模型":<40}{"类型/模式":<16}{"集合":<6}{"F1":>7}{"精确":>7}{"召回":>7}{"准确":>7}{"ms/对":>8}')
 for r in sorted(rows, key=lambda x: -x[3]):
-    print(f'{r[0][:43]:<44}{r[1]:<11}{r[2]:<6}{r[3]:>7.3f}{r[4]:>7.3f}'
+    print(f'{r[0][:39]:<40}{r[1]:<16}{r[2]:<6}{r[3]:>7.3f}{r[4]:>7.3f}'
           f'{r[5]:>7.3f}{r[6]:>7.3f}{r[7]:>8.0f}')
 PYEOF

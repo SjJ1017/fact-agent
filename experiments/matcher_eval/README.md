@@ -65,6 +65,36 @@ python baseline_hosted.py --model minimax-m2.5 --protocol oneword
 两种协议不同:生产是批量 JSON、先写一句差别再判;oneword 是本地脚本用的
 单词输出。跨协议比 F1 会混进协议差异。
 
+## 怎么开 cot
+
+```
+MODE=cot ./run.sh                      # 整组都用 cot
+MODE=cot ./run.sh Qwen/Qwen3-14B       # 只跑一个
+```
+
+单独跑:
+
+```
+CUDA_DEVICE_ORDER=PCI_BUS_ID CUDA_VISIBLE_DEVICES=4 \
+  $VENV/bin/python run_local_matcher.py --model Qwen/Qwen3-14B --mode cot --batch 4
+```
+
+`MODE` 只作用于 LLM,reranker / biencoder 没有这个维度,会被忽略。
+
+**结果存在不同文件里**,不会覆盖。命名是
+`<模型>.<mode>.<contested>.<难度>.json`:
+
+```
+Qwen__Qwen3-14B.logit.keep.all.json
+Qwen__Qwen3-14B.cot.keep.all.json
+Qwen__Qwen3-14B.cot.keep.hard.json
+```
+
+`run.sh` 最后的汇总表有"类型/模式"列,同一模型的两种模式会并排列出,直接比。
+
+cot 的结果文件里每条还多存一个 `note` 字段,是模型自己写的那句"差别在哪",
+错判时也会打出来 —— 用来看它是判断错了还是理解错了。
+
 ## 三种推理模式
 
 | mode | 做法 | 速度 | 何时用 |
