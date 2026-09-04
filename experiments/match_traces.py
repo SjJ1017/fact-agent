@@ -37,7 +37,8 @@ from factflow.match import cluster  # noqa: E402
 from factflow.types import CanonicalFact, FactMention, Relation  # noqa: E402
 
 from run_local_matcher import (ENTAIL_SYSTEM, ENTAIL_USER, Progress,  # noqa: E402
-                               _yes_no_ids, chat_prompt, load, score)
+                               _yes_no_ids, binary_scores, chat_prompt,
+                               directional_gold, load, score)
 
 CAL_DIR = HERE / "matcher_eval"
 CAL = CAL_DIR / "entail_thresholds.json"
@@ -116,54 +117,54 @@ def calibrate(a) -> int:
     ab = margins(tok, net, ids, [(r["a"], r["b"]) for r in rows], a.batch, "A⊨B")
     ba = margins(tok, net, ids, [(r["b"], r["a"]) for r in rows], a.batch, "B⊨A")
 
-    # The margin is log P(YES) - log P(NO), so 0 is the point where the model
-    # stops saying yes.  Sweeping below it lets the joint optimum drift to a
-    # threshold that accepts pairs the model rejected: the first fit put the
-    # reverse cutoff under -8, which made the second pass vacuous and turned
-    # the two-pass design back into a one-directional test at twice the cost.
-    # One threshold, not two.  Both passes ask the same question with the two
-    # statements swapped -- same model, same template, same decision -- so they
-    # share a boundary.  Fitting one cutoff per direction added a free
-    # parameter that bought nothing and caused the degeneracy: the sweep could
-    # push one direction below every observed margin, switching it off at no
-    # cost to F1, and report that as a threshold.
-    both = [min(x, y) for x, y in zip(ab, ba)]
-    lo, hi = max(min(both), a.margin_floor), max(both)
-    grid = [lo + (hi - lo) * i / 80 for i in range(81)] if hi > lo else [lo]
-    curve, best = [], None
-    for t in grid:
-        pred = ["SAME" if m >= t else "DIFFERENT" for m in both]
-        sc = score(rows, pred)
-        curve.append({"threshold": round(t, 4), "f1": round(sc["f1"], 4),
-                      "precision": round(sc["same_precision"], 4),
-                      "recall": round(sc["same_recall"], 4)})
-        if best is None or sc["f1"] > best[0]["f1"]:
-            best = (sc, t)
-    s_, t = best
+    # One classifier f(x, y) -> entails or not, fitted once on the 2N
+    # directional labels and applied both ways.  Equivalence is f(a,b) and
+    # f(b,a); it is not something the model is asked, so f's cutoff belongs on
+    # entailment labels rather than on the equivalence label it induces.
+    g_ab, g_ba = directional_gold(rows, not a.strict_entail)
+    labels = list(g_ab) + list(g_ba)
+    marg = list(ab) + list(ba)
+    lo, hi = max(min(marg), a.margin_floor), max(marg)
+    grid = [lo + (hi - lo) * i / 200 for i in range(201)] if hi > lo else [lo]
+    t, best_f1 = lo, -1.0
+    for cand in grid:
+        f1 = binary_scores(labels, marg, cand)["f1"]
+        if f1 > best_f1:
+            best_f1, t = f1, cand
+    fstat = binary_scores(labels, marg, t)
 
-    # Position bias: the same question in the two slot orders.  A large gap
-    # means the model is reading the order, not only the content.
+    import collections
     import statistics as _st
+    cells = [(x >= t, y >= t) for x, y in zip(ab, ba)]
+    eq = ["SAME" if c == (True, True) else "DIFFERENT" for c in cells]
+    s_ = score(rows, eq)
     gap = _st.mean(x - y for x, y in zip(ab, ba))
+    tally = collections.Counter(
+        "equivalent" if c == (True, True) else
+        "a_entails_b" if c[0] else "b_entails_a" if c[1] else "neither"
+        for c in cells)
 
     out.write_text(json.dumps(
         {"model": a.model, "pairs": str(a.pairs or "pairs.jsonl"),
          "policy": a.policy, "contested": a.contested,
          "threshold": t, "threshold_ab": t, "threshold_ba": t,
-         "fit": s_, "margin_floor": a.margin_floor,
+         "strict_entail": a.strict_entail, "margin_floor": a.margin_floor,
+         "f_entail": fstat, "induced_equivalence": s_,
+         "cells": dict(tally),
+         "position_bias_mean_ab_minus_ba": round(gap, 3),
          "ab_range": [round(min(ab), 3), round(max(ab), 3)],
          "ba_range": [round(min(ba), 3), round(max(ba), 3)],
-         "position_bias_mean_ab_minus_ba": round(gap, 3),
-         "curve": curve,
          "margins": [{"id": r["id"], "gold": r["gold"],
+                      "relation": r.get("relation"),
                       "ab": round(x, 3), "ba": round(y, 3)}
                      for r, x, y in zip(rows, ab, ba)]},
         ensure_ascii=False, indent=1))
-    print(f"\n阈值 {t:.4f}（两个方向共用）")
-    print(f"拟合于 {s_['n']} 对：F1 {s_['f1']:.3f}  精确 {s_['same_precision']:.3f}  "
-          f"召回 {s_['same_recall']:.3f}  准确 {s_['acc']:.3f}")
-    print(f"位置偏差 mean(ab-ba) = {gap:+.2f}"
-          + ("（明显，模型在读顺序）" if abs(gap) > 1.0 else "（不大）"))
+    print(f"\n f 的阈值 {t:.4f}，在 {len(labels)} 个方向标注上拟合")
+    print(f" f 本身：准确 {fstat['acc']:.3f}  精确 {fstat['precision']:.3f}  "
+          f"召回 {fstat['recall']:.3f}  F1 {fstat['f1']:.3f}")
+    print(f" 推出的等价：F1 {s_['f1']:.3f}  精确 {s_['same_precision']:.3f}  "
+          f"召回 {s_['same_recall']:.3f}")
+    print(f" 四象限 {dict(tally)}   位置偏差 {gap:+.2f}")
     if abs(t - lo) < 1e-9:
         print("! 阈值贴在搜索下界上，等于没有约束", file=sys.stderr)
     print(f"写入 {out}")
@@ -221,9 +222,12 @@ def match_dir(a) -> int:
                     "A_ENTAILS_B" if fwd else
                     "B_ENTAILS_A" if rev else "UNRELATED")
             tally[kind] += 1
-            rels.append(Relation(a=mentions[i].mention_id, b=mentions[j].mention_id,
-                                 relation=kind, confidence=float(sim),
-                                 rationale=f"entail a->b {x:.2f} b->a {y:.2f}"))
+            rels.append(Relation(
+                a=mentions[i].mention_id, b=mentions[j].mention_id,
+                relation=kind, confidence=float(sim),
+                rationale=f"f(a,b)={x:.3f} f(b,a)={y:.3f} @{ta:.3f}",
+                properties={"margin_ab": x, "margin_ba": y, "threshold": ta,
+                            "f_ab": fwd, "f_ba": rev, "blocker_cosine": float(sim)}))
         facts = cluster(mentions, rels, union_min_similarity=a.union_min)
         m2f = {mid: fa.fact_id for fa in facts for mid in fa.mention_ids}
         out.write_text(json.dumps(
@@ -274,6 +278,8 @@ def main() -> int:
     ap.add_argument("--policy", default="file",
                     choices=["file", "strict", "near", "entail"])
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
+    ap.add_argument("--strict-entail", action="store_true",
+                    help="拟合 f 时不把 near_match 当作双向蕴含")
     ap.add_argument("--margin-floor", type=float, default=0.0,
                     help="阈值搜索的下界。margin 是 log P(YES)-log P(NO)，"
                          "0 以下等于接受模型说 NO 的对；设 -inf 可关闭")

@@ -97,6 +97,11 @@ class Relation(BaseModel):
     relation: RelationType
     confidence: float = 1.0
     rationale: Optional[str] = None
+    # Whatever the judge produced before the label was derived.  For the NLI
+    # form that is the two directional margins at full precision: the label is
+    # a thresholded view of them, and re-deriving it under a different cutoff
+    # must not require re-running the model.
+    properties: dict[str, Any] = Field(default_factory=dict)
 
 
 class CanonicalFact(BaseModel):
@@ -125,6 +130,7 @@ class FactStore(BaseModel):
     facts: dict[str, CanonicalFact] = Field(default_factory=dict)
     mention_to_fact: dict[str, str] = Field(default_factory=dict)
     relations: list[Relation] = Field(default_factory=list)
+    accounting: dict[str, Any] = Field(default_factory=dict)
 
     # -- population ---------------------------------------------------------
 

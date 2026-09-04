@@ -135,6 +135,42 @@ def score(rows, pred) -> dict:
             "tp": tp, "fp": fp, "fn": fn, "tn": tn}
 
 
+def directional_gold(rows, near_as_entail: bool = True):
+    """Each pair is two examples for one entailment classifier.
+
+    The model is used as an NLI system: a single f(x, y) -> entails or not,
+    applied once each way.  Equivalence is then f(a,b) and f(b,a), not a thing
+    the model is asked about, so f's threshold belongs on entailment labels
+    rather than on the equivalence label it induces.
+
+    `near_match` covers pairs recorded as one fact despite not being strict
+    both-ways entailment -- a dropped hedge, a compatible rounding.  Counting
+    it as entailing in both directions keeps the induced equivalence class
+    equal to the binary gold; excluding it makes f strictly about entailment
+    and shrinks that class.
+    """
+    ab, ba = [], []
+    for r in rows:
+        rel = r.get("relation") or ("equivalent" if r["gold"] == "SAME"
+                                    else "different")
+        both = rel == "equivalent" or (near_as_entail and rel == "near_match")
+        ab.append(both or rel == "entail_ab")
+        ba.append(both or rel == "entail_ba")
+    return ab, ba
+
+
+def binary_scores(labels, margins, t):
+    tp = sum(1 for g, m in zip(labels, margins) if g and m >= t)
+    fp = sum(1 for g, m in zip(labels, margins) if not g and m >= t)
+    fn = sum(1 for g, m in zip(labels, margins) if g and m < t)
+    tn = len(labels) - tp - fp - fn
+    pr = tp / (tp + fp) if tp + fp else 0.0
+    rc = tp / (tp + fn) if tp + fn else 0.0
+    return dict(n=len(labels), acc=(tp + tn) / len(labels) if labels else 0.0,
+                precision=pr, recall=rc,
+                f1=2 * pr * rc / (pr + rc) if pr + rc else 0.0)
+
+
 def breakdown(rows, preds) -> None:
     """Scores by difficulty band and by source.
 
@@ -600,6 +636,8 @@ def main() -> int:
                     help="logit=读首 token 概率(最快); oneword=解码一个词; "
                          "cot=先写一句差别再判; entail=两遍单向蕴含，"
                          "等价性由 ENTAIL_POLICY 决定而不是靠 prompt 措辞")
+    ap.add_argument("--strict-entail", action="store_true",
+                    help="拟合 f 时不把 near_match 当作双向蕴含")
     ap.add_argument("--max-new-tokens", type=int, default=48,
                     help="cot 模式每对生成上限")
     ap.add_argument("--generate", action="store_true",
@@ -642,38 +680,46 @@ def main() -> int:
     notes = None
     if kind == "entail":
         ab, ba = res
-        # One threshold shared by both directions.  The two passes ask the same
-        # question with the statements swapped -- same model, same template --
-        # so they share a boundary, and giving each its own cutoff added a free
-        # parameter that only enabled degeneracy: with a conjunction, any cutoff
-        # below a direction's minimum margin switches that direction off at no
-        # cost to F1, and the sweep then reports the switch as a threshold.
-        # On idrbench it did exactly that, at -9.33, so "two-pass entailment"
-        # was one pass and every pair that was not EQUIVALENT came out labelled
-        # B_ENTAILS_A regardless of content.
         import collections
         import statistics as _st
 
-        both = [min(x, y) for x, y in zip(ab, ba)]
-        lo, hi = min(both), max(both)
-        grid = [lo + (hi - lo) * i / 80 for i in range(81)] if hi > lo else [lo]
+        # One classifier, fitted once on the 2N directional labels, then
+        # applied both ways.  Fitting it on the equivalence label instead would
+        # tune f for a decision it does not make.
+        g_ab, g_ba = directional_gold(rows, not a.strict_entail)
+        labels = list(g_ab) + list(g_ba)
+        marg = list(ab) + list(ba)
+        lo, hi = min(marg), max(marg)
+        grid = [lo + (hi - lo) * i / 200 for i in range(201)] if hi > lo else [lo]
         best_t, best_f1 = lo, -1.0
         for t in grid:
-            f1 = score(rows, ["SAME" if m >= t else "DIFFERENT"
-                              for m in both])["f1"]
+            f1 = binary_scores(labels, marg, t)["f1"]
             if f1 > best_f1:
                 best_f1, best_t = f1, t
+        fstat = binary_scores(labels, marg, best_t)
+
         cells = [(x >= best_t, y >= best_t) for x, y in zip(ab, ba)]
         preds = [ENTAIL_POLICY[c] for c in cells]
         notes = [ENTAIL_LABEL[c] for c in cells]
         best = score(rows, preds)
         best["threshold"] = round(best_t, 4)
+        best["f_entail"] = {k: round(v, 4) for k, v in fstat.items()}
         curve = None
+
         gap = _st.mean(x - y for x, y in zip(ab, ba))
-        print(f"\n  阈值 {best_t:.3f}（两向共用）   "
-              f"位置偏差 mean(ab-ba) {gap:+.2f}")
-        tally = collections.Counter(notes)
-        print("  四象限：" + "   ".join(f"{k} {v}" for k, v in tally.most_common()))
+        print(f"\n  f 的阈值 {best_t:.3f}，在 {len(labels)} 个方向标注上拟合")
+        print(f"  f 本身：准确 {fstat['acc']:.3f}  精确 {fstat['precision']:.3f}  "
+              f"召回 {fstat['recall']:.3f}  F1 {fstat['f1']:.3f}")
+        print(f"  位置偏差 mean(ab-ba) {gap:+.2f}")
+
+        gold_cell = [ENTAIL_LABEL[(x, y)] for x, y in zip(g_ab, g_ba)]
+        conf = collections.Counter(zip(gold_cell, notes))
+        names = ["equivalent", "a_entails_b", "b_entails_a", "neither"]
+        print(f"\n  四象限混淆（行=标注，列=预测）")
+        print("  " + " " * 14 + "".join(f"{n[:11]:>13}" for n in names))
+        for g in names:
+            row = "".join(f"{conf.get((g, pnm), 0):>13}" for pnm in names)
+            print(f"  {g:<14}{row}")
     elif kind == "cot":
         preds, notes = res
         curve, best = None, score(rows, preds)
