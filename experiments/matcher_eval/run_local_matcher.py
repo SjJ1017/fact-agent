@@ -90,8 +90,26 @@ def detect_kind(model: str) -> str:
     return "llm"
 
 
-def load(limit, contested, difficulty=None, drop_pre_atomization=False):
-    rows = [json.loads(l) for l in PAIRS.read_text().splitlines() if l.strip()]
+# Which relations count as one fact.  The binary gold in the file is `near`;
+# the others re-derive gold from the relation tag, so a policy change is a flag
+# rather than a relabelling and a full re-measurement.
+POLICY = {
+    "strict": {"equivalent"},
+    "near": {"equivalent", "near_match"},
+    "entail": {"equivalent", "near_match", "entail_ab", "entail_ba"},
+}
+
+
+def load(limit, contested, difficulty=None, drop_pre_atomization=False,
+         pairs=None, policy="near"):
+    src = pairs or PAIRS
+    rows = [json.loads(l) for l in src.read_text().splitlines() if l.strip()]
+    if policy != "file":
+        keep = POLICY[policy]
+        for r in rows:
+            rel = r.get("relation") or ("equivalent" if r["gold"] == "SAME"
+                                        else "different")
+            r["gold"] = "SAME" if rel in keep else "DIFFERENT"
     if contested == "drop":
         rows = [r for r in rows if not r["contested"]]
     elif contested == "only":
@@ -150,6 +168,8 @@ def breakdown(rows, preds) -> None:
                   f"{share:>10.0%}")
 
     table("difficulty", ["trivial", "easy", "medium", "hard"], "难度")
+    table("relation", ["equivalent", "near_match", "entail_ab", "entail_ba",
+                       "different"], "关系")
     table("source", ["probe", "clin", "near", "merge", "trivial", "easy",
                      "medium"], "来源")
 
@@ -585,6 +605,13 @@ def main() -> int:
     ap.add_argument("--generate", action="store_true",
                     help="等同 --mode oneword（保留旧写法）")
     ap.add_argument("--limit", type=int, default=None)
+    ap.add_argument("--pairs", type=Path, default=None,
+                    help="换一个 oracle 文件，默认 pairs.jsonl")
+    ap.add_argument("--policy", default="near",
+                    choices=["file", "strict", "near", "entail"],
+                    help="哪些关系算同一条: strict=只要严格等价; "
+                         "near=再加近似匹配(默认，等同文件里的二值 gold); "
+                         "entail=再加单向蕴含; file=原样用文件里的 gold")
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
     ap.add_argument("--atomized-only", action="store_true",
                     help="去掉抽取器会拆开的那几条：管线不会产生那种输入")
@@ -599,7 +626,8 @@ def main() -> int:
     mode = "oneword" if a.generate else a.mode
     if kind == "llm" and mode in ("cot", "entail"):
         kind = mode
-    rows = load(a.limit, a.contested, a.difficulty, a.atomized_only)
+    rows = load(a.limit, a.contested, a.difficulty, a.atomized_only,
+                a.pairs, a.policy)
     t0 = time.time()
     label = f"{'llm' if kind == 'cot' else kind}"
     if kind in ("llm", "cot"):
@@ -680,6 +708,10 @@ def main() -> int:
                       f"{notes[k][:86]}")
 
     tag = "-".join(a.difficulty) if a.difficulty else "all"
+    if a.pairs:
+        tag = f"{a.pairs.stem.replace('pairs_', '')}.{tag}"
+    if a.policy != "near":
+        tag = f"{tag}.{a.policy}"
     if a.atomized_only:
         tag += "-atomized"
     out = a.out or (HERE / "results" /

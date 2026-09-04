@@ -84,6 +84,10 @@ def main() -> int:
     ap.add_argument("--protocol", default="production",
                     choices=["production", "oneword"])
     ap.add_argument("--batch", type=int, default=16, help="production 协议的批大小")
+    ap.add_argument("--pairs", type=Path, default=None,
+                    help="换一个 oracle 文件，默认 pairs.jsonl")
+    ap.add_argument("--policy", default="near",
+                    choices=["file", "strict", "near", "entail"])
     ap.add_argument("--contested", default="keep", choices=["keep", "drop", "only"])
     ap.add_argument("--difficulty", nargs="+",
                     choices=["trivial", "easy", "medium", "hard"])
@@ -92,7 +96,7 @@ def main() -> int:
 
     load_opencode_key()
     llm = LLM.opencode(a.model, max_concurrency=1)
-    rows = load(a.limit, a.contested, a.difficulty)
+    rows = load(a.limit, a.contested, a.difficulty, False, a.pairs, a.policy)
 
     print(f">>> {a.model}  [{a.protocol}]  {len(rows)} 对", flush=True)
     t0 = time.time()
@@ -120,6 +124,8 @@ def main() -> int:
         print(f"      B: {r['b'][:86]}")
 
     tag = "-".join(a.difficulty) if a.difficulty else "all"
+    if a.pairs:
+        tag = f"{a.pairs.stem.replace('pairs_', '')}.{tag}"
     out = (HERE / "results" /
            f"hosted__{a.model}.{a.protocol}.{a.contested}.{tag}.json")
     out.parent.mkdir(parents=True, exist_ok=True)

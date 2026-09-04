@@ -222,6 +222,61 @@ python run_local_matcher.py --kind llm --model Qwen/Qwen3-14B-Instruct --dtype b
 `--out`;阈值是拟合出来的,所以那个 F1 是乐观上界,真要用得留独立的调阈子集。
 `llm` 走约束输出,只取首词,没有阈值可调。
 
+## 第二个集合：IDRBench
+
+`pairs_idrbench.jsonl`，377 对，科学论文域（量子模拟、cryo-EM、细胞仿真、
+临床试验设计），从 `experiments/idrbench_generation_10x5_r3` 的 30 个
+`.atomized.json` 里挖出来。构造和主集合一致：低余弦负例和归一化同形正例自动
+标，中高带逐条读。
+
+```
+./run.sh --pairs experiments/matcher_eval/pairs_idrbench.jsonl
+```
+
+基线（377 对，contested=keep）：
+
+| | 准确 | 精确 | 召回 | F1 | hard 准确 | hard F1 |
+|---|---:|---:|---:|---:|---:|---:|
+| minimax-m2.5 (托管) | 0.923 | 0.825 | 0.815 | 0.820 | 0.836 | 0.612 |
+| bge-base (下限) | 0.947 | 0.877 | 0.877 | 0.877 | 0.862 | 0.556 |
+
+**这个域上 bge-base 的总分高过托管判决器**，因为科学论文里的复述改写幅度小、
+词面重合高，纯余弦就够用；但 hard 带上 F1 仍然更低（0.556 对 0.612），差距在
+真正需要判断的地方。阈值也不一样：这里最佳 0.908，辩论/临床域是 0.813。
+**阈值不能跨域照搬。**
+
+## 三级关系与 --policy
+
+二值 gold 之外，每条还带一个 `relation`：
+
+| relation | 含义 |
+|---|---|
+| `equivalent` | 严格双向：改写、语序、记号 |
+| `near_match` | 足够接近可当一条：掉了模糊限定、名称变体、兼容的取整、同物异名 |
+| `entail_ab` | a 更强，b 是 a 的泛化 |
+| `entail_ba` | b 更强 |
+| `different` | 两个方向都不成立 |
+
+`--policy` 决定哪几格算「同一条」，二值 gold 本身不动：
+
+```
+--policy strict     只有 equivalent
+--policy near       + near_match（默认，等同文件里的二值 gold）
+--policy entail     + 两个单向
+--policy file       原样用文件里的 gold
+```
+
+换口径是一个 flag，不是重新标注加全量重测。结果文件名带上 policy，不互相覆盖。
+输出多一张「按关系」的表，直接看模型在哪一格上错。
+
+bge-base 在 IDRBench 上随口径的变化（阈值也跟着动）：
+
+```
+strict   阈值 0.927   准确 0.944   精确 0.782   召回 0.938   F1 0.853
+near     阈值 0.908   准确 0.947   精确 0.864   召回 0.886   F1 0.875
+entail   阈值 0.908   准确 0.939   精确 0.914   召回 0.822   F1 0.865
+```
+
 ## 在服务器上跑
 
 ```
