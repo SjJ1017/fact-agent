@@ -10,7 +10,7 @@ set -euo pipefail
 
 # ==== 服务器上只需要改这一段 =============================================
 # 一切缓存的根。这里放的是你给的 scratch 目录。
-SCRATCH_ROOT="${SCRATCH_ROOT:-/scratch/uses/jiajun}"
+SCRATCH_ROOT="${SCRATCH_ROOT:-/scratch/users/jiajun}"
 
 # 小模型（biencoder / reranker，2GB 级）跑哪块卡。
 # GPU 3 是 2080 Ti，11GB，空闲；Turing 架构不支持 bf16，但这类模型走 fp32。
@@ -41,13 +41,25 @@ export TORCH_HOME="$SCRATCH_ROOT/torch"          # torch.hub
 export XDG_CACHE_HOME="$SCRATCH_ROOT/xdg"        # 兜底
 export TRITON_CACHE_DIR="$SCRATCH_ROOT/triton"   # torch.compile / triton 内核
 export TMPDIR="${TMPDIR:-$SCRATCH_ROOT/tmp}"     # 分片下载的临时文件也很大
+export PIP_CACHE_DIR="$SCRATCH_ROOT/pip-cache"
 export TOKENIZERS_PARALLELISM=false
 export HF_HUB_ENABLE_HF_TRANSFER=1               # 装了 hf_transfer 才生效，没装无害
 mkdir -p "$HF_HUB_CACHE" "$HF_DATASETS_CACHE" "$SENTENCE_TRANSFORMERS_HOME" \
          "$TORCH_HOME" "$XDG_CACHE_HOME" "$TRITON_CACHE_DIR" "$TMPDIR"
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PY="${PYTHON:-python}"
+
+# setup_env.sh 建的 venv，找到就用。PYTHON=... 可以覆盖。
+VENV_DIR="${VENV_DIR:-$SCRATCH_ROOT/venv-matcher}"
+if [[ -n "${PYTHON:-}" ]]; then
+  PY="$PYTHON"
+elif [[ -x "$VENV_DIR/bin/python" ]]; then
+  PY="$VENV_DIR/bin/python"
+else
+  echo "没找到 $VENV_DIR/bin/python" >&2
+  echo "先跑 ./setup_env.sh，或 PYTHON=/path/to/python ./run.sh" >&2
+  exit 1
+fi
 
 # 46GB 单卡放得下的候选，从便宜到贵。前三个几分钟出结果，
 # 够好的话就不必上 LLM —— 判决器要跑几十万次，成本差两个数量级。

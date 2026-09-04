@@ -127,10 +127,11 @@ def run_llm(rows, model, batch, dtype="bfloat16", load_4bit=False,
     tok = AutoTokenizer.from_pretrained(model, padding_side="left")
     if tok.pad_token_id is None:
         tok.pad_token = tok.eos_token
-    kw = {"dtype": getattr(torch, dtype), "device_map": "cuda"}
+    dev = os.environ.get("FF_DEVICE", "cuda")
+    kw = {"dtype": getattr(torch, dtype), "device_map": dev}
     if load_4bit:
         from transformers import BitsAndBytesConfig
-        kw = {"device_map": "cuda", "quantization_config": BitsAndBytesConfig(
+        kw = {"device_map": dev, "quantization_config": BitsAndBytesConfig(
             load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16,
             bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True)}
     net = AutoModelForCausalLM.from_pretrained(model, **kw)

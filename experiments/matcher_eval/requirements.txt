@@ -1,0 +1,11 @@
+# 只够跑评测，不含 factflow 主管线的依赖。
+# torch 单独装（见 setup_env.sh），因为要带 CUDA 的 wheel 索引。
+transformers>=4.44
+sentence-transformers>=3.0
+accelerate>=0.33
+numpy>=1.24
+safetensors>=0.4
+# --4bit 才需要；Turing/Ada 都支持，装了不用也无害
+bitsandbytes>=0.43
+# 30GB 的权重走多线程下载，慢的时候差几倍
+hf_transfer>=0.1.6

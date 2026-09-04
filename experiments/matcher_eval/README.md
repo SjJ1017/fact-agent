@@ -67,7 +67,7 @@ python run_local_matcher.py --kind llm --model Qwen/Qwen3-14B-Instruct --dtype b
 `run.sh` 顶部有三行按机器改，其余全部由它们派生:
 
 ```
-SCRATCH_ROOT=/scratch/uses/jiajun    # 一切缓存的根
+SCRATCH_ROOT=/scratch/users/jiajun    # 一切缓存的根
 GPU_SMALL=3                          # biencoder / reranker 跑这块
 GPU_LARGE=4                          # LLM 跑这块
 ```
