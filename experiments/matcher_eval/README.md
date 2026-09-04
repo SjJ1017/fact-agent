@@ -222,6 +222,26 @@ python run_local_matcher.py --kind llm --model Qwen/Qwen3-14B-Instruct --dtype b
 `--out`;阈值是拟合出来的,所以那个 F1 是乐观上界,真要用得留独立的调阈子集。
 `llm` 走约束输出,只取首词,没有阈值可调。
 
+## 归一化必须保留非 ASCII 字母
+
+自动标 trivial 正例的判据是「归一化后同形」，而最初的归一化是
+`re.sub(r'[^a-z0-9]+', ' ', t.lower())` —— 它把每个非 ASCII 字符当标点删掉。
+在论文域这直接造出错误的 gold：
+
+```
+β/ν is estimated.   ->  "is estimated"
+γ/ν is estimated.   ->  "is estimated"      判为同形，自动标 SAME
+```
+
+β/ν 和 γ/ν 是两个不同的临界指数比。377 对里 3 条因此标错，已改成 DIFFERENT，
+`label_source` 记为 `claude:corrected`。第 4 条命中的
+`idr-triv-015` 保持 SAME：它两侧的 ε(U+03B5) 与 ϵ(U+03F5) 是同一个字母的两种
+编码。主集合（英文辩论/临床）0 条受影响。
+
+正确写法是 `re.sub(r'[\W_]+', ' ', t.lower(), flags=re.UNICODE)`，只去标点和
+下划线，保留所有语言的字母。**任何要在这套数据上做文本归一化的地方都适用**，
+不只是建集合的时候。
+
 ## 第二个集合：IDRBench
 
 `pairs_idrbench.jsonl`，377 对，科学论文域（量子模拟、cryo-EM、细胞仿真、
@@ -238,7 +258,10 @@ python run_local_matcher.py --kind llm --model Qwen/Qwen3-14B-Instruct --dtype b
 | | 准确 | 精确 | 召回 | F1 | hard 准确 | hard F1 |
 |---|---:|---:|---:|---:|---:|---:|
 | minimax-m2.5 (托管) | 0.923 | 0.825 | 0.815 | 0.820 | 0.836 | 0.612 |
-| bge-base (下限) | 0.947 | 0.877 | 0.877 | 0.877 | 0.862 | 0.556 |
+| bge-base (下限) | 0.942 | 0.838 | 0.882 | 0.859 | 0.849 | 0.500 |
+
+（bge-base 一行是改正 3 条 gold 之后重算的，最佳阈值 0.917；托管那行是改正前
+测的，还没重跑，差值上界 3/377 = 0.008。）
 
 **这个域上 bge-base 的总分高过托管判决器**，因为科学论文里的复述改写幅度小、
 词面重合高，纯余弦就够用；但 hard 带上 F1 仍然更低（0.556 对 0.612），差距在
