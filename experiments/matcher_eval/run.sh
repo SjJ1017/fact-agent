@@ -12,20 +12,17 @@
 #
 # 都不需要先 source venv：脚本自己解析 setup_env.sh 建的解释器。
 #
-# 模型类型自动识别，小模型走 GPU_SMALL、LLM 走 GPU_LARGE。
+# 模型类型自动识别；mode 只对 LLM 生效。
 set -euo pipefail
 
 # ==== 服务器上只需要改这一段 =============================================
 # 一切缓存的根。这里放的是你给的 scratch 目录。
 SCRATCH_ROOT="${SCRATCH_ROOT:-/scratch/users/jiajun}"
 
-# 小模型（biencoder / reranker，2GB 级）跑哪块卡。
-# GPU 3 是 2080 Ti，11GB，空闲；Turing 架构不支持 bf16，但这类模型走 fp32。
-GPU_SMALL="${GPU_SMALL:-3}"
-
-# LLM 跑哪块卡。GPU 4 是 RTX 6000 Ada，46GB 全空。
-# GPU 0 只剩 25GB，GPU 1 满载，GPU 2 显存空但利用率 100%。
-GPU_LARGE="${GPU_LARGE:-4}"
+# 跑哪块卡。GPU 4 是 RTX 6000 Ada，46GB 全空。
+# GPU 0 只剩 25GB，GPU 1 满载，GPU 2 显存空但利用率 100%，
+# GPU 3 是 2080 Ti（sm_75），新版 torch wheel 已不带它的内核。
+GPU="${GPU:-4}"
 
 # LLM 的推理方式。logit 最快，cot 最慢质量最好（先写一句差别再判）。
 # 只影响 LLM；reranker / biencoder 没有这个维度。
@@ -134,7 +131,7 @@ fi
 
 echo "HF_HOME      = $HF_HOME"
 echo "TMPDIR       = $TMPDIR"
-echo "小模型 → GPU $GPU_SMALL   LLM → GPU $GPU_LARGE   LLM 模式 = $MODE"
+echo "GPU $GPU   LLM 模式 = $MODE"
 df -h "$SCRATCH_ROOT" 2>/dev/null | tail -1 | sed 's/^/  磁盘 /' || true
 nvidia-smi --query-gpu=index,name,memory.used,memory.total,utilization.gpu \
            --format=csv,noheader 2>/dev/null | sed 's/^/  /' || true
@@ -144,7 +141,7 @@ echo
 # launch 时才出现（no kernel image available），那时模型权重都已经装载完了。
 echo "--- GPU 兼容性 ---"
 "$PY" "$HERE/check_gpu.py" || exit 1
-for g in "$GPU_SMALL" "$GPU_LARGE"; do
+for g in "$GPU"; do
   if ! CUDA_VISIBLE_DEVICES="$g" "$PY" -c "
 import torch,sys
 try:
@@ -154,7 +151,7 @@ except Exception as e:
 p = torch.cuda.get_device_properties(0)
 print(f'  GPU $g -> {p.name}  {p.total_memory/2**30:.0f}GB')
 "; then
-    echo "!! GPU $g 跑不了当前 torch。改 GPU_SMALL / GPU_LARGE，或换 torch wheel" >&2
+    echo "!! GPU $g 跑不了当前 torch。改 GPU=，或换 torch wheel" >&2
     exit 1
   fi
 done
@@ -173,14 +170,10 @@ for m in "${MODELS[@]}"; do
   esac
   kind="$("$PY" -c "import sys;sys.path.insert(0,'$HERE');\
 from run_local_matcher import detect_kind;print(detect_kind('$m'))")"
-  if [[ "$kind" == "llm" ]]; then
-    dev="$GPU_LARGE"
-    extra+=(--mode "$MODE")
-  else
-    dev="$GPU_SMALL"   # reranker / biencoder 没有 mode
-  fi
+  # mode 只对 LLM 有意义
+  [[ "$kind" == "llm" ]] && extra+=(--mode "$MODE")
   echo "======================================================================"
-  echo "[$i/$N] $m   [$kind → GPU $dev] ${extra[*]:-}   $(date +%H:%M:%S)"
+  echo "[$i/$N] $m   [$kind] ${extra[*]:-}   $(date +%H:%M:%S)"
   [[ "$kind" == "llm" && "$MODE" == "cot" ]] && \
     echo "      cot 模式：每对要解码，比 logit 慢一个量级"
   # keep = 全部 152 对；drop = 去掉 26 对有争议的，保守估计
@@ -191,7 +184,7 @@ from run_local_matcher import detect_kind;print(detect_kind('$m'))")"
       echo "    $c: 已有结果，跳过（REDO=1 强制重跑）"
       continue
     fi
-    CUDA_VISIBLE_DEVICES="$dev" \
+    CUDA_VISIBLE_DEVICES="$GPU" \
       "$PY" "$HERE/run_local_matcher.py" --model "$m" --contested "$c" "${extra[@]}" \
       || { echo "!!! $m ($c) 失败，跳过"; break; }
   done

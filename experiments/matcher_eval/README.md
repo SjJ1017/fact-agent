@@ -175,12 +175,11 @@ python run_local_matcher.py --kind llm --model Qwen/Qwen3-14B-Instruct --dtype b
 (`$SCRATCH_ROOT/venv-matcher/bin/python`),找不到就报错并告诉你先跑
 `setup_env.sh`。要用别的解释器就 `PYTHON=/path/to/python ./run.sh`。
 
-`run.sh` 顶部有三行按机器改，其余全部由它们派生:
+`run.sh` 顶部有两行按机器改，其余全部由它们派生:
 
 ```
 SCRATCH_ROOT=/scratch/users/jiajun    # 一切缓存的根
-GPU_SMALL=3                          # biencoder / reranker 跑这块
-GPU_LARGE=4                          # LLM 跑这块
+GPU=4                                # 跑哪块卡
 ```
 
 `SCRATCH_ROOT` 不存在时脚本直接退出并说明，不会默默建一个错路径。
@@ -283,19 +282,18 @@ GPU 0 has a total capacity of 10.57 GiB      # 这是 2080 Ti，不是 46GB 的 
 CUDA_DEVICE_ORDER=PCI_BUS_ID CUDA_VISIBLE_DEVICES=4 python run_local_matcher.py ...
 ```
 
-## 两块卡怎么分
+## 用哪块卡
 
-| GPU | 卡 | 状态 | 用途 |
-|---|---|---|---|
-| 0 | RTX 6000 Ada 46GB | 占用 20GB | 不用 |
-| 1 | RTX PRO 6000 96GB | 满载 100% | 不用 |
-| 2 | RTX PRO 6000 96GB | 显存空但利用率 100% | 不用（有东西在跑） |
-| **3** | **2080 Ti 11GB** | **空闲** | **biencoder / reranker** |
-| **4** | **RTX 6000 Ada 46GB** | **空闲** | **LLM** |
+| GPU | 卡 | 状态 |
+|---|---|---|
+| 0 | RTX 6000 Ada 46GB | 占用 20GB |
+| 1 | RTX PRO 6000 96GB | 满载 100% |
+| 2 | RTX PRO 6000 96GB | 显存空但利用率 100% |
+| 3 | 2080 Ti 11GB | 空闲，但 sm_75，新版 wheel 不带它的内核 |
+| **4** | **RTX 6000 Ada 46GB** | **空闲，用这块** |
 
-GPU 3 是 Turing 架构，**不支持 bf16**，所以只放 2GB 级的 reranker（走 fp32），
-不要往上塞 LLM。GPU 4 的 46GB 放得下 bf16 的 14B（约 30GB），27B/32B 要
-`--4bit`，脚本按模型名自动加。
+46GB 放得下 bf16 的 14B（约 30GB），27B/32B 要 `--4bit`，脚本按模型名自动加。
+`./run.sh --check` 会打出每个编号实际拿到的是哪块卡，并给出建议的 `GPU=`。
 
 ## 看进度
 

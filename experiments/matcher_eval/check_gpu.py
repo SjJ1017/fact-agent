@@ -42,8 +42,5 @@ if not good:
     sys.exit("没有一块卡能用当前 torch，换 wheel（见 README）")
 print(f"可用: {good}")
 big = max(good, key=lambda i: torch.cuda.get_device_properties(i).total_memory)
-print(f"建议 GPU_LARGE={big}  "
-      f"({torch.cuda.get_device_properties(big).total_memory/2**30:.0f}GB)")
-small = [i for i in good
-         if torch.cuda.get_device_properties(i).total_memory / 2**30 >= 6]
-print(f"建议 GPU_SMALL={min(small, key=lambda i: torch.cuda.get_device_properties(i).total_memory) if small else big}")
+p = torch.cuda.get_device_properties(big)
+print(f"建议 GPU={big}  ({p.name}, {p.total_memory / 2**30:.0f}GB)")
