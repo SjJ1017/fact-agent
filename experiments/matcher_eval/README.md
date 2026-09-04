@@ -65,6 +65,38 @@ python baseline_hosted.py --model minimax-m2.5 --protocol oneword
 两种协议不同:生产是批量 JSON、先写一句差别再判;oneword 是本地脚本用的
 单词输出。跨协议比 F1 会混进协议差异。
 
+## 跳过已跑过的
+
+默认跳过。判据是结果文件是否存在(同 模型/模式/contested/难度):
+
+```
+./run.sh                          # 已完成的直接跳过，只补没跑的
+REDO=1 ./run.sh                   # 强制全部重跑
+./run.sh --from Qwen/Qwen3-8B     # 从清单里这个开始，前面的不碰
+```
+
+换 `MODE` 或 `--difficulty` 会写不同文件名,所以不会被误判成"已跑过"。
+
+## 结果聚合到一个文件
+
+每次跑完除了写自己那份带预测的结果,还会 upsert 一行进
+`results/summary.json`,主键是(模型, 模式, contested, 难度)。重跑同一格只会
+覆盖那一行,不会留下两条。
+
+`run.sh` 最后的表就是读这个文件,所以中途 Ctrl-C 再续跑也能看到完整的表:
+
+```
+模型                              类型/模式          集合   难度      F1    精确    召回    准确  ms/对
+BAAI/bge-base-en-v1.5             biencoder/logit  drop   all    0.840  0.878  0.806  0.924    25
+BAAI/bge-base-en-v1.5             biencoder/logit  keep   all    0.790  0.818  0.764  0.898    25
+```
+
+单独看表:
+
+```
+python -c "import json;[print(r['model'], r['mode'], r['f1']) for r in json.load(open('results/summary.json'))]"
+```
+
 ## 怎么开 cot
 
 ```
@@ -201,6 +233,35 @@ TORCH_INDEX=cu121 ./setup_env.sh
 (sm_120)完全不支持。只跑 3 和 4 的话没问题。
 
 推荐第一条:少一个变量,而且 reranker 在 46GB 卡上一样是秒级。
+
+## triton / gcc 编译失败
+
+```
+subprocess.CalledProcessError: Command '['/usr/bin/gcc', '.../triton/backends/nvidia/driver.c', ...]'
+returned non-zero exit status 1
+```
+
+Triton 首次使用时会用 gcc 现场编译一个 CUDA 驱动 shim。失败的常见原因:缺
+CUDA 头文件、gcc 版本不合、或者 `TMPDIR` 指向的分区挂了 `noexec`(编出来的
+`.so` 加载不了)。
+
+这个评测不需要融合内核 —— 四百条短 prompt 各做一次前向,瓶颈不在这里。
+`run.sh` 已经把这条路关掉:
+
+```
+TORCH_COMPILE_DISABLE=1  TORCHDYNAMO_DISABLE=1
+TORCHINDUCTOR_DISABLE=1  DISABLE_KERNEL_MAPPING=1
+FF_ATTN=eager                       # 注意力用 eager，不走 flash/triton
+```
+
+手动跑单个模型时要自己带上,至少 `FF_ATTN=eager`。想试别的注意力实现:
+`FF_ATTN=sdpa`(纯 PyTorch,不用 triton)。
+
+如果 scratch 确实是 noexec,把 `TMPDIR` 指回本地盘:
+
+```
+TMPDIR=/tmp ./run.sh
+```
 
 ## CUDA 编号和 nvidia-smi 对不上
 

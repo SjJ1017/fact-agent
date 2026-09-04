@@ -7,6 +7,8 @@
 #   ./run.sh --check                  只查 GPU 和 wheel 是否匹配，不加载模型
 #   MODE=cot ./run.sh                 LLM 用短 CoT 解码（慢，质量最好）
 #   MODE=cot ./run.sh Qwen/Qwen3-14B  只跑一个模型的 cot
+#   REDO=1 ./run.sh                   重跑所有（默认跳过已完成的）
+#   ./run.sh --from Qwen/Qwen3-8B     从清单里这个开始，跳过前面的
 #
 # 都不需要先 source venv：脚本自己解析 setup_env.sh 建的解释器。
 #
@@ -28,6 +30,9 @@ GPU_LARGE="${GPU_LARGE:-4}"
 # LLM 的推理方式。logit 最快，cot 最慢质量最好（先写一句差别再判）。
 # 只影响 LLM；reranker / biencoder 没有这个维度。
 MODE="${MODE:-logit}"
+
+# 已经跑过的（同 模型/模式/contested/难度）默认跳过。REDO=1 强制重跑。
+SKIP_DONE="${SKIP_DONE:-1}"
 # =========================================================================
 
 if [[ ! -d "$SCRATCH_ROOT" ]]; then
@@ -47,6 +52,15 @@ export HF_HOME="${HF_HOME:-$SCRATCH_ROOT/hf-datasets}"
 # 症状是 OOM 报出的显存总量对不上你以为在用的那块。
 export CUDA_DEVICE_ORDER=PCI_BUS_ID
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+
+# Triton 会用 gcc 现场编译一个 CUDA 驱动 shim，缺 CUDA 头文件、gcc 版本不合，
+# 或 TMPDIR 挂在 noexec 的分区上，都会让这一步失败。这里没有需要融合内核的
+# 地方——四百条短 prompt 各做一次前向，瓶颈不在 kernel 上。
+export TORCH_COMPILE_DISABLE=1
+export TORCHDYNAMO_DISABLE=1
+export TORCHINDUCTOR_DISABLE=1
+export DISABLE_KERNEL_MAPPING=1
+export FF_ATTN="${FF_ATTN:-eager}"
 
 export HF_HUB_CACHE="$HF_HOME/hub"
 export TRANSFORMERS_CACHE="$HF_HOME/hub"
@@ -104,8 +118,19 @@ if [[ "${1:-}" == "--check" ]]; then
   exec "$PY" "$HERE/check_gpu.py"
 fi
 
-MODELS=("$@")
-[[ ${#MODELS[@]} -eq 0 ]] && MODELS=("${DEFAULT_MODELS[@]}")
+if [[ "${1:-}" == "--from" ]]; then
+  [[ -z "${2:-}" ]] && { echo "--from 后面要跟模型名" >&2; exit 1; }
+  MODELS=(); hit=0
+  for m in "${DEFAULT_MODELS[@]}"; do
+    [[ "$m" == *"$2"* ]] && hit=1
+    [[ $hit -eq 1 ]] && MODELS+=("$m")
+  done
+  [[ ${#MODELS[@]} -eq 0 ]] && { echo "清单里没有匹配 '$2' 的模型" >&2; exit 1; }
+else
+  MODELS=("$@")
+  [[ ${#MODELS[@]} -eq 0 ]] && MODELS=("${DEFAULT_MODELS[@]}")
+fi
+[[ -n "${REDO:-}" ]] && SKIP_DONE=0
 
 echo "HF_HOME      = $HF_HOME"
 echo "TMPDIR       = $TMPDIR"
@@ -160,6 +185,12 @@ from run_local_matcher import detect_kind;print(detect_kind('$m'))")"
     echo "      cot 模式：每对要解码，比 logit 慢一个量级"
   # keep = 全部 152 对；drop = 去掉 26 对有争议的，保守估计
   for c in keep drop; do
+    safe="${m//\//__}"
+    mm="$MODE"; [[ "$kind" != "llm" ]] && mm="logit"
+    if [[ "$SKIP_DONE" == "1" && -f "$HERE/results/${safe}.${mm}.${c}.all.json" ]]; then
+      echo "    $c: 已有结果，跳过（REDO=1 强制重跑）"
+      continue
+    fi
     CUDA_VISIBLE_DEVICES="$dev" \
       "$PY" "$HERE/run_local_matcher.py" --model "$m" --contested "$c" "${extra[@]}" \
       || { echo "!!! $m ($c) 失败，跳过"; break; }
@@ -170,20 +201,18 @@ done
 echo
 echo "全部完成，总用时 $((SECONDS - T_ALL))s"
 echo "======================================================================"
-"$PY" - "$HERE/results" <<'PYEOF'
-import json, sys, glob
+"$PY" - "$HERE/results/summary.json" <<'PYEOF'
+import json, sys
 from pathlib import Path
-rows = []
-for f in sorted(glob.glob(str(Path(sys.argv[1]) / "*.json"))):
-    d = json.load(open(f)); b = d["best"]
-    rows.append((d["model"], f'{d["kind"]}/{d.get("mode", "-")}',
-                 d["contested"], b["f1"],
-                 b["same_precision"], b["same_recall"], b["acc"],
-                 d["seconds"] / max(1, b["n"]) * 1000))
-if not rows:
-    sys.exit("没有结果文件")
-print(f'{"模型":<40}{"类型/模式":<16}{"集合":<6}{"F1":>7}{"精确":>7}{"召回":>7}{"准确":>7}{"ms/对":>8}')
-for r in sorted(rows, key=lambda x: -x[3]):
-    print(f'{r[0][:39]:<40}{r[1]:<16}{r[2]:<6}{r[3]:>7.3f}{r[4]:>7.3f}'
-          f'{r[5]:>7.3f}{r[6]:>7.3f}{r[7]:>8.0f}')
+f = Path(sys.argv[1])
+if not f.exists():
+    sys.exit("还没有结果")
+rows = json.loads(f.read_text())
+print(f'{"模型":<38}{"类型/模式":<16}{"集合":<6}{"难度":<7}'
+      f'{"F1":>7}{"精确":>7}{"召回":>7}{"准确":>7}{"ms/对":>8}')
+for r in rows:
+    print(f'{r["model"][:37]:<38}{r["kind"] + "/" + r["mode"]:<16}'
+          f'{r["contested"]:<6}{r["difficulty"]:<7}{r["f1"]:>7.3f}'
+          f'{r["same_precision"]:>7.3f}{r["same_recall"]:>7.3f}'
+          f'{r["acc"]:>7.3f}{r["ms_per_pair"]:>8}')
 PYEOF

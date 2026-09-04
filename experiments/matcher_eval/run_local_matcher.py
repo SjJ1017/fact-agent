@@ -225,12 +225,19 @@ def run_llm(rows, model, batch, dtype="bfloat16", load_4bit=False,
     if tok.pad_token_id is None:
         tok.pad_token = tok.eos_token
     dev = os.environ.get("FF_DEVICE", "cuda")
-    kw = {"dtype": getattr(torch, dtype), "device_map": dev}
+    # Triton JIT-compiles a driver shim with gcc on first use, and that build
+    # fails on boxes without the CUDA headers it wants -- or on a scratch
+    # TMPDIR mounted noexec.  Nothing here needs a fused kernel: one forward
+    # pass over 400 short prompts is not where the time goes.
+    kw = {"dtype": getattr(torch, dtype), "device_map": dev,
+          "attn_implementation": os.environ.get("FF_ATTN", "eager")}
     if load_4bit:
         from transformers import BitsAndBytesConfig
-        kw = {"device_map": dev, "quantization_config": BitsAndBytesConfig(
-            load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16,
-            bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True)}
+        kw = {"device_map": dev,
+              "attn_implementation": os.environ.get("FF_ATTN", "eager"),
+              "quantization_config": BitsAndBytesConfig(
+                  load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16,
+                  bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True)}
     net = AutoModelForCausalLM.from_pretrained(model, **kw)
     net.eval()
     if torch.cuda.is_available():
@@ -353,7 +360,12 @@ def run_cot(rows, model, batch, dtype="bfloat16", load_4bit=False,
     if tok.pad_token_id is None:
         tok.pad_token = tok.eos_token
     dev = os.environ.get("FF_DEVICE", "cuda")
-    kw = {"dtype": getattr(torch, dtype), "device_map": dev}
+    # Triton JIT-compiles a driver shim with gcc on first use, and that build
+    # fails on boxes without the CUDA headers it wants -- or on a scratch
+    # TMPDIR mounted noexec.  Nothing here needs a fused kernel: one forward
+    # pass over 400 short prompts is not where the time goes.
+    kw = {"dtype": getattr(torch, dtype), "device_map": dev,
+          "attn_implementation": os.environ.get("FF_ATTN", "eager")}
     if load_4bit:
         from transformers import BitsAndBytesConfig
         kw = {"device_map": dev, "quantization_config": BitsAndBytesConfig(
@@ -494,6 +506,24 @@ def main() -> int:
                                             notes or [None] * len(preds))]},
         ensure_ascii=False, indent=1, sort_keys=True))
     print(f"\n  写入 {out}")
+
+    # One aggregate row per finished run, upserted on (model, mode, contested,
+    # difficulty).  The per-run file keeps the predictions, which is what any
+    # error analysis needs; this is the table, so a rerun of one model does not
+    # mean rebuilding it from a directory scan.
+    summary = HERE / "results" / "summary.json"
+    rows = json.loads(summary.read_text()) if summary.exists() else []
+    key = (a.model, mode, a.contested, tag)
+    rows = [r for r in rows
+            if (r["model"], r["mode"], r["contested"], r["difficulty"]) != key]
+    rows.append({"model": a.model, "kind": shown, "mode": mode,
+                 "contested": a.contested, "difficulty": tag,
+                 "four_bit": a.load_4bit, "seconds": round(secs, 1),
+                 "ms_per_pair": round(secs / max(1, best["n"]) * 1000),
+                 **{k: v for k, v in best.items()}})
+    rows.sort(key=lambda r: -r["f1"])
+    summary.write_text(json.dumps(rows, ensure_ascii=False, indent=1))
+    print(f"  汇总 {summary}  （共 {len(rows)} 条）")
     return 0
 
 

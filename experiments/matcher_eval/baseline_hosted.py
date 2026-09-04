@@ -119,7 +119,9 @@ def main() -> int:
         print(f"      A: {r['a'][:86]}")
         print(f"      B: {r['b'][:86]}")
 
-    out = HERE / "results" / f"hosted__{a.model}.{a.protocol}.{a.contested}.json"
+    tag = "-".join(a.difficulty) if a.difficulty else "all"
+    out = (HERE / "results" /
+           f"hosted__{a.model}.{a.protocol}.{a.contested}.{tag}.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(
         {"model": f"{a.model} (hosted)", "kind": f"hosted/{a.protocol}",
@@ -129,6 +131,20 @@ def main() -> int:
                          for r, p in zip(rows, preds)]},
         ensure_ascii=False, indent=1, sort_keys=True))
     print(f"\n  写入 {out}")
+
+    summary = HERE / "results" / "summary.json"
+    rows = json.loads(summary.read_text()) if summary.exists() else []
+    key = (f"{a.model} (hosted)", a.protocol, a.contested,
+           "-".join(a.difficulty) if a.difficulty else "all")
+    rows = [r for r in rows
+            if (r["model"], r["mode"], r["contested"], r["difficulty"]) != key]
+    rows.append({"model": key[0], "kind": "hosted", "mode": a.protocol,
+                 "contested": a.contested, "difficulty": key[3],
+                 "four_bit": False, "seconds": round(secs, 1),
+                 "ms_per_pair": round(secs / max(1, best["n"]) * 1000), **best})
+    rows.sort(key=lambda r: -r["f1"])
+    summary.write_text(json.dumps(rows, ensure_ascii=False, indent=1))
+    print(f"  汇总 {summary}  （共 {len(rows)} 条）")
     return 0
 
 
