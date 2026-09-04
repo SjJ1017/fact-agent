@@ -10,6 +10,7 @@
 #   MODE=cot ./run.sh Qwen/Qwen3-14B  只跑一个模型的 cot
 #   MODE=entail POLICY=entail ./run.sh Qwen/Qwen3-14B microsoft/phi-4
 #   PAIRS=experiments/matcher_eval/pairs_idrbench.jsonl ./run.sh
+#   CONTESTED=keep ./run.sh              只跑全集，时间减半
 #   REDO=1 ./run.sh                   重跑所有（默认跳过已完成的）
 #   ./run.sh --from Qwen/Qwen3-8B     从清单里这个开始，跳过前面的
 #
@@ -36,6 +37,10 @@ SKIP_DONE="${SKIP_DONE:-1}"
 
 # 哪些关系算同一条: strict / near(默认) / entail
 POLICY="${POLICY:-near}"
+
+# 每个模型默认跑两遍：keep=全集，drop=去掉有争议的标注。两者排名一致才说明
+# 结论不依赖那批标签。只要一个就 CONTESTED=keep，时间减半。
+CONTESTED="${CONTESTED:-keep drop}"
 # 用哪个 oracle 文件。默认 pairs.jsonl（辩论+临床，422 对）；
 # pairs_idrbench.jsonl 是科学论文域的 377 对。
 PAIRS="${PAIRS:-}"
@@ -145,7 +150,7 @@ fi
 
 echo "HF_HOME      = $HF_HOME"
 echo "TMPDIR       = $TMPDIR"
-echo "GPU $GPU   LLM 模式 = $MODE   口径 = $POLICY   集合 = ${PAIRS:-pairs.jsonl}"
+echo "GPU $GPU   模式 = $MODE   口径 = $POLICY   集合 = ${PAIRS:-pairs.jsonl}   跑: $CONTESTED"
 df -h "$SCRATCH_ROOT" 2>/dev/null | tail -1 | sed 's/^/  磁盘 /' || true
 nvidia-smi --query-gpu=index,name,memory.used,memory.total,utilization.gpu \
            --format=csv,noheader 2>/dev/null | sed 's/^/  /' || true
@@ -191,7 +196,7 @@ from run_local_matcher import detect_kind;print(detect_kind('$m'))")"
   [[ "$kind" == "llm" && "$MODE" == "cot" ]] && \
     echo "      cot 模式：每对要解码，比 logit 慢一个量级"
   # keep = 全部 152 对；drop = 去掉 26 对有争议的，保守估计
-  for c in keep drop; do
+  for c in $CONTESTED; do
     safe="${m//\//__}"
     mm="$MODE"; [[ "$kind" != "llm" ]] && mm="logit"
     dtag="all"
