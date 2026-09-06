@@ -63,6 +63,8 @@ mark.eq{border-color:var(--eq)}
 mark.strong{background:var(--degbg);border-color:var(--deg)}
 mark.weak{background:var(--entbg);border-color:var(--ent);border-bottom-style:dashed}
 mark.on{background:var(--selbg);border-color:var(--sel);border-bottom-width:2px}
+body.only mark:not(.linked){background:none;border-bottom-color:transparent;cursor:text}
+mark.hot{background:var(--selbg);border-color:var(--sel)}
 #tip{position:fixed;z-index:40;max-width:430px;background:var(--card);color:var(--ink);
  border:1px solid var(--line);border-radius:7px;padding:10px 12px;font-size:12.5px;
  box-shadow:0 6px 22px rgba(0,0,0,.14);display:none}
@@ -80,6 +82,7 @@ mark.on{background:var(--selbg);border-color:var(--sel);border-bottom-width:2px}
     <label><input type="checkbox" id="eq"> 等价连线</label>
     <label><input type="checkbox" id="deg" checked> 降级边</label>
     <label><input type="checkbox" id="ent"> 仅强弱不同</label>
+    <label><input type="checkbox" id="only"> 只高亮有连线的</label>
     <span class="key"><i style="border-color:var(--eq)"></i>等价</span>
     <span class="key"><i style="border-color:var(--deg)"></i>降级（有投递证据）</span>
     <span class="key"><i style="border-color:var(--ent);border-top-style:dashed"></i>仅强弱不同</span>
@@ -114,6 +117,16 @@ function render(i){
   // which facts sit on a degradation edge, and on which side
   const strongF = new Set(), weakF = new Set();
   cur.entail.forEach(e => { strongF.add(e.strong_fact); weakF.add(e.weak_fact); });
+  // 一个事实"有连线"要看它在这个 slot 上确实是某条边的端点，
+  // 不是它在别处出现过就算。
+  const linked = new Set();
+  cur.entail.forEach(e => {
+    linked.add(e.strong_fact + '@' + e.from);
+    linked.add(e.weak_fact + '@' + e.to);
+  });
+  Object.entries(cur.links || {}).forEach(([fid, es]) => es.forEach(e => {
+    linked.add(fid + '@' + e.from); linked.add(fid + '@' + e.to);
+  }));
 
   // 卷宗：任务陈述在上，源文档分栏在下，每栏标出哪些 turn 拿到了它
   const held = {};
@@ -151,7 +164,9 @@ function render(i){
         if (fids.some(f => strongF.has(f))) cls = 'strong';
         else if (fids.some(f => weakF.has(f))) cls = 'weak';
         html += esc(text.slice(at, sp.a));
-        html += `<mark class="${cls}" data-fs="${fids.join(' ')}" data-slot="${slot}">`
+        const isLinked = fids.some(f => linked.has(f + '@' + slot));
+        html += `<mark class="${cls}${isLinked ? ' linked' : ''}"`
+             +  ` data-fs="${fids.join(' ')}" data-slot="${slot}">`
              +  esc(text.slice(sp.a, sp.b)) + '</mark>';
         at = sp.b;
       });
@@ -232,38 +247,65 @@ function draw(){
   });
 }
 
-document.addEventListener('click', ev => {
-  const m = ev.target.closest('mark');
-  document.querySelectorAll('mark.on').forEach(x => x.classList.remove('on'));
-  if (!m) { sel = null; tip.style.display = 'none'; draw(); return; }
+function tipFor(m, x, y){
   const fids = m.dataset.fs.split(' ');
-  sel = fids[0];
-  fids.forEach(f => document.querySelectorAll(`mark[data-fs~="${f}"]`)
-    .forEach(x => x.classList.add('on')));
-  const rel = cur.entail.filter(e => fids.includes(e.strong_fact) || fids.includes(e.weak_fact));
+  const rel = cur.entail.filter(e =>
+    (fids.includes(e.strong_fact) && e.from === m.dataset.slot) ||
+    (fids.includes(e.weak_fact) && e.to === m.dataset.slot));
   let html = `<b>${fids.length} 条事实在此片段</b>`;
   fids.forEach(f => { html += `<div class="num">${esc((cur.facts[f]||{}).c || f)}</div>`; });
   if (rel.length) {
     html += `<div class="row"><b>${rel.length} 条蕴含边</b></div>`;
-    rel.slice(0, 6).forEach(e => {
+    rel.slice(0, 5).forEach(e => {
       const tag = e.kind === 'degraded' ? '降级' : '强弱不同';
       html += `<div class="row"><span class="num">${e.from} → ${e.to} · ${tag}`
            +  `${e.same_agent ? ' · 同 agent' : ''} · ${e.margin_strong} / ${e.margin_weak}</span>`
            +  `<div class="s">强 ${esc(e.strong_text)}</div>`
            +  `<div class="w">弱 ${esc(e.weak_text)}</div></div>`;
     });
-    if (rel.length > 6) html += `<div class="num">…还有 ${rel.length - 6} 条</div>`;
-  } else { html += `<div class="row empty">没有蕴含边</div>`; }
+    if (rel.length > 5) html += `<div class="num">…还有 ${rel.length - 5} 条</div>`;
+  } else { html += `<div class="row empty">此片段没有蕴含边</div>`; }
   tip.innerHTML = html;
   tip.style.display = 'block';
   const r = tip.getBoundingClientRect();
-  tip.style.left = Math.min(ev.clientX + 14, innerWidth - r.width - 12) + 'px';
-  tip.style.top = Math.min(ev.clientY + 14, innerHeight - r.height - 12) + 'px';
+  tip.style.left = Math.min(x + 14, innerWidth - r.width - 12) + 'px';
+  tip.style.top = Math.min(y + 14, innerHeight - r.height - 12) + 'px';
+}
+
+// hover 出信息，移开即走 —— 详情不该粘在屏幕上跟着滚动
+document.addEventListener('mouseover', ev => {
+  const m = ev.target.closest('mark');
+  if (!m) return;
+  document.querySelectorAll('mark.hot').forEach(x => x.classList.remove('hot'));
+  m.dataset.fs.split(' ').forEach(f =>
+    document.querySelectorAll(`mark[data-fs~="${f}"]`).forEach(x => x.classList.add('hot')));
+  tipFor(m, ev.clientX, ev.clientY);
+});
+document.addEventListener('mouseout', ev => {
+  if (!ev.target.closest('mark')) return;
+  if (ev.relatedTarget && ev.relatedTarget.closest('mark')) return;
+  tip.style.display = 'none';
+  document.querySelectorAll('mark.hot').forEach(x => x.classList.remove('hot'));
+});
+addEventListener('scroll', () => { tip.style.display = 'none'; }, {passive: true});
+
+// 点击只做一件事：把连线收窄到这条事实
+document.addEventListener('click', ev => {
+  const m = ev.target.closest('mark');
+  document.querySelectorAll('mark.on').forEach(x => x.classList.remove('on'));
+  if (!m) { sel = null; draw(); return; }
+  const fids = m.dataset.fs.split(' ');
+  sel = (sel === fids[0]) ? null : fids[0];
+  if (sel) fids.forEach(f =>
+    document.querySelectorAll(`mark[data-fs~="${f}"]`).forEach(x => x.classList.add('on')));
   draw();
 });
 
 pick.addEventListener('change', e => render(+e.target.value));
 ['eq','deg','ent'].forEach(id => $('#' + id).addEventListener('change', draw));
+$('#only').addEventListener('change', e => {
+  document.body.classList.toggle('only', e.target.checked); draw();
+});
 addEventListener('resize', draw);
 render(0);
 </script>
