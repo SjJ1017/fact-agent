@@ -1,4 +1,9 @@
-<title>Entailment trace viewer</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>蕴含轨迹查看器</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap">
 <style>
 :root{--bg:#fbfaf8;--ink:#1c1a17;--dim:#6b6560;--line:#ded8d0;--card:#fff;
  --eq:#2f6f4e;--eqbg:#e8f3ec;--deg:#a5471f;--degbg:#fbeee7;--ent:#7a6a52;--entbg:#f3efe7;
@@ -12,7 +17,8 @@
  --sel:#7db2ea;--selbg:#16232f;}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);margin:0;
- font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif}
+ font:14px/1.6 "IBM Plex Sans","Noto Sans SC",ui-sans-serif,-apple-system,
+ "PingFang SC","Microsoft YaHei",sans-serif}
 header{position:sticky;top:0;z-index:20;background:var(--bg);
  border-bottom:1px solid var(--line);padding:12px 20px}
 h1{font-size:15px;margin:0 0 8px;font-weight:600;letter-spacing:.01em}
@@ -25,13 +31,30 @@ label{display:inline-flex;gap:5px;align-items:center;font-size:12.5px;color:var(
 .key{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--dim)}
 .key i{width:22px;height:0;border-top:2px solid;display:inline-block}
 main{padding:18px 20px 60px;position:relative}
-#wires{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:1}
+#wires{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:5}
+#dossier{background:var(--card);border:1px solid var(--line);border-radius:8px;
+ padding:14px 16px;margin:0 0 20px}
+#dossier .task{font-size:13.5px;line-height:1.6;padding-bottom:11px;
+ margin-bottom:11px;border-bottom:1px solid var(--line)}
+#dossier .task b{display:block;font-size:11px;letter-spacing:.09em;
+ text-transform:uppercase;color:var(--dim);font-weight:600;margin-bottom:5px}
+.docs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.doc{border:1px solid var(--line);border-radius:6px;padding:10px 12px;
+ background:var(--bg)}
+.doc h4{margin:0 0 3px;font-size:12.5px;font-weight:600}
+.doc .held{font-size:11px;color:var(--dim);margin:0 0 6px}
+.doc .txt{font-size:12.5px;color:var(--dim);max-height:5.6em;overflow:hidden;
+ line-height:1.45;cursor:pointer;position:relative}
+.doc .txt.open{max-height:none}
+.doc .txt:not(.open)::after{content:"";position:absolute;left:0;right:0;bottom:0;
+ height:1.6em;background:linear-gradient(transparent,var(--bg))}
 .round{margin-bottom:22px}
 .rlabel{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);
  margin:0 0 8px}
 .turns{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}
 .turn{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;
  position:relative;z-index:2}
+main{position:relative}
 .who{font-weight:600;font-size:12.5px;margin-bottom:2px}
 .role{font-size:11.5px;color:var(--dim);margin-bottom:9px}
 .body{white-space:pre-wrap;font-size:13.5px}
@@ -63,7 +86,7 @@ mark.on{background:var(--selbg);border-color:var(--sel);border-bottom-width:2px}
     <span class="stat" id="stat"></span>
   </div>
 </header>
-<main><svg id="wires"></svg><div id="rounds"></div></main>
+<main><svg id="wires"></svg><div id="dossier"></div><div id="rounds"></div></main>
 <div id="tip"></div>
 
 <script>
@@ -91,6 +114,24 @@ function render(i){
   // which facts sit on a degradation edge, and on which side
   const strongF = new Set(), weakF = new Set();
   cur.entail.forEach(e => { strongF.add(e.strong_fact); weakF.add(e.weak_fact); });
+
+  // 卷宗：任务陈述在上，源文档分栏在下，每栏标出哪些 turn 拿到了它
+  const held = {};
+  Object.entries(cur.sources || {}).forEach(([slot, docs]) =>
+    (docs || []).forEach(d => (held[d] = held[d] || []).push(slot)));
+  const dz = document.getElementById('dossier');
+  dz.innerHTML = `<div class="task"><b>任务</b>${esc(cur.claim || '')}</div>`
+    + '<div class="docs">' + (cur.evidence || []).map(e => {
+        const who = held[e.id] || [];
+        const all = who.length === (cur.order || []).length;
+        return `<div class="doc"><h4>${esc(e.id)}</h4>`
+             + `<p class="held">${who.length ? (all ? '所有 turn 可见'
+                  : who.join(' · ')) : '未记录持有者'}</p>`
+             + `<div class="txt">${esc(e.text || '')}</div></div>`;
+      }).join('') + '</div>';
+  dz.querySelectorAll('.txt').forEach(t => t.addEventListener('click', ev => {
+    ev.stopPropagation(); t.classList.toggle('open'); draw();
+  }));
 
   rounds.innerHTML = '';
   Object.keys(byRound).sort((a,b)=>a-b).forEach(rd => {
@@ -142,8 +183,14 @@ function draw(){
   wires.innerHTML = '';
   if (!cur) return;
   const main = document.querySelector('main');
-  wires.setAttribute('width', main.scrollWidth);
-  wires.setAttribute('height', main.scrollHeight);
+  const box = main.getBoundingClientRect();
+  // viewBox 和 CSS 尺寸都要设：只设属性时 SVG 用默认 300x150 的视口，
+  // 所有坐标被缩到左上角，看起来就是一坨。
+  wires.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+  wires.setAttribute('width', box.width);
+  wires.setAttribute('height', box.height);
+  wires.style.width = box.width + 'px';
+  wires.style.height = box.height + 'px';
   const seg = [];
 
   if ($('#eq').checked) {
