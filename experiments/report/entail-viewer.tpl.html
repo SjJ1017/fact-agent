@@ -83,6 +83,12 @@ mark.hot{background:var(--selbg);border-color:var(--sel)}
     <label><input type="checkbox" id="deg" checked> 降级边</label>
     <label><input type="checkbox" id="ent"> 仅强弱不同</label>
     <label><input type="checkbox" id="only"> 只高亮有连线的</label>
+    <label>选中后展开 <select id="hops">
+      <option value="1">1 级</option>
+      <option value="2" selected>2 级</option>
+      <option value="3">3 级</option>
+      <option value="99">全部相连</option>
+    </select></label>
     <span class="key"><i style="border-color:var(--eq)"></i>等价</span>
     <span class="key"><i style="border-color:var(--deg)"></i>降级（有投递证据）</span>
     <span class="key"><i style="border-color:var(--ent);border-top-style:dashed"></i>仅强弱不同</span>
@@ -96,7 +102,34 @@ mark.hot{background:var(--selbg);border-color:var(--sel)}
 const DATA = __DATA__;
 const $ = s => document.querySelector(s);
 const pick = $('#pick'), rounds = $('#rounds'), wires = $('#wires'), tip = $('#tip');
-let cur = null, sel = null;
+let cur = null, sel = null, adj = null, reach = new Set();
+
+// 事实之间的邻接。等价连线连的是同一条事实在不同 turn 的出现，在事实空间里
+// 是自环，不构成一跳；只有蕴含边才把两条不同的事实连起来。
+function buildAdj(){
+  adj = new Map();
+  const link = (x, y) => {
+    if (!adj.has(x)) adj.set(x, new Set());
+    adj.get(x).add(y);
+  };
+  cur.entail.forEach(e => { link(e.strong_fact, e.weak_fact);
+                            link(e.weak_fact, e.strong_fact); });
+}
+
+// 无向的 n 级可达。降级链是有向的，但"和它相连"两个方向都算：
+// 往下是它被弱化成了什么，往上是它从哪条更强的说法来的。
+function reachable(start, hops){
+  const seen = new Set([start]);
+  let front = [start];
+  for (let d = 0; d < hops && front.length; d++) {
+    const next = [];
+    front.forEach(f => (adj.get(f) || []).forEach(g => {
+      if (!seen.has(g)) { seen.add(g); next.push(g); }
+    }));
+    front = next;
+  }
+  return seen;
+}
 
 DATA.debates.forEach((d, i) => {
   const o = document.createElement('option');
@@ -179,6 +212,7 @@ function render(i){
     sec.append(grid); rounds.append(sec);
   });
 
+  buildAdj();
   const nd = cur.entail.filter(e => e.kind === 'degraded').length;
   $('#stat').textContent =
     `${cur.entail.length} 条蕴含边（降级 ${nd}） · ${Object.keys(cur.links||{}).length} 条事实有等价连线`;
@@ -210,6 +244,8 @@ function draw(){
 
   if ($('#eq').checked) {
     Object.entries(cur.links || {}).forEach(([fid, edges]) => {
+      // 选中之后等价边也要跟着收窄，否则蕴含边缩到几条而等价边还是满屏
+      if (sel && !reach.has(fid)) return;
       edges.forEach(e => {
         const A = marksFor(fid, e.from)[0], B = marksFor(fid, e.to)[0];
         if (A && B) seg.push({A, B, c: 'var(--eq)', dash: '', arrow: false});
@@ -219,7 +255,7 @@ function draw(){
   cur.entail.forEach(e => {
     const want = e.kind === 'degraded' ? $('#deg').checked : $('#ent').checked;
     if (!want) return;
-    if (sel && !(e.strong_fact === sel || e.weak_fact === sel)) return;
+    if (sel && !(reach.has(e.strong_fact) && reach.has(e.weak_fact))) return;
     const A = marksFor(e.strong_fact, e.from)[0], B = marksFor(e.weak_fact, e.to)[0];
     if (!A || !B) return;
     seg.push({A, B, c: e.kind === 'degraded' ? 'var(--deg)' : 'var(--ent)',
@@ -296,13 +332,30 @@ document.addEventListener('click', ev => {
   if (!m) { sel = null; draw(); return; }
   const fids = m.dataset.fs.split(' ');
   sel = (sel === fids[0]) ? null : fids[0];
-  if (sel) fids.forEach(f =>
-    document.querySelectorAll(`mark[data-fs~="${f}"]`).forEach(x => x.classList.add('on')));
+  reach = new Set();
+  if (sel) {
+    const hops = +$('#hops').value;
+    fids.forEach(f => reachable(f, hops).forEach(g => reach.add(g)));
+    reach.forEach(f =>
+      document.querySelectorAll(`mark[data-fs~="${f}"]`).forEach(x => x.classList.add('on')));
+    const edges = cur.entail.filter(e =>
+      reach.has(e.strong_fact) && reach.has(e.weak_fact)).length;
+    $('#stat').textContent = `选中 ${fids[0].slice(0,10)}… · ${hops === 99 ? '全部' : hops + ' 级'}`
+      + `内 ${reach.size} 条事实 · ${edges} 条边`;
+  } else {
+    render(+pick.value);
+    return;
+  }
   draw();
 });
 
 pick.addEventListener('change', e => render(+e.target.value));
 ['eq','deg','ent'].forEach(id => $('#' + id).addEventListener('change', draw));
+$('#hops').addEventListener('change', () => {
+  if (!sel) return;
+  const m = document.querySelector(`mark[data-fs~="${sel}"]`);
+  if (m) { sel = null; m.click(); }
+});
 $('#only').addEventListener('change', e => {
   document.body.classList.toggle('only', e.target.checked); draw();
 });
