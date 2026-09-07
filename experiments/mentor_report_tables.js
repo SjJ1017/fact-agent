@@ -26,6 +26,36 @@
     return m ? parseFloat(m[1]) : null;
   };
 
+  // Column labels that have a formal definition in the definitions section.
+  // Built from that section's own first column, so the two can never drift:
+  // a definition that is renamed stops matching instead of pointing nowhere.
+  const glossary = new Map();
+  const defSection = document.getElementById("definitions");
+  if (defSection) {
+    defSection.querySelectorAll("tbody tr").forEach((tr, i) => {
+      const term = tr.cells[0] && tr.cells[0].textContent.trim();
+      const body = [...tr.cells].slice(1, -1).map((c) => c.textContent.trim())
+        .filter(Boolean).join(" ／ ");
+      if (!term) return;
+      tr.id = tr.id || "def-" + i;
+      glossary.set(term, {id: tr.id, text: body});
+      // a label like "等价 / 弱化 / 细化（格子表）" also answers to its parts
+      term.replace(/（.*?）/g, "").split(/\s*\/\s*/).forEach((alias) => {
+        const a = alias.trim();
+        if (a && a !== term && !glossary.has(a)) glossary.set(a, {id: tr.id, text: body});
+      });
+    });
+  }
+
+  const linkHeader = (th) => {
+    const label = th.textContent.trim();
+    const hit = glossary.get(label);
+    if (!hit) return;
+    th.classList.add("ft-def");
+    th.title = hit.text;
+    th.dataset.def = hit.id;
+  };
+
   const build = (table) => {
     const head = [...table.tHead.rows[0].cells].map((c) => c.textContent.trim());
     const body = table.tBodies[0];
@@ -75,6 +105,8 @@
     // sorting
     [...table.tHead.rows[0].cells].forEach((th, c) => {
       th.classList.add("ft-th");
+      if (vals[c]) th.classList.add("ft-th-num");
+      linkHeader(th);
       th.tabIndex = 0;
       let state = 0;
       const go = () => {
@@ -99,7 +131,18 @@
         }
         rows.forEach((r) => body.appendChild(r));
       };
-      th.onclick = go;
+      th.onclick = (e) => {
+        if (th.dataset.def && e.altKey) {
+          const row = document.getElementById(th.dataset.def);
+          if (row) {
+            row.scrollIntoView({block: "center", behavior: "smooth"});
+            row.classList.add("ft-flash");
+            setTimeout(() => row.classList.remove("ft-flash"), 1600);
+          }
+          return;
+        }
+        go();
+      };
       th.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
     });
 
@@ -201,7 +244,7 @@
   css.textContent = `
 .ft-num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
 .ft-num .ft-track{position:relative;display:inline-block;vertical-align:middle;
- width:44px;height:7px;margin-right:9px;border-radius:2px;
+ width:78px;height:8px;margin-right:10px;border-radius:2px;
  background:var(--edge,#e0dfd9);opacity:.85;overflow:hidden;}
 .ft-num .ft-track.ft-signed:after{content:"";position:absolute;left:50%;top:0;
  bottom:0;width:1px;background:var(--faint,#9aa0a6);opacity:.55;}
@@ -209,8 +252,14 @@
  background:var(--eq,#1f7a6b);opacity:.75;}
 .ft-num .ft-fill.ft-neg{background:var(--weak,#c4703a);}
 .ft-num b{font-weight:400;}
-@media(max-width:700px){.ft-num .ft-track{width:26px;margin-right:6px}}
+@media(max-width:900px){.ft-num .ft-track{width:48px;margin-right:7px}}
+@media(max-width:640px){.ft-num .ft-track{width:28px;margin-right:5px}}
 .ft-th{cursor:pointer;user-select:none;position:relative;padding-right:14px!important;}
+.ft-th-num{text-align:right!important;}
+.ft-def{border-bottom:1px dotted currentColor;}
+.ft-def:after{content:' ⓘ';opacity:.55;font-size:9px;}
+tr.ft-flash{background:var(--eq,#1f7a6b);box-shadow:inset 0 0 0 999px rgba(31,122,107,.12);}
+tr.ft-flash td{transition:background .3s}
 .ft-th:hover{color:var(--ink);}
 .ft-th[data-dir]:after{content:"\\25BC";position:absolute;right:2px;font-size:8px;
  opacity:.75;}
