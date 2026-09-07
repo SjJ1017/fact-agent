@@ -85,8 +85,8 @@ mark.hot{background:var(--selbg);border-color:var(--sel)}
     <label><input type="checkbox" id="only"> 只高亮有连线的</label>
     <label><input type="checkbox" id="always"> 不选中也画（很密）</label>
     <label>选中后展开 <select id="hops">
-      <option value="1">1 级</option>
-      <option value="2" selected>2 级</option>
+      <option value="1" selected>1 级</option>
+      <option value="2">2 级</option>
       <option value="3">3 级</option>
       <option value="99">全部相连</option>
     </select></label>
@@ -132,16 +132,26 @@ function reachable(start, hops){
   return seen;
 }
 
-DATA.debates.forEach((d, i) => {
+DATA.index.forEach(d => {
   const o = document.createElement('option');
-  o.value = i; o.textContent = d.id;
+  o.value = d.i;
+  o.textContent = `${d.id}  (${d.n_degraded} 降级 / ${d.n_entail} 蕴含)`;
   pick.append(o);
 });
+const cache = new Map();
+async function load(i){
+  if (!cache.has(i)) {
+    const r = await fetch(`${DATA.dir}/${i}.json`);
+    cache.set(i, await r.json());
+  }
+  return cache.get(i);
+}
 
 function esc(s){return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
 
-function render(i){
-  cur = DATA.debates[i]; sel = null;
+async function render(i){
+  $('#stat').textContent = '载入中…';
+  cur = await load(i); sel = null; reach = new Set();
   const byRound = {};
   cur.order.forEach(slot => {
     const [ag, rd] = slot.split('|');
@@ -346,7 +356,8 @@ document.addEventListener('click', ev => {
     const edges = cur.entail.filter(e =>
       reach.has(e.strong_fact) && reach.has(e.weak_fact)).length;
     $('#stat').textContent = `选中 ${fids[0].slice(0,10)}… · ${hops === 99 ? '全部' : hops + ' 级'}`
-      + `内 ${reach.size} 条事实 · ${edges} 条边`;
+      + `内 ${reach.size} 条事实 · ${edges} 条边`
+      + (reach.size > 25 ? '（邻域很大，降到 1 级更好读）' : '');
   } else {
     render(+pick.value);
     return;
