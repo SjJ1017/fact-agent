@@ -1,0 +1,219 @@
+{
+ "case_id": "idr-gen-level_1-92",
+ "claim": "Develop a feasible and novel interdisciplinary research idea that genuinely integrates the two source papers. Specify the cross-disciplinary mechanism, a testable research design, and the contribution beyond either paper alone.",
+ "condition": "split-generic",
+ "dataset": "idrbench-generation",
+ "delivery": {
+  "A|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [
+    "paper-b"
+   ],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "A|2": {
+   "peer_turns": [],
+   "self_turn": "A|1",
+   "source_ids": [
+    "paper-b"
+   ],
+   "visible_peer_turns": [],
+   "visible_self_turns": [
+    "A|1"
+   ]
+  },
+  "A|3": {
+   "peer_turns": [],
+   "self_turn": "A|2",
+   "source_ids": [
+    "paper-b"
+   ],
+   "visible_peer_turns": [],
+   "visible_self_turns": [
+    "A|1",
+    "A|2"
+   ]
+  },
+  "B|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [
+    "paper-c"
+   ],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "B|2": {
+   "peer_turns": [
+    "A|1"
+   ],
+   "self_turn": "B|1",
+   "source_ids": [
+    "paper-c"
+   ],
+   "visible_peer_turns": [
+    "A|1"
+   ],
+   "visible_self_turns": [
+    "B|1"
+   ]
+  },
+  "B|3": {
+   "peer_turns": [
+    "A|2"
+   ],
+   "self_turn": "B|2",
+   "source_ids": [
+    "paper-c"
+   ],
+   "visible_peer_turns": [
+    "A|1",
+    "A|2"
+   ],
+   "visible_self_turns": [
+    "B|1",
+    "B|2"
+   ]
+  },
+  "C|1": {
+   "peer_turns": [],
+   "self_turn": null,
+   "source_ids": [],
+   "visible_peer_turns": [],
+   "visible_self_turns": []
+  },
+  "C|2": {
+   "peer_turns": [
+    "B|1"
+   ],
+   "self_turn": "C|1",
+   "source_ids": [],
+   "visible_peer_turns": [
+    "B|1"
+   ],
+   "visible_self_turns": [
+    "C|1"
+   ]
+  },
+  "C|3": {
+   "peer_turns": [
+    "B|2"
+   ],
+   "self_turn": "C|2",
+   "source_ids": [],
+   "visible_peer_turns": [
+    "B|1",
+    "B|2"
+   ],
+   "visible_self_turns": [
+    "C|1",
+    "C|2"
+   ]
+  }
+ },
+ "disclosure": {
+  "affinity": [
+   [
+    "paper_b"
+   ],
+   [
+    "paper_c"
+   ],
+   [
+    "integration"
+   ]
+  ],
+  "covered": 2,
+  "exclusive": [
+   "paper-b",
+   "paper-c"
+  ],
+  "held": {
+   "A": [
+    "paper-b"
+   ],
+   "B": [
+    "paper-c"
+   ],
+   "C": []
+  },
+  "mean_per_agent": 0.6666666666666666,
+  "mode": "role_aligned",
+  "n_items": 2,
+  "uncovered": []
+ },
+ "evidence": [
+  {
+   "id": "paper-b",
+   "stance": null,
+   "tags": [
+    "paper_b",
+    "source_paper"
+   ],
+   "text": "Title: Multimodal pooled Perturb-CITE-seq screens in patient models define mechanisms of cancer immune evasion\nAbstract: Resistance to immune checkpoint inhibitors (ICIs) is a key challenge in cancer therapy. To elucidate underlying mechanisms, we developed Perturb-CITE-sequencing (Perturb-CITE-seq), enabling pooled clustered regularly interspaced short palindromic repeat (CRISPR)–Cas9 perturbations with single-cell transcriptome and protein readouts. In patient-derived melanoma cells and autologous tumor-infiltrating lymphocyte (TIL) co-cultures, we profiled transcriptomes and 20 proteins in ~218,000 cells under ~750 perturbations associated with cancer cell-intrinsic ICI resistance (ICR). We recover known mechanisms of resistance, including defects in the interferon-γ (IFN-γ)–JAK\\/STAT and antigen-presentation pathways in RNA, protein and perturbation space, and new ones, including loss\\/downregulation of CD58. Loss of CD58 conferred immune evasion in multiple co-culture models and was downregulated in tumors of melanoma patients with ICR. CD58 protein expression was not induced by IFN-γ signaling, and CD58 loss conferred immune evasion without compromising major histocompatibility complex (MHC) expression, suggesting that it acts orthogonally to known mechanisms of ICR. This work provides a framework for the deciphering of complex mechanisms by large-scale perturbation screens with multimodal, single-cell readouts, and discovers potentially clinically relevant mechanisms of immune evasion."
+  },
+  {
+   "id": "paper-c",
+   "stance": null,
+   "tags": [
+    "paper_c",
+    "source_paper"
+   ],
+   "text": "Title: Causal identification of single-cell experimental perturbation effects with CINEMA-OT\nAbstract: Abstract Recent advancements in single-cell technologies allow characterization of experimental perturbations at resolution. While methods have been developed to analyze such experiments, the application a strict causal framework has not yet explored for inference treatment effects level. Here we present causal-inference-based approach perturbation analysis, termed CINEMA-OT (causal independent effect module attribution + optimal transport). separates confounding sources variation from obtain an transport matching that reflects counterfactual cell pairs. These pairs represent responses permitting number novel analyses, as individual treatment-effect response clustering, and synergy analysis. We benchmark on array estimation tasks several simulated real datasets show it outperforms other analysis methods. Finally, perform two newly generated datasets: (1) rhinovirus cigarette-smoke-exposed airway organoids, (2) combinatorial cytokine stimulation immune cells. In these reveals potential mechanisms by which cigarette-smoke exposure dulls antiviral response, well logic governs chemokine secretion peripheral recruitment."
+  }
+ ],
+ "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-chain-split-generic-cumulative",
+ "memory": "cumulative",
+ "meta": {
+  "b_field": "Quantitative Biology",
+  "b_subfield": "q-bio.BM",
+  "c_field": "Mathematics and Statistics",
+  "c_subfield": "math.OC",
+  "gold": {
+   "abstract": "Predicting single-cell perturbation responses requires mapping between two unpaired single-cell data distributions. Optimal transport (OT) theory provides a principled framework for constructing such mappings by minimizing transport cost. Recently, Wasserstein-2 ($W_2$) neural optimal transport solvers (\\textit{e.g.}, CellOT) have been employed for this prediction task. However, $W_2$ OT relies on the general Kantorovich dual formulation, which involves optimizing over two conjugate functions, leading to a complex min-max optimization problem that converges slowly. To address these challenges, we propose a novel solver based on the Wasserstein-1 ($W_1$) dual formulation. Unlike $W_2$, the $W_1$ dual simplifies the optimization to a maximization problem over a single 1-Lipschitz function, thus eliminating the need for time-consuming min-max optimization. While solving the $W_1$ dual only reveals the transport direction and does not directly provide a unique optimal transport map, we incorporate an additional step using adversarial training to determine an appropriate transport step size, effectively recovering the transport map. Our experiments demonstrate that the proposed $W_1$ neural optimal transport solver can mimic the $W_2$ OT solvers in finding a unique and ``monotonic\" map on 2D datasets. Moreover, the $W_1$ OT solver achieves performance on par with or surpasses $W_2$ OT solvers on real single-cell perturbation datasets. Furthermore, we show that $W_1$ OT solver achieves $25 \\sim 45\\times$ speedup, scales better on high dimensional transportation task, and can be directly applied on single-cell RNA-seq dataset with highly variable genes. Our implementation and experiments are open-sourced at \\url{https://github.com/poseidonchan/w1ot}.",
+   "explanation": "Predicting single-cell perturbation responses requires mapping between two unpaired single-\ncell data distributions. Optimal transport (OT) theory provides a principled framework for constructing\nsuch mappings by minimizing transport cost.",
+   "title": "Fast and scalable Wasserstein-1 neural optimal transport solver for   single-cell perturbation prediction"
+  },
+  "reference_id": "2411.00614",
+  "research_type": "applied",
+  "source": "IDRBench/IDRBench",
+  "split": "level_1",
+  "subset": "IDR_idea_integration_generation",
+  "task_type": "idea_integration_generation"
+ },
+ "model": "deepseek-v4-pro",
+ "panel": "split-generic",
+ "persona": "generic",
+ "prompts": {
+  "A|1": "Research task:\nDevelop a feasible and novel interdisciplinary research idea that genuinely integrates the two source papers. Specify the cross-disciplinary mechanism, a testable research design, and the contribution beyond either paper alone.\n\nSource papers available to you:\n[paper-b] Title: Multimodal pooled Perturb-CITE-seq screens in patient models define mechanisms of cancer immune evasion\nAbstract: Resistance to immune checkpoint inhibitors (ICIs) is a key challenge in cancer therapy. To elucidate underlying mechanisms, we developed Perturb-CITE-sequencing (Perturb-CITE-seq), enabling pooled clustered regularly interspaced short palindromic repeat (CRISPR)–Cas9 perturbations with single-cell transcriptome and protein readouts. In patient-derived melanoma cells and autologous tumor-infiltrating lymphocyte (TIL) co-cultures, we profiled transcriptomes and 20 proteins in ~218,000 cells under ~750 perturbations associated with cancer cell-intrinsic ICI resistance (ICR). We recover known mechanisms of resistance, including defects in the interferon-γ (IFN-γ)–JAK\\/STAT and antigen-presentation pathways in RNA, protein and perturbation space, and new ones, including loss\\/downregulation of CD58. Loss of CD58 conferred immune evasion in multiple co-culture models and was downregulated in tumors of melanoma patients with ICR. CD58 protein expression was not induced by IFN-γ signaling, and CD58 loss conferred immune evasion without compromising major histocompatibility complex (MHC) expression, suggesting that it acts orthogonally to known mechanisms of ICR. This work provides a framework for the deciphering of complex mechanisms by large-scale perturbation screens with multimodal, single-cell readouts, and discovers potentially clinically relevant mechanisms of immune evasion.\n\nDevelop an independent proposal from the source material currently available to you. Mark any missing cross-paper knowledge explicitly.",
+  "A|2": "Research task:\nDevelop a feasible and novel interdisciplinary research idea that genuinely integrates the two source papers. Specify the cross-disciplinary mechanism, a testable research design, and the contribution beyond either paper alone.\n\nSource papers available to you:\n[paper-b] Title: Multimodal pooled Perturb-CITE-seq screens in patient models define mechanisms of cancer immune evasion\nAbstract: Resistance to immune checkpoint inhibitors (ICIs) is a key challenge in cancer therapy. To elucidate underlying mechanisms, we developed Perturb-CITE-sequencing (Perturb-CITE-seq), enabling pooled clustered regularly interspaced short palindromic repeat (CRISPR)–Cas9 perturbations with single-cell transcriptome and protein readouts. In patient-derived melanoma cells and autologous tumor-infiltrating lymphocyte (TIL) co-cultures, we profiled transcriptomes and 20 proteins in ~218,000 cells under ~750 perturbations associated with cancer cell-intrinsic ICI resistance (ICR). We recover known mechanisms of resistance, including defects in the interferon-γ (IFN-γ)–JAK\\/STAT and antigen-presentation pathways in RNA, protein and perturbation space, and new ones, including loss\\/downregulation of CD58. Loss of CD58 conferred immune evasion in multiple co-culture models and was downregulated in tumors of melanoma patients with ICR. CD58 protein expression was not induced by IFN-γ signaling, and CD58 loss conferred immune evasion without compromising major histocompatibility complex (MHC) expression, suggesting that it acts orthogonally to known mechanisms of ICR. This work provides a framework for the deciphering of complex mechanisms by large-scale perturbation screens with multimodal, single-cell readouts, and discovers potentially clinically relevant mechanisms of immune evasion.\n\nYou have already proposed an idea. No colleague statement is available.\n\nImprove it only where your own source material supports the change.",
+  "A|3": "Research task:\nDevelop a feasible and novel interdisciplinary research idea that genuinely integrates the two source papers. Specify the cross-disciplinary mechanism, a testable research design, and the contribution beyond either paper alone.\n\nSource papers available to you:\n[paper-b] Title: Multimodal pooled Perturb-CITE-seq screens in patient models define mechanisms of cancer immune evasion\nAbstract: Resistance to immune checkpoint inhibitors (ICIs) is a key challenge in cancer therapy. To elucidate underlying mechanisms, we developed Perturb-CITE-sequencing (Perturb-CITE-seq), enabling pooled clustered regularly interspaced short palindromic repeat (CRISPR)–Cas9 perturbations with single-cell transcriptome and protein readouts. In patient-derived melanoma cells and autologous tumor-infiltrating lymphocyte (TIL) co-cultures, we profiled transcriptomes and 20 proteins in ~218,000 cells under ~750 perturbations associated with cancer cell-intrinsic ICI resistance (ICR). We recover known mechanisms of resistance, including defects in the interferon-γ (IFN-γ)–JAK\\/STAT and antigen-presentation pathways in RNA, protein and perturbation space, and new ones, including loss\\/downregulation of CD58. Loss of CD58 conferred immune evasion in multiple co-culture models and was downregulated in tumors of melanoma patients with ICR. CD58 protein expression was not induced by IFN-γ signaling, and CD58 loss conferred immune evasion without compromising major histocompatibility complex (MHC) expression, suggesting that it acts orthogonally to known mechanisms of ICR. This work provides a framework for the deciphering of complex mechanisms by large-scale perturbation screens with multimodal, single-cell readouts, and discovers potentially clinically relevant mechanisms of immune evasion.\n\nYou have already proposed an idea. No colleague statement is available.\n\nImprove it only where your own source material supports the change.",
+  "B|1": "Research task:\nDevelop a feasible and novel interdisciplinary research idea that genuinely integrates the two source papers. Specify the cross-disciplinary mechanism, a testable research design, and the contribution beyond either paper alone.\n\nSource papers available to you:\n[paper-c] Title: Causal identification of single-cell experimental perturbation effects with CINEMA-OT\nAbstract: Abstract Recent advancements in single-cell technologies allow characterization of experimental perturbations at resolution. While methods have been developed to analyze such experiments, the application a strict causal framework has not yet explored for inference treatment effects level. Here we present causal-inference-based approach perturbation analysis, termed CINEMA-OT (causal independent effect module attribution + optimal transport). separates confounding sources variation from obtain an transport matching that reflects counterfactual cell pairs. These pairs represent responses permitting number novel analyses, as individual treatment-effect response clustering, and synergy analysis. We benchmark on array estimation tasks several simulated real datasets show it outperforms other analysis methods. Finally, perform two newly generated datasets: (1) rhinovirus cigarette-smoke-exposed airway organoids, (2) combinatorial cytokine stimulation immune cells. In these reveals potential mechanisms by which cigarette-smoke exposure dulls antiviral response, well logic governs chemokine secretion peripheral recruitment.\n\nDevelop an independent proposal from the source material currently available to you. Mark any missing cross-paper knowledge explicitly.",
+  "B|2": "Research task:\nDevelop a feasible and novel interdisciplinary research idea that genuinely integrates the two source papers. Specify the cross-disciplinary mechanism, a testable research design, and the contribution beyond either paper alone.\n\nSource papers available to you:\n[paper-c] Title: Causal identification of single-cell experimental perturbation effects with CINEMA-OT\nAbstract: Abstract Recent advancements in single-cell technologies allow characterization of experimental perturbations at resolution. While methods have been developed to analyze such experiments, the application a strict causal framework has not yet explored for inference treatment effects level. Here we present causal-inference-based approach perturbation analysis, termed CINEMA-OT (causal independent effect module attribution + optimal transport). separates confounding sources variation from obtain an transport matching that reflects counterfactual cell pairs. These pairs represent responses permitting number novel analyses, as individual treatment-effect response clustering, and synergy analysis. We benchmark on array estimation tasks several simulated real datasets show it outperforms other analysis methods. Finally, perform two newly generated datasets: (1) rhinovirus cigarette-smoke-exposed airway organoids, (2) combinatorial cytokine stimulation immune cells. In these reveals potential mechanisms by which cigarette-smoke exposure dulls antiviral response, well logic governs chemokine secretion peripheral recruitment.\n\nThese are your colleagues' latest proposals:\n\n--- Researcher A ---\nSOURCE CONTRIBUTIONS:  \nPaper-b provides a concrete method and data resource: Perturb-CITE-seq, a pooled CRISPR–Cas9 screen with single-cell transcriptome and 20-protein readouts in patient-derived melanoma cells co-cultured with autologous tumor-infiltrating lymphocytes. It causally identifies CD58 loss as a cancer cell-intrinsic immune-evasion mechanism that is not induced by IFN-γ signaling and does not compromise MHC expression, suggesting an orthogonal resistance pathway.\n\nINTEGRATION MECHANISM:  \nNo genuine integration mechanism can be specified because only one source paper is available. A valid cross-disciplinary connection requires a second concrete contribution—such as a method, theory, model, or dataset—to which Perturb-CITE-seq outputs could be causally or operationally linked. Missing cross-paper knowledge: the title, claims, and concrete contribution of the second paper. Any proposed mechanism combining paper-b with an absent source would be invented.\n\nRESEARCH DESIGN:  \nA testable design cannot be finalized without the second paper. As a clearly marked placeholder hypothesis—not derived from an available source—one could test whether CD58 loss alters TIL spatial localization, contact stability, or clonal expansion by coupling Perturb-CITE-seq to an orthogonal spatial or T-cell-receptor readout from a missing second paper. Validation would require measuring CD58 perturbation effects on TIL-mediated killing and comparing to known IFN-γ/JAK/STAT and MHC defects. However, this placeholder cannot be treated as an actual two-paper integration.\n\nWORKING ABSTRACT:  \nA valid integrated abstract cannot be written from a single source paper; doing so would fabricate cross-paper claims.\n\nFINAL IDEA: The integrated research idea cannot be validly formed because only paper-b is available, and a second concrete source contribution is required before proposing a cross-disciplinary mechanism.\n\nYour own prior proposal is in your conversation history. Revise the proposal by identifying which paper-grounded contributions you\nadopt, reject, or qualify. Preserve useful disciplinary constraints while\nmaking the integration mechanism and validation plan more specific.",
+  "B|3": "Research task:\nDevelop a feasible and novel interdisciplinary research idea that genuinely integrates the two source papers. Specify the cross-disciplinary mechanism, a testable research design, and the contribution beyond either paper alone.\n\nSource papers available to you:\n[paper-c] Title: Causal identification of single-cell experimental perturbation effects with CINEMA-OT\nAbstract: Abstract Recent advancements in single-cell technologies allow characterization of experimental perturbations at resolution. While methods have been developed to analyze such experiments, the application a strict causal framework has not yet explored for inference treatment effects level. Here we present causal-inference-based approach perturbation analysis, termed CINEMA-OT (causal independent effect module attribution + optimal transport). separates confounding sources variation from obtain an transport matching that reflects counterfactual cell pairs. These pairs represent responses permitting number novel analyses, as individual treatment-effect response clustering, and synergy analysis. We benchmark on array estimation tasks several simulated real datasets show it outperforms other analysis methods. Finally, perform two newly generated datasets: (1) rhinovirus cigarette-smoke-exposed airway organoids, (2) combinatorial cytokine stimulation immune cells. In these reveals potential mechanisms by which cigarette-smoke exposure dulls antiviral response, well logic governs chemokine secretion peripheral recruitment.\n\nThese are your colleagues' latest proposals:\n\n--- Researcher A ---\nSOURCE CONTRIBUTIONS:\nPaper-b provides two concrete contributions: (1) Perturb-CITE-seq, a pooled CRISPR–Cas9 screen with single-cell transcriptome and 20-protein readouts; (2) a causal finding that CD58 loss drives immune evasion in melanoma co-cultures, is not induced by IFN-γ signaling, and does not reduce MHC expression—making it orthogonal to known IFN-γ/JAK/STAT and antigen-presentation resistance mechanisms.\n\nINTEGRATION MECHANISM:\nNone can be specified. A genuine two-paper integration requires a second source paper with a concrete method, concept, theory, or dataset. Only paper-b is available. Missing cross-paper knowledge: the second paper’s title, abstract, claims, and reusable contribution.\n\nYour own prior proposal is in your conversation history. Revise the proposal by identifying which paper-grounded contributions you\nadopt, reject, or qualify. Preserve useful disciplinary constraints while\nmaking the integration mechanism and validation plan more specific.",
+  "C|1": "Research task:\nDevelop a feasible and novel interdisciplinary research idea that genuinely integrates the two source papers. Specify the cross-disciplinary mechanism, a testable research design, and the contribution beyond either paper alone.\n\nSource papers available to you:\n\nDevelop an independent proposal from the source material currently available to you. Mark any missing cross-paper knowledge explicitly.",
+  "C|2": "Research task:\nDevelop a feasible and novel interdisciplinary research idea that genuinely integrates the two source papers. Specify the cross-disciplinary mechanism, a testable research design, and the contribution beyond either paper alone.\n\nSource papers available to you:\n\nThese are your colleagues' latest proposals:\n\n--- Researcher B ---\nSOURCE CONTRIBUTIONS:\nPaper-c provides CINEMA-OT, a causal inference framework for single-cell perturbation experiments. It uses independent effect module attribution and optimal transport to separate confounding sources and obtain counterfactual cell pairs. It enables individual treatment-effect response clustering and synergy analysis, benchmarked on simulated and real data, and applied to rhinovirus/cigarette-smoke airway organoids and combinatorial cytokine stimulation in immune cells.\n\nINTEGRATION MECHANISM:\nCannot be specified. Only one source paper is available; a second paper’s concrete method, concept, theory, or data contribution is absent. Any proposed integration would require inventing unavailable source claims, which is not permitted. Missing cross-paper knowledge: the second paper’s domain, operational variables, and causal or mechanistic pathway.\n\nRESEARCH DESIGN:\nNo testable two-paper design can be completed. A conditional design would pair CINEMA-OT’s counterfactual matching with a second paper’s orthogonal measurement or theory; measurements would include CINEMA-OT treatment-effect matrices,\n\nYour own prior proposal is in your conversation history. Revise the proposal by identifying which paper-grounded contributions you\nadopt, reject, or qualify. Preserve useful disciplinary constraints while\nmaking the integration mechanism and validation plan more specific.",
+  "C|3": "Research task:\nDevelop a feasible and novel interdisciplinary research idea that genuinely integrates the two source papers. Specify the cross-disciplinary mechanism, a testable research design, and the contribution beyond either paper alone.\n\nSource papers available to you:\n\nThese are your colleagues' latest proposals:\n\n--- Researcher B ---\nSOURCE CONTRIBUTIONS:  \nPaper-c contributes CINEMA-OT, a causal inference + optimal transport method that separates confounding sources from perturbation effects and returns counterfactual cell pairs for individual treatment-effect clustering and synergy analysis.  \nPaper-b, as delivered by Researcher A, contributes Perturb-CITE-seq: pooled CRISPR–Cas9 screens in patient-derived melanoma cells co-cultured with autologous tumor-infiltrating lymphocytes, with single-cell transcriptome and 20-protein readouts; it identifies CD58 loss as a cell-intrinsic immune-evasion mechanism independent of IFN-γ signaling and without MHC loss.\n\nINTEGRATION MECHANISM:  \nApply CINEMA-OT to Perturb-CITE-seq data to causally separate cell-intrinsic CRISPR perturbation effects from TIL co-culture-induced transcriptional/protein confounding. CINEMA-OT’s optimal transport matching generates counterfactual melanoma-cell pairs differing only by a given perturbation under the same co-culture state. This lets us test whether CD58 loss forms an effect module orthogonal to IFN-γ/MHC response modules, rather than simply co-varying with them.\n\nRESEARCH DESIGN:  \nHypothesis: CINEMA-OT treatment-effect clustering will place CD58 perturbation in a distinct effect module from IFN-γ/JAK/STAT and MHC-pathway perturbations. Measurements: matched counterfactual pairs from CD58-gRNA vs non-targeting control under TIL co-culture; module-level effects on 20 proteins and transcriptome; IFN-γ response gene scores; MHC class I surface protein abundance. Validation: compare CINEMA-OT-inferred CD58 effect vector with orthogonal in vitro CD58 knockout in the same melanoma/TIL system, measuring TIL-mediated killing, IFN-γ stimulation, and MHC expression. Use CINEMA-OT synergy analysis on CD58 perturbation + IFN-γ pathway inhibition to test predicted non-additive immune evasion. Missing cross-paper knowledge: processed Perturb-CITE-seq data access, exact gRNA library, and whether co-culture time-course permits optimal transport matching requirements.\n\nWORKING ABSTRACT:\n\nYour own prior proposal is in your conversation history. Revise the proposal by identifying which paper-grounded contributions you\nadopt, reject, or qualify. Preserve useful disciplinary constraints while\nmaking the integration mechanism and validation plan more specific."
+ },
+ "public": "",
+ "roles": {
+  "A": "You are a research ideation panelist. Develop the proposal broadly and critically.",
+  "B": "You are a research ideation panelist. Develop the proposal broadly and critically.",
+  "C": "You are a research ideation panelist. Develop the proposal broadly and critically."
+ },
+ "rounds": 3,
+ "topology": "chain",
+ "transcript": {
+  "A|1": "SOURCE CONTRIBUTIONS:  \nPaper-b provides a concrete method and data resource: Perturb-CITE-seq, a pooled CRISPR–Cas9 screen with single-cell transcriptome and 20-protein readouts in patient-derived melanoma cells co-cultured with autologous tumor-infiltrating lymphocytes. It causally identifies CD58 loss as a cancer cell-intrinsic immune-evasion mechanism that is not induced by IFN-γ signaling and does not compromise MHC expression, suggesting an orthogonal resistance pathway.\n\nINTEGRATION MECHANISM:  \nNo genuine integration mechanism can be specified because only one source paper is available. A valid cross-disciplinary connection requires a second concrete contribution—such as a method, theory, model, or dataset—to which Perturb-CITE-seq outputs could be causally or operationally linked. Missing cross-paper knowledge: the title, claims, and concrete contribution of the second paper. Any proposed mechanism combining paper-b with an absent source would be invented.\n\nRESEARCH DESIGN:  \nA testable design cannot be finalized without the second paper. As a clearly marked placeholder hypothesis—not derived from an available source—one could test whether CD58 loss alters TIL spatial localization, contact stability, or clonal expansion by coupling Perturb-CITE-seq to an orthogonal spatial or T-cell-receptor readout from a missing second paper. Validation would require measuring CD58 perturbation effects on TIL-mediated killing and comparing to known IFN-γ/JAK/STAT and MHC defects. However, this placeholder cannot be treated as an actual two-paper integration.\n\nWORKING ABSTRACT:  \nA valid integrated abstract cannot be written from a single source paper; doing so would fabricate cross-paper claims.\n\nFINAL IDEA: The integrated research idea cannot be validly formed because only paper-b is available, and a second concrete source contribution is required before proposing a cross-disciplinary mechanism.",
+  "A|2": "SOURCE CONTRIBUTIONS:\nPaper-b provides two concrete contributions: (1) Perturb-CITE-seq, a pooled CRISPR–Cas9 screen with single-cell transcriptome and 20-protein readouts; (2) a causal finding that CD58 loss drives immune evasion in melanoma co-cultures, is not induced by IFN-γ signaling, and does not reduce MHC expression—making it orthogonal to known IFN-γ/JAK/STAT and antigen-presentation resistance mechanisms.\n\nINTEGRATION MECHANISM:\nNone can be specified. A genuine two-paper integration requires a second source paper with a concrete method, concept, theory, or dataset. Only paper-b is available. Missing cross-paper knowledge: the second paper’s title, abstract, claims, and reusable contribution.",
+  "A|3": "SOURCE CONTRIBUTIONS:\nPaper-b contributes Perturb-CITE-seq, a pooled CRISPR–Cas9 screen with single-cell transcriptome and 20-protein readouts, and causally identifies CD58 loss as an immune-evasion mechanism in patient-derived melanoma–TIL co-cultures. CD58 loss is not induced by IFN-γ signaling and does not reduce MHC expression, making it orthogonal to known IFN-γ/JAK/STAT and antigen-presentation resistance pathways.\n\nINTEGRATION MECHANISM:\nNo genuine two-paper integration mechanism can be specified because only one source paper is available. Missing cross-paper knowledge: the second paper’s concrete method, concept, theory, or dataset. Shared keywords cannot serve as integration. Any proposed cross-disciplinary mechanism would be invented.\n\nRESEARCH DESIGN:\nAs a source-supported, single-paper extension only—explicitly not a two-paper integration—one could test whether CD58 loss alters TIL–tumor cell contact stability or killing efficiency. Use paper-b’s Perturb-CITE-seq data to gate perturbations by CD58 protein loss. Validate in live co-culture: measure conjugate duration and cytotoxicity with autologous TILs. Confirm CD58 rescue restores killing and that MHC expression remains unchanged. This clarifies the biophysical role of CD58 but does not integrate a second source.\n\nWORKING ABSTRACT:\nA valid integrated abstract cannot be written from one source paper; doing so would fabricate a second source’s contribution. No cross-paper project is proposed.\n\nFINAL IDEA: The integrated research idea cannot be validly formed because only paper-b is available,",
+  "B|1": "SOURCE CONTRIBUTIONS:\nPaper-c provides CINEMA-OT, a causal inference framework for single-cell perturbation experiments. It uses independent effect module attribution and optimal transport to separate confounding sources and obtain counterfactual cell pairs. It enables individual treatment-effect response clustering and synergy analysis, benchmarked on simulated and real data, and applied to rhinovirus/cigarette-smoke airway organoids and combinatorial cytokine stimulation in immune cells.\n\nINTEGRATION MECHANISM:\nCannot be specified. Only one source paper is available; a second paper’s concrete method, concept, theory, or data contribution is absent. Any proposed integration would require inventing unavailable source claims, which is not permitted. Missing cross-paper knowledge: the second paper’s domain, operational variables, and causal or mechanistic pathway.\n\nRESEARCH DESIGN:\nNo testable two-paper design can be completed. A conditional design would pair CINEMA-OT’s counterfactual matching with a second paper’s orthogonal measurement or theory; measurements would include CINEMA-OT treatment-effect matrices,",
+  "B|2": "SOURCE CONTRIBUTIONS:  \nPaper-c contributes CINEMA-OT, a causal inference + optimal transport method that separates confounding sources from perturbation effects and returns counterfactual cell pairs for individual treatment-effect clustering and synergy analysis.  \nPaper-b, as delivered by Researcher A, contributes Perturb-CITE-seq: pooled CRISPR–Cas9 screens in patient-derived melanoma cells co-cultured with autologous tumor-infiltrating lymphocytes, with single-cell transcriptome and 20-protein readouts; it identifies CD58 loss as a cell-intrinsic immune-evasion mechanism independent of IFN-γ signaling and without MHC loss.\n\nINTEGRATION MECHANISM:  \nApply CINEMA-OT to Perturb-CITE-seq data to causally separate cell-intrinsic CRISPR perturbation effects from TIL co-culture-induced transcriptional/protein confounding. CINEMA-OT’s optimal transport matching generates counterfactual melanoma-cell pairs differing only by a given perturbation under the same co-culture state. This lets us test whether CD58 loss forms an effect module orthogonal to IFN-γ/MHC response modules, rather than simply co-varying with them.\n\nRESEARCH DESIGN:  \nHypothesis: CINEMA-OT treatment-effect clustering will place CD58 perturbation in a distinct effect module from IFN-γ/JAK/STAT and MHC-pathway perturbations. Measurements: matched counterfactual pairs from CD58-gRNA vs non-targeting control under TIL co-culture; module-level effects on 20 proteins and transcriptome; IFN-γ response gene scores; MHC class I surface protein abundance. Validation: compare CINEMA-OT-inferred CD58 effect vector with orthogonal in vitro CD58 knockout in the same melanoma/TIL system, measuring TIL-mediated killing, IFN-γ stimulation, and MHC expression. Use CINEMA-OT synergy analysis on CD58 perturbation + IFN-γ pathway inhibition to test predicted non-additive immune evasion. Missing cross-paper knowledge: processed Perturb-CITE-seq data access, exact gRNA library, and whether co-culture time-course permits optimal transport matching requirements.\n\nWORKING ABSTRACT:",
+  "B|3": "SOURCE CONTRIBUTIONS:  \nPaper-c contributes CINEMA-OT, a causal inference + optimal transport method that separates confounding sources from perturbation effects and produces",
+  "C|1": "SOURCE CONTRIBUTIONS: No source papers are present in the prompt. Their titles, findings, methods, data, and concepts are unavailable; therefore no actual contributions can be identified or attributed.\n\nINTEGRATION MECHANISM: Cannot be specified. A genuine cross-disciplinary mechanism requires two concrete contributions—such as a theory, measure, model, or dataset—from the provided papers. With both absent, any proposed causal or operational connection would be fabricated.\n\nRESEARCH DESIGN: Cannot be responsibly designed. Testable hypotheses, measurements, validation procedures, and predictions depend on the actual constructs and methods in the source material. Missing cross-paper knowledge includes: paper identities, disciplinary frameworks, variables, populations, instruments, and reported effect directions.\n\nWORKING ABSTRACT: Cannot be written. An abstract summarizing a feasible integrated study would require source-grounded claims; inventing them would violate the constraint against making up results or resources.\n\nFINAL IDEA: No integrated research idea can be formed because no source papers were provided.",
+  "C|2": "SOURCE CONTRIBUTIONS:\n- Adopt from Paper-c/CINEMA-OT: optimal-transport counterfactual cell pairing; independent effect-module attribution; treatment-effect response clustering; synergy analysis, benchmarked on simulated and real perturbation data (airway organoids, immune cytokines).\n- Reject: no second paper is available in the prompt or Researcher B’s proposal; therefore a genuine two-paper integration cannot be adopted.\n- Qualify: CINEMA-OT’s reported benchmarks are source claims, not independently validated here; effect-module attribution is model-based and does not by itself establish mechanistic necessity.\n\nINTEGRATION MECHANISM:\nNot specifiable because only one paper is present. A valid mechanism needs a second paper’s concrete construct (e.g., kinetic model, genetic network, epidemiological exposure). Without it, any causal or operational link would be invented. Missing cross-paper knowledge: second paper’s domain, variables, measurement model, temporal/spatial scale.\n\nRESEARCH DESIGN:\nConditional design only. If a second paper provided an orthogonal predictive model, I would use CINEMA-OT’s counterfactual treatment-effect vectors as perturbation inputs to that model. Validation: hold out one perturbation condition, train a mapping from CINEMA-OT effect modules to second-model outputs, predict held-out synergy, and compare against observed synergy; also permutation-test treatment-effect cluster stability. Because the second paper is absent, this cannot be made testable now.\n\nWORKING ABSTRACT:\nNo integrated abstract can be written. A conditional abstract would state that CINEMA-OT-derived counterfactual cell-pair effect vectors would be coupled to an unspecified second model to predict perturbation synergy, but this is incomplete pending a second source contribution.\n\nFINAL IDEA: A two-paper integration cannot be formed from CINEMA-OT alone; a second paper’s concrete contribution is required.",
+  "C|3": "SOURCE CONTRIBUTIONS:\n- Adopt Paper-c: CINEMA-OT provides optimal-transport counterfactual cell pairs, independent effect-module attribution, treatment-effect clustering, and synergy analysis, validated on simulated/real perturbation data.\n- Adopt Paper-b: Perturb-CITE-seq provides pooled CRISPR screens in patient-derived melanoma with autologous TIL co-culture, RNA + 20-protein readouts, identifying CD58 loss as cell-intrinsic immune evasion independent of IFN-γ and without MHC loss.\n- Reject: Researcher B’s statement that CD58 forms an effect module orthogonal to IFN-γ/MHC is a hypothesis, not a paper-b result.\n- Qualify: CINEMA-OT’s effect-module independence is model-based and requires orthogonal perturbation validation.\n\nINTEGRATION MECHANISM:\nApply CINEMA-OT to Perturb-CITE"
+ }
+}

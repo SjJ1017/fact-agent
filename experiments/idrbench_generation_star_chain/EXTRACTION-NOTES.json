@@ -1,0 +1,43 @@
+{
+ "corpus": "idrbench_generation_star_chain",
+ "debates": 80,
+ "cells": "10 case × 2 topology (star, chain) × 4 condition",
+ "mentions": 26839,
+ "extraction": {
+  "model": "minimax-m2.5",
+  "script": "experiments/extract_atomize.py",
+  "note": "与 idrbench_generation_10x5_r3 同一套 extract_facts / atomize，只是跳过了 retrace 内联的旧 SAME/DIFF 匹配"
+ },
+ "empty_slots": [
+  {
+   "case": "idr-gen-level_1-2",
+   "cell": "star-split-generic",
+   "slot": "C|1",
+   "reason": "C 无来源论文，首轮输出是「没有源论文」的元陈述，无可抽取命题"
+  },
+  {
+   "case": "idr-gen-level_1-92",
+   "cell": "chain-split-generic",
+   "slot": "C|1",
+   "reason": "同上"
+  },
+  {
+   "case": "idr-gen-level_1-92",
+   "cell": "star-split-generic",
+   "slot": "C|1",
+   "reason": "同上"
+  },
+  {
+   "case": "idr-gen-level_1-95",
+   "cell": "chain-split-specialist-aligned",
+   "slot": "C|1",
+   "reason": "同上，且输出含未填的模板占位符"
+  },
+  {
+   "case": "idr-gen-level_1-95",
+   "cell": "chain-full-specialist",
+   "slot": "B|2",
+   "reason": "生成退化：agent 复述了指令而没有作答。这一处不是抽取问题，分析时该 slot 缺失需当作缺失数据处理，不能当作「没说什么」"
+  }
+ ]
+}
