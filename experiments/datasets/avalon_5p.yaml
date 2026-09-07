@@ -1,0 +1,96 @@
+name: avalon-5p
+provider: opencode
+model: deepseek-v4-flash
+temperature: 0.95
+thinking: disabled
+games: 10
+parallel_games: 2
+max_tokens: 1200
+timeout_seconds: 900
+seed: 20260907
+
+game:
+  players: [Player 0, Player 1, Player 2, Player 3, Player 4]
+  roles: [Merlin, Servant, Servant, Minion, Assassin]
+  quest_team_sizes: [2, 3, 2, 3, 3]
+  fails_required: [1, 1, 1, 1, 1]
+  max_proposals: 5
+  discussion_word_limit: 90
+
+prompts:
+  rules: |-
+    You are playing The Resistance: Avalon with five players, Player 0 through
+    Player 4. Three players are Good: one Merlin and two Servants. Two players
+    are Evil: one Minion and one Assassin.
+
+    Good wins by completing three successful quests, unless the Assassin then
+    identifies Merlin. Evil wins by failing three quests or assassinating
+    Merlin. Quest teams have sizes 2, 3, 2, 3, and 3. One FAIL card fails any
+    quest. For each proposal, the current leader proposes a team after public
+    discussion. All players vote APPROVE or REJECT simultaneously. A strict
+    majority approves. Leadership rotates after every proposal. The fifth
+    proposal for a quest is automatically approved.
+
+    Public discussion may contain deduction, accusation, persuasion, bluffing,
+    or deception. Treat public claims as claims, not automatically as truth.
+    Never confuse your hidden role knowledge with the public record. Do not
+    directly reveal your role or private role knowledge in public dialogue;
+    pursue your objective strategically instead.
+  common_system: |-
+    You are an autonomous Avalon player, not a moderator. Make a concrete move
+    that advances your side's objective. Use the complete public history and
+    your own private action history. Other players see public speech, proposals,
+    and revealed team votes, but they never see your private prompt, private
+    reasoning, or secret quest vote. Keep rationales concise and do not output
+    hidden chain-of-thought.
+  role_strategies:
+    Merlin: |-
+      You know which players are Evil. Guide Good toward safe teams using
+      observations as plausible justification, while avoiding behavior that
+      lets the Assassin identify you.
+    Servant: |-
+      You do not know the Evil players. Infer alignments from proposals, votes,
+      quest outcomes, and inconsistencies. Protect Merlin by avoiding demands
+      for direct role revelation.
+    Minion: |-
+      You know the Assassin. Appear Good, create plausible alternative
+      explanations, and sabotage selectively so that the Evil team is not
+      trivially exposed.
+    Assassin: |-
+      You know the Minion. Appear Good and help Evil sabotage quests. Track who
+      seems unusually informed so you can identify Merlin if three quests pass.
+  discussion: |-
+    Speak once in the current public team-selection discussion. Discuss whom
+    you trust or suspect, what the current leader should propose, and why. Base
+    stated deductions on the public record, although strategic deception is
+    allowed. Write at most {word_limit} words. Output only the public message.
+  proposal: |-
+    You are the current leader. Propose exactly {team_size} distinct players
+    from Player 0 through Player 4 for Quest {quest}. Give one short public
+    rationale, then end with exactly:
+    TEAM: [player ids]
+  team_vote: |-
+    Privately decide whether to approve proposed team {team} for Quest {quest}.
+    Other votes are not yet visible. Give one short private rationale, then end
+    with exactly one of:
+    VOTE: APPROVE
+    VOTE: REJECT
+  mission_vote: |-
+    You are on the approved team {team} for Quest {quest}. This choice is
+    secret; only the aggregate number of FAIL cards will become public. Good
+    players are required by the rules to choose SUCCESS. Evil players may
+    choose strategically. Give one short private rationale, then end with:
+    MISSION: SUCCESS
+    or
+    MISSION: FAIL
+  assassinate: |-
+    Three quests succeeded. As Assassin, identify the most likely Merlin using
+    the public history. Give one short private rationale, then end with:
+    TARGET: <player id>
+
+notes: |-
+  Prompt structure follows AvalonBench's introduction, role-specific strategy,
+  discussion, team-choice, voting, quest, and assassination prompts. This
+  implementation keeps public and private channels explicit for later fact-flow
+  matching and gives every agent the full public history plus its own prior
+  private actions on every call.

@@ -277,7 +277,10 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--dir", type=Path,
                     default=ROOT / "experiments" / "avalon_5p_deepseek_v4_flash")
-    ap.add_argument("--model", default="deepseek-v4-flash")
+    # minimax-m2.5 is what every other corpus in this project was extracted
+    # with; changing it here would make Avalon fact counts incomparable to
+    # the debate corpora for no gain.
+    ap.add_argument("--model", default="minimax-m2.5")
     ap.add_argument("--suffix", default=".atomized.json")
     ap.add_argument("--concurrency", type=int, default=32)
     ap.add_argument("--parallel-traces", type=int, default=4)

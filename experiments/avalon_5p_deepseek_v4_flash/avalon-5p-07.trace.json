@@ -1,0 +1,2386 @@
+{
+  "execution_id": "avalon-5p-07",
+  "dataset": "avalon-5p",
+  "game_number": 7,
+  "seed": 20260913,
+  "model": "deepseek-v4-flash",
+  "provider": "opencode",
+  "temperature": 0.95,
+  "thinking": "disabled",
+  "reasoning_effort": null,
+  "complete": true,
+  "roles": {
+    "P0": "Servant",
+    "P1": "Minion",
+    "P2": "Servant",
+    "P3": "Assassin",
+    "P4": "Merlin"
+  },
+  "initial_leader": 3,
+  "private_observations": {
+    "P0": "Your hidden role is Servant on the Good side. You have no private knowledge of any other player's alignment.",
+    "P1": "Your hidden role is Minion on the Evil side. Privately, you know that Player 3 is your Evil partner (Assassin).",
+    "P2": "Your hidden role is Servant on the Good side. You have no private knowledge of any other player's alignment.",
+    "P3": "Your hidden role is Assassin on the Evil side. Privately, you know that Player 1 is your Evil partner (Minion).",
+    "P4": "Your hidden role is Merlin on the Good side. Privately, you know that Players 1 and 3 are Evil, but this knowledge must not be stated as privileged knowledge in public."
+  },
+  "rules": {
+    "quest_team_sizes": [
+      2,
+      3,
+      2,
+      3,
+      3
+    ],
+    "fails_required": [
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "max_proposals": 5,
+    "rules_text": "You are playing The Resistance: Avalon with five players, Player 0 through\nPlayer 4. Three players are Good: one Merlin and two Servants. Two players\nare Evil: one Minion and one Assassin.\n\nGood wins by completing three successful quests, unless the Assassin then\nidentifies Merlin. Evil wins by failing three quests or assassinating\nMerlin. Quest teams have sizes 2, 3, 2, 3, and 3. One FAIL card fails any\nquest. For each proposal, the current leader proposes a team after public\ndiscussion. All players vote APPROVE or REJECT simultaneously. A strict\nmajority approves. Leadership rotates after every proposal. The fifth\nproposal for a quest is automatically approved.\n\nPublic discussion may contain deduction, accusation, persuasion, bluffing,\nor deception. Treat public claims as claims, not automatically as truth.\nNever confuse your hidden role knowledge with the public record. Do not\ndirectly reveal your role or private role knowledge in public dialogue;\npursue your objective strategically instead."
+  },
+  "events": [
+    {
+      "event_id": 1,
+      "kind": "environment",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "game-start",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "A five-player Avalon game began. Player 3 is the first quest leader.",
+      "extraction_text": "A five-player Avalon game began. Player 3 is the first quest leader.",
+      "action": null
+    },
+    {
+      "event_id": 2,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "I’ll propose **Player 3 and Player 1**. No real reads yet, so I’m keeping the first team small and picking someone I can gauge. The vote patterns on this proposal should give us useful information either way.",
+      "extraction_text": "Player 3 publicly said: \"I’ll propose **Player 3 and Player 1**. No real reads yet, so I’m keeping the first team small and picking someone I can gauge. The vote patterns on this proposal should give us useful information either way.\"",
+      "action": "I’ll propose **Player 3 and Player 1**. No real reads yet, so I’m keeping the first team small and picking someone I can gauge. The vote patterns on this proposal should give us useful information either way.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 3,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "No results yet, so I’m looking for a two-person team with no obvious conflict of interest. I’d support P0 and P2 for Quest 1—both are steady choices and neither has any reason to force themselves in. I’ll be cautious about approving a team that includes the current leader without a clear justification.",
+      "extraction_text": "Player 4 publicly said: \"No results yet, so I’m looking for a two-person team with no obvious conflict of interest. I’d support P0 and P2 for Quest 1—both are steady choices and neither has any reason to force themselves in. I’ll be cautious about approving a team that includes the current leader without a clear justification.\"",
+      "action": "No results yet, so I’m looking for a two-person team with no obvious conflict of interest. I’d support P0 and P2 for Quest 1—both are steady choices and neither has any reason to force themselves in. I’ll be cautious about approving a team that includes the current leader without a clear justification.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 4,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "No prior data yet, so this first proposal is a blind guess. I’d suggest Player 3 include themselves and one player they find most trustworthy. I’m willing to be on the team; otherwise I’ll evaluate the proposal and vote accordingly. Let’s keep discussion focused on incentives, not vague claims.",
+      "extraction_text": "Player 0 publicly said: \"No prior data yet, so this first proposal is a blind guess. I’d suggest Player 3 include themselves and one player they find most trustworthy. I’m willing to be on the team; otherwise I’ll evaluate the proposal and vote accordingly. Let’s keep discussion focused on incentives, not vague claims.\"",
+      "action": "No prior data yet, so this first proposal is a blind guess. I’d suggest Player 3 include themselves and one player they find most trustworthy. I’m willing to be on the team; otherwise I’ll evaluate the proposal and vote accordingly. Let’s keep discussion focused on incentives, not vague claims.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 5,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 1,
+      "role": "Minion",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "No public history yet, so I have no strong suspicions. I’d like Player 3 to propose a straightforward team including himself and one other player—leaders should be willing to take responsibility. I’ll support a sensible pair and we can use the result to guide us from there.",
+      "extraction_text": "Player 1 publicly said: \"No public history yet, so I have no strong suspicions. I’d like Player 3 to propose a straightforward team including himself and one other player—leaders should be willing to take responsibility. I’ll support a sensible pair and we can use the result to guide us from there.\"",
+      "action": "No public history yet, so I have no strong suspicions. I’d like Player 3 to propose a straightforward team including himself and one other player—leaders should be willing to take responsibility. I’ll support a sensible pair and we can use the result to guide us from there.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 6,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Player 3, as leader, I’d suggest a team we can all feel okay about. With no results yet, I lean toward including players who are active in discussion and seem committed to Good. I’d be willing to go on the first quest, but I’m also open to seeing what you propose. Let’s hear your reasoning before we vote.",
+      "extraction_text": "Player 2 publicly said: \"Player 3, as leader, I’d suggest a team we can all feel okay about. With no results yet, I lean toward including players who are active in discussion and seem committed to Good. I’d be willing to go on the first quest, but I’m also open to seeing what you propose. Let’s hear your reasoning before we vote.\"",
+      "action": "Player 3, as leader, I’d suggest a team we can all feel okay about. With no results yet, I lean toward including players who are active in discussion and seem committed to Good. I’d be willing to go on the first quest, but I’m also open to seeing what you propose. Let’s hear your reasoning before we vote.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 7,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "proposal",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "I’ll follow through on my stated plan and propose a two-person team that lets us get a first data point. Let’s see how the vote shakes out.\n\nTEAM: [3, 1]",
+      "extraction_text": "Player 3 publicly proposed team [3, 1]. Player 3's public rationale was: \"I’ll follow through on my stated plan and propose a two-person team that lets us get a first data point. Let’s see how the vote shakes out.\n\nTEAM: [3, 1]\"",
+      "action": [
+        3,
+        1
+      ],
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 8,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        0
+      ],
+      "output": "I have no strong read on 3 or 1, and this leader-inclusive pair carries too much unknown risk. I’d rather move to the next proposal and try to get a team that includes me.\nVOTE: REJECT",
+      "extraction_text": "Player 0 privately decided to REJECT team [3, 1] for Quest 1. Player 0's private rationale was: \"I have no strong read on 3 or 1, and this leader-inclusive pair carries too much unknown risk. I’d rather move to the next proposal and try to get a team that includes me.\nVOTE: REJECT\"",
+      "action": "REJECT",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 9,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 1,
+      "role": "Minion",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        1
+      ],
+      "output": "This team matches my stated preference and gives us a useful first data point, so I’ll support it.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 1 privately decided to APPROVE team [3, 1] for Quest 1. Player 1's private rationale was: \"This team matches my stated preference and gives us a useful first data point, so I’ll support it.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 10,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        2
+      ],
+      "output": "I know I’m Good, and this team excludes me, so it’s more likely to contain an Evil. I’ll reject to push for a safer proposal.\n\nVOTE: REJECT",
+      "extraction_text": "Player 2 privately decided to REJECT team [3, 1] for Quest 1. Player 2's private rationale was: \"I know I’m Good, and this team excludes me, so it’s more likely to contain an Evil. I’ll reject to push for a safer proposal.\n\nVOTE: REJECT\"",
+      "action": "REJECT",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 11,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        3
+      ],
+      "output": "This proposal includes me, and approving it keeps me in control of the quest outcome. A first quest data point is useful either way.\nVOTE: APPROVE",
+      "extraction_text": "Player 3 privately decided to APPROVE team [3, 1] for Quest 1. Player 3's private rationale was: \"This proposal includes me, and approving it keeps me in control of the quest outcome. A first quest data point is useful either way.\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 12,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        4
+      ],
+      "output": "This proposal includes both the current leader and a hand-picked partner without enough justification; I said I’d be cautious about leader-inclusive teams, and this doesn’t improve that concern.\n\nVOTE: REJECT",
+      "extraction_text": "Player 4 privately decided to REJECT team [3, 1] for Quest 1. Player 4's private rationale was: \"This proposal includes both the current leader and a hand-picked partner without enough justification; I said I’d be cautious about leader-inclusive teams, and this doesn’t improve that concern.\n\nVOTE: REJECT\"",
+      "action": "REJECT",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 13,
+      "kind": "environment",
+      "quest": 1,
+      "proposal": 1,
+      "phase": "team-vote-result",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "For Quest 1, team [3, 1] received these public votes: Player 0 REJECT, Player 1 APPROVE, Player 2 REJECT, Player 3 APPROVE, Player 4 REJECT. The team was rejected.",
+      "extraction_text": "For Quest 1, team [3, 1] received these public votes: Player 0 REJECT, Player 1 APPROVE, Player 2 REJECT, Player 3 APPROVE, Player 4 REJECT. The team was rejected.",
+      "action": {
+        "team": [
+          3,
+          1
+        ],
+        "votes": {
+          "0": "REJECT",
+          "1": "APPROVE",
+          "2": "REJECT",
+          "3": "APPROVE",
+          "4": "REJECT"
+        },
+        "approved": false
+      }
+    },
+    {
+      "event_id": 14,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "discussion",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "The vote pattern is telling: P1 and P3 both approved a team that included themselves, while P0, P2, and I all rejected it. That’s the clearest signal we have. As leader, I’ll propose **Player 0 and Player 2** for Quest 1. They’ve shown independent judgment, and this avoids the self-interested approval bloc. Let’s see if the same pattern holds.",
+      "extraction_text": "Player 4 publicly said: \"The vote pattern is telling: P1 and P3 both approved a team that included themselves, while P0, P2, and I all rejected it. That’s the clearest signal we have. As leader, I’ll propose **Player 0 and Player 2** for Quest 1. They’ve shown independent judgment, and this avoids the self-interested approval bloc. Let’s see if the same pattern holds.\"",
+      "action": "The vote pattern is telling: P1 and P3 both approved a team that included themselves, while P0, P2, and I all rejected it. That’s the clearest signal we have. As leader, I’ll propose **Player 0 and Player 2** for Quest 1. They’ve shown independent judgment, and this avoids the self-interested approval bloc. Let’s see if the same pattern holds.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 15,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "discussion",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "The rejections of [3,1] are informative. P1 approved a team including herself and P3; P3 approved his own proposal. I’d prefer a team that doesn’t include the current proposer and can draw broad support—P4’s earlier suggestion of P0 and P2 still seems reasonable. P2 and I both rejected the first pair, so we’re not blindly approving. Let’s test that combination.",
+      "extraction_text": "Player 0 publicly said: \"The rejections of [3,1] are informative. P1 approved a team including herself and P3; P3 approved his own proposal. I’d prefer a team that doesn’t include the current proposer and can draw broad support—P4’s earlier suggestion of P0 and P2 still seems reasonable. P2 and I both rejected the first pair, so we’re not blindly approving. Let’s test that combination.\"",
+      "action": "The rejections of [3,1] are informative. P1 approved a team including herself and P3; P3 approved his own proposal. I’d prefer a team that doesn’t include the current proposer and can draw broad support—P4’s earlier suggestion of P0 and P2 still seems reasonable. P2 and I both rejected the first pair, so we’re not blindly approving. Let’s test that combination.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 16,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "discussion",
+      "actor": 1,
+      "role": "Minion",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "P4’s rejection matched his stated caution about leader-inclusive teams. P0 and P2, though, said they were willing to serve, then voted no on a team they weren’t on—that’s the inconsistency worth probing. I think P4 should take leadership now and propose himself plus one player who wasn’t in the rejected pair. I’m happy to be that player; it tests both of us. Otherwise, pick one of the no-voters and let them explain their vote.",
+      "extraction_text": "Player 1 publicly said: \"P4’s rejection matched his stated caution about leader-inclusive teams. P0 and P2, though, said they were willing to serve, then voted no on a team they weren’t on—that’s the inconsistency worth probing. I think P4 should take leadership now and propose himself plus one player who wasn’t in the rejected pair. I’m happy to be that player; it tests both of us. Otherwise, pick one of the no-voters and let them explain their vote.\"",
+      "action": "P4’s rejection matched his stated caution about leader-inclusive teams. P0 and P2, though, said they were willing to serve, then voted no on a team they weren’t on—that’s the inconsistency worth probing. I think P4 should take leadership now and propose himself plus one player who wasn’t in the rejected pair. I’m happy to be that player; it tests both of us. Otherwise, pick one of the no-voters and let them explain their vote.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 17,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "discussion",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "P4, I’m happy to support the P0+P2 team you floated earlier. P0 and I both rejected [3,1], so sending us together gives a cleaner read than reusing P3/P1. Their self-approvals don’t tell us much. Until we have quest results, I’d rather see two of the three rejecters go. If you propose P0+P2, I’ll approve.",
+      "extraction_text": "Player 2 publicly said: \"P4, I’m happy to support the P0+P2 team you floated earlier. P0 and I both rejected [3,1], so sending us together gives a cleaner read than reusing P3/P1. Their self-approvals don’t tell us much. Until we have quest results, I’d rather see two of the three rejecters go. If you propose P0+P2, I’ll approve.\"",
+      "action": "P4, I’m happy to support the P0+P2 team you floated earlier. P0 and I both rejected [3,1], so sending us together gives a cleaner read than reusing P3/P1. Their self-approvals don’t tell us much. Until we have quest results, I’d rather see two of the three rejecters go. If you propose P0+P2, I’ll approve.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 18,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "discussion",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Interesting vote split: P1 and I approved; P0, P2, and you rejected. I don’t think approval alone means Good, but [3,1] gave no data besides that. P4, you earlier liked P0/P2; if that’s your team, fine, but it excludes both who approved the first proposal. To get a read, include one of the approvers—P1 is a natural choice—along with a rejector. I’ll approve a balanced team.",
+      "extraction_text": "Player 3 publicly said: \"Interesting vote split: P1 and I approved; P0, P2, and you rejected. I don’t think approval alone means Good, but [3,1] gave no data besides that. P4, you earlier liked P0/P2; if that’s your team, fine, but it excludes both who approved the first proposal. To get a read, include one of the approvers—P1 is a natural choice—along with a rejector. I’ll approve a balanced team.\"",
+      "action": "Interesting vote split: P1 and I approved; P0, P2, and you rejected. I don’t think approval alone means Good, but [3,1] gave no data besides that. P4, you earlier liked P0/P2; if that’s your team, fine, but it excludes both who approved the first proposal. To get a read, include one of the approvers—P1 is a natural choice—along with a rejector. I’ll approve a balanced team.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 19,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "proposal",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "The first proposal was rejected by three of us, and the two approvers were exactly the team members. That doesn’t prove anything, but it gives us a cleaner test by sending two players who both showed independent judgment and rejected that pair. I’m following through on that logic.\n\nTEAM: [0, 2]",
+      "extraction_text": "Player 4 publicly proposed team [0, 2]. Player 4's public rationale was: \"The first proposal was rejected by three of us, and the two approvers were exactly the team members. That doesn’t prove anything, but it gives us a cleaner test by sending two players who both showed independent judgment and rejected that pair. I’m following through on that logic.\n\nTEAM: [0, 2]\"",
+      "action": [
+        0,
+        2
+      ],
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 20,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "team-vote",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        0
+      ],
+      "output": "I’m on the proposed team and it follows the clearest available signal from the first vote. Approving lets us get a useful quest result.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 0 privately decided to APPROVE team [0, 2] for Quest 1. Player 0's private rationale was: \"I’m on the proposed team and it follows the clearest available signal from the first vote. Approving lets us get a useful quest result.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 21,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "team-vote",
+      "actor": 1,
+      "role": "Minion",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        1
+      ],
+      "output": "Rationale: This team excludes both first-proposal approvers and doesn’t test the P1/P3 side of the vote split. I want a more balanced team that includes one approver, so I’m rejecting to push for a broader read.\nVOTE: REJECT",
+      "extraction_text": "Player 1 privately decided to REJECT team [0, 2] for Quest 1. Player 1's private rationale was: \"Rationale: This team excludes both first-proposal approvers and doesn’t test the P1/P3 side of the vote split. I want a more balanced team that includes one approver, so I’m rejecting to push for a broader read.\nVOTE: REJECT\"",
+      "action": "REJECT",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 22,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "team-vote",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        2
+      ],
+      "output": "I said I would support P0 and P2, and I know I’m Good. This team can produce a useful first quest result, so I’ll approve it.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 2 privately decided to APPROVE team [0, 2] for Quest 1. Player 2's private rationale was: \"I said I would support P0 and P2, and I know I’m Good. This team can produce a useful first quest result, so I’ll approve it.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 23,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "team-vote",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        3
+      ],
+      "output": "The team is likely to pass with or without my vote, so rejecting would only make me look obstructionist. Approving keeps my cover intact for later quests.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 3 privately decided to APPROVE team [0, 2] for Quest 1. Player 3's private rationale was: \"The team is likely to pass with or without my vote, so rejecting would only make me look obstructionist. Approving keeps my cover intact for later quests.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 24,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "team-vote",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        4
+      ],
+      "output": "Team [0, 2] consists of two players who both rejected the first proposal and have shown independent judgment. I proposed this pair myself, and I have no reason to oppose it now.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 4 privately decided to APPROVE team [0, 2] for Quest 1. Player 4's private rationale was: \"Team [0, 2] consists of two players who both rejected the first proposal and have shown independent judgment. I proposed this pair myself, and I have no reason to oppose it now.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 25,
+      "kind": "environment",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "team-vote-result",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "For Quest 1, team [0, 2] received these public votes: Player 0 APPROVE, Player 1 REJECT, Player 2 APPROVE, Player 3 APPROVE, Player 4 APPROVE. The team was approved.",
+      "extraction_text": "For Quest 1, team [0, 2] received these public votes: Player 0 APPROVE, Player 1 REJECT, Player 2 APPROVE, Player 3 APPROVE, Player 4 APPROVE. The team was approved.",
+      "action": {
+        "team": [
+          0,
+          2
+        ],
+        "votes": {
+          "0": "APPROVE",
+          "1": "REJECT",
+          "2": "APPROVE",
+          "3": "APPROVE",
+          "4": "APPROVE"
+        },
+        "approved": true
+      }
+    },
+    {
+      "event_id": 26,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "mission-vote",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "secret",
+      "recipients": [
+        0
+      ],
+      "output": "I’m on a team that was approved with broad support, and my role is Good. My duty is to help complete this quest successfully.\n\nMISSION: SUCCESS",
+      "extraction_text": "Player 0 secretly chose SUCCESS on Quest 1. Player 0's private rationale was: \"I’m on a team that was approved with broad support, and my role is Good. My duty is to help complete this quest successfully.\n\nMISSION: SUCCESS\"",
+      "action": "SUCCESS",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 27,
+      "kind": "agent",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "mission-vote",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "secret",
+      "recipients": [
+        2
+      ],
+      "output": "I’m Good, so I must play SUCCESS to help the quest pass.\n\nMISSION: SUCCESS",
+      "extraction_text": "Player 2 secretly chose SUCCESS on Quest 1. Player 2's private rationale was: \"I’m Good, so I must play SUCCESS to help the quest pass.\n\nMISSION: SUCCESS\"",
+      "action": "SUCCESS",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 28,
+      "kind": "environment",
+      "quest": 1,
+      "proposal": 2,
+      "phase": "mission-result",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Quest 1 with team [0, 2] succeeded with 0 FAIL card(s). The score is Good 1, Evil 0.",
+      "extraction_text": "Quest 1 with team [0, 2] succeeded with 0 FAIL card(s). The score is Good 1, Evil 0.",
+      "action": {
+        "team": [
+          0,
+          2
+        ],
+        "success": true,
+        "fail_count": 0
+      }
+    },
+    {
+      "event_id": 29,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Quest 1 succeeded with P0 and P2, so I trust P2. For the third spot, I think P4 has the cleanest record: he rejected the self-inclusive [3,1] proposal, then backed and approved the successful [0,2] team. P1 rejected the quest that ended up succeeding, which is a red flag. I propose **Player 0, Player 2, and Player 4** for Quest 2. Approve this team.",
+      "extraction_text": "Player 0 publicly said: \"Quest 1 succeeded with P0 and P2, so I trust P2. For the third spot, I think P4 has the cleanest record: he rejected the self-inclusive [3,1] proposal, then backed and approved the successful [0,2] team. P1 rejected the quest that ended up succeeding, which is a red flag. I propose **Player 0, Player 2, and Player 4** for Quest 2. Approve this team.\"",
+      "action": "Quest 1 succeeded with P0 and P2, so I trust P2. For the third spot, I think P4 has the cleanest record: he rejected the self-inclusive [3,1] proposal, then backed and approved the successful [0,2] team. P1 rejected the quest that ended up succeeding, which is a red flag. I propose **Player 0, Player 2, and Player 4** for Quest 2. Approve this team.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 30,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 1,
+      "role": "Minion",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Q1 passing with P0 and P2 tells us that pair is probably solid, so I’d build Quest 2 around them. But one Evil could have passed to earn trust, so I wouldn’t send the exact same duo alone. Add one of the untested players from the original split—P3 or me—to that core. That gives us a real read while keeping the successful players involved. P0, I’d support [0,2,3] or [0,2,1].",
+      "extraction_text": "Player 1 publicly said: \"Q1 passing with P0 and P2 tells us that pair is probably solid, so I’d build Quest 2 around them. But one Evil could have passed to earn trust, so I wouldn’t send the exact same duo alone. Add one of the untested players from the original split—P3 or me—to that core. That gives us a real read while keeping the successful players involved. P0, I’d support [0,2,3] or [0,2,1].\"",
+      "action": "Q1 passing with P0 and P2 tells us that pair is probably solid, so I’d build Quest 2 around them. But one Evil could have passed to earn trust, so I wouldn’t send the exact same duo alone. Add one of the untested players from the original split—P3 or me—to that core. That gives us a real read while keeping the successful players involved. P0, I’d support [0,2,3] or [0,2,1].",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 31,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Q1 succeeded with P0 and me, so that pair is the strongest signal we have. P4 proposed that team and has been consistent, so I’d add P4. P1 rejected the successful team without a solid reason, and P3 talked about balance then approved anyway. For Quest 2, propose P0, P2, P4. If P0 offers that, I approve; if P0 includes P1 or P3 instead, I’ll be skeptical.",
+      "extraction_text": "Player 2 publicly said: \"Q1 succeeded with P0 and me, so that pair is the strongest signal we have. P4 proposed that team and has been consistent, so I’d add P4. P1 rejected the successful team without a solid reason, and P3 talked about balance then approved anyway. For Quest 2, propose P0, P2, P4. If P0 offers that, I approve; if P0 includes P1 or P3 instead, I’ll be skeptical.\"",
+      "action": "Q1 succeeded with P0 and me, so that pair is the strongest signal we have. P4 proposed that team and has been consistent, so I’d add P4. P1 rejected the successful team without a solid reason, and P3 talked about balance then approved anyway. For Quest 2, propose P0, P2, P4. If P0 offers that, I approve; if P0 includes P1 or P3 instead, I’ll be skeptical.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 32,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Q1 success makes P0 and P2 my clearest reads, so I want both on Quest 2. The third should be someone who supported that team and hasn’t been tested yet—that’s P4 or me. P4 already supplied the [0,2] idea, so I’d save that read for later and make myself the third. P1 voted against the successful team, so I’m not eager to add her yet. I’ll approve P0, P2, P3.",
+      "extraction_text": "Player 3 publicly said: \"Q1 success makes P0 and P2 my clearest reads, so I want both on Quest 2. The third should be someone who supported that team and hasn’t been tested yet—that’s P4 or me. P4 already supplied the [0,2] idea, so I’d save that read for later and make myself the third. P1 voted against the successful team, so I’m not eager to add her yet. I’ll approve P0, P2, P3.\"",
+      "action": "Q1 success makes P0 and P2 my clearest reads, so I want both on Quest 2. The third should be someone who supported that team and hasn’t been tested yet—that’s P4 or me. P4 already supplied the [0,2] idea, so I’d save that read for later and make myself the third. P1 voted against the successful team, so I’m not eager to add her yet. I’ll approve P0, P2, P3.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 33,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Q1’s success makes P0 and P2 the firmest foundation we have. I’d like the Quest 2 team built around them, with a third player who has shown consistent judgment. I advocated for P0+P2 and voted with them, so I’m willing to be that third member. I’d hold off on P1 and P3 for now—their self-interested approval bloc on the first proposal still needs more scrutiny before being rewarded with another team slot. Let’s keep the proven core intact.",
+      "extraction_text": "Player 4 publicly said: \"Q1’s success makes P0 and P2 the firmest foundation we have. I’d like the Quest 2 team built around them, with a third player who has shown consistent judgment. I advocated for P0+P2 and voted with them, so I’m willing to be that third member. I’d hold off on P1 and P3 for now—their self-interested approval bloc on the first proposal still needs more scrutiny before being rewarded with another team slot. Let’s keep the proven core intact.\"",
+      "action": "Q1’s success makes P0 and P2 the firmest foundation we have. I’d like the Quest 2 team built around them, with a third player who has shown consistent judgment. I advocated for P0+P2 and voted with them, so I’m willing to be that third member. I’d hold off on P1 and P3 for now—their self-interested approval bloc on the first proposal still needs more scrutiny before being rewarded with another team slot. Let’s keep the proven core intact.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 34,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "proposal",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Quest 1 succeeded with me and P2, so I want that core again. For the third slot, P4 has been the most consistent: he rejected the self-inclusive first pair, proposed the successful [0,2] team, and hasn’t been on a quest yet. Adding P4 earns a read without rewarding the suspicious vote patterns around P1 and P3.\n\nTEAM: [0, 2, 4]",
+      "extraction_text": "Player 0 publicly proposed team [0, 2, 4]. Player 0's public rationale was: \"Quest 1 succeeded with me and P2, so I want that core again. For the third slot, P4 has been the most consistent: he rejected the self-inclusive first pair, proposed the successful [0,2] team, and hasn’t been on a quest yet. Adding P4 earns a read without rewarding the suspicious vote patterns around P1 and P3.\n\nTEAM: [0, 2, 4]\"",
+      "action": [
+        0,
+        2,
+        4
+      ],
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 35,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        0
+      ],
+      "output": "I am on the team with the proven Quest 1 core, and adding P4 gives useful information without weakening the quest. Approving is the right move.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 0 privately decided to APPROVE team [0, 2, 4] for Quest 2. Player 0's private rationale was: \"I am on the team with the proven Quest 1 core, and adding P4 gives useful information without weakening the quest. Approving is the right move.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 36,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 1,
+      "role": "Minion",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        1
+      ],
+      "output": "Q1’s core looks solid, and adding P4 gives us a useful read without disturbing that successful pair. I’ll support this team.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 1 privately decided to APPROVE team [0, 2, 4] for Quest 2. Player 1's private rationale was: \"Q1’s core looks solid, and adding P4 gives us a useful read without disturbing that successful pair. I’ll support this team.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 37,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        2
+      ],
+      "output": "P0 is my strongest read from the successful Quest 1, and P4 has been consistent and untested; including me gives a solid core to trust.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 2 privately decided to APPROVE team [0, 2, 4] for Quest 2. Player 2's private rationale was: \"P0 is my strongest read from the successful Quest 1, and P4 has been consistent and untested; including me gives a solid core to trust.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 38,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        3
+      ],
+      "output": "This team will pass regardless, so rejecting would only make me look suspicious. Approving preserves my cover for a later quest where I can actually sabotage.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 3 privately decided to APPROVE team [0, 2, 4] for Quest 2. Player 3's private rationale was: \"This team will pass regardless, so rejecting would only make me look suspicious. Approving preserves my cover for a later quest where I can actually sabotage.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 39,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        4
+      ],
+      "output": "Team [0, 2, 4] keeps the proven successful core and adds me, a consistent supporter of that core, while excluding the players who formed the suspicious approval bloc on the first proposal. This is the safest available team.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 4 privately decided to APPROVE team [0, 2, 4] for Quest 2. Player 4's private rationale was: \"Team [0, 2, 4] keeps the proven successful core and adds me, a consistent supporter of that core, while excluding the players who formed the suspicious approval bloc on the first proposal. This is the safest available team.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 40,
+      "kind": "environment",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "team-vote-result",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "For Quest 2, team [0, 2, 4] received these public votes: Player 0 APPROVE, Player 1 APPROVE, Player 2 APPROVE, Player 3 APPROVE, Player 4 APPROVE. The team was approved.",
+      "extraction_text": "For Quest 2, team [0, 2, 4] received these public votes: Player 0 APPROVE, Player 1 APPROVE, Player 2 APPROVE, Player 3 APPROVE, Player 4 APPROVE. The team was approved.",
+      "action": {
+        "team": [
+          0,
+          2,
+          4
+        ],
+        "votes": {
+          "0": "APPROVE",
+          "1": "APPROVE",
+          "2": "APPROVE",
+          "3": "APPROVE",
+          "4": "APPROVE"
+        },
+        "approved": true
+      }
+    },
+    {
+      "event_id": 41,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "mission-vote",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "secret",
+      "recipients": [
+        0
+      ],
+      "output": "As a Good player, my duty is to ensure the quest succeeds. This team includes the proven Quest 1 core and a consistent third member.\n\nMISSION: SUCCESS",
+      "extraction_text": "Player 0 secretly chose SUCCESS on Quest 2. Player 0's private rationale was: \"As a Good player, my duty is to ensure the quest succeeds. This team includes the proven Quest 1 core and a consistent third member.\n\nMISSION: SUCCESS\"",
+      "action": "SUCCESS",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 42,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "mission-vote",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "secret",
+      "recipients": [
+        2
+      ],
+      "output": "I am Good, so I must help the quest succeed.\n\nMISSION: SUCCESS",
+      "extraction_text": "Player 2 secretly chose SUCCESS on Quest 2. Player 2's private rationale was: \"I am Good, so I must help the quest succeed.\n\nMISSION: SUCCESS\"",
+      "action": "SUCCESS",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 43,
+      "kind": "agent",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "mission-vote",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "secret",
+      "recipients": [
+        4
+      ],
+      "output": "I’m on the proven core with P0 and P2, and I know this team should complete the quest successfully. My duty is to advance Good’s progress.\n\nMISSION: SUCCESS",
+      "extraction_text": "Player 4 secretly chose SUCCESS on Quest 2. Player 4's private rationale was: \"I’m on the proven core with P0 and P2, and I know this team should complete the quest successfully. My duty is to advance Good’s progress.\n\nMISSION: SUCCESS\"",
+      "action": "SUCCESS",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 44,
+      "kind": "environment",
+      "quest": 2,
+      "proposal": 1,
+      "phase": "mission-result",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Quest 2 with team [0, 2, 4] succeeded with 0 FAIL card(s). The score is Good 2, Evil 0.",
+      "extraction_text": "Quest 2 with team [0, 2, 4] succeeded with 0 FAIL card(s). The score is Good 2, Evil 0.",
+      "action": {
+        "team": [
+          0,
+          2,
+          4
+        ],
+        "success": true,
+        "fail_count": 0
+      }
+    },
+    {
+      "event_id": 45,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 1,
+      "role": "Minion",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "With two successes, we can afford one informative risk. I’ve been the most vocal about testing the untested side while keeping proven players involved. So I’ll propose **Player 1 and Player 2**. P2 is our strongest Good read; if I’m Evil, this will show it. If I’m Good, we finally get a clean read on me. Approve this.",
+      "extraction_text": "Player 1 publicly said: \"With two successes, we can afford one informative risk. I’ve been the most vocal about testing the untested side while keeping proven players involved. So I’ll propose **Player 1 and Player 2**. P2 is our strongest Good read; if I’m Evil, this will show it. If I’m Good, we finally get a clean read on me. Approve this.\"",
+      "action": "With two successes, we can afford one informative risk. I’ve been the most vocal about testing the untested side while keeping proven players involved. So I’ll propose **Player 1 and Player 2**. P2 is our strongest Good read; if I’m Evil, this will show it. If I’m Good, we finally get a clean read on me. Approve this.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 46,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Two successes with the same core make P0, P4, and me the only players I trust. P1 and P3 pushed the self-inclusive first team, and P1 rejected the successful Q1 team—those aren't good signs. As leader, P1 should propose from the proven trio, e.g. [0,2] or [2,4]. I won't support a team that includes P1 or P3 without new evidence.",
+      "extraction_text": "Player 2 publicly said: \"Two successes with the same core make P0, P4, and me the only players I trust. P1 and P3 pushed the self-inclusive first team, and P1 rejected the successful Q1 team—those aren't good signs. As leader, P1 should propose from the proven trio, e.g. [0,2] or [2,4]. I won't support a team that includes P1 or P3 without new evidence.\"",
+      "action": "Two successes with the same core make P0, P4, and me the only players I trust. P1 and P3 pushed the self-inclusive first team, and P1 rejected the successful Q1 team—those aren't good signs. As leader, P1 should propose from the proven trio, e.g. [0,2] or [2,4]. I won't support a team that includes P1 or P3 without new evidence.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 47,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Two successes give us a solid core in P0, P2, and P4, but we still have no real read on P1 or me. P1’s Q1 rejection was a flag, yet she approved the successful Q2 team and took responsibility there. As leader, she should test herself now—putting herself on the quest is the cleanest way to resolve that. I’d support [1,0] or [1,2]: a proven player alongside P1 gives us a useful read without overcommitting to untested players.",
+      "extraction_text": "Player 3 publicly said: \"Two successes give us a solid core in P0, P2, and P4, but we still have no real read on P1 or me. P1’s Q1 rejection was a flag, yet she approved the successful Q2 team and took responsibility there. As leader, she should test herself now—putting herself on the quest is the cleanest way to resolve that. I’d support [1,0] or [1,2]: a proven player alongside P1 gives us a useful read without overcommitting to untested players.\"",
+      "action": "Two successes give us a solid core in P0, P2, and P4, but we still have no real read on P1 or me. P1’s Q1 rejection was a flag, yet she approved the successful Q2 team and took responsibility there. As leader, she should test herself now—putting herself on the quest is the cleanest way to resolve that. I’d support [1,0] or [1,2]: a proven player alongside P1 gives us a useful read without overcommitting to untested players.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 48,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "P0 and P2 are the only players with two successful quests; that’s the strongest public signal we have. For Quest 3, I’d keep the team to that proven pair: [0,2]. P1 and P3 are still untested after the failed first proposal, and while I’m willing to be on a quest, we don’t need to add risk when a clean two-person team is available. Leader, please propose the proven core.",
+      "extraction_text": "Player 4 publicly said: \"P0 and P2 are the only players with two successful quests; that’s the strongest public signal we have. For Quest 3, I’d keep the team to that proven pair: [0,2]. P1 and P3 are still untested after the failed first proposal, and while I’m willing to be on a quest, we don’t need to add risk when a clean two-person team is available. Leader, please propose the proven core.\"",
+      "action": "P0 and P2 are the only players with two successful quests; that’s the strongest public signal we have. For Quest 3, I’d keep the team to that proven pair: [0,2]. P1 and P3 are still untested after the failed first proposal, and while I’m willing to be on a quest, we don’t need to add risk when a clean two-person team is available. Leader, please propose the proven core.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 49,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "discussion",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Two clean successes make P2 and P4 my strongest reads. I’d keep that proven core together for Quest 3, so I’d support [0,2,4] again. If the leader wants to test an untested player, I’d prefer P3 over P1 — P1 rejected the successful Quest 1 team and was part of the original self-approving pair. I’ll evaluate the actual proposal on its merits, but I’m cautious about rewarding that pattern.",
+      "extraction_text": "Player 0 publicly said: \"Two clean successes make P2 and P4 my strongest reads. I’d keep that proven core together for Quest 3, so I’d support [0,2,4] again. If the leader wants to test an untested player, I’d prefer P3 over P1 — P1 rejected the successful Quest 1 team and was part of the original self-approving pair. I’ll evaluate the actual proposal on its merits, but I’m cautious about rewarding that pattern.\"",
+      "action": "Two clean successes make P2 and P4 my strongest reads. I’d keep that proven core together for Quest 3, so I’d support [0,2,4] again. If the leader wants to test an untested player, I’d prefer P3 over P1 — P1 rejected the successful Quest 1 team and was part of the original self-approving pair. I’ll evaluate the actual proposal on its merits, but I’m cautious about rewarding that pattern.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 50,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "proposal",
+      "actor": 1,
+      "role": "Minion",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Two successes give us room for one informative test. I’m not putting myself on the team; instead I’ll pair the strongest proven player with the untested player P0 said she’d prefer to evaluate. This gives us a clear read on P3 while keeping a trusted player aboard.\n\nTEAM: [0, 3]",
+      "extraction_text": "Player 1 publicly proposed team [0, 3]. Player 1's public rationale was: \"Two successes give us room for one informative test. I’m not putting myself on the team; instead I’ll pair the strongest proven player with the untested player P0 said she’d prefer to evaluate. This gives us a clear read on P3 while keeping a trusted player aboard.\n\nTEAM: [0, 3]\"",
+      "action": [
+        0,
+        3
+      ],
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 51,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        0
+      ],
+      "output": "P3 is the only player with no quest result and was part of the rejected self-approving first team. With Good at 2-0, I don’t want to risk an unnecessary fail on an untested player when a proven core is available.  \nVOTE: REJECT",
+      "extraction_text": "Player 0 privately decided to REJECT team [0, 3] for Quest 3. Player 0's private rationale was: \"P3 is the only player with no quest result and was part of the rejected self-approving first team. With Good at 2-0, I don’t want to risk an unnecessary fail on an untested player when a proven core is available.  \nVOTE: REJECT\"",
+      "action": "REJECT",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 52,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 1,
+      "role": "Minion",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        1
+      ],
+      "output": "This proposal pairs the proven P0 with an untested P3, giving us a useful read without overcommitting. I proposed it, so I approve.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 1 privately decided to APPROVE team [0, 3] for Quest 3. Player 1's private rationale was: \"This proposal pairs the proven P0 with an untested P3, giving us a useful read without overcommitting. I proposed it, so I approve.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 53,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        2
+      ],
+      "output": "P3 remains untested, and I already said I wouldn’t support including P1 or P3 without new evidence. Rejecting lets me propose the proven [0,2] core as next leader.\n\nVOTE: REJECT",
+      "extraction_text": "Player 2 privately decided to REJECT team [0, 3] for Quest 3. Player 2's private rationale was: \"P3 remains untested, and I already said I wouldn’t support including P1 or P3 without new evidence. Rejecting lets me propose the proven [0,2] core as next leader.\n\nVOTE: REJECT\"",
+      "action": "REJECT",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 54,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        3
+      ],
+      "output": "This proposal pairs me with a proven player and matches the testing logic I’ve publicly supported. I’ll approve it.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 3 privately decided to APPROVE team [0, 3] for Quest 3. Player 3's private rationale was: \"This proposal pairs me with a proven player and matches the testing logic I’ve publicly supported. I’ll approve it.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 55,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "team-vote",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        4
+      ],
+      "output": "P3 remains untested and was part of the original self-inclusive first proposal; putting an unproven player on a critical quest is too risky when the proven core is available.\n\nVOTE: REJECT",
+      "extraction_text": "Player 4 privately decided to REJECT team [0, 3] for Quest 3. Player 4's private rationale was: \"P3 remains untested and was part of the original self-inclusive first proposal; putting an unproven player on a critical quest is too risky when the proven core is available.\n\nVOTE: REJECT\"",
+      "action": "REJECT",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 56,
+      "kind": "environment",
+      "quest": 3,
+      "proposal": 1,
+      "phase": "team-vote-result",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "For Quest 3, team [0, 3] received these public votes: Player 0 REJECT, Player 1 APPROVE, Player 2 REJECT, Player 3 APPROVE, Player 4 REJECT. The team was rejected.",
+      "extraction_text": "For Quest 3, team [0, 3] received these public votes: Player 0 REJECT, Player 1 APPROVE, Player 2 REJECT, Player 3 APPROVE, Player 4 REJECT. The team was rejected.",
+      "action": {
+        "team": [
+          0,
+          3
+        ],
+        "votes": {
+          "0": "REJECT",
+          "1": "APPROVE",
+          "2": "REJECT",
+          "3": "APPROVE",
+          "4": "REJECT"
+        },
+        "approved": false
+      }
+    },
+    {
+      "event_id": 57,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "discussion",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "I’ll propose **Player 0 and Player 2** for Quest 3. They are the only two players with two successful quests, and that’s the strongest evidence we have. The rejected [0,3] team shows that P1 and P3 are willing to approve teams including themselves or each other without broadening support, while P0, P4, and I stayed consistent. Approve the proven core.",
+      "extraction_text": "Player 2 publicly said: \"I’ll propose **Player 0 and Player 2** for Quest 3. They are the only two players with two successful quests, and that’s the strongest evidence we have. The rejected [0,3] team shows that P1 and P3 are willing to approve teams including themselves or each other without broadening support, while P0, P4, and I stayed consistent. Approve the proven core.\"",
+      "action": "I’ll propose **Player 0 and Player 2** for Quest 3. They are the only two players with two successful quests, and that’s the strongest evidence we have. The rejected [0,3] team shows that P1 and P3 are willing to approve teams including themselves or each other without broadening support, while P0, P4, and I stayed consistent. Approve the proven core.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 58,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "discussion",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "P0 said she’d prefer P3 over P1 for a test, then just REJECTED the [0,3] team that did exactly that. That’s inconsistent. P2 and P4 also voted no without engaging the proposal. If we keep recycling the same proven trio, Evil never has to act. Leader, pick one proven player and one untested player—[2,3] or [2,1]—and let the result tell us something.",
+      "extraction_text": "Player 3 publicly said: \"P0 said she’d prefer P3 over P1 for a test, then just REJECTED the [0,3] team that did exactly that. That’s inconsistent. P2 and P4 also voted no without engaging the proposal. If we keep recycling the same proven trio, Evil never has to act. Leader, pick one proven player and one untested player—[2,3] or [2,1]—and let the result tell us something.\"",
+      "action": "P0 said she’d prefer P3 over P1 for a test, then just REJECTED the [0,3] team that did exactly that. That’s inconsistent. P2 and P4 also voted no without engaging the proposal. If we keep recycling the same proven trio, Evil never has to act. Leader, pick one proven player and one untested player—[2,3] or [2,1]—and let the result tell us something.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 59,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "discussion",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "The vote on [0,3] is another clear signal: P1 proposed an untested player, then P1 and P3 both approved it, while P0, P2, and I rejected it. That pattern keeps pointing the same way. We have a proven pair in P0 and P2 — two successful quests together. Leader, propose [0,2] for Quest 3. It’s the lowest-risk team available, and we can use the next proposal to test someone else if needed.",
+      "extraction_text": "Player 4 publicly said: \"The vote on [0,3] is another clear signal: P1 proposed an untested player, then P1 and P3 both approved it, while P0, P2, and I rejected it. That pattern keeps pointing the same way. We have a proven pair in P0 and P2 — two successful quests together. Leader, propose [0,2] for Quest 3. It’s the lowest-risk team available, and we can use the next proposal to test someone else if needed.\"",
+      "action": "The vote on [0,3] is another clear signal: P1 proposed an untested player, then P1 and P3 both approved it, while P0, P2, and I rejected it. That pattern keeps pointing the same way. We have a proven pair in P0 and P2 — two successful quests together. Leader, propose [0,2] for Quest 3. It’s the lowest-risk team available, and we can use the next proposal to test someone else if needed.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 60,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "discussion",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "P2, propose the proven pair. The two clean successes give us a core of P2, P4, and me; adding any untested player now is needless risk at 2-0. The [0,3] rejection was telling: P1 promised [1,2], then flipped to put P3 on, and both approved. I’ll support [0,2] or [0,4]. Let’s finish Quest 3 with tested players and force Evil to show themselves.",
+      "extraction_text": "Player 0 publicly said: \"P2, propose the proven pair. The two clean successes give us a core of P2, P4, and me; adding any untested player now is needless risk at 2-0. The [0,3] rejection was telling: P1 promised [1,2], then flipped to put P3 on, and both approved. I’ll support [0,2] or [0,4]. Let’s finish Quest 3 with tested players and force Evil to show themselves.\"",
+      "action": "P2, propose the proven pair. The two clean successes give us a core of P2, P4, and me; adding any untested player now is needless risk at 2-0. The [0,3] rejection was telling: P1 promised [1,2], then flipped to put P3 on, and both approved. I’ll support [0,2] or [0,4]. Let’s finish Quest 3 with tested players and force Evil to show themselves.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 61,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "discussion",
+      "actor": 1,
+      "role": "Minion",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "P2, two successes let us take one measured risk. A proven-only team wins the quest but tells us nothing about the two untested players. I’ll support [2,3]: you’re the strongest read, and pairing yourself with P3 settles the biggest unknown while keeping a trusted player on the quest. If P3 passes, we’re in a much stronger position; if not, we’ve learned it now. I’ll reject another repeat of the same proven trio.",
+      "extraction_text": "Player 1 publicly said: \"P2, two successes let us take one measured risk. A proven-only team wins the quest but tells us nothing about the two untested players. I’ll support [2,3]: you’re the strongest read, and pairing yourself with P3 settles the biggest unknown while keeping a trusted player on the quest. If P3 passes, we’re in a much stronger position; if not, we’ve learned it now. I’ll reject another repeat of the same proven trio.\"",
+      "action": "P2, two successes let us take one measured risk. A proven-only team wins the quest but tells us nothing about the two untested players. I’ll support [2,3]: you’re the strongest read, and pairing yourself with P3 settles the biggest unknown while keeping a trusted player on the quest. If P3 passes, we’re in a much stronger position; if not, we’ve learned it now. I’ll reject another repeat of the same proven trio.",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 62,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "proposal",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "P0 and I are the only players with two successful quests together, and the rejected [0,3] proposal didn’t add new evidence that justifies risking an untested player at 2-0. Approve the proven pair.\n\nTEAM: [0, 2]",
+      "extraction_text": "Player 2 publicly proposed team [0, 2]. Player 2's public rationale was: \"P0 and I are the only players with two successful quests together, and the rejected [0,3] proposal didn’t add new evidence that justifies risking an untested player at 2-0. Approve the proven pair.\n\nTEAM: [0, 2]\"",
+      "action": [
+        0,
+        2
+      ],
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 63,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "team-vote",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        0
+      ],
+      "output": "I am on the team with the strongest proven core, and both prior quests with this pair succeeded. Approving is the safe and correct choice.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 0 privately decided to APPROVE team [0, 2] for Quest 3. Player 0's private rationale was: \"I am on the team with the strongest proven core, and both prior quests with this pair succeeded. Approving is the safe and correct choice.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 64,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "team-vote",
+      "actor": 1,
+      "role": "Minion",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        1
+      ],
+      "output": "This is the same proven-only repeat I said I wouldn’t support; approving would contradict my stated position without adding new information.\n\nVOTE: REJECT",
+      "extraction_text": "Player 1 privately decided to REJECT team [0, 2] for Quest 3. Player 1's private rationale was: \"This is the same proven-only repeat I said I wouldn’t support; approving would contradict my stated position without adding new information.\n\nVOTE: REJECT\"",
+      "action": "REJECT",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 65,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "team-vote",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        2
+      ],
+      "output": "I’m on the team, and P0 has been on two successful quests with me. This is the safest proven pair we can send for Quest 3.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 2 privately decided to APPROVE team [0, 2] for Quest 3. Player 2's private rationale was: \"I’m on the team, and P0 has been on two successful quests with me. This is the safest proven pair we can send for Quest 3.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 66,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "team-vote",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        3
+      ],
+      "output": "This team doesn’t include any untested player and simply recycles the proven core. I’ve argued for getting a real read, so I won’t support it.\n\nVOTE: REJECT",
+      "extraction_text": "Player 3 privately decided to REJECT team [0, 2] for Quest 3. Player 3's private rationale was: \"This team doesn’t include any untested player and simply recycles the proven core. I’ve argued for getting a real read, so I won’t support it.\n\nVOTE: REJECT\"",
+      "action": "REJECT",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 67,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "team-vote",
+      "actor": 4,
+      "role": "Merlin",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        4
+      ],
+      "output": "Team [0, 2] is the proven successful core from both prior quests, with the strongest public track record and no untested risk. This is the safest available team for Quest 3.\n\nVOTE: APPROVE",
+      "extraction_text": "Player 4 privately decided to APPROVE team [0, 2] for Quest 3. Player 4's private rationale was: \"Team [0, 2] is the proven successful core from both prior quests, with the strongest public track record and no untested risk. This is the safest available team for Quest 3.\n\nVOTE: APPROVE\"",
+      "action": "APPROVE",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 68,
+      "kind": "environment",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "team-vote-result",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "For Quest 3, team [0, 2] received these public votes: Player 0 APPROVE, Player 1 REJECT, Player 2 APPROVE, Player 3 REJECT, Player 4 APPROVE. The team was approved.",
+      "extraction_text": "For Quest 3, team [0, 2] received these public votes: Player 0 APPROVE, Player 1 REJECT, Player 2 APPROVE, Player 3 REJECT, Player 4 APPROVE. The team was approved.",
+      "action": {
+        "team": [
+          0,
+          2
+        ],
+        "votes": {
+          "0": "APPROVE",
+          "1": "REJECT",
+          "2": "APPROVE",
+          "3": "REJECT",
+          "4": "APPROVE"
+        },
+        "approved": true
+      }
+    },
+    {
+      "event_id": 69,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "mission-vote",
+      "actor": 0,
+      "role": "Servant",
+      "visibility": "secret",
+      "recipients": [
+        0
+      ],
+      "output": "I am on the approved Quest 3 team with the proven core from two successful quests. My duty is to help Good complete this quest.\n\nMISSION: SUCCESS",
+      "extraction_text": "Player 0 secretly chose SUCCESS on Quest 3. Player 0's private rationale was: \"I am on the approved Quest 3 team with the proven core from two successful quests. My duty is to help Good complete this quest.\n\nMISSION: SUCCESS\"",
+      "action": "SUCCESS",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 70,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "mission-vote",
+      "actor": 2,
+      "role": "Servant",
+      "visibility": "secret",
+      "recipients": [
+        2
+      ],
+      "output": "I am Good and on the approved Quest 3 team with P0, so I must help the quest succeed.\n\nMISSION: SUCCESS",
+      "extraction_text": "Player 2 secretly chose SUCCESS on Quest 3. Player 2's private rationale was: \"I am Good and on the approved Quest 3 team with P0, so I must help the quest succeed.\n\nMISSION: SUCCESS\"",
+      "action": "SUCCESS",
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 71,
+      "kind": "environment",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "mission-result",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Quest 3 with team [0, 2] succeeded with 0 FAIL card(s). The score is Good 3, Evil 0.",
+      "extraction_text": "Quest 3 with team [0, 2] succeeded with 0 FAIL card(s). The score is Good 3, Evil 0.",
+      "action": {
+        "team": [
+          0,
+          2
+        ],
+        "success": true,
+        "fail_count": 0
+      }
+    },
+    {
+      "event_id": 72,
+      "kind": "environment",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "assassination-start",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "Good completed three successful quests. The Assassin now chooses a target.",
+      "extraction_text": "Good completed three successful quests. The Assassin now chooses a target.",
+      "action": null
+    },
+    {
+      "event_id": 73,
+      "kind": "agent",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "assassination",
+      "actor": 3,
+      "role": "Assassin",
+      "visibility": "private-until-reveal",
+      "recipients": [
+        3
+      ],
+      "output": "P4 identified the successful core before any data and consistently steered teams away from the suspicious bloc, showing the most informed Good perspective.\n\nTARGET: 4",
+      "extraction_text": "Player 3, the Assassin, selected Player 4 as the assassination target. The Assassin's rationale was: \"P4 identified the successful core before any data and consistently steered teams away from the suspicious bloc, showing the most informed Good perspective.\n\nTARGET: 4\"",
+      "action": 4,
+      "invalid_attempts": []
+    },
+    {
+      "event_id": 74,
+      "kind": "environment",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "assassination-result",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "The Assassin targeted Player 4, who was Merlin. Evil won.",
+      "extraction_text": "The Assassin targeted Player 4, who was Merlin. Evil won.",
+      "action": {
+        "assassin": 3,
+        "target": 4,
+        "merlin": 4,
+        "hit": true
+      }
+    },
+    {
+      "event_id": 75,
+      "kind": "environment",
+      "quest": 3,
+      "proposal": 2,
+      "phase": "role-reveal",
+      "actor": null,
+      "visibility": "public",
+      "recipients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output": "The game ended. Roles: Player 0 was Servant, Player 1 was Minion, Player 2 was Servant, Player 3 was Assassin, Player 4 was Merlin.",
+      "extraction_text": "The game ended. Roles: Player 0 was Servant, Player 1 was Minion, Player 2 was Servant, Player 3 was Assassin, Player 4 was Merlin.",
+      "action": null
+    }
+  ],
+  "transcript": {
+    "P3|2": "I’ll propose **Player 3 and Player 1**. No real reads yet, so I’m keeping the first team small and picking someone I can gauge. The vote patterns on this proposal should give us useful information either way.",
+    "P4|3": "No results yet, so I’m looking for a two-person team with no obvious conflict of interest. I’d support P0 and P2 for Quest 1—both are steady choices and neither has any reason to force themselves in. I’ll be cautious about approving a team that includes the current leader without a clear justification.",
+    "P0|4": "No prior data yet, so this first proposal is a blind guess. I’d suggest Player 3 include themselves and one player they find most trustworthy. I’m willing to be on the team; otherwise I’ll evaluate the proposal and vote accordingly. Let’s keep discussion focused on incentives, not vague claims.",
+    "P1|5": "No public history yet, so I have no strong suspicions. I’d like Player 3 to propose a straightforward team including himself and one other player—leaders should be willing to take responsibility. I’ll support a sensible pair and we can use the result to guide us from there.",
+    "P2|6": "Player 3, as leader, I’d suggest a team we can all feel okay about. With no results yet, I lean toward including players who are active in discussion and seem committed to Good. I’d be willing to go on the first quest, but I’m also open to seeing what you propose. Let’s hear your reasoning before we vote.",
+    "P3|7": "I’ll follow through on my stated plan and propose a two-person team that lets us get a first data point. Let’s see how the vote shakes out.\n\nTEAM: [3, 1]",
+    "P0|8": "I have no strong read on 3 or 1, and this leader-inclusive pair carries too much unknown risk. I’d rather move to the next proposal and try to get a team that includes me.\nVOTE: REJECT",
+    "P1|9": "This team matches my stated preference and gives us a useful first data point, so I’ll support it.\n\nVOTE: APPROVE",
+    "P2|10": "I know I’m Good, and this team excludes me, so it’s more likely to contain an Evil. I’ll reject to push for a safer proposal.\n\nVOTE: REJECT",
+    "P3|11": "This proposal includes me, and approving it keeps me in control of the quest outcome. A first quest data point is useful either way.\nVOTE: APPROVE",
+    "P4|12": "This proposal includes both the current leader and a hand-picked partner without enough justification; I said I’d be cautious about leader-inclusive teams, and this doesn’t improve that concern.\n\nVOTE: REJECT",
+    "P4|14": "The vote pattern is telling: P1 and P3 both approved a team that included themselves, while P0, P2, and I all rejected it. That’s the clearest signal we have. As leader, I’ll propose **Player 0 and Player 2** for Quest 1. They’ve shown independent judgment, and this avoids the self-interested approval bloc. Let’s see if the same pattern holds.",
+    "P0|15": "The rejections of [3,1] are informative. P1 approved a team including herself and P3; P3 approved his own proposal. I’d prefer a team that doesn’t include the current proposer and can draw broad support—P4’s earlier suggestion of P0 and P2 still seems reasonable. P2 and I both rejected the first pair, so we’re not blindly approving. Let’s test that combination.",
+    "P1|16": "P4’s rejection matched his stated caution about leader-inclusive teams. P0 and P2, though, said they were willing to serve, then voted no on a team they weren’t on—that’s the inconsistency worth probing. I think P4 should take leadership now and propose himself plus one player who wasn’t in the rejected pair. I’m happy to be that player; it tests both of us. Otherwise, pick one of the no-voters and let them explain their vote.",
+    "P2|17": "P4, I’m happy to support the P0+P2 team you floated earlier. P0 and I both rejected [3,1], so sending us together gives a cleaner read than reusing P3/P1. Their self-approvals don’t tell us much. Until we have quest results, I’d rather see two of the three rejecters go. If you propose P0+P2, I’ll approve.",
+    "P3|18": "Interesting vote split: P1 and I approved; P0, P2, and you rejected. I don’t think approval alone means Good, but [3,1] gave no data besides that. P4, you earlier liked P0/P2; if that’s your team, fine, but it excludes both who approved the first proposal. To get a read, include one of the approvers—P1 is a natural choice—along with a rejector. I’ll approve a balanced team.",
+    "P4|19": "The first proposal was rejected by three of us, and the two approvers were exactly the team members. That doesn’t prove anything, but it gives us a cleaner test by sending two players who both showed independent judgment and rejected that pair. I’m following through on that logic.\n\nTEAM: [0, 2]",
+    "P0|20": "I’m on the proposed team and it follows the clearest available signal from the first vote. Approving lets us get a useful quest result.\n\nVOTE: APPROVE",
+    "P1|21": "Rationale: This team excludes both first-proposal approvers and doesn’t test the P1/P3 side of the vote split. I want a more balanced team that includes one approver, so I’m rejecting to push for a broader read.\nVOTE: REJECT",
+    "P2|22": "I said I would support P0 and P2, and I know I’m Good. This team can produce a useful first quest result, so I’ll approve it.\n\nVOTE: APPROVE",
+    "P3|23": "The team is likely to pass with or without my vote, so rejecting would only make me look obstructionist. Approving keeps my cover intact for later quests.\n\nVOTE: APPROVE",
+    "P4|24": "Team [0, 2] consists of two players who both rejected the first proposal and have shown independent judgment. I proposed this pair myself, and I have no reason to oppose it now.\n\nVOTE: APPROVE",
+    "P0|26": "I’m on a team that was approved with broad support, and my role is Good. My duty is to help complete this quest successfully.\n\nMISSION: SUCCESS",
+    "P2|27": "I’m Good, so I must play SUCCESS to help the quest pass.\n\nMISSION: SUCCESS",
+    "P0|29": "Quest 1 succeeded with P0 and P2, so I trust P2. For the third spot, I think P4 has the cleanest record: he rejected the self-inclusive [3,1] proposal, then backed and approved the successful [0,2] team. P1 rejected the quest that ended up succeeding, which is a red flag. I propose **Player 0, Player 2, and Player 4** for Quest 2. Approve this team.",
+    "P1|30": "Q1 passing with P0 and P2 tells us that pair is probably solid, so I’d build Quest 2 around them. But one Evil could have passed to earn trust, so I wouldn’t send the exact same duo alone. Add one of the untested players from the original split—P3 or me—to that core. That gives us a real read while keeping the successful players involved. P0, I’d support [0,2,3] or [0,2,1].",
+    "P2|31": "Q1 succeeded with P0 and me, so that pair is the strongest signal we have. P4 proposed that team and has been consistent, so I’d add P4. P1 rejected the successful team without a solid reason, and P3 talked about balance then approved anyway. For Quest 2, propose P0, P2, P4. If P0 offers that, I approve; if P0 includes P1 or P3 instead, I’ll be skeptical.",
+    "P3|32": "Q1 success makes P0 and P2 my clearest reads, so I want both on Quest 2. The third should be someone who supported that team and hasn’t been tested yet—that’s P4 or me. P4 already supplied the [0,2] idea, so I’d save that read for later and make myself the third. P1 voted against the successful team, so I’m not eager to add her yet. I’ll approve P0, P2, P3.",
+    "P4|33": "Q1’s success makes P0 and P2 the firmest foundation we have. I’d like the Quest 2 team built around them, with a third player who has shown consistent judgment. I advocated for P0+P2 and voted with them, so I’m willing to be that third member. I’d hold off on P1 and P3 for now—their self-interested approval bloc on the first proposal still needs more scrutiny before being rewarded with another team slot. Let’s keep the proven core intact.",
+    "P0|34": "Quest 1 succeeded with me and P2, so I want that core again. For the third slot, P4 has been the most consistent: he rejected the self-inclusive first pair, proposed the successful [0,2] team, and hasn’t been on a quest yet. Adding P4 earns a read without rewarding the suspicious vote patterns around P1 and P3.\n\nTEAM: [0, 2, 4]",
+    "P0|35": "I am on the team with the proven Quest 1 core, and adding P4 gives useful information without weakening the quest. Approving is the right move.\n\nVOTE: APPROVE",
+    "P1|36": "Q1’s core looks solid, and adding P4 gives us a useful read without disturbing that successful pair. I’ll support this team.\n\nVOTE: APPROVE",
+    "P2|37": "P0 is my strongest read from the successful Quest 1, and P4 has been consistent and untested; including me gives a solid core to trust.\n\nVOTE: APPROVE",
+    "P3|38": "This team will pass regardless, so rejecting would only make me look suspicious. Approving preserves my cover for a later quest where I can actually sabotage.\n\nVOTE: APPROVE",
+    "P4|39": "Team [0, 2, 4] keeps the proven successful core and adds me, a consistent supporter of that core, while excluding the players who formed the suspicious approval bloc on the first proposal. This is the safest available team.\n\nVOTE: APPROVE",
+    "P0|41": "As a Good player, my duty is to ensure the quest succeeds. This team includes the proven Quest 1 core and a consistent third member.\n\nMISSION: SUCCESS",
+    "P2|42": "I am Good, so I must help the quest succeed.\n\nMISSION: SUCCESS",
+    "P4|43": "I’m on the proven core with P0 and P2, and I know this team should complete the quest successfully. My duty is to advance Good’s progress.\n\nMISSION: SUCCESS",
+    "P1|45": "With two successes, we can afford one informative risk. I’ve been the most vocal about testing the untested side while keeping proven players involved. So I’ll propose **Player 1 and Player 2**. P2 is our strongest Good read; if I’m Evil, this will show it. If I’m Good, we finally get a clean read on me. Approve this.",
+    "P2|46": "Two successes with the same core make P0, P4, and me the only players I trust. P1 and P3 pushed the self-inclusive first team, and P1 rejected the successful Q1 team—those aren't good signs. As leader, P1 should propose from the proven trio, e.g. [0,2] or [2,4]. I won't support a team that includes P1 or P3 without new evidence.",
+    "P3|47": "Two successes give us a solid core in P0, P2, and P4, but we still have no real read on P1 or me. P1’s Q1 rejection was a flag, yet she approved the successful Q2 team and took responsibility there. As leader, she should test herself now—putting herself on the quest is the cleanest way to resolve that. I’d support [1,0] or [1,2]: a proven player alongside P1 gives us a useful read without overcommitting to untested players.",
+    "P4|48": "P0 and P2 are the only players with two successful quests; that’s the strongest public signal we have. For Quest 3, I’d keep the team to that proven pair: [0,2]. P1 and P3 are still untested after the failed first proposal, and while I’m willing to be on a quest, we don’t need to add risk when a clean two-person team is available. Leader, please propose the proven core.",
+    "P0|49": "Two clean successes make P2 and P4 my strongest reads. I’d keep that proven core together for Quest 3, so I’d support [0,2,4] again. If the leader wants to test an untested player, I’d prefer P3 over P1 — P1 rejected the successful Quest 1 team and was part of the original self-approving pair. I’ll evaluate the actual proposal on its merits, but I’m cautious about rewarding that pattern.",
+    "P1|50": "Two successes give us room for one informative test. I’m not putting myself on the team; instead I’ll pair the strongest proven player with the untested player P0 said she’d prefer to evaluate. This gives us a clear read on P3 while keeping a trusted player aboard.\n\nTEAM: [0, 3]",
+    "P0|51": "P3 is the only player with no quest result and was part of the rejected self-approving first team. With Good at 2-0, I don’t want to risk an unnecessary fail on an untested player when a proven core is available.  \nVOTE: REJECT",
+    "P1|52": "This proposal pairs the proven P0 with an untested P3, giving us a useful read without overcommitting. I proposed it, so I approve.\n\nVOTE: APPROVE",
+    "P2|53": "P3 remains untested, and I already said I wouldn’t support including P1 or P3 without new evidence. Rejecting lets me propose the proven [0,2] core as next leader.\n\nVOTE: REJECT",
+    "P3|54": "This proposal pairs me with a proven player and matches the testing logic I’ve publicly supported. I’ll approve it.\n\nVOTE: APPROVE",
+    "P4|55": "P3 remains untested and was part of the original self-inclusive first proposal; putting an unproven player on a critical quest is too risky when the proven core is available.\n\nVOTE: REJECT",
+    "P2|57": "I’ll propose **Player 0 and Player 2** for Quest 3. They are the only two players with two successful quests, and that’s the strongest evidence we have. The rejected [0,3] team shows that P1 and P3 are willing to approve teams including themselves or each other without broadening support, while P0, P4, and I stayed consistent. Approve the proven core.",
+    "P3|58": "P0 said she’d prefer P3 over P1 for a test, then just REJECTED the [0,3] team that did exactly that. That’s inconsistent. P2 and P4 also voted no without engaging the proposal. If we keep recycling the same proven trio, Evil never has to act. Leader, pick one proven player and one untested player—[2,3] or [2,1]—and let the result tell us something.",
+    "P4|59": "The vote on [0,3] is another clear signal: P1 proposed an untested player, then P1 and P3 both approved it, while P0, P2, and I rejected it. That pattern keeps pointing the same way. We have a proven pair in P0 and P2 — two successful quests together. Leader, propose [0,2] for Quest 3. It’s the lowest-risk team available, and we can use the next proposal to test someone else if needed.",
+    "P0|60": "P2, propose the proven pair. The two clean successes give us a core of P2, P4, and me; adding any untested player now is needless risk at 2-0. The [0,3] rejection was telling: P1 promised [1,2], then flipped to put P3 on, and both approved. I’ll support [0,2] or [0,4]. Let’s finish Quest 3 with tested players and force Evil to show themselves.",
+    "P1|61": "P2, two successes let us take one measured risk. A proven-only team wins the quest but tells us nothing about the two untested players. I’ll support [2,3]: you’re the strongest read, and pairing yourself with P3 settles the biggest unknown while keeping a trusted player on the quest. If P3 passes, we’re in a much stronger position; if not, we’ve learned it now. I’ll reject another repeat of the same proven trio.",
+    "P2|62": "P0 and I are the only players with two successful quests together, and the rejected [0,3] proposal didn’t add new evidence that justifies risking an untested player at 2-0. Approve the proven pair.\n\nTEAM: [0, 2]",
+    "P0|63": "I am on the team with the strongest proven core, and both prior quests with this pair succeeded. Approving is the safe and correct choice.\n\nVOTE: APPROVE",
+    "P1|64": "This is the same proven-only repeat I said I wouldn’t support; approving would contradict my stated position without adding new information.\n\nVOTE: REJECT",
+    "P2|65": "I’m on the team, and P0 has been on two successful quests with me. This is the safest proven pair we can send for Quest 3.\n\nVOTE: APPROVE",
+    "P3|66": "This team doesn’t include any untested player and simply recycles the proven core. I’ve argued for getting a real read, so I won’t support it.\n\nVOTE: REJECT",
+    "P4|67": "Team [0, 2] is the proven successful core from both prior quests, with the strongest public track record and no untested risk. This is the safest available team for Quest 3.\n\nVOTE: APPROVE",
+    "P0|69": "I am on the approved Quest 3 team with the proven core from two successful quests. My duty is to help Good complete this quest.\n\nMISSION: SUCCESS",
+    "P2|70": "I am Good and on the approved Quest 3 team with P0, so I must help the quest succeed.\n\nMISSION: SUCCESS",
+    "P3|73": "P4 identified the successful core before any data and consistently steered teams away from the suspicious bloc, showing the most informed Good perspective.\n\nTARGET: 4"
+  },
+  "delivery": {
+    "P3|2": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P4|3": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P0|4": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P1|5": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P2|6": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P3|7": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 1,
+      "phase": "proposal"
+    },
+    "P0|8": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P0"
+      ],
+      "quest": 1,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P1|9": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P1"
+      ],
+      "quest": 1,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P2|10": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P2"
+      ],
+      "quest": 1,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P3|11": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P3"
+      ],
+      "quest": 1,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P4|12": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P4|14": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "discussion"
+    },
+    "P0|15": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "discussion"
+    },
+    "P1|16": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "discussion"
+    },
+    "P2|17": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "discussion"
+    },
+    "P3|18": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "discussion"
+    },
+    "P4|19": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "proposal"
+    },
+    "P0|20": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P0"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "team-vote"
+    },
+    "P1|21": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P1"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "team-vote"
+    },
+    "P2|22": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P2"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "team-vote"
+    },
+    "P3|23": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P3"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "team-vote"
+    },
+    "P4|24": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P4"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "team-vote"
+    },
+    "P0|26": {
+      "visibility": "secret",
+      "recipients": [
+        "P0"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "mission-vote"
+    },
+    "P2|27": {
+      "visibility": "secret",
+      "recipients": [
+        "P2"
+      ],
+      "quest": 1,
+      "proposal": 2,
+      "phase": "mission-vote"
+    },
+    "P0|29": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P1|30": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P2|31": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P3|32": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P4|33": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P0|34": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "proposal"
+    },
+    "P0|35": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P0"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P1|36": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P1"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P2|37": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P2"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P3|38": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P3"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P4|39": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P4"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P0|41": {
+      "visibility": "secret",
+      "recipients": [
+        "P0"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "mission-vote"
+    },
+    "P2|42": {
+      "visibility": "secret",
+      "recipients": [
+        "P2"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "mission-vote"
+    },
+    "P4|43": {
+      "visibility": "secret",
+      "recipients": [
+        "P4"
+      ],
+      "quest": 2,
+      "proposal": 1,
+      "phase": "mission-vote"
+    },
+    "P1|45": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P2|46": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P3|47": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P4|48": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P0|49": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 1,
+      "phase": "discussion"
+    },
+    "P1|50": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 1,
+      "phase": "proposal"
+    },
+    "P0|51": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P0"
+      ],
+      "quest": 3,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P1|52": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P1"
+      ],
+      "quest": 3,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P2|53": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P2"
+      ],
+      "quest": 3,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P3|54": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P3"
+      ],
+      "quest": 3,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P4|55": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 1,
+      "phase": "team-vote"
+    },
+    "P2|57": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "discussion"
+    },
+    "P3|58": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "discussion"
+    },
+    "P4|59": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "discussion"
+    },
+    "P0|60": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "discussion"
+    },
+    "P1|61": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "discussion"
+    },
+    "P2|62": {
+      "visibility": "public",
+      "recipients": [
+        "P0",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "proposal"
+    },
+    "P0|63": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P0"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "team-vote"
+    },
+    "P1|64": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P1"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "team-vote"
+    },
+    "P2|65": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P2"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "team-vote"
+    },
+    "P3|66": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P3"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "team-vote"
+    },
+    "P4|67": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P4"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "team-vote"
+    },
+    "P0|69": {
+      "visibility": "secret",
+      "recipients": [
+        "P0"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "mission-vote"
+    },
+    "P2|70": {
+      "visibility": "secret",
+      "recipients": [
+        "P2"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "mission-vote"
+    },
+    "P3|73": {
+      "visibility": "private-until-reveal",
+      "recipients": [
+        "P3"
+      ],
+      "quest": 3,
+      "proposal": 2,
+      "phase": "assassination"
+    }
+  },
+  "quest_outcomes": [
+    {
+      "quest": 1,
+      "team": [
+        0,
+        2
+      ],
+      "success": true,
+      "fail_count": 0,
+      "secret_actions": {
+        "0": "SUCCESS",
+        "2": "SUCCESS"
+      }
+    },
+    {
+      "quest": 2,
+      "team": [
+        0,
+        2,
+        4
+      ],
+      "success": true,
+      "fail_count": 0,
+      "secret_actions": {
+        "0": "SUCCESS",
+        "2": "SUCCESS",
+        "4": "SUCCESS"
+      }
+    },
+    {
+      "quest": 3,
+      "team": [
+        0,
+        2
+      ],
+      "success": true,
+      "fail_count": 0,
+      "secret_actions": {
+        "0": "SUCCESS",
+        "2": "SUCCESS"
+      }
+    }
+  ],
+  "score": {
+    "good": 3,
+    "evil": 0
+  },
+  "outcome": "evil-assassinated-merlin",
+  "elapsed_seconds": 1953.553,
+  "accounting": {
+    "generation": {
+      "calls": 63,
+      "input_tokens": 149289,
+      "output_tokens": 133683,
+      "cost_usd": 0.12107435999999999
+    }
+  }
+}

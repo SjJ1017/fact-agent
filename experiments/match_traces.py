@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 import time
 from pathlib import Path
@@ -244,6 +245,28 @@ def match_dir(a) -> int:
         d = json.loads(f.read_text())
         mentions = [FactMention(**m) for m in d["mentions"].values()]
         t0 = time.time()
+        # Propositions that differ only in punctuation, case or spacing are the
+        # same string; scoring them wastes two model calls to rediscover that.
+        # Polarity stays in the key, so an affirmed and a negated form of one
+        # sentence are never collapsed. Word ORDER stays significant: these
+        # propositions are relations between numbered players, and "Player 2 is
+        # on the Quest 1 team" and "Player 1 is on the Quest 2 team" share every
+        # token.
+        exact_pairs: list[tuple[int, int]] = []
+        skip: set[tuple[int, int]] = set()
+        if a.exact_first:
+            buckets: dict[tuple[str, str], list[int]] = {}
+            for i, m in enumerate(mentions):
+                key = (" ".join(re.sub(r"[^a-z0-9 ]", " ", m.text.lower()).split()),
+                       str(m.polarity))
+                buckets.setdefault(key, []).append(i)
+            for idx in buckets.values():
+                for x in range(len(idx)):
+                    for y in range(x + 1, len(idx)):
+                        exact_pairs.append((idx[x], idx[y]))
+                        skip.add((idx[x], idx[y]))
+                        skip.add((idx[y], idx[x]))
+
         if a.partition:
             # Some propositions are only the same proposition inside one round.
             # "Player 2 has a clean record" at Quest 2 and at Quest 4 share a
@@ -263,6 +286,8 @@ def match_dir(a) -> int:
         else:
             pairs = candidate_pairs(mentions, blocker=blk, threshold=a.threshold,
                                     top_k=a.top_k)
+        if skip:
+            pairs = [p for p in pairs if (p[0], p[1]) not in skip]
         print(f"[{n}/{len(files)}] {f.name}  {len(mentions)} mention  "
               f"{len(pairs)} 候选对", flush=True)
         if pairs:
@@ -289,6 +314,17 @@ def match_dir(a) -> int:
                 rationale=f"f(a,b)={x:.3f} f(b,a)={y:.3f} @{ta:.3f}",
                 properties={"margin_ab": x, "margin_ba": y, "threshold": ta,
                             "f_ab": fwd, "f_ba": rev, "blocker_cosine": float(sim)}))
+        # Exact matches were skipped above to save two calls each; they still
+        # have to reach the store, or the pre-pass would silently delete
+        # equivalences instead of cheapening them.
+        for i, j in exact_pairs:
+            tally["EQUIVALENT"] += 1
+            rels.append(Relation(
+                a=mentions[i].mention_id, b=mentions[j].mention_id,
+                relation="EQUIVALENT", confidence=1.0,
+                rationale="identical after normalising case, punctuation and spacing",
+                properties={"exact_match": True, "threshold": ta}))
+
         facts = cluster(mentions, rels, union_min_similarity=a.union_min)
         m2f = {mid: fa.fact_id for fa in facts for mid in fa.mention_ids}
         out.write_text(json.dumps(
@@ -301,7 +337,10 @@ def match_dir(a) -> int:
                           "threshold_ab": ta, "threshold_ba": tb,
                           "blocker": a.embed, "block_threshold": a.threshold,
                           "top_k": a.top_k, "union_min": a.union_min,
-                          "counts": tally, "seconds": round(time.time() - t0, 1)}},
+                          "counts": tally, "exact_first": bool(a.exact_first),
+                          "exact_pairs": len(exact_pairs),
+                          "partition": a.partition or None,
+                          "seconds": round(time.time() - t0, 1)}},
             ensure_ascii=False, indent=1, sort_keys=True) + "\n")
         merged = len(mentions) - len(facts)
         print(f"      {len(facts)} 簇（合并 {merged}，{merged / max(1, len(mentions)):.0%}）"
@@ -322,6 +361,8 @@ def main() -> int:
     ap.add_argument("--4bit", dest="load_4bit", action="store_true")
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--suffix", default=".atomized.json")
+    ap.add_argument("--exact-first", action="store_true",
+                    help="归一化后完全相同的命题直接判等价，不送模型")
     ap.add_argument("--partition", default="",
                     help="只在 provenance.extra 里这个键相等的 mention 之间配对，"
                          "例如 --partition scope_key")
