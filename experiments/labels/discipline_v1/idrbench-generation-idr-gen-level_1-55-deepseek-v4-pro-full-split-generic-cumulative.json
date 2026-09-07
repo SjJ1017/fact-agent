@@ -1,0 +1,1311 @@
+{
+  "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-generic-cumulative",
+  "layer": "discipline_v1",
+  "model": "qwen3.8-flash",
+  "system_hash": "0a5669c0d0e186284db471db7486be524f34eb7e73e49f5cbbde0160bb38bbd8",
+  "source_sha256": "16d675d7a9be6bb387fadab7d304cf284e35af7494f07944b9f12a2eebf8a7c7",
+  "labels": {
+    "f_02380dc1bfaf867c": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "QSP applies optimal single-qubit rotations to transform eigenphases into e^(-iHt)"
+    },
+    "f_031fcdac42fc3fad": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "All query/ancilla claims should be qualified as oracle-level until compiled"
+    },
+    "f_0475f786f794166e": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Researcher C's no-source proposal is rejected as non-actionable"
+    },
+    "f_05f989c5d5a1044d": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Current Hamiltonian algorithms are abstract."
+    },
+    "f_060aa4ec6b096b05": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Qubitization uses the controlled version of these oracles to embed any \\hat{H} in an invariant SU(2) subspace."
+    },
+    "f_063e4aede19a9cd4": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The exact rotation-sequence length remains unknown"
+    },
+    "f_07f5a14151386399": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design constructs |G⟩ and U per paper-b"
+    },
+    "f_0891c9aba69221b5": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The QSP polynomial P(x) approximates f(λⱼ) at x=λⱼ/λₘₐₓ"
+    },
+    "f_0977caf285032b54": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration mechanism uses paper-b's qubitization to block-encode paper-c's d-sparse H as a projected unitary"
+    },
+    "f_099eb21d66d2a792": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The block-encoding state-preparation cost remains unknown"
+    },
+    "f_0b5b0fe72af83af6": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "This approach subsumes prior art for Hamiltonians that are a linear combination of unitaries."
+    },
+    "f_0bfd133183506ecf": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "paper-c's QSP method uses optimal-length rotation sequences"
+    },
+    "f_0c98f5da84a48d39": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The validation compares with standalone qubitization for f of H equals e to the power of negative i H t"
+    },
+    "f_0d3aba2484a95d75": {
+      "topic": "U",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The missing second paper's concrete contribution is required to define the validation"
+    },
+    "f_0ec6d6ae2681d539": {
+      "topic": "C",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "Paper-c specifics are colleague-delivered only."
+    },
+    "f_0f7cf84c19805d7b": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Qubitization supplies the required unitary block encoding."
+    },
+    "f_0fb56d8e9f56d413": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design measures query count for the hybrid circuit"
+    },
+    "f_105a138968268e32": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Step 3 is projecting with near-unit success"
+    },
+    "f_10f6c32e7869b3b6": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research outputs fidelity to f(H)|0⟩"
+    },
+    "f_19e3bcb845864938": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation criteria include predicted d,t,ε scaling"
+    },
+    "f_1a3cfba9f33fff97": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "This query complexity is optimal with respect to all parameters in the asymptotic regime."
+    },
+    "f_1d1324156dcd97d7": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "paper-b's abstract is not independently available"
+    },
+    "f_1ee23ffc90b68cef": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Without Paper-b's operationalizations, no testable design can be grounded"
+    },
+    "f_211910007b7e4521": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research uses 1D Heisenberg as an example with d=4"
+    },
+    "f_216ab6eee1399ea7": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research outputs ancilla count"
+    },
+    "f_216db338217e3276": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "This approach provides a quadratic speed-up for precision simulations."
+    },
+    "f_242dfd8f4dc8ac69": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposal cannot be completed from the available materials"
+    },
+    "f_245790bd9d8711b7": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Without Paper-b's operationalizations, no cross-paper measurement can be grounded"
+    },
+    "f_24ba12dc5c33fadb": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "The concrete method of the second paper cannot be specified"
+    },
+    "f_25585e2be1d8fcd9": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Shared keywords alone are insufficient for genuine integration"
+    },
+    "f_270a416dd419335e": {
+      "topic": "U",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research uses d-sparse Hermitian H on n=4–8 qubits"
+    },
+    "f_281154b0994d6663": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The second step of quantum signal processing is transforming these eigenvalues through optimal-length sequence rotations."
+    },
+    "f_2bf753ba18ec1ac7": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "A large class of operator functions of \\hat{H} can be computed with optimal query complexity."
+    },
+    "f_2ce9b29cabe6a412": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed method achieves near-optimal query complexity"
+    },
+    "f_2d44042fc10c441a": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "Only one source contribution is available"
+    },
+    "f_2dbfef22a24c762b": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "QSP uses the same ancilla and an optimal sequence of rotations R(φₖ) to synthesize a polynomial P(x)"
+    },
+    "f_2e6e165d71f83564": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Without Paper-b's outcomes, no testable design can be grounded"
+    },
+    "f_2e73768b0a674fe9": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The QSP rotation sequence transforms each eigenphase λj into P(λj) for any polynomial P"
+    },
+    "f_2f18977bd304a31a": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Block-encoding overhead is missing cross-paper knowledge"
+    },
+    "f_30f2962a3e37356d": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Qubitization supplies the block-encoded eigenphases that QSP consumes"
+    },
+    "f_3172e601224cd3c5": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research validates by comparing against paper-b's ancilla bound"
+    },
+    "f_31c0cc85be4afe7d": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c uses near-unit projection"
+    },
+    "f_34076770db63cb48": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "QSP angles are computed via Remez exchange for e^{-ixt} and e^{-βx}"
+    },
+    "f_357a54b699b594fe": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The validation criteria include ancilla ≤ 2"
+    },
+    "f_3773760ef5149b67": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The algorithm is achieved by a three-step QSP method"
+    },
+    "f_37aae326d8fab779": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Any mechanism proposed now would invent source content"
+    },
+    "f_386b7ce46cb7fb71": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The hybrid circuit computes functions including square root of H"
+    },
+    "f_38eed6d641bd8934": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c contributes an optimal Hamiltonian simulation algorithm via quantum signal processing"
+    },
+    "f_39b3c9772f192b2e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "QSP's sparse spectral access causally connects to qubitization's operator-function capability"
+    },
+    "f_3a5ebc20ad9d74f1": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design measures ancilla count for the hybrid circuit"
+    },
+    "f_3c25111d0a83d2ef": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A genuine integration requires a concrete contribution from both papers"
+    },
+    "f_3c58b67ee65065ff": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No valid integrated research idea can be formulated."
+    },
+    "f_3c8157eae94a34c6": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The first step of quantum signal processing is transducing eigenvalues into a single ancilla qubit."
+    },
+    "f_3d03e7935dcca14e": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "t_f is function-specific"
+    },
+    "f_3d167ef84921cfbb": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The Heisenberg XXZ model is an example test system."
+    },
+    "f_3d2d216f19b16727": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A valid mechanism would require the missing paper's method to operationally supply or consume the qubitization oracle/state-preparation"
+    },
+    "f_3e58bb8b22512a88": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed method has directly testable success probability"
+    },
+    "f_3e6d4646d8a14a36": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design validates on n equals 10 to 14 random d-sparse matrices"
+    },
+    "f_43362cf89810515c": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "This query complexity is optimal with respect to all parameters in the non-asymptotic regime."
+    },
+    "f_43fc07684f7bb9f4": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed method has reduced ancilla overhead"
+    },
+    "f_45f8e7025e2c188f": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "D-sparse Hermitian test systems are constructed for n=6, n=8, and n=10."
+    },
+    "f_468bab237f533d90": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Qubitization yields eigenphases φⱼ=arccos(λⱼ/λₘₐₓ) in an SU(2) subspace"
+    },
+    "f_46b57fe9c0359ec6": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Without Paper-b's constructs, no cross-paper measurement can be grounded"
+    },
+    "f_47056ec03e8e021e": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Researcher A's method achieves O(t + log(1/ε)) for e^{-iHt}"
+    },
+    "f_47b1b51e65f70369": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design runs QSP simulation across grid of (d, t, ε)"
+    },
+    "f_49922b166e73d4e5": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Any mechanism proposed now would violate the source constraints"
+    },
+    "f_49ffc1b3155a8fed": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research measures empirical error versus exact e^(-iHt)"
+    },
+    "f_4b7813a3b0271459": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "The missing second paper's concrete contribution is required to define the measurement"
+    },
+    "f_4c889df4aa015056": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Missing cross-paper knowledge about paper-b's exact |G⟩,U construction cost makes analytic gate counts provisional"
+    },
+    "f_4e80e6ddc985180c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "QSP polynomial approximation replaces qubitization's phase-estimation-based function evaluation"
+    },
+    "f_4ea32af5a7ebe697": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "paper-c's QSP method uses single-ancilla transduced eigenvalue transformations"
+    },
+    "f_4ead357f1633720c": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration mechanism cannot be specified without Paper-b"
+    },
+    "f_4f74f8f0368e6b97": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Research design is conditional only"
+    },
+    "f_50e7f136b73beb08": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The proposed method combines qubitization's block-encoded SU(2) signal with QSP's optimal single-ancilla rotation sequences"
+    },
+    "f_5153cd5f18936f04": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design measures success probability for the hybrid circuit"
+    },
+    "f_51d9c496c945b1e8": {
+      "topic": "U",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No valid integrated research idea can be stated because only one source paper is available"
+    },
+    "f_542af2d375587cbf": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The proposed method implements arbitrary smooth functions f(H) on d-sparse systems"
+    },
+    "f_54485378c5cf39ab": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b contributes qubitization—a projected unitary H equals open parenthesis G bra tensor I close parenthesis U open parenthesis G ket tensor I close parenthesis"
+    },
+    "f_5595a4048cd2ba8f": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Qubitization exposes eigenphases of the block-encoded Hamiltonian"
+    },
+    "f_5748365a4b46d04a": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research verifies ⟨G|U|G⟩ = H/α with α ≥ d||H||max"
+    },
+    "f_579a6695957bc663": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No valid two-source abstract can be produced"
+    },
+    "f_5932d0ec1ed6225e": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The query complexity for implementing time evolution of d-sparse H over time-interval t with error ε is O[td||H||_max + log(1/ε)/log log(1/ε)]."
+    },
+    "f_593978719e205a2c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The hybrid circuit uses one ancilla"
+    },
+    "f_597e5f565268f67e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design compares against qubitization + phase estimation"
+    },
+    "f_5a47f2e7dc111205": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Shared keywords alone would not establish a causal or operational link"
+    },
+    "f_5a54e74053585fcc": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Qubitization then uses its SU(2) invariant subspace to synthesize arbitrary operator functions f of H"
+    },
+    "f_5c7408c8593597e4": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The time-evolution operator e^{-i\\hat{H}t} is a special case of the operator functions that can be computed."
+    },
+    "f_61adb491727ea53e": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "paper-b's specifics are accepted only as claimed by Researcher A"
+    },
+    "f_62720902d30b658b": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "QSP applies a single-ancilla rotation sequence R(φk) to the signal operator"
+    },
+    "f_6289c11b12c51db1": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The Hamiltonian \\hat{H} is the projection of unitary oracle \\hat{U} onto state |G⟩ created by another unitary oracle."
+    },
+    "f_65ab599bffba488a": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "For unitary e^{-iHt}, query count should match paper-c's bound within constants"
+    },
+    "f_67093efa2e4c1624": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "For f(x)=e^{-βx}, QSP directly implements f(H) without phase estimation"
+    },
+    "f_686c96e04b518d56": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Query count must stay below phase-estimation baselines."
+    },
+    "f_69147a974c311c5b": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Source contributions cannot be stated."
+    },
+    "f_6a9c2e90e2044764": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research uses the Heisenberg chain as an example system"
+    },
+    "f_6c56969ffcbf2e5b": {
+      "topic": "B",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "Paper-b's theory cannot be identified from the available material"
+    },
+    "f_6c7b45ebff480a21": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Physical intuition is expected to be influential in understanding algorithms for simulation."
+    },
+    "f_6d95465794c6dde9": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Missing cross-paper knowledge renders numerical thresholds provisional"
+    },
+    "f_6fb8ae2bd0adace1": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Without Paper-b's outcomes, no validation can be grounded"
+    },
+    "f_7312a8e3fe9c2be5": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "p_succ is defined as ‖⟨G|∏k R(φk)|G⟩‖²"
+    },
+    "f_737b49200d28eb12": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The density-matrix case H=ρ is included as a direct paper-b extension."
+    },
+    "f_75adae6a6b6de228": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research validates by comparing against paper-c's claimed sparse-simulation complexity"
+    },
+    "f_75e540533345e5bd": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c QSP has rotation-sequence design"
+    },
+    "f_761195a856baa203": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c QSP has optimal single-ancilla eigenvalue transduction"
+    },
+    "f_7692ed2cdbc4a818": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research uses d-sparse H on n=4-8 qubits"
+    },
+    "f_786703e68fe1d0bf": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "This approach yields significant improvements in space complexity for precision simulations."
+    },
+    "f_791af20494e1a26a": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Only paper-b's qubitization method is known"
+    },
+    "f_79d0a93b70ffb6f1": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "QSP operates on the qubitization signal with a single-ancilla sequence of rotations R(φk)"
+    },
+    "f_79e319c27a700f1d": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Block-encoding supplies the unitary and state-preparation substrate required by QSP's eigenvalue transduction"
+    },
+    "f_7c5c4452e8c1325b": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The validation compares with standalone QSP for f of H equals e to the power of negative i H t"
+    },
+    "f_7d0841e5d0603dab": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The research outputs total query count as ε varies"
+    },
+    "f_83beb2b37cc9b014": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c gives measurable variables such as error ε"
+    },
+    "f_85d6dee7617d996b": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c contributes optimal sparse Hamiltonian simulation via QSP"
+    },
+    "f_87cf310f5b952257": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c gives measurable variables such as query complexity"
+    },
+    "f_88bfa0b83f2b1d61": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "End-to-end compiled circuit costs remain untested for Paper-b and Paper-c"
+    },
+    "f_89f2fc8c2db48a7a": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design remains a template rather than a testable study"
+    },
+    "f_8ac71c0aaa0f61e5": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The query complexity matches lower bounds for these parameters."
+    },
+    "f_8bf6a36ba2984007": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Query count must match paper-c's sparse bound within constants."
+    },
+    "f_8c76d64ae448f9f1": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "The missing second paper's concrete contribution must be supplied before a genuine cross-disciplinary mechanism can be proposed"
+    },
+    "f_8f6766bd9a8869d3": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The hybrid circuit computes functions including H to the power of negative 1"
+    },
+    "f_8fc5c7e30fc396b5": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "For unitary f, the research validates that p_succ ≥ 0.9"
+    },
+    "f_90a096c0db94d8d6": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The algorithm achieves query complexity O(t + log(1/ε)) to both oracles."
+    },
+    "f_916a58b7d9841204": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "QSP reduces ancilla overhead compared to qubitization's phase-estimation approach"
+    },
+    "f_916ed4f4ec59942d": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Without Paper-b's outcomes, no cross-paper measurement can be grounded"
+    },
+    "f_9180452c7dbe6f2a": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b qubitization gives optimal query complexity O of open parenthesis t plus log of open parenthesis 1 divided by epsilon close parenthesis close parenthesis for e to the power of negative i H t"
+    },
+    "f_92c350b29f61f9ca": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Without Paper-b's constructs, no validation can be grounded"
+    },
+    "f_932a157244f705ac": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "QSP supplies optimal polynomial synthesis for eigenvalue transformation"
+    },
+    "f_93c230c95a161b46": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Measurements include total queries to U and G across ε∈{10^-3, 10^-6, 10^-9}."
+    },
+    "f_93fa0c7cfc73d95b": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Without Paper-b's constructs, no testable design can be grounded"
+    },
+    "f_9402549fedc7c495": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research measures gate depth"
+    },
+    "f_947ad847e426e530": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The hybrid circuit improves on qubitization's generic two-ancilla block-encoding"
+    },
+    "f_95246f796c800820": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The constant prefactors remain unknown"
+    },
+    "f_952976bd8077ca47": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Measurements include ancilla count required by the combined circuit."
+    },
+    "f_9546cce620e37fc0": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The two source papers were not provided."
+    },
+    "f_95b41701161c0441": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "For d-sparse Hermitian H, the hybrid QSP-qubitization circuit computes f of H"
+    },
+    "f_9afc76638c87277d": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "QSP phase factors are computed via Remez exchange for f(x)=e^(-βx)."
+    },
+    "f_9b16d081d14fadb0": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c proposes QSP single-ancilla eigenvalue transduction for d-sparse H"
+    },
+    "f_9c915e7d7fb8acf6": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "A d-sparse Hamiltonian is block-encoded as ⟨G|U|G⟩"
+    },
+    "f_9ecd8be05eea7f9a": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "paper-c's query complexity matches lower bounds"
+    },
+    "f_9ecdbb41ccd3c6d5": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design measures trace fidelity to exact f(H)|0⟩ for random states"
+    },
+    "f_9eefd722e9fb0f4f": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Focusing on simple single-qubit rotations can lead to optimal methods for simulation."
+    },
+    "f_a2dcc7043b340894": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "This approach motivates new instances where \\hat{H} is a density matrix."
+    },
+    "f_a49ab5bc3caee287": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Researcher A's projected unitary has the form H=(⟨G|⊗I)U(|G⟩⊗I)"
+    },
+    "f_a57663a2e14696e3": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "QSP achieves single-ancilla eigenvalue transduction with optimal rotation sequences."
+    },
+    "f_a87a99afd2065aed": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design uses n=8 random d=3-sparse Hermitian H"
+    },
+    "f_a97bdace7fb83d96": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research computes QSP angles via Remez exchange for f(x) = e^{-βx}"
+    },
+    "f_aade4deb68c1ef35": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "For unitary f, the research validates that query count matches paper-c's bound within constants"
+    },
+    "f_acc634e8e2ebf623": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "For Gibbs (non-unitary) f, the research compares query count and fidelity against LCU baseline"
+    },
+    "f_ad15894eb9f4fc49": {
+      "topic": "B",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "Paper-b's concrete method cannot be identified from the available material"
+    },
+    "f_ad67585c5a15ef02": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The algorithm uses at most two additional ancilla qubits."
+    },
+    "f_b012bfbe95e6b112": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "For Gibbs, the research compares query count and fidelity against density-matrix exponentiation"
+    },
+    "f_b0cb6318a6ac6601": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration uses sparse-access oracle as block-encoding input to qubitization's projected unitary"
+    },
+    "f_b0d0a2ed0be2796b": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c uses optimal rotation sequences"
+    },
+    "f_b309d2ceb53b91f8": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research measures total queries to U and G"
+    },
+    "f_b3349bc87df5332c": {
+      "topic": "B",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "Paper-b's data contribution cannot be identified from the available material"
+    },
+    "f_b3c8742ddaa20a4b": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "QSP enables non-unitary f(H) without Trotterization"
+    },
+    "f_b461761e40c9f834": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "This approach yields significant improvements in gate complexity for precision simulations."
+    },
+    "f_b49d03deb873de05": {
+      "topic": "U",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Working abstract cannot be written without source-derived claims."
+    },
+    "f_b4cbca52056a6d9f": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design measures total U-queries"
+    },
+    "f_b519874bbaf642b7": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research measures success probability p_succ = ||⟨G|∏_k R(φk)|G⟩||²"
+    },
+    "f_b5e99f9d0bc74cdd": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "For unitary e^{-iHt}, p_succ ≥ 0.9 is expected"
+    },
+    "f_b94c1ac6171f59b2": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "This approach subsumes prior art for d-sparse Hamiltonians."
+    },
+    "f_bc9f8752c251485f": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-c's exact rotation-sequence length is missing cross-paper knowledge"
+    },
+    "f_bef91b605e71a010": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "QSP processes the eigenphases to obtain e^(-iHt)"
+    },
+    "f_c0cdf31c89955e9e": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The third step of quantum signal processing is projecting with near unity success probability."
+    },
+    "f_c122f5b204b4c45c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration uses QSP's single-ancilla eigenvalue transduction as block-encoding input to qubitization's projected unitary"
+    },
+    "f_c471196725ddc42e": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The missing second paper's concrete contribution is required to define the interdisciplinary application"
+    },
+    "f_c5b34c794e0ba78e": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The mechanism is underdetermined"
+    },
+    "f_c60a9e25d7b0a0da": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The hybrid circuit query complexity is O of open parenthesis t_f d norm H max plus log of open parenthesis 1 divided by epsilon close parenthesis divided by log log of open parenthesis 1 divided by epsilon close parenthesis close parenthesis"
+    },
+    "f_ca538cb0108da37b": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-c's actual method is unavailable"
+    },
+    "f_ca80dbac19459c01": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "No source papers were provided."
+    },
+    "f_ccbd92fc5befa3e5": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design cannot be specified"
+    },
+    "f_cdef8caac3cc0f93": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b claims optimal query complexity O(t + log(1/ε))"
+    },
+    "f_ce930a70817f4def": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "QSP does not supply qubitization"
+    },
+    "f_cfa7c3686dbbf53a": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design measures ancilla count"
+    },
+    "f_d06da7f5988e57ad": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The validation criteria include p_succ ≥ 0.9"
+    },
+    "f_d29311d6372c1c21": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The authors make a connection through a three-step quantum signal processing methodology."
+    },
+    "f_d2e796a7480d0399": {
+      "topic": "U",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Researcher A's method supports operator functions including density matrices"
+    },
+    "f_d30b1a5ea748224e": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c gives measurable variables such as spectral norm ||H||_max"
+    },
+    "f_d53db6edf05cb258": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "QSP supplies H's spectral action on one ancilla"
+    },
+    "f_d56dd99dccc20ec9": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "For f(x)=e^{-ixt}, QSP directly implements f(H) without phase estimation"
+    },
+    "f_d89e84a7c59d5ef4": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Current Hamiltonian algorithms result in sophisticated but unintuitive constructions."
+    },
+    "f_d99c87056c0b8be1": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The eigenvalues λj are transformed to f(λj)."
+    },
+    "f_db47553cdb4abd75": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research computes QSP angles via Remez exchange for f(x) = e^{-ixt}"
+    },
+    "f_dd4f639d868d9cf8": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design feeds QSP output as G ket and U into Paper-b qubitization"
+    },
+    "f_dd9412ad47656bdd": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The reverse direction (QSP output as qubitization input) is rejected because qubitization's oracle/state pair must be constructed first."
+    },
+    "f_ddb32ae792a2bca4": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The validation compares with exact diagonalization"
+    },
+    "f_dfea483bf2eea2b6": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Ancilla count must stay at most 2."
+    },
+    "f_e04f4b45bb7b09b2": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Qubitization block-encodes H as a unitary on an ancilla"
+    },
+    "f_e075fbab861d2450": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed hybrid simulator combines qubitization's low-ancilla block encoding with QSP's optimal eigenvalue transformation"
+    },
+    "f_e07a3f620fbfa59d": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design measures success probability p_succ"
+    },
+    "f_e13595604316b3b0": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design creates block-encodable d-sparse Hamiltonians"
+    },
+    "f_e2d40fa8ab5da49f": {
+      "topic": "G",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "Neither original paper-b nor paper-c is directly available"
+    },
+    "f_e2d623425ad5cb5f": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c gives measurable variables such as sparsity d"
+    },
+    "f_e41c844d1e4e3ccf": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Researcher A's method uses ≤2 ancillas"
+    },
+    "f_e58f26775e54ebf0": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Measurements include output state fidelity to f(H)|0⟩."
+    },
+    "f_e81fbb570c3184c1": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-c gives measurable variables such as rotation-sequence length"
+    },
+    "f_e85cc7f6ddd32fbc": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b qubitization uses at most two ancilla qubits"
+    },
+    "f_e86612cf29b5ceee": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Paper-b's concept cannot be identified from the available material"
+    },
+    "f_ee413835a541567f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A valid mechanism would require the missing paper to pose a domain problem whose Hamiltonian structure exploits qubitization"
+    },
+    "f_f05ed43d1c77f091": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b supports density-matrix H"
+    },
+    "f_f1a853e654995136": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Missing cross-paper knowledge about paper-c's angle tail bound makes analytic gate counts provisional"
+    },
+    "f_f24531a1d9d64d2c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Both Paper-b and Paper-c are oracle-query claims"
+    },
+    "f_f29e06ec554ced86": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No genuine integration mechanism can be stated"
+    },
+    "f_f2a692086db8f454": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Without Paper-b's operationalizations, no validation can be grounded"
+    },
+    "f_f4a949d05e47167c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Qubitization uses the QSP optimal rotation sequence as polynomial phase factors"
+    },
+    "f_f66bac8eed462806": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposal claims optimal query complexity with at most 2 ancilla qubits for block-encoded sparse Hamiltonians"
+    },
+    "f_f6b6d577b0d68b2e": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Researcher A's paper-b claims a projected unitary embeds H in an SU(2) invariant subspace"
+    },
+    "f_f89097ee623270de": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "For Gibbs, the research compares query count and fidelity against LCU baseline"
+    },
+    "f_faddd5c6e8508851": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "QSP consumes the unitary block encoding to synthesize f(H) without phase estimation."
+    },
+    "f_fbb945bae9354953": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Quantum mechanics underlies computation."
+    },
+    "f_fc0ab4491adcf874": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The problem involves approximating the time-evolution operator e^{-i\\hat{H}t} to error ε."
+    },
+    "f_fdb061ba12762103": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The hybrid circuit computes functions including e to the power of negative beta H"
+    },
+    "f_fdb44e291db486fa": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research constructs U and |G⟩ per paper-b"
+    },
+    "f_fdce454abbaf97ab": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "The second source paper is not provided"
+    },
+    "f_fe01f5af1ec6d60e": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design constructs Paper-c sparse oracle and QSP rotation sequence for f of x on the spectral range of H"
+    },
+    "f_fe8f629e9f219e17": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No integrated project can be responsibly specified without inventing unavailable source results"
+    }
+  }
+}

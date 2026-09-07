@@ -1,0 +1,1833 @@
+{
+  "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+  "layer": "discipline_v1",
+  "model": "qwen3.8-flash",
+  "system_hash": "0a5669c0d0e186284db471db7486be524f34eb7e73e49f5cbbde0160bb38bbd8",
+  "source_sha256": "32d0b4e92e8d4b2f57a5a2b4e40c12b0ac33779e2776562a226dc91872a61321",
+  "labels": {
+    "f_015d5ef9aa961e2e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed deployment changes paper-b from diagnostic CT to screening LDCT."
+    },
+    "f_018f29c156bd9674": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Individuals should receive counseling to quit smoking."
+    },
+    "f_03344738b3852c4d": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study uses an external multicenter retrospective cohort design."
+    },
+    "f_034bdf9a07505817": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "These considerations should be part of discussions about lung cancer screening."
+    },
+    "f_040337878ed82b24": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Low attention-map entropy or poor boundary overlap predicts segmentation error."
+    },
+    "f_06d1a9076e1058d9": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "High uncertainty flags cases for radiologist review."
+    },
+    "f_07db608a53e9a91c": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Any claimed integration would invent source material."
+    },
+    "f_07e28fd0a8a33ab4": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Attention-derived uncertainty flags cases needing review."
+    },
+    "f_084145c33df1803a": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Before initiating lung cancer screening, a shared decision-making discussion with a qualified professional should occur."
+    },
+    "f_0920b87b0c851211": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "A genuine two-paper mechanism cannot be specified because the second paper's contribution is missing."
+    },
+    "f_09b6bbe8b4162708": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "A causal connection cannot be grounded in available evidence."
+    },
+    "f_0a151b45a721b90f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The provisional fallback involves testing whether low attention predicts segmentation errors using Dice."
+    },
+    "f_0a95e1916a99d19e": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b was trained on diagnostic CT, not LDCT."
+    },
+    "f_0ba16ce9fbe9577a": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation includes screening-review benefit."
+    },
+    "f_0cdddb9553ccabf2": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b is evaluated with 180 AMLs."
+    },
+    "f_0d1b8c7f718c53ef": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b results are not independently verified."
+    },
+    "f_0e0ebb6924e73706": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b uses CBAM."
+    },
+    "f_0ec203a0b73c653c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention maps serve as a per-lesion segmentation-uncertainty signal inside the LDCT screening pathway."
+    },
+    "f_10490ad849bacbff": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A secondary outcome of the proposed study is cyst-overdiagnosis rate."
+    },
+    "f_10a9aafd17fd069e": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b reported IoU of 90.29."
+    },
+    "f_131543b934956ab7": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The goal is to cut unnecessary invasive follow-up."
+    },
+    "f_1390983d989aeae3": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Paper-b is available."
+    },
+    "f_13920792407aefc9": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The proposed method demonstrated improved segmentation performance over UNet++."
+    },
+    "f_14f3bd7092d17359": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c criteria include current or former smoker status."
+    },
+    "f_14fa7fb95f03c58d": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The provisional fallback involves extracting spatial attention maps from the trained network on the paper-b CT data plus an external chest CT set."
+    },
+    "f_15031395edfb3ddb": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b was originally validated on diagnostic-quality CT."
+    },
+    "f_158d53025324c991": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The provisional fallback involves measuring overlap with ground-truth lesions."
+    },
+    "f_15d1f359cd531267": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Metrics include attention-map entropy."
+    },
+    "f_1654dd46474d1860": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A valid interdisciplinary study cannot be designed from one source."
+    },
+    "f_165c2990da9e6e7b": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Two Intervention Surveillance Modeling Network-validated models were used to assess benefits and harms of screening."
+    },
+    "f_16d9e2cf93bcc806": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed study would stratify performance by comorbidity and life expectancy."
+    },
+    "f_17e6dfae5a8fd1bf": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design measures sensitivity and specificity."
+    },
+    "f_191c5f73b636bd22": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b should not be used as standalone screening risk model."
+    },
+    "f_1a1561d715ce9f8f": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study stratifies by pack-year."
+    },
+    "f_1a937e282f032a97": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Paper-b's external generalizability must be confirmed."
+    },
+    "f_1d6b8eff1722278c": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c is not independently verified."
+    },
+    "f_1d7618057a83e6ce": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study measures entropy vs segmentation error."
+    },
+    "f_1dfa7dd95b018321": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "High uncertainty flags cases for shorter follow-up."
+    },
+    "f_1e452df04c88f1e3": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The provisional fallback is not a two-paper integration."
+    },
+    "f_1eab601c1854314d": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Low-uncertainty cyst classifications directly modify potential overdiagnosis."
+    },
+    "f_1f5838fb65e3734b": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c decision thresholds are missing."
+    },
+    "f_1ff45fbe23d3430c": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The proposed network could be used to automate the anterior mediastinal nodular lesion detection process."
+    },
+    "f_20164f51b8f78ac2": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Delayed thymoma diagnosis will be measured."
+    },
+    "f_2065866a2a48a436": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea proposes integrating paper-b's attention UNet into ACS guideline-selected low-dose CT screening."
+    },
+    "f_20a8bc29aa24bb84": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The ACS 2023 guideline includes smoking-cessation linkage."
+    },
+    "f_214e1e920897c023": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The proposed network adopts a modified UNet architecture."
+    },
+    "f_22e10cc0e839dc83": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will extract overlap with radiologist boundaries."
+    },
+    "f_22e44a99b1233df3": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c's ACS 2023 lung-cancer screening criteria include shared decision-making."
+    },
+    "f_22f925269e9e0b9d": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c criteria include annual LDCT."
+    },
+    "f_2481827691d4a9e6": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b provides an interpretable attention UNet."
+    },
+    "f_2542cc3033ce595b": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "90 anterior mediastinal nodular lesions were diagnosed as thymoma."
+    },
+    "f_2568f8fe7fca915c": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention maps are repurposed as uncertainty signals."
+    },
+    "f_25efa03b090ed561": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b uses self-attention."
+    },
+    "f_260bdb271311fbe8": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b distinguishes thymic cysts from thymoma in 180 CTs."
+    },
+    "f_287fda786b06254e": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b outperforms ResUNet in 5-fold cross-validation."
+    },
+    "f_291fc0ad868c121f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The attention UNet feeds its classification into shared decision-making."
+    },
+    "f_2a0070d35a975d93": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The provisional fallback involves measuring attention-map entropy."
+    },
+    "f_2a63f0e073a7491e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposal tests whether an attention UNet for anterior mediastinal lesions can safely triage incidental mediastinal findings in ACS lung-cancer screening LDCT."
+    },
+    "f_2cc4af1350eca3fc": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Per-lesion overlap will be correlated with 1 − Dice."
+    },
+    "f_2f2a65a8942e8b07": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c criteria include comorbidity limits."
+    },
+    "f_2fa2682cada56d88": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will measure number needed to review."
+    },
+    "f_2ffc4e72aef9bc1b": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention UNet will be fine-tuned on the LDCT AML set."
+    },
+    "f_3074db02f7619b34": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design validates on an external LDCT set."
+    },
+    "f_329b16ec389a88a4": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b provides an attention UNet for AML segmentation."
+    },
+    "f_32fc809dc67e751d": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Testing attention maps as error indicators does not satisfy the integration requirement."
+    },
+    "f_330fd96ea7a8158f": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Evidence supports screening for individuals older than 80 with good health."
+    },
+    "f_33b81d20032d3649": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c criteria include life-expectancy limits."
+    },
+    "f_3634260af5b7b77f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cohort includes ACS-eligible LDCTs with incidental anterior mediastinal lesions."
+    },
+    "f_36fbafb2fba551ed": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will validate uncertainty against segmentation error via rank correlation."
+    },
+    "f_3771359dbd69d09b": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Higher attention-map overlap should predict higher segmentation error."
+    },
+    "f_37bc896f69d62955": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Testing attention maps as error indicators remains a single-paper extension."
+    },
+    "f_381b0860ec6a1cc4": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b achieved DSC 93.23 on 180 anterior mediastinal lesions."
+    },
+    "f_3900be2b95330dcd": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The UNet is fine-tuned with 5-fold cross-validation."
+    },
+    "f_395ecc41db257376": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The primary outcome is the proportion of cases where model-assisted shared decision changes follow-up recommendation vs guideline-only."
+    },
+    "f_3a4d240d9d3cafda": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Ground truth for resected lesions is pathology."
+    },
+    "f_3c0eab3c9f8cd844": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The design transfers AI segmentation into population screening harm reduction."
+    },
+    "f_3d8d353733325dd3": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The GDG examined disease burden data from the National Institute's Surveillance, Epidemiology, and End Results program."
+    },
+    "f_3dc6c9ab81c77a0a": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Segmentation error is defined as 1 minus Dice."
+    },
+    "f_3e519224b979346f": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design measures cyst-versus-thymoma AUC."
+    },
+    "f_3eba2666eb342998": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The provisional fallback tests attention interpretability."
+    },
+    "f_3f3d297fb9198b4f": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The model output includes attention-map uncertainty."
+    },
+    "f_3fcd15e4b73951fa": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention-augmented UNet is not used to detect primary lung nodules."
+    },
+    "f_408f3efb2f7fcc04": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The primary decision outcome is change in ACS-informed follow-up."
+    },
+    "f_418171428aa88414": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention-augmented UNet was evaluated on 180 CTs."
+    },
+    "f_424efbc3fe5dc34e": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Metrics include segmentation DSC."
+    },
+    "f_4279cc75dc2b8475": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will measure specificity."
+    },
+    "f_432c150958d8f4b3": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b is colleague-reported."
+    },
+    "f_45036184d0a2d468": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b is evaluated on 180 CT scans."
+    },
+    "f_45329f6321e62f13": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study stratifies by comorbidity."
+    },
+    "f_463883116a7e1dde": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Automated detection of anterior mediastinal nodular lesions has significance for clinical usage."
+    },
+    "f_46d26d72140525e3": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention UNet is used as a shared-decision-making triage tool."
+    },
+    "f_477e121342b86e07": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Metrics include attention-map overlap."
+    },
+    "f_47c195111c2411c7": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b achieved IoU 90.29 on 180 anterior mediastinal lesions."
+    },
+    "f_48010157e92a38d4": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The analysis included updated benefit-to-radiation-risk ratios for follow-up examinations."
+    },
+    "f_480446cf4b09a0d3": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "ACS 2023 lung-cancer screening criteria include ages 50–80."
+    },
+    "f_4b51cb46951574c2": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c includes comorbidity and life-expectancy limits for screening."
+    },
+    "f_4da5596c5a65892f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention UNet triages incidental anterior mediastinal findings."
+    },
+    "f_4e195e809aa1f3ac": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The secondary outcomes include time to diagnosis."
+    },
+    "f_4ebcca86ba7f764e": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b uses an attention-augmented UNet for anterior mediastinal nodular lesion segmentation in chest CT."
+    },
+    "f_4ebd36627171cfee": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The ACS 2023 lung cancer screening guideline includes shared decision-making."
+    },
+    "f_4f3eac8647f14b55": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The secondary outcomes include avoided biopsies."
+    },
+    "f_50d56236dc0a644e": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Lung cancer is the leading cause of mortality among US men and women."
+    },
+    "f_5141bcf28088a215": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Paper-c supplies lung-cancer screening eligibility criteria."
+    },
+    "f_52e711262d0fac35": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A genuine interdisciplinary proposal cannot be formulated until the missing second source paper is supplied."
+    },
+    "f_5564a639e28b14c3": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will use 5-fold cross-validation."
+    },
+    "f_578b294cc49b3904": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "The second source paper is not available in the supplied materials."
+    },
+    "f_58c5cd6b36ee7a2d": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c specifies ACS 2023 lung screening criteria including ages 50-80."
+    },
+    "f_59f714d485ed027f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design uses a retrospective cohort of ACS-eligible LDCT screens with incidental anterior mediastinal lesions."
+    },
+    "f_5b9be1c5f6c380e3": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The working abstract embeds paper-b's attention UNet into ACS-guided LDCT screening to triage incidental anterior mediastinal lesions."
+    },
+    "f_5c0207052ccb2695": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A secondary outcome is time to thymoma diagnosis."
+    },
+    "f_5dc6796f7eca92b3": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "An operational connection cannot be grounded in available evidence."
+    },
+    "f_5eee50b3aa0d7177": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cohort includes 400 ACS-eligible LDCT scans with incidental anterior mediastinal lesions."
+    },
+    "f_5f8c4317fd21cbe6": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b reported DSC 93.23 on 180 CTs."
+    },
+    "f_5f8fef749ed068d1": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Smoking-cessation referral linkage will be tracked."
+    },
+    "f_604e4fe72187e1e1": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The secondary outcomes include attention-map radiologist interpretability."
+    },
+    "f_6067ec2b3c75dff4": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-c criteria were colleague-reported."
+    },
+    "f_60cbfa757bf20c69": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Low-uncertainty cyst classifications directly modify shared decision-making."
+    },
+    "f_614010d88f4c33d9": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b outperforms TransUNet in 5-fold cross-validation."
+    },
+    "f_62e2449eb382457e": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The second paper's quantitative-biology contribution is missing."
+    },
+    "f_645abdff5344f2da": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The study will compare with a no-attention baseline."
+    },
+    "f_65242e47587693d1": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b describes an attention-augmented UNet."
+    },
+    "f_66261a77e6f62920": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Ground truth is pathology or expert consensus."
+    },
+    "f_663798ad522279b3": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "Only one source paper is available."
+    },
+    "f_66d81c9383e7e9f8": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Recommendations were based on quality evidence judgment about the balance of benefits and harms."
+    },
+    "f_681715d8ce9cea05": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Metrics include sensitivity."
+    },
+    "f_6859cbcabd5c3211": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed study would stratify performance by pack-year."
+    },
+    "f_68ed55f8d5d37c02": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration preserves paper-c's harm-benefit logic."
+    },
+    "f_69bbaacd05c5fe7d": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "All paper-c claims remain colleague-reported."
+    },
+    "f_6a5ab89a6beca5d2": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The ACS 2023 lung cancer screening guideline includes annual low-dose CT for ages 50–80 with ≥20 pack-year smoking history, current or former smokers."
+    },
+    "f_6b28f6775e91e94f": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "90 anterior mediastinal nodular lesions were identified as thymic cysts."
+    },
+    "f_6bba1a59cb1a18af": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The 180 AMLs include 90 thymic cysts."
+    },
+    "f_6d93ef22453d3e23": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The proposed network achieved an average dice similarity coefficient of 93.23."
+    },
+    "f_70e209ff5583006c": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c includes shared decision-making in its recommendations."
+    },
+    "f_70ee79d5b2471ed3": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's model should be adopted as a task-specific AML model."
+    },
+    "f_71590bf6f9fd61dc": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c specifies annual low-dose CT as part of ACS 2023 lung screening criteria."
+    },
+    "f_72e90a507bb06a09": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b reported specificity of 95.68."
+    },
+    "f_7372cf203e7de192": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b reported sensitivity of 93.98."
+    },
+    "f_738565c0cadda9a3": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed study would test whether low attention predicts missed AMLs using AUROC."
+    },
+    "f_739882eeade2fb6c": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The study measures attention-map overlap vs segmentation error."
+    },
+    "f_73bba91e77c6b05f": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "High-uncertainty AMLs trigger radiologist review or shortened follow-up."
+    },
+    "f_73e543527674e65b": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c recommends annual low-dose CT screening for ages 50-80 with ≥20 pack-years."
+    },
+    "f_7529eb261c23d247": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The attention UNet triages incidental mediastinal findings on screening LDCT."
+    },
+    "f_779b23921fd2adf4": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The mean Intersection over Union was 90.29."
+    },
+    "f_792cf6762e82120f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea integrates paper-b's attention-uncertainty signal into ACS lung-cancer screening LDCT to triage incidental anterior mediastinal lesions."
+    },
+    "f_79a864c834395ff9": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b is an attention-augmented UNet with self-attention and CBAM."
+    },
+    "f_7a1a314220d2a162": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The study adapts paper-b to screening CT nodules."
+    },
+    "f_7ab04457d3c9a211": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will measure sensitivity."
+    },
+    "f_7b09b88d6c75ef7a": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation combines segmentation accuracy, attention-error detection, and net benefit over the standard screening pathway."
+    },
+    "f_7b49c90dbeb9bf53": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b reported IoU 90.29 on 180 CTs."
+    },
+    "f_7bdf3c3146f56e46": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "An attention-based segmentation-uncertainty signal from paper-b's UNet can personalize ACS lung-cancer screening follow-up by flagging high-error cases for additional review."
+    },
+    "f_7db0552411137ca0": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed study would compute mean attention within true AML versus background to validate attention."
+    },
+    "f_7e014dcba9dbaf53": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b produces spatial attention maps."
+    },
+    "f_7e2049a67ab579ae": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The ACS 2023 guideline includes shared decision-making."
+    },
+    "f_7f3f128252803c62": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The proposed method demonstrated improved segmentation performance over ResUNet."
+    },
+    "f_8061aa1c1e25556c": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The fallback study would test attention maps as segmentation-error indicators."
+    },
+    "f_80db6b51c1dd84fd": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CBAM is utilized in the proposed network."
+    },
+    "f_824f8bee3e8a0053": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "An integration mechanism cannot be specified without the second paper."
+    },
+    "f_82cf2058b6c345bd": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Shared keywords alone are insufficient for integration."
+    },
+    "f_838b38d400abf367": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Low-uncertainty cyst classifications reduce invasive follow-up."
+    },
+    "f_84f8af39fc309747": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study compares radiologist-only and non-attention UNet."
+    },
+    "f_8797b7849143f3cf": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c is colleague-reported only."
+    },
+    "f_87f166dceb21608e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration targets incidental anterior mediastinal findings on ACS-eligible screening LDCT."
+    },
+    "f_87f957cc5c814055": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The secondary outcomes include false-positive referrals."
+    },
+    "f_88d9f27685aa178f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "High-confidence benign findings avoid invasive biopsy."
+    },
+    "f_8928fc304df16006": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The guideline recommends annual low-dose computed tomography."
+    },
+    "f_8a394d595e78e09a": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design fine-tunes paper-b's attention UNet on LDCT data."
+    },
+    "f_8ac5fcd334946b17": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The text rejects a shift to lung nodules."
+    },
+    "f_8b3bb80e72e43168": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The text adopts the attention-as-uncertainty mechanism."
+    },
+    "f_8b5aacbd08eb8224": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The model aims to avoid delaying thymoma diagnosis."
+    },
+    "f_8c3303132759fdc2": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The self-attention mechanism is utilized in the proposed network."
+    },
+    "f_8dcaddb743e1cf32": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The mean sensitivity was 93.98."
+    },
+    "f_8e335a40694984d0": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b original full text is missing."
+    },
+    "f_8eba5a6ac1feac10": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c is the ACS 2023 guideline."
+    },
+    "f_8f09576af85b0fe2": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Low-uncertainty cyst classifications support conservative management."
+    },
+    "f_8fc3b75e9e059a90": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention UNet reduces unnecessary follow-up."
+    },
+    "f_913c34e8c5d5c78b": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will measure overdiagnosis flag."
+    },
+    "f_91b7708c22429e15": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will fine-tune paper-b's UNet on annotated screen-detected lung nodules."
+    },
+    "f_93ae9b36fc77ce80": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "External LDCT generalizability must be verified."
+    },
+    "f_93b3a9c84870ce7d": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design uses a retrospective low-dose CT cohort from ACS-eligible individuals."
+    },
+    "f_965374f628aee03a": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The proposed network was trained and evaluated on 180 chest CT scans."
+    },
+    "f_970d16db682c95c8": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study measures missed thymoma rate."
+    },
+    "f_97bd0d4221ac578a": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b reported sensitivity 93.98 on 180 CTs."
+    },
+    "f_97c07d7596ac987f": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The ACS 2023 lung screening criteria from paper-c should be accepted only as an operational inclusion rule delivered by a colleague, pending source verification."
+    },
+    "f_9928aa1eb91dc357": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's model should not be applied directly to primary lung nodules."
+    },
+    "f_9b2dfe10c07b36eb": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The study measures specificity for thymoma at ≥95% specificity."
+    },
+    "f_9b6e9a0434566986": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A secondary outcome of the proposed study is smoking-cessation referral linkage."
+    },
+    "f_9c8e7416e6626f33": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The provisional fallback involves testing whether low attention predicts segmentation errors using radiologist-rated map interpretability."
+    },
+    "f_9d5684075e9bcb13": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The UNet's segmentation and classification output becomes a shared-decision-making input."
+    },
+    "f_9e10f4f7be8ed218": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention UNet preserves early thymoma detection."
+    },
+    "f_9ee04a5169e86946": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Annual low-dose computed tomography is recommended for asymptomatic adults who currently smoke or formerly smoked with at least 20 pack-year history."
+    },
+    "f_9f6697ecc358c6eb": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Lower attention-map entropy should predict higher segmentation error."
+    },
+    "f_a1147ac9c6a26fdf": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The tool targets incidental anterior mediastinal lesions on ACS-eligible LDCT."
+    },
+    "f_a292a457bd653909": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A genuine integration requires a concrete Quantitative Biology method, concept, theory, or data contribution."
+    },
+    "f_a3031eb455bed9e7": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed study would record Dice/IoU, sensitivity, and specificity against radiologist ground truth for AMLs."
+    },
+    "f_a3ac4069436944c0": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will extract per-lesion attention-map entropy."
+    },
+    "f_a4ce6c7958ae4818": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Individuals should be connected to cessation resources."
+    },
+    "f_a52e5b4b559e63bd": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Metrics include segmentation IoU."
+    },
+    "f_a53c025a7bd910d3": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A provisional single-source fallback would evaluate whether the attention modules in paper-b's UNet provide clinically usable error signals."
+    },
+    "f_a6cb7ee6f8ddd4f6": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Unnecessary biopsy rate will be measured."
+    },
+    "f_a6e356c5010ee378": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No contribution can be reported for the second source paper."
+    },
+    "f_a7954706039dd1cd": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b will be fine-tuned on low-dose CT."
+    },
+    "f_a86fa211dbaacba9": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Uncertainty scores are produced for incidental AMLs."
+    },
+    "f_a9e084a5a4b014b1": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c's ACS 2023 lung-cancer screening criteria include comorbidity and life-expectancy consideration."
+    },
+    "f_a9f1b2ed0bb3c2ae": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No second method is provided."
+    },
+    "f_ab75d5c46192c42a": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "An epidemiologic modeling analysis examined the effect of years since quitting smoking and aging on risk."
+    },
+    "f_abcf900beda00b75": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Lung cancer is the leading cause of person-years life lost among US men and women."
+    },
+    "f_acf31f38a7054a84": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will test whether adding attention uncertainty to the ACS default follow-up recommendation improves specificity for cases needing additional review."
+    },
+    "f_b01302c3b0618e5a": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The text adopts a focus on incidental mediastinal lesions rather than primary lung nodules."
+    },
+    "f_b23a8711b05626fb": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b achieved sensitivity 93.98 on 180 anterior mediastinal lesions."
+    },
+    "f_b31316cc2a25e652": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b was trained on 180 CTs with 180 AMLs including 90 thymic cysts and 90 thymoma."
+    },
+    "f_b4bbebd8f65ce702": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The 180 chest CT scans consist of 180 anterior mediastinal nodular lesions."
+    },
+    "f_b57df92e87a6df52": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Sensitivity and specificity will be measured."
+    },
+    "f_b6c5ebbfe4732fae": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Uncertain or thymoma-suggestive outputs trigger radiology review or shorter follow-up."
+    },
+    "f_b88a4f64f68e14ab": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b reported DSC of 93.23."
+    },
+    "f_b8d6f58ec66c334d": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Per-lesion attention entropy will be correlated with 1 − Dice."
+    },
+    "f_b8e4dece227f9aac": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention maps are repurposed as localization signals."
+    },
+    "f_b98db5ad590c87c4": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Early detection of lung cancer has been shown to be associated with reduced lung mortality."
+    },
+    "f_baf8b7fd52ac4348": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The GDG judged that there is moderate sufficient evidence to support a strong recommendation for individuals meeting eligibility criteria."
+    },
+    "f_bbfe966368b9ec40": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The model is fine-tuned on LDCT to classify thymic cyst vs thymoma."
+    },
+    "f_bc2569fbccd83eea": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's original CT dose and field strength must be confirmed."
+    },
+    "f_be341ad94015b45a": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will test whether adding attention uncertainty to the ACS default follow-up recommendation improves sensitivity for cases needing additional review."
+    },
+    "f_be54a4e7b7da7e09": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The project couples ACS lung-cancer screening with an attention UNet for anterior mediastinal lesions."
+    },
+    "f_be9aa393a5d36f6a": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention uncertainty serves as an image-derived error signal to personalize shared decision-making."
+    },
+    "f_bfeddba9a670b1aa": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The study measures avoided biopsies."
+    },
+    "f_c1d094ab07b182cd": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's model is inserted into paper-c's shared decision-making step."
+    },
+    "f_c3a6e395e3250215": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will measure IoU."
+    },
+    "f_c4f4529910361c25": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will measure DSC."
+    },
+    "f_c56f8f13853fcda7": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c is population-level, not individual risk."
+    },
+    "f_c6701c61bd63638d": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "ACS 2023 lung-cancer screening criteria include LDCT."
+    },
+    "f_c6fbf9dc8af6651c": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The ACS 2023 guideline includes comorbidity and life-expectancy limits for screening."
+    },
+    "f_c7489c9a30c6bebf": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c specifies smoking-cessation linkage as part of ACS 2023 lung screening criteria."
+    },
+    "f_c7e7eb56db4da587": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-c exact decision thresholds were unavailable."
+    },
+    "f_c847c3ed6572d973": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design measures segmentation DSC and IoU."
+    },
+    "f_c8f7ab7df9ec8e90": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The provisional fallback involves testing whether low attention predicts segmentation errors using AUROC for error detection."
+    },
+    "f_c9346c2fc8c696e7": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The primary outcome of the proposed study is incremental AML detection yield versus radiologist-only read."
+    },
+    "f_c96631f867b186fd": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Validation includes segmentation metrics."
+    },
+    "f_ca3f428187e2e782": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b outperforms UNet++ in 5-fold cross-validation."
+    },
+    "f_ca46df69ab6cffc1": {
+      "topic": "G",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "No second data is provided."
+    },
+    "f_ca7d3bf349d49de6": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The primary outcome is the proportion of cases where UNet output changes ACS-informed follow-up recommendation."
+    },
+    "f_caf857613b116f3b": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The combined output serves as a triage signal."
+    },
+    "f_cc59fe3ea4823272": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The ACS Guideline Development Group utilized a systematic review of lung cancer screening literature."
+    },
+    "f_cc791419f4ea1320": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea triages incidental anterior mediastinal lesions via attention-based thymoma-vs-cyst classification."
+    },
+    "f_ce421fd307d237c4": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The provisional fallback involves testing whether low attention predicts segmentation errors using IoU."
+    },
+    "f_ce7c5f417825bdbd": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Original CT dose information is unavailable."
+    },
+    "f_cf2ace737a804eed": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation will occur on an external LDCT set."
+    },
+    "f_cf6f0095cfa12ef3": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c supplies decision criteria."
+    },
+    "f_d127079ceff3956b": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed study would use 300 LDCT scans from ACS-eligible adults."
+    },
+    "f_d14517660842a7f9": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The only supportable single-source idea is to test paper-b's attention maps as error-detection signals."
+    },
+    "f_d21ed980e907e39d": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Metrics include specificity."
+    },
+    "f_d29382102812ac43": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study will validate uncertainty against segmentation error via AUROC for error detection."
+    },
+    "f_d2ae5e439c1dbbce": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b data is colleague-reported."
+    },
+    "f_d30e6bb9d611ed49": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration reduces unnecessary follow-up."
+    },
+    "f_d34c5f7bea922406": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The model feeds shared decision-making to reduce unnecessary invasive workup."
+    },
+    "f_d5d228c5ab3cb38b": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Original CT acquisition parameters are unavailable."
+    },
+    "f_d5db3dcf690421ca": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The model output includes cyst vs thymoma classification."
+    },
+    "f_d7522f015d1b7cc0": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "For those who formerly smoked, years since quitting smoking is not a criterion to begin or stop screening."
+    },
+    "f_d924b92d40342563": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "No valid interdisciplinary proposal can be constructed because the second source paper is unavailable."
+    },
+    "f_d94fc875c0a332ba": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea integrates paper-b's attention UNet into ACS-defined LDCT screening."
+    },
+    "f_d9da6aa55aa521ff": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "In women aged 50-80, there was a reduction in deaths across a range of study designs."
+    },
+    "f_da4854ea8ecfd458": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b outperforms UNet in 5-fold cross-validation."
+    },
+    "f_daa2dd9f22b109fa": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "LDCT domain shift is a limitation."
+    },
+    "f_dabeb42c6a2f76e1": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The objective was to update the American Cancer Society 2013 lung cancer screening guideline for adults at high risk."
+    },
+    "f_db23d3cf2bd073a2": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The design tests whether this reduces unnecessary invasive follow-up without delaying thymoma diagnosis."
+    },
+    "f_db873385ed068b4b": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Individuals with comorbid conditions substantially limiting life expectancy should not be screened."
+    },
+    "f_dc2b4fabc02f1497": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea proposes testing whether attention maps improve incidental AML detection."
+    },
+    "f_deb2374a01b8f71e": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study measures AUC for thymoma."
+    },
+    "f_e068daeef403694c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention UNet is embedded into paper-c's LDCT screening pathway."
+    },
+    "f_e1119aa012820b65": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Guideline criteria from paper-c require source verification."
+    },
+    "f_e16ef2033c91cc36": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The systematic review was commissioned by the Preventive Services Task Force 2021 recommendation update."
+    },
+    "f_e171558fac6ef0e6": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea reduces unnecessary follow-up while preserving early thymoma detection."
+    },
+    "f_e1e6ec9d60d6c840": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Ground truth for cysts is ≥2-year stability."
+    },
+    "f_e2343ef10116ff5c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The retrospective external cohort includes 300 ACS-eligible LDCT scans with incidental AMLs."
+    },
+    "f_e28f7a52e1b53921": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "A testable design requires the missing paper's measurable cell-biology mechanism or model."
+    },
+    "f_e40e74ebe56ea545": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Cross-paper knowledge is absent."
+    },
+    "f_e69b066e866c24bf": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-c defines a high-risk LDCT population where incidental anterior mediastinal lesions appear."
+    },
+    "f_e6e3164a9aff8b12": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study measures sensitivity for thymoma at ≥95% specificity."
+    },
+    "f_e7be71dd46252d26": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c specifies ACS 2023 lung screening criteria including at least 20 pack-year smoking history."
+    },
+    "f_e81b833d6fa3e228": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Triage outcomes will be compared against ACS default follow-up using decision-curve analysis."
+    },
+    "f_eb09393081d13fa8": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The attention UNet is not intended to replace lung-nodule detection."
+    },
+    "f_efd537eb0540c31f": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The average dice similarity coefficient of 93.23 was achieved with 5-fold cross-validation."
+    },
+    "f_f0043b51fdc9bbae": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The 180 AMLs include 90 thymoma."
+    },
+    "f_f245cc9c1ebb1c39": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The per-lesion uncertainty score modulates paper-c's screening decision pathway."
+    },
+    "f_f3fdf7d86262f7a4": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea proposes testing attention maps for risk-stratified overdiagnosis assessment."
+    },
+    "f_f506589e2f4f47dd": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The goal is to preserve early thymoma detection."
+    },
+    "f_f53494365d4385ba": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The proposed method demonstrated improved segmentation performance over UNet."
+    },
+    "f_f5ec55c452c334ec": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The proposed method demonstrated improved segmentation performance over TransUNet."
+    },
+    "f_f63f282300b457fa": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design uses pathology and radiologist consensus as ground truth."
+    },
+    "f_f6560047311f064e": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation includes attention-error detection."
+    },
+    "f_f798f664abba274c": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "It is challenging for radiologists to accurately identify anterior mediastinal nodular lesions from chest computed tomography imaging."
+    },
+    "f_f7c7d728b188c0ab": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-b's attention uncertainty serves as an image-derived error signal to personalize ACS follow-up."
+    },
+    "f_f7f7ae39ee921057": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The mean specificity was 95.68."
+    },
+    "f_f845b144c398625b": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The retrospective external cohort has pathology/radiologist consensus as the reference standard."
+    },
+    "f_f847863284de48e9": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b reported specificity 95.68 on 180 CTs."
+    },
+    "f_f887b622dae75aac": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "ACS-eligible adults are defined as ages 50-80 with at least 20 pack-year smoking history."
+    },
+    "f_f9c036c58a2d66db": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "If fully implemented, these guidelines are likely to significantly reduce death and suffering in the United States."
+    },
+    "f_fa13c4ed3a07da40": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea uses uncertainty-driven shared decision-making."
+    },
+    "f_fb34a4d957db0f72": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c's full guideline text is not available."
+    },
+    "f_fb949f2a064c41af": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The paper-c abstract was unavailable."
+    },
+    "f_fc57bda75f57ccbe": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No second result is provided."
+    },
+    "f_fcfaaef3b3658a30": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Attention is repurposed as an error-detection signal in the proposed deployment."
+    },
+    "f_fd487e758ddd03cb": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Attention-based confidence flags uncertain thymoma predictions for radiologist adjudication."
+    },
+    "f_fe62ccc45bee51cb": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The ACS 2023 lung cancer screening guideline provides population-level eligibility criteria."
+    },
+    "f_ff234328e91a70a2": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No second theory is provided."
+    },
+    "f_ffbe423495268362": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b's task is AML segmentation, not lung-nodule detection."
+    }
+  }
+}

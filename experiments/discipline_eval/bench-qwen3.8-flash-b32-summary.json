@@ -1,0 +1,39 @@
+{
+  "model": "qwen3.8-flash",
+  "batch_size": 32,
+  "calls": 1,
+  "success": 1,
+  "n_gold": 8,
+  "topic_correct": 6,
+  "paper_correct": 8,
+  "seconds": [
+    4.214397249976173
+  ],
+  "cost_equivalent_usd": 0.00032854999999999994,
+  "errors": [
+    {
+      "case": "idr-gen-level_1-12",
+      "uid": "ed520ec96838049b2381",
+      "text": "The research design saves CC3D steady morphogen field.",
+      "topic": "B",
+      "paper": "P",
+      "original_fact_id": "f_f437aa1c824b054d",
+      "predicted": {
+        "topic": "X",
+        "paper": "P"
+      }
+    },
+    {
+      "case": "idr-gen-level_1-12",
+      "uid": "82d8507b017dde771947",
+      "text": "During coupling, cGAN is called.",
+      "topic": "C",
+      "paper": "P",
+      "original_fact_id": "f_212e0f905c42123f",
+      "predicted": {
+        "topic": "X",
+        "paper": "P"
+      }
+    }
+  ]
+}

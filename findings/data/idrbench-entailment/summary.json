@@ -1,0 +1,1225 @@
+{
+  "corpus": {
+    "traces": 40,
+    "cases": [
+      "idr-gen-level_1-12",
+      "idr-gen-level_1-14",
+      "idr-gen-level_1-2",
+      "idr-gen-level_1-24",
+      "idr-gen-level_1-49",
+      "idr-gen-level_1-55",
+      "idr-gen-level_1-8",
+      "idr-gen-level_1-9",
+      "idr-gen-level_1-92",
+      "idr-gen-level_1-95"
+    ],
+    "unmatched_debates": [
+      "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-specialist-mismatched-cumulative.debate.json",
+      "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-specialist-mismatched-cumulative.debate.json",
+      "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-specialist-mismatched-cumulative.debate.json",
+      "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-specialist-mismatched-cumulative.debate.json",
+      "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-specialist-mismatched-cumulative.debate.json",
+      "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-specialist-mismatched-cumulative.debate.json",
+      "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-specialist-mismatched-cumulative.debate.json",
+      "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-specialist-mismatched-cumulative.debate.json",
+      "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-specialist-mismatched-cumulative.debate.json",
+      "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-mismatched-cumulative.debate.json"
+    ]
+  },
+  "matcher": {
+    "block_threshold": 0.62,
+    "blocker": "BAAI/bge-base-en-v1.5",
+    "mode": "entail",
+    "model": "Qwen/Qwen3-14B",
+    "threshold_ab": 5.28,
+    "threshold_ba": 5.28,
+    "top_k": 12,
+    "union_min": 0.85
+  },
+  "counts": {
+    "mentions": 14444,
+    "facts": 11201,
+    "candidates": 94843,
+    "EQUIVALENT": 7566,
+    "A_ENTAILS_B": 8273,
+    "B_ENTAILS_A": 9773,
+    "UNRELATED": 69231,
+    "oneway": 18046,
+    "oneway_source_involved": 2132,
+    "oneway_parallel": 4642,
+    "oneway_invisible": 0,
+    "oneway_peer_weaken": 3251,
+    "oneway_peer_strengthen": 4088,
+    "oneway_self_weaken": 1732,
+    "oneway_self_strengthen": 2201,
+    "oneway_same_cluster": 1774,
+    "unrelated_same_cluster": 1002,
+    "peer_weaken_fact_pairs": 2697,
+    "peer_weaken_text_pairs": 3177,
+    "peer_weaken_target_facts": 2040,
+    "peer_strengthen_fact_pairs": 3230,
+    "peer_strengthen_text_pairs": 4004,
+    "peer_strengthen_target_facts": 2406,
+    "self_weaken_fact_pairs": 1556,
+    "self_weaken_text_pairs": 1717,
+    "self_weaken_target_facts": 1275,
+    "self_equivalent_fact_pairs": 1035,
+    "self_equivalent_text_pairs": 1691,
+    "self_equivalent_target_facts": 1295,
+    "peer_equivalent_fact_pairs": 1626,
+    "peer_equivalent_text_pairs": 3072,
+    "peer_equivalent_target_facts": 2021,
+    "self_strengthen_fact_pairs": 1910,
+    "self_strengthen_text_pairs": 2174,
+    "self_strengthen_target_facts": 1593,
+    "peer_weaken_distinct_cluster_pairs": 2530,
+    "weaken_same_cluster_edges": 362,
+    "weaken_same_cluster_target_facts": 256,
+    "weaken_latest_delivery_edges": 2567,
+    "weaken_latest_delivery_target_facts": 1806,
+    "weaken_new_weak_edges": 1814,
+    "weaken_new_weak_target_facts": 1232,
+    "weaken_conservative_candidate_edges": 1468,
+    "weaken_conservative_candidate_target_facts": 1082,
+    "weaken_strong_retained_edges": 685,
+    "weaken_strong_retained_target_facts": 499,
+    "weaken_weak_in_self_edges": 924,
+    "weaken_weak_in_self_target_facts": 480,
+    "weaken_weak_in_peer_edges": 1221,
+    "weaken_weak_in_peer_target_facts": 677,
+    "weaken_weak_in_source_edges": 202,
+    "weaken_weak_in_source_target_facts": 99,
+    "later_output_mentions": 9438,
+    "later_peer_weaken_targets": 2109,
+    "later_peer_strengthen_targets": 2496,
+    "later_peer_related_targets": 4925,
+    "later_peer_weaken_without_peer_equivalence_targets": 1309,
+    "two_step_weaken_paths": 160,
+    "two_step_distinct_fact_paths": 108
+  },
+  "one_way_pooled": 0.7045915976885835,
+  "one_way_trace_distribution": {
+    "n": 40,
+    "mean": 0.707040849315975,
+    "sd": 0.04269910198406804,
+    "min": 0.613540197461213,
+    "q25": 0.6787087399500187,
+    "median": 0.7036383481899218,
+    "q75": 0.7283610232751024,
+    "max": 0.8245614035087719
+  },
+  "cells": {
+    "full-generic": {
+      "counts": {
+        "mentions": 3865,
+        "facts": 2833,
+        "candidates": 26490,
+        "EQUIVALENT": 2394,
+        "A_ENTAILS_B": 2544,
+        "B_ENTAILS_A": 2819,
+        "UNRELATED": 18733,
+        "oneway": 5363,
+        "oneway_source_involved": 515,
+        "oneway_parallel": 1306,
+        "oneway_invisible": 0,
+        "oneway_peer_weaken": 1061,
+        "oneway_peer_strengthen": 1319,
+        "oneway_self_weaken": 503,
+        "oneway_self_strengthen": 659,
+        "oneway_same_cluster": 649,
+        "unrelated_same_cluster": 407,
+        "peer_weaken_fact_pairs": 833,
+        "peer_weaken_text_pairs": 1021,
+        "peer_weaken_target_facts": 637,
+        "peer_strengthen_fact_pairs": 982,
+        "peer_strengthen_text_pairs": 1287,
+        "peer_strengthen_target_facts": 759,
+        "self_weaken_fact_pairs": 436,
+        "self_weaken_text_pairs": 493,
+        "self_weaken_target_facts": 381,
+        "self_equivalent_fact_pairs": 299,
+        "self_equivalent_text_pairs": 539,
+        "self_equivalent_target_facts": 419,
+        "peer_equivalent_fact_pairs": 476,
+        "peer_equivalent_text_pairs": 1004,
+        "peer_equivalent_target_facts": 631,
+        "self_strengthen_fact_pairs": 554,
+        "self_strengthen_text_pairs": 644,
+        "self_strengthen_target_facts": 478,
+        "peer_weaken_distinct_cluster_pairs": 784,
+        "weaken_same_cluster_edges": 133,
+        "weaken_same_cluster_target_facts": 91,
+        "weaken_latest_delivery_edges": 773,
+        "weaken_latest_delivery_target_facts": 546,
+        "weaken_new_weak_edges": 547,
+        "weaken_new_weak_target_facts": 368,
+        "weaken_conservative_candidate_edges": 443,
+        "weaken_conservative_candidate_target_facts": 325,
+        "weaken_strong_retained_edges": 228,
+        "weaken_strong_retained_target_facts": 158,
+        "weaken_weak_in_self_edges": 355,
+        "weaken_weak_in_self_target_facts": 170,
+        "weaken_weak_in_peer_edges": 439,
+        "weaken_weak_in_peer_target_facts": 227,
+        "weaken_weak_in_source_edges": 114,
+        "weaken_weak_in_source_target_facts": 46,
+        "later_output_mentions": 2355,
+        "later_peer_weaken_targets": 660,
+        "later_peer_strengthen_targets": 787,
+        "later_peer_related_targets": 1497,
+        "later_peer_weaken_without_peer_equivalence_targets": 389,
+        "two_step_weaken_paths": 75,
+        "two_step_distinct_fact_paths": 59
+      },
+      "mean_rates": {
+        "oneway_share_related": 0.6889600477769948,
+        "weaken_target_rate": 0.27995819712390796,
+        "strengthen_target_rate": 0.33302484315192843,
+        "conservative_target_rate": 0.14106237798870994
+      }
+    },
+    "full-specialist": {
+      "counts": {
+        "mentions": 3764,
+        "facts": 2769,
+        "candidates": 25761,
+        "EQUIVALENT": 2230,
+        "A_ENTAILS_B": 2407,
+        "B_ENTAILS_A": 2954,
+        "UNRELATED": 18170,
+        "oneway": 5361,
+        "oneway_source_involved": 594,
+        "oneway_parallel": 1254,
+        "oneway_invisible": 0,
+        "oneway_peer_weaken": 956,
+        "oneway_peer_strengthen": 1348,
+        "oneway_self_weaken": 513,
+        "oneway_self_strengthen": 696,
+        "oneway_same_cluster": 537,
+        "unrelated_same_cluster": 286,
+        "peer_weaken_fact_pairs": 787,
+        "peer_weaken_text_pairs": 930,
+        "peer_weaken_target_facts": 593,
+        "peer_strengthen_fact_pairs": 1060,
+        "peer_strengthen_text_pairs": 1307,
+        "peer_strengthen_target_facts": 766,
+        "self_weaken_fact_pairs": 461,
+        "self_weaken_text_pairs": 511,
+        "self_weaken_target_facts": 369,
+        "self_equivalent_fact_pairs": 303,
+        "self_equivalent_text_pairs": 492,
+        "self_equivalent_target_facts": 390,
+        "peer_equivalent_fact_pairs": 512,
+        "peer_equivalent_text_pairs": 983,
+        "peer_equivalent_target_facts": 647,
+        "self_strengthen_fact_pairs": 592,
+        "self_strengthen_text_pairs": 689,
+        "self_strengthen_target_facts": 494,
+        "peer_weaken_distinct_cluster_pairs": 738,
+        "weaken_same_cluster_edges": 94,
+        "weaken_same_cluster_target_facts": 74,
+        "weaken_latest_delivery_edges": 719,
+        "weaken_latest_delivery_target_facts": 525,
+        "weaken_new_weak_edges": 478,
+        "weaken_new_weak_target_facts": 322,
+        "weaken_conservative_candidate_edges": 364,
+        "weaken_conservative_candidate_target_facts": 276,
+        "weaken_strong_retained_edges": 194,
+        "weaken_strong_retained_target_facts": 150,
+        "weaken_weak_in_self_edges": 310,
+        "weaken_weak_in_self_target_facts": 167,
+        "weaken_weak_in_peer_edges": 400,
+        "weaken_weak_in_peer_target_facts": 231,
+        "weaken_weak_in_source_edges": 64,
+        "weaken_weak_in_source_target_facts": 39,
+        "later_output_mentions": 2270,
+        "later_peer_weaken_targets": 611,
+        "later_peer_strengthen_targets": 791,
+        "later_peer_related_targets": 1487,
+        "later_peer_weaken_without_peer_equivalence_targets": 352,
+        "two_step_weaken_paths": 50,
+        "two_step_distinct_fact_paths": 27
+      },
+      "mean_rates": {
+        "oneway_share_related": 0.7096048345220173,
+        "weaken_target_rate": 0.269569290054008,
+        "strengthen_target_rate": 0.3467442086136689,
+        "conservative_target_rate": 0.12743807285219094
+      }
+    },
+    "split-generic": {
+      "counts": {
+        "mentions": 3340,
+        "facts": 2716,
+        "candidates": 20893,
+        "EQUIVALENT": 1580,
+        "A_ENTAILS_B": 1655,
+        "B_ENTAILS_A": 2050,
+        "UNRELATED": 15608,
+        "oneway": 3705,
+        "oneway_source_involved": 509,
+        "oneway_parallel": 1126,
+        "oneway_invisible": 0,
+        "oneway_peer_weaken": 636,
+        "oneway_peer_strengthen": 724,
+        "oneway_self_weaken": 330,
+        "oneway_self_strengthen": 380,
+        "oneway_same_cluster": 311,
+        "unrelated_same_cluster": 166,
+        "peer_weaken_fact_pairs": 547,
+        "peer_weaken_text_pairs": 629,
+        "peer_weaken_target_facts": 406,
+        "peer_strengthen_fact_pairs": 592,
+        "peer_strengthen_text_pairs": 715,
+        "peer_strengthen_target_facts": 446,
+        "self_weaken_fact_pairs": 301,
+        "self_weaken_text_pairs": 328,
+        "self_weaken_target_facts": 230,
+        "self_equivalent_fact_pairs": 175,
+        "self_equivalent_text_pairs": 309,
+        "self_equivalent_target_facts": 217,
+        "peer_equivalent_fact_pairs": 328,
+        "peer_equivalent_text_pairs": 592,
+        "peer_equivalent_target_facts": 399,
+        "self_strengthen_fact_pairs": 337,
+        "self_strengthen_text_pairs": 378,
+        "self_strengthen_target_facts": 268,
+        "peer_weaken_distinct_cluster_pairs": 507,
+        "weaken_same_cluster_edges": 81,
+        "weaken_same_cluster_target_facts": 52,
+        "weaken_latest_delivery_edges": 554,
+        "weaken_latest_delivery_target_facts": 370,
+        "weaken_new_weak_edges": 396,
+        "weaken_new_weak_target_facts": 268,
+        "weaken_conservative_candidate_edges": 331,
+        "weaken_conservative_candidate_target_facts": 234,
+        "weaken_strong_retained_edges": 143,
+        "weaken_strong_retained_target_facts": 100,
+        "weaken_weak_in_self_edges": 133,
+        "weaken_weak_in_self_target_facts": 65,
+        "weaken_weak_in_peer_edges": 218,
+        "weaken_weak_in_peer_target_facts": 120,
+        "weaken_weak_in_source_edges": 11,
+        "weaken_weak_in_source_target_facts": 6,
+        "later_output_mentions": 2384,
+        "later_peer_weaken_targets": 419,
+        "later_peer_strengthen_targets": 469,
+        "later_peer_related_targets": 1001,
+        "later_peer_weaken_without_peer_equivalence_targets": 271,
+        "two_step_weaken_paths": 20,
+        "two_step_distinct_fact_paths": 11
+      },
+      "mean_rates": {
+        "oneway_share_related": 0.7037856627766856,
+        "weaken_target_rate": 0.17688661656032129,
+        "strengthen_target_rate": 0.202994357768012,
+        "conservative_target_rate": 0.10455144201623578
+      }
+    },
+    "split-specialist-aligned": {
+      "counts": {
+        "mentions": 3475,
+        "facts": 2883,
+        "candidates": 21699,
+        "EQUIVALENT": 1362,
+        "A_ENTAILS_B": 1667,
+        "B_ENTAILS_A": 1950,
+        "UNRELATED": 16720,
+        "oneway": 3617,
+        "oneway_source_involved": 514,
+        "oneway_parallel": 956,
+        "oneway_invisible": 0,
+        "oneway_peer_weaken": 598,
+        "oneway_peer_strengthen": 697,
+        "oneway_self_weaken": 386,
+        "oneway_self_strengthen": 466,
+        "oneway_same_cluster": 277,
+        "unrelated_same_cluster": 143,
+        "peer_weaken_fact_pairs": 530,
+        "peer_weaken_text_pairs": 597,
+        "peer_weaken_target_facts": 404,
+        "peer_strengthen_fact_pairs": 596,
+        "peer_strengthen_text_pairs": 695,
+        "peer_strengthen_target_facts": 435,
+        "self_weaken_fact_pairs": 358,
+        "self_weaken_text_pairs": 385,
+        "self_weaken_target_facts": 295,
+        "self_equivalent_fact_pairs": 258,
+        "self_equivalent_text_pairs": 351,
+        "self_equivalent_target_facts": 269,
+        "peer_equivalent_fact_pairs": 310,
+        "peer_equivalent_text_pairs": 493,
+        "peer_equivalent_target_facts": 344,
+        "self_strengthen_fact_pairs": 427,
+        "self_strengthen_text_pairs": 463,
+        "self_strengthen_target_facts": 353,
+        "peer_weaken_distinct_cluster_pairs": 501,
+        "weaken_same_cluster_edges": 54,
+        "weaken_same_cluster_target_facts": 39,
+        "weaken_latest_delivery_edges": 521,
+        "weaken_latest_delivery_target_facts": 365,
+        "weaken_new_weak_edges": 393,
+        "weaken_new_weak_target_facts": 274,
+        "weaken_conservative_candidate_edges": 330,
+        "weaken_conservative_candidate_target_facts": 247,
+        "weaken_strong_retained_edges": 120,
+        "weaken_strong_retained_target_facts": 91,
+        "weaken_weak_in_self_edges": 126,
+        "weaken_weak_in_self_target_facts": 78,
+        "weaken_weak_in_peer_edges": 164,
+        "weaken_weak_in_peer_target_facts": 99,
+        "weaken_weak_in_source_edges": 13,
+        "weaken_weak_in_source_target_facts": 8,
+        "later_output_mentions": 2429,
+        "later_peer_weaken_targets": 419,
+        "later_peer_strengthen_targets": 449,
+        "later_peer_related_targets": 940,
+        "later_peer_weaken_without_peer_equivalence_targets": 297,
+        "two_step_weaken_paths": 15,
+        "two_step_distinct_fact_paths": 11
+      },
+      "mean_rates": {
+        "oneway_share_related": 0.7258128521882024,
+        "weaken_target_rate": 0.17549871634065878,
+        "strengthen_target_rate": 0.1860449059542642,
+        "conservative_target_rate": 0.1056571517186386
+      }
+    }
+  },
+  "effects": {
+    "oneway_share_related": {
+      "roles_full": {
+        "n": 10,
+        "mean": 0.020644786745022414,
+        "ci95": [
+          -0.013671933198030084,
+          0.057324574978265916
+        ],
+        "positive": 6,
+        "negative": 4,
+        "exact_signflip_p": 0.302734375,
+        "deltas": [
+          0.11169819078947374,
+          0.011121505613031046,
+          0.11279536679536684,
+          0.08715361725869442,
+          -0.051004612860283016,
+          -0.0302058017168102,
+          0.00641369026074623,
+          -0.024965171276222886,
+          -0.031591236747166684,
+          0.015032319333394661
+        ]
+      },
+      "roles_split": {
+        "n": 10,
+        "mean": 0.022027189411516712,
+        "ci95": [
+          -0.0024635048250503,
+          0.045235704051803216
+        ],
+        "positive": 7,
+        "negative": 3,
+        "exact_signflip_p": 0.123046875,
+        "deltas": [
+          0.0699704185338137,
+          0.02635140390448787,
+          0.002409638554216831,
+          -0.009658976747584425,
+          -0.042959780403389436,
+          0.05201227466159142,
+          0.05568391377154125,
+          -0.027460653042048366,
+          0.07248805999561592,
+          0.02143559488692237
+        ]
+      },
+      "split_generic": {
+        "n": 10,
+        "mean": 0.014825614999690795,
+        "ci95": [
+          -0.019163117630748783,
+          0.04674666227965141
+        ],
+        "positive": 5,
+        "negative": 5,
+        "exact_signflip_p": 0.4296875,
+        "deltas": [
+          0.08076285997495825,
+          -0.010639941453894908,
+          0.08968693306042708,
+          0.06755953712164298,
+          0.01256203571993042,
+          -0.004982571691294457,
+          -0.03086409296495174,
+          -0.008494719498689962,
+          -0.09693411083918224,
+          0.04960022056796254
+        ]
+      },
+      "split_specialist": {
+        "n": 10,
+        "mean": 0.01620801766618509,
+        "ci95": [
+          -0.0026372588216473703,
+          0.03627477520153514
+        ],
+        "positive": 7,
+        "negative": 3,
+        "exact_signflip_p": 0.169921875,
+        "deltas": [
+          0.0390350877192982,
+          0.004589956837561915,
+          -0.02069879518072293,
+          -0.029253056884635864,
+          0.020606868176824,
+          0.07723550468710716,
+          0.01840613054584328,
+          -0.010990201264515442,
+          0.0071451859036003595,
+          0.05600349612149025
+        ]
+      },
+      "interaction": {
+        "n": 10,
+        "mean": 0.001382402666494298,
+        "ci95": [
+          -0.039324480293854124,
+          0.04098643458553071
+        ],
+        "positive": 6,
+        "negative": 4,
+        "exact_signflip_p": 0.943359375,
+        "deltas": [
+          -0.041727772255660045,
+          0.015229898291456823,
+          -0.11038572824115,
+          -0.09681259400627884,
+          0.00804483245689358,
+          0.08221807637840162,
+          0.04927022351079502,
+          -0.00249548176582548,
+          0.1040792967427826,
+          0.00640327555352771
+        ]
+      }
+    },
+    "weaken_target_rate": {
+      "roles_full": {
+        "n": 10,
+        "mean": -0.010388907069899981,
+        "ci95": [
+          -0.060479869057547576,
+          0.039870526707701096
+        ],
+        "positive": 4,
+        "negative": 6,
+        "exact_signflip_p": 0.69921875,
+        "deltas": [
+          -0.05827689878222844,
+          -0.11819389110225761,
+          -0.02817522849038767,
+          0.10874020494273656,
+          -0.11387631975867271,
+          0.10815209615109456,
+          -0.08713968957871399,
+          0.04220077016405549,
+          -0.02174652055671089,
+          0.0644264063120849
+        ]
+      },
+      "roles_split": {
+        "n": 10,
+        "mean": -0.0013879002196624968,
+        "ci95": [
+          -0.023377653143839293,
+          0.017229198247602225
+        ],
+        "positive": 6,
+        "negative": 4,
+        "exact_signflip_p": 0.916015625,
+        "deltas": [
+          0.019989423585404537,
+          -0.005370703437250213,
+          0.008520852085208502,
+          0.01286621365712376,
+          0.04484304932735425,
+          0.022822395956724334,
+          -0.029004329004329005,
+          -0.011872799952270169,
+          -0.08333333333333334,
+          0.006660228918742378
+        ]
+      },
+      "split_generic": {
+        "n": 10,
+        "mean": -0.10307158056358667,
+        "ci95": [
+          -0.1442572990292819,
+          -0.0670182713919248
+        ],
+        "positive": 0,
+        "negative": 10,
+        "exact_signflip_p": 0.001953125,
+        "deltas": [
+          -0.1289673089413293,
+          -0.17865707434052755,
+          -0.1039872408293461,
+          -0.07231349313223809,
+          -0.23174319745145386,
+          -0.03130694417001473,
+          -0.08713968957871399,
+          -0.12255376144058336,
+          -0.02031119465329989,
+          -0.05373590109835985
+        ]
+      },
+      "split_specialist": {
+        "n": 10,
+        "mean": -0.09407057371334919,
+        "ci95": [
+          -0.12401778016646443,
+          -0.06756034351104931
+        ],
+        "positive": 0,
+        "negative": 10,
+        "exact_signflip_p": 0.001953125,
+        "deltas": [
+          -0.050700986573696316,
+          -0.06583388667552015,
+          -0.06729116025374993,
+          -0.1681874844178509,
+          -0.0730238283654269,
+          -0.11663664436438495,
+          -0.029004329004329005,
+          -0.17662733155690902,
+          -0.08189800742992234,
+          -0.11150207849170238
+        ]
+      },
+      "interaction": {
+        "n": 10,
+        "mean": 0.009001006850237483,
+        "ci95": [
+          -0.0423599192789444,
+          0.06299750188304182
+        ],
+        "positive": 5,
+        "negative": 5,
+        "exact_signflip_p": 0.76171875,
+        "deltas": [
+          0.07826632236763298,
+          0.1128231876650074,
+          0.036696080575596174,
+          -0.0958739912856128,
+          0.15871936908602696,
+          -0.08532970019437022,
+          0.05813536057438498,
+          -0.05407357011632566,
+          -0.06158681277662245,
+          -0.05776617739334253
+        ]
+      }
+    },
+    "strengthen_target_rate": {
+      "roles_full": {
+        "n": 10,
+        "mean": 0.01371936546174043,
+        "ci95": [
+          -0.010725977144545979,
+          0.039014647877096395
+        ],
+        "positive": 6,
+        "negative": 4,
+        "exact_signflip_p": 0.3359375,
+        "deltas": [
+          0.022047435391296444,
+          0.014080430415091771,
+          0.0915852505515285,
+          -0.030681133212778766,
+          0.01357466063348417,
+          -0.0008584919158677873,
+          -0.047006651884700656,
+          0.06003059555836898,
+          0.03858382658774595,
+          -0.024162267506764312
+        ]
+      },
+      "roles_split": {
+        "n": 10,
+        "mean": -0.016949451813747813,
+        "ci95": [
+          -0.045990160095407684,
+          0.01714512036826925
+        ],
+        "positive": 3,
+        "negative": 7,
+        "exact_signflip_p": 0.330078125,
+        "deltas": [
+          -0.02836241847347082,
+          0.08962829736211032,
+          -0.026732673267326756,
+          -0.06784003564665259,
+          -0.0538116591928251,
+          -0.07265260996604278,
+          -0.014718614718614714,
+          0.04110733249806098,
+          0.02777777777777779,
+          -0.06388991451049447
+        ]
+      },
+      "split_generic": {
+        "n": 10,
+        "mean": -0.13003048538391646,
+        "ci95": [
+          -0.1766084662603939,
+          -0.08322034893087861
+        ],
+        "positive": 0,
+        "negative": 10,
+        "exact_signflip_p": 0.001953125,
+        "deltas": [
+          -0.14576748213899113,
+          -0.2616368443706573,
+          -0.0736842105263158,
+          -0.016294101804470773,
+          -0.011484690461213809,
+          -0.09427210257085777,
+          -0.16518847006651882,
+          -0.17178857553885457,
+          -0.1655701754385965,
+          -0.19461820092268795
+        ]
+      },
+      "split_specialist": {
+        "n": 10,
+        "mean": -0.16069930265940469,
+        "ci95": [
+          -0.19083964592717512,
+          -0.12635113123170774
+        ],
+        "positive": 0,
+        "negative": 10,
+        "exact_signflip_p": 0.001953125,
+        "deltas": [
+          -0.1961773360037584,
+          -0.18608897742363875,
+          -0.19200213434517105,
+          -0.05345300423834459,
+          -0.07887101028752308,
+          -0.16606622062103277,
+          -0.13290043290043288,
+          -0.19071183859916258,
+          -0.17637622424856467,
+          -0.2343458479264181
+        ]
+      },
+      "interaction": {
+        "n": 10,
+        "mean": -0.030668817275488244,
+        "ci95": [
+          -0.06146360419048371,
+          0.002645578005818569
+        ],
+        "positive": 2,
+        "negative": 8,
+        "exact_signflip_p": 0.111328125,
+        "deltas": [
+          -0.05040985386476726,
+          0.07554786694701855,
+          -0.11831792381885525,
+          -0.03715890243387382,
+          -0.06738631982630927,
+          -0.071794118050175,
+          0.03228803716608594,
+          -0.018923263060308004,
+          -0.01080604880996816,
+          -0.03972764700373016
+        ]
+      }
+    },
+    "conservative_target_rate": {
+      "roles_full": {
+        "n": 10,
+        "mean": -0.013624305136519004,
+        "ci95": [
+          -0.045052267608260615,
+          0.017969994548781475
+        ],
+        "positive": 4,
+        "negative": 6,
+        "exact_signflip_p": 0.43359375,
+        "deltas": [
+          -0.02119585176894423,
+          -0.0776526996039191,
+          0.0035842293906809958,
+          0.0738438045375218,
+          -0.08163992869875222,
+          0.04071236613052022,
+          -0.07020030234315949,
+          0.045348046255007185,
+          -0.0322109162315348,
+          -0.016831799032610395
+        ]
+      },
+      "roles_split": {
+        "n": 10,
+        "mean": 0.0011057097024028107,
+        "ci95": [
+          -0.018350425399528594,
+          0.020598383937055317
+        ],
+        "positive": 6,
+        "negative": 4,
+        "exact_signflip_p": 0.92578125,
+        "deltas": [
+          0.044105245403946704,
+          -0.008036635706914333,
+          0.004072134962187321,
+          -0.03413127413127412,
+          0.05450127770097607,
+          0.02034415285451198,
+          0.007075471698113206,
+          0.0026601974234565784,
+          -0.05479624954922467,
+          -0.024737223631750627
+        ]
+      },
+      "split_generic": {
+        "n": 10,
+        "mean": -0.036510935972474144,
+        "ci95": [
+          -0.06921671316284286,
+          -0.006859634375174786
+        ],
+        "positive": 4,
+        "negative": 6,
+        "exact_signflip_p": 0.05078125,
+        "deltas": [
+          -0.06763812536084543,
+          -0.07594896933132227,
+          0.0035842293906809958,
+          0.02726190476190475,
+          -0.14487072560467054,
+          0.009318758447347822,
+          -0.040238737004235664,
+          -0.04835520896260091,
+          -0.048939949909721,
+          0.020717463848720793
+        ]
+      },
+      "split_specialist": {
+        "n": 10,
+        "mean": -0.02178092113355233,
+        "ci95": [
+          -0.04826925087789116,
+          0.0023999218886449278
+        ],
+        "positive": 3,
+        "negative": 7,
+        "exact_signflip_p": 0.162109375,
+        "deltas": [
+          -0.002337028187954504,
+          -0.006332905434317498,
+          0.004072134962187321,
+          -0.08071317390689117,
+          -0.008729519204942249,
+          -0.011049454828660418,
+          0.037037037037037035,
+          -0.09104305779415152,
+          -0.07152528322741088,
+          0.012812039249580562
+        ]
+      },
+      "interaction": {
+        "n": 10,
+        "mean": 0.014730014838921814,
+        "ci95": [
+          -0.026572592412771517,
+          0.05708999503328761
+        ],
+        "positive": 5,
+        "negative": 5,
+        "exact_signflip_p": 0.521484375,
+        "deltas": [
+          0.06530109717289093,
+          0.06961606389700477,
+          0.0004879055715063252,
+          -0.10797507866879592,
+          0.1361412063997283,
+          -0.02036821327600824,
+          0.0772757740412727,
+          -0.04268784883155061,
+          -0.022585333317689874,
+          -0.007905424599140232
+        ]
+      }
+    }
+  },
+  "threshold_sensitivity": {
+    "0.0": {
+      "EQUIVALENT": 10916,
+      "A_ENTAILS_B": 9814,
+      "B_ENTAILS_A": 11579,
+      "UNRELATED": 62534,
+      "oneway_peer_weaken": 3839,
+      "oneway_peer_strengthen": 4830
+    },
+    "2.64": {
+      "EQUIVALENT": 9113,
+      "A_ENTAILS_B": 9034,
+      "B_ENTAILS_A": 10662,
+      "UNRELATED": 66034,
+      "oneway_peer_weaken": 3537,
+      "oneway_peer_strengthen": 4445
+    },
+    "5.28": {
+      "EQUIVALENT": 7566,
+      "A_ENTAILS_B": 8273,
+      "B_ENTAILS_A": 9773,
+      "UNRELATED": 69231,
+      "oneway_peer_weaken": 3251,
+      "oneway_peer_strengthen": 4088
+    },
+    "7.92": {
+      "EQUIVALENT": 6275,
+      "A_ENTAILS_B": 7524,
+      "B_ENTAILS_A": 8942,
+      "UNRELATED": 72102,
+      "oneway_peer_weaken": 2954,
+      "oneway_peer_strengthen": 3774
+    },
+    "10.56": {
+      "EQUIVALENT": 4829,
+      "A_ENTAILS_B": 6608,
+      "B_ENTAILS_A": 7888,
+      "UNRELATED": 75518,
+      "oneway_peer_weaken": 2630,
+      "oneway_peer_strengthen": 3341
+    }
+  },
+  "audit_design": "One distinct scored text pair per trace, uniform deterministic selection; one endpoint event per pair. Agent review, not independent human gold.",
+  "calibration_provenance": "Store records shared t=5.28 but no calibration file/hash/split; no entail_thresholds file present locally. In-sample historical accuracy is optimistic; current calibration code has holdout support, which does not prove these stores used it.",
+  "manifest": [
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-full-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-full-generic-cumulative.nli.store.json": "cbf7b5956ff5d1badce3fbb82bbb5a9418d66921c3c202b7fbc80fd29f0eafb0",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-full-generic-cumulative.debate.json": "3252c71e662c2f22f36a04dd60b0ff334c1cb9280cc2777c621d2d24fd12fed9",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-full-generic-cumulative.atomized.json": "c5480cfb6825a9211248407d72a309c555914f959a8e5e0178d1328ec080de87"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-full-specialist-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-full-specialist-cumulative.nli.store.json": "d324841a6292d0cc2f59044f60222d2adf2db7436b0949698ccb0bd74e77c3b7",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-full-specialist-cumulative.debate.json": "a42a94293065d95eff40428cd86bac8c62fab21b70f52ba91376cedfba9deb79",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-full-specialist-cumulative.atomized.json": "8a92be7a0bcd520853b7e8ebe51cd49e0a06bc95552a94b5260375ac50c5a1a3"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-generic-cumulative.nli.store.json": "0703fad1995f4042cd2d50dbc74d2a2f0aa99fcc96012321f17e7a3ee5396818",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-generic-cumulative.debate.json": "0d3b07e5ad3fff55bc8a1973c37fa158d19062706296c495818c06b75dcf0905",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-generic-cumulative.atomized.json": "9f88b7dc4b48abd896550d25a0a3eea2f714300901d756f1a9977ae803fa2477"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-specialist-aligned-cumulative.nli.store.json": "e26195ae13b5e71d6b4955cf9deaad67c52b78f596f2610baad727d0e14400dd",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-specialist-aligned-cumulative.debate.json": "3ae394959bba83ea037143c271e597cbb564cf7790076da02eab2b4553141b9a",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-specialist-aligned-cumulative.atomized.json": "94361e6c06fc58aa9faa2af36b5a2cc9572e6e11595cb7437dbd5ad3544f6ef6"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-full-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-full-generic-cumulative.nli.store.json": "bc4b667de84e7b7b67839e73202e14014e66cc08a4ecee63f4aa94dab4b3cd68",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-full-generic-cumulative.debate.json": "01a410e65696b74afc4740c61c0708e40f8119dc17a0ccb3548b75686ef90ce4",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-full-generic-cumulative.atomized.json": "d262ec2e45c939c87dc355a1923b73c7e57ed7e13fb28c51743e82a8dd9e8b6d"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-full-specialist-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-full-specialist-cumulative.nli.store.json": "6db6a792780203a5c1560a81d44e944312837a6ed3ec1a2236791e26e1223053",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-full-specialist-cumulative.debate.json": "9c833c5d19da6c87f5a86be8369df62d18bb1baac77b216bd657d88d6636be45",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-full-specialist-cumulative.atomized.json": "7097a9e4604dd70217a3f0b0da8b7498f77fba7ab2af9786c939f4cd04d0aad0"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-generic-cumulative.nli.store.json": "8f630ab08b72ba9737e2ba0b601c58b97c516d021a0ece9abaf3b0b9786e2b52",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-generic-cumulative.debate.json": "a465a433a9e85a180b93a243ba96bad26bd76a9f374f88d0b17855259ccdf475",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-generic-cumulative.atomized.json": "d38d63ea97fa3a60cb8b68d03507116b4f201e779cdc20ca3f60bfa638441da5"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-specialist-aligned-cumulative.nli.store.json": "0e301a6b0b298a9a3eebe0e7dab04ca5c1033731234fdbbafb3da878437686a6",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-specialist-aligned-cumulative.debate.json": "1736a08ca875af1941419a49bd618172acad11aaf93b90e57b3f146714ee9a8f",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-specialist-aligned-cumulative.atomized.json": "13f775198206a55d5192e90bc8b25e1d028e28bab0ac676c5ec6261c05808172"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-full-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-full-generic-cumulative.nli.store.json": "d3e654711c94cd15c3df6fc8d16cd2bf7ad349c62eb499d8df7661c8f0653b75",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-full-generic-cumulative.debate.json": "fa267f38d4eba21b96e643fe72f4ae8ae87300ad823e576f0d62f218d3036da7",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-full-generic-cumulative.atomized.json": "e4cfdcca5c8b8bfe74d47fa52adc9be46110420141e8c25a1944ee26b5ca5374"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-full-specialist-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-full-specialist-cumulative.nli.store.json": "c4af61611254ef85dde04cbeb6ff16b41de8808f79ab9166760276fac03e7572",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-full-specialist-cumulative.debate.json": "8b12b47eeace2859b649baa1e7bd032da21427d8483698138884fcbaaf6e3c6b",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-full-specialist-cumulative.atomized.json": "e73a875a642a8703cf935e159c60ce43c7f374963dfd850b5082073dc2c91d6a"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-generic-cumulative.nli.store.json": "4918c5372470ab6c4f01e9bb2ced50ce663f566b873c0a001c65aa50ffafd353",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-generic-cumulative.debate.json": "1097e832d79a440a207383ef4f7db2df1889a04f80a3d818d054e8adc1a63b23",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-generic-cumulative.atomized.json": "184495766a4979a0c7e37330b81589c3b1b66c3c4fcf4e242a51e527d3cb7999"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-specialist-aligned-cumulative.nli.store.json": "462fd0a22e5a9507fae2a969754b54035c3b5386f47ec954c535d76490629269",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-specialist-aligned-cumulative.debate.json": "6d7acdc8ab8d702aa21bbf1a38e50cb28662af2ac7387875c6befc599bce608e",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-specialist-aligned-cumulative.atomized.json": "06bbfb65529aadd72a3c67ea2722f8c49eaf4c6430818b268aab8d156357c44c"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-full-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-full-generic-cumulative.nli.store.json": "6679c12d8243d1718cba50d9f261afe1c2a0e0d2c39c1b42bdee971742fe01b0",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-full-generic-cumulative.debate.json": "fd09d499de735cd590a0af9ce7a844725dc6151edd125a30cac77ea92a73df54",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-full-generic-cumulative.atomized.json": "da2489a3c95753ba6616373a3b4b4787b8191c103b2f6b8cc8cc01dced1333ad"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-full-specialist-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-full-specialist-cumulative.nli.store.json": "44f5730dfc17b88d8ac25db62d7cf6cea529c12d7ee8a21c8705663b66141201",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-full-specialist-cumulative.debate.json": "f0cc708561c275a70904dd15a9ea7db3b0d33a46496e29ccba8df22a04ae143b",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-full-specialist-cumulative.atomized.json": "27e322e54829e95a9e147c0b823f5ec091a1dcb29cdee8f198645dd7ee8d07da"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-generic-cumulative.nli.store.json": "d2d6b3a730846d3706ea912c89fd42ac99e4c7bf901c75f4c55b1031020d75b0",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-generic-cumulative.debate.json": "63ed0f2134d4b243b639a2b72a21fa24c2c4097dc5a4e06ee7548fb69fe61ca9",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-generic-cumulative.atomized.json": "86bc033c72f10dcec5eae18a2393b9960af1c4a4e377e66e59807009082c51be"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-specialist-aligned-cumulative.nli.store.json": "c92c20fc43d9a3b7644c8ef9953a63fabf746ce0e863deb33c61caa1d439116f",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-specialist-aligned-cumulative.debate.json": "2ee9f1ef449fcbcd026cdfc97a8791d5e3061edafc70ff4a118fa2a7afb2d6d0",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-specialist-aligned-cumulative.atomized.json": "c971aea69e9f7fe49705a4a6c694d2acbd1446498d68646e85be77dce5272616"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-full-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-full-generic-cumulative.nli.store.json": "22cbfff26192fe98e2e448aae287f88e26c239d876180779b16c152b29ee6be4",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-full-generic-cumulative.debate.json": "a7c90991fffc58229698d2a46f0d248f090201712cca720c34ec19345f0e64ae",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-full-generic-cumulative.atomized.json": "b2db8f21af9f78f794d69c57b6456bc6cce84403c1ea90a373e9a437a5635759"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-full-specialist-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-full-specialist-cumulative.nli.store.json": "763b96a1005a0793f1ad94bba6bbb0e50365139e337ad1a6f061d169554cf161",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-full-specialist-cumulative.debate.json": "8465626918f7f4f3399ec74fac5107a34fbf0e3da8a3407fbbe7c5ed8178eb2d",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-full-specialist-cumulative.atomized.json": "e8073f2adc50d4a71089b1f158261eefdc5ca1a88a3bb7bbfafb6baaea18b777"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-generic-cumulative.nli.store.json": "237468e934e64d21676f8cb092fe5a14386c92d53a1a5a24cd3941d873a9d485",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-generic-cumulative.debate.json": "89135cd8f24bd9bf15476b8bf4aa57d701048a402f1e3edb168816ef1ce71835",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-generic-cumulative.atomized.json": "84fb8bd051f931876590c0f9e179207b6a59d585faaea205779af3c3d3a9e4a7"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-specialist-aligned-cumulative.nli.store.json": "13eca2c42444510b612dc59d1f8379437705588de609f066cf1fda0e81bdf506",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-specialist-aligned-cumulative.debate.json": "34b8b30802ddb1f0fe19c27942013e7673d926c0324084bf34b865a56a304667",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-specialist-aligned-cumulative.atomized.json": "44ae869761903309d92ce9ba80f83267e79d63b080e4926e5a3db5cf0d9f0e10"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-full-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-full-generic-cumulative.nli.store.json": "474c9affc8499d1da4d95f1569067f237efcf102076b9863c27f79c75c1e0d7c",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-full-generic-cumulative.debate.json": "7a198bf8c48fe4ce83d20e4d5caf58d45fa26569de971f97d817d1969192a56f",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-full-generic-cumulative.atomized.json": "440ba28b7e288e7339fad4c3e9230fb406dd84e74e8492112ffee23d5b8b333c"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-full-specialist-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-full-specialist-cumulative.nli.store.json": "c38d799fc0ad09e4d1db0a373f72e3bd28d784e71dba519df5287c71182b6fc7",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-full-specialist-cumulative.debate.json": "858a2e03de6079b5849f2d3201053d224c1078a7e2f7b613c4cda209c97500a8",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-full-specialist-cumulative.atomized.json": "8e84310afb5d108d9ace2d023b0987faaf19be5acc9ad7f637929c225867b3c4"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-generic-cumulative.nli.store.json": "16d675d7a9be6bb387fadab7d304cf284e35af7494f07944b9f12a2eebf8a7c7",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-generic-cumulative.debate.json": "56140a55e49be0388f5fcf4891ff0df21d24b9446066e831c0fd1f69813ce6bd",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-generic-cumulative.atomized.json": "443b2d17b3173f69de176cd92f556b0ee057bbadb17eaa8529dfa2f75bceaa4a"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-specialist-aligned-cumulative.nli.store.json": "5996fdf51f052cc69f3f79d6496916333af181a96e74962a877f801ee9ef9e06",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-specialist-aligned-cumulative.debate.json": "3dad9401378a612a69debfb47229b78267f27eaa7aadcef26a97b969c73ddab5",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-specialist-aligned-cumulative.atomized.json": "04bf97fcd4994e3f9664408a87548c137db33c1842679b24dd61ddcd34f1a94e"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-full-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-full-generic-cumulative.nli.store.json": "b90740fe66a1e90a3a0d82bd262e89cffd0adb996323a9ba461d2fffb1dd6ee4",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-full-generic-cumulative.debate.json": "69ec09556bc2c794c7d16cfa710870d27e7722c82b902ac0dfe3edf7f1b6371c",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-full-generic-cumulative.atomized.json": "da66c5ca01f0144c0e6c9bd7799a863481c744836e2e50f27353194d0faf2582"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-full-specialist-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-full-specialist-cumulative.nli.store.json": "1e66a3ed092f81f110887f65aa8885ecefb512817684ae9cf28cbe3e64fe16a4",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-full-specialist-cumulative.debate.json": "064bf88950258f8c40e93a2b697c62281493d80c63afafa8e1d613df21ceb5ad",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-full-specialist-cumulative.atomized.json": "5eaa14fb66477ce2491d3b945c2773eb8cc4cf59ed0d02f9cbeaa4f680c72699"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-generic-cumulative.nli.store.json": "72a60c0a6b5167bf824be9434c458578d30bcd5d029d5a3f2f007dc70e45c5a1",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-generic-cumulative.debate.json": "194546cfd70795a0d3a7002a185787235a17bc964f0502480dceab81dd540ad8",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-generic-cumulative.atomized.json": "08d99c6009e48c2c45f53c0e3556985a0971c9dc2117754042a253cc90c51cd9"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-specialist-aligned-cumulative.nli.store.json": "dc079dd94f3e1ad5fb6c6932a611853cf6005dc70ac39f033c13243e25d94503",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-specialist-aligned-cumulative.debate.json": "73599877331b94a8a8d9b2b0298d5c1f3803b0b0348d4ff9513ec357fa9e280d",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-specialist-aligned-cumulative.atomized.json": "db8693e46e1336c031b8f93eabda662f0947cbe177ecb9390e6b5051af51342c"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-full-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-full-generic-cumulative.nli.store.json": "86d08774c934b6b7cca34270d1c967c840d2b7fd7989b107e3be2d88f6b1ac4e",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-full-generic-cumulative.debate.json": "4cb4713ab3ba0cbc3418defecf8fb4ad6af76aeaf2493b19bc3a8a8d058705ab",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-full-generic-cumulative.atomized.json": "b95c78d2b04b284ec3448a10b7c707e004b6d68e34103a1e54b48be74cdfb099"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-full-specialist-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-full-specialist-cumulative.nli.store.json": "2a150153639e012141d09be079863e464c18addb224a4799b4778a78f8ff4c41",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-full-specialist-cumulative.debate.json": "f6edd8deabc1fdc9957de4bf6d867a17081e7616142d462a4d554fca292a65e5",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-full-specialist-cumulative.atomized.json": "fd195f3a13a4f2026249c3cb883ba9cbf65b5fd53903e9f1f59524f44e86a36c"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-generic-cumulative.nli.store.json": "2d706467c43491e69734f0547799c94a3f4441d55b5e38d994d698dd36d61bad",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-generic-cumulative.debate.json": "18bba9512f52dcbf9b90bb1d05be75f2fb1bcbef301901001011ad0d82e2352e",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-generic-cumulative.atomized.json": "a9b7c7109cc56d419f9889331503d39909bc24459a3b6f43e7e4eb4dfbdd35e9"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-specialist-aligned-cumulative.nli.store.json": "e09f5ffc723ce6d94ecd9a091fccc027849559bc5f1b5ff4acd7a863e50aa783",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-specialist-aligned-cumulative.debate.json": "57f14596e93d958247636f17c3dd7576a109fdfe579d8ac1712bce97b7380f24",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-specialist-aligned-cumulative.atomized.json": "a8d417158cbd10a799e43306b0ab65ecf7e25dfa70f6b5fcb64e97226e90d372"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-full-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-full-generic-cumulative.nli.store.json": "f480477c963adb754e8a635edcfac75a88cb842bd6cbd86bf891925d577a1e2a",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-full-generic-cumulative.debate.json": "0e43340d83ecb9e67e35277572c5285286ed88e8d78ed9cdaaf2e758b22f6118",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-full-generic-cumulative.atomized.json": "77324322d103207268404b4e18929cdfb118f5cf589c3248b5db31c2beae74a1"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-full-specialist-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-full-specialist-cumulative.nli.store.json": "7815c4b8ecc24f2770d76412b605457bd554fc6605e95202be8b1b18bc2833c7",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-full-specialist-cumulative.debate.json": "050512bdae3da1926288d974b2b82010ec95c5fe76183193210fa7e206f00005",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-full-specialist-cumulative.atomized.json": "b4b8a98088d20bf76446a2569187bbb5140f050b55d90434f89c7776c54ae86e"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-generic-cumulative.nli.store.json": "4098bcb5fcd93713af62ca60e9f6fd5e95915f2a35b0a312e6d9e58e1f57233e",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-generic-cumulative.debate.json": "7c38608b7be3a3f38296941111aa49abdf61d7449d2d00767de6ca549840af81",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-generic-cumulative.atomized.json": "5ad4a70a2aa078de0ff0e8e0f0efcff1effa11975bbb7e54aa8ace63404d3654"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-specialist-aligned-cumulative.nli.store.json": "75ae95d01bb9c95345fffbb36123ef1b4c696c0a07f22b44616856a37d6e36ac",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-specialist-aligned-cumulative.debate.json": "bf290221fd2a95e68efbcf3e7ebb82fcacf1b2ef5f2f3447fc4115d3cb5dcdb8",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-specialist-aligned-cumulative.atomized.json": "6086444a8f053a364b86e45cef1ebca15f92c62f69498adc01aa96976eb5acda"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-full-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-full-generic-cumulative.nli.store.json": "b4e7718e5afbf040bee7da849769994efabd582373329baec2dc4386f5cb99ca",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-full-generic-cumulative.debate.json": "5af9df846cc5f7c75550fa6c8eb4340f6dfe78a07cd93cfa1783475f5d35036a",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-full-generic-cumulative.atomized.json": "68e49cb3651304565967d0e57c1c2e5cb31cbc5dc3f0159e81730698539ea2ec"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-full-specialist-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-full-specialist-cumulative.nli.store.json": "9d49c1283352f792f0715c445374560fe2bfbc3ed5fb5246e12f32ac8502d1e5",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-full-specialist-cumulative.debate.json": "0eed681049c23fa029fd8d79ade6e0a19e11b6e4b1e2b21a1a2e3166acad5a94",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-full-specialist-cumulative.atomized.json": "e22f8f5c0f707e9f6df0840b9acc40f27c09af6668b7b974dcac2931c956d6f5"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-generic-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-generic-cumulative.nli.store.json": "cbff2b1ed0082982d585e35dce420e7c680d47ee55772dfb78d88a5eed71a49b",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-generic-cumulative.debate.json": "c746095587fd7f6acb5287461121d5d0a409d03eecccda1922a532b13068239b",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-generic-cumulative.atomized.json": "e4092e3e9dc9e8f16a1c9a3b35334207cc5e2698784e3643d8dc8c9f973442f1"
+      }
+    },
+    {
+      "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+      "files": {
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-aligned-cumulative.nli.store.json": "32d0b4e92e8d4b2f57a5a2b4e40c12b0ac33779e2776562a226dc91872a61321",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-aligned-cumulative.debate.json": "e416db3906aaa6fc55053cde86bc42c1f26cb7007ccd7540de53011e48d698da",
+        "experiments/idrbench_generation_10x5_r3/idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-aligned-cumulative.atomized.json": "c8c7acc7ce0c82bdbeed8c4e8ab60d757ade262e07ce92e076ba4dc91b877d17"
+      }
+    }
+  ]
+}

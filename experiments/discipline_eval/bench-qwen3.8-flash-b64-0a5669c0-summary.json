@@ -1,0 +1,43 @@
+{
+  "model": "qwen3.8-flash",
+  "system_hash": "0a5669c0d0e186284db471db7486be524f34eb7e73e49f5cbbde0160bb38bbd8",
+  "batch_size": 64,
+  "calls": 4,
+  "success": 4,
+  "n_gold": 32,
+  "topic_correct": 30,
+  "paper_correct": 32,
+  "seconds": [
+    5.6246253750287,
+    7.979976583039388,
+    5.221840874990448,
+    7.158341791946441
+  ],
+  "cost_equivalent_usd": 0.00250096,
+  "errors": [
+    {
+      "case": "idr-gen-level_1-9",
+      "uid": "6022530ed1ce0de69386",
+      "text": "V2G-capable public charging is treated as a proposed intervention",
+      "topic": "B",
+      "paper": "P",
+      "original_fact_id": "f_943884f8f288bea0",
+      "predicted": {
+        "topic": "X",
+        "paper": "P"
+      }
+    },
+    {
+      "case": "idr-gen-level_1-55",
+      "uid": "9a251b3950dca3cf1a94",
+      "text": "The integration adopts Researcher A's mechanism",
+      "topic": "G",
+      "paper": "P",
+      "original_fact_id": "f_184d64a5c1770b2c",
+      "predicted": {
+        "topic": "U",
+        "paper": "P"
+      }
+    }
+  ]
+}

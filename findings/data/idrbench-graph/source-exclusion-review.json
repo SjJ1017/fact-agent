@@ -1,0 +1,1950 @@
+[
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-generic",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: A hybrid CompuCell3D/cGAN loop uses tissue-geometry-conditioned transport emulation to drive GGH cell behaviors, providing a fast surrogate for geometry-dependent nutrient fields that neither paper alone supplies.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-generic",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: A quasi-steady CompuCell3D/cGAN loop uses tissue-geometry-conditioned cGAN transport fields to drive GGH cell behaviors, creating a fast PDE-free surrogate for transport-limited tissue morphogenesis.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-generic",
+    "slot": "B|2",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 1,
+    "final_idea": "FINAL IDEA: With only paper-c available, no non-fabricated two-paper integration can be stated; the useful revised contribution is a conditional cGAN-based transport constraint schema requiring the missing paper’s operational observable, not an actual cross-disciplinary result.",
+    "evidence": [
+      "Paper-c contributes a boundary-conditioned cGAN that directly generates steady-state heat conduction and incompressible fluid flow fields without governing equations, validated by MAE against numerical solutions. I adopt this as the only available source-grounded contribution. I reject Researcher A’s paper-b/CompuCell3D GGH contribution as not present in the source list; however, I adopt A’s insistence on coupling to an independent observable or model. I qualify Researcher C: the claim of zero source content is too strong—paper-c exists—but C correctly refuses to fabricate a second source."
+    ],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-generic",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: A closed-loop CompuCell3D/cGAN system uses cell-generated tissue geometry as conditioning input to a learned transport emulator, enabling PDE-free prediction of nutrient/flow fields that drive cell behavior, beyond either single method.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-generic",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Coupling CompuCell3D-generated tissue architectures as conditioning inputs to a cGAN transport solver enables PDE-free prediction and design of tissue-scale heat/fluid transport directly from cell-level rules.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-generic",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: A CompuCell3D-to-cGAN surrogate loop couples cell-rule-driven tissue geometry to physics-constrained steady transport fields, enabling fast PDE-free simulation of transport-limited morphogenesis.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-specialist-aligned",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Coupling CompuCell3D GGH cell dynamics to a conditional GAN steady-state field surrogate would accelerate tissue-scale simulation while preserving emergent biology, contingent on verifying the unavailable Paper C claims.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-specialist-aligned",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate a conditional GAN steady-state transport surrogate into CompuCell3D’s cell-dynamics loop so tissue geometry and predicted oxygen/flow fields co-evolve rapidly, validated against full PDE-coupled spheroid growth.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-specialist-aligned",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use paper-c’s cGAN transport solver as the extracellular field engine inside CompuCell3D’s GGH tissue simulations, linking cellular adhesion, growth, secretion, and chemotaxis to predicted heat and flow fields for accelerated multi-scale modeling.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-specialist-aligned",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use a conditional GAN trained on steady-state oxygen fields as an in-loop surrogate within CompuCell3D GGH tissue simulations to accelerate multiscale spheroid growth while preserving emergent cell death and proliferation dynamics.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-specialist-aligned",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate a conditional GAN transport surrogate into CompuCell3D’s cell-dynamics loop so tissue geometry and predicted oxygen/flow fields co-evolve rapidly, enabling large-scale multiscale simulations.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-12",
+    "condition": "split-specialist-aligned",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Coupling CompuCell3D GGH cell dynamics to a conditional GAN steady-state oxygen surrogate accelerates tissue simulation while preserving hypoxia-driven growth, death, and chemotaxis, contingent on validation against full PDE benchmarks.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-generic",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use patient/study-partner preference utilities for home visits to define a prospective adaptive trial rule that adds home visits when interim data show under-enrollment of higher-severity AD patients, then test whether this adaptation improves recruitment without shifting the target population or inflating type I error.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-generic",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use AD preference utilities to pre-specify a prospective adaptive rule that adds home visits only when severe patients are under-enrolled, then validate via discrete-choice simulation and a new study-partner survey whether this adaptation corrects severity drift without inflating type I error.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-generic",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Home-visit adaptation increases AD trial enrollment but may shift the enrolled severity distribution; conjoint utilities quantify who newly enrolls, while adaptive trial risk criteria measure whether that shift causes population drift or type I error inflation.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-generic",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use AD study partners’ home-visit preference utilities to pre-specify an adaptive trial rule and test whether adding home visits when higher-severity enrollment lags avoids the population drift and type I error inflation that unplanned adaptations risk.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-generic",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Adaptive trial amendments can be evaluated as preference-altering attributes using Alzheimer disease conjoint utilities to predict and prevent severity-dependent population drift in post-adaptation samples.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-generic",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use Paper-c’s Alzheimer disease preference utilities to define a prospective adaptive enrollment rule in Paper-b’s framework, then simulate and validate whether adding home visits when high-severity enrollment lags prevents population drift while controlling type I error.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-specialist-aligned",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use conjoint-derived participation utilities from Paper C to detect, predict, and reweight enrollment drift after adaptive-trial modifications, directly addressing Paper B’s type-I-error and trial-integrity concerns.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-specialist-aligned",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Combine Paper B’s adaptive-trial rules with Paper C’s conjoint utilities to identify and reweight preference-driven population drift, restoring type I error control after trial adaptations.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-specialist-aligned",
+    "slot": "B|2",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Paper C’s finding that home visits can offset high intervention risk in AD trial participation cannot be integrated with a second disciplinary contribution until that missing paper supplies a concrete decision-model, simulation, or data resource.",
+    "evidence": [
+      "Reject Researcher A’s integration of “Paper B” adaptive-trial claims as unsupported, because Paper B is not in the supplied source list. Qualify Researcher C’s “no source” claim: Paper C is available, but only one source paper exists, so no two-paper integration is currently supportable.",
+      "This revision preserves Paper C’s home-visit utility and risk-compensation evidence. It rejects unsupported second-paper claims from Researcher A and qualifies Researcher C’s empty-source conclusion. A genuine two-paper integration cannot yet be specified because the required second source contribution—a decision model, simulator, or operational dataset—is absent. The proposal therefore remains a conditional framework for translating preference utilities into enrollment predictions, with validation tied to Paper C’s original ratings."
+    ],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-specialist-aligned",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use Paper C’s conjoint-derived enrollment utility as a behavioral selection function to predict and correct severity drift and type I error inflation induced by Paper B’s adaptive trial modifications.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-specialist-aligned",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Adaptive trial changes alter preference-weighted attributes of an AD trial, producing differential enrollment by functional severity and threatening type I error, which can be tested by combining Paper B’s adaptation rules with Paper C’s conjoint utilities.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-14-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-14",
+    "condition": "split-specialist-aligned",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Conjoint-derived participation utilities from Paper C, varying with ADL severity, causally translate Paper B’s adaptive-trial changes into severity-stratified enrollment drift, which preference-based reweighting can correct and which a pilot DCE validates.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-generic",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use elliptic-curve automorphisms to recast paper-b’s algebraic geometry LCP codes as quasi-cyclic/constacyclic codes, so paper-c’s single-code security reduction can make direct sum masking both compact and formally guaranteed.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-generic",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use elliptic-curve automorphisms to impose constacyclic/quasi-cyclic structure on paper-b’s algebraic geometry LCP codes, enabling paper-c’s single-distance security reduction and efficient direct-sum masking.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-generic",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate paper-c’s symmetry and programming-bound constraints on linear complementary pairs with colleague-reported algebraic geometry LCP constructions to derive and validate lower-overhead masking codes whose security parameter reduces to a single minimum distance.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-generic",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use elliptic-curve automorphism orbits to transform reported algebraic geometry LCP codes into quasi-cyclic or constacyclic LCP form so that paper-c’s single-code security reduction produces compact direct-sum masking codes with measurable leakage and fault resistance.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-generic",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: The integrated research uses Paper-c’s quasi-cyclic/constacyclic LCP characterizations to operationalize Paper-b’s elliptic-curve AG LCP codes as efficient, provably secure direct-sum masking implementations.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-generic",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use cyclic subgroup orbits on Paper-b’s elliptic-curve evaluation points to generate quasi-cyclic AG LCP codes, then apply Paper-c’s single-distance security reduction to build lower-overhead, provably secure direct-sum masking.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-specialist-aligned",
+    "slot": "A|2",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: No valid integrated research idea can be stated because only paper-b is available; a second paper-grounded contribution must be supplied before defining a cross-disciplinary mechanism and testable design.",
+    "evidence": [
+      "Adopt from paper-b: explicit LCP constructions of algebraic geometry codes from elliptic curves; security parameters \\(d(\\mathcal{C}), d(\\mathcal{D}^\\perp)\\); the condition under which \\(\\mathcal{C}^\\perp\\) is equivalent to \\(\\mathcal{D}\\); and the investigation of MDS LCP AG codes. Qualify: MDS LCP existence is left as an open question, not established. Reject Researcher B’s constacyclic/quasi-cyclic and programming-bound claims as not present in the provided paper-b. Reject Researcher C’s no-source response as not a revision of actual available material."
+    ],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-specialist-aligned",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use elliptic-curve automorphisms to impose paper-c’s quasi-cyclic/constacyclic structure on paper-b’s LCP AG codes and test whether the collapsed security bound predicts masking resilience.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-specialist-aligned",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use quasi-cyclic/constacyclic LCP structure from paper-c to compress colleague-reported algebraic-geometry LCP masks and test whether the collapsed security parameter still meets paper-c’s programming bound under simulated side-channel leakage.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-specialist-aligned",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use elliptic-curve automorphism orbits to induce paper-c’s quasi-cyclic/double circulant structure on colleague-reported algebraic geometry LCP codes, validating reduced security parameters via paper-c’s equivalence and programming bounds under simulated side-channel leakage.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-specialist-aligned",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use elliptic-curve automorphisms to induce quasi-cyclic/constacyclic structure on algebraic geometry LCP codes, enabling paper-c’s equivalence and bounds to validate paper-b’s constructions.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-2-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-2",
+    "condition": "split-specialist-aligned",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Elliptic-curve automorphisms make paper-b’s LCP AG codes satisfy paper-c’s quasi-cyclic/constacyclic structure, enabling paper-c’s reduced security parameter and programming bound to validate their direct-sum masking performance.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-generic",
+    "slot": "A|2",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 1,
+    "final_idea": "FINAL IDEA: No valid integrated research idea can be stated because the second source paper is absent, and adopting Researcher B’s invented paper-c would violate the source-availability constraint.",
+    "evidence": [
+      "I reject Researcher B’s invoked “paper-c” as not present in the available source set; its eight-vertex scaling claim cannot be used. I adopt Researcher C’s refusal to fabricate a second contribution, but qualify it: paper-b was actually provided, so C’s “no source paper” statement is inaccurate. A genuine mechanism would require the missing paper’s concrete construct—e.g., an algorithm, empirical measurement, or dynamical rule—mapped operably onto paper-b’s parameters J,U or its random-cluster/FK observables. No such mapping can be specified without inventing the missing source."
+    ],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-generic",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use paper-b’s FK/random-cluster framework and OSSS-validated finite-size scaling to test the claimed equal-energy Ashkin-Teller-to-eight-vertex weak-coupling universality, distinguishing self-dual-line exponents from dual-curve exponents.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-generic",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use the random-cluster/FK representation of the square-lattice Ashkin-Teller phase diagram to test the scaling-equivalence of equal-energy Ashkin-Teller criticality to eight-vertex weak coupling through finite-size scaling validated by OSSS sharpness.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-generic",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: The proposal integrates FK-based sharp phase-boundary control for the Ashkin-Teller model with eight-vertex weak-coupling scaling by locating equal-pair-energy criticality on the self-dual line and testing exponent matching.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-generic",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: The proposal integrates rigorous FK-based phase-boundary sharpness for the Ashkin-Teller model with eight-vertex weak-coupling scaling equivalence by testing whether the self-dual line, unlike the two dual curves, exhibits eight-vertex critical exponents under finite-size scaling.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-generic",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Using the random-cluster/FK representation and OSSS sharpness of the ferromagnetic Ashkin-Teller phase diagram, I propose to locate the equal-pair-energy line on the self-dual branch and test whether its finite-size scaling exponents match the eight-vertex weak-coupling universality class claimed by paper-c.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-specialist-aligned",
+    "slot": "A|2",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 1,
+    "final_idea": "FINAL IDEA: Paper-b’s rigorously proven Ashkin-Teller phase boundaries and FK-cluster geometry can ground-truth a hypothetical external phase-detection method, once the missing second paper is supplied, by testing whether it recovers the exact dual/self-dual transition structure.",
+    "evidence": [
+      "Missing cross-paper knowledge: no second source paper is supplied. I reject Researcher B’s “Paper C” eight-vertex mapping as source-grounded because it is not in the available materials; I treat it only as an unsupported hypothesis. Researcher C correctly identifies the absence. A genuine two-paper mechanism cannot be specified. Conditional mechanism, clearly labeled as hypothesis: paper-b’s exact dual/self-dual phase boundaries and FK-cluster geometry could serve as rigorous ground truth for an externally provided phase-boundary detector. The causal link would be generated FK features → detector prediction → comparison with paper-b’s proven curves."
+    ],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-specialist-aligned",
+    "slot": "A|3",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Paper-b’s rigorously sharp Ashkin-Teller phase boundaries and FK-cluster observables can ground-truth a hypothetical external phase-detection method, once the missing second paper is supplied, by testing whether it recovers the exact dual/self-dual transition structure.",
+    "evidence": [
+      "Missing cross-paper knowledge: the second paper and its contribution are absent. I reject Researcher B’s and Researcher C’s “paper C” eight-vertex scaling mapping as source-grounded; it is not in the available materials and can only be an unsupported hypothesis. A genuine two-paper mechanism cannot yet be specified. Conditional hypothesis, clearly separated from source claims: paper-b’s rigorously labeled transition curves and generated FK-cluster features can serve as ground truth for an external phase-detection method from the missing paper. The operational connection would be FK-generated observables → external detector → predicted transition locus → quantitative comparison with paper-b’s exact diagram."
+    ],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-specialist-aligned",
+    "slot": "B|2",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Paper-c’s Ashkin-Teller-to-eight-vertex weak-coupling scaling equivalence can serve as an exact finite-size benchmark for a missing second paper’s exponent-estimation or scaling-test method, but no valid two-source integration exists until that method is supplied.",
+    "evidence": [
+      "I adopt paper-c’s equal-energy Ashkin-Teller → eight-vertex weak-coupling mapping as the core known relation. I reject Researcher A’s paper-b claims: paper-b is not among the available source papers, so its phase diagram cannot be treated as grounded contribution. I qualify my prior proposal by retaining the missing-second-paper constraint. A genuine mechanism would require a second paper supplying a finite-size estimator or test for critical-exponent equality or scaling-function collapse. The operational connection would be: simulate equal-energy Ashkin-Teller samples and use that missing statistical method to test whether estimated exponents match eight-vertex weak-coupling values."
+    ],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-specialist-aligned",
+    "slot": "B|3",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Paper-c’s equal-pair-energy Ashkin-Teller equivalence to eight-vertex weak-coupling critical behavior can serve as an exact finite-size benchmark, but a genuine integration requires a missing second paper’s statistical exponent-estimation or scaling-test method.",
+    "evidence": [
+      "Paper-c contributes only an analytic scaling-hypothesis equivalence: the Ashkin-Teller model with equal pair energies has the same critical properties as the eight-vertex model in the weak-coupling limit. This is a theoretical mapping, not a statistical method or dataset. I reject Researcher A’s and Researcher C’s paper-b claims as source-grounded because paper-b is not among the available sources. I qualify paper-c’s mapping as an unvalidated scaling hypothesis, not an established numerical fact."
+    ],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-specialist-aligned",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use paper-b’s rigorous FK random-cluster finite-size estimators on the equal-pair-energy Ashkin-Teller self-dual line to test paper C’s scaling-hypothesis equivalence with eight-vertex weak-coupling critical exponents.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-24-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-24",
+    "condition": "split-specialist-aligned",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use paper-b’s rigorous FK finite-size estimators on the Ashkin-Teller equal-pair-energy self-dual line to test paper-c’s scaling-hypothesis equivalence with eight-vertex weak-coupling critical behavior.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-generic",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Self-supervised PCLR embeddings can make AI-ECG detection of left ventricular dysfunction data-efficient by fine-tuning a lightweight head on few paired ECG-echo labels, reducing echo dependency while preserving validated screening performance.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-generic",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Frozen PCLR self-supervised ECG embeddings, combined with a linear probe on paper-c’s echo-derived EF≤35 labels, can achieve label-efficient and externally valid AI screening for asymptomatic left ventricular dysfunction.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-generic",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: PCLR’s self-supervised 12-lead ECG representations may enable label-efficient fine-tuning of paper-c’s AI-ECG screen for asymptomatic left ventricular dysfunction, improving generalization and reducing dependency on large echocardiogram-labeled datasets.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-generic",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Self-supervised PCLR embeddings can make paper-c’s AI-ECG left ventricular dysfunction screening label-efficient by training a lightweight head on scarce paired ECG-echo data, reducing echocardiogram dependency while preserving validated screening accuracy.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-generic",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Self-supervised PCLR ECG embeddings can operationalize Paper-c’s AI-ECG left ventricular dysfunction screening with substantially fewer paired echocardiogram labels, merging contrastive pre-training with echo-derived outcome prediction.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-generic",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: PCLR’s frozen self-supervised ECG embeddings can replace Paper-c’s raw ECG preprocessing for left ventricular dysfunction screening, requiring only 500–5,000 echo-labeled pairs while preserving validated detection and future risk prediction.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-specialist-aligned",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use PCLR’s patient-level contrastive ECG pre-training to make Paper-c’s AI-ECG ALVD screen label-efficient under scarce labeled data while preserving clinical screening accuracy and prospective risk prediction.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-specialist-aligned",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: PCLR’s patient-level contrastive ECG pre-training makes Paper-c’s ALVD screening more label-efficient and externally transportable, tested via low-label fine-tuning, independent echo validation, and incident left ventricular dysfunction hazard prediction.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-specialist-aligned",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: The integrated proposal tests whether PCLR’s contrastive ECG pre-training can preserve paper-c’s ALVD screening accuracy and future-dysfunction hazard using far fewer echocardiogram labels.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-specialist-aligned",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use PCLR’s contrastive ECG pre-training as a transferable encoder for paper-c’s ALVD screen, tested via low-label fine-tuning, non-inferiority, and prospective incident dysfunction validation.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-specialist-aligned",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: PCLR’s self-supervised patient ECG representations make Paper-c’s ALVD screening more label-efficient and transportable, tested via low-label fine-tuning and incident left ventricular dysfunction prediction.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-49",
+    "condition": "split-specialist-aligned",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: PCLR’s patient-level contrastive ECG pre-training makes Paper-c’s validated ALVD screen label-efficient and transportable, tested by fine-tuning on scarce echo labels while preserving screening accuracy and incident-dysfunction hazard.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-generic",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate qubitization block-encoding of \\(H=(\\langle G|\\otimes I)U(|G\\rangle\\otimes I)\\) with QSP rotations to implement \\(e^{-iHt}\\) with optimal queries and ≤2 ancilla qubits for block-encoded d-sparse Hamiltonians.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-generic",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate qubitization’s SU(2) block-encoding of \\(H\\) with QSP’s optimal single-ancilla rotation sequence to synthesize \\(f(H)\\) for sparse and density-matrix systems with near-optimal query complexity, ≤2 ancilla qubits, and directly testable success probability.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-generic",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: We integrate qubitization’s block-encoded Hamiltonian oracle with QSP’s optimal single-ancilla eigenvalue transformation to implement arbitrary smooth functions \\(f(H)\\) on \\(d\\)-sparse systems with near-optimal query complexity and provable success probability.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-generic",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate qubitization block-encoded eigenphases as the input signal for QSP’s optimal single-ancilla rotations to synthesize arbitrary functions of sparse Hamiltonians with near-optimal queries and ≤2 ancillas.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-generic",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate QSP’s single-ancilla sparse eigenvalue transduction into qubitization’s projected unitary to synthesize arbitrary operator functions of sparse Hamiltonians with optimal query complexity and reduced ancilla overhead.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-generic",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate qubitization’s projected unitary block encoding with QSP’s optimal single-ancilla eigenvalue transformation to implement arbitrary smooth \\(f(H)\\) for block-encoded \\(d\\)-sparse Hamiltonians with near-optimal query complexity, reduced ancilla overhead, and explicit success-probability validation.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-specialist-aligned",
+    "slot": "A|2",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 1,
+    "final_idea": "FINAL IDEA: A valid integration requires paper-a to provide a concrete encoding or operator-function query that qubitization can implement, so the proposal remains conditionally specified and not yet testable.",
+    "evidence": [
+      "I adopt Researcher C’s non-fabrication rule and reject Researcher B’s QSP-based mechanism, because it imports an unavailable “Paper C” rather than connecting to paper-b. I qualify my prior proposal: a genuine integration requires the missing paper-a to supply at least one of (i) an encoding of its domain object into the unitary oracles \\(U\\) and \\(|G\\rangle\\) such that the projection gives a meaningful Hamiltonian, (ii) an operator-function question in paper-a’s domain that qubitization can answer, or (iii) a domain-specific validation metric. Without such a handoff, no causal connection exists."
+    ],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-specialist-aligned",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use qubitization’s projected-unitary SU(2) embedding to feed Hamiltonian eigenvalues into QSP’s optimal single-qubit rotation sequence, jointly realizing near-optimal operator-function computation.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-specialist-aligned",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use qubitization’s projected-unitary SU(2) embedding to feed eigenvalues into QSP’s optimal single-qubit rotation sequence, jointly realizing optimal Hamiltonian simulation and broader operator-function computation.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-specialist-aligned",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Combine qubitization’s block-encoded Hamiltonian with QSP’s optimal rotation sequence to implement matrix functions with provably optimal query complexity and improved noise robustness over either method alone.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-specialist-aligned",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate qubitization’s projected-unitary encoding of a Hamiltonian with QSP’s ancilla rotation sequence to implement arbitrary matrix functions with provably optimal query complexity and lower overhead than either method alone.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-55-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-55",
+    "condition": "split-specialist-aligned",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate qubitization’s block-encoded SU(2) subspace with QSP’s optimal rotation sequence to implement matrix functions with query complexity governed jointly by qubitized oracle calls and QSP degree, improving over either method alone.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-generic",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Apply paper-b’s EfN phase-convergence theorem as a quantitative validation diagnostic for template-based cryo-EM reconstructions from paper-c’s domain, using noise-only controls to detect spurious template recovery in deposited structures.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-generic",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Apply paper-b’s Einstein-from-noise phase-convergence scaling as a quantitative phase-score to audit template-based cryo-EM reconstructions from paper-c’s domain, using simulated and public noise-only controls.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-generic",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Apply Einstein-from-noise phase-convergence diagnostics to cryo-EM template-based particle averaging to detect spurious template recovery from pure-noise micrographs.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-generic",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Apply Einstein-from-noise Fourier-phase convergence diagnostics from Paper-b to template-based cryo-EM particle averaging in Paper-c, producing a phase-score validation tool for deposited single-particle reconstructions.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-generic",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Applying Einstein-from-noise Fourier-phase diagnostics from Paper-b to cryo-EM template matching from Paper-c detects and prevents spurious template recovery in noisy single-particle averages.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-generic",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Apply Paper-b’s Einstein-from-noise phase-convergence diagnostic to Paper-c’s cryo-EM template refinement to detect and quantify spurious reference bias from noise-only particle stacks.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-specialist-aligned",
+    "slot": "A|2",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 1,
+    "final_idea": "FINAL IDEA: Use paper-b’s EfN phase-convergence theorem as a null-model diagnostic to detect and quantify spurious template recovery in a second field’s template-matching pipeline, conditional on that missing field supplying operational data and methods.",
+    "evidence": [
+      "Reject Researcher B’s use of “paper-c” as an integration basis: paper-c is not in the available source list, and the colleague’s summary is not an actual source claim.  ",
+      "Create negative-control datasets of pure noise in the second field’s native format. Apply its template-matching pipeline, then compute circular Fourier phase distance between output and template. Test two paper-b predictions: phase distance decreases as observation count increases, and in high dimensions decreases more for template components with larger magnitudes. Include positive controls with weak true signal and shuffled-phase templates; if shuffled templates fail the predicted convergence, the diagnostic is validated. Rejecting the scaling predictions indicates the second pipeline is less EfN-susceptible. This design cannot be executed until the missing second paper supplies concrete variables."
+    ],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-specialist-aligned",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use Einstein-from-noise Fourier phase convergence as a quantitative negative-control diagnostic for reference-template bias in cryo-EM single-particle reconstruction, tested on public EMPIAR data with synthetic noise controls.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-specialist-aligned",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use the Einstein-from-noise Fourier phase-convergence result as a quantitative negative-control diagnostic for reference-template bias in cryo-EM single-particle reconstruction, calibrated on public cryo-EM data.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-specialist-aligned",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Conditionally integrate cryo-EM reference-based refinement with a statistical null of template phase convergence to build a phase-based reference-bias diagnostic, pending verification of paper-b’s theorem.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-specialist-aligned",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use Einstein-from-noise phase convergence as a statistical null model to detect and quantify spurious reference bias in cryo-EM single-particle refinement.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-8-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-8",
+    "condition": "split-specialist-aligned",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use Einstein-from-noise Fourier phase convergence as a frequency-resolved null-model diagnostic to detect spurious reference bias in cryo-EM single-particle refinement.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-generic",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Repeated geofenced exposure to public chargers changes perceived charger availability and PEV adoption share, which, when fed into vehicle-type-specific V2G equations, alters simulated regulation and spinning-reserve net revenue beyond what either paper alone can estimate.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-generic",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Perceived public charger availability influences PEV adoption share, which, when parameterized into paper-b’s vehicle-type-specific V2G equations, produces an empirically constrained estimate of ancillary-service revenue that neither demand-side charging surveys nor supply-side V2G calculations alone can provide.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-generic",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: If paper-b’s V2G revenue equations are source-verified, the integrated idea is that making bidirectional public chargers visibly revenue-generating can amplify PEV interest precisely where paper-c found only weak multiple-charger awareness effects.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-generic",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Repeated real-world public-charger exposure alters paper-c’s perceived charger-availability adoption chain, and when fed into colleague-reported V2G equations, it yields an adoption-weighted test of whether visibility-driven PEV type shifts change ancillary-service revenue beyond home charging effects.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-generic",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Coupling Paper-c’s demand-side charging-perception measures to Paper-b’s V2G revenue equations yields an adoption-weighted estimate of grid-services potential that tests whether public charger expansion, rather than home charging, drives real V2G economic value.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-generic",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: When paper-c’s perceived charger and home charging measures are used to weight paper-b’s vehicle-type-specific V2G equations, home Level 1 access—not perceived public chargers—limits realized regulation-market net revenue.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-specialist-aligned",
+    "slot": "A|2",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 1,
+    "final_idea": "FINAL IDEA: A conditional integration would model home-charging access as a participation parameter in paper-b’s V2G fleet capacity equations to test whether consumer charging constraints materially alter spinning-reserve net revenue, but Paper C cannot be used until its data are supplied.",
+    "evidence": [
+      "Paper-b contributes a concrete engineering-economics V2G model: equations for capacity from three electric-drive vehicle types and net revenue in peak power, spinning reserves, and regulation; it constrains V2G to high-value quick-response services, not baseload. I adopt this supply-side framework. Researcher B reports a claim from an unavailable “Paper C” that public charger awareness is weakly related to PEV interest while home Level 1 charging access is stronger. I cannot adopt Paper C as a source result because it is not provided; I treat it only as an unverified colleague claim. Researcher C correctly notes the missing second source, so its rejection is adopted methodologically but offers no integration."
+    ],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-specialist-aligned",
+    "slot": "A|3",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: A conditional integration would insert home charging access as an adoption participation parameter into paper-b’s V2G capacity and net revenue equations to test whether home charging policy expands spinning-reserve capacity more than public charger visibility, pending availability of Paper C data.",
+    "evidence": [
+      "Colleague-reported Paper C claims (not available as a source): home Level 1 charging access predicts PEV interest better than public charger awareness; multiple-charger perception is weak. I adopt these only as unverified colleague statements, not as source results. I reject treating Paper C as an available source; I qualify Researcher C’s integration by marking Paper C as missing."
+    ],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-specialist-aligned",
+    "slot": "B|2",
+    "source_exclusion": 1,
+    "explicit_C_refusal_support": 1,
+    "final_idea": "FINAL IDEA: Use objective spatial charger deployment to instrument consumer awareness and test whether Paper C’s weak awareness–PEV interest link reflects visibility thresholds or a true null effect.",
+    "evidence": [
+      "I adopt only Paper C’s actual measures and findings. I reject Researcher A’s paper-b V2G claims because paper-b is not available in this task. I adopt Researcher A’s and C’s correct methodological stance: absent a second paper, no genuine two-paper mechanism can be asserted."
+    ],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-specialist-aligned",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate Paper C’s home-charging-driven PEV adoption estimates as the fleet-size input to Paper B’s V2G capacity and revenue equations to test whether home charging access, not public charger visibility, expands V2G capacity.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-specialist-aligned",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate Paper C’s home-charging-driven PEV adoption estimates as the fleet-size input to Paper-b’s V2G capacity and revenue equations to test whether home charging access, not public charger visibility, expands V2G capacity.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-9-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-9",
+    "condition": "split-specialist-aligned",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate Paper C’s home-charging adoption constraint into Paper-b’s V2G capacity and revenue equations to test whether home charging access, not public charger visibility, expands quick-response V2G capacity.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-generic",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Applying CINEMA-OT causal optimal transport to Perturb-CITE-seq’s multimodal patient-derived immune-evasion data estimates CD58’s cell-level causal effect and synergy with IFN-γ/MHC pathways, moving from screen associations to validated perturbation mechanisms.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-generic",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: CINEMA-OT causal optimal transport using RNA covariate matching and held-out protein outcomes applied to Perturb-CITE-seq estimates CD58’s cell-level IFN-γ-orthogonal immune evasion effect and synergy.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-generic",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: CINEMA-OT’s causal counterfactual matching is applied to Perturb-CITE-seq’s multimodal pooled CRISPR screen to causally isolate CD58’s IFN-γ-orthogonal effect on melanoma immune evasion.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-generic",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: CINEMA-OT’s causal counterfactual matching applied to Perturb-CITE-seq’s multimodal pooled CRISPR screen isolates CD58’s IFN-γ-orthogonal immune-evasion effect and its synergy at single-cell resolution.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-generic",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Applying CINEMA-OT counterfactual perturbation inference to Perturb-CITE-seq multimodal profiles isolates causal CD58 immune-evasion effects and their synergy with IFN-γ at single-cell resolution.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-generic",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Causal counterfactual matching of Perturb-CITE-seq profiles isolates CD58’s IFN-γ-independent immune-evasion effect and synergy at single-cell resolution.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-specialist-aligned",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Apply CINEMA-OT counterfactual optimal-transport inference to Perturb-CITE-seq multimodal co-culture screens to causally map CD58-independent immune-evasion perturbations and synergistic ICR mechanisms.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-specialist-aligned",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Apply CINEMA-OT counterfactual optimal transport to Perturb-CITE-seq multimodal pooled screens to causally map perturbation-level immune-evasion effects and identify CD58-anchored synergies across the 750-perturbation space.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-specialist-aligned",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Apply CINEMA-OT causal optimal transport to Perturb-CITE-seq CD58 perturbation data to produce confounder-adjusted, cell-level immune-evasion treatment effects that separate orthogonal CD58 loss from IFN-γ/MHC-mediated resistance.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-specialist-aligned",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Apply CINEMA-OT counterfactual matching to Perturb-CITE-seq CD58 perturbation data to causally isolate MHC-independent immune-evasion effects and predict synergy with IFN-γ/JAK/STAT pathway defects.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-specialist-aligned",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use CINEMA-OT’s counterfactual optimal-transport framework to reanalyze Perturb-CITE-seq pooled immune-resistance data and causally isolate CD58 loss as an MHC-independent immunotherapy-resistance mechanism with testable synergy predictions.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-92-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-92",
+    "condition": "split-specialist-aligned",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Apply CINEMA-OT optimal transport to Perturb-CITE-seq multimodal co-culture screens to causally estimate cell-level CD58 and immune-evasion treatment effects and test synergy with IFN-γ/MHC defects.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-generic",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use attention-weighted UNet segmentation of anterior mediastinal lesions from Paper-b within the ACS lung cancer screening population from Paper-c to triage thymoma versus thymic cysts and reduce unnecessary diagnostic follow-up.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-generic",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate Paper-b’s attention-weighted AML segmentation and classifier into Paper-c’s ACS lung cancer screening shared decision-making to reduce unnecessary invasive follow-up for benign thymic cysts without compromising thymoma detection in screen-eligible adults.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-generic",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrating an attention-based anterior mediastinal lesion segmentation model into ACS lung cancer screening shared decision-making can quantify and manage incidental findings in a way that directly tests the guideline’s benefit–harm balance.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-generic",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrating attention-based anterior mediastinal lesion segmentation into ACS 2023 lung cancer screening shared decision-making can reduce unnecessary invasive follow-up for incidental thymic cysts while preserving thymoma detection in eligible smokers.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-generic",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrating attention-based AML segmentation into ACS 2023 lung cancer screening shared decision-making can reduce unnecessary invasive follow-up for incidental thymic cysts while preserving detection of thymoma in eligible smokers.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-generic-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-generic",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate attention-weighted UNet segmentation from Paper-b within Paper-c’s screening-eligible LDCT cohort to build a thymoma-versus-cyst triage classifier that reduces unnecessary follow-up while preserving malignancy detection.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-specialist-aligned",
+    "slot": "A|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate paper-b’s attention UNet into ACS guideline-selected low-dose CT screening to test whether attention maps improve incidental AML detection and risk-stratified overdiagnosis assessment.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-specialist-aligned",
+    "slot": "A|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate paper-b’s attention-uncertainty signal into ACS lung-cancer screening LDCT to triage incidental anterior mediastinal lesions and reduce unnecessary follow-up while preserving early thymoma detection.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "B|1",
+      "C|1",
+      "B|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-specialist-aligned",
+    "slot": "B|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use paper-b’s attention UNet to classify incidental anterior mediastinal lesions on ACS lung-cancer screening LDCT as a shared-decision-making triage tool that reduces unnecessary follow-up while preserving early thymoma detection.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-specialist-aligned",
+    "slot": "B|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Use paper-b’s attention UNet as a shared-decision triage tool for incidental anterior mediastinal lesions on ACS-eligible LDCT to cut unnecessary invasive follow-up while preserving early thymoma detection.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "C|1",
+      "A|2",
+      "C|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-specialist-aligned",
+    "slot": "C|2",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: An attention-based segmentation-uncertainty signal from paper-b’s UNet can personalize ACS lung-cancer screening follow-up by flagging high-error cases for additional review.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  },
+  {
+    "execution_id": "idrbench-generation-idr-gen-level_1-95-deepseek-v4-pro-full-split-specialist-aligned-cumulative",
+    "case_id": "idr-gen-level_1-95",
+    "condition": "split-specialist-aligned",
+    "slot": "C|3",
+    "source_exclusion": 0,
+    "explicit_C_refusal_support": 0,
+    "final_idea": "FINAL IDEA: Integrate paper-b’s attention UNet into ACS-defined LDCT screening to triage incidental anterior mediastinal lesions via attention-based thymoma-vs-cyst classification and uncertainty-driven shared decision-making.",
+    "evidence": [],
+    "visible_peer_turns": [
+      "A|1",
+      "B|1",
+      "A|2",
+      "B|2"
+    ],
+    "annotation": "Agent exploratory review; source exclusion means refusing peer paper as admissible source due to absence from own packet, including conditional-only proposals. Not a scientific quality label."
+  }
+]

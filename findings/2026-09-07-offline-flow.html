@@ -1,0 +1,242 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>改写方向的离线读数</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --ground:#f7f7f5; --panel:#fffefc; --edge:#e0dfd9; --ink:#1b1f24;
+  --dim:#6b7178; --faint:#9aa0a6;
+  --eq:#1f7a6b; --weak:#c4703a; --ref:#3f5fa8; --un:#a8a6a0; --no:#cfcdc6;
+  --hi:#1f7a6b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme=light]) {
+    --ground:#15171a; --panel:#1c1f23; --edge:#2e3238; --ink:#e8e6e1;
+    --dim:#9aa0a6; --faint:#6b7178;
+    --eq:#4fbfa8; --weak:#e0955c; --ref:#7b96d8; --un:#6e6c67; --no:#3a3d42;
+    --hi:#4fbfa8;
+  }
+}
+:root[data-theme=dark] {
+  --ground:#15171a; --panel:#1c1f23; --edge:#2e3238; --ink:#e8e6e1;
+  --dim:#9aa0a6; --faint:#6b7178;
+  --eq:#4fbfa8; --weak:#e0955c; --ref:#7b96d8; --un:#6e6c67; --no:#3a3d42;
+  --hi:#4fbfa8;
+}
+body { background:var(--ground); color:var(--ink); margin:0;
+  font:400 15px/1.65 "Noto Sans SC","PingFang SC",system-ui,sans-serif; }
+main { max-width:920px; margin:0 auto; padding:56px 24px 96px;
+  display:flex; flex-direction:column; gap:44px; }
+h1 { font-size:30px; line-height:1.25; margin:0 0 6px; letter-spacing:-.01em;
+  text-wrap:balance; }
+h2 { font-size:19px; margin:0 0 4px; letter-spacing:-.005em; }
+h3 { font-size:14px; margin:26px 0 8px; color:var(--dim); font-weight:500; }
+.eyebrow { font:500 11px/1 "IBM Plex Mono",monospace; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--faint); }
+.lede { color:var(--dim); font-size:15px; max-width:62ch; }
+section { display:flex; flex-direction:column; gap:10px; }
+.card { background:var(--panel); border:1px solid var(--edge); border-radius:6px;
+  padding:20px 22px; overflow-x:auto; }
+.warn { border-left:3px solid var(--weak); }
+table { border-collapse:collapse; width:100%; font-size:13px;
+  font-variant-numeric:tabular-nums; }
+th { text-align:left; font-weight:500; color:var(--dim); white-space:nowrap; }
+thead th { font:500 11px/1 "IBM Plex Mono",monospace; letter-spacing:.06em;
+  color:var(--faint); padding-bottom:8px; border-bottom:1px solid var(--edge); }
+tbody th { padding:7px 16px 7px 0; color:var(--ink); }
+td { padding:5px 6px; }
+td.n { text-align:right; font-family:"IBM Plex Mono",monospace;
+  color:var(--dim); white-space:nowrap; }
+td.n.hi { color:var(--hi); font-weight:500; }
+tr.sep th { padding:0; border-top:1px dashed var(--edge); height:10px; }
+td.v { position:relative; min-width:74px; text-align:right;
+  font-family:"IBM Plex Mono",monospace; }
+td.v i { position:absolute; left:2px; top:4px; bottom:4px; width:var(--w);
+  border-radius:2px; opacity:.24; background:currentColor; }
+td.v b { position:relative; font-weight:400; }
+td.v.eq { color:var(--eq); } td.v.weak { color:var(--weak); }
+td.v.ref { color:var(--ref); } td.v.un { color:var(--un); }
+td.v.no { color:var(--faint); }
+td.v.no i { background:repeating-linear-gradient(45deg,currentColor 0 2px,
+  transparent 2px 5px); opacity:.5; }
+.stack { display:flex; height:17px; border-radius:3px; overflow:hidden;
+  min-width:260px; background:var(--edge); }
+.stack span { width:var(--w); }
+.stack .eq { background:var(--eq); } .stack .weak { background:var(--weak); }
+.stack .ref { background:var(--ref); } .stack .un { background:var(--un); }
+.stack .no { background:repeating-linear-gradient(45deg,var(--no) 0 3px,
+  transparent 3px 7px); }
+.key { display:flex; flex-wrap:wrap; gap:14px; font-size:12px; color:var(--dim);
+  font-family:"IBM Plex Mono",monospace; }
+.key i { display:inline-block; width:9px; height:9px; border-radius:2px;
+  margin-right:5px; }
+.note { font-size:13px; color:var(--dim); margin:10px 0 0; max-width:66ch; }
+.note b { color:var(--ink); font-weight:500; }
+.big { font:500 34px/1 "IBM Plex Mono",monospace; color:var(--weak);
+  letter-spacing:-.02em; }
+ul { margin:6px 0 0; padding-left:18px; color:var(--dim); font-size:14px;
+  max-width:66ch; }
+li { margin:5px 0; } li b { color:var(--ink); font-weight:500; }
+footer { font-size:12px; color:var(--faint); border-top:1px solid var(--edge);
+  padding-top:16px; font-family:"IBM Plex Mono",monospace; }
+</style>
+<main>
+<header>
+  <p class="eyebrow">IDRBench · 40 场 · deepseek-v4-pro · 3 轮</p>
+  <h1>改写方向的离线读数</h1>
+  <p class="lede">按 <code>2026-09-07-offline-factflow-analysis.md</code> 的第 1、2、4、5、6 节
+  在缓存的 NLI 关系上计算。未评分的命题对一律记 unknown，方向不通过等价簇传递，
+  同一命题对同一接收者只在首次可见的那一轮计一次曝光。</p>
+</header>
+
+<section>
+  <p class="eyebrow">先看这个</p>
+  <h2>可分析范围</h2>
+  <div class="card warn">
+    <p class="big">4.9%</p>
+    <p class="note">blocker 只把约 5% 的命题对送进 NLI，其余 95% <b>从未被问过</b>。
+    下面每个比率都只描述这 5% 之内可观察到的关系；把未评分当成"无关"会让稀疏条件
+    看起来像是丢了内容。</p>
+    <table class="grid" style="margin-top:16px">
+      <thead><tr><th></th><th class="n">已评分对</th><th class="n">全部可能对</th>
+      <th>占比</th></tr></thead><tbody><tr><th>全量来源 · 通用角色</th><td class="n">16,228</td><td class="n">331,100</td><td class="v no"><i style="--w:24.5%"></i><b>4.9%</b></td></tr><tr><th>全量来源 · 专家角色</th><td class="n">16,006</td><td class="n">308,164</td><td class="v no"><i style="--w:26.0%"></i><b>5.2%</b></td></tr><tr><th>分割来源 · 通用角色</th><td class="n">14,804</td><td class="n">295,680</td><td class="v no"><i style="--w:25.0%"></i><b>5.0%</b></td></tr><tr><th>分割来源 · 专家角色</th><td class="n">16,166</td><td class="n">342,778</td><td class="v no"><i style="--w:23.6%"></i><b>4.7%</b></td></tr></tbody></table>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">§1 · §2</p>
+  <h2>同一个输入，谁在改写，改成什么方向</h2>
+  <p class="lede">一次曝光可以同时命中多类关系（对某条输出等价、对另一条更弱），
+  所以每行不求和到 100%。</p>
+  <div class="card">
+    <div class="key">
+      <span><i style="background:var(--eq)"></i>等价</span>
+      <span><i style="background:var(--weak)"></i>弱化</span>
+      <span><i style="background:var(--ref)"></i>细化</span>
+      <span><i style="background:var(--un)"></i>无关</span>
+      <span><i style="background:var(--no)"></i>未评分</span>
+    </div>
+    <h3>全量来源 · 通用角色</h3><table class="grid"><thead><tr><th></th><th>等价</th><th>弱化</th><th>细化</th><th>无关</th><th>未评分</th><th class="n">曝光数</th></tr></thead><tbody><tr><th>输入来自自己</th><td class="v eq"><i style="--w:5.0%"></i><b>5.0%</b></td><td class="v weak"><i style="--w:14.3%"></i><b>14.3%</b></td><td class="v ref"><i style="--w:16.6%"></i><b>16.6%</b></td><td class="v un"><i style="--w:57.9%"></i><b>57.9%</b></td><td class="v no"><i style="--w:8.8%"></i><b>8.8%</b></td><td class="n">1,707</td></tr><tr><th>输入来自同伴</th><td class="v eq"><i style="--w:4.6%"></i><b>4.6%</b></td><td class="v weak"><i style="--w:15.7%"></i><b>15.7%</b></td><td class="v ref"><i style="--w:16.7%"></i><b>16.7%</b></td><td class="v un"><i style="--w:55.9%"></i><b>55.9%</b></td><td class="v no"><i style="--w:9.6%"></i><b>9.6%</b></td><td class="n">3,482</td></tr><tr><th>输入来自两者</th><td class="v eq"><i style="--w:6.2%"></i><b>6.2%</b></td><td class="v weak"><i style="--w:19.9%"></i><b>19.9%</b></td><td class="v ref"><i style="--w:26.6%"></i><b>26.6%</b></td><td class="v un"><i style="--w:54.4%"></i><b>54.4%</b></td><td class="v no"><i style="--w:2.5%"></i><b>2.5%</b></td><td class="n">241</td></tr><tr class="sep"><th colspan="7"></th></tr><tr><th>接收席位 A</th><td class="v eq"><i style="--w:5.1%"></i><b>5.1%</b></td><td class="v weak"><i style="--w:14.0%"></i><b>14.0%</b></td><td class="v ref"><i style="--w:17.7%"></i><b>17.7%</b></td><td class="v un"><i style="--w:54.9%"></i><b>54.9%</b></td><td class="v no"><i style="--w:11.2%"></i><b>11.2%</b></td><td class="n">1,810</td></tr><tr><th>接收席位 B</th><td class="v eq"><i style="--w:4.0%"></i><b>4.0%</b></td><td class="v weak"><i style="--w:15.4%"></i><b>15.4%</b></td><td class="v ref"><i style="--w:17.2%"></i><b>17.2%</b></td><td class="v un"><i style="--w:58.2%"></i><b>58.2%</b></td><td class="v no"><i style="--w:7.7%"></i><b>7.7%</b></td><td class="n">1,810</td></tr><tr><th>接收席位 C</th><td class="v eq"><i style="--w:5.2%"></i><b>5.2%</b></td><td class="v weak"><i style="--w:17.0%"></i><b>17.0%</b></td><td class="v ref"><i style="--w:16.4%"></i><b>16.4%</b></td><td class="v un"><i style="--w:56.2%"></i><b>56.2%</b></td><td class="v no"><i style="--w:8.3%"></i><b>8.3%</b></td><td class="n">1,810</td></tr></tbody></table><p class="note">同一命题被两个以上接收者收到 1,728 次留下了可评分关系，其中 <b>50.8%</b> 的关系类型在接收者之间不一致。</p><h3>全量来源 · 专家角色</h3><table class="grid"><thead><tr><th></th><th>等价</th><th>弱化</th><th>细化</th><th>无关</th><th>未评分</th><th class="n">曝光数</th></tr></thead><tbody><tr><th>输入来自自己</th><td class="v eq"><i style="--w:4.9%"></i><b>4.9%</b></td><td class="v weak"><i style="--w:15.6%"></i><b>15.6%</b></td><td class="v ref"><i style="--w:15.9%"></i><b>15.9%</b></td><td class="v un"><i style="--w:54.9%"></i><b>54.9%</b></td><td class="v no"><i style="--w:11.2%"></i><b>11.2%</b></td><td class="n">1,690</td></tr><tr><th>输入来自同伴</th><td class="v eq"><i style="--w:5.5%"></i><b>5.5%</b></td><td class="v weak"><i style="--w:15.1%"></i><b>15.1%</b></td><td class="v ref"><i style="--w:16.8%"></i><b>16.8%</b></td><td class="v un"><i style="--w:54.4%"></i><b>54.4%</b></td><td class="v no"><i style="--w:11.2%"></i><b>11.2%</b></td><td class="n">3,468</td></tr><tr><th>输入来自两者</th><td class="v eq"><i style="--w:5.8%"></i><b>5.8%</b></td><td class="v weak"><i style="--w:20.4%"></i><b>20.4%</b></td><td class="v ref"><i style="--w:33.5%"></i><b>33.5%</b></td><td class="v un"><i style="--w:44.6%"></i><b>44.6%</b></td><td class="v no"><i style="--w:1.9%"></i><b>1.9%</b></td><td class="n">260</td></tr><tr class="sep"><th colspan="7"></th></tr><tr><th>接收席位 A</th><td class="v eq"><i style="--w:5.5%"></i><b>5.5%</b></td><td class="v weak"><i style="--w:16.7%"></i><b>16.7%</b></td><td class="v ref"><i style="--w:16.9%"></i><b>16.9%</b></td><td class="v un"><i style="--w:52.0%"></i><b>52.0%</b></td><td class="v no"><i style="--w:12.0%"></i><b>12.0%</b></td><td class="n">1,806</td></tr><tr><th>接收席位 B</th><td class="v eq"><i style="--w:5.0%"></i><b>5.0%</b></td><td class="v weak"><i style="--w:15.6%"></i><b>15.6%</b></td><td class="v ref"><i style="--w:18.5%"></i><b>18.5%</b></td><td class="v un"><i style="--w:56.5%"></i><b>56.5%</b></td><td class="v no"><i style="--w:7.8%"></i><b>7.8%</b></td><td class="n">1,806</td></tr><tr><th>接收席位 C</th><td class="v eq"><i style="--w:5.5%"></i><b>5.5%</b></td><td class="v weak"><i style="--w:14.3%"></i><b>14.3%</b></td><td class="v ref"><i style="--w:16.5%"></i><b>16.5%</b></td><td class="v un"><i style="--w:53.7%"></i><b>53.7%</b></td><td class="v no"><i style="--w:12.4%"></i><b>12.4%</b></td><td class="n">1,806</td></tr></tbody></table><p class="note">同一命题被两个以上接收者收到 1,717 次留下了可评分关系，其中 <b>51.4%</b> 的关系类型在接收者之间不一致。</p><h3>分割来源 · 通用角色</h3><table class="grid"><thead><tr><th></th><th>等价</th><th>弱化</th><th>细化</th><th>无关</th><th>未评分</th><th class="n">曝光数</th></tr></thead><tbody><tr><th>输入来自自己</th><td class="v eq"><i style="--w:4.7%"></i><b>4.7%</b></td><td class="v weak"><i style="--w:13.3%"></i><b>13.3%</b></td><td class="v ref"><i style="--w:13.9%"></i><b>13.9%</b></td><td class="v un"><i style="--w:47.9%"></i><b>47.9%</b></td><td class="v no"><i style="--w:23.0%"></i><b>23.0%</b></td><td class="n">1,522</td></tr><tr><th>输入来自同伴</th><td class="v eq"><i style="--w:4.6%"></i><b>4.6%</b></td><td class="v weak"><i style="--w:12.9%"></i><b>12.9%</b></td><td class="v ref"><i style="--w:13.1%"></i><b>13.1%</b></td><td class="v un"><i style="--w:50.9%"></i><b>50.9%</b></td><td class="v no"><i style="--w:21.8%"></i><b>21.8%</b></td><td class="n">3,073</td></tr><tr><th>输入来自两者</th><td class="v eq"><i style="--w:10.9%"></i><b>10.9%</b></td><td class="v weak"><i style="--w:10.9%"></i><b>10.9%</b></td><td class="v ref"><i style="--w:26.6%"></i><b>26.6%</b></td><td class="v un"><i style="--w:34.4%"></i><b>34.4%</b></td><td class="v no"><i style="--w:25.0%"></i><b>25.0%</b></td><td class="n">64</td></tr><tr class="sep"><th colspan="7"></th></tr><tr><th>接收席位 A</th><td class="v eq"><i style="--w:6.3%"></i><b>6.3%</b></td><td class="v weak"><i style="--w:13.5%"></i><b>13.5%</b></td><td class="v ref"><i style="--w:15.0%"></i><b>15.0%</b></td><td class="v un"><i style="--w:48.7%"></i><b>48.7%</b></td><td class="v no"><i style="--w:20.5%"></i><b>20.5%</b></td><td class="n">1,553</td></tr><tr><th>接收席位 B</th><td class="v eq"><i style="--w:4.4%"></i><b>4.4%</b></td><td class="v weak"><i style="--w:13.4%"></i><b>13.4%</b></td><td class="v ref"><i style="--w:12.0%"></i><b>12.0%</b></td><td class="v un"><i style="--w:49.9%"></i><b>49.9%</b></td><td class="v no"><i style="--w:23.1%"></i><b>23.1%</b></td><td class="n">1,553</td></tr><tr><th>接收席位 C</th><td class="v eq"><i style="--w:3.4%"></i><b>3.4%</b></td><td class="v weak"><i style="--w:12.1%"></i><b>12.1%</b></td><td class="v ref"><i style="--w:13.6%"></i><b>13.6%</b></td><td class="v un"><i style="--w:50.4%"></i><b>50.4%</b></td><td class="v no"><i style="--w:23.2%"></i><b>23.2%</b></td><td class="n">1,553</td></tr></tbody></table><p class="note">同一命题被两个以上接收者收到 1,254 次留下了可评分关系，其中 <b>50.2%</b> 的关系类型在接收者之间不一致。</p><h3>分割来源 · 专家角色</h3><table class="grid"><thead><tr><th></th><th>等价</th><th>弱化</th><th>细化</th><th>无关</th><th>未评分</th><th class="n">曝光数</th></tr></thead><tbody><tr><th>输入来自自己</th><td class="v eq"><i style="--w:5.5%"></i><b>5.5%</b></td><td class="v weak"><i style="--w:14.0%"></i><b>14.0%</b></td><td class="v ref"><i style="--w:16.1%"></i><b>16.1%</b></td><td class="v un"><i style="--w:48.6%"></i><b>48.6%</b></td><td class="v no"><i style="--w:19.4%"></i><b>19.4%</b></td><td class="n">1,591</td></tr><tr><th>输入来自同伴</th><td class="v eq"><i style="--w:3.9%"></i><b>3.9%</b></td><td class="v weak"><i style="--w:10.9%"></i><b>10.9%</b></td><td class="v ref"><i style="--w:11.8%"></i><b>11.8%</b></td><td class="v un"><i style="--w:51.2%"></i><b>51.2%</b></td><td class="v no"><i style="--w:24.8%"></i><b>24.8%</b></td><td class="n">3,216</td></tr><tr><th>输入来自两者</th><td class="v eq"><i style="--w:9.6%"></i><b>9.6%</b></td><td class="v weak"><i style="--w:19.3%"></i><b>19.3%</b></td><td class="v ref"><i style="--w:18.1%"></i><b>18.1%</b></td><td class="v un"><i style="--w:47.0%"></i><b>47.0%</b></td><td class="v no"><i style="--w:14.5%"></i><b>14.5%</b></td><td class="n">83</td></tr><tr class="sep"><th colspan="7"></th></tr><tr><th>接收席位 A</th><td class="v eq"><i style="--w:4.5%"></i><b>4.5%</b></td><td class="v weak"><i style="--w:13.5%"></i><b>13.5%</b></td><td class="v ref"><i style="--w:14.8%"></i><b>14.8%</b></td><td class="v un"><i style="--w:53.8%"></i><b>53.8%</b></td><td class="v no"><i style="--w:16.6%"></i><b>16.6%</b></td><td class="n">1,630</td></tr><tr><th>接收席位 B</th><td class="v eq"><i style="--w:4.2%"></i><b>4.2%</b></td><td class="v weak"><i style="--w:12.0%"></i><b>12.0%</b></td><td class="v ref"><i style="--w:12.9%"></i><b>12.9%</b></td><td class="v un"><i style="--w:47.0%"></i><b>47.0%</b></td><td class="v no"><i style="--w:26.8%"></i><b>26.8%</b></td><td class="n">1,630</td></tr><tr><th>接收席位 C</th><td class="v eq"><i style="--w:4.7%"></i><b>4.7%</b></td><td class="v weak"><i style="--w:10.7%"></i><b>10.7%</b></td><td class="v ref"><i style="--w:12.1%"></i><b>12.1%</b></td><td class="v un"><i style="--w:50.1%"></i><b>50.1%</b></td><td class="v no"><i style="--w:25.3%"></i><b>25.3%</b></td><td class="n">1,630</td></tr></tbody></table><p class="note">同一命题被两个以上接收者收到 1,334 次留下了可评分关系，其中 <b>50.1%</b> 的关系类型在接收者之间不一致。</p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">检验</p>
+  <h2>三个结果</h2>
+  <div class="card">
+    <h3>一、自己说过又被同伴说过的命题，更常被细化</h3>
+    <table><thead><tr><th></th><th class="n">两者都说过</th><th class="n">只来自同伴</th>
+    <th class="n">差</th><th class="n">置换检验</th></tr></thead><tbody><tr><th>全量来源 · 通用角色</th><td class="n">24.3%</td><td class="n">16.7%</td><td class="n hi">+7.7pp</td><td class="n">p = 0.034</td></tr><tr><th>全量来源 · 专家角色</th><td class="n">34.2%</td><td class="n">16.7%</td><td class="n hi">+17.5pp</td><td class="n">p = 0.001</td></tr></tbody></table>
+    <p class="note">冗余不是浪费：<b>同一条命题从两个来源同时可见时，被细化的概率显著上升</b>，
+    专家角色下的提升（+17.5pp）是通用角色的两倍多。分割来源的两个条件因为
+    切断了这种重叠，"两者"的曝光只有 64 和 83 次，不足以进检验。</p>
+    <p class="note">这不只是"两者更容易产出关系"。这类曝光留下任意关系的比例确实略高
+    （全量通用 90.4%→97.5%，全量专家 88.8%→98.1%），但<b>在已经产生关系的曝光里，
+    细化的份额仍然从 18.5% 升到 27.2%、从 18.9% 升到 34.1%</b>，
+    细化对弱化的比值从 1.06 升到 1.33、从 1.11 升到 1.64。
+    抬起来的不是产出量，是方向。</p>
+
+    <h3>二、"对自己越说越具体、对同伴越转越宽泛"没有出现</h3>
+    <table><thead><tr><th></th><th class="n">自己的历史</th><th class="n">同伴的历史</th>
+    <th class="n">差</th><th class="n">置换检验</th></tr></thead><tbody><tr><th>全量来源 · 通用角色 · 细化</th><td class="n">16.4%</td><td class="n">16.7%</td><td class="n">-0.2pp</td><td class="n">p = 0.855</td></tr><tr><th>全量来源 · 通用角色 · 弱化</th><td class="n">14.0%</td><td class="n">15.5%</td><td class="n">-1.5pp</td><td class="n">p = 0.378</td></tr><tr><th>全量来源 · 专家角色 · 细化</th><td class="n">15.9%</td><td class="n">16.7%</td><td class="n">-0.8pp</td><td class="n">p = 0.538</td></tr><tr><th>全量来源 · 专家角色 · 弱化</th><td class="n">16.3%</td><td class="n">15.7%</td><td class="n">+0.6pp</td><td class="n">p = 0.832</td></tr><tr><th>分割来源 · 通用角色 · 细化</th><td class="n">14.4%</td><td class="n">13.5%</td><td class="n">+0.9pp</td><td class="n">p = 0.711</td></tr><tr><th>分割来源 · 通用角色 · 弱化</th><td class="n">13.4%</td><td class="n">12.9%</td><td class="n">+0.5pp</td><td class="n">p = 0.766</td></tr><tr><th>分割来源 · 专家角色 · 细化</th><td class="n">16.0%</td><td class="n">11.5%</td><td class="n">+4.5pp</td><td class="n hi">p = 0.002</td></tr><tr><th>分割来源 · 专家角色 · 弱化</th><td class="n">14.5%</td><td class="n">11.0%</td><td class="n">+3.5pp</td><td class="n hi">p = 0.034</td></tr></tbody></table>
+    <p class="note">四个条件里三个的细化与弱化都无差别。唯一显著的
+    split-specialist 在<b>两个方向上同时</b>偏向自己的历史（细化 +4.5pp、弱化 +3.5pp），
+    这是对自己内容的整体参与度更高，不是有向的改写偏差。§2 假设的不对称，在这批数据上不成立。</p>
+
+    <h3>三、分割来源留下更多没有关系的产出</h3>
+    <table><thead><tr><th></th><th class="n">全量来源</th><th class="n">分割来源</th>
+    <th class="n">差</th><th class="n">置换检验</th></tr></thead><tbody><tr><th>通用角色</th><td class="n">9.2%</td><td class="n">21.3%</td><td class="n hi">-12.1pp</td><td class="n hi">p &lt; 0.001</td></tr><tr><th>专家角色</th><td class="n">11.0%</td><td class="n">25.1%</td><td class="n hi">-14.1pp</td><td class="n hi">p &lt; 0.001</td></tr></tbody></table>
+    <p class="note">曝光之后本轮没有留下任何被判定关系的比例，从 9–11% 升到 21–25%。
+    之前"分割降低每条事实的弱化率"的结论要接着这条读：<b>弱化变少，有一部分是因为
+    命题之间根本没进入可比关系</b>，而不只是保真度更高。</p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">§4</p>
+  <h2>中途变弱之后，端到端是什么关系</h2>
+  <div class="card">
+    <table><thead><tr><th></th><th>p → q → r 的端点关系</th>
+    <th class="n">恢复等价</th><th class="n">继续变弱</th><th class="n">端点未评分</th>
+    <th class="n">路径数</th></tr></thead><tbody><tr><th>全量来源 · 通用角色</th><td><div class="stack"><span class="eq" style="--w:0.287%" title="恢复到等价 0.3%"></span><span class="weak" style="--w:19.484%" title="继续变弱 19.5%"></span><span class="ref" style="--w:1.146%" title="反而更强 1.1%"></span><span class="un" style="--w:10.888%" title="转向别处 10.9%"></span><span class="no" style="--w:68.195%" title="端点未评分 68.2%"></span></div></td><td class="n">0.3%</td><td class="n">19.5%</td><td class="n">68.2%</td><td class="n">349</td></tr><tr><th>全量来源 · 专家角色</th><td><div class="stack"><span class="eq" style="--w:1.027%" title="恢复到等价 1.0%"></span><span class="weak" style="--w:20.205%" title="继续变弱 20.2%"></span><span class="ref" style="--w:0.342%" title="反而更强 0.3%"></span><span class="un" style="--w:12.329%" title="转向别处 12.3%"></span><span class="no" style="--w:66.096%" title="端点未评分 66.1%"></span></div></td><td class="n">1.0%</td><td class="n">20.2%</td><td class="n">66.1%</td><td class="n">292</td></tr><tr><th>分割来源 · 通用角色</th><td><div class="stack"><span class="weak" style="--w:18.012%" title="继续变弱 18.0%"></span><span class="ref" style="--w:1.242%" title="反而更强 1.2%"></span><span class="un" style="--w:12.422%" title="转向别处 12.4%"></span><span class="no" style="--w:68.323%" title="端点未评分 68.3%"></span></div></td><td class="n">0.0%</td><td class="n">18.0%</td><td class="n">68.3%</td><td class="n">161</td></tr><tr><th>分割来源 · 专家角色</th><td><div class="stack"><span class="eq" style="--w:0.980%" title="恢复到等价 1.0%"></span><span class="weak" style="--w:18.627%" title="继续变弱 18.6%"></span><span class="ref" style="--w:1.961%" title="反而更强 2.0%"></span><span class="un" style="--w:20.588%" title="转向别处 20.6%"></span><span class="no" style="--w:57.843%" title="端点未评分 57.8%"></span></div></td><td class="n">1.0%</td><td class="n">18.6%</td><td class="n">57.8%</td><td class="n">102</td></tr></tbody></table>
+    <p class="note">两步都被判为弱化的路径里，端点关系能被读出来的只有三分之一。
+    在这三分之一中，<b>恢复到等价几乎不发生（0–1%）</b>，继续变弱占 18–20%。
+    可分析范围太窄，这里只报读数不下结论：单步弱化是否被后续抵消，需要更高的候选召回。</p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">§5</p>
+  <h2>agent 之间的内容可替代性</h2>
+  <div class="card">
+    <table><thead><tr><th></th><th class="n" colspan="2">第 1 轮</th>
+    <th class="n" colspan="2">第 2 轮</th><th class="n" colspan="2">第 3 轮</th></tr>
+    <tr><th></th><th class="n">两两</th><th class="n">联合</th><th class="n">两两</th>
+    <th class="n">联合</th><th class="n">两两</th><th class="n">联合</th></tr></thead>
+    <tbody><tr><th>全量来源 · 通用角色</th><td class="v ref"><i style="--w:17.0%"></i><b>4.2%</b></td><td class="v eq"><i style="--w:27.8%"></i><b>7.0%</b></td><td class="v ref"><i style="--w:14.6%"></i><b>3.6%</b></td><td class="v eq"><i style="--w:25.7%"></i><b>6.4%</b></td><td class="v ref"><i style="--w:27.4%"></i><b>6.9%</b></td><td class="v eq"><i style="--w:46.0%"></i><b>11.5%</b></td></tr><tr><th>全量来源 · 专家角色</th><td class="v ref"><i style="--w:19.7%"></i><b>4.9%</b></td><td class="v eq"><i style="--w:34.2%"></i><b>8.6%</b></td><td class="v ref"><i style="--w:17.8%"></i><b>4.4%</b></td><td class="v eq"><i style="--w:31.3%"></i><b>7.8%</b></td><td class="v ref"><i style="--w:27.8%"></i><b>6.9%</b></td><td class="v eq"><i style="--w:47.0%"></i><b>11.7%</b></td></tr><tr><th>分割来源 · 通用角色</th><td class="v ref"><i style="--w:58.2%"></i><b>14.5%</b></td><td class="v eq"><i style="--w:97.0%"></i><b>24.2%</b></td><td class="v ref"><i style="--w:22.9%"></i><b>5.7%</b></td><td class="v eq"><i style="--w:37.1%"></i><b>9.3%</b></td><td class="v ref"><i style="--w:23.5%"></i><b>5.9%</b></td><td class="v eq"><i style="--w:38.2%"></i><b>9.6%</b></td></tr><tr><th>分割来源 · 专家角色</th><td class="v ref"><i style="--w:31.7%"></i><b>7.9%</b></td><td class="v eq"><i style="--w:44.6%"></i><b>11.2%</b></td><td class="v ref"><i style="--w:16.9%"></i><b>4.2%</b></td><td class="v eq"><i style="--w:29.8%"></i><b>7.4%</b></td><td class="v ref"><i style="--w:25.2%"></i><b>6.3%</b></td><td class="v eq"><i style="--w:40.8%"></i><b>10.2%</b></td></tr></tbody></table>
+    <p class="note">没有任何一场、任何一轮出现过一个 agent 的内容被另一个完全包含。
+    其他所有 agent 合起来也只等价覆盖了某个 agent 输出的 <b>6–12%</b>。
+    "大团队逐渐塌缩成一个主要表达者加若干重复者"在这批数据里没有发生。</p>
+    <p class="note">第 1 轮分割来源 · 通用角色的 23.4% 是唯一的例外，而且值得单看：
+    此时 <b>A 只读过 paper-b、B 只读过 paper-c、C 什么来源都没有</b>，三人没有任何
+    共同文献，也还没看到彼此。持不同论文的 A 和 B 之间仍有 18.3% 和 24.8% 的
+    有向等价重合。三个席位全部升高，不是没有来源的 C 单独拉起来的。
+    换成专家角色，同一个 A↔B 掉到 8.2% 和 10.6%。<b>没有共同来源时，通用角色会用
+    同一套泛泛的科研提案套话去填空白；角色分化把这层套话压掉了。</b></p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">§5 续</p>
+  <h2>persona 只在一个地方起作用</h2>
+  <div class="card">
+    <table><thead><tr><th></th><th class="n">通用角色</th><th class="n">专家角色</th>
+    <th class="n">差</th><th class="n">置换检验</th></tr></thead><tbody>
+    <tr><th>全量来源 · 第 1 轮</th><td class="n">7.0%</td><td class="n">8.5%</td>
+      <td class="n">+1.6pp</td><td class="n">p = 0.505</td></tr>
+    <tr><th>全量来源 · 第 2 轮</th><td class="n">6.4%</td><td class="n">7.8%</td>
+      <td class="n">+1.4pp</td><td class="n">p = 0.380</td></tr>
+    <tr><th>全量来源 · 第 3 轮</th><td class="n">11.5%</td><td class="n">11.7%</td>
+      <td class="n">+0.2pp</td><td class="n">p = 0.922</td></tr>
+    <tr class="sep"><th colspan="5"></th></tr>
+    <tr><th>分割来源 · 第 1 轮</th><td class="n">23.4%</td><td class="n">11.0%</td>
+      <td class="n hi">−12.4pp</td><td class="n hi">p = 0.018</td></tr>
+    <tr><th>分割来源 · 第 2 轮</th><td class="n">9.3%</td><td class="n">7.5%</td>
+      <td class="n">−1.8pp</td><td class="n">p = 0.431</td></tr>
+    <tr><th>分割来源 · 第 3 轮</th><td class="n">9.5%</td><td class="n">10.2%</td>
+      <td class="n">+0.6pp</td><td class="n">p = 0.819</td></tr>
+    </tbody></table>
+    <p class="note">六个比较里只有一个显著：<b>分割来源的第 1 轮</b>。
+    也就是说，角色分化能拉开内容差异的时刻，恰好是 agent 之间既没有共同来源、
+    又还没有共同历史的那一刻。一轮交换之后效应就没了——共享历史盖过了角色设定。
+    这是 persona × topology 的交互，不是 persona 的主效应。</p>
+    <p class="note">轮次方向上，"第 2 轮降、第 3 轮升"只有全量通用一格通过检验
+    （+5.1pp，p&lt;0.001），其余三格 p 在 0.14–0.93。每人每轮的命题数在 36–42 之间
+    基本不变，所以那个升不是因为第 3 轮说得少。</p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">§6</p>
+  <h2>继续生成买到了什么</h2>
+  <div class="card">
+    <table><thead><tr><th></th><th>相对于实际可见历史的分解</th>
+    <th class="n">命题数</th></tr></thead><tbody><tr><th>全量来源 · 通用角色 · 第 2 轮</th><td><div class="stack"><span class="eq" style="--w:9.780%" title="等价重复 9.8%"></span><span class="weak" style="--w:24.581%" title="已有内容的较弱表述 24.6%"></span><span class="ref" style="--w:20.176%" title="细化候选 20.2%"></span><span class="un" style="--w:43.877%" title="无关于历史 43.9%"></span><span class="no" style="--w:1.586%" title="未匹配产出 1.6%"></span></div></td><td class="n">1,135</td></tr><tr><th>全量来源 · 通用角色 · 第 3 轮</th><td><div class="stack"><span class="eq" style="--w:18.871%" title="等价重复 18.9%"></span><span class="weak" style="--w:29.894%" title="已有内容的较弱表述 29.9%"></span><span class="ref" style="--w:25.220%" title="细化候选 25.2%"></span><span class="un" style="--w:25.926%" title="无关于历史 25.9%"></span><span class="no" style="--w:0.088%" title="未匹配产出 0.1%"></span></div></td><td class="n">1,134</td></tr><tr><th>全量来源 · 专家角色 · 第 2 轮</th><td><div class="stack"><span class="eq" style="--w:12.274%" title="等价重复 12.3%"></span><span class="weak" style="--w:21.570%" title="已有内容的较弱表述 21.6%"></span><span class="ref" style="--w:25.812%" title="细化候选 25.8%"></span><span class="un" style="--w:37.996%" title="无关于历史 38.0%"></span><span class="no" style="--w:2.347%" title="未匹配产出 2.3%"></span></div></td><td class="n">1,108</td></tr><tr><th>全量来源 · 专家角色 · 第 3 轮</th><td><div class="stack"><span class="eq" style="--w:22.212%" title="等价重复 22.2%"></span><span class="weak" style="--w:32.427%" title="已有内容的较弱表述 32.4%"></span><span class="ref" style="--w:23.336%" title="细化候选 23.3%"></span><span class="un" style="--w:22.024%" title="无关于历史 22.0%"></span></div></td><td class="n">1,067</td></tr><tr><th>分割来源 · 通用角色 · 第 2 轮</th><td><div class="stack"><span class="eq" style="--w:5.144%" title="等价重复 5.1%"></span><span class="weak" style="--w:10.469%" title="已有内容的较弱表述 10.5%"></span><span class="ref" style="--w:10.289%" title="细化候选 10.3%"></span><span class="un" style="--w:54.693%" title="无关于历史 54.7%"></span><span class="no" style="--w:19.404%" title="未匹配产出 19.4%"></span></div></td><td class="n">1,108</td></tr><tr><th>分割来源 · 通用角色 · 第 3 轮</th><td><div class="stack"><span class="eq" style="--w:15.154%" title="等价重复 15.2%"></span><span class="weak" style="--w:26.284%" title="已有内容的较弱表述 26.3%"></span><span class="ref" style="--w:23.288%" title="细化候选 23.3%"></span><span class="un" style="--w:35.103%" title="无关于历史 35.1%"></span><span class="no" style="--w:0.171%" title="未匹配产出 0.2%"></span></div></td><td class="n">1,168</td></tr><tr><th>分割来源 · 专家角色 · 第 2 轮</th><td><div class="stack"><span class="eq" style="--w:5.866%" title="等价重复 5.9%"></span><span class="weak" style="--w:9.899%" title="已有内容的较弱表述 9.9%"></span><span class="ref" style="--w:14.849%" title="细化候选 14.8%"></span><span class="un" style="--w:51.329%" title="无关于历史 51.3%"></span><span class="no" style="--w:18.057%" title="未匹配产出 18.1%"></span></div></td><td class="n">1,091</td></tr><tr><th>分割来源 · 专家角色 · 第 3 轮</th><td><div class="stack"><span class="eq" style="--w:14.894%" title="等价重复 14.9%"></span><span class="weak" style="--w:28.763%" title="已有内容的较弱表述 28.8%"></span><span class="ref" style="--w:22.616%" title="细化候选 22.6%"></span><span class="un" style="--w:33.570%" title="无关于历史 33.6%"></span><span class="no" style="--w:0.158%" title="未匹配产出 0.2%"></span></div></td><td class="n">1,269</td></tr></tbody></table>
+    <div class="key" style="margin-top:12px">
+      <span><i style="background:var(--eq)"></i>等价重复</span>
+      <span><i style="background:var(--weak)"></i>已有内容的较弱表述</span>
+      <span><i style="background:var(--ref)"></i>细化候选</span>
+      <span><i style="background:var(--un)"></i>无关于历史</span>
+      <span><i style="background:var(--no)"></i>未匹配产出</span>
+    </div>
+    <p class="note">第 1 轮没有历史，按定义全部未匹配，已从表中略去。
+    从第 2 轮到第 3 轮，<b>等价重复几乎翻倍</b>（全量通用 9.8%→18.9%，全量专家 12.3%→22.2%），
+    与历史无关的产出同时从 38–44% 掉到 22–26%。轮次预算越往后，买到的越多是复述。
+    这是离线的预算读数，不能据此断言提前停止不损任务质量。</p>
+  </div>
+</section>
+
+<footer>
+  由 experiments/analyze_offline_flow.py 与 experiments/test_offline_flow.py 生成。
+  置换检验以「场」为独立单位（每条件 10 场），20000 次重排，双侧。
+  没有干预，以上全部是表达变化与可见性相容性的描述，不是因果结论。
+</footer>
+</main>

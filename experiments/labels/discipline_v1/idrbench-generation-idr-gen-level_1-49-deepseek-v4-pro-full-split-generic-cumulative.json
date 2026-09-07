@@ -1,0 +1,1467 @@
+{
+  "execution_id": "idrbench-generation-idr-gen-level_1-49-deepseek-v4-pro-full-split-generic-cumulative",
+  "layer": "discipline_v1",
+  "model": "qwen3.8-flash",
+  "system_hash": "0a5669c0d0e186284db471db7486be524f34eb7e73e49f5cbbde0160bb38bbd8",
+  "source_sha256": "237468e934e64d21676f8cb092fe5a14386c92d53a1a5a24cd3941d873a9d485",
+  "labels": {
+    "f_00ce4fb23120b635": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The ALVD classifier is initialized with PCLR weights."
+    },
+    "f_0151370ec119b1d5": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR contrastive pretraining yields transferable embeddings."
+    },
+    "f_01c05d4c37649023": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-c's Mayo training/test split will be used."
+    },
+    "f_0333ea49b1bb649a": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The screening criterion is LVEF≤35%."
+    },
+    "f_0420d6e8e93ac115": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c's CNN achieved accuracy of 85.7%."
+    },
+    "f_05ba0acd58297599": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Without the second paper's contribution, proposing a study would invent source material."
+    },
+    "f_078befe3d49e05f6": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "PCLR preserves future risk prediction."
+    },
+    "f_082025fa4cd30a7d": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The authors developed PCLR using a system with over 3.2 million 12-lead ECGs."
+    },
+    "f_087df3350448d795": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "This approach may improve generalization."
+    },
+    "f_087f8aff052d9ffb": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The PCLR encoder will be frozen to compute patient-level embeddings for paper-c's ECGs."
+    },
+    "f_0a744c02357b1a87": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No source contribution can be stated without inventing results or methods."
+    },
+    "f_0b5bc1ed5ee351ba": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Fine-tuning entire PCLR is rejected."
+    },
+    "f_0e0480c17a72b038": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A genuine integrated research idea cannot be formed from the single available paper."
+    },
+    "f_0e1ba49dafe95509": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "PCLR's self-supervised ECG embeddings serve as frozen input features."
+    },
+    "f_0e232039f4b935eb": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The ALVD classifier is then fine-tuned on a small labeled subset of paper-c's paired ECG-echo data."
+    },
+    "f_0e364c9e08ea1874": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparators include a linear probe on raw 12-lead features."
+    },
+    "f_0f2172b4b053a00a": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Labels will be randomly subsampled to n=1,000."
+    },
+    "f_0fb3917797e3fb3a": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The electrocardiogram is low-cost."
+    },
+    "f_1354215dc3214f44": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "An MLP probe is trained on the embeddings."
+    },
+    "f_150cc6b8d7b7ecce": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c contributes a clinically validated mapping from ECG features to contractile dysfunction."
+    },
+    "f_1707c5f295826f28": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea yields a transferable low-resource ECG screening tool."
+    },
+    "f_17a57c7bd4a30b3e": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Model (3) is the same PCLR encoder with low-rank adaptation."
+    },
+    "f_17eb1a7bb671fb16": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "A noninvasive screening tool for asymptomatic left ventricular dysfunction in the doctor's office is not available."
+    },
+    "f_183d12f1577d59c8": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research creates a label-scarce subset of N=5,000 paired ECG-echo records."
+    },
+    "f_18e83dabf04766ef": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c CNN achieves 86.3% sensitivity for left ventricular dysfunction detection"
+    },
+    "f_1aea01232c7d7844": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR contributes a contrastive pre-training method for 12-lead ECG."
+    },
+    "f_1b376909c2adaca7": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research freezes PCLR's self-supervised ECG encoder."
+    },
+    "f_1ce8e62de83dd3bf": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR works across a wide spectrum of clinical tasks."
+    },
+    "f_1dfb229157940b50": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Any design would require knowing the second paper's contribution to define measurements."
+    },
+    "f_1eaa8ed52590d35b": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "PCLR label-efficiency is adopted as a testable hypothesis."
+    },
+    "f_1ff6230a13740216": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research validates on an external ECG-echo cohort."
+    },
+    "f_2047dd89ea638b87": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Training uses 1% random labeled subset."
+    },
+    "f_20800564878c06c6": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Frozen PCLR self-supervised ECG embeddings combined with a linear probe on paper-c's echo-derived EF 35% or less labels can achieve label-efficient AI screening for asymptomatic left ventricular dysfunction."
+    },
+    "f_216301ebdb199200": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "PCLR preserves validated detection."
+    },
+    "f_21d917d95a273290": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The echo-derived LVEF≤35 label forms a smooth function on PCLR's embeddings."
+    },
+    "f_225baca1bc0ade9c": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Primary metrics are for ejection fraction ≤35%."
+    },
+    "f_2601bdb514fafd51": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Asymptomatic left ventricular dysfunction is associated with reduced longevity."
+    },
+    "f_27c052a372c6f8c0": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The authors demonstrate substantial improvements on multiple new tasks."
+    },
+    "f_28f61eb7d4719c60": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A logistic or MLP classification head is trained."
+    },
+    "f_2ba288b409733645": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea proposes that self-supervised PCLR embeddings can make AI-ECG detection of left ventricular dysfunction data-efficient"
+    },
+    "f_2c0ea2f4aff43c5d": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparison 3 is optional low-rank adapted PCLR if comparison 2 underperforms."
+    },
+    "f_2cde90efa74aa76d": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Application of artificial intelligence to the electrocardiogram permits the ECG to serve as a screening tool to identify asymptomatic left ventricular dysfunction in asymptomatic individuals."
+    },
+    "f_2dc1a0a44df8f12f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "In baseline EF>35%, the research applies a threshold to PCLR-head and computes HR for incident LVEF≤35 with longitudinal echo follow-up."
+    },
+    "f_313a3c2e299ca138": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c involves a convolutional neural network."
+    },
+    "f_35e0e73d7f3cf432": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The secondary metric uses paper-c's definition."
+    },
+    "f_365bf3221ed33e51": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "A convolutional neural network was trained to identify patients with ventricular dysfunction."
+    },
+    "f_36ca3b722e34f362": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Labels will be randomly subsampled to n=5,000."
+    },
+    "f_37f0ea6fabf3dbdb": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research creates random subsets of N=500, 1,000, 5,000 pairs from Paper-c's paired cohort."
+    },
+    "f_3a1ec4534d054efc": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The approach initializes paper-c's ALVD classifier with PCLR representations."
+    },
+    "f_3bd2447ff89b52a8": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The study used paired 12-lead ECG data."
+    },
+    "f_3cecb6d743d1b7de": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Among baseline EF>35 patients, hazard ratio for future EF≤35 using positive screen is a secondary metric."
+    },
+    "f_3d5424a805de51c5": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A lightweight head trained on PCLR features will be validated on paper-c's independent cohort for AUC, threshold sensitivity/specificity, calibration, and incident dysfunction hazard ratio."
+    },
+    "f_3e41aff3e82af54f": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The CNN reports incident dysfunction HR 4.1."
+    },
+    "f_3f5c39389b4d09e2": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Only ECG-echo pairs within 30 days are retained."
+    },
+    "f_40b6cba7922a9c9d": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research rejects Researcher B's low-rank adaptation arm."
+    },
+    "f_437042319ed4edba": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR learns latent representations from >3.2 million unlabeled ECGs."
+    },
+    "f_43c3d438c8f901c4": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A predefined output threshold determines incident cases."
+    },
+    "f_4419d01dbc697b82": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Measurements include echocardiographic EF."
+    },
+    "f_448d05b73423050f": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "The missing second source must be supplied to specify a valid cross-disciplinary mechanism and testable design."
+    },
+    "f_4497490bfd129ef8": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The approach evaluates future dysfunction risk."
+    },
+    "f_453ce4408000e98a": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The CNN reports sensitivity 86.3%."
+    },
+    "f_46c60e2bca1608de": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A causal inference framework could be required as a missing contribution."
+    },
+    "f_48b3cfa226b04cd6": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The CNN reports specificity 85.7%."
+    },
+    "f_49d97eedccc7bd24": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The research compares performance to Paper-c's fully supervised CNN."
+    },
+    "f_4b2b0ecdee424bc9": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR creates latent representations of ECGs from a large number of unlabeled examples."
+    },
+    "f_4f838c0233c42e14": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea proposes fine-tuning a lightweight head on few paired ECG-echo labels"
+    },
+    "f_501a0fbe99a420b5": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Pre-specified subgroup analysis is by sex and age."
+    },
+    "f_50f6834ec17b6c36": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR is expressive."
+    },
+    "f_5114af5a98dc7630": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c's CNN achieves specificity of 85.7% for EF 35% or less."
+    },
+    "f_51a6bb24ecf71e68": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed approach reduces the labeled paired data required for screening."
+    },
+    "f_53e4b332aa04a4e9": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The study tested whether artificial intelligence applied to the electrocardiogram could identify asymptomatic left ventricular dysfunction."
+    },
+    "f_5414e731666c9bd5": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research validates on a held-out internal site."
+    },
+    "f_55a89943cfb3e0e7": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Label-scarce training subsets of 500 patients are created."
+    },
+    "f_55ee616eccd40b33": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparison 2 is PCLR frozen encoder plus linear head trained on each subset."
+    },
+    "f_579d454ed63616e7": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR supplies patient-level cardiac representations that encode rhythm and morphology."
+    },
+    "f_57d63fa91292f975": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Label-efficient transferable ECG representations can reduce reliance on echo-paired labels while preserving screening performance."
+    },
+    "f_58a7b6431cc9ca11": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "External validation occurs at other sites when feasible."
+    },
+    "f_59d66e63e515842d": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparators include paper-c's CNN trained from scratch on full data."
+    },
+    "f_59f0334e797c0bcf": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Five random seeds are used for each subset."
+    },
+    "f_5b6998db1648235f": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR latently captures cardiac conduction and rhythm."
+    },
+    "f_5bd30149642b3f28": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "An inexpensive screening tool for asymptomatic left ventricular dysfunction in the doctor's office is not available."
+    },
+    "f_5d99153590a05e09": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "A physiological model could be required as a missing contribution."
+    },
+    "f_5eadc2c33853f95f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A lightweight head will be trained on PCLR embeddings to predict EF≤35."
+    },
+    "f_61c9762fae6d6648": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The required contribution would need to interact with PCLR's learned ECG representations."
+    },
+    "f_61deefb206ee130a": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "Paper-c is supplied by Researcher B."
+    },
+    "f_62f1f690b8dcdc3e": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR architecture remains unverified."
+    },
+    "f_630a4b9035f095ec": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-c's outcome definitions are adopted."
+    },
+    "f_6320f3ceeaac441e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "There is missing cross-paper knowledge about PCLR input duration and lead formatting versus Paper-c's 12-lead ECG pipeline."
+    },
+    "f_6416e67bb415b830": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c is a direct source."
+    },
+    "f_65bfa9a6972aec2c": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR uses contrastive pre-training."
+    },
+    "f_65eb049e51b96978": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed approach replaces raw ECG preprocessing used in Paper-c's method."
+    },
+    "f_68062ab5f9cc500d": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "Preprocessing details remain unverified."
+    },
+    "f_68602a9a8ecb3d28": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c reports accuracy 85.7% on 52,870 patients."
+    },
+    "f_6b9b84680d5b404d": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Metrics include AUC, sensitivity, specificity, and calibration slope."
+    },
+    "f_6bdea946d099c2aa": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation will use paper-c's independent test set."
+    },
+    "f_6d1dcf4f8f953d93": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "PCLR pretrained ECG encoder is proposed as the backbone for left ventricular dysfunction screening"
+    },
+    "f_6d23a6385be4355d": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b pretrains on over 3.2 million unlabeled 12-lead ECGs"
+    },
+    "f_6f4b07b794715065": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The left ventricular ejection fraction is a measure of contractile function."
+    },
+    "f_72375aa0f125e695": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Embedding dimension remains unverified."
+    },
+    "f_73cf4246913f454f": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-c claims are colleague-reported and not directly verified"
+    },
+    "f_75f633c87647f6ec": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "The second paper was not supplied."
+    },
+    "f_77bd1ff3ab89b164": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cohort consists of paper-c's paired ECG-echo set."
+    },
+    "f_782682f632de9c59": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c CNN achieves 85.7% accuracy for left ventricular dysfunction detection"
+    },
+    "f_7ad637ab4696535d": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Confidence intervals are reported."
+    },
+    "f_7bab179df2bcc5c7": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The echo-derived label is a smooth function on the PCLR embedding."
+    },
+    "f_7bce63a8fb98da03": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Primary metrics include accuracy."
+    },
+    "f_7ce7bdfe6eb6ee48": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research tests whether PCLR's contrastively pretrained 12-lead ECG embeddings enable label-efficient screening for left ventricular dysfunction."
+    },
+    "f_7e1d6ec2da668312": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR improves downstream tasks with fewer than 5,000 labels."
+    },
+    "f_7e7531533160c34c": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The contribution is a validated AI-enabled screening method converting a routine, low-cost ECG into a contractile dysfunction risk signal."
+    },
+    "f_7ec40e3015e6b521": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The electrocardiogram is a routine method of measuring the heart's electrical activity."
+    },
+    "f_803ed396509b8057": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The PCLR API is not yet known."
+    },
+    "f_8053a649227c1e9e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The method combines contrastive pre-training with echo-derived outcome prediction."
+    },
+    "f_80ed0f9f6d8afee9": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c's CNN achieves sensitivity of 86.3% for EF 35% or less."
+    },
+    "f_81d48d7a7194b2d6": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The goal is to test whether self-supervised embeddings can reduce labeled paired data requirements while maintaining screening performance and prospective risk stratification."
+    },
+    "f_81e67a84ee0f44e3": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "An external cohort will be used only if obtained."
+    },
+    "f_81fb8db714cd083e": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Paper-c CNN achieves AUC of 0.93 for left ventricular dysfunction detection"
+    },
+    "f_838bb990c7a3d77b": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Primary metrics include sensitivity."
+    },
+    "f_838f3f6a7b8398ac": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The electrocardiogram is ubiquitous."
+    },
+    "f_8690df66889ec1a9": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "A non-fabricated two-source integration cannot be proposed from the single available paper."
+    },
+    "f_86df54db89ba4630": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Labels will be randomly subsampled to n=500."
+    },
+    "f_881d21a495025957": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Label-scarce training subsets of 5,000 patients are created."
+    },
+    "f_88321da98d6f8c03": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration uses PCLR's frozen self-supervised ECG embeddings as input to a linear probe."
+    },
+    "f_88986bd0522b1cd5": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The linear probe learns a smooth mapping to contractile dysfunction."
+    },
+    "f_8b9bea3c798f86af": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR is practical."
+    },
+    "f_8d10dad7c4983064": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Researcher C's earlier no-proposal stance is rejected."
+    },
+    "f_8d9ebf01c95ed43b": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The network model yielded an area under the curve of 0.93 on an independent set of 52,870 patients."
+    },
+    "f_8db50cf1bb1aab83": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The approach evaluates detection accuracy."
+    },
+    "f_8e502ca71d1099f1": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Frozen embeddings reduce labeled paired data demand."
+    },
+    "f_8f69ed61d999e612": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Label-scarce training subsets of 1,000 patients are created."
+    },
+    "f_900fd6becf3f9618": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Echocardiogram EF was measured within 30 days of ECG."
+    },
+    "f_9084a7609e49d502": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c has a validated CNN."
+    },
+    "f_910619a03066083e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Low-rank adaptation will be included only if frozen-linear underperforms in pilot."
+    },
+    "f_91b50ec17b126b76": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The PCLR model weights are not yet known."
+    },
+    "f_922c8d659156b708": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Asymptomatic left ventricular dysfunction is treatable when found."
+    },
+    "f_929220cd5a42884e": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Asymptomatic left ventricular dysfunction is present in 3-6% of the general population."
+    },
+    "f_95f0f94ab82cfa2a": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Bootstrap confidence intervals will be reported."
+    },
+    "f_98a0a65ff8003e83": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Paper-b yields transferable patient-level embeddings"
+    },
+    "f_997e2eef6086a418": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses held-out Mayo patients."
+    },
+    "f_9ab928497aa7d018": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Any design would require knowing the second paper's contribution to define the operational link to PCLR embeddings."
+    },
+    "f_9b4e74c731334917": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Training uses 5% random labeled subset."
+    },
+    "f_9c102f5807029487": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research uses paper-c's Mayo dataset."
+    },
+    "f_9c18f02e7fc7f477": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "A valid connection would require the missing paper's concrete method, concept, theory, or data contribution."
+    },
+    "f_9edb1bb2f4432151": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The target variable is LVEF≤35."
+    },
+    "f_9eefd4e857d193a6": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The working hypothesis is that contrastive pre-training on unlabeled 12-lead ECGs improves AI screening for asymptomatic left ventricular dysfunction when only small labeled ECG-echo datasets are available."
+    },
+    "f_9f325e8e95f09b6f": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Validation includes bootstrapped confidence intervals."
+    },
+    "f_9f6cfe7fd4b4c162": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c's CNN detects EF 35% or less with AUC 0.93."
+    },
+    "f_a03445246c6b6b77": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b is about PCLR."
+    },
+    "f_a07a3006120c5c35": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The approach fine-tunes on scarce labeled subsets."
+    },
+    "f_a13c8e97969c75c9": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The CNN reports AUC 0.93."
+    },
+    "f_aacbf8efc987294d": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The network model yielded a specificity of 85.7% on an independent set of 52,870 patients."
+    },
+    "f_ab7d31a6ea26ebb6": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The study uses a retrospective cohort design."
+    },
+    "f_ac6405cf86cdb2a2": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Among patients with baseline EF >35%, hazard ratios for incident dysfunction or failure are calculated."
+    },
+    "f_ad7eb71b06a80de4": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea proposes reducing echo dependency while preserving validated screening performance"
+    },
+    "f_b10015c132e672b4": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Primary metrics include AUC."
+    },
+    "f_b22d88d16478fe5d": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "PCLR's input format is missing cross-paper knowledge."
+    },
+    "f_b2c489949e281d94": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The secondary metric is the hazard ratio for future ventricular dysfunction."
+    },
+    "f_b332df4471ccadc8": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "PCLR's exact architecture is missing cross-paper knowledge."
+    },
+    "f_b6594aad28d8d628": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The linear probe is trained on paper-c's echo-derived EF 35% or less labels."
+    },
+    "f_b6b2b2e298ae4acd": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Training uses 10% random labeled subset."
+    },
+    "f_b7b44f5560965443": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR contrastively pretrains on more than 3.2 million unlabeled 12-lead ECGs."
+    },
+    "f_b896e259aa3dda64": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "Whether paper-c patients were excluded from pretraining remains unverified."
+    },
+    "f_b89fcd915f73a731": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Arm 1 will use frozen PCLR embeddings with a linear head."
+    },
+    "f_b8b81191d4b0ceca": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research trains a lightweight linear/logistic head on Paper-c's LVEF≤35 echo labels."
+    },
+    "f_bab306c9b4e9c50a": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c achieved specificity 85.7%."
+    },
+    "f_bb889fe199fee3a7": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Label-scarce training subsets of 250 patients are created."
+    },
+    "f_bc074602d7cf4f24": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No genuine causal or operational integration can be specified with only one paper."
+    },
+    "f_bc0e3314c147b17f": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR's self-supervised ECG encoder provides a transferable electrophysiological feature space."
+    },
+    "f_bd2f64be73120bfd": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The second source paper must be supplied to define a testable design."
+    },
+    "f_bdbe21a5d947a580": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Model (2) is a PCLR-pretrained encoder with a linear head, fine-tuned on each subset."
+    },
+    "f_bf6e6699b3ed8564": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The secondary hazard ratio is compared with paper-c's hazard ratio of 4.1."
+    },
+    "f_c1441954184a489d": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea combines PCLR's label-efficient representations with paper-c's clinically validated screening outcome."
+    },
+    "f_c2e121302137043c": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The network model yielded a sensitivity of 86.3% on an independent set of 52,870 patients."
+    },
+    "f_c3eeea12f110a59b": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "L2-regularized logistic regression is trained on the embeddings."
+    },
+    "f_c553842260a270f7": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The data was from 44,959 patients at the Mayo Clinic."
+    },
+    "f_c59ed4f42581a94e": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "Paper-b comes via colleagues."
+    },
+    "f_c67eeaebce7eb906": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research creates a label-scarce subset of N=1,000 paired ECG-echo records."
+    },
+    "f_c87ea6e3081d3dce": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research compares future dysfunction HR to Paper-c's fully supervised CNN."
+    },
+    "f_c8fcdd19b3392165": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Measurements include PCLR embeddings extracted before fine-tuning."
+    },
+    "f_c9cfaf317e78d345": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "This approach reduces dependence on large echocardiogram-labeled training sets."
+    },
+    "f_cbdc5927e70cd5c9": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research trains a linear head on 500–5,000 paired ECG-echo records from Paper-c's cohort."
+    },
+    "f_cd1192c3bfb5de5a": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Any claim that PCLR embeddings already encode cardiac structure without validation is rejected."
+    },
+    "f_cf08134573a92917": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR captures cardiac structure and rhythm latently."
+    },
+    "f_cfeff8b827c877ec": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Any design would require knowing the second paper's contribution to define validation."
+    },
+    "f_d08cd786a3d47cf0": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "A clinical outcome measure could be required as a missing contribution."
+    },
+    "f_d09b9c9c974d1aeb": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The 95% confidence interval for the hazard ratio was 3.3 to 5.0."
+    },
+    "f_d0a1330f746dbdd6": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation includes subgroup analysis by age, sex, and lead availability."
+    },
+    "f_d29818d531c01ff7": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Guessed disciplines are not an integration mechanism."
+    },
+    "f_d341f7322a634322": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research rejects unverified low-rank adaptation as a primary mechanism unless shown needed."
+    },
+    "f_d4b417d88884e4d5": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Downstream tasks improve with fewer than 5,000 labels."
+    },
+    "f_d4b46caaa854e021": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Secondary outcomes include hazard ratio for incident EF 35% or less using probe threshold."
+    },
+    "f_d5147e82565e4002": {
+      "topic": "U",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "The second source paper must be supplied to define a cross-disciplinary mechanism."
+    },
+    "f_d5dcdd63bb782fbd": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research creates a label-scarce subset of N=500 paired ECG-echo records."
+    },
+    "f_d6f6d993fb55a9e8": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "PCLR requires only 500–5,000 echo-labeled pairs."
+    },
+    "f_d729dc72b07a0600": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The goal is to test whether frozen PCLR embeddings from 3.2 million unlabeled ECGs can drive AI-ECG screening for EF 35% or less using as few as 250 labeled ECG-echo pairs."
+    },
+    "f_d89dadac23135bf3": {
+      "topic": "X",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Measurements include 12-lead ECG."
+    },
+    "f_d8c22fc6e8461034": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Subgroup analyses by age will be reported."
+    },
+    "f_dae05235e04b0482": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c achieved AUC 0.93."
+    },
+    "f_db33bbaf509ac726": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "This missing cross-paper knowledge is explicitly flagged."
+    },
+    "f_db77a10225894aa6": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparators include paper-c's CNN trained from scratch on the same subsets."
+    },
+    "f_dba2708989ae1305": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Shared keywords are not an integration mechanism."
+    },
+    "f_dc032f0cca4d700b": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR learns expressive latent representations from >3.2 million unlabeled ECGs."
+    },
+    "f_dc7a696c01965135": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation compares against Paper-c's fully supervised CNN."
+    },
+    "f_dcbcc26f3b4a168e": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Primary outcomes are AUC, sensitivity, specificity, and accuracy for EF 35% or less on held-out Mayo patients."
+    },
+    "f_de13d6a09530630d": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The network model yielded an accuracy of 85.7% on an independent set of 52,870 patients."
+    },
+    "f_defd466fd2adfda0": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "A positive screen HR is 4.1 for future dysfunction."
+    },
+    "f_dfcf705064329ed8": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The input lead format is not yet known."
+    },
+    "f_e1163c2c532ec061": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "The data included the left ventricular ejection fraction."
+    },
+    "f_e11d08cf2d852292": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c's left ventricular dysfunction detection uses an ejection fraction threshold of ≤35%."
+    },
+    "f_e16034238b4eff01": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "PCLR's frozen self-supervised ECG embeddings can replace Paper-c's raw ECG preprocessing for left ventricular dysfunction screening."
+    },
+    "f_e166df2ae3c17f51": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Frozen PCLR self-supervised ECG embeddings combined with a linear probe on paper-c's echo-derived EF 35% or less labels can achieve externally valid AI screening for asymptomatic left ventricular dysfunction."
+    },
+    "f_e27ad43a5420616f": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b downstream tasks improve with fewer than 5,000 labels"
+    },
+    "f_e2e887dbc3deb669": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Metrics include AUC, sensitivity, specificity, and calibration."
+    },
+    "f_e5191eea34ec0740": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c achieved accuracy 85.7%."
+    },
+    "f_e526b2955cb10606": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Frozen PCLR embeddings from self-supervised 12-lead ECGs will be tested for matching paper-c's AI screening for EF≤35 using only 1–10% of paired ECG-echo labels."
+    },
+    "f_e6189776a245750d": {
+      "topic": "U",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A wearable sensor pipeline could be required as a missing contribution."
+    },
+    "f_e738eabb9ad39019": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Self-supervised PCLR ECG embeddings enable operationalization of Paper-c's AI-ECG screening for left ventricular dysfunction with substantially fewer paired echocardiogram labels."
+    },
+    "f_e75c83ff08936807": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "In patients without ventricular dysfunction, those with a positive AI screen were at 4 times the risk of developing future ventricular dysfunction compared with those with a negative screen."
+    },
+    "f_e78bab008e956cb7": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Primary metrics include specificity."
+    },
+    "f_e92a7d78b808ce0d": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation includes calibration slope."
+    },
+    "f_ea3ff8c09eabf3b2": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "PCLR mitigates the effect of small sample size."
+    },
+    "f_ea8aff0081f8b45a": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The CNN uses ECG paired with echocardiography."
+    },
+    "f_eb2d7619fbbe9320": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Patient overlap with Mayo data is not yet known."
+    },
+    "f_ee51991a670f50ed": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A lightweight head is trained using Paper-c's paired ECG-echocardiogram labels."
+    },
+    "f_ee5394371b1ec14c": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b involves PCLR contrastive pretraining"
+    },
+    "f_ef18146d0d655875": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The study used echocardiogram data."
+    },
+    "f_f18b3aa75fcbbeec": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c achieved sensitivity 86.3%."
+    },
+    "f_f1ec28163c286b11": {
+      "topic": "U",
+      "paper": "U",
+      "status": "unlabelled_invalid_batch",
+      "canonical_text": "Paper-c's validation metrics are adopted."
+    },
+    "f_f63d405d7a9fa4f4": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The approach would replace paper-c's end-to-end CNN with transferable features."
+    },
+    "f_f690a09cc3af1037": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Ventricular dysfunction was defined as ejection fraction ≤35%."
+    },
+    "f_f7e7b60d3333bc0c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Primary outcomes include an external ECG-echo cohort if available."
+    },
+    "f_f833afa55765a024": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research rejects Researcher A's earlier refusal to integrate."
+    },
+    "f_f8ad1d6bbc749728": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Supervised machine learning applications in health care are often limited due to a scarcity of labeled training data."
+    },
+    "f_f9c2eaef73a18d94": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design proposes freezing PCLR embeddings and training a lightweight head to predict ejection fraction 35% or less"
+    },
+    "f_f9efb7d5c2aa76dd": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Subgroup analyses by sex will be reported."
+    },
+    "f_fa08c36144515694": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The substantial improvements occur when there are fewer than 5,000 labels."
+    },
+    "f_fa81b46442afd522": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Arm 2 will use PCLR embeddings with low-rank adaptation."
+    },
+    "f_fb207a16a72cc185": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "PCLR is performant."
+    },
+    "f_fba9be41c31c0cb8": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Asymptomatic left ventricular dysfunction is associated with reduced quality of life."
+    },
+    "f_fd2cf649d907d700": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Arm 3 will use the paper-c CNN trained from scratch on the same subsets and on full data."
+    },
+    "f_fdc32970bfb0e104": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c CNN achieves 85.7% specificity for left ventricular dysfunction detection"
+    },
+    "f_fed94e84ce6e455c": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A testable cross-disciplinary design cannot be responsibly proposed."
+    },
+    "f_ff344a5a937d7a8b": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research uses bootstrapped CIs for longitudinal echo follow-up HR."
+    },
+    "f_ff47e7ff24fffbcc": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Primary metrics are AUC, sensitivity/specificity at paper-c's threshold, and calibration slope/intercept."
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "model": "qwen3.8-flash",
+  "scope": "production-qwen3.8-flash-b64-0a5669c0",
+  "batch_size": 64,
+  "concurrency": 4,
+  "expected": 10181,
+  "labelled": 9989,
+  "jobs": 163,
+  "failed": [
+    {
+      "case": "idr-gen-level_1-95",
+      "error": "ValueError"
+    },
+    {
+      "case": "idr-gen-level_1-55",
+      "error": "ValueError"
+    },
+    {
+      "case": "idr-gen-level_1-49",
+      "error": "ValueError"
+    }
+  ],
+  "elapsed_s": 9.31995691708289,
+  "cost_equivalent_usd": 0.08623934399999995,
+  "prompt_tokens": 372294,
+  "completion_tokens": 97442,
+  "reasoning_chars": 0,
+  "thinking": {
+    "enable_thinking": false
+  },
+  "system_hash": "0a5669c0d0e186284db471db7486be524f34eb7e73e49f5cbbde0160bb38bbd8",
+  "key_var": "OPENCODE_API_KEY_2",
+  "endpoint": "https://opencode.ai/zen/go/v1",
+  "exported": 10181,
+  "unlabelled_unique": 192,
+  "unlabelled_fact_ids": 228,
+  "missing_batches": [
+    {
+      "case": "idr-gen-level_1-49",
+      "batch_start": 128,
+      "n": 64
+    },
+    {
+      "case": "idr-gen-level_1-55",
+      "batch_start": 768,
+      "n": 64
+    },
+    {
+      "case": "idr-gen-level_1-95",
+      "batch_start": 576,
+      "n": 64
+    }
+  ],
+  "all_test_and_production_known_cost": 0.13234109800000007,
+  "all_calls": 263,
+  "calls_without_usage": 1
+}

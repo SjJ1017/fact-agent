@@ -1,0 +1,38 @@
+{
+  "case": "idr-gen-level_1-12",
+  "model": "qwen3.8-flash",
+  "n": 2,
+  "max_tokens": 2048,
+  "thinking": {
+    "enable_thinking": false
+  },
+  "system_hash": "0a5669c0d0e186284db471db7486be524f34eb7e73e49f5cbbde0160bb38bbd8",
+  "usage": {
+    "completion_tokens": 18,
+    "prompt_tokens": 926,
+    "total_tokens": 944,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cache_write_tokens": null,
+      "cached_tokens": 0,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  },
+  "cost_equivalent_usd": 0.00014736000000000003,
+  "finish_reason": "stop",
+  "elapsed_s": 1.2280276250094175,
+  "content": "{\"labels\":[[0,\"C\",\"B\"],[1,\"B\",\"B\"]]}",
+  "reasoning_chars": 0,
+  "labels": {
+    "ff8a23dbf07244f160fd": {
+      "topic": "C",
+      "paper": "B"
+    },
+    "ffd5aec363d53f979676": {
+      "topic": "B",
+      "paper": "B"
+    }
+  }
+}

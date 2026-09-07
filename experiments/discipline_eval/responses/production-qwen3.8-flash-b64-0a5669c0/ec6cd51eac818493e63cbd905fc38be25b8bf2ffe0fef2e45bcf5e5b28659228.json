@@ -1,0 +1,286 @@
+{
+  "case": "idr-gen-level_1-9",
+  "model": "qwen3.8-flash",
+  "n": 64,
+  "max_tokens": 2048,
+  "thinking": {
+    "enable_thinking": false
+  },
+  "system_hash": "0a5669c0d0e186284db471db7486be524f34eb7e73e49f5cbbde0160bb38bbd8",
+  "usage": {
+    "completion_tokens": 506,
+    "prompt_tokens": 2437,
+    "total_tokens": 2943,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cache_write_tokens": null,
+      "cached_tokens": 1024,
+      "image_tokens": null,
+      "text_tokens": null
+    }
+  },
+  "cost_equivalent_usd": 0.000466154,
+  "finish_reason": "stop",
+  "elapsed_s": 5.250001166947186,
+  "content": "{\"labels\":[[0,\"U\",\"U\"],[1,\"X\",\"P\"],[2,\"X\",\"P\"],[3,\"C\",\"B\"],[4,\"B\",\"P\"],[5,\"C\",\"P\"],[6,\"G\",\"P\"],[7,\"B\",\"B\"],[8,\"G\",\"P\"],[9,\"U\",\"P\"],[10,\"C\",\"B\"],[11,\"B\",\"B\"],[12,\"C\",\"P\"],[13,\"C\",\"B\"],[14,\"X\",\"P\"],[15,\"G\",\"P\"],[16,\"X\",\"P\"],[17,\"X\",\"P\"],[18,\"B\",\"B\"],[19,\"B\",\"P\"],[20,\"B\",\"P\"],[21,\"B\",\"P\"],[22,\"B\",\"B\"],[23,\"C\",\"B\"],[24,\"X\",\"P\"],[25,\"X\",\"P\"],[26,\"G\",\"P\"],[27,\"B\",\"B\"],[28,\"B\",\"P\"],[29,\"B\",\"P\"],[30,\"X\",\"B\"],[31,\"C\",\"P\"],[32,\"C\",\"B\"],[33,\"B\",\"B\"],[34,\"B\",\"P\"],[35,\"B\",\"P\"],[36,\"X\",\"P\"],[37,\"G\",\"P\"],[38,\"B\",\"P\"],[39,\"B\",\"B\"],[40,\"B\",\"B\"],[41,\"X\",\"P\"],[42,\"C\",\"P\"],[43,\"C\",\"P\"],[44,\"B\",\"B\"],[45,\"C\",\"P\"],[46,\"X\",\"P\"],[47,\"X\",\"P\"],[48,\"U\",\"P\"],[49,\"B\",\"P\"],[50,\"B\",\"P\"],[51,\"U\",\"P\"],[52,\"B\",\"P\"],[53,\"B\",\"B\"],[54,\"C\",\"B\"],[55,\"C\",\"B\"],[56,\"C\",\"B\"],[57,\"G\",\"P\"],[58,\"C\",\"P\"],[59,\"G\",\"P\"],[60,\"X\",\"P\"],[61,\"C\",\"B\"],[62,\"B\",\"P\"],[63,\"B\",\"B\"]]}",
+  "reasoning_chars": 0,
+  "labels": {
+    "209f6df3d634ba410f69": {
+      "topic": "U",
+      "paper": "U"
+    },
+    "20c1c73dd7d5cb5020a7": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "20da2e691d7c1e07d3f0": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "20e3978d66b97c30107a": {
+      "topic": "C",
+      "paper": "B"
+    },
+    "20f65f127927cadea81c": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "2108b513193fd7847719": {
+      "topic": "C",
+      "paper": "P"
+    },
+    "21140cfe47cd880dbaca": {
+      "topic": "G",
+      "paper": "P"
+    },
+    "211f2bf808861655eee7": {
+      "topic": "B",
+      "paper": "B"
+    },
+    "2133325ff82f24ff26d0": {
+      "topic": "G",
+      "paper": "P"
+    },
+    "2166e0ef837991d16785": {
+      "topic": "U",
+      "paper": "P"
+    },
+    "217cc60b3250adf86b3c": {
+      "topic": "C",
+      "paper": "B"
+    },
+    "21a729901c5dd24f21b1": {
+      "topic": "B",
+      "paper": "B"
+    },
+    "21c8fa685d3c6aad0374": {
+      "topic": "C",
+      "paper": "P"
+    },
+    "22639b553082fcfc33b7": {
+      "topic": "C",
+      "paper": "B"
+    },
+    "22f30e952fafc9e7d74c": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "2342f09593ff8ec6c686": {
+      "topic": "G",
+      "paper": "P"
+    },
+    "237abeb67b35756d61a8": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "237c89e477dd4170830e": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "23a4bed3d046c3a42a5d": {
+      "topic": "B",
+      "paper": "B"
+    },
+    "23a4efb5c914c6b89d58": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "23ebeaaf8f2234cf5e97": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "245fa1bb81d073c94aa9": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "24665577e6ed13f5688d": {
+      "topic": "B",
+      "paper": "B"
+    },
+    "249d9699346323c08fb6": {
+      "topic": "C",
+      "paper": "B"
+    },
+    "24ab18f5525c88ac4b61": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "24d880a541d113f88561": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "25121bd67fbedbbae995": {
+      "topic": "G",
+      "paper": "P"
+    },
+    "252d2e65875101c3deb8": {
+      "topic": "B",
+      "paper": "B"
+    },
+    "253fb606e549e027e7fc": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "25733d629136f66180fd": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "258c3b86ea6519a91070": {
+      "topic": "X",
+      "paper": "B"
+    },
+    "25a1f6e18f1e2bc44f15": {
+      "topic": "C",
+      "paper": "P"
+    },
+    "25ba8d5930630abf3048": {
+      "topic": "C",
+      "paper": "B"
+    },
+    "26036095938546730d75": {
+      "topic": "B",
+      "paper": "B"
+    },
+    "26790ac1540c14494636": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "270f83c032863b5cba76": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "271ad3235391561ddcf7": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "2734b021a68add29ebf2": {
+      "topic": "G",
+      "paper": "P"
+    },
+    "280b9a3363401ed434e6": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "2832eccb1ac618f7a539": {
+      "topic": "B",
+      "paper": "B"
+    },
+    "283f41d704f27d783401": {
+      "topic": "B",
+      "paper": "B"
+    },
+    "287b34f3e8d0c06620a1": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "28d0c3f7e9aca11f297b": {
+      "topic": "C",
+      "paper": "P"
+    },
+    "28fd5e8e4180c3a3fff4": {
+      "topic": "C",
+      "paper": "P"
+    },
+    "299bc66833c958cb8671": {
+      "topic": "B",
+      "paper": "B"
+    },
+    "29a51af8833086c3a35c": {
+      "topic": "C",
+      "paper": "P"
+    },
+    "29d2c4bb29e6f9fb2ec3": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "29f16bae65ad56d55b63": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "2a7feabae597f6171533": {
+      "topic": "U",
+      "paper": "P"
+    },
+    "2aaca9e30c1dc9f9a497": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "2acb5fe0f262beeb908d": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "2b52156372f545068b45": {
+      "topic": "U",
+      "paper": "P"
+    },
+    "2b775c4695a5c2dc55ba": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "2b893bdaa72ed92d0804": {
+      "topic": "B",
+      "paper": "B"
+    },
+    "2c7008f239102c87e0ca": {
+      "topic": "C",
+      "paper": "B"
+    },
+    "2c735c671fc4710cb921": {
+      "topic": "C",
+      "paper": "B"
+    },
+    "2c81e4377e5c8392c79b": {
+      "topic": "C",
+      "paper": "B"
+    },
+    "2d16614efb6080e93eeb": {
+      "topic": "G",
+      "paper": "P"
+    },
+    "2d2f40db5752cdb42aa5": {
+      "topic": "C",
+      "paper": "P"
+    },
+    "2d568b3891e58f0fcd85": {
+      "topic": "G",
+      "paper": "P"
+    },
+    "2d7970ab330bdde4be6c": {
+      "topic": "X",
+      "paper": "P"
+    },
+    "2da2233860265e4e8d59": {
+      "topic": "C",
+      "paper": "B"
+    },
+    "2da568847efe07b2c999": {
+      "topic": "B",
+      "paper": "P"
+    },
+    "2daeb033b7531d844472": {
+      "topic": "B",
+      "paper": "B"
+    }
+  }
+}

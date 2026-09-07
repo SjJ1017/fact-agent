@@ -1,0 +1,1917 @@
+{
+  "execution_id": "idrbench-generation-idr-gen-level_1-12-deepseek-v4-pro-full-full-specialist-cumulative",
+  "layer": "discipline_v1",
+  "model": "qwen3.8-flash",
+  "system_hash": "0a5669c0d0e186284db471db7486be524f34eb7e73e49f5cbbde0160bb38bbd8",
+  "source_sha256": "d324841a6292d0cc2f59044f60222d2adf2db7436b0949698ccb0bd74e77c3b7",
+  "labels": {
+    "f_0135b3e8163eb03e": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D's diffusion solver computes steady-state morphogen concentration fields as training targets."
+    },
+    "f_0187af5455d12a20": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "A conditional GAN learns to generate steady-state heat conduction solutions from domain geometry"
+    },
+    "f_036b225ee271bb96": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D can generate paired examples of resulting morphogen patterns."
+    },
+    "f_037982283410bc5b": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Cell-density maps are saved"
+    },
+    "f_058d44864c661233": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration rejects Researcher A's direct prediction of final cell patterns."
+    },
+    "f_068df57960bab3f2": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research adopts Researcher C's quasistatic surrogate approach."
+    },
+    "f_07022ae056dd815e": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b does not specify solver runtime or API for surrogate replacement."
+    },
+    "f_07a1797c7fc30dee": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c does not report cGAN robustness on noisy, discrete cell-domain masks."
+    },
+    "f_08e92fa189e7b366": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The models achieved high test accuracy measured by MAE."
+    },
+    "f_08ee5108bde4b410": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The comparison includes growth rate outcomes."
+    },
+    "f_0c67835d315ea6a5": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research records source mask, domain mask, boundary type, and morphogen field."
+    },
+    "f_0c8032904c7c3512": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Runtime is compared."
+    },
+    "f_0f30f258c4f0a949": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research records input pairs of CC3D-solved steady-state morphogen field."
+    },
+    "f_101993458d33e57d": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed mechanism preserves dynamic biological constraints while using the data-driven surrogate for search/design."
+    },
+    "f_10a3b717e52c7abc": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The monolayers vary absorbing boundaries."
+    },
+    "f_131a273a51e37d96": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Paper-c is qualified by restricting inputs to CC3D-compatible masks."
+    },
+    "f_13290162db5c98ab": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design saves source mask."
+    },
+    "f_136c3968afc3ed96": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The conditional GAN is trained on CompuCell3D outputs"
+    },
+    "f_13ff8be2ea9110f8": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN is validated on remaining 20%."
+    },
+    "f_15d3c3b7c8d62f39": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation compares tissue morphology against standard PDE-coupled CompuCell3D runs."
+    },
+    "f_15de774c22b8b04f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea involves a cGAN trained on CompuCell3D steady morphogen fields replacing iterative diffusion solving inside GGH chemotaxis."
+    },
+    "f_15f24f47794a216e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The surrogate preserves chemotactic tissue behavior."
+    },
+    "f_17e231bdc6cf124f": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The monolayers vary source density."
+    },
+    "f_18e0e3ad619d4c29": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN is used as a rapid forward model for source-layout optimization."
+    },
+    "f_197c0933af74fc7a": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Field accuracy is validated with mean absolute error against the solver."
+    },
+    "f_19a80ba27ec2060f": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses SSIM."
+    },
+    "f_1fb8f699bf011c06": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Conditional generative adversarial networks were used to train models."
+    },
+    "f_1ff7180f5465a8cd": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "During coupling, chemotaxis bias is applied."
+    },
+    "f_209699b529193ef8": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research runs the native diffusion solver to steady state."
+    },
+    "f_20d170ed44685404": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The conditional GAN acts as a learned surrogate for tissue transport field updates"
+    },
+    "f_212e0f905c42123f": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "During coupling, cGAN is called."
+    },
+    "f_2135f75f44249725": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D/GGH multi-cell modeling simulates adhesion"
+    },
+    "f_24710a52f845486a": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses structural similarity of predicted chemotactic patterns against full CC3D as a metric."
+    },
+    "f_24c62815a975e62c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CC3D acts as data generator."
+    },
+    "f_25bd423424f31fc4": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Cell chemotaxis is a biologically observed cell behavior that can be studied using multi-cell computer simulation."
+    },
+    "f_276ba04a767b873b": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Inputs recorded include domain boundary."
+    },
+    "f_281b67c323903736": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Multi-cell computer simulation methods range from cellular automata to complex immersed-boundary and finite-element mechanistic models."
+    },
+    "f_28b9f335d83b3de6": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D/GGH simulates cell movement, adhesion, growth, death, mitosis, secretion, and chemotaxis."
+    },
+    "f_29ade35863f42361": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation compares speed against standard PDE-coupled CompuCell3D runs."
+    },
+    "f_2a3a2a5a9cc479a6": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN is only a field surrogate, not a cell-state predictor."
+    },
+    "f_2a7360053502d718": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "cGAN replaces the steady-state reaction-diffusion solve inside CompuCell3D."
+    },
+    "f_2b505d57a70209e3": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation metrics include structural similarity"
+    },
+    "f_2c41ef6dc3391dd1": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D/GGH simulates secretion, chemotaxis, adhesion, and growth."
+    },
+    "f_2da8299ca37851f9": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "These paired examples come from GGH-based chemical secretion dynamics."
+    },
+    "f_2dbcf811efff1a93": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "cGAN inputs are source-cell mask, domain mask, and boundary type."
+    },
+    "f_2eb0b8d578758ff8": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The four biological models demonstrate the capabilities of the Glazier-Graner-Hogeweg model and CompuCell3D."
+    },
+    "f_2ec1163c811bc150": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design generates 3,000 CC3D 2D monolayers."
+    },
+    "f_2efa38693d6ae5a2": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Monolayers vary in source-cell density, domain shapes, and absorbing/reflecting boundaries."
+    },
+    "f_2fed82bbce8660cd": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Cell mitosis is a biologically observed cell behavior that can be studied using multi-cell computer simulation."
+    },
+    "f_304f05f2f2e6fa74": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Held-out field accuracy is validated by SSIM."
+    },
+    "f_30c26c2fdad3223b": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The 2D tissue domains feature cells secreting a diffusible morphogen."
+    },
+    "f_30ee65c8448a10b0": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper C validates only steady-state continuum fields."
+    },
+    "f_31064d4a96f78570": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design records domain, source mask, boundary type, and CC3D solver field."
+    },
+    "f_31d9edbcefa1c4de": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN cannot reasonably replace transient reaction-diffusion updates inside a dynamic CC3D loop."
+    },
+    "f_326b2025148b1660": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN is trained on cell-type/source mask, domain boundary mask, and CC3D-solved steady-state morphogen field pairs."
+    },
+    "f_3413c6b248bd0e21": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The comparison includes computation time outcomes."
+    },
+    "f_3612e61bd8ec32c2": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration accelerates numerical reaction-diffusion solvers."
+    },
+    "f_36373535543c5321": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper-c contributes a conditional generative adversarial network (cGAN) approach."
+    },
+    "f_36e7a8a88e9e1182": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The surrogate is coupled into CC3D for 50 or 100 field updates."
+    },
+    "f_389c1243910f39e4": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Training was performed purely on observation without knowledge of underlying governing equations."
+    },
+    "f_38bcd9dde84beb73": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-c does not report cGAN robustness on discrete irregular domain masks."
+    },
+    "f_39134cf2d0530255": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses cell-pattern structural similarity."
+    },
+    "f_39c32150c94765f2": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "A conditional GAN learns to generate from domain observations without governing equations."
+    },
+    "f_39ef7e2d897133d0": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design uses CC3D to simulate 2D monolayers with diffusible morphogen secretion/degradation."
+    },
+    "f_3b218fe109d978df": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN is coupled back into GGH updates."
+    },
+    "f_3bcd7a119db978a4": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses held-out CompuCell3D cases"
+    },
+    "f_3c7171d75bcf8415": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "In each GGH simulation step, the current cell configuration defines a domain and boundary conditions."
+    },
+    "f_3cfec357b099c1bf": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D generates paired input-output data consisting of its own steady-state morphogen field."
+    },
+    "f_3eb77869f036c81e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "During coupling, the field is updated."
+    },
+    "f_3ecabe79e6370fc7": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research generates ≥1,000 2D CompuCell3D monolayers."
+    },
+    "f_3f44dd81b8adb276": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The conditional GAN achieves high test accuracy"
+    },
+    "f_4023ae46f93d2b04": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "cGAN hyperparameters for irregular multicellular domains are not specified in either paper."
+    },
+    "f_40c7e2da31ec3475": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration rejects full dynamic solver replacement."
+    },
+    "f_42f28b0740883347": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "In coupled simulation, after each GGH update the cGAN predicts the updated steady-state extracellular field."
+    },
+    "f_42ff93a1e015b799": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Paper C demonstrates steady-state heat and fluid transport only."
+    },
+    "f_4348aae8cd501134": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D produces moving tissue boundary conditions"
+    },
+    "f_435777eb9143e561": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Speedup versus full CC3D is compared."
+    },
+    "f_43feff222e3d8a5a": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The missing cross-paper knowledge includes validity of quasi-steady assumption with moving sources."
+    },
+    "f_44f39f5046363228": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The tutorial presents four biological models and their associated simulations."
+    },
+    "f_457fff24cc03e9cb": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "These simulations run to steady state."
+    },
+    "f_47196bae717a57f5": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D can generate paired examples of resulting cell patterns."
+    },
+    "f_4823c560c94ada5e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "There is a missing cross-paper knowledge question about whether cGAN accuracy transfers from continuum heat/fluid fields to noisy, discrete cellularized domains with moving sources."
+    },
+    "f_48487dfeffef8bd6": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design varies domain shape."
+    },
+    "f_48b0fff7facebe6b": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D provides lattice-based Glazier–Graner–Hogeweg Monte Carlo simulations of multi-cell tissues."
+    },
+    "f_4a9f2749157a5f9f": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design saves boundary mask."
+    },
+    "f_4ada8be4d000f205": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The predicted field feeds back into cell behaviors such as differentiation."
+    },
+    "f_4b2a2d0272aa77de": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "cGAN has been validated for heat conduction."
+    },
+    "f_4b8599f5f928a342": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Outputs recorded include final cell pattern."
+    },
+    "f_4d02708cb8fda4ea": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "These paired data can train a cGAN as a surrogate."
+    },
+    "f_4d9a6ea732dca7c8": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The contribution is a data-driven transport module embedded in an established multi-cell modeling framework"
+    },
+    "f_4e170beeb2d2ef0c": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design generates 2D CompuCell3D monolayers with fixed boundaries."
+    },
+    "f_4f4c5bf74cabda28": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN surrogate accelerates mechanistic tissue simulations without governing equations."
+    },
+    "f_4f8551b665d24189": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The working abstract proposes embedding a cGAN transport surrogate within CompuCell3D."
+    },
+    "f_50be1a38a3ced3eb": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CC3D-compatible masks include domain mask."
+    },
+    "f_51220a9db4caffaa": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D/GGH can generate boundary masks."
+    },
+    "f_52e01bbeacd1584b": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The predicted field drives GGH chemotaxis."
+    },
+    "f_547be1f9f3309c4b": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D simulates chemical secretion."
+    },
+    "f_557c1521de253a8d": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "cGAN robustness on irregular multicellular domains is unspecified in the missing cross-paper knowledge."
+    },
+    "f_562fc4c0bd50064d": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "cGANs learn to directly generate these phenomena given arbitrary boundary conditions and domain."
+    },
+    "f_57a08c7a2b9be476": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D produces time-varying cell-derived sink maps"
+    },
+    "f_581a25b402c05a6f": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D/GGH can generate tissue source masks."
+    },
+    "f_58223292ea287742": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Coupling occurs after every 10 GGH Monte Carlo steps."
+    },
+    "f_58dfa196cc2b5c12": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D is an open-source simulation environment."
+    },
+    "f_59421cabb0db1272": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses gradient correlation as a metric."
+    },
+    "f_59f2df142bc9481a": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design involves generating many 2D tissue domains with varying boundary conditions in CompuCell3D."
+    },
+    "f_5b4e4c62b73ed783": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses mean absolute error (MAE) against the CC3D solver."
+    },
+    "f_5becabe1a76b2e2b": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "A new data-driven paradigm was developed for modeling of physics transport phenomena."
+    },
+    "f_5c7fe5a09b7c8ce3": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN is trained on tissue-domain masks plus boundary conditions to predict the field."
+    },
+    "f_5cdbaaf7ed4c9678": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The predicted field feeds back into cell behaviors such as chemotaxis."
+    },
+    "f_5cf7483b06ca2dcd": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Source maps are saved"
+    },
+    "f_5fd43039f7ae3459": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The monolayer model has a secreted diffusible morphogen"
+    },
+    "f_60148cbe24509ee4": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses structural similarity against the CC3D solver."
+    },
+    "f_61472af7ced735d0": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design uses CC3D with absorbing boundaries."
+    },
+    "f_6291a384390a8db6": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The contribution is a data-driven transport module embedded in a mechanistic tissue simulator."
+    },
+    "f_63d3ea2491a4c568": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The cGAN maps boundary geometry directly to final cell configurations."
+    },
+    "f_66e081744cfe271e": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Approximately 2,000 CC3D simulations are generated with varied cell-adhesion parameters."
+    },
+    "f_674d0f491a39e567": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparison measures runtime versus native solute-field updates."
+    },
+    "f_6789f0d161e4f004": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration replaces numerical reaction-diffusion solvers."
+    },
+    "f_682b4372d13fadef": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design varies degradation."
+    },
+    "f_692b1cbb0522f325": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN is trained on 80% of the data."
+    },
+    "f_6a1f89f7bbfc70c0": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The source papers do not report CompuCell3D field-solver implementation cost"
+    },
+    "f_6a782f8931469e9d": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D allows rapid and intuitive simulation of multi-cellular behaviors."
+    },
+    "f_6aca5eddf0c4f5e8": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The monolayers vary reflecting boundaries."
+    },
+    "f_6b10b8e2ed4258cb": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Tissue-level outcomes are compared against full PDE-coupled simulations."
+    },
+    "f_6c32b72e89ca2ad2": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A cGAN is trained with the same conditional-generation approach as Paper C on this synthetic dataset."
+    },
+    "f_6c9c1e993e8fecc0": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN is used as a learned surrogate for extracellular transport fields inside CompuCell3D."
+    },
+    "f_6fac584ed26812f2": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Coupled conditional GAN-CompuCell3D simulations are faster than native field computation"
+    },
+    "f_7136d35a2b5c62b3": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN predicts the resulting nutrient field."
+    },
+    "f_71c2f66ad51cfbda": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D provides biological feedback."
+    },
+    "f_72d39bcd0c12cb81": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN-predicted steady-state field drives chemotaxis for the next block."
+    },
+    "f_73b3626098e2ebce": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The predicted field feeds back into cell behaviors such as growth."
+    },
+    "f_74d4d34b4dd65665": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D allows rapid and intuitive simulation of cellular behaviors."
+    },
+    "f_76ab096b483f4cd0": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Cell death is a biologically observed cell behavior that can be studied using multi-cell computer simulation."
+    },
+    "f_772969e5beb79b29": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses held-out geometries."
+    },
+    "f_7870ad1b3cae5d01": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The predicted field then drives chemotaxis, growth, or differentiation."
+    },
+    "f_78a791c8e84e1849": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design generates approximately 1500 2D CC3D configurations."
+    },
+    "f_7a83eae0a7db9483": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposal combines CompuCell3D's multicellular constraints with Paper C's observation-driven rapid solution generation."
+    },
+    "f_7b9df6b8564dfec2": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparison targets cluster size against native CC3D field updates."
+    },
+    "f_7c03eb9aa2db8147": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The GGH framework supplies realistic cell-source and boundary maps."
+    },
+    "f_7c92979c7b616a6c": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The cGAN directly predicts extracellular transport fields."
+    },
+    "f_7d7f9436888e8e28": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses gradient magnitude error against the CC3D solver."
+    },
+    "f_7e2e77337c363d48": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "cGAN hyperparameters for discrete irregular domains are not reported."
+    },
+    "f_7e8e5996021569db": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D simulates cell death."
+    },
+    "f_7ebdc4b1337426ca": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D can generate paired examples of tissue domains."
+    },
+    "f_7fe2d068b6b326c1": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b contributes CompuCell3D."
+    },
+    "f_801eef8729d07a44": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed mechanism uses cGAN off-line to evaluate candidate source layouts or boundary conditions."
+    },
+    "f_810faf729f385949": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design generates 2D CompuCell3D monolayers with heterogeneous morphogen-secreting cells."
+    },
+    "f_826b422059ec910d": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D simulates cell movement."
+    },
+    "f_827f022dcf265ccb": {
+      "topic": "B",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "CC3D solver runtime is unspecified in the papers."
+    },
+    "f_83db30dfa879150f": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CC3D solver cost for discrete irregular domains is not reported."
+    },
+    "f_84c8e022595e0da9": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "cGAN learns to directly generate steady-state transport fields."
+    },
+    "f_85c31846b61cbfad": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The module enables rapid tissue simulation without governing equations"
+    },
+    "f_886f1f256acf4357": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design varies source-cell positions."
+    },
+    "f_8902cff2271059ad": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation compares tissue patterns against native CC3D."
+    },
+    "f_897db31b40d4d869": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Full CC3D validates selected candidates."
+    },
+    "f_8bfe247bd32156d1": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparison targets chemotactic cell trajectories against native CC3D field updates."
+    },
+    "f_8c355bc59b685a8c": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Cell movement is a biologically observed cell behavior that can be studied using multi-cell computer simulation."
+    },
+    "f_8cb6f963fe61e04e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration causally links CompuCell3D's tissue geometry generation to paper-c's field inference."
+    },
+    "f_8cbeab00bdd1091e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea enables equation-free tissue simulation under a quasi-steady approximation."
+    },
+    "f_8d5fa1da04431869": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation covers field accuracy, chemotaxis-driven tissue behavior, and computational speed."
+    },
+    "f_8deecbaba63765cc": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D allows rapid and intuitive modeling of cellular behaviors."
+    },
+    "f_8e21772557c7c991": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Multi-cell computer simulation methods are based on biologically observed cell behaviors and interactions."
+    },
+    "f_8e4088feeec5e8f5": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D-computed steady-state concentration fields are saved"
+    },
+    "f_8e8a3f9884ad440c": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D/GGH multi-cell modeling simulates cell movement"
+    },
+    "f_8efeebdc37f45565": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CC3D acts as biological feedback engine."
+    },
+    "f_8fbf8fa0cf631686": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Source masks are saved from simulations."
+    },
+    "f_9147693607df0081": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "A new data-driven paradigm was developed for rapid inference of physics transport phenomena."
+    },
+    "f_926d510aa7de9ec8": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Held-out field accuracy is validated by gradient cosine similarity."
+    },
+    "f_93ec7f1c3085a449": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The surrogate is coupled into GGH every 50 MCS."
+    },
+    "f_947212ee818847e8": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Inputs recorded include cell-type map."
+    },
+    "f_96bc8dacbf73d7be": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Approximately 2,000 CC3D simulations are generated with varied domain shapes."
+    },
+    "f_974c2d7562d70479": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration accelerates numerical flow solvers."
+    },
+    "f_974c5903d769b4fe": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design involves generating many 2D tissue domains with varying growth in CompuCell3D."
+    },
+    "f_98068bc0eefa622f": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research records input pairs of domain boundary mask."
+    },
+    "f_98594564da5d25be": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Validation uses mean absolute error."
+    },
+    "f_98ea82a0b57a5cdf": {
+      "topic": "X",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Exact CompuCell3D field-solver data formats are not specified in either paper."
+    },
+    "f_9a171bcd020602df": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The missing cross-paper knowledge includes cGAN hyperparameters for noisy irregular cell-domain masks."
+    },
+    "f_9ab97a3c62ac2b4c": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN is not used as an embedded dynamic solver."
+    },
+    "f_9f91f1949205c7ef": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design involves simulating many 2D tissue domains with heterogeneous cell types."
+    },
+    "f_a0c31d427f3d0a61": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration adopts Researcher B's causal embedding."
+    },
+    "f_a178c41a1f3310ea": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN replacement preserves chemotactic behavior while reducing runtime."
+    },
+    "f_a1a6c0bac7856067": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The comparison includes pattern formation outcomes."
+    },
+    "f_a1eeda765ec994b4": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Quasistatic field updates are invoked after each GGH Monte Carlo block."
+    },
+    "f_a2205cf9dd714f2a": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "A cGAN learns to directly generate incompressible fluid flow solutions from arbitrary domain geometry."
+    },
+    "f_a3264232c9df0c66": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The Glazier-Graner-Hogeweg model is lattice-based."
+    },
+    "f_a3643f40890bf651": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design involves generating many 2D tissue domains with varying cell adhesion in CompuCell3D."
+    },
+    "f_a557a580d39eb277": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation compares field accuracy against native CC3D."
+    },
+    "f_a5dfe2dda293b744": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research benchmarks pattern fidelity across 30 unseen configurations."
+    },
+    "f_a5e65af01a0b5e7e": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Runtimes are compared against native CompuCell3D simulations"
+    },
+    "f_a612a3ab551f7c17": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The Glazier-Graner-Hogeweg model is a Monte Carlo multi-cell modeling approach."
+    },
+    "f_a6be240e3b16b810": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D/GGH multi-cell modeling simulates mitosis"
+    },
+    "f_a74b9d2eadbd2c93": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research benchmarks speedup across 30 unseen configurations."
+    },
+    "f_a7b2bca83e8f6133": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CC3D field-solver format is unspecified in the missing cross-paper knowledge."
+    },
+    "f_a7ff0c7b7b72c454": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "During coupling, sources and boundaries are frozen."
+    },
+    "f_a974ef9b387f0af6": {
+      "topic": "B",
+      "paper": "U",
+      "status": "labelled",
+      "canonical_text": "The missing cross-paper knowledge includes CC3D solver API/runtime cost."
+    },
+    "f_a97fa6be36f2e469": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The contribution is an equation-free transport module embedded in a mechanistic tissue simulator."
+    },
+    "f_aa0cd09af872f2b9": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "cGAN has been validated for fluid flow."
+    },
+    "f_aa59dc3c1ba4e7aa": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CC3D-compatible masks include boundary type."
+    },
+    "f_aaf1d6b1c579f63a": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D/GGH can generate steady morphogen fields."
+    },
+    "f_ab4a38aad05b378a": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "This integration preserves CompuCell3D's biological feedback."
+    },
+    "f_ac19fa463fe8c3c0": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses runtime versus full CompuCell3D."
+    },
+    "f_ac5ad26f9c1404d6": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparison metrics are cell sorting index, cluster size, and trajectories."
+    },
+    "f_ac81c7161a8b812c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation compares field accuracy against standard PDE-coupled CompuCell3D runs."
+    },
+    "f_af7c22746b391862": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Cell pattern metrics are compared, including cluster size."
+    },
+    "f_b0456dd221d5762d": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "A new data-driven paradigm was developed for simulation of physics transport phenomena."
+    },
+    "f_b1625b987c64de78": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A cGAN transport surrogate trained on CompuCell3D tissue domains can accelerate multi-scale tissue simulations."
+    },
+    "f_b2822ec9fa57448f": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design generates 2D CompuCell3D monolayers with degradation."
+    },
+    "f_b28398fcf62de576": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design varies reflecting boundary type."
+    },
+    "f_b34cf83c36171e46": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN predicts the resulting morphogen field."
+    },
+    "f_b397c58830c3ebff": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Models were trained to directly generate solutions to incompressible fluid flow."
+    },
+    "f_b3a1ebe5dbb771ff": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "This is an explicit cross-paper assumption."
+    },
+    "f_b400100c74040e4f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The optimization test defines a target morphogen pattern."
+    },
+    "f_b495cebc66a4d992": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D models cellular and multi-cellular behaviors in the context of tissue formation and subsequent dynamics."
+    },
+    "f_b4c601f8eb899bff": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation metrics include gradient error"
+    },
+    "f_b4ead78e85a36586": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D allows rapid and intuitive modeling of multi-cellular behaviors."
+    },
+    "f_b5533fde6462307f": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D generates paired input-output data consisting of boundary mask."
+    },
+    "f_b5cd29884fe83629": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The monolayer model has degradation"
+    },
+    "f_b5f29f3ebe1410fb": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "No existing paired benchmark exists for this transfer."
+    },
+    "f_b70edd68808e9e76": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D/GGH generates dynamic cell configurations."
+    },
+    "f_b7ddbe161383abf6": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Multi-cell computer simulation methods now allow in silico study of multi-cell phenomena at the tissue scale."
+    },
+    "f_b7f73faa9463ffd8": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The optimization test compares total runtime against full CC3D-only screening."
+    },
+    "f_b894c5cca91e453d": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "A cGAN has high test accuracy."
+    },
+    "f_ba115870bd4c2bf5": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "An optimization task benchmarks cGAN-predicted source placements producing a target morphogen pattern."
+    },
+    "f_ba8ed558f9b20ce2": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research trains cGAN on these pairs."
+    },
+    "f_bb4e5577a612bfb5": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration qualifies the surrogate as quasi-steady."
+    },
+    "f_bbb1ac504a4291c1": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b contributes the Glazier–Graner–Hogeweg (GGH) multi-cell modeling framework."
+    },
+    "f_bc4966a7f72f2cf8": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design trains cGAN on these pairs."
+    },
+    "f_bd930cf5c4c0c977": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A cGAN trained on CompuCell3D-generated cell-source/boundary/field pairs serves as a quasistatic morphogen-field surrogate inside GGH chemotaxis."
+    },
+    "f_be4ae693cb9dc44c": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The surrogate reduces computation time."
+    },
+    "f_be854b30741d7b51": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D simulates cell secretion."
+    },
+    "f_c03ded694297af10": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D simulates cell growth."
+    },
+    "f_c0dfe61a8e5bf527": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "This integration replaces only iterative diffusion solving."
+    },
+    "f_c18b83b596754527": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Given a cell configuration, the conditional GAN predicts the steady-state chemical field that CompuCell3D would compute"
+    },
+    "f_c494fae0f7db2a04": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration replaces numerical flow solvers."
+    },
+    "f_c503fbae8a45a739": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "cGAN does not use governing equations."
+    },
+    "f_c6e4734759b634fb": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Chemotactic cell patterns are compared against native CompuCell3D simulations"
+    },
+    "f_c76a32f131f50289": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Predicted optimal layouts and runtime are compared against full CC3D simulations."
+    },
+    "f_c796a706e2d16048": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Outputs recorded include morphogen concentration."
+    },
+    "f_c7afaba30a841420": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN is used as a rapid forward model for tissue-patterning parameter screens."
+    },
+    "f_c7f915529f5d37b2": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The conditional GAN can predict steady-state morphogen distributions from boundary masks"
+    },
+    "f_c84d3a5e7e745ee2": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Approximately 2,000 CC3D simulations are generated with varied source-cell densities."
+    },
+    "f_c86baa31b0d3e9ec": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D produces time-varying cell-derived source maps"
+    },
+    "f_c87839968d0ea616": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D generates paired input-output data consisting of current source-cell mask."
+    },
+    "f_c8e02ff202c21928": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A cGAN is trained on source-cell mask, domain boundary, morphogen field, and tissue pattern pairs."
+    },
+    "f_c9371519ed87cf69": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The optimization test compares pattern accuracy against full CC3D-only screening."
+    },
+    "f_c9b6a01455b10656": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D provides ground-truth field data."
+    },
+    "f_c9e0dbded727a3d0": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The optimization test uses cGAN to rank 200 candidate source layouts."
+    },
+    "f_ca3676f561cadc7d": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "In coupled GGH runs, every 50 Monte Carlo steps the cGAN predicts the updated steady-state field from the fixed cell configuration."
+    },
+    "f_ca91d72867e3aa12": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed hybrid framework embeds a cGAN transport-field surrogate within CompuCell3D."
+    },
+    "f_cb1e271f2384e3bb": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Cellular configurations from GGH simulations generate domain geometry and boundary conditions."
+    },
+    "f_cb55f18eb0dca02d": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design varies absorbing boundary type."
+    },
+    "f_cc0d0499b45c5532": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Final cell patterns are saved from simulations."
+    },
+    "f_ccec2ec8398700af": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D/GGH multi-cell modeling simulates growth"
+    },
+    "f_ce33d73cceeb2f1c": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "A conditional GAN (cGAN) learns to directly generate incompressible fluid flow solutions from arbitrary boundary/domain conditions."
+    },
+    "f_ce49e7ae5d65b788": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses gradient cosine similarity."
+    },
+    "f_cec854fcaeac3c92": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Chemotactic trajectories are compared."
+    },
+    "f_d0b4d610700ddefb": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses concentration MAE."
+    },
+    "f_d1f0475fcbf443aa": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The monolayers vary domain shape."
+    },
+    "f_d286bb78f0f34e13": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The rejection of Researcher A's prediction is because paper-c validates continuum fields, not discrete cell states."
+    },
+    "f_d2a476cd9879cfd6": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses unseen source placements."
+    },
+    "f_d3c228b0452404d3": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses MAE, gradient cosine similarity, and structural similarity."
+    },
+    "f_d4a2fc05b41f2b84": {
+      "topic": "X",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "The source papers do not report conditional GAN performance on spatially varying biological source fields"
+    },
+    "f_d54924970b253b39": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research records input pairs of cell-type/source mask."
+    },
+    "f_d66606660205e426": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The final idea enables faster tissue simulation under a quasi-steady approximation."
+    },
+    "f_d670abcc84bbd6a2": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CC3D-compatible masks include source-cell mask."
+    },
+    "f_d738863f58ec4a77": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Studying cell interactions was almost purely experimental until recently."
+    },
+    "f_d8d68f26cb93c9e0": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Cell interactions produce tissue development, homeostasis, or diseases."
+    },
+    "f_d9f6ca4538ed9329": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Boundary masks are saved from simulations."
+    },
+    "f_dae576d95ea9255b": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The comparison includes cell sorting outcomes."
+    },
+    "f_dc4935e15d9f9f22": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparison measures chemotactic cell trajectories."
+    },
+    "f_dd04128d51467066": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The integration adopts Researcher B's embedded transport surrogate."
+    },
+    "f_dd5f78f71fc75b50": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D's standard diffusion solver is used to compute corresponding transport fields as training data."
+    },
+    "f_dd7328759e1b5d61": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Coupled conditional GAN-CompuCell3D simulations can reproduce chemotaxis-driven tissue patterns"
+    },
+    "f_dd8c271afbe0e119": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D/GGH can compute extracellular morphogen fields for cell adhesion."
+    },
+    "f_e0ca132b0af34061": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Held-out field accuracy is validated by MAE."
+    },
+    "f_e131347f3d74ab87": {
+      "topic": "X",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "cGAN robustness on discrete irregular domains is unspecified in the papers."
+    },
+    "f_e1fe2fd3c102cdee": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "Models were trained to directly generate solutions to steady state heat conduction."
+    },
+    "f_e35262830a95bbad": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "The monolayer model has absorbing boundaries"
+    },
+    "f_e375d3227aa296d1": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research records source mask, boundary mask, and CC3D-solved field."
+    },
+    "f_e4b7292f6c888c66": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D generates cell-derived source maps."
+    },
+    "f_e4c369091a3f30a9": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Integration is restricted to quasi-steady morphogen fields."
+    },
+    "f_e5093c8e6aecaf9c": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Cell growth is a biologically observed cell behavior that can be studied using multi-cell computer simulation."
+    },
+    "f_e55b5e7cc4b686f7": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The comparison uses 10 repeats."
+    },
+    "f_e71454b7242979a5": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Cell adhesion is a biologically observed cell behavior that can be studied using multi-cell computer simulation."
+    },
+    "f_e783690820652357": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Predicted transport fields drive cell behavior."
+    },
+    "f_e79fdacfe19eb5a9": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "A cGAN transport surrogate trained on CompuCell3D tissue domains can replace iterative reaction-diffusion solvers."
+    },
+    "f_e968ae0d781e25da": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Paper-b does not specify field-solver API or runtime."
+    },
+    "f_e99b3ca6a7adb8a6": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed mechanism uses CC3D to generate static paired source/boundary/field examples."
+    },
+    "f_ea972123e8c2b92e": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D is used to generate paired data consisting of source-cell masks, domain boundaries, steady morphogen fields, and associated tissue patterns."
+    },
+    "f_eafca92a62dd9ee0": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Validation uses MAE as a metric."
+    },
+    "f_ebca300128569809": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The contribution is a bidirectional data-driven–mechanistic coupling enabling rapid tissue transport inference without governing equations."
+    },
+    "f_ec8d6ba38d5d6d5b": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparison targets sorting index against native CC3D field updates."
+    },
+    "f_eca002839e70cc10": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "cGAN is coupled into GGH loop every N MCS to predict field and drive chemotaxis."
+    },
+    "f_ed18d82112e5b3e4": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research reports runtime and speedup."
+    },
+    "f_ed4119800d127ed3": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Inputs recorded include source-cell mask."
+    },
+    "f_f10c48c0f4360e8b": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The optimization test runs top 10 candidates in full CC3D."
+    },
+    "f_f16211ce785b1b43": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Cell secretion of chemicals is a biologically observed cell behavior that can be studied using multi-cell computer simulation."
+    },
+    "f_f1945e350d2a0eb1": {
+      "topic": "C",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "Deep learning was used for the paradigm."
+    },
+    "f_f23f4c0170110f27": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The monolayer model has fixed boundaries"
+    },
+    "f_f385994a45601f01": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design generates 2D CompuCell3D monolayers with absorbing boundaries."
+    },
+    "f_f3f9bb486ee0d29c": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The approach tests whether learned continuum transport surrogates can operate within multicellular simulations."
+    },
+    "f_f4152431b0b1118e": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D generates boundary masks."
+    },
+    "f_f437aa1c824b054d": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The research design saves CC3D steady morphogen field."
+    },
+    "f_f4a30911b838dec4": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN predicts the resulting oxygen field."
+    },
+    "f_f4d5f77dde0776b5": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparison measures sorting index."
+    },
+    "f_f5ff51b1e37244c1": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Comparison targets total runtime against native CC3D field updates."
+    },
+    "f_f8280136db496edd": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Field updates are replaced with conditional GAN predictions"
+    },
+    "f_f8cf033c45f42cea": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CompuCell3D can generate chemical fields from biologically specified cell behaviors."
+    },
+    "f_fa6b8582abc27228": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Cell pattern metrics are compared, including sorting index."
+    },
+    "f_fa89563e11f27782": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The cGAN maps source-cell source maps directly to final cell configurations."
+    },
+    "f_faa285163fccb083": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The surrogate is coupled into CompuCell3D"
+    },
+    "f_fc1739348bdf51e5": {
+      "topic": "X",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The proposed mechanism trains cGAN to predict steady morphogen fields for fixed tissue configurations."
+    },
+    "f_fc2d83693967bf63": {
+      "topic": "C",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "The conditional GAN is trained to map source and boundary to concentration"
+    },
+    "f_fc2ff88fe164035d": {
+      "topic": "G",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Boundary masks are saved"
+    },
+    "f_fd83a52affe0421b": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "Approximately 2,000 CC3D simulations are generated with varied absorbing and reflecting boundaries."
+    },
+    "f_fdb51077a4636a04": {
+      "topic": "B",
+      "paper": "B",
+      "status": "labelled",
+      "canonical_text": "CC3D morphogen dynamics are generally transient with moving sources."
+    },
+    "f_ff10f1b193ee88f6": {
+      "topic": "C",
+      "paper": "C",
+      "status": "labelled",
+      "canonical_text": "A cGAN learns to directly generate steady-state heat conduction solutions from arbitrary domain geometry."
+    },
+    "f_ff677817b15b052d": {
+      "topic": "B",
+      "paper": "P",
+      "status": "labelled",
+      "canonical_text": "These paired examples come from GGH-based diffusion dynamics."
+    }
+  }
+}
