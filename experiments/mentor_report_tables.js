@@ -42,17 +42,28 @@
       vals.push(ok >= Math.max(2, rows.length * 0.6) ? col : null);
     }
 
+    // A fixed-width track next to the number, not a fill across the cell: a
+    // cell-wide bar runs under the neighbouring column's digits, and several
+    // wide bars in a row merge into one grey band that reads as nothing.
     for (let c = 0; c < nCols; c++) {
       if (!vals[c]) continue;
-      const max = Math.max(...vals[c].filter((v) => v !== null).map(Math.abs)) || 1;
+      const present = vals[c].filter((v) => v !== null);
+      const max = Math.max(...present.map(Math.abs)) || 1;
+      const signed = present.some((v) => v < 0) && present.some((v) => v > 0);
       rows.forEach((r, i) => {
         const v = vals[c][i];
         const cell = r.cells[c];
         if (v === null || !cell) return;
         cell.classList.add("ft-num");
-        const w = (Math.abs(v) / max) * 100;
+        const w = (Math.abs(v) / max) * (signed ? 50 : 100);
+        // A signed column keeps zero on the track's midpoint so the sign is
+        // visible as a direction, not only as a minus glyph.
+        const style = signed
+          ? `width:${w.toFixed(1)}%;left:${(v < 0 ? 50 - w : 50).toFixed(1)}%`
+          : `width:${w.toFixed(1)}%;left:0`;
         cell.innerHTML =
-          `<i class="ft-bar${v < 0 ? " ft-neg" : ""}" style="width:${w.toFixed(1)}%"></i>` +
+          `<i class="ft-track${signed ? " ft-signed" : ""}">` +
+          `<i class="ft-fill${v < 0 ? " ft-neg" : ""}" style="${style}"></i></i>` +
           `<b>${cell.textContent.trim()}</b>`;
       });
     }
@@ -188,12 +199,17 @@
 
   const css = document.createElement("style");
   css.textContent = `
-.ft-num{position:relative;text-align:right;font-variant-numeric:tabular-nums;
- white-space:nowrap;}
-.ft-num .ft-bar{position:absolute;right:4px;top:4px;bottom:4px;
- background:var(--eq,#1f7a6b);opacity:.16;border-radius:2px;pointer-events:none;}
-.ft-num .ft-bar.ft-neg{background:var(--weak,#c4703a);}
-.ft-num b{position:relative;font-weight:400;}
+.ft-num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.ft-num .ft-track{position:relative;display:inline-block;vertical-align:middle;
+ width:44px;height:7px;margin-right:9px;border-radius:2px;
+ background:var(--edge,#e0dfd9);opacity:.85;overflow:hidden;}
+.ft-num .ft-track.ft-signed:after{content:"";position:absolute;left:50%;top:0;
+ bottom:0;width:1px;background:var(--faint,#9aa0a6);opacity:.55;}
+.ft-num .ft-fill{position:absolute;top:0;bottom:0;border-radius:2px;
+ background:var(--eq,#1f7a6b);opacity:.75;}
+.ft-num .ft-fill.ft-neg{background:var(--weak,#c4703a);}
+.ft-num b{font-weight:400;}
+@media(max-width:700px){.ft-num .ft-track{width:26px;margin-right:6px}}
 .ft-th{cursor:pointer;user-select:none;position:relative;padding-right:14px!important;}
 .ft-th:hover{color:var(--ink);}
 .ft-th[data-dir]:after{content:"\\25BC";position:absolute;right:2px;font-size:8px;
@@ -211,7 +227,7 @@
  border-color:transparent;color:var(--panel);}
 .ft-act{font-weight:500!important;}
 .ft-count{color:var(--faint,#9aa0a6);font-family:monospace;margin-left:auto;}
-@media print{.ft-bar-row{display:none}.ft-num .ft-bar{opacity:.3}}`;
+@media print{.ft-bar-row{display:none}.ft-num .ft-fill{opacity:1}}`;
   document.head.appendChild(css);
   document.querySelectorAll("table").forEach((t) => {
     try { if (t.tHead && t.tBodies[0]) build(t); } catch (e) { /* leave as-is */ }
