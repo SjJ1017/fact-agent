@@ -71,18 +71,36 @@ def entail_edges(store: dict, debate: dict, spans: dict) -> list[dict]:
 
         s_agent, s_round = ss.split("|")
         w_agent, w_round = ws.split("|")
-        info = delivery.get(ws, {})
-        visible = set(info.get("visible_peer_turns",
+        sr, wr = int(s_round), int(w_round)
+
+        def could_see(target_slot: str, source_slot: str) -> bool:
+            """Did the speaker of `target_slot` have `source_slot` in context?"""
+            info = delivery.get(target_slot, {})
+            vis = set(info.get("visible_peer_turns",
                                info.get("peer_turns", [])))
-        visible |= set(info.get("visible_self_turns", []))
-        # Later, and the weaker speaker could actually see the stronger turn.
-        # Same agent counts: carrying your own claim forward in weaker form is
-        # degradation too, and self turns are in visible_self_turns.
-        delivered = int(w_round) > int(s_round) and (
-            ss in visible or (s_agent == w_agent))
+            vis |= set(info.get("visible_self_turns", []))
+            src_agent = source_slot.split("|")[0]
+            return source_slot in vis or src_agent == target_slot.split("|")[0]
+
+        # Three situations that the earlier single `entail` label conflated.
+        # Only the first is a claim about a fact losing content as it moves.
+        if sr < wr:
+            # the stronger statement came first: the weaker one may be a
+            # degraded restatement, if its speaker could see the stronger turn
+            kind = "degraded" if could_see(ws, ss) else "weaker_later"
+        elif sr > wr:
+            # the weaker came first.  This is refinement, not loss: a direction
+            # stated and then given its parameters.  Same evidential test.
+            kind = "refined" if could_see(ss, ws) else "stronger_later"
+        else:
+            # same round.  Two agents in one round generate in parallel and
+            # cannot have transmitted; one agent's own two sentences differ in
+            # wording, not in flow.
+            kind = "concurrent"
+
         p = r.get("properties") or {}
         out.append({
-            "kind": "degraded" if delivered else "entail",
+            "kind": kind,
             "strong_fact": sf, "weak_fact": wf,
             "from": ss, "to": ws,
             "strong_text": facts.get(sf, {}).get("canonical_text", ""),
@@ -92,6 +110,8 @@ def entail_edges(store: dict, debate: dict, spans: dict) -> list[dict]:
             "margin_weak": round(p.get("margin_ba" if kind == "A_ENTAILS_B"
                                        else "margin_ab", 0.0), 2),
             "same_agent": s_agent == w_agent,
+            "strong_round": sr, "weak_round": wr,
+            "strong_agent": s_agent, "weak_agent": w_agent,
         })
     return out
 
@@ -127,14 +147,17 @@ def main() -> int:
             break
 
     payload = {"debates": debates,
-               "n_entail": tally["entail"], "n_degraded": tally["degraded"],
+               "counts": {k: v for k, v in tally.items() if k != "debates"},
+               "n_degraded": tally["degraded"],
                "n_spans": sum(len(s) for d in debates for s in d["spans"].values())}
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(payload, ensure_ascii=False,
                                 separators=(",", ":")))
     print(f"{tally['debates']} 场 · {payload['n_spans']} span")
-    print(f"降级边（有投递证据）{tally['degraded']}   "
-          f"仅强弱不同 {tally['entail']}")
+    for k in ("degraded", "refined", "weaker_later", "stronger_later",
+              "concurrent"):
+        if tally[k]:
+            print(f"  {k:16s} {tally[k]:6,}")
     print(f"写入 {a.out}  ({a.out.stat().st_size / 2**20:.1f} MB)")
     return 0
 

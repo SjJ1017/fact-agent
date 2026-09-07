@@ -1,0 +1,133 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>信息划分与事实降级</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap">
+<style>
+:root{--bg:#f6f4f0;--card:#fffefb;--ink:#1b1a17;--body:#3a3630;--dim:#6f685e;
+ --rule:#ddd7cd;--rule2:#ece7de;--deg:#a8501f;--ref:#2f6b58;--con:#9b9488;
+ --pos:#a8501f;--neg:#2f6b58;--hi:#8c3f16;}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+ --bg:#171613;--card:#1f1e1a;--ink:#eeeae2;--body:#c9c3b8;--dim:#928b80;
+ --rule:#35322b;--rule2:#292620;--deg:#d9814e;--ref:#63b394;--con:#7d766b;
+ --pos:#d9814e;--neg:#63b394;--hi:#e39a68;}}
+:root[data-theme=dark]{--bg:#171613;--card:#1f1e1a;--ink:#eeeae2;--body:#c9c3b8;--dim:#928b80;
+ --rule:#35322b;--rule2:#292620;--deg:#d9814e;--ref:#63b394;--con:#7d766b;
+ --pos:#d9814e;--neg:#63b394;--hi:#e39a68;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--body);margin:0;
+ font:15px/1.65 "IBM Plex Sans","Noto Sans SC",system-ui,sans-serif}
+.wrap{max-width:830px;margin:0 auto;padding:46px 26px 90px}
+h1{font-size:31px;line-height:1.22;margin:0 0 10px;color:var(--ink);font-weight:600;
+ letter-spacing:-.015em;text-wrap:balance}
+.sub{font-size:15.5px;color:var(--dim);margin:0 0 6px;max-width:62ch}
+.meta{font:12px/1.5 "IBM Plex Mono",monospace;color:var(--dim);
+ border-top:1px solid var(--rule);padding-top:12px;margin-top:26px}
+h2{font-size:19px;margin:52px 0 6px;color:var(--ink);font-weight:600;letter-spacing:-.01em}
+h2+p{margin-top:0}
+p{max-width:64ch}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--rule);
+ border-radius:9px;padding:20px 22px 16px}
+figcaption{font-size:12.5px;color:var(--dim);margin-top:12px;
+ border-top:1px solid var(--rule2);padding-top:10px;max-width:none}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.grid{stroke:var(--rule2);stroke-width:1}
+.zero{stroke:var(--rule);stroke-width:1}
+.dot{opacity:.82}
+.dot.fu{fill:var(--deg)} .dot.sp{fill:var(--ref)}
+.mean{stroke:var(--ink);stroke-width:2.2}
+.mval{fill:var(--ink);font:500 13px "IBM Plex Mono",monospace;text-anchor:start}
+.xl{fill:var(--ink);font:500 12.5px "IBM Plex Mono",monospace;text-anchor:middle}
+.xl2{fill:var(--dim);font:11.5px "IBM Plex Mono",monospace;text-anchor:middle}
+.yl{fill:var(--dim);font:11.5px "IBM Plex Mono",monospace;text-anchor:end}
+.bar.deg{fill:var(--deg)} .bar.ref{fill:var(--ref)} .bar.con{fill:var(--con)}
+.bar.pos{fill:var(--pos)} .bar.neg{fill:var(--neg)}
+.bl{fill:#fff;font:500 11.5px "IBM Plex Mono",monospace;text-anchor:middle}
+.rl{fill:var(--ink);font:12px "IBM Plex Mono",monospace;text-anchor:end}
+.rl2{fill:var(--ink);font:500 12px "IBM Plex Mono",monospace}
+.agl{fill:var(--dim);font:11.5px "IBM Plex Mono",monospace}
+.agv{fill:var(--dim);font:11.5px "IBM Plex Mono",monospace}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin-top:12px}
+.legend i{width:11px;height:11px;border-radius:2.5px;display:inline-block;
+ margin-right:5px;vertical-align:-1px}
+table{width:100%;border-collapse:collapse;margin-top:20px;
+ font-variant-numeric:tabular-nums;font-size:13.5px}
+th{text-align:right;font:500 11.5px "IBM Plex Mono",monospace;color:var(--dim);
+ padding:0 0 8px;border-bottom:1px solid var(--rule);letter-spacing:.04em}
+th:first-child,td:first-child{text-align:left;font-family:"IBM Plex Mono",monospace}
+td{text-align:right;padding:8px 0;border-bottom:1px solid var(--rule2);color:var(--body)}
+td.hi{color:var(--hi);font-weight:600}
+.note{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--deg);
+ border-radius:0 8px 8px 0;padding:15px 18px;margin-top:24px;font-size:14px}
+.note b{color:var(--ink);font-weight:600}
+ul{max-width:64ch;padding-left:20px} li{margin:7px 0}
+code{font:12.5px "IBM Plex Mono",monospace;background:var(--rule2);
+ padding:1px 5px;border-radius:3px}
+</style>
+
+<div class="wrap">
+<h1>划分信息把事实降级砍掉三分之一，分化角色没有影响</h1>
+<p class="sub">IDRBench 的 40 场 idea-generation 辩论，用本地 NLI 判决器重做匹配后，
+第一次能把「同一条事实」和「被削弱的同一条事实」分开来数。</p>
+<p class="meta">40 场 · 9,542 条事实 · 94,843 组候选对 · 判决器 Qwen3-14B 双向蕴含，阈值 5.28<br>
+生成 <code>experiments/analyze_entail_graph.py</code></p>
+
+<h2>降级率</h2>
+<p>降级边是指：一条事实的更弱版本在更晚的轮次出现，而说出弱版本的 agent 当时能看到强版本那一轮。
+下图每个点是一场辩论，纵轴是降级边数除以该场的事实数。</p>
+<figure><svg viewBox="0 0 720 320" role="img" aria-label="每场辩论的降级率"><line x1="58" x2="702" y1="251.4" y2="251.4" class="grid"/><text x="48" y="255.4" class="yl">0.2</text><line x1="58" x2="702" y1="193.1" y2="193.1" class="grid"/><text x="48" y="197.1" class="yl">0.4</text><line x1="58" x2="702" y1="134.7" y2="134.7" class="grid"/><text x="48" y="138.7" class="yl">0.6</text><line x1="58" x2="702" y1="76.4" y2="76.4" class="grid"/><text x="48" y="80.4" class="yl">0.8</text><line x1="58" x2="702" y1="18.0" y2="18.0" class="grid"/><text x="48" y="22.0" class="yl">1.0</text><circle cx="131.5" cy="193.8" r="4" class="dot fu"/><circle cx="138.5" cy="192.5" r="4" class="dot fu"/><circle cx="131.5" cy="178.0" r="4" class="dot fu"/><circle cx="131.5" cy="168.9" r="4" class="dot fu"/><circle cx="138.5" cy="167.3" r="4" class="dot fu"/><circle cx="131.5" cy="152.3" r="4" class="dot fu"/><circle cx="131.5" cy="137.9" r="4" class="dot fu"/><circle cx="131.5" cy="133.9" r="4" class="dot fu"/><circle cx="131.5" cy="128.1" r="4" class="dot fu"/><circle cx="131.5" cy="122.0" r="4" class="dot fu"/><line x1="104" x2="172" y1="157.5" y2="157.5" class="mean"/><text x="178" y="161" class="mval">0.52</text><text x="138" y="286" class="xl">full</text><text x="138" y="301" class="xl2">generic</text><circle cx="292.5" cy="206.8" r="4" class="dot fu"/><circle cx="299.5" cy="205.6" r="4" class="dot fu"/><circle cx="299.5" cy="202.7" r="4" class="dot fu"/><circle cx="306.5" cy="202.5" r="4" class="dot fu"/><circle cx="292.5" cy="187.3" r="4" class="dot fu"/><circle cx="292.5" cy="178.7" r="4" class="dot fu"/><circle cx="292.5" cy="157.5" r="4" class="dot fu"/><circle cx="292.5" cy="119.1" r="4" class="dot fu"/><circle cx="292.5" cy="81.4" r="4" class="dot fu"/><circle cx="292.5" cy="25.8" r="4" class="dot fu"/><line x1="266" x2="334" y1="156.7" y2="156.7" class="mean"/><text x="340" y="161" class="mval">0.52</text><text x="300" y="286" class="xl">full</text><text x="300" y="301" class="xl2">specialist</text><circle cx="453.5" cy="256.2" r="4" class="dot sp"/><circle cx="453.5" cy="239.6" r="4" class="dot sp"/><circle cx="453.5" cy="229.3" r="4" class="dot sp"/><circle cx="453.5" cy="223.4" r="4" class="dot sp"/><circle cx="460.5" cy="223.3" r="4" class="dot sp"/><circle cx="453.5" cy="203.8" r="4" class="dot sp"/><circle cx="460.5" cy="201.7" r="4" class="dot sp"/><circle cx="467.5" cy="201.0" r="4" class="dot sp"/><circle cx="453.5" cy="185.5" r="4" class="dot sp"/><circle cx="453.5" cy="163.9" r="4" class="dot sp"/><line x1="426" x2="494" y1="212.8" y2="212.8" class="mean"/><text x="500" y="217" class="mval">0.33</text><text x="460" y="286" class="xl">split</text><text x="460" y="301" class="xl2">generic</text><circle cx="614.5" cy="236.6" r="4" class="dot sp"/><circle cx="621.5" cy="235.4" r="4" class="dot sp"/><circle cx="621.5" cy="233.1" r="4" class="dot sp"/><circle cx="614.5" cy="224.6" r="4" class="dot sp"/><circle cx="621.5" cy="222.4" r="4" class="dot sp"/><circle cx="621.5" cy="219.2" r="4" class="dot sp"/><circle cx="614.5" cy="202.6" r="4" class="dot sp"/><circle cx="614.5" cy="196.5" r="4" class="dot sp"/><circle cx="614.5" cy="182.4" r="4" class="dot sp"/><circle cx="614.5" cy="169.0" r="4" class="dot sp"/><line x1="588" x2="656" y1="212.2" y2="212.2" class="mean"/><text x="662" y="216" class="mval">0.33</text><text x="622" y="286" class="xl">split</text><text x="622" y="301" class="xl2">specialist</text></svg>
+<div class="legend"><span><i style="background:var(--deg)"></i>完整信息</span>
+<span><i style="background:var(--ref)"></i>划分信息</span>
+<span><i style="background:var(--ink);height:2px;border-radius:0"></i>组均值</span></div>
+<figcaption>两个完整信息条件（0.52、0.51）和两个划分信息条件（0.34、0.33）几乎不重叠，
+而每一对内部的差异小于 0.01。角色分化在这个量上不起作用。</figcaption>
+</figure>
+
+<table>
+<tr><th>条件</th><th>事实</th><th>降级/事实</th><th>最长链</th><th>轮跨度</th><th>跨 agent</th></tr>
+<tr><td>full/generic</td><td>2,369</td><td class="hi">0.520</td><td>3.3</td><td>1.29</td><td>67%</td></tr><tr><td>full/specialist</td><td>2,384</td><td class="hi">0.510</td><td>3.4</td><td>1.26</td><td>65%</td></tr><tr><td>split/generic</td><td>2,285</td><td class="hi">0.340</td><td>2.6</td><td>1.13</td><td>66%</td></tr><tr><td>split/specialist</td><td>2,506</td><td class="hi">0.326</td><td>2.8</td><td>1.12</td><td>61%</td></tr>
+</table>
+
+<h2>边的构成</h2>
+<p>把蕴含边按强弱两句的时间关系分成三类。只有第一类是关于「信息在传递中丢失」的断言。</p>
+<figure><svg viewBox="0 0 720 192" role="img" aria-label="蕴含边的构成"><rect x="190.0" y="8" width="165.1" height="30" class="bar deg"/><text x="272.6" y="27" class="bl">1,233</text><rect x="355.1" y="8" width="205.3" height="30" class="bar ref"/><text x="457.8" y="27" class="bl">1,533</text><rect x="560.4" y="8" width="139.6" height="30" class="bar con"/><text x="630.2" y="27" class="bl">1,042</text><text x="182" y="27" class="rl">full/generic</text><rect x="190.0" y="54" width="155.1" height="30" class="bar deg"/><text x="267.5" y="73" class="bl">1,216</text><rect x="345.1" y="54" width="222.2" height="30" class="bar ref"/><text x="456.2" y="73" class="bl">1,742</text><rect x="567.2" y="54" width="132.8" height="30" class="bar con"/><text x="633.6" y="73" class="bl">1,041</text><text x="182" y="73" class="rl">full/specialist</text><rect x="190.0" y="100" width="151.8" height="30" class="bar deg"/><text x="265.9" y="119" class="bl">776</text><rect x="341.8" y="100" width="172.2" height="30" class="bar ref"/><text x="427.9" y="119" class="bl">880</text><rect x="514.0" y="100" width="186.0" height="30" class="bar con"/><text x="607.0" y="119" class="bl">951</text><text x="182" y="119" class="rl">split/generic</text><rect x="190.0" y="146" width="158.4" height="30" class="bar deg"/><text x="269.2" y="165" class="bl">818</text><rect x="348.4" y="146" width="194.5" height="30" class="bar ref"/><text x="445.7" y="165" class="bl">1,004</text><rect x="542.9" y="146" width="157.1" height="30" class="bar con"/><text x="621.5" y="165" class="bl">811</text><text x="182" y="165" class="rl">split/specialist</text></svg>
+<div class="legend"><span><i style="background:var(--deg)"></i>降级 · 强在前 4,043</span>
+<span><i style="background:var(--ref)"></i>细化 · 强在后 5,159</span>
+<span><i style="background:var(--con)"></i>同轮 · 无先后 3,845</span></div>
+<figcaption>「细化」是先说笼统的、后补具体的，在 idea generation 里是正常动作，不是信息损失。
+「同轮」两个 agent 并行生成，不可能传递。三类占比在四个条件下形状接近，
+变化的是绝对量而不是构成。</figcaption>
+</figure>
+
+<h2>没有专门的「泛化者」</h2>
+<p>如果某个座位系统性地把别人的事实说弱，它的净收支应该明显为正。实际不是。</p>
+<figure><svg viewBox="0 0 720 306" role="img" aria-label="每个 agent 的净弱化收支"><line x1="400" x2="400" y1="4" y2="298" class="zero"/><text x="8" y="24" class="rl2">full/generic</text><rect x="400.0" y="10" width="208.7" height="16" class="bar pos"/><text x="150" y="23" class="agl">A</text><text x="617" y="23" class="agv" text-anchor="start">+49</text><rect x="378.7" y="32" width="21.3" height="16" class="bar neg"/><text x="150" y="45" class="agl">B</text><text x="371" y="45" class="agv" text-anchor="end">-5</text><rect x="212.6" y="54" width="187.4" height="16" class="bar neg"/><text x="150" y="67" class="agl">C</text><text x="205" y="67" class="agv" text-anchor="end">-44</text><text x="8" y="98" class="rl2">full/specialist</text><rect x="276.5" y="84" width="123.5" height="16" class="bar neg"/><text x="150" y="97" class="agl">A</text><text x="268" y="97" class="agv" text-anchor="end">-29</text><rect x="383.0" y="106" width="17.0" height="16" class="bar neg"/><text x="150" y="119" class="agl">B</text><text x="375" y="119" class="agv" text-anchor="end">-4</text><rect x="400.0" y="128" width="140.6" height="16" class="bar pos"/><text x="150" y="141" class="agl">C</text><text x="549" y="141" class="agv" text-anchor="start">+33</text><text x="8" y="172" class="rl2">split/generic</text><rect x="400.0" y="158" width="115.0" height="16" class="bar pos"/><text x="150" y="171" class="agl">A</text><text x="523" y="171" class="agv" text-anchor="start">+27</text><rect x="268.0" y="180" width="132.0" height="16" class="bar neg"/><text x="150" y="193" class="agl">B</text><text x="260" y="193" class="agv" text-anchor="end">-31</text><rect x="400.0" y="202" width="17.0" height="16" class="bar pos"/><text x="150" y="215" class="agl">C</text><text x="425" y="215" class="agv" text-anchor="start">+4</text><text x="8" y="246" class="rl2">split/specialist</text><rect x="250.9" y="232" width="149.1" height="16" class="bar neg"/><text x="150" y="245" class="agl">A</text><text x="243" y="245" class="agv" text-anchor="end">-35</text><rect x="400.0" y="254" width="230.0" height="16" class="bar pos"/><text x="150" y="267" class="agl">B</text><text x="638" y="267" class="agv" text-anchor="start">+54</text><rect x="319.1" y="276" width="80.9" height="16" class="bar neg"/><text x="150" y="289" class="agl">C</text><text x="311" y="289" class="agv" text-anchor="end">-19</text></svg>
+<figcaption>净收支 = 该 agent 说出的强版本被别人弱化的次数 − 它弱化别人的次数。
+四个条件十二个座位，净值全部落在 ±54 以内，而各自的总量在 228–464 之间。
+降级不是某个角色的行为，是系统的行为。</figcaption>
+</figure>
+
+<div class="note">
+<b>一个必须先说的限制。</b>「能看到」这个条件在 cumulative memory 下几乎不筛任何东西——
+9,202 条跨轮边里 0 条因为不可见被排除。所以降级边的含义是「弱版本更晚、且强版本当时在上下文里」，
+不是「弱版本从强版本来」。要把它坐实成因果，需要能切断可见性的条件（peer-only 或 self-last 记忆），
+现有语料没有。
+</div>
+
+<h2>怎么读这些数</h2>
+<ul>
+<li><b>划分信息降低降级，不是因为事实更少。</b>四个条件的事实数在 2,285–2,506 之间，差异小于 10%，
+而降级率差了 36%。</li>
+<li><b>降级链也变短</b>：完整信息下平均最长链 3.3–3.4 跳，划分信息下 2.6–2.8。一条事实被反复削弱的
+次数变少了。</li>
+<li><b>轮跨度几乎不变</b>（1.12–1.29），说明降级主要发生在相邻轮次，不是跨越整场慢慢流失。</li>
+<li><b>跨 agent 比例 61–67%</b>，其余是同一 agent 把自己上一轮的说法说弱了——那一类同样是降级，
+而且不需要传递。</li>
+</ul>
+
+<h2>与 DelibTrace 的关系</h2>
+<p>DelibTrace 用 Jaccard 测事实存活，一条事实要么在要么不在。上面这 4,043 条降级边在那个框架里
+只有两种记法：算作同一条（信息损失不可见），或算作两条不同（看起来像丢了一条又新造一条）。
+两种都描述不了「还在但被削弱了」这个状态，而它占了非无关边的三分之一。</p>
+</div>
