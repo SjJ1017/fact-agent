@@ -222,10 +222,14 @@ def match_dir(a) -> int:
         print("! 有一个方向的阈值为负，那一遍等于恒真：两遍法退化成单向判断",
               file=sys.stderr)
 
-    files = sorted(f for d in a.indir for f in d.glob(f"*{a.suffix}"))
+    # `--only` exists so one corpus can be split across two GPUs by name --
+    # star on one card, chain on the other -- without moving files around.
+    # An empty --only must not become "**", which pathlib rejects outright.
+    pattern = f"*{a.only}*{a.suffix}" if a.only else f"*{a.suffix}"
+    files = sorted(f for d in a.indir for f in d.glob(pattern))
     if not files:
         raise SystemExit(
-            "这些目录下没有 *" + a.suffix + "：" +
+            f"这些目录下没有 {pattern}：" +
             ", ".join(str(d) for d in a.indir))
     if len(a.indir) > 1:
         print(f"{len(a.indir)} 个目录，共 {len(files)} 个文件")
@@ -301,6 +305,9 @@ def main() -> int:
     ap.add_argument("--4bit", dest="load_4bit", action="store_true")
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--suffix", default=".atomized.json")
+    ap.add_argument("--only", default="",
+                    help="只匹配文件名里含这个子串的 trace，例如 --only star；"
+                         "用于把一个语料分到两块卡上跑")
     ap.add_argument("--out-suffix", default=".store.json")
     ap.add_argument("--embed", default="BAAI/bge-base-en-v1.5")
     ap.add_argument("--threshold", type=float, default=0.62,
