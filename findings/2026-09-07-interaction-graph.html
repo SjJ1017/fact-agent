@@ -1,0 +1,182 @@
+<!doctype html><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>谁在改写谁</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--ground:#f7f7f5;--panel:#fffefc;--edge:#e0dfd9;--ink:#1b1f24;--dim:#6b7178;
+ --faint:#9aa0a6;--eq:#1f7a6b;--weak:#c4703a;--ref:#3f5fa8;--node:#8a9099;}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+ --ground:#15171a;--panel:#1c1f23;--edge:#2e3238;--ink:#e8e6e1;--dim:#9aa0a6;
+ --faint:#6b7178;--eq:#4fbfa8;--weak:#e0955c;--ref:#7b96d8;--node:#767c85;}}
+:root[data-theme=dark]{--ground:#15171a;--panel:#1c1f23;--edge:#2e3238;--ink:#e8e6e1;
+ --dim:#9aa0a6;--faint:#6b7178;--eq:#4fbfa8;--weak:#e0955c;--ref:#7b96d8;--node:#767c85;}
+body{background:var(--ground);color:var(--ink);margin:0;
+ font:400 15px/1.6 "Noto Sans SC","PingFang SC",system-ui,sans-serif;}
+main{max-width:1020px;margin:0 auto;padding:52px 24px 90px;
+ display:flex;flex-direction:column;gap:30px;}
+h1{font-size:29px;margin:0 0 6px;letter-spacing:-.01em;text-wrap:balance;}
+h2{font-size:15px;margin:0;font-weight:500;}
+.eyebrow{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;
+ text-transform:uppercase;color:var(--faint);}
+.lede{color:var(--dim);max-width:64ch;margin:0;}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+ position:sticky;top:0;background:var(--ground);padding:12px 0;z-index:5;
+ border-bottom:1px solid var(--edge);}
+button{font:500 13px/1 "Noto Sans SC",system-ui,sans-serif;cursor:pointer;
+ background:var(--panel);color:var(--dim);border:1px solid var(--edge);
+ border-radius:5px;padding:8px 14px;}
+button[aria-pressed=true]{color:var(--panel);border-color:transparent;}
+button.eq[aria-pressed=true]{background:var(--eq);}
+button.weak[aria-pressed=true]{background:var(--weak);}
+button.ref[aria-pressed=true]{background:var(--ref);}
+button.ghost[aria-pressed=true]{background:var(--node);}
+.hint{font-size:12px;color:var(--faint);margin-left:auto;
+ font-family:"IBM Plex Mono",monospace;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:18px;}
+.card{background:var(--panel);border:1px solid var(--edge);border-radius:7px;
+ padding:16px 18px 10px;}
+.card header{display:flex;justify-content:space-between;align-items:baseline;
+ gap:10px;margin-bottom:2px;}
+.card .sub{font:400 12px/1.4 "IBM Plex Mono",monospace;color:var(--faint);}
+.tot{font:500 12px "IBM Plex Mono",monospace;color:var(--dim);white-space:nowrap;}
+svg{display:block;width:100%;height:auto;}
+.lbl{font:500 11px "IBM Plex Mono",monospace;fill:var(--faint);}
+.seat{font:500 13px "IBM Plex Mono",monospace;fill:var(--ink);}
+.cnt{font:400 9px "IBM Plex Mono",monospace;fill:var(--panel);}
+.nd{fill:var(--node);cursor:pointer;}
+.nd.sel{fill:var(--ink);}
+path.e{fill:none;stroke-linecap:round;transition:opacity .12s;}
+.dim path.e{opacity:.05;}
+.dim path.e.on{opacity:.85;}
+.dim .nd{opacity:.3;} .dim .nd.sel,.dim .nd.adj{opacity:1;}
+#tip{position:fixed;pointer-events:none;opacity:0;transition:opacity .1s;
+ background:var(--ink);color:var(--ground);font:500 12px/1.5 "IBM Plex Mono",monospace;
+ padding:7px 10px;border-radius:5px;z-index:20;max-width:280px;}
+.note{font-size:13px;color:var(--dim);max-width:66ch;}
+.note b{color:var(--ink);font-weight:500;}
+footer{font:400 12px/1.6 "IBM Plex Mono",monospace;color:var(--faint);
+ border-top:1px solid var(--edge);padding-top:16px;}
+</style>
+<main>
+<header>
+ <p class="eyebrow">IDRBench · 40 场 · deepseek-v4-pro · 每格 10 场平均</p>
+ <h1>谁在改写谁</h1>
+ <p class="lede">节点是一个 agent 的一轮发言，边是被 NLI 直接判定过的命题关系，
+ 方向按时间从早指向晚，且要求那条命题当时确实对接收方可见。
+ A→A 这样的自持边保留下来，作为交互边的比较基线。</p>
+</header>
+
+<div class="bar">
+ <button class="ref" data-t="细化" aria-pressed="true">细化（后者更强）</button>
+ <button class="weak" data-t="弱化" aria-pressed="false">弱化（后者更弱）</button>
+ <button class="eq" data-t="等价" aria-pressed="false">等价</button>
+ <button class="ghost" id="selfbtn" aria-pressed="true">含自持边</button>
+ <span class="hint">点节点只看它的边，再点一次取消</span>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<p class="note">四格里的交互边和自持边一样密：<b>agent 复述自己上一轮的概率，
+和复述同伴的概率没有差别</b>（全部 p&gt;0.09）。这不是 DelibTrace 能测的量——
+沿单个 agent 的时间线追踪一条种子事实，永远看不到 A 的话被 B 改写成什么样。</p>
+
+<footer>
+ 由 experiments/analyze_interaction_graph.py 与 build_interaction_viewer.py 生成。
+ 边数为每场平均。同轮内不连边；跨轮的 X→X 记为自持。
+</footer>
+</main>
+<div id="tip"></div>
+<script>
+const G = {"full-generic": {"cases": 10, "judged_pairs": 16228, "nodes": {"A|1": 36.8, "A|2": 38.9, "A|3": 36.5, "B|1": 39.8, "B|2": 38.9, "B|3": 36.6, "C|1": 32.5, "C|2": 35.7, "C|3": 40.3}, "edges": [{"src": "A|1", "dst": "A|2", "type": "弱化", "n": 77, "per_case": 7.7}, {"src": "A|1", "dst": "A|2", "type": "等价", "n": 16, "per_case": 1.6}, {"src": "A|1", "dst": "A|2", "type": "细化", "n": 76, "per_case": 7.6}, {"src": "A|1", "dst": "A|3", "type": "弱化", "n": 61, "per_case": 6.1}, {"src": "A|1", "dst": "A|3", "type": "等价", "n": 11, "per_case": 1.1}, {"src": "A|1", "dst": "A|3", "type": "细化", "n": 72, "per_case": 7.2}, {"src": "A|1", "dst": "B|2", "type": "弱化", "n": 83, "per_case": 8.3}, {"src": "A|1", "dst": "B|2", "type": "等价", "n": 16, "per_case": 1.6}, {"src": "A|1", "dst": "B|2", "type": "细化", "n": 73, "per_case": 7.3}, {"src": "A|1", "dst": "B|3", "type": "弱化", "n": 61, "per_case": 6.1}, {"src": "A|1", "dst": "B|3", "type": "等价", "n": 15, "per_case": 1.5}, {"src": "A|1", "dst": "B|3", "type": "细化", "n": 78, "per_case": 7.8}, {"src": "A|1", "dst": "C|2", "type": "弱化", "n": 82, "per_case": 8.2}, {"src": "A|1", "dst": "C|2", "type": "等价", "n": 13, "per_case": 1.3}, {"src": "A|1", "dst": "C|2", "type": "细化", "n": 73, "per_case": 7.3}, {"src": "A|1", "dst": "C|3", "type": "弱化", "n": 83, "per_case": 8.3}, {"src": "A|1", "dst": "C|3", "type": "等价", "n": 20, "per_case": 2.0}, {"src": "A|1", "dst": "C|3", "type": "细化", "n": 67, "per_case": 6.7}, {"src": "A|2", "dst": "A|3", "type": "弱化", "n": 48, "per_case": 4.8}, {"src": "A|2", "dst": "A|3", "type": "等价", "n": 22, "per_case": 2.2}, {"src": "A|2", "dst": "A|3", "type": "细化", "n": 89, "per_case": 8.9}, {"src": "A|2", "dst": "B|3", "type": "弱化", "n": 63, "per_case": 6.3}, {"src": "A|2", "dst": "B|3", "type": "等价", "n": 16, "per_case": 1.6}, {"src": "A|2", "dst": "B|3", "type": "细化", "n": 85, "per_case": 8.5}, {"src": "A|2", "dst": "C|3", "type": "弱化", "n": 81, "per_case": 8.1}, {"src": "A|2", "dst": "C|3", "type": "等价", "n": 20, "per_case": 2.0}, {"src": "A|2", "dst": "C|3", "type": "细化", "n": 94, "per_case": 9.4}, {"src": "B|1", "dst": "A|2", "type": "弱化", "n": 71, "per_case": 7.1}, {"src": "B|1", "dst": "A|2", "type": "等价", "n": 15, "per_case": 1.5}, {"src": "B|1", "dst": "A|2", "type": "细化", "n": 86, "per_case": 8.6}, {"src": "B|1", "dst": "A|3", "type": "弱化", "n": 56, "per_case": 5.6}, {"src": "B|1", "dst": "A|3", "type": "等价", "n": 12, "per_case": 1.2}, {"src": "B|1", "dst": "A|3", "type": "细化", "n": 78, "per_case": 7.8}, {"src": "B|1", "dst": "B|2", "type": "弱化", "n": 73, "per_case": 7.3}, {"src": "B|1", "dst": "B|2", "type": "等价", "n": 17, "per_case": 1.7}, {"src": "B|1", "dst": "B|2", "type": "细化", "n": 94, "per_case": 9.4}, {"src": "B|1", "dst": "B|3", "type": "弱化", "n": 47, "per_case": 4.7}, {"src": "B|1", "dst": "B|3", "type": "等价", "n": 7, "per_case": 0.7}, {"src": "B|1", "dst": "B|3", "type": "细化", "n": 81, "per_case": 8.1}, {"src": "B|1", "dst": "C|2", "type": "弱化", "n": 82, "per_case": 8.2}, {"src": "B|1", "dst": "C|2", "type": "等价", "n": 18, "per_case": 1.8}, {"src": "B|1", "dst": "C|2", "type": "细化", "n": 74, "per_case": 7.4}, {"src": "B|1", "dst": "C|3", "type": "弱化", "n": 62, "per_case": 6.2}, {"src": "B|1", "dst": "C|3", "type": "等价", "n": 22, "per_case": 2.2}, {"src": "B|1", "dst": "C|3", "type": "细化", "n": 74, "per_case": 7.4}, {"src": "B|2", "dst": "A|3", "type": "弱化", "n": 64, "per_case": 6.4}, {"src": "B|2", "dst": "A|3", "type": "等价", "n": 20, "per_case": 2.0}, {"src": "B|2", "dst": "A|3", "type": "细化", "n": 105, "per_case": 10.5}, {"src": "B|2", "dst": "B|3", "type": "弱化", "n": 52, "per_case": 5.2}, {"src": "B|2", "dst": "B|3", "type": "等价", "n": 21, "per_case": 2.1}, {"src": "B|2", "dst": "B|3", "type": "细化", "n": 87, "per_case": 8.7}, {"src": "B|2", "dst": "C|3", "type": "弱化", "n": 87, "per_case": 8.7}, {"src": "B|2", "dst": "C|3", "type": "等价", "n": 31, "per_case": 3.1}, {"src": "B|2", "dst": "C|3", "type": "细化", "n": 75, "per_case": 7.5}, {"src": "C|1", "dst": "A|2", "type": "弱化", "n": 67, "per_case": 6.7}, {"src": "C|1", "dst": "A|2", "type": "等价", "n": 17, "per_case": 1.7}, {"src": "C|1", "dst": "A|2", "type": "细化", "n": 72, "per_case": 7.2}, {"src": "C|1", "dst": "A|3", "type": "弱化", "n": 40, "per_case": 4.0}, {"src": "C|1", "dst": "A|3", "type": "等价", "n": 11, "per_case": 1.1}, {"src": "C|1", "dst": "A|3", "type": "细化", "n": 57, "per_case": 5.7}, {"src": "C|1", "dst": "B|2", "type": "弱化", "n": 77, "per_case": 7.7}, {"src": "C|1", "dst": "B|2", "type": "等价", "n": 13, "per_case": 1.3}, {"src": "C|1", "dst": "B|2", "type": "细化", "n": 75, "per_case": 7.5}, {"src": "C|1", "dst": "B|3", "type": "弱化", "n": 41, "per_case": 4.1}, {"src": "C|1", "dst": "B|3", "type": "等价", "n": 14, "per_case": 1.4}, {"src": "C|1", "dst": "B|3", "type": "细化", "n": 64, "per_case": 6.4}, {"src": "C|1", "dst": "C|2", "type": "弱化", "n": 65, "per_case": 6.5}, {"src": "C|1", "dst": "C|2", "type": "等价", "n": 17, "per_case": 1.7}, {"src": "C|1", "dst": "C|2", "type": "细化", "n": 62, "per_case": 6.2}, {"src": "C|1", "dst": "C|3", "type": "弱化", "n": 71, "per_case": 7.1}, {"src": "C|1", "dst": "C|3", "type": "等价", "n": 14, "per_case": 1.4}, {"src": "C|1", "dst": "C|3", "type": "细化", "n": 65, "per_case": 6.5}, {"src": "C|2", "dst": "A|3", "type": "弱化", "n": 57, "per_case": 5.7}, {"src": "C|2", "dst": "A|3", "type": "等价", "n": 31, "per_case": 3.1}, {"src": "C|2", "dst": "A|3", "type": "细化", "n": 84, "per_case": 8.4}, {"src": "C|2", "dst": "B|3", "type": "弱化", "n": 69, "per_case": 6.9}, {"src": "C|2", "dst": "B|3", "type": "等价", "n": 20, "per_case": 2.0}, {"src": "C|2", "dst": "B|3", "type": "细化", "n": 83, "per_case": 8.3}, {"src": "C|2", "dst": "C|3", "type": "弱化", "n": 92, "per_case": 9.2}, {"src": "C|2", "dst": "C|3", "type": "等价", "n": 33, "per_case": 3.3}, {"src": "C|2", "dst": "C|3", "type": "细化", "n": 89, "per_case": 8.9}], "seat": {"A->A|等价": 49, "A->A|弱化": 186, "A->A|细化": 237, "A->B|等价": 47, "A->B|弱化": 207, "A->B|细化": 236, "A->C|等价": 53, "A->C|弱化": 246, "A->C|细化": 234, "B->A|等价": 47, "B->A|弱化": 191, "B->A|细化": 269, "B->B|等价": 45, "B->B|弱化": 172, "B->B|细化": 262, "B->C|等价": 71, "B->C|弱化": 231, "B->C|细化": 223, "C->A|等价": 59, "C->A|弱化": 164, "C->A|细化": 213, "C->B|等价": 47, "C->B|弱化": 187, "C->B|细化": 222, "C->C|等价": 64, "C->C|弱化": 228, "C->C|细化": 216}}, "full-specialist": {"cases": 10, "judged_pairs": 16006, "nodes": {"A|1": 38.2, "A|2": 37.7, "A|3": 36.9, "B|1": 35.0, "B|2": 37.6, "B|3": 36.3, "C|1": 37.5, "C|2": 35.5, "C|3": 33.5}, "edges": [{"src": "A|1", "dst": "A|2", "type": "弱化", "n": 64, "per_case": 6.4}, {"src": "A|1", "dst": "A|2", "type": "等价", "n": 19, "per_case": 1.9}, {"src": "A|1", "dst": "A|2", "type": "细化", "n": 98, "per_case": 9.8}, {"src": "A|1", "dst": "A|3", "type": "弱化", "n": 65, "per_case": 6.5}, {"src": "A|1", "dst": "A|3", "type": "等价", "n": 19, "per_case": 1.9}, {"src": "A|1", "dst": "A|3", "type": "细化", "n": 85, "per_case": 8.5}, {"src": "A|1", "dst": "B|2", "type": "弱化", "n": 51, "per_case": 5.1}, {"src": "A|1", "dst": "B|2", "type": "等价", "n": 13, "per_case": 1.3}, {"src": "A|1", "dst": "B|2", "type": "细化", "n": 108, "per_case": 10.8}, {"src": "A|1", "dst": "B|3", "type": "弱化", "n": 56, "per_case": 5.6}, {"src": "A|1", "dst": "B|3", "type": "等价", "n": 17, "per_case": 1.7}, {"src": "A|1", "dst": "B|3", "type": "细化", "n": 91, "per_case": 9.1}, {"src": "A|1", "dst": "C|2", "type": "弱化", "n": 63, "per_case": 6.3}, {"src": "A|1", "dst": "C|2", "type": "等价", "n": 24, "per_case": 2.4}, {"src": "A|1", "dst": "C|2", "type": "细化", "n": 80, "per_case": 8.0}, {"src": "A|1", "dst": "C|3", "type": "弱化", "n": 52, "per_case": 5.2}, {"src": "A|1", "dst": "C|3", "type": "等价", "n": 19, "per_case": 1.9}, {"src": "A|1", "dst": "C|3", "type": "细化", "n": 92, "per_case": 9.2}, {"src": "A|2", "dst": "A|3", "type": "弱化", "n": 114, "per_case": 11.4}, {"src": "A|2", "dst": "A|3", "type": "等价", "n": 23, "per_case": 2.3}, {"src": "A|2", "dst": "A|3", "type": "细化", "n": 85, "per_case": 8.5}, {"src": "A|2", "dst": "B|3", "type": "弱化", "n": 85, "per_case": 8.5}, {"src": "A|2", "dst": "B|3", "type": "等价", "n": 31, "per_case": 3.1}, {"src": "A|2", "dst": "B|3", "type": "细化", "n": 81, "per_case": 8.1}, {"src": "A|2", "dst": "C|3", "type": "弱化", "n": 73, "per_case": 7.3}, {"src": "A|2", "dst": "C|3", "type": "等价", "n": 24, "per_case": 2.4}, {"src": "A|2", "dst": "C|3", "type": "细化", "n": 89, "per_case": 8.9}, {"src": "B|1", "dst": "A|2", "type": "弱化", "n": 60, "per_case": 6.0}, {"src": "B|1", "dst": "A|2", "type": "等价", "n": 17, "per_case": 1.7}, {"src": "B|1", "dst": "A|2", "type": "细化", "n": 101, "per_case": 10.1}, {"src": "B|1", "dst": "A|3", "type": "弱化", "n": 44, "per_case": 4.4}, {"src": "B|1", "dst": "A|3", "type": "等价", "n": 21, "per_case": 2.1}, {"src": "B|1", "dst": "A|3", "type": "细化", "n": 66, "per_case": 6.6}, {"src": "B|1", "dst": "B|2", "type": "弱化", "n": 57, "per_case": 5.7}, {"src": "B|1", "dst": "B|2", "type": "等价", "n": 25, "per_case": 2.5}, {"src": "B|1", "dst": "B|2", "type": "细化", "n": 112, "per_case": 11.2}, {"src": "B|1", "dst": "B|3", "type": "弱化", "n": 56, "per_case": 5.6}, {"src": "B|1", "dst": "B|3", "type": "等价", "n": 25, "per_case": 2.5}, {"src": "B|1", "dst": "B|3", "type": "细化", "n": 84, "per_case": 8.4}, {"src": "B|1", "dst": "C|2", "type": "弱化", "n": 53, "per_case": 5.3}, {"src": "B|1", "dst": "C|2", "type": "等价", "n": 23, "per_case": 2.3}, {"src": "B|1", "dst": "C|2", "type": "细化", "n": 81, "per_case": 8.1}, {"src": "B|1", "dst": "C|3", "type": "弱化", "n": 47, "per_case": 4.7}, {"src": "B|1", "dst": "C|3", "type": "等价", "n": 16, "per_case": 1.6}, {"src": "B|1", "dst": "C|3", "type": "细化", "n": 88, "per_case": 8.8}, {"src": "B|2", "dst": "A|3", "type": "弱化", "n": 107, "per_case": 10.7}, {"src": "B|2", "dst": "A|3", "type": "等价", "n": 21, "per_case": 2.1}, {"src": "B|2", "dst": "A|3", "type": "细化", "n": 78, "per_case": 7.8}, {"src": "B|2", "dst": "B|3", "type": "弱化", "n": 88, "per_case": 8.8}, {"src": "B|2", "dst": "B|3", "type": "等价", "n": 22, "per_case": 2.2}, {"src": "B|2", "dst": "B|3", "type": "细化", "n": 71, "per_case": 7.1}, {"src": "B|2", "dst": "C|3", "type": "弱化", "n": 80, "per_case": 8.0}, {"src": "B|2", "dst": "C|3", "type": "等价", "n": 27, "per_case": 2.7}, {"src": "B|2", "dst": "C|3", "type": "细化", "n": 86, "per_case": 8.6}, {"src": "C|1", "dst": "A|2", "type": "弱化", "n": 59, "per_case": 5.9}, {"src": "C|1", "dst": "A|2", "type": "等价", "n": 20, "per_case": 2.0}, {"src": "C|1", "dst": "A|2", "type": "细化", "n": 111, "per_case": 11.1}, {"src": "C|1", "dst": "A|3", "type": "弱化", "n": 65, "per_case": 6.5}, {"src": "C|1", "dst": "A|3", "type": "等价", "n": 14, "per_case": 1.4}, {"src": "C|1", "dst": "A|3", "type": "细化", "n": 99, "per_case": 9.9}, {"src": "C|1", "dst": "B|2", "type": "弱化", "n": 61, "per_case": 6.1}, {"src": "C|1", "dst": "B|2", "type": "等价", "n": 19, "per_case": 1.9}, {"src": "C|1", "dst": "B|2", "type": "细化", "n": 129, "per_case": 12.9}, {"src": "C|1", "dst": "B|3", "type": "弱化", "n": 51, "per_case": 5.1}, {"src": "C|1", "dst": "B|3", "type": "等价", "n": 19, "per_case": 1.9}, {"src": "C|1", "dst": "B|3", "type": "细化", "n": 90, "per_case": 9.0}, {"src": "C|1", "dst": "C|2", "type": "弱化", "n": 55, "per_case": 5.5}, {"src": "C|1", "dst": "C|2", "type": "等价", "n": 22, "per_case": 2.2}, {"src": "C|1", "dst": "C|2", "type": "细化", "n": 97, "per_case": 9.7}, {"src": "C|1", "dst": "C|3", "type": "弱化", "n": 50, "per_case": 5.0}, {"src": "C|1", "dst": "C|3", "type": "等价", "n": 17, "per_case": 1.7}, {"src": "C|1", "dst": "C|3", "type": "细化", "n": 113, "per_case": 11.3}, {"src": "C|2", "dst": "A|3", "type": "弱化", "n": 94, "per_case": 9.4}, {"src": "C|2", "dst": "A|3", "type": "等价", "n": 34, "per_case": 3.4}, {"src": "C|2", "dst": "A|3", "type": "细化", "n": 65, "per_case": 6.5}, {"src": "C|2", "dst": "B|3", "type": "弱化", "n": 83, "per_case": 8.3}, {"src": "C|2", "dst": "B|3", "type": "等价", "n": 31, "per_case": 3.1}, {"src": "C|2", "dst": "B|3", "type": "细化", "n": 70, "per_case": 7.0}, {"src": "C|2", "dst": "C|3", "type": "弱化", "n": 73, "per_case": 7.3}, {"src": "C|2", "dst": "C|3", "type": "等价", "n": 16, "per_case": 1.6}, {"src": "C|2", "dst": "C|3", "type": "细化", "n": 70, "per_case": 7.0}], "seat": {"A->A|等价": 61, "A->A|弱化": 243, "A->A|细化": 268, "A->B|等价": 61, "A->B|弱化": 192, "A->B|细化": 280, "A->C|等价": 67, "A->C|弱化": 188, "A->C|细化": 261, "B->A|等价": 59, "B->A|弱化": 211, "B->A|细化": 245, "B->B|等价": 72, "B->B|弱化": 201, "B->B|细化": 267, "B->C|等价": 66, "B->C|弱化": 180, "B->C|细化": 255, "C->A|等价": 68, "C->A|弱化": 218, "C->A|细化": 275, "C->B|等价": 69, "C->B|弱化": 195, "C->B|细化": 289, "C->C|等价": 55, "C->C|弱化": 178, "C->C|细化": 280}}, "split-generic": {"cases": 10, "judged_pairs": 14804, "nodes": {"A|1": 25.1, "A|2": 37.8, "A|3": 40.5, "B|1": 23.1, "B|2": 33.2, "B|3": 36.3, "C|1": 11.8, "C|2": 39.8, "C|3": 40.0}, "edges": [{"src": "A|1", "dst": "A|2", "type": "弱化", "n": 37, "per_case": 3.7}, {"src": "A|1", "dst": "A|2", "type": "等价", "n": 11, "per_case": 1.1}, {"src": "A|1", "dst": "A|2", "type": "细化", "n": 24, "per_case": 2.4}, {"src": "A|1", "dst": "A|3", "type": "弱化", "n": 25, "per_case": 2.5}, {"src": "A|1", "dst": "A|3", "type": "等价", "n": 8, "per_case": 0.8}, {"src": "A|1", "dst": "A|3", "type": "细化", "n": 30, "per_case": 3.0}, {"src": "A|1", "dst": "B|2", "type": "弱化", "n": 41, "per_case": 4.1}, {"src": "A|1", "dst": "B|2", "type": "等价", "n": 12, "per_case": 1.2}, {"src": "A|1", "dst": "B|2", "type": "细化", "n": 31, "per_case": 3.1}, {"src": "A|1", "dst": "B|3", "type": "弱化", "n": 27, "per_case": 2.7}, {"src": "A|1", "dst": "B|3", "type": "等价", "n": 4, "per_case": 0.4}, {"src": "A|1", "dst": "B|3", "type": "细化", "n": 24, "per_case": 2.4}, {"src": "A|1", "dst": "C|2", "type": "弱化", "n": 27, "per_case": 2.7}, {"src": "A|1", "dst": "C|2", "type": "等价", "n": 2, "per_case": 0.2}, {"src": "A|1", "dst": "C|2", "type": "细化", "n": 46, "per_case": 4.6}, {"src": "A|1", "dst": "C|3", "type": "弱化", "n": 25, "per_case": 2.5}, {"src": "A|1", "dst": "C|3", "type": "等价", "n": 7, "per_case": 0.7}, {"src": "A|1", "dst": "C|3", "type": "细化", "n": 40, "per_case": 4.0}, {"src": "A|2", "dst": "A|3", "type": "弱化", "n": 60, "per_case": 6.0}, {"src": "A|2", "dst": "A|3", "type": "等价", "n": 33, "per_case": 3.3}, {"src": "A|2", "dst": "A|3", "type": "细化", "n": 100, "per_case": 10.0}, {"src": "A|2", "dst": "B|3", "type": "弱化", "n": 59, "per_case": 5.9}, {"src": "A|2", "dst": "B|3", "type": "等价", "n": 27, "per_case": 2.7}, {"src": "A|2", "dst": "B|3", "type": "细化", "n": 84, "per_case": 8.4}, {"src": "A|2", "dst": "C|3", "type": "弱化", "n": 74, "per_case": 7.4}, {"src": "A|2", "dst": "C|3", "type": "等价", "n": 21, "per_case": 2.1}, {"src": "A|2", "dst": "C|3", "type": "细化", "n": 85, "per_case": 8.5}, {"src": "B|1", "dst": "A|2", "type": "弱化", "n": 28, "per_case": 2.8}, {"src": "B|1", "dst": "A|2", "type": "等价", "n": 23, "per_case": 2.3}, {"src": "B|1", "dst": "A|2", "type": "细化", "n": 19, "per_case": 1.9}, {"src": "B|1", "dst": "A|3", "type": "弱化", "n": 22, "per_case": 2.2}, {"src": "B|1", "dst": "A|3", "type": "等价", "n": 10, "per_case": 1.0}, {"src": "B|1", "dst": "A|3", "type": "细化", "n": 33, "per_case": 3.3}, {"src": "B|1", "dst": "B|2", "type": "弱化", "n": 31, "per_case": 3.1}, {"src": "B|1", "dst": "B|2", "type": "等价", "n": 9, "per_case": 0.9}, {"src": "B|1", "dst": "B|2", "type": "细化", "n": 30, "per_case": 3.0}, {"src": "B|1", "dst": "B|3", "type": "弱化", "n": 16, "per_case": 1.6}, {"src": "B|1", "dst": "B|3", "type": "等价", "n": 8, "per_case": 0.8}, {"src": "B|1", "dst": "B|3", "type": "细化", "n": 25, "per_case": 2.5}, {"src": "B|1", "dst": "C|2", "type": "弱化", "n": 16, "per_case": 1.6}, {"src": "B|1", "dst": "C|2", "type": "等价", "n": 9, "per_case": 0.9}, {"src": "B|1", "dst": "C|2", "type": "细化", "n": 30, "per_case": 3.0}, {"src": "B|1", "dst": "C|3", "type": "弱化", "n": 17, "per_case": 1.7}, {"src": "B|1", "dst": "C|3", "type": "等价", "n": 2, "per_case": 0.2}, {"src": "B|1", "dst": "C|3", "type": "细化", "n": 29, "per_case": 2.9}, {"src": "B|2", "dst": "A|3", "type": "弱化", "n": 54, "per_case": 5.4}, {"src": "B|2", "dst": "A|3", "type": "等价", "n": 26, "per_case": 2.6}, {"src": "B|2", "dst": "A|3", "type": "细化", "n": 102, "per_case": 10.2}, {"src": "B|2", "dst": "B|3", "type": "弱化", "n": 52, "per_case": 5.2}, {"src": "B|2", "dst": "B|3", "type": "等价", "n": 24, "per_case": 2.4}, {"src": "B|2", "dst": "B|3", "type": "细化", "n": 77, "per_case": 7.7}, {"src": "B|2", "dst": "C|3", "type": "弱化", "n": 58, "per_case": 5.8}, {"src": "B|2", "dst": "C|3", "type": "等价", "n": 16, "per_case": 1.6}, {"src": "B|2", "dst": "C|3", "type": "细化", "n": 76, "per_case": 7.6}, {"src": "C|1", "dst": "A|2", "type": "弱化", "n": 3, "per_case": 0.3}, {"src": "C|1", "dst": "A|2", "type": "细化", "n": 2, "per_case": 0.2}, {"src": "C|1", "dst": "A|3", "type": "弱化", "n": 2, "per_case": 0.2}, {"src": "C|1", "dst": "A|3", "type": "细化", "n": 3, "per_case": 0.3}, {"src": "C|1", "dst": "B|2", "type": "弱化", "n": 3, "per_case": 0.3}, {"src": "C|1", "dst": "B|2", "type": "等价", "n": 1, "per_case": 0.1}, {"src": "C|1", "dst": "B|2", "type": "细化", "n": 3, "per_case": 0.3}, {"src": "C|1", "dst": "B|3", "type": "细化", "n": 1, "per_case": 0.1}, {"src": "C|1", "dst": "C|2", "type": "弱化", "n": 2, "per_case": 0.2}, {"src": "C|1", "dst": "C|2", "type": "等价", "n": 1, "per_case": 0.1}, {"src": "C|1", "dst": "C|2", "type": "细化", "n": 2, "per_case": 0.2}, {"src": "C|1", "dst": "C|3", "type": "弱化", "n": 2, "per_case": 0.2}, {"src": "C|1", "dst": "C|3", "type": "等价", "n": 1, "per_case": 0.1}, {"src": "C|1", "dst": "C|3", "type": "细化", "n": 2, "per_case": 0.2}, {"src": "C|2", "dst": "A|3", "type": "弱化", "n": 87, "per_case": 8.7}, {"src": "C|2", "dst": "A|3", "type": "等价", "n": 38, "per_case": 3.8}, {"src": "C|2", "dst": "A|3", "type": "细化", "n": 98, "per_case": 9.8}, {"src": "C|2", "dst": "B|3", "type": "弱化", "n": 87, "per_case": 8.7}, {"src": "C|2", "dst": "B|3", "type": "等价", "n": 20, "per_case": 2.0}, {"src": "C|2", "dst": "B|3", "type": "细化", "n": 72, "per_case": 7.2}, {"src": "C|2", "dst": "C|3", "type": "弱化", "n": 94, "per_case": 9.4}, {"src": "C|2", "dst": "C|3", "type": "等价", "n": 18, "per_case": 1.8}, {"src": "C|2", "dst": "C|3", "type": "细化", "n": 95, "per_case": 9.5}], "seat": {"A->A|等价": 52, "A->A|弱化": 122, "A->A|细化": 154, "A->B|等价": 43, "A->B|弱化": 127, "A->B|细化": 139, "A->C|等价": 30, "A->C|弱化": 126, "A->C|细化": 171, "B->A|等价": 59, "B->A|弱化": 104, "B->A|细化": 154, "B->B|等价": 41, "B->B|弱化": 99, "B->B|细化": 132, "B->C|等价": 27, "B->C|弱化": 91, "B->C|细化": 135, "C->A|等价": 38, "C->A|弱化": 92, "C->A|细化": 103, "C->B|等价": 21, "C->B|弱化": 90, "C->B|细化": 76, "C->C|等价": 20, "C->C|弱化": 98, "C->C|细化": 99}}, "split-specialist": {"cases": 10, "judged_pairs": 16166, "nodes": {"A|1": 34.4, "A|2": 32.2, "A|3": 43.7, "B|1": 24.1, "B|2": 38.0, "B|3": 39.2, "C|1": 10.3, "C|2": 38.9, "C|3": 44.0}, "edges": [{"src": "A|1", "dst": "A|2", "type": "弱化", "n": 34, "per_case": 3.4}, {"src": "A|1", "dst": "A|2", "type": "等价", "n": 23, "per_case": 2.3}, {"src": "A|1", "dst": "A|2", "type": "细化", "n": 72, "per_case": 7.2}, {"src": "A|1", "dst": "A|3", "type": "弱化", "n": 23, "per_case": 2.3}, {"src": "A|1", "dst": "A|3", "type": "等价", "n": 13, "per_case": 1.3}, {"src": "A|1", "dst": "A|3", "type": "细化", "n": 49, "per_case": 4.9}, {"src": "A|1", "dst": "B|2", "type": "弱化", "n": 27, "per_case": 2.7}, {"src": "A|1", "dst": "B|2", "type": "等价", "n": 8, "per_case": 0.8}, {"src": "A|1", "dst": "B|2", "type": "细化", "n": 30, "per_case": 3.0}, {"src": "A|1", "dst": "B|3", "type": "弱化", "n": 25, "per_case": 2.5}, {"src": "A|1", "dst": "B|3", "type": "等价", "n": 5, "per_case": 0.5}, {"src": "A|1", "dst": "B|3", "type": "细化", "n": 28, "per_case": 2.8}, {"src": "A|1", "dst": "C|2", "type": "弱化", "n": 18, "per_case": 1.8}, {"src": "A|1", "dst": "C|2", "type": "等价", "n": 9, "per_case": 0.9}, {"src": "A|1", "dst": "C|2", "type": "细化", "n": 51, "per_case": 5.1}, {"src": "A|1", "dst": "C|3", "type": "弱化", "n": 16, "per_case": 1.6}, {"src": "A|1", "dst": "C|3", "type": "等价", "n": 14, "per_case": 1.4}, {"src": "A|1", "dst": "C|3", "type": "细化", "n": 50, "per_case": 5.0}, {"src": "A|2", "dst": "A|3", "type": "弱化", "n": 76, "per_case": 7.6}, {"src": "A|2", "dst": "A|3", "type": "等价", "n": 24, "per_case": 2.4}, {"src": "A|2", "dst": "A|3", "type": "细化", "n": 74, "per_case": 7.4}, {"src": "A|2", "dst": "B|3", "type": "弱化", "n": 45, "per_case": 4.5}, {"src": "A|2", "dst": "B|3", "type": "等价", "n": 10, "per_case": 1.0}, {"src": "A|2", "dst": "B|3", "type": "细化", "n": 36, "per_case": 3.6}, {"src": "A|2", "dst": "C|3", "type": "弱化", "n": 42, "per_case": 4.2}, {"src": "A|2", "dst": "C|3", "type": "等价", "n": 27, "per_case": 2.7}, {"src": "A|2", "dst": "C|3", "type": "细化", "n": 53, "per_case": 5.3}, {"src": "B|1", "dst": "A|2", "type": "弱化", "n": 24, "per_case": 2.4}, {"src": "B|1", "dst": "A|2", "type": "等价", "n": 18, "per_case": 1.8}, {"src": "B|1", "dst": "A|2", "type": "细化", "n": 35, "per_case": 3.5}, {"src": "B|1", "dst": "A|3", "type": "弱化", "n": 24, "per_case": 2.4}, {"src": "B|1", "dst": "A|3", "type": "等价", "n": 19, "per_case": 1.9}, {"src": "B|1", "dst": "A|3", "type": "细化", "n": 37, "per_case": 3.7}, {"src": "B|1", "dst": "B|2", "type": "弱化", "n": 30, "per_case": 3.0}, {"src": "B|1", "dst": "B|2", "type": "等价", "n": 22, "per_case": 2.2}, {"src": "B|1", "dst": "B|2", "type": "细化", "n": 49, "per_case": 4.9}, {"src": "B|1", "dst": "B|3", "type": "弱化", "n": 26, "per_case": 2.6}, {"src": "B|1", "dst": "B|3", "type": "等价", "n": 13, "per_case": 1.3}, {"src": "B|1", "dst": "B|3", "type": "细化", "n": 47, "per_case": 4.7}, {"src": "B|1", "dst": "C|2", "type": "弱化", "n": 29, "per_case": 2.9}, {"src": "B|1", "dst": "C|2", "type": "等价", "n": 11, "per_case": 1.1}, {"src": "B|1", "dst": "C|2", "type": "细化", "n": 35, "per_case": 3.5}, {"src": "B|1", "dst": "C|3", "type": "弱化", "n": 22, "per_case": 2.2}, {"src": "B|1", "dst": "C|3", "type": "等价", "n": 8, "per_case": 0.8}, {"src": "B|1", "dst": "C|3", "type": "细化", "n": 36, "per_case": 3.6}, {"src": "B|2", "dst": "A|3", "type": "弱化", "n": 92, "per_case": 9.2}, {"src": "B|2", "dst": "A|3", "type": "等价", "n": 20, "per_case": 2.0}, {"src": "B|2", "dst": "A|3", "type": "细化", "n": 53, "per_case": 5.3}, {"src": "B|2", "dst": "B|3", "type": "弱化", "n": 89, "per_case": 8.9}, {"src": "B|2", "dst": "B|3", "type": "等价", "n": 19, "per_case": 1.9}, {"src": "B|2", "dst": "B|3", "type": "细化", "n": 70, "per_case": 7.0}, {"src": "B|2", "dst": "C|3", "type": "弱化", "n": 64, "per_case": 6.4}, {"src": "B|2", "dst": "C|3", "type": "等价", "n": 24, "per_case": 2.4}, {"src": "B|2", "dst": "C|3", "type": "细化", "n": 55, "per_case": 5.5}, {"src": "C|1", "dst": "A|2", "type": "弱化", "n": 2, "per_case": 0.2}, {"src": "C|1", "dst": "A|2", "type": "等价", "n": 3, "per_case": 0.3}, {"src": "C|1", "dst": "A|2", "type": "细化", "n": 5, "per_case": 0.5}, {"src": "C|1", "dst": "A|3", "type": "弱化", "n": 1, "per_case": 0.1}, {"src": "C|1", "dst": "A|3", "type": "等价", "n": 2, "per_case": 0.2}, {"src": "C|1", "dst": "A|3", "type": "细化", "n": 9, "per_case": 0.9}, {"src": "C|1", "dst": "B|2", "type": "弱化", "n": 4, "per_case": 0.4}, {"src": "C|1", "dst": "B|2", "type": "等价", "n": 4, "per_case": 0.4}, {"src": "C|1", "dst": "B|2", "type": "细化", "n": 10, "per_case": 1.0}, {"src": "C|1", "dst": "B|3", "type": "弱化", "n": 1, "per_case": 0.1}, {"src": "C|1", "dst": "B|3", "type": "等价", "n": 1, "per_case": 0.1}, {"src": "C|1", "dst": "B|3", "type": "细化", "n": 9, "per_case": 0.9}, {"src": "C|1", "dst": "C|2", "type": "细化", "n": 4, "per_case": 0.4}, {"src": "C|1", "dst": "C|3", "type": "细化", "n": 3, "per_case": 0.3}, {"src": "C|2", "dst": "A|3", "type": "弱化", "n": 80, "per_case": 8.0}, {"src": "C|2", "dst": "A|3", "type": "等价", "n": 20, "per_case": 2.0}, {"src": "C|2", "dst": "A|3", "type": "细化", "n": 114, "per_case": 11.4}, {"src": "C|2", "dst": "B|3", "type": "弱化", "n": 80, "per_case": 8.0}, {"src": "C|2", "dst": "B|3", "type": "等价", "n": 22, "per_case": 2.2}, {"src": "C|2", "dst": "B|3", "type": "细化", "n": 82, "per_case": 8.2}, {"src": "C|2", "dst": "C|3", "type": "弱化", "n": 99, "per_case": 9.9}, {"src": "C|2", "dst": "C|3", "type": "等价", "n": 35, "per_case": 3.5}, {"src": "C|2", "dst": "C|3", "type": "细化", "n": 105, "per_case": 10.5}], "seat": {"A->A|等价": 60, "A->A|弱化": 133, "A->A|细化": 195, "A->B|等价": 23, "A->B|弱化": 97, "A->B|细化": 94, "A->C|等价": 50, "A->C|弱化": 76, "A->C|细化": 154, "B->A|等价": 57, "B->A|弱化": 140, "B->A|细化": 125, "B->B|等价": 54, "B->B|弱化": 145, "B->B|细化": 166, "B->C|等价": 43, "B->C|弱化": 115, "B->C|细化": 126, "C->A|等价": 25, "C->A|弱化": 83, "C->A|细化": 128, "C->B|等价": 27, "C->B|弱化": 85, "C->B|细化": 101, "C->C|等价": 35, "C->C|弱化": 99, "C->C|细化": 112}}}, CELLS = ["full-generic", "full-specialist", "split-generic", "split-specialist"], NAME = {"full-generic": "全量来源 · 通用角色", "full-specialist": "全量来源 · 专家角色", "split-generic": "分割来源 · 通用角色", "split-specialist": "分割来源 · 专家角色"}, SUB = {"full-generic": "三人都读 paper-b + paper-c", "full-specialist": "三人都读 paper-b + paper-c", "split-generic": "A 只有 paper-b，B 只有 paper-c，C 无来源", "split-specialist": "A 只有 paper-b，B 只有 paper-c，C 无来源"};
+const COL = {"等价":"eq","弱化":"weak","细化":"ref"};
+const W = 430, H = 250, X0 = 72, XG = 122, Y0 = 56, YG = 62;
+const pos = s => { const [a,r] = s.split("|");
+  return [X0 + (r-1)*XG, Y0 + "ABC".indexOf(a)*YG]; };
+
+function draw(c, type, withSelf) {
+  const g = G[c], es = g.edges.filter(e => e.type === type
+    && (withSelf || e.src.split("|")[0] !== e.dst.split("|")[0]));
+  const max = Math.max(1, ...es.map(e => e.per_case));
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${NAME[c]}的交互图">`;
+  for (let r = 1; r <= 3; r++)
+    s += `<text class="lbl" x="${X0 + (r-1)*XG}" y="26" text-anchor="middle">第 ${r} 轮</text>`;
+  for (const e of es) {
+    const [x1,y1] = pos(e.src), [x2,y2] = pos(e.dst);
+    const mx = (x1+x2)/2, off = (y1===y2 ? -26 : 0);
+    const w = 0.7 + 5.3*e.per_case/max;
+    s += `<path class="e" data-s="${e.src}" data-d="${e.dst}"`
+      + ` d="M${x1},${y1} Q${mx},${(y1+y2)/2+off} ${x2},${y2}"`
+      + ` stroke="var(--${COL[type]})" stroke-width="${w.toFixed(2)}"`
+      + ` opacity="${(0.2+0.55*e.per_case/max).toFixed(2)}"`
+      + ` data-tip="${e.src} → ${e.dst}｜${type} ${e.per_case.toFixed(1)} 条/场"></path>`;
+  }
+  for (const [slot, n] of Object.entries(g.nodes)) {
+    const [x,y] = pos(slot);
+    s += `<g class="ndg"><circle class="nd" data-n="${slot}" cx="${x}" cy="${y}"`
+      + ` r="${(7 + 0.28*Math.sqrt(n)*3).toFixed(1)}"`
+      + ` data-tip="${slot}｜${n.toFixed(1)} 条命题/场"></circle>`
+      + `<text class="cnt" x="${x}" y="${y+3}" text-anchor="middle">${Math.round(n)}</text></g>`;
+  }
+  for (const a of "ABC")
+    s += `<text class="seat" x="${X0-40}" y="${Y0 + "ABC".indexOf(a)*YG + 4}">${a}</text>`;
+  const tot = es.reduce((k,e) => k + e.per_case, 0);
+  return {svg: s + "</svg>", tot};
+}
+
+let type = "细化", withSelf = true, sel = null;
+function render() {
+  document.getElementById("grid").innerHTML = CELLS.map(c => {
+    const {svg, tot} = draw(c, type, withSelf);
+    return `<div class="card" data-c="${c}"><header><div><h2>${NAME[c]}</h2>`
+      + `<p class="sub">${SUB[c]}</p></div>`
+      + `<span class="tot">${tot.toFixed(0)} 条/场</span></header>${svg}</div>`;
+  }).join("");
+  if (sel) apply();
+}
+function apply() {
+  document.querySelectorAll(".card").forEach(card => {
+    card.classList.toggle("dim", !!sel);
+    card.querySelectorAll("path.e").forEach(p => {
+      const on = sel && (p.dataset.s === sel || p.dataset.d === sel);
+      p.classList.toggle("on", !!on);
+    });
+    card.querySelectorAll(".nd").forEach(n => {
+      n.classList.toggle("sel", n.dataset.n === sel);
+      const adj = sel && [...card.querySelectorAll("path.e.on")].some(
+        p => p.dataset.s === n.dataset.n || p.dataset.d === n.dataset.n);
+      n.classList.toggle("adj", !!adj);
+    });
+  });
+}
+document.querySelectorAll("button[data-t]").forEach(b => b.onclick = () => {
+  type = b.dataset.t;
+  document.querySelectorAll("button[data-t]").forEach(
+    o => o.setAttribute("aria-pressed", o === b));
+  render();
+});
+document.getElementById("selfbtn").onclick = e => {
+  withSelf = !withSelf;
+  e.target.setAttribute("aria-pressed", withSelf); render();
+};
+const tip = document.getElementById("tip");
+addEventListener("mouseover", e => {
+  const t = e.target.closest("[data-tip]");
+  if (!t) return;
+  tip.textContent = t.dataset.tip; tip.style.opacity = 1;
+});
+addEventListener("mousemove", e => {
+  if (tip.style.opacity == 1) {
+    tip.style.left = Math.min(e.clientX + 14, innerWidth - 290) + "px";
+    tip.style.top = (e.clientY + 18) + "px";
+  }
+});
+addEventListener("mouseout", e => {
+  if (e.target.closest("[data-tip]")) tip.style.opacity = 0;
+});
+addEventListener("click", e => {
+  const n = e.target.closest(".nd");
+  sel = (n && n.dataset.n !== sel) ? n.dataset.n : null;
+  apply();
+});
+render();
+</script>

@@ -73,20 +73,22 @@ class FactLabels(BaseModel):
     labels: list[FactLabel] = Field(default_factory=list)
 
 
-def load_opencode_key() -> None:
-    if os.environ.get("OPENCODE_API_KEY"):
-        return
+def load_opencode_key(var: str = "OPENCODE_API_KEY") -> None:
+    """Put `var`'s value into OPENCODE_API_KEY, which is what the client reads.
+
+    The .env carries a spare key; naming it here is how a run switches over
+    when the first one is out of credit.
+    """
     env_path = Path(__file__).resolve().parents[1] / ".env"
-    if not env_path.exists():
-        return
-    for raw in env_path.read_text().splitlines():
-        line = raw.strip()
-        if line.startswith("export "):
-            line = line[len("export "):].strip()
-        key, sep, value = line.partition("=")
-        if sep and key.strip() == "OPENCODE_API_KEY":
-            os.environ["OPENCODE_API_KEY"] = value.strip().strip("'\"")
-            return
+    if env_path.exists():
+        for raw in env_path.read_text().splitlines():
+            line = raw.strip().removeprefix("export ").strip()
+            key, sep, value = line.partition("=")
+            if sep and key.strip() == var:
+                os.environ["OPENCODE_API_KEY"] = value.strip().strip("'\"")
+                return
+    if var != "OPENCODE_API_KEY" and not os.environ.get(var):
+        raise SystemExit(f"{var} 不在 .env 里")
 
 
 def label_batch(llm: LLM, papers: str, facts: list[tuple[str, str]]) -> dict:
@@ -111,7 +113,8 @@ def label_batch(llm: LLM, papers: str, facts: list[tuple[str, str]]) -> dict:
 
 
 def label_store(llm: LLM, store_path: Path, debate_path: Path, out_dir: Path,
-                batch_size: int, redo: bool) -> tuple[str, int]:
+                batch_size: int, redo: bool, pool: ThreadPoolExecutor
+                ) -> tuple[str, int]:
     name = debate_path.name.replace(".debate.json", "")
     out = out_dir / f"{name}.json"
     if out.exists() and not redo:
@@ -122,9 +125,14 @@ def label_store(llm: LLM, store_path: Path, debate_path: Path, out_dir: Path,
         f"[{e['id']}] {e.get('text','')[:1400]}" for e in debate.get("evidence", []))
     facts = [(fid, f["canonical_text"]) for fid, f in store["facts"].items()
              if f.get("canonical_text")]
+    # Batches within a store are independent; a store is ~300 facts and a call
+    # takes the better part of a minute, so running them one after another is
+    # what made the first attempt take hours.
     labels: dict = {}
-    for i in range(0, len(facts), batch_size):
-        labels.update(label_batch(llm, papers, facts[i:i + batch_size]))
+    futs = [pool.submit(label_batch, llm, papers, facts[i:i + batch_size])
+            for i in range(0, len(facts), batch_size)]
+    for f in futs:
+        labels.update(f.result())
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(
         {"execution_id": name, "model": llm.model, "n": len(labels),
@@ -141,33 +149,40 @@ def main() -> int:
     ap.add_argument("--suffix", default=".nli.store.json")
     ap.add_argument("--out-dir", type=Path,
                     default=Path(__file__).resolve().parent / "labels" / "provenance")
-    ap.add_argument("--model", default="glm-5.3-flash")
-    ap.add_argument("--batch-size", type=int, default=40)
-    ap.add_argument("--concurrency", type=int, default=4)
-    ap.add_argument("--parallel-stores", type=int, default=3)
+    ap.add_argument("--model", default="deepseek-v4-flash")
+    ap.add_argument("--key-var", default="OPENCODE_API_KEY")
+    ap.add_argument("--max-tokens", type=int, default=2500)
+    ap.add_argument("--batch-size", type=int, default=25)
+    ap.add_argument("--concurrency", type=int, default=16)
+    ap.add_argument("--parallel-stores", type=int, default=4)
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--redo", action="store_true")
     a = ap.parse_args()
 
-    load_opencode_key()
-    llm = LLM.opencode(a.model, max_concurrency=a.concurrency)
+    load_opencode_key(a.key_var)
+    llm = LLM.opencode(a.model, max_concurrency=a.concurrency,
+                       max_tokens=a.max_tokens)
     stores = sorted(a.dir.glob(f"*{a.suffix}"))
     if a.limit:
         stores = stores[:a.limit]
     pairs = [(p, p.with_name(p.name.replace(a.suffix, ".debate.json")))
              for p in stores]
     pairs = [(s, d) for s, d in pairs if d.exists()]
-    print(f"{len(pairs)} 个 store，模型 {a.model}")
+    print(f"{len(pairs)} 个 store，模型 {a.model}，批 {a.batch_size}，"
+          f"上限 {a.max_tokens} token", flush=True)
 
     t0, done = time.time(), 0
+    batches = ThreadPoolExecutor(max_workers=a.concurrency)
     with ThreadPoolExecutor(max_workers=a.parallel_stores) as pool:
         futs = {pool.submit(label_store, llm, s, d, a.out_dir,
-                            a.batch_size, a.redo): d.name for s, d in pairs}
+                            a.batch_size, a.redo, batches): d.name
+                for s, d in pairs}
         for fut in as_completed(futs):
             name, n = fut.result()
             done += 1
             print(f"  [{done}/{len(pairs)}] {name[:52]} {n} 条"
                   f"{'（已有，跳过）' if n == 0 else ''}", flush=True)
+    batches.shutdown()
     print(f"\n用时 {time.time() - t0:.0f}s   {llm.usage.report(a.model)}")
     return 0
 

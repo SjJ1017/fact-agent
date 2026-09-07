@@ -594,3 +594,54 @@ def load_magpie(n: int, seed: int, domains: str | list[str] = "",
         if len(cases) >= n:
             break
     return cases
+
+
+# --------------------------------------------------------------------------
+# IDRBench -- two papers from different fields, one integrated proposal
+
+
+@loader("idrbench_idea_generation")
+def load_idrbench_generation(n: int, seed: int,
+                             subset: str = "IDR_idea_integration_generation",
+                             split: str = "level_1",
+                             corpus: str = "experiments/idrbench_generation_10x5_r3",
+                             **_: Any) -> list[Case]:
+    """Rebuild the cases from the debates they produced, as PerspectruM does.
+
+    The published dataset carries the two abstracts but not the field labels
+    (`Quantitative Biology; q-bio.TO`) that the specialist role prompts are
+    built from, so a fresh load from the Hub cannot reproduce the panel the
+    existing runs used.  The debate records carry both papers verbatim along
+    with every meta field, which makes the star and chain runs comparable to
+    the full ones by construction rather than by hoping a sample lines up.
+
+    The sampling that produced those debates was `shuffle(range(1, 101))` at
+    seed 0 truncated to 10; that is checked here rather than re-run, so a
+    corpus assembled some other way fails loudly instead of quietly changing
+    which papers are under test.
+    """
+    seen: dict[str, Case] = {}
+    for f in sorted(glob.glob(str(ROOT / corpus / "*.debate.json"))):
+        d = json.loads(Path(f).read_text())
+        cid = str(d["case_id"])
+        if cid in seen:
+            continue
+        seen[cid] = Case(
+            id=cid,
+            question=d["claim"],
+            items=tuple(Item(e["id"], e["text"], tags=tuple(e.get("tags", ())))
+                        for e in d["evidence"]),
+            meta=dict(d.get("meta", {})))
+    if not seen:
+        raise ValueError(f"no debates under {corpus}; cannot rebuild the cases")
+
+    order = list(range(1, 101))
+    random.Random(0).shuffle(order)
+    expected = {f"idr-gen-{split}-{i}" for i in order[:len(seen)]}
+    if set(seen) != expected:
+        raise ValueError(
+            f"corpus holds {sorted(seen)}, expected {sorted(expected)}")
+
+    cases = [seen[c] for c in sorted(seen)]
+    random.Random(seed).shuffle(cases)
+    return cases[:n]
