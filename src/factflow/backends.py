@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import os
+import uuid
 from pathlib import Path
 import re
 from dataclasses import dataclass
@@ -130,6 +131,8 @@ The object must validate against this JSON Schema:
 {schema}
 """
 
+_SESSION = os.environ.get("OPENCODE_SESSION") or uuid.uuid4().hex
+
 _FENCE = re.compile(r"^\s*```(?:json)?\s*|\s*```\s*$", re.MULTILINE)
 
 
@@ -158,11 +161,17 @@ class OpenAICompatBackend:
         # A per-request timeout is not optional on a multi-provider gateway:
         # one wedged upstream otherwise hangs a whole batch indefinitely, and
         # the concurrency pool has no way to notice.
+        # OpenCode's Go endpoint began rejecting requests without an
+        # x-opencode-session header (MissingSessionID, "cannot be routed
+        # efficiently").  One id per process is what it wants -- a stable
+        # handle for a run, not per request -- and other gateways ignore an
+        # unknown header, so it is sent unconditionally.
         self.client = client or OpenAI(
             api_key=api_key or os.environ.get("DEEPSEEK_API_KEY") or os.environ.get("OPENAI_API_KEY"),
             base_url=base_url,
             timeout=timeout,
             max_retries=max_retries,
+            default_headers={"x-opencode-session": _SESSION},
         )
 
     @staticmethod
