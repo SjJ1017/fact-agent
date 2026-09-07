@@ -7,10 +7,13 @@ nothing here calls a model.
 
 Three rules from the brief govern every count.
 
-*Unscored is not unrelated.*  The blocker proposes ~6% of the possible pairs
-in a debate, so most were never asked about.  Those stay `unknown` and are
-reported next to every rate -- folding them into UNRELATED would make sparse
-conditions look like they had lost content.
+*Two denominators, kept apart.*  The blocker and the NLI pass are two stages
+of one classifier: the first rejects the plainly unrelated cheaply, the second
+adjudicates the rest.  A pair the first stage rejects has been judged unrelated
+by the instrument, not left unknown.  So a rate over "pairs the NLI scored" and
+a rate over "all pairs" differ by more than an order of magnitude and are never
+mixed here; what stays genuinely unjudged is only what the top-k cap truncated,
+which is a budget artifact rather than a decision about relatedness.
 
 *Direction does not pass through equivalence.*  Relations are read only
 between the two propositions actually judged; no transitive closure, because
