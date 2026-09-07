@@ -83,6 +83,7 @@ mark.hot{background:var(--selbg);border-color:var(--sel)}
     <label><input type="checkbox" id="deg" checked> 降级边</label>
     <label><input type="checkbox" id="ent"> 仅强弱不同</label>
     <label><input type="checkbox" id="only"> 只高亮有连线的</label>
+    <label><input type="checkbox" id="always"> 不选中也画（很密）</label>
     <label>选中后展开 <select id="hops">
       <option value="1">1 级</option>
       <option value="2" selected>2 级</option>
@@ -215,7 +216,8 @@ function render(i){
   buildAdj();
   const nd = cur.entail.filter(e => e.kind === 'degraded').length;
   $('#stat').textContent =
-    `${cur.entail.length} 条蕴含边（降级 ${nd}） · ${Object.keys(cur.links||{}).length} 条事实有等价连线`;
+    `${cur.entail.length} 条蕴含边（降级 ${nd}） · `
+    + `${Object.keys(cur.links||{}).length} 条事实有等价连线 · 点击片段看它的邻域`;
   draw();
 }
 
@@ -231,6 +233,9 @@ function marksFor(fid, slot){
 function draw(){
   wires.innerHTML = '';
   if (!cur) return;
+  // 没选中就不画。满屏几百条线读不出任何东西，选中之后画它的邻域才有信息。
+  // 顶部三个开关只决定哪几类边可以被画，不决定画不画。
+  if (!sel && !$('#always').checked) return;
   const main = document.querySelector('main');
   const box = main.getBoundingClientRect();
   // viewBox 和 CSS 尺寸都要设：只设属性时 SVG 用默认 300x150 的视口，
@@ -245,7 +250,7 @@ function draw(){
   if ($('#eq').checked) {
     Object.entries(cur.links || {}).forEach(([fid, edges]) => {
       // 选中之后等价边也要跟着收窄，否则蕴含边缩到几条而等价边还是满屏
-      if (sel && !reach.has(fid)) return;
+      if (sel && !reach.has(fid)) return;   // 未选中时 always 模式画全部
       edges.forEach(e => {
         const A = marksFor(fid, e.from)[0], B = marksFor(fid, e.to)[0];
         if (A && B) seg.push({A, B, c: 'var(--eq)', dash: '', arrow: false});
@@ -350,7 +355,7 @@ document.addEventListener('click', ev => {
 });
 
 pick.addEventListener('change', e => render(+e.target.value));
-['eq','deg','ent'].forEach(id => $('#' + id).addEventListener('change', draw));
+['eq','deg','ent','always'].forEach(id => $('#' + id).addEventListener('change', draw));
 $('#hops').addEventListener('change', () => {
   if (!sel) return;
   const m = document.querySelector(`mark[data-fs~="${sel}"]`);
