@@ -61,6 +61,9 @@ def main() -> int:
         manifest.append({"file": str(p.relative_to(ROOT)), "mentions": n,
                          "facts": len(d.get("facts", {}))})
 
+    cmds = "\n".join(
+        f"       ./experiments/matcher_eval/run.sh --match experiments/{d.name} \\\n"
+        f"           --out-suffix .nli.store.json" for d in a.dirs)
     readme = f"""原子事实匹配包
 =================
 {len(picked)} 条 trace，{mentions:,} 条 mention。
@@ -70,8 +73,15 @@ def main() -> int:
   1. 解压到仓库根目录（会还原成 experiments/<dir>/*.atomized.json）
        tar xzf {out.name} -C /path/to/factflow
   2. 跑匹配（Qwen3-14B + entail，是之前定下来的判官）
-       ./experiments/matcher_eval/run.sh --match experiments/{a.dirs[0].name}
-  3. 产物是每条 trace 旁边的 .store.json，把它们拷回来即可。
+{cmds}
+  3. 产物是每条 trace 旁边的 .nli.store.json，把它们拷回来即可。
+
+写 .nli.store.json 而不是 .store.json，是为了不覆盖旧管线的 .store.json——
+现有的 perspectrum 分析还在用那批，覆盖掉就没法对照了。
+
+拓扑之间要公平比较，就必须让所有条件走同一个判官，所以这里连已经匹配过的
+trace 也一并重跑；旧 .store.json 出自更早的 SAME/DIFF 管线，和新的四向关系
+不是同一个测量。
 
 注意 run.sh 顶部的 SCRATCH_ROOT 和 GPU 编号要跟当前机器对上。
 """
