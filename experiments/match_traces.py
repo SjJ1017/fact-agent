@@ -244,8 +244,25 @@ def match_dir(a) -> int:
         d = json.loads(f.read_text())
         mentions = [FactMention(**m) for m in d["mentions"].values()]
         t0 = time.time()
-        pairs = candidate_pairs(mentions, blocker=blk, threshold=a.threshold,
-                                top_k=a.top_k)
+        if a.partition:
+            # Some propositions are only the same proposition inside one round.
+            # "Player 2 has a clean record" at Quest 2 and at Quest 4 share a
+            # sentence but describe different states of the game, while "Player
+            # 3 is Evil" is one claim all game. Blocking inside each partition
+            # keeps the first pair unmatched and, just as importantly, stops
+            # cross-scope candidates from eating the per-mention top-k budget.
+            groups: dict[str, list[int]] = {}
+            for i, m in enumerate(mentions):
+                groups.setdefault(
+                    str((m.provenance.extra or {}).get(a.partition, "")), []).append(i)
+            pairs = []
+            for idx in groups.values():
+                sub = [mentions[i] for i in idx]
+                pairs += [(idx[i], idx[j], sim) for i, j, sim in candidate_pairs(
+                    sub, blocker=blk, threshold=a.threshold, top_k=a.top_k)]
+        else:
+            pairs = candidate_pairs(mentions, blocker=blk, threshold=a.threshold,
+                                    top_k=a.top_k)
         print(f"[{n}/{len(files)}] {f.name}  {len(mentions)} mention  "
               f"{len(pairs)} 候选对", flush=True)
         if pairs:
@@ -305,6 +322,9 @@ def main() -> int:
     ap.add_argument("--4bit", dest="load_4bit", action="store_true")
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--suffix", default=".atomized.json")
+    ap.add_argument("--partition", default="",
+                    help="只在 provenance.extra 里这个键相等的 mention 之间配对，"
+                         "例如 --partition scope_key")
     ap.add_argument("--only", default="",
                     help="只匹配文件名里含这个子串的 trace，例如 --only star；"
                          "用于把一个语料分到两块卡上跑")

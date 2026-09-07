@@ -156,6 +156,10 @@ class OpenAICompatBackend:
         self.default_model = default_model
         self.max_repairs = max_repairs
         self.usage = Usage()
+        # Optional per-run control for reasoning models. It is deliberately
+        # unset by default so existing experiments retain provider defaults.
+        self.reasoning_effort: str | None = None
+        self.thinking: str | None = None
         self._token_param = "max_tokens"
         self._unsupported: set[str] = set()
         # A per-request timeout is not optional on a multi-provider gateway:
@@ -214,6 +218,16 @@ class OpenAICompatBackend:
             {"role": "user", "content": user},
         ]
 
+        # The thinking switch was wired into chat() only, so a structured call
+        # to a default-high-reasoning model spent its whole budget thinking and
+        # returned an empty string. Same optional attributes, same precedence:
+        # unset, nothing is sent and behaviour is unchanged.
+        extra = {}
+        if self.thinking:
+            extra["extra_body"] = {"thinking": {"type": self.thinking}}
+        elif self.reasoning_effort:
+            extra["reasoning_effort"] = self.reasoning_effort
+
         last_error = ""
         for attempt in range(self.max_repairs + 1):
             response = self._create(
@@ -222,6 +236,7 @@ class OpenAICompatBackend:
                 max_tokens=max_tokens,
                 temperature=0,
                 response_format={"type": "json_object"},
+                **extra,
             )
             u = getattr(response, "usage", None)
             if u:
@@ -248,7 +263,7 @@ class OpenAICompatBackend:
         raise ValueError(f"schema validation failed after {self.max_repairs + 1} attempts: {last_error}")
 
     def chat(self, *, system, user, model, max_tokens, temperature, history=()):
-        response = self._create(
+        kwargs = dict(
             model=model,
             messages=[{"role": "system", "content": system},
                       *({"role": r, "content": c} for r, c in history),
@@ -256,6 +271,11 @@ class OpenAICompatBackend:
             max_tokens=max_tokens,
             temperature=temperature,
         )
+        if self.thinking:
+            kwargs["extra_body"] = {"thinking": {"type": self.thinking}}
+        elif self.reasoning_effort:
+            kwargs["reasoning_effort"] = self.reasoning_effort
+        response = self._create(**kwargs)
         u = getattr(response, "usage", None)
         if u:
             self.usage.add(u.prompt_tokens or 0, u.completion_tokens or 0)
