@@ -211,18 +211,6 @@ def calibrate(a) -> int:
 
 def match_dir(a) -> int:
     cfile = cal_path(a.cal)
-    if not cfile.exists():
-        raise SystemExit(f"没有 {cfile}，先跑 --match-calibrate")
-    cal = json.loads(cfile.read_text())
-    ta = tb = cal.get("threshold", cal["threshold_ab"])
-    if cal["model"] != a.model:
-        print(f"! 阈值是用 {cal['model']} 拟合的，现在跑的是 {a.model}", file=sys.stderr)
-    print(f"阈值 A⊨B {ta:.4f}  B⊨A {tb:.4f}  (来自 {cfile.name}，"
-          f"policy={cal.get('policy')}，floor={cal.get('margin_floor', '未记录')})")
-    if tb < 0 or ta < 0:
-        print("! 有一个方向的阈值为负，那一遍等于恒真：两遍法退化成单向判断",
-              file=sys.stderr)
-
     # `--only` exists so one corpus can be split across two GPUs by name --
     # star on one card, chain on the other -- without moving files around.
     # An empty --only must not become "**", which pathlib rejects outright.
@@ -244,6 +232,24 @@ def match_dir(a) -> int:
         raise SystemExit(
             f"这些目录下没有匹配 {wanted or [a.suffix]} 的文件：" +
             ", ".join(str(d) for d in a.indir))
+    if a.dry_list:
+        for f in files:
+            print(f)
+        print(f"共 {len(files)} 个文件")
+        return 0
+
+    if not cfile.exists():
+        raise SystemExit(f"没有 {cfile}，先跑 --match-calibrate")
+    cal = json.loads(cfile.read_text())
+    ta = tb = cal.get("threshold", cal["threshold_ab"])
+    if cal["model"] != a.model:
+        print(f"! 阈值是用 {cal['model']} 拟合的，现在跑的是 {a.model}", file=sys.stderr)
+    print(f"阈值 A⊨B {ta:.4f}  B⊨A {tb:.4f}  (来自 {cfile.name}，"
+          f"policy={cal.get('policy')}，floor={cal.get('margin_floor', '未记录')})")
+    if tb < 0 or ta < 0:
+        print("! 有一个方向的阈值为负，那一遍等于恒真：两遍法退化成单向判断",
+              file=sys.stderr)
+
     if len(a.indir) > 1:
         print(f"{len(a.indir)} 个目录，共 {len(files)} 个文件")
     tok, net, ids = build(a.model, a.dtype, a.load_4bit)
@@ -373,6 +379,8 @@ def main() -> int:
     ap.add_argument("--4bit", dest="load_4bit", action="store_true")
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--suffix", default=".atomized.json")
+    ap.add_argument("--dry-list", action="store_true",
+                    help="只列出会被匹配的文件然后退出，不加载模型")
     ap.add_argument("--exact-first", action="store_true",
                     help="归一化后完全相同的命题直接判等价，不送模型")
     ap.add_argument("--partition", default="",
