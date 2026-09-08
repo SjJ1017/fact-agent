@@ -16,22 +16,27 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+
+def T(zh, en):
+    """Both languages go into the page; CSS shows one. See mentor_report_i18n.js."""
+    return f'<span class="zh">{zh}</span><span class="en">{en}</span>'
+
 ROOT = Path(__file__).resolve().parents[1]
 TOPO = ["full", "star", "chain"]
 PERS = ["neutral", "lenses", "stance"]
 
 TOPO_TESTS = [("每千组合成边", "star", "+8.3", "p = 0.277", False),
               ("每千组合成边", "chain", "+18.7", "p = 0.016", True),
-              ("同轮等价重合", "star", "−2.5pp", "p = 0.159", False),
-              ("同轮等价重合", "chain", "−4.0pp", "p = 0.047", True),
-              ("细化减弱化", "star", "−0.2pp", "p = 0.851", False),
-              ("细化减弱化", "chain", "−1.7pp", "p = 0.197", False)]
+              (T("同轮等价重合", "Same-round equivalent overlap"), "star", "−2.5pp", "p = 0.159", False),
+              (T("同轮等价重合", "Same-round equivalent overlap"), "chain", "−4.0pp", "p = 0.047", True),
+              (T("细化减弱化", "Sharpened minus weakened"), "star", "−0.2pp", "p = 0.851", False),
+              (T("细化减弱化", "Sharpened minus weakened"), "chain", "−1.7pp", "p = 0.197", False)]
 PERS_TESTS = [("每千组合成边", "lenses", "−18.6", "p = 0.019", True),
               ("每千组合成边", "stance", "−15.8", "p = 0.062", False),
-              ("同轮等价重合", "lenses", "+2.0pp", "p = 0.236", False),
-              ("同轮等价重合", "stance", "+2.3pp", "p = 0.227", False),
-              ("细化减弱化", "lenses", "−0.6pp", "p = 0.678", False),
-              ("细化减弱化", "stance", "−0.1pp", "p = 0.924", False)]
+              (T("同轮等价重合", "Same-round equivalent overlap"), "lenses", "+2.0pp", "p = 0.236", False),
+              (T("同轮等价重合", "Same-round equivalent overlap"), "stance", "+2.3pp", "p = 0.227", False),
+              (T("细化减弱化", "Sharpened minus weakened"), "lenses", "−0.6pp", "p = 0.678", False),
+              (T("细化减弱化", "Sharpened minus weakened"), "stance", "−0.1pp", "p = 0.924", False)]
 
 
 def build(tbl, card, note, section, pct):
@@ -50,8 +55,8 @@ def build(tbl, card, note, section, pct):
                          pct(v["等价"]["mean"]), pct(v["弱化"]["mean"]),
                          pct(v["细化"]["mean"]), pct(v["细化减弱化"]["mean"]),
                          pct(v["同轮等价重合"]["mean"])])
-    grid = tbl(["拓扑 / persona", "不同事实数 / 场", "每千组合成边",
-                "等价", "弱化", "细化", "细化 − 弱化", "同轮等价重合"], rows)
+    grid = tbl([T("拓扑 / persona", "Topology / persona"), T("不同事实数 / 场", "Distinct facts per run"), "每千组合成边",
+                T("等价", "Equivalent"), T("弱化", "Weakened"), T("细化", "Sharpened"), T("细化 − 弱化", "Sharpened − weakened"), T("同轮等价重合", "Same-round equivalent overlap")], rows)
 
     mix = D["relation_mix"]
     mrows = []
@@ -66,10 +71,10 @@ def build(tbl, card, note, section, pct):
                           pct(m.get("A_ENTAILS_B", 0) / s),
                           pct(m.get("B_ENTAILS_A", 0) / s),
                           pct(m.get("UNRELATED", 0) / s)])
-    mixt = tbl(["拓扑 / persona", "已评分对", "等价", "A⊨B", "B⊨A", "无关"], mrows)
+    mixt = tbl([T("拓扑 / persona", "Topology / persona"), T("已评分对", "Scored pairs"), T("等价", "Equivalent"), "A⊨B", "B⊨A", T("无关", "Unrelated")], mrows)
 
     def testtbl(ts, base):
-        return tbl(["测量", "对照", "差值", "置换检验"],
+        return tbl([T("测量", "Measure"), T("对照", "Contrast"), T("差值", "Difference"), T("置换检验", "Permutation test")],
                    [[k, f"{w} vs {base}", d, p] for k, w, d, p, _hi in ts])
 
     return section(

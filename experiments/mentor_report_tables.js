@@ -6,7 +6,7 @@
 
    - a setting like "full-generic" spans several rows (one per seat, or per
      round), so reading one setting across rounds means scanning past
-     everything else.  The facet chips isolate it; the group button pulls the
+     everything else.  The group button pulls the
      rows that share a setting next to each other.
    - magnitudes were text only.  Numeric cells get a bar scaled to the largest
      absolute value in their own column, so columns stay comparable within
@@ -18,7 +18,7 @@
    a bar: one bar cannot honestly stand for two numbers. */
 (function () {
   const NUM = /^\s*([+-]?[\d,]+(?:\.\d+)?)\s*(%|pp)?\s*$/;
-  const SPLIT = /[\/·,、\s]+/;
+
 
   const parse = (txt) => {
     if (txt.includes("→") || txt.includes("±")) return null;
@@ -57,11 +57,13 @@
   };
 
   const build = (table) => {
+    if(table.dataset.ftBuilt) return;
+    table.dataset.ftBuilt='true';
     const head = [...table.tHead.rows[0].cells].map((c) => c.textContent.trim());
     const body = table.tBodies[0];
     const rows = [...body.rows];
     if (rows.length < 3) return;
-    rows.forEach((r, i) => (r.dataset.ftOrder = i));
+    rows.forEach((r, i) => {r.dataset.ftOrder = i;r._ftLabels=[...r.cells].map(c=>c.textContent.trim());});
 
     // which columns are numeric enough to deserve a bar
     const nCols = head.length;
@@ -148,67 +150,25 @@
 
     if (rows.length < 6 || !labelCols.length) return;
 
-    // facet chips, one group per label column
+    // No filter widget. These tables run five to thirteen rows; sorting a
+    // column and grouping by setting already put any two rows worth comparing
+    // next to each other, and a select per column was more apparatus than the
+    // data it sat on.
     const bar = document.createElement("div");
     bar.className = "ft-bar-row";
-    const active = new Map();          // col -> Set(token)
 
-    const apply = () => {
-      let shown = 0;
-      rows.forEach((r) => {
-        const ok = [...active.entries()].every(([c, set]) => {
-          if (!set.size) return true;
-          const toks = r.cells[c].textContent.trim().split(SPLIT);
-          return toks.some((t) => set.has(t));
-        });
-        r.style.display = ok ? "" : "none";
-        if (ok) shown++;
-      });
-      count.textContent = `${shown} / ${rows.length} 行`;
-    };
-
-    labelCols.forEach((c) => {
-      const freq = new Map();
-      rows.forEach((r) => {
-        new Set(r.cells[c].textContent.trim().split(SPLIT).filter(Boolean))
-          .forEach((t) => freq.set(t, (freq.get(t) || 0) + 1));
-      });
-      const toks = [...freq.entries()]
-        .filter(([t, n]) => n > 1 && n < rows.length && t.length < 34)
-        .sort((a, b) => b[1] - a[1]).map(([t]) => t);
-      if (toks.length < 2) return;
-      active.set(c, new Set());
-      const g = document.createElement("span");
-      g.className = "ft-group";
-      g.innerHTML = `<em>${head[c] || "标签"}</em>`;
-      toks.forEach((t) => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.textContent = t;
-        b.onclick = () => {
-          const set = active.get(c);
-          set.has(t) ? set.delete(t) : set.add(t);
-          b.setAttribute("aria-pressed", set.has(t));
-          apply();
-        };
-        b.setAttribute("aria-pressed", "false");
-        g.appendChild(b);
-      });
-      bar.appendChild(g);
-    });
-
-    // group: pull rows sharing a setting together by stripping trailing digits
+    // group: keep complete categorical values intact
     const grp = document.createElement("button");
     grp.type = "button";
     grp.className = "ft-act";
-    grp.textContent = "按设置分组";
+    grp.innerHTML = '<span class="zh">按设置分组</span>'+ '<span class="en">Group by setting</span>';
     let grouped = false;
     grp.onclick = () => {
       grouped = !grouped;
       grp.setAttribute("aria-pressed", grouped);
       if (grouped) {
         const key = (r) => labelCols
-          .map((c) => r.cells[c].textContent.replace(/\d+/g, "").trim()).join("|");
+          .map((c) => r._ftLabels[c]).join("|");
         rows.sort((a, b) => key(a).localeCompare(key(b), "zh")
           || a.dataset.ftOrder - b.dataset.ftOrder);
       } else {
@@ -217,27 +177,21 @@
       rows.forEach((r) => body.appendChild(r));
     };
 
-    const clear = document.createElement("button");
-    clear.type = "button";
-    clear.className = "ft-act";
-    clear.textContent = "清除筛选";
-    clear.onclick = () => {
-      active.forEach((s) => s.clear());
-      bar.querySelectorAll("[aria-pressed]").forEach(
-        (b) => b.setAttribute("aria-pressed", "false"));
+    const reset = document.createElement("button");
+    reset.type = "button";
+    reset.className = "ft-act";
+    reset.innerHTML = '<span class="zh">原始顺序</span>'+ '<span class="en">Original order</span>';
+    reset.onclick = () => {
       grouped = false;
       grp.setAttribute("aria-pressed", "false");
-      rows.sort((a, b) => a.dataset.ftOrder - b.dataset.ftOrder);
+      table.tHead.rows[0].querySelectorAll(".ft-th")
+        .forEach((o) => o.removeAttribute("data-dir"));
+      rows.sort((x, y) => x.dataset.ftOrder - y.dataset.ftOrder);
       rows.forEach((r) => body.appendChild(r));
-      apply();
     };
 
-    const count = document.createElement("span");
-    count.className = "ft-count";
-    count.textContent = `${rows.length} / ${rows.length} 行`;
-    bar.append(grp, clear, count);
-    if (bar.querySelector(".ft-group")) table.parentNode.insertBefore(bar, table);
-    apply();
+    bar.append(grp, reset);
+    table.parentNode.insertBefore(bar, table);
   };
 
   const css = document.createElement("style");
@@ -266,9 +220,6 @@ tr.ft-flash td{transition:background .3s}
 .ft-th[data-dir=asc]:after{content:"\\25B2";}
 .ft-bar-row{display:flex;flex-wrap:wrap;gap:7px;align-items:center;
  margin:0 0 9px;font-size:12px;}
-.ft-group{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center;
- padding:3px 7px;border:1px solid var(--edge);border-radius:6px;}
-.ft-group em{font-style:normal;color:var(--dim);margin-right:3px;font-size:11px;}
 .ft-bar-row button{font:400 12px/1 inherit;cursor:pointer;padding:4px 8px;
  border:1px solid var(--edge);border-radius:5px;background:var(--panel);
  color:var(--dim);}
@@ -278,7 +229,10 @@ tr.ft-flash td{transition:background .3s}
 .ft-count{color:var(--faint,#9aa0a6);font-family:monospace;margin-left:auto;}
 @media print{.ft-bar-row{display:none}.ft-num .ft-fill{opacity:1}}`;
   document.head.appendChild(css);
-  document.querySelectorAll("table").forEach((t) => {
-    try { if (t.tHead && t.tBodies[0]) build(t); } catch (e) { /* leave as-is */ }
+  const enhance=()=>document.querySelectorAll('table:not([data-ft-built])').forEach(t=>{
+    try {if(t.tHead&&t.tBodies[0]) build(t)}catch(e){console.warn('Table enhancement',e)}
   });
+  enhance();
+  let pending=false;
+  new MutationObserver(()=>{if(pending)return;pending=true;queueMicrotask(()=>{pending=false;enhance()})}).observe(document.querySelector('main'),{childList:true,subtree:true});
 })();

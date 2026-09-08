@@ -16,6 +16,11 @@ from __future__ import annotations
 
 import math
 
+
+def T(zh, en):
+    """Both languages go into the page; CSS shows one. See mentor_report_i18n.js."""
+    return f'<span class="zh">{zh}</span><span class="en">{en}</span>'
+
 N = {"debates": 40, "turns": 354, "mentions": 14444, "split": 479,
      "facts": 11201, "possible": 2682292, "scored": 94843,
      "eq": 7566, "ab": 8273, "ba": 9773, "unrel_nli": 69231}
@@ -103,7 +108,7 @@ def svg() -> str:
     # ---- three outcomes --------------------------------------------------
     ys = [CY - 46, CY, CY + 52]
     outs = [("等价", N["eq"], teq, "pl-eq"),
-            ("单向蕴含 A⊨B / B⊨A", N["oneway"], tow, "pl-ow"),
+            (T("单向蕴含 A⊨B / B⊨A", "one-way A⊨B / B⊨A"), N["oneway"], tow, "pl-ow"),
             ("无关", N["unrel_nli"], tun, "pl-un")]
     for (lab, n, t, cls), y in zip(outs, ys):
         a(f'<path class="pl-flow" d="M850,{CY:.0f} C880,{CY:.0f} 880,{y:.0f} '
@@ -169,7 +174,7 @@ def build(tbl, card, note, section, pct):
              '两个「无关」出口汇入同一个方框，因为它们是同一个分类器的两级判决。'
              '</figcaption></figure>')
     return section(
-        "pipeline-funnel", "一条发言如何变成图上的一条边",
+        "pipeline-funnel", T("一条发言如何变成图上的一条边", "How one utterance becomes an edge"),
         fig
         + note("三个读法。<b>一、0.96%</b>：268 万个可能对里，最终只有 "
                f"{N['related']:,} 条带关系（等价 + 单向），"

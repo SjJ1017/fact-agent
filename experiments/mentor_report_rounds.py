@@ -18,6 +18,11 @@ import statistics as st
 from collections import defaultdict
 from pathlib import Path
 
+
+def T(zh, en):
+    """Both languages go into the page; CSS shows one. See mentor_report_i18n.js."""
+    return f'<span class="zh">{zh}</span><span class="en">{en}</span>'
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -54,15 +59,15 @@ def build(tbl, card, note, section, pct):
     rows = []
     for c in conds:
         for rnd in (1, 2, 3):
-            sel = [r for r in d["turns"] if r["condition"] == c and r["round"] == rnd]
+            sel = [r for r in d["turns"] if r["condition"] == c and r["round"] == rnd and r["scope"] == "output"]
             if not sel:
                 continue
             rows.append([c, rnd, _fmt(_mean(sel, "n"), 1),
                          pct(_mean(sel, "B", "n")), pct(_mean(sel, "C", "n")),
                          pct(_mean(sel, "X", "n")), pct(_mean(sel, "G", "n")),
                          pct(_mean(sel, "proposal_share"))])
-    t1 = tbl(["条件", "轮次", "命题数 / turn", "B 侧主题", "C 侧主题",
-              "两篇共有", "通用", "新提案占比"], rows)
+    t1 = tbl([T("条件", "Condition"), T("轮次", "Round"), T("命题数 / turn", "Propositions per turn"), T("B 侧主题", "B-side topic"), T("C 侧主题", "C-side topic"),
+              T("两篇共有", "Shared by both"), T("通用", "Generic"), T("新提案占比", "New-proposal share")], rows)
 
     # --- 2. directed relations between agents, by the round the input came from
     rows = []
@@ -70,15 +75,15 @@ def build(tbl, card, note, section, pct):
         for rnd in (1, 2):
             sel = [r for r in d["interaction"]
                    if r["condition"] == c and r["source_round"] == rnd
-                   and r["sender"] != r["receiver"]]
+                   and r["sender"] != r["receiver"] and r["topic"] == "*"]
             if not sel:
                 continue
             rows.append([c, f"r{rnd}→r{rnd + 1}",
-                         _fmt(_mean(sel, "scored"), 0),
-                         pct(_mean(sel, "equivalent", "scored")),
-                         pct(_mean(sel, "weaken", "scored")),
-                         pct(_mean(sel, "strengthen", "scored"))])
-    t2 = tbl(["条件", "跨轮", "已评分对 / 场", "等价", "弱化", "细化"], rows)
+                         pct(_mean(sel, "scored")),
+                         pct(_mean(sel, "equivalent")),
+                         pct(_mean(sel, "weaken")),
+                         pct(_mean(sel, "strengthen"))])
+    t2 = tbl([T("条件", "Condition"), T("跨轮", "Across rounds"), T("输出有候选评分", "Output had a scored candidate"), T("等价覆盖", "Equivalent cover"), T("弱化覆盖", "Weakened cover"), T("细化覆盖", "Sharpened cover")], rows)
 
     # --- 3. uptake of what was actually visible, by round
     rows = []
@@ -90,18 +95,18 @@ def build(tbl, card, note, section, pct):
             rows.append([c, rnd, _fmt(_mean(sel, "n"), 0),
                          pct(_mean(sel, "used_n", "n")),
                          pct(_mean(sel, "used_n", "scored_n"))])
-    t3 = tbl(["条件", "轮次", "可见命题 / 场", "被后续表达采纳", "仅在已评分中"], rows)
+    t3 = tbl([T("条件", "Condition"), T("轮次", "Round"), T("可见命题 / 场", "Visible propositions per run"), T("被后续表达采纳", "Taken up later"), T("仅在已评分中", "Among scored only")], rows)
 
     return section(
-        "by-round", "按轮次展开：同一设置跨轮怎么变",
-        "<p>下面三张表把原本聚合掉的轮次维度放回行里。用表头上的条件筛选按钮选中一个"
+        "by-round", T("按轮次展开：同一设置跨轮怎么变", "By round: how one setting moves across rounds"),
+        "<p>下面三张表把原本聚合掉的轮次维度放回行里。用完整条件下拉框选中一个"
         "设置，它的各轮就会连在一起；点列头排序，点第三次回到原始顺序。</p>"
         + card("<h3>每个 turn 的内容构成</h3>" + t1
                + note("均值以「场」为单位，先在场内合计再跨场平均。"
                       "新提案占比来自归属轴的 P 值，不代表这些提案成立。"))
         + card("<h3>跨轮的有向关系（只统计不同 agent 之间）</h3>" + t2
-               + note("分母是实际被 NLI 评分过的候选对，不是全部可能对；"
-                      "blocker 未检索到的一律不计，也不当作无关。"))
+               + note("这些列的分母都是目标输出事实数；一条输出可被多个关系类型覆盖，不能相加。"
+                      "无候选评分的输出仍在分母中，不能据此认定其确实未被使用。"))
         + card("<h3>可见内容被后续表达接住的比例</h3>" + t3
                + note("左列以全部可见命题为分母，右列只用已评分的那部分；"
-                      "两者的差就是候选召回给这个指标带来的不确定范围。")))
+                      "右列是条件于已有候选评分的比率；两者不是召回率的上下界。")))
