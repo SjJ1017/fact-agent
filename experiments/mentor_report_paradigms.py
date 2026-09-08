@@ -109,8 +109,30 @@ def build(tbl, card, note, section, pct):
                    "review are genuinely opposed with open identities. Avalon "
                    "occupies both cells at once, so in its lowest edge — Evil "
                    "taking up Evil at 3.1 — winning and hiding cannot be told "
-                   "apart. <b>Filling the lower-left cell separates them.</b>")))
-        + card("<h3>" + T("跨范式：角色能不能从输入输出画像里读出来",
+                   "apart. <b>Filling the lower-left cell separates them.</b>"))))
+
+
+def build_cross(tbl, card, note, section, pct):
+    """Part IV: the same profile classifier turned on all three paradigms.
+
+    It sits in its own part because it is not a property of any one corpus.
+    Avalon supplies the positive control and the no-role conditions the
+    negative one, so the null results in between mean something.
+    """
+    sep = tbl([T("语料 · 条件", "Corpus and condition"),
+               T("留一局准确率", "Leave-one-run-out accuracy"),
+               T("多数类基线", "Majority baseline"), "n", T("角色", "Role")],
+              [[T(zh, en), f"{acc:.1f}%", f"{ch:.1f}%", str(n),
+                {"pos": T("阳性对照", "positive control"),
+                 "neg": T("阴性对照", "negative control"),
+                 "hit": T("超基线 43 点", "43 points over baseline"),
+                 "": ""}[tag]]
+               for zh, en, acc, ch, n, tag in SEP])
+    return section(
+        "cross-paradigm",
+        T("角色能不能从输入输出画像里读出来",
+          "Is a role recoverable from its input/output profile?"),
+        card("<h3>" + T("跨范式：角色能不能从输入输出画像里读出来",
                           "Across paradigms: is a role recoverable from its "
                           "input/output profile?")
                + "</h3>" + sep
