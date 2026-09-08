@@ -78,7 +78,7 @@ def build(tbl, card, note, section, pct):
                    [[k, f"{w} vs {base}", d, p] for k, w, d, p, _hi in ts])
 
     return section(
-        "perspectrum-nli", "I-bis / Perspectrum：三个拓扑第一次由同一个判官测量",
+        "perspectrum-nli", "Perspectrum：三个拓扑第一次由同一个判官测量",
         "<p>本节是新增结果，不替换上面的表。原来的 perspectrum 数字出自 SAME/DIFF "
         "管线，而 star 和 chain 当时<b>根本没有匹配过</b>——拓扑行与 full 行不是同一种"
         "测量，管线差异恰好落在拓扑效应应该出现的位置。现在 108 条 deepseek trace 全部"
