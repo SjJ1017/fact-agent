@@ -279,9 +279,11 @@ MEAS = [
      "—（计数）", "— (a count)", "条件 / condition",
      "idrbench-graph/summary.json · typed_spread_fanout"),
     ("全量已评分 mention 对",
-     "40 场合并后各类关系的原始条数；<b>不是</b>全部可能对，只是被 blocker 检索到的那部分",
-     "Raw counts per relation over all forty runs pooled. <b>Not</b> all "
-     "possible pairs — only those the blocker retrieved",
+     "40 场合并后各类关系的原始条数，范围是 NLI 裁决过的对。"
+     "第一级否决的对不在此表，它们计入「无关」的另一种分母。",
+     "Raw counts per relation over all forty runs pooled, scoped to the "
+     "pairs the NLI adjudicated. First-stage rejections are not in this "
+     "table; they belong to the other denominator, as unrelated.",
      "—（计数）", "— (a count)", "全语料 / whole corpus",
      "idrbench-entailment/summary.json · counts"),
     ("支持类占比：输入→输出",
