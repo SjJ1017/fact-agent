@@ -33,69 +33,89 @@ def T(zh: str, en: str) -> str:
     return f'<span class="zh">{zh}</span><span class="en">{en}</span>'
 
 
-def digraph(m: dict) -> str:
-    """Same visual language as the pipeline funnel: quantity is the thickness of
-    a filled band, never the weight of a stroke, so strokes stay hairline and the
-    arrowheads stay small enough to read as terminators rather than as marks."""
-    lo = min(v["mean"] for v in m.values())
-    hi = max(v["mean"] for v in m.values())
-    th = lambda v: 2.0 + 11.0 * (v - lo) / (hi - lo)      # band thickness
-    p = ['<svg viewBox="0 0 560 350" role="img" '
-         'aria-label="Avalon 承接有向图，带的厚度为每千组合的承接条数"><defs>'
-         '<marker id="av-a" viewBox="0 0 10 10" refX="8" refY="5" '
-         'markerWidth="5" markerHeight="5" orient="auto">'
-         '<path d="M0 1 L9 5 L0 9" fill="currentColor" opacity=".55"/></marker>'
-         '</defs>']
+ROWS = [("Servant", "Merlin"), ("Merlin", "Servant"), ("Servant", "Servant"),
+        ("Merlin", "Evil"), ("Evil", "Servant"), ("Servant", "Evil"),
+        ("Evil", "Merlin"), ("Evil", "Evil")]
+AGGR = [("好人内部", "Good to Good", ("Merlin", "Servant")),
+        ("坏人内部", "Evil to Evil", ("Evil",)),
+        ("跨阵营", "across teams", None)]
 
-    for src in ORDER:
-        for rcv in ORDER:
-            key = f"{src}->{rcv}"
-            if key not in m:
-                continue
-            v = m[key]["mean"]
-            t = th(v)
-            x1, y1 = POS[src]
-            x2, y2 = POS[rcv]
-            c = COL[src]
-            if src == rcv:
-                # a ring above the node, its stroke width carrying the quantity
-                p.append(f'<path d="M{x1-24},{y1-16} a24,21 0 1,1 48,0" fill="none" '
-                         f'stroke="var(--{c})" stroke-width="{t:.1f}" opacity=".22" '
-                         'stroke-linecap="round"/>')
-                p.append(f'<path d="M{x1-24},{y1-16} a24,21 0 1,1 48,0" fill="none" '
-                         'stroke="currentColor" stroke-width="1" opacity=".28" '
-                         'marker-end="url(#av-a)"/>')
-                p.append(f'<text class="ev" x="{x1}" y="{y1-46}" '
-                         f'text-anchor="middle">{v:.1f}</text>')
-                continue
-            dx, dy = x2 - x1, y2 - y1
-            L = (dx * dx + dy * dy) ** .5
-            ux, uy = dx / L, dy / L
-            nx, ny = -uy, ux
-            off = 13
-            sx, sy = x1 + ux * 34 + nx * off, y1 + uy * 34 + ny * off
-            ex, ey = x2 - ux * 36 + nx * off, y2 - uy * 36 + ny * off
-            h = t / 2
-            poly = (f"{sx+nx*h:.1f},{sy+ny*h:.1f} {ex+nx*h:.1f},{ey+ny*h:.1f} "
-                    f"{ex-nx*h:.1f},{ey-ny*h:.1f} {sx-nx*h:.1f},{sy-ny*h:.1f}")
-            p.append(f'<polygon points="{poly}" fill="var(--{c})" opacity=".22"/>')
-            p.append(f'<line x1="{sx:.1f}" y1="{sy:.1f}" x2="{ex:.1f}" y2="{ey:.1f}" '
-                     'stroke="currentColor" stroke-width="1" opacity=".28" '
-                     'marker-end="url(#av-a)"/>')
-            mx, my = (sx + ex) / 2 + nx * (h + 8), (sy + ey) / 2 + ny * (h + 8)
-            p.append(f'<text class="ev" x="{mx:.0f}" y="{my:.0f}" '
-                     f'text-anchor="middle">{v:.1f}</text>')
 
-    for r in ORDER:
-        x, y = POS[r]
-        p.append(f'<circle cx="{x}" cy="{y}" r="30" fill="var(--panel)" '
-                 f'stroke="currentColor" stroke-width="1.4" opacity=".85"/>')
-        p.append(f'<circle cx="{x}" cy="{y}" r="30" fill="none" '
-                 f'stroke="var(--{COL[r]})" stroke-width="1.4"/>')
-        p.append(f'<text class="nd" x="{x}" y="{y+5}" text-anchor="middle">{r}</text>')
-    p.append('<text class="cap" x="14" y="338">'
-             '带的厚度 = 每千（先说 × 后说）组合的承接条数 · '
-             'band thickness = uptake per 1k combinations</text></svg>')
+def dotplot(m: dict) -> str:
+    """Every observation as a dot, the mean as a ring, the CI as a bar.
+
+    A directed graph would draw a complete graph -- everyone hears everyone --
+    so the topology carries no information and only the eight magnitudes and
+    their uncertainty do. Ten games give wide intervals; showing them is the
+    point.
+    """
+    rows = [(f"{r} ← {s}", m[f"{s}->{r}"]) for r, s in ROWS if f"{s}->{r}" in m]
+    good = {"Merlin", "Servant"}
+    aggr = []
+    for zh, en, keep in AGGR:
+        pts = []
+        for r, s in ROWS:
+            k = f"{s}->{r}"
+            if k not in m:
+                continue
+            inside = ({r, s} <= good) if keep and set(keep) <= good else (
+                (r == s == "Evil") if keep else ((r in good) != (s in good)))
+            if inside:
+                pts += [q["v"] for q in m[k]["points"]]
+        if pts:
+            # bootstrap the mean, not the spread of observations: the bar is an
+            # interval on where the average sits, not the range the points cover
+            import random as _r
+            rng = _r.Random(0)
+            n = len(pts)
+            boots = sorted(sum(pts[rng.randrange(n)] for _ in range(n)) / n
+                           for _ in range(4000))
+            aggr.append((zh, en, sum(pts) / n,
+                         boots[100], boots[3899], pts))
+
+    X0, X1 = 176, 660
+    top, step = 54, 30
+    H = top + (len(rows) + len(aggr)) * step + 62
+    hi_x = max(max(q["v"] for q in v["points"]) for _, v in rows) * 1.04
+    sx = lambda v: X0 + v / hi_x * (X1 - X0)
+    p = [f'<svg viewBox="0 0 740 {H}" role="img" '
+         'aria-label="按真实身份的承接率，每个观测一个点，附 95% 自助置信区间">']
+    for g in range(0, int(hi_x) + 1, 2):
+        p.append(f'<line x1="{sx(g):.0f}" y1="{top-16}" x2="{sx(g):.0f}" '
+                 f'y2="{H-46}" stroke="currentColor" stroke-width="1" opacity=".1"/>')
+        p.append(f'<text class="ax" x="{sx(g):.0f}" y="{top-22}" '
+                 f'text-anchor="middle">{g}</text>')
+
+    def band(items, y, tint, agg=False):
+        for it in items:
+            if agg:
+                lbl, _en, mean, lo, hi, pts = it
+                vals = pts
+            else:
+                lbl, v = it
+                mean, lo, hi = v["mean"], v["lo"], v["hi"]
+                vals = [q["v"] for q in v["points"]]
+            p.append(f'<text class="lb" x="{X0-12}" y="{y+4}" '
+                     f'text-anchor="end">{lbl}</text>')
+            p.append(f'<line x1="{sx(lo):.0f}" y1="{y}" x2="{sx(hi):.0f}" y2="{y}" '
+                     f'stroke="var(--{tint})" stroke-width="2.4" opacity=".3" '
+                     'stroke-linecap="round"/>')
+            for i, v_ in enumerate(vals):
+                p.append(f'<circle cx="{sx(v_):.1f}" cy="{y + (i%5-2)*2.1:.1f}" '
+                         f'r="2.2" fill="var(--{tint})" opacity=".45"/>')
+            p.append(f'<circle cx="{sx(mean):.1f}" cy="{y}" r="4.2" '
+                     f'fill="var(--panel)" stroke="var(--{tint})" stroke-width="2"/>')
+            p.append(f'<text class="ev" x="706" y="{y+4}" text-anchor="end">{mean:.1f}</text>')
+            y += step
+        return y
+
+    y = band(rows, top, "mrl")
+    p.append(f'<line x1="20" y1="{y-9}" x2="{X1}" y2="{y-9}" '
+             'stroke="currentColor" stroke-width="1" opacity=".2"/>')
+    band(aggr, y + 12, "evl", agg=True)
+    p.append(f'<text class="cap" x="20" y="{H-14}">'
+             '每千（先说 × 后说）组合的承接条数 · uptake per 1k combinations'
+             '</text></svg>')
     return "".join(p)
 
 
@@ -196,12 +216,18 @@ def build(tbl, card, note, section, pct):
                    "The extra candidates are lower-similarity by construction and "
                    "depress the equivalence rate.")))
         + card("<h3>" + T("承接有向图", "The uptake digraph") + "</h3>"
-               + f'<figure style="margin:0">{digraph(ab)}<figcaption>'
-               + T("箭头由发送者指向后来承接它的座位；自环是同类角色内部（梅林只有一人，"
-                   "故无自环）。每条边是 10 局、20–40 个有序座位对的均值。",
-                   "Arrows run from a speaker to the seat that later restates "
-                   "them; loops are within-role (Merlin is alone, so has none). "
-                   "Each edge averages 20 to 40 ordered seat pairs over ten games.")
+               + f'<figure style="margin:0">{dotplot(ab)}<figcaption>'
+               + T("每个点是<b>一局里的一个有序座位对</b>：五人局有一个梅林、两个侍从、"
+                   "两个坏人，所以各行 20 或 40 个观测。横线是均值的 95% 自助置信区间，"
+                   "空心圆是均值。十局的区间很宽，画出来就是要让它显出来。"
+                   "拓扑本身没有信息——投递图是完全图——所以这里只画量和不确定性。",
+                   "Each dot is <b>one ordered seat pair inside one game</b>: a "
+                   "five-player game has one Merlin, two Servants and two Evil, "
+                   "so a row carries 20 or 40 observations. The bar is a 95% "
+                   "bootstrap interval on the mean, the ring is the mean. Ten "
+                   "games give wide intervals and drawing them that way is the "
+                   "point. The topology carries no information — the delivery "
+                   "graph is complete — so only magnitude and uncertainty are drawn.")
                + "</figcaption></figure>" + absorb_rows
                + note(T(
                    "<b>梅林承接坏人 5.8，坏人承接梅林 3.3。</b>梅林知道那两个是谁，"
