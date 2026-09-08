@@ -619,6 +619,15 @@ def load_idrbench_generation(n: int, seed: int,
     seed 0 truncated to 10; that is checked here rather than re-run, so a
     corpus assembled some other way fails loudly instead of quietly changing
     which papers are under test.
+
+    `public` has to be carried explicitly. Dropping it cost eighty debates: it
+    holds the task framing ("the pair has been selected as a valid integration
+    candidate"), the prompt template renders it as `{public}`, and without it
+    the panel is told nothing about whether an integration exists to be found.
+    Round-one overlap under split disclosure moved from 17.2% to 2.3% on that
+    one line alone -- a difference the topology comparison then attributed to
+    topology. Verify prompts byte-for-byte against the reference corpus before
+    generating; the check costs seconds.
     """
     seen: dict[str, Case] = {}
     for f in sorted(glob.glob(str(ROOT / corpus / "*.debate.json"))):
@@ -629,6 +638,7 @@ def load_idrbench_generation(n: int, seed: int,
         seen[cid] = Case(
             id=cid,
             question=d["claim"],
+            public=d.get("public", ""),
             items=tuple(Item(e["id"], e["text"], tags=tuple(e.get("tags", ())))
                         for e in d["evidence"]),
             meta=dict(d.get("meta", {})))
