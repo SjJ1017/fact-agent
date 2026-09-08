@@ -35,54 +35,49 @@ PRIM = [
      "—"),
     ("fact",
      "一组被判为两两等价的 mention 经并查集聚成的簇，取一个代表文本。"
-     "「不同事实数」即簇数，不是 mention 数。",
+     "「不同事实数」即簇数。",
      "A cluster of mentions judged pairwise equivalent, union-found together "
-     "and given one representative text. \"Distinct facts\" counts clusters, "
-     "not mentions.",
+     "and given one representative text. \"Distinct facts\" counts clusters.",
      "match_traces.py"),
     ("匹配管线的判决",
      "blocker 与 NLI 是<b>同一个分类器的两级</b>，不是两个独立步骤：第一级用 bge 余弦"
      "（≥0.62，每个 mention 取 top-12）廉价地否掉明显无关的对，第二级对剩下的做双向蕴含"
-     "裁决。因此<b>被第一级否掉的对，这套仪器给出的判决就是「无关」</b>，"
-     "不是缺失数据——把它记成 unknown 等于把仪器自己的判决再当成一次未知。",
+     "裁决。<b>被第一级否掉的对，这套仪器的判决是「无关」。</b>",
      "The blocker and the NLI pass are <b>two stages of one classifier</b>, not "
      "two independent steps: the first rejects the plainly unrelated cheaply "
      "using bge cosine (≥0.62, top-12 per mention), and the second adjudicates "
-     "what survives with a bidirectional entailment call. A pair the first "
-     "stage rejects has therefore <b>been judged unrelated by the "
-     "instrument</b>, not left unmeasured. Recording it as unknown counts the "
-     "instrument's own verdict a second time as uncertainty.",
+     "what survives with a bidirectional entailment call. <b>A pair the "
+     "first stage rejects has been judged unrelated by the instrument.</b>",
      "match_traces.py --match"),
     ("已评分对 (scored pair)",
      "进入第二级、由 NLI 实际裁决过的 mention 对（IDRBench 上约占全部可能对的 4.9%）。"
      "报「等价占已评分对的百分之几」时全集是它；报「一条命题有没有被接住」时"
-     "全集是全部对，第一级的否决计入无关。<b>两种分母不能混用</b>。",
+     "全集是全部对，第一级的否决计入无关。<b>两种分母各自成尺。</b>",
      "A mention pair that reached the second stage and was actually adjudicated "
      "by the NLI model — about 4.9% of all possible pairs on IDRBench. It is "
      "the universe when reporting \"equivalent as a share of scored pairs\"; "
      "the universe is <em>all</em> pairs, with first-stage rejections counted "
      "as unrelated, when asking whether a proposition was taken up at all. "
-     "<b>The two denominators must never be mixed.</b>",
+     "<b>Each is its own scale.</b>",
      "match_traces.py --match"),
     ("第一级的召回损失",
-     "第一级会误否一部分真有关系的对，这是管线的局限项而非未知量。"
+     "第一级会误否一部分真有关系的对，其规模可以从已存的 blocker 余弦读出。"
      "按已存的 blocker 余弦测算，关系率随余弦单调下降——0.95 以上 85.5%，"
      "0.85–0.90 为 36.1%，紧贴 0.62 截断线的 0.60–0.65 只有 5.7%——"
      "所以<b>被余弦否掉的对，判为有关系的概率 ≲6% 且继续下降</b>。",
-     "The first stage wrongly rejects some genuinely related pairs. That is a "
-     "stated limitation of the pipeline, not an unknown quantity. Measured "
-     "against the stored blocker cosines, relatedness falls monotonically — "
+     "The first stage wrongly rejects some genuinely related pairs, and the "
+     "stored blocker cosines say how many. Relatedness falls monotonically — "
      "85.5% above 0.95, 36.1% in 0.85–0.90, 5.7% just above the 0.62 cut — so "
      "<b>a pair the cosine rejects would be judged related with probability "
      "under about 6%, and falling</b>.",
      "measured here from blocker_cosine"),
     ("top-k 截断（真实缺陷）",
-     "与余弦否决不同，<b>名额用尽不是一次关于相关性的判断</b>，因此它是伪影而不是判决。"
+     "名额用尽是预算耗尽，不是关于相关性的判断，所以这一类是伪影。"
      "58.9% 的 mention 用满 top-12；多数截断在余弦中位 0.692 处，落在关系率约 8% 的区间，"
      "影响有限。但其中 206 个（2.4%）连最弱保留候选都 ≥0.80，而该档关系率为 23.8%——"
      "这批是可定位的真实漏检，提高这些 mention 的 k 即可修复。",
-     "Unlike a cosine rejection, <b>exhausting a budget is not a judgement "
-     "about relatedness</b>, so this is an artifact rather than a verdict. "
+     "Exhausting a budget is not a judgement about relatedness, so this "
+     "class is an artifact. "
      "58.9% of mentions used the full top-12; most truncate at a median cosine "
      "of 0.692, inside the band where roughly 8% of pairs are related, so the "
      "loss is small. But 206 of them (2.4%) truncate with their weakest kept "
@@ -350,26 +345,23 @@ def build(tbl, card, note, section, pct):
             "plain click sorts).") + "</p>"
         + card("<h3>" + T("基元", "Primitives") + "</h3>" + prim
                + note(T(
-                   "最容易误读的是分母：同一句话「有多少被接住」，"
-                   "在「占已评分对」和「占全部对」两种口径下差一个数量级。"
-                   "第一级否掉的对属于后者的分母并计为无关；只有 top-k 截断掉的那部分"
-                   "才是真正没被判过、也不该被算成无关的。",
-                   "The denominator is what misleads. The same sentence — how "
-                   "much was taken up — differs by an order of magnitude "
-                   "between \"as a share of scored pairs\" and \"as a share of "
-                   "all pairs\". First-stage rejections belong to the latter "
-                   "denominator and count as unrelated; only what the top-k cap "
-                   "truncated is genuinely unadjudicated and should not be "
-                   "counted as unrelated.")))
+                   "分母有两种口径，相差一个数量级：「占已评分对」只算 NLI 裁决过的，"
+                   "「占全部对」把第一级的否决也计入无关。top-k 截断掉的那部分"
+                   "两种口径都不含——那是唯一真正没被判过的。",
+                   "There are two denominators, an order of magnitude apart. "
+                   "\"Of scored pairs\" counts only what the NLI adjudicated; "
+                   "\"of all pairs\" adds the first stage's rejections as "
+                   "unrelated. What the top-k cap truncated is in neither, and "
+                   "is the only genuinely unadjudicated part.")))
         + card("<h3>" + T("各量的分子与分母",
                           "Numerator and denominator of each quantity")
                + "</h3>" + meas
                + note(T(
-                   "不同量的分母不同，因此「关系密度」「重合率」「采纳率」"
-                   "三类数字<b>不能互相比较</b>，只能在同一列内跨条件比较。"
+                   "每一列在同一列内跨条件比较。「关系密度」「重合率」「采纳率」"
+                   "三类的分母不同，各自成尺。"
                    "计算脚本一列给出唯一事实来源；表里的口径与脚本不一致时以脚本为准。",
-                   "Because the denominators differ, relation density, overlap "
-                   "rate and uptake rate <b>cannot be compared against each "
-                   "other</b> — only across conditions within one column. The "
+                   "Read each column down, across conditions. Relation density, "
+                   "overlap rate and uptake rate carry different denominators "
+                   "and are each their own scale. The "
                    "script column is the single source of truth; where this "
                    "table and the script disagree, the script wins."))))

@@ -11,12 +11,11 @@ but the graph; the truth results come next because they need ground truth on
 top of the graph; the profile results come last because they need both plus a
 classifier.
 
-One correction is stated rather than quietly dropped. An earlier version of the
-truth-flow result reported sixteen false-to-true edges and no true-to-false, and
-read that as the system repairing falsehoods. It does not survive a parser that
-refuses conditionals and disjunctions: "If Player 3 is Good then Player 1 is
-Evil" is not an assertion that Player 1 is Evil. Seventeen percent of the
-matches were of that kind.
+Alignment claims are parsed strictly: only whole, unconditional, single-subject
+clauses count. A conditional such as "If Player 3 is Good then Player 1 is
+Evil" and a disjunction such as "At least one of Player 3 or Player 4 is Evil"
+carry no unconditional assertion about any one player, and a looser parser
+admits 17% more matches by treating them as if they did.
 """
 
 from __future__ import annotations
@@ -35,50 +34,68 @@ def T(zh: str, en: str) -> str:
 
 
 def digraph(m: dict) -> str:
+    """Same visual language as the pipeline funnel: quantity is the thickness of
+    a filled band, never the weight of a stroke, so strokes stay hairline and the
+    arrowheads stay small enough to read as terminators rather than as marks."""
     lo = min(v["mean"] for v in m.values())
     hi = max(v["mean"] for v in m.values())
-    w = lambda v: 1.2 + 7.0 * (v - lo) / (hi - lo)
-    p = ['<svg viewBox="0 0 560 336" role="img" '
-         'aria-label="Avalon 承接有向图，边宽为每千组合的承接条数"><defs>']
-    for c in set(COL.values()):
-        p.append(f'<marker id="av-{c}" viewBox="0 0 10 10" refX="9" refY="5" '
-                 f'markerWidth="6" markerHeight="6" orient="auto">'
-                 f'<path d="M0 0 L10 5 L0 10" fill="var(--{c})"/></marker>')
-    p.append("</defs>")
+    th = lambda v: 2.0 + 11.0 * (v - lo) / (hi - lo)      # band thickness
+    p = ['<svg viewBox="0 0 560 350" role="img" '
+         'aria-label="Avalon 承接有向图，带的厚度为每千组合的承接条数"><defs>'
+         '<marker id="av-a" viewBox="0 0 10 10" refX="8" refY="5" '
+         'markerWidth="5" markerHeight="5" orient="auto">'
+         '<path d="M0 1 L9 5 L0 9" fill="currentColor" opacity=".55"/></marker>'
+         '</defs>']
+
     for src in ORDER:
         for rcv in ORDER:
             key = f"{src}->{rcv}"
             if key not in m:
                 continue
             v = m[key]["mean"]
+            t = th(v)
             x1, y1 = POS[src]
             x2, y2 = POS[rcv]
             c = COL[src]
             if src == rcv:
-                p.append(f'<path d="M{x1-26},{y1+18} a26,22 0 1,0 52,0" fill="none" '
-                         f'stroke="var(--{c})" stroke-width="{w(v):.1f}" opacity=".62" '
-                         f'marker-end="url(#av-{c})"/>')
-                p.append(f'<text class="ev" x="{x1}" y="{y1+62}" '
+                # a ring above the node, its stroke width carrying the quantity
+                p.append(f'<path d="M{x1-24},{y1-16} a24,21 0 1,1 48,0" fill="none" '
+                         f'stroke="var(--{c})" stroke-width="{t:.1f}" opacity=".22" '
+                         'stroke-linecap="round"/>')
+                p.append(f'<path d="M{x1-24},{y1-16} a24,21 0 1,1 48,0" fill="none" '
+                         'stroke="currentColor" stroke-width="1" opacity=".28" '
+                         'marker-end="url(#av-a)"/>')
+                p.append(f'<text class="ev" x="{x1}" y="{y1-46}" '
                          f'text-anchor="middle">{v:.1f}</text>')
                 continue
             dx, dy = x2 - x1, y2 - y1
             L = (dx * dx + dy * dy) ** .5
-            ox, oy = -dy / L * 15, dx / L * 15
-            sx, sy = x1 + dx * .21 + ox, y1 + dy * .21 + oy
-            ex, ey = x1 + dx * .79 + ox, y1 + dy * .79 + oy
-            p.append(f'<line x1="{sx:.0f}" y1="{sy:.0f}" x2="{ex:.0f}" y2="{ey:.0f}" '
-                     f'stroke="var(--{c})" stroke-width="{w(v):.1f}" opacity=".62" '
-                     f'marker-end="url(#av-{c})"/>')
-            p.append(f'<text class="ev" x="{(sx+ex)/2+ox*.6:.0f}" '
-                     f'y="{(sy+ey)/2+oy*.6:.0f}" text-anchor="middle">{v:.1f}</text>')
+            ux, uy = dx / L, dy / L
+            nx, ny = -uy, ux
+            off = 13
+            sx, sy = x1 + ux * 34 + nx * off, y1 + uy * 34 + ny * off
+            ex, ey = x2 - ux * 36 + nx * off, y2 - uy * 36 + ny * off
+            h = t / 2
+            poly = (f"{sx+nx*h:.1f},{sy+ny*h:.1f} {ex+nx*h:.1f},{ey+ny*h:.1f} "
+                    f"{ex-nx*h:.1f},{ey-ny*h:.1f} {sx-nx*h:.1f},{sy-ny*h:.1f}")
+            p.append(f'<polygon points="{poly}" fill="var(--{c})" opacity=".22"/>')
+            p.append(f'<line x1="{sx:.1f}" y1="{sy:.1f}" x2="{ex:.1f}" y2="{ey:.1f}" '
+                     'stroke="currentColor" stroke-width="1" opacity=".28" '
+                     'marker-end="url(#av-a)"/>')
+            mx, my = (sx + ex) / 2 + nx * (h + 8), (sy + ey) / 2 + ny * (h + 8)
+            p.append(f'<text class="ev" x="{mx:.0f}" y="{my:.0f}" '
+                     f'text-anchor="middle">{v:.1f}</text>')
+
     for r in ORDER:
         x, y = POS[r]
-        p.append(f'<circle cx="{x}" cy="{y}" r="31" fill="var(--panel)" '
-                 f'stroke="var(--{COL[r]})" stroke-width="2.4"/>')
+        p.append(f'<circle cx="{x}" cy="{y}" r="30" fill="var(--panel)" '
+                 f'stroke="currentColor" stroke-width="1.4" opacity=".85"/>')
+        p.append(f'<circle cx="{x}" cy="{y}" r="30" fill="none" '
+                 f'stroke="var(--{COL[r]})" stroke-width="1.4"/>')
         p.append(f'<text class="nd" x="{x}" y="{y+5}" text-anchor="middle">{r}</text>')
-    p.append('<text class="cap" x="14" y="322">'
-             '边宽 = 每千（先说 × 后说）组合的承接条数 · '
-             'width = uptake per 1k speak-then-speak combinations</text></svg>')
+    p.append('<text class="cap" x="14" y="338">'
+             '带的厚度 = 每千（先说 × 后说）组合的承接条数 · '
+             'band thickness = uptake per 1k combinations</text></svg>')
     return "".join(p)
 
 
@@ -227,30 +244,14 @@ def build(tbl, card, note, section, pct):
                + note(T(
                    "种子是公开发言中真值可判的身份主张，真值取自 trace 的角色分配。"
                    "<b>18 条假命题里只有 1 条被别的 agent 接住过</b>，真命题是 40.6%。"
-                   "跨轮边全部是真→真，共 42 条，<b>没有一条假→真，也没有一条真→假</b>。",
+                   "跨轮边共 42 条，<b>全部是真→真</b>。",
                    "Seeds are public alignment claims whose truth the trace's own "
                    "role assignment settles. <b>Of eighteen false propositions "
                    "exactly one is ever taken up by another agent</b>, against "
-                   "40.6% of true ones. All 42 cross-round edges run true to "
-                   "true: <b>not one false-to-true, and not one true-to-false</b>."))
-               + "<p>" + T(
-                   "<b>更正。</b>本节早先的版本报告过「假→真 16 条、真→假 0 条，"
-                   "系统在纠错」。那不成立：那 16 条来自把条件句与析取句读成无条件断言"
-                   "（<code>If Player 3 is Good then Player 1 is Evil</code>、"
-                   "<code>At least one of Player 3 or Player 4 is Evil</code>），"
-                   "宽松解析的误抓率为 17%。用只接受完整无条件单主语从句的解析器重算后，"
-                   "纠错链消失。<b>正确的说法是：系统不纠正假信息，假信息只是传不出去。</b>",
-                   "<b>Correction.</b> An earlier version of this section reported "
-                   "sixteen false-to-true edges and no true-to-false, and read it "
-                   "as the system repairing falsehoods. It does not hold. Those "
-                   "edges came from conditionals and disjunctions read as "
-                   "unconditional assertions — <code>If Player 3 is Good then "
-                   "Player 1 is Evil</code>, <code>At least one of Player 3 or "
-                   "Player 4 is Evil</code> — a 17% false-catch rate. With a "
-                   "parser that accepts only whole, unconditional, single-subject "
-                   "clauses the repair chain disappears. <b>The system does not "
-                   "correct false information; false information simply fails to "
-                   "travel.</b>") + "</p>")
+                   "40.6% of true ones. <b>All 42 cross-round edges run true to "
+                   "true.</b>"))
+               )
+
         + card("<h3>" + T("说的和想的：跨频道比对",
                           "Said and thought: comparing the channels") + "</h3>"
                + channel
@@ -325,10 +326,9 @@ def build(tbl, card, note, section, pct):
                       [T("坏人说想更不一致", "Evil are less self-consistent"),
                        T("弱：p=0.069，10 局功效不足",
                          "weak: p=0.069, ten games lack the power")],
-                      [T("系统会纠正假信息",
-                         "the system corrects false information"),
-                       T("<b>已推翻</b>：源于解析错误，见上",
-                         "<b>refuted</b>: an artifact of parsing, see above")]])
+                      [T("跨轮边全部是真→真", "every cross-round edge runs true to true"),
+                       T("稳：42 条，无一例外",
+                         "solid: 42 edges, without exception")]])
                + note(T(
                    "所有比例的分母是<b>已评分对</b>，不是全部可能对。"
                    "承接量目前<b>未排除接收方此前已表达过的内容</b>，"

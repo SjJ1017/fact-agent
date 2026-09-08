@@ -11,11 +11,9 @@ and whether an utterance can be assumed sincere.
                     Mouffe's adversary rather than enemy               (Perspectrum)
   adversarial       objectives genuinely opposed                       (Avalon)
 
-Concealment is deliberately not folded into the third name. It is a separate
-dimension -- negotiation and competitive review are adversarial with open
-identities -- and naming it into the paradigm would assert that real opposition
-implies hiding, which is exactly what this corpus cannot test. Keeping it as an
-axis leaves the empty cell visible.
+Concealment is a separate axis. Negotiation and competitive review are
+adversarial with open identities; Avalon occupies both cells at once, which is
+why its lowest edge cannot be attributed to winning or to hiding alone.
 
 The section closes on the one measurement that needs all three: whether a
 seat's assigned role can be recovered from its input/output profile. Avalon is
@@ -26,7 +24,6 @@ the negative control. What lies between is the project's actual question.
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,65 +32,6 @@ ROOT = Path(__file__).resolve().parents[1]
 def T(zh: str, en: str) -> str:
     """Both languages go into the page; CSS shows one. See mentor_report_i18n.js."""
     return f'<span class="zh">{zh}</span><span class="en">{en}</span>'
-
-
-# ---------------------------------------------------------------- the figure
-ORDER = ["Merlin", "Servant", "Evil"]
-POS = {"Merlin": (150, 78), "Servant": (400, 78), "Evil": (275, 250)}
-COL = {"Merlin": "mrl", "Servant": "srv", "Evil": "evl"}
-
-
-def absorption_graph(m: dict) -> str:
-    """Directed graph: edge width is uptake per 1k combinations, thin means less."""
-    lo = min(v["mean"] for v in m.values())
-    hi = max(v["mean"] for v in m.values())
-    w = lambda v: 1.2 + 7.0 * (v - lo) / (hi - lo)
-    p = ['<svg viewBox="0 0 560 336" role="img" '
-         'aria-label="Avalon 承接有向图：边宽表示每千组合的承接条数">']
-    p.append('<defs>')
-    for r, c in COL.items():
-        p.append(f'<marker id="ah-{c}" viewBox="0 0 10 10" refX="9" refY="5" '
-                 f'markerWidth="6" markerHeight="6" orient="auto">'
-                 f'<path d="M0 0 L10 5 L0 10" fill="var(--{c})"/></marker>')
-    p.append('</defs>')
-
-    for src in ORDER:
-        for rcv in ORDER:
-            key = f"{src}->{rcv}"
-            if key not in m:
-                continue
-            v = m[key]["mean"]
-            x1, y1 = POS[src]
-            x2, y2 = POS[rcv]
-            c = COL[src]
-            if src == rcv:                       # self loop, drawn as a small arc
-                p.append(f'<path d="M{x1-26},{y1+16} a26,22 0 1,0 52,0" fill="none" '
-                         f'stroke="var(--{c})" stroke-width="{w(v):.1f}" '
-                         f'opacity=".62" marker-end="url(#ah-{c})"/>')
-                p.append(f'<text class="ev" x="{x1}" y="{y1+58}" '
-                         f'text-anchor="middle">{v:.1f}</text>')
-                continue
-            dx, dy = x2 - x1, y2 - y1
-            L = (dx * dx + dy * dy) ** .5
-            ox, oy = -dy / L * 15, dx / L * 15   # offset so the two directions split
-            sx, sy = x1 + dx * .21 + ox, y1 + dy * .21 + oy
-            ex, ey = x1 + dx * .79 + ox, y1 + dy * .79 + oy
-            p.append(f'<line x1="{sx:.0f}" y1="{sy:.0f}" x2="{ex:.0f}" y2="{ey:.0f}" '
-                     f'stroke="var(--{c})" stroke-width="{w(v):.1f}" opacity=".62" '
-                     f'marker-end="url(#ah-{c})"/>')
-            mx, my = (sx + ex) / 2 + ox * .5, (sy + ey) / 2 + oy * .5
-            p.append(f'<text class="ev" x="{mx:.0f}" y="{my:.0f}" '
-                     f'text-anchor="middle">{v:.1f}</text>')
-
-    for r in ORDER:
-        x, y = POS[r]
-        p.append(f'<circle cx="{x}" cy="{y}" r="31" fill="var(--panel)" '
-                 f'stroke="var(--{COL[r]})" stroke-width="2.4"/>')
-        p.append(f'<text class="nd" x="{x}" y="{y+5}" text-anchor="middle">{r}</text>')
-    p.append('<text class="cap" x="14" y="322">'
-             '边宽 = 每千（先说 × 后说）组合的承接条数 · width = uptake per 1k'
-             '</text>')
-    return "".join(p) + "</svg>"
 
 
 SEP = [("Avalon 好人 / 坏人", "Avalon Good vs Evil", 86.0, 60.0, 50, "pos"),
@@ -112,8 +50,6 @@ SEP = [("Avalon 好人 / 坏人", "Avalon Good vs Evil", 86.0, 60.0, 50, "pos"),
 
 
 def build(tbl, card, note, section, pct):
-    absorb = json.loads((ROOT / "findings/data/avalon-absorption.json").read_text())
-
     grid = tbl(
         ["", T("目标共享", "Shared objective"),
          T("对立是分派的", "Opposition assigned"),
@@ -166,46 +102,14 @@ def build(tbl, card, note, section, pct):
                           "Concealment is a separate axis, kept out of the name")
                + "</h3>" + cells
                + note(T(
-                   "把 concealed 写进第三个名字，等于断言真实对立必然伴随隐蔽——"
-                   "而这正是本语料<b>无法检验</b>的。Avalon 里坏人内部承接率最低（3.1），"
-                   "是因为要赢还是因为要藏，现在分不开；那个空格填上才分得开。",
-                   "Folding concealment into the third name would assert that "
-                   "real opposition implies hiding, which is precisely what "
-                   "this corpus <b>cannot test</b>. Evil's mutual uptake is the "
-                   "lowest in Avalon at 3.1, and whether that is because they "
-                   "must win or because they must hide is not separable until "
-                   "that empty cell is filled.")))
-        + card("<h3>" + T("adversarial 的承接图：全公开信道下的选择性接收",
-                          "The adversarial uptake graph: selective uptake on an "
-                          "open channel")
-               + "</h3>"
-               + f'<figure style="margin:0">{absorption_graph(absorb)}'
-               + "<figcaption>" + T(
-                   "五个人听到的完全一样，投递图是完全图，所以任何边宽差异都不是"
-                   "「能不能听到」，而是<b>选择接住什么</b>。箭头由发送者指向承接者，"
-                   "自环是同队内部。每条边是 10 局、20–40 个有序座位对的均值。",
-                   "All five players hear everything, so the delivery graph is "
-                   "complete and any difference in width is not access but "
-                   "<b>selective uptake</b>. Arrows run from speaker to the seat "
-                   "that later restates them; the loop is within-team. Each edge "
-                   "averages 20 to 40 ordered seat pairs over ten games.")
-               + "</figcaption></figure>"
-               + note(T(
-                   "<b>梅林承接坏人 5.8，坏人承接梅林 3.3。</b>梅林知道那两个是谁，"
-                   "要引导好人就得回应他们；侍从不知道，承接坏人只有 4.3。"
-                   "多出来的三成是知识的痕迹——只看图不看内容，统计谁在不成比例地"
-                   "回应哪两个座位，就能反推梅林。"
-                   "<b>坏人内部 3.1 是全图最低</b>：互知身份、目标一致，却最不互相承接，"
-                   "因为公开承接同伴会留下可读的呼应关系。",
-                   "<b>Merlin takes up Evil at 5.8; Evil takes up Merlin at "
-                   "3.3.</b> Merlin knows who they are and must answer them to "
-                   "steer the table; a Servant, who does not know, takes up Evil "
-                   "at 4.3. The extra third is the trace of knowledge — an "
-                   "observer reading only the graph can find Merlin by asking "
-                   "which seat answers those two disproportionately. "
-                   "<b>Evil-to-Evil is the lowest edge at 3.1</b>: they know "
-                   "each other and share a goal, yet take each other up least, "
-                   "because visible mutual uptake is itself readable.")))
+                   "隐蔽是独立的一条轴：谈判和对抗性评审都是真实对立而身份公开。"
+                   "Avalon 同时占了两格，所以坏人内部 3.1 的最低承接率里，"
+                   "「要赢」和「要藏」的贡献分不开；<b>填上左下那格才能分开</b>。",
+                   "Concealment is its own axis: negotiation and adversarial "
+                   "review are genuinely opposed with open identities. Avalon "
+                   "occupies both cells at once, so in its lowest edge — Evil "
+                   "taking up Evil at 3.1 — winning and hiding cannot be told "
+                   "apart. <b>Filling the lower-left cell separates them.</b>")))
         + card("<h3>" + T("跨范式：角色能不能从输入输出画像里读出来",
                           "Across paradigms: is a role recoverable from its "
                           "input/output profile?")

@@ -132,7 +132,7 @@ def svg() -> str:
     a(f'<rect class="pl-sink" x="92" y="{SY-20}" width="938" height="42" rx="6"/>')
     a(f'<text class="pl-t" x="112" y="{SY-2}">这套仪器判为「无关」：{fmt(N["unrel_all"])}</text>')
     a(f'<text class="pl-s" x="112" y="{SY+15}">'
-      f'占全部可能对 {N["unrel_all"]/N["possible"]:.2%}；两级共同给出，不是缺失数据</text>')
+      f'占全部可能对 {N["unrel_all"]/N["possible"]:.2%}；两级共同给出</text>')
     a(f'<path d="M375,{CY+38} L375,{SY-22}" fill="none" stroke="currentColor" '
       'stroke-width="1.4" marker-end="url(#pl-a)" opacity=".75"/>')
     a(f'<text class="pl-e" x="384" y="{CY+72}">第一级否决 {fmt(N["rejected"])}</text>')
